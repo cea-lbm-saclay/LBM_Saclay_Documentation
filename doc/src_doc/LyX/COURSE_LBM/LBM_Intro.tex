@@ -1,0 +1,622 @@
+%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[american]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{xcolor}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{cancel}
+\usepackage{babel}
+\begin{document}
+
+\section{Lattice Boltzmann Equation}
+
+\begin{equation}
+\frac{\partial f}{\partial t}+\boldsymbol{c}\cdot\boldsymbol{\nabla}f+\boldsymbol{F}\cdot\boldsymbol{\nabla}_{\boldsymbol{c}}f=\Omega(f,f^{eq})\label{eq:Boltzmann_Eq}
+\end{equation}
+where $f(\boldsymbol{x},\boldsymbol{c},t)$ is the distribution function
+of particles which is a function of position $\boldsymbol{x}$, microscopic
+speeds $\boldsymbol{c}$ and time $t$. $\boldsymbol{F}$ is the external
+force and $\Omega(f,f^{eq})$ is the collision operator that relaxes
+the distribution function $f$ toward an equilibrium $f^{eq}$. For
+the classical Batnaghar-Gross-Krook (\textbf{BGK}) approximation,
+that collision operator simply writes:
+
+\[
+\Omega(f,f^{eq})\sim-\frac{1}{\lambda}\left[f-f^{eq}\right]
+\]
+where $\lambda$ is the collision rate.
+
+Eq. (\ref{eq:Boltzmann_Eq}), computes the evolution of $f$ in space
+and time. The macrosopic quantities such as the density $\rho$, impulsion
+$\rho\boldsymbol{u}$ and energy $\rho\varepsilon$ can be derived
+from that distribution function by integration over the velocity space:
+
+\begin{align*}
+\rho & =\int fd\boldsymbol{c}\\
+\rho\boldsymbol{u} & =\int f\boldsymbol{c}d\boldsymbol{c}\\
+\rho\varepsilon & =\frac{1}{2}\int(\boldsymbol{c}-\boldsymbol{u})^{2}fd\boldsymbol{c}
+\end{align*}
+
+Those macroscopic quantities are called moments of the distribution
+function $f(\boldsymbol{x},\boldsymbol{c},t)$.
+
+After discretization of $\boldsymbol{x}$, $\boldsymbol{c}$ and $t$
+
+\[
+f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]
+\]
+
+where $\delta t$ is the time step and $\tau$ is the collision rate
+which is related to the collision time by
+
+\[
+\tau=\frac{\lambda}{\delta t}
+\]
+
+The right-hand side represents the collision stage and often noted
+
+\[
+f_{i}^{\star}(\boldsymbol{x},t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]
+\]
+
+
+\subsection{Feq NS}
+
+\[
+f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\rho\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right]
+\]
+
+where the coefficient $c_{s}$ is defined by
+
+\[
+c_{s}=\frac{1}{\sqrt{3}}\frac{\delta x}{\delta t}
+\]
+and $w_{i}$ are weights which depend on the lattice considered.
+
+\subsection{Lattice D2Q9}
+
+\[
+\boldsymbol{e}_{0}=\left(\begin{array}{c}
+0\\
+0
+\end{array}\right),\quad\boldsymbol{e}_{1}=\left(\begin{array}{c}
+1\\
+0
+\end{array}\right),\quad\boldsymbol{e}_{2}=\left(\begin{array}{c}
+0\\
+1
+\end{array}\right),\quad\boldsymbol{e}_{3}=\left(\begin{array}{c}
+-1\\
+0
+\end{array}\right),\quad\boldsymbol{e}_{4}=\left(\begin{array}{c}
+0\\
+-1
+\end{array}\right)
+\]
+
+\[
+\boldsymbol{e}_{5}=\left(\begin{array}{c}
+1\\
+1
+\end{array}\right),\quad\boldsymbol{e}_{6}=\left(\begin{array}{c}
+-1\\
+1
+\end{array}\right),\quad\boldsymbol{e}_{7}=\left(\begin{array}{c}
+-1\\
+-1
+\end{array}\right),\quad\boldsymbol{e}_{8}=\left(\begin{array}{c}
+1\\
+-1
+\end{array}\right)
+\]
+
+
+\subsection{Explicit algorithm}
+\begin{enumerate}
+\item Collision: $f_{i}(\boldsymbol{x},t)\rightarrow f_{i}^{\star}(\boldsymbol{x},t)$
+(right-hand side of Eq. 
+\item Streaming: $f_{i}^{\star}(\boldsymbol{x},t)\rightarrow f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)$
+(left-hand side)
+\item Updating the density and impulsion 
+\end{enumerate}
+\[
+\rho(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)
+\]
+
+\[
+\rho(\boldsymbol{x},t)\boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
+\]
+
+
+\section{Collision operators}
+
+\subsection{BGK}
+
+The BGK approximation is the simplest collision operator
+
+\[
+\Omega_{i}^{BGK}(f_{i},f_{i}^{eq})=-\frac{1}{\tau}\left[f_{i}-f_{i}^{eq}\right]
+\]
+
+Its main advantage is its simplicity but 
+
+\subsection{TRT}
+
+opposite directions
+
+\[
+\boldsymbol{c}_{\overline{i}}=-\boldsymbol{c}_{i}
+\]
+
+example on the standard D2Q9 lattice $\boldsymbol{c}_{\overline{1}}=-\boldsymbol{c}_{1}=\boldsymbol{c}_{3}$
+
+With that notation, the symmetric parts of $f_{i}$ and $f_{i}^{eq}$
+are defined by
+
+\[
+f_{i}^{+}=\frac{f_{i}+f_{\overline{i}}}{2}\qquad\text{and}\qquad f_{i}^{eq+}=\frac{f_{i}^{eq}+f_{\overline{i}}^{eq}}{2}
+\]
+
+and the anti-symmetric part by
+
+\[
+f_{i}^{-}=\frac{f_{i}-f_{\overline{i}}}{2}\qquad\text{and}\qquad f_{i}^{eq-}=\frac{f_{i}^{eq}-f_{\overline{i}}^{eq}}{2}
+\]
+
+The Two-Relaxation-Times collision operator considers the collision
+stage with two relaxation parameters $\tau^{+}$ and $\tau^{-}$ acting
+on respectively the symmetric part and the anti-symmetric part. The
+LBE writes:
+
+\[
+f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}-\frac{1}{\tau^{+}}\left[f_{i}^{+}-f_{i}^{eq+}\right]-\frac{1}{\tau^{-}}\left[f_{i}^{-}-f_{i}^{eq-}\right]
+\]
+
+\[
+\Omega_{i}^{TRT}=-\frac{1}{\tau^{+}}\left[f_{i}^{+}-f_{i}^{eq+}\right]-\frac{1}{\tau^{-}}\left[f_{i}^{-}-f_{i}^{eq-}\right]
+\]
+
+When the equilibrium distribution function is defined such as the
+Navier-Stokes equations are recovered, the kinematic viscosity is
+related to the parameter $\tau^{-}$ by:
+
+\[
+\nu=c_{s}^{2}\left(\tau^{-}-\frac{1}{2}\right)\delta t
+\]
+
+and the parameter $\tau^{+}$ is a free paramater to tune to improve
+accuracy and stability. In practice, the parameter $\Lambda$ is often
+for that purpose:
+
+\[
+\Lambda=\left(\tau^{+}-\frac{1}{2}\right)\left(\tau^{-}-\frac{1}{2}\right)
+\]
+
+
+\subsection{MRT}
+
+\[
+\begin{array}{cccccccccc}
+{\color{gray}\boldsymbol{e}_{0}} & {\color{gray}\boldsymbol{e}_{1}} & {\color{gray}\boldsymbol{e}_{2}} & {\color{gray}\boldsymbol{e}_{3}} & {\color{gray}\boldsymbol{e}_{4}} & {\color{gray}\boldsymbol{e}_{5}} & {\color{gray}\boldsymbol{e}_{6}} & {\color{gray}\boldsymbol{e}_{7}} & {\color{gray}\boldsymbol{e}_{8}}\\
+\left(\begin{array}{c}
+0\\
+0
+\end{array}\right) & \left(\begin{array}{c}
+1\\
+0
+\end{array}\right) & \left(\begin{array}{c}
+0\\
+1
+\end{array}\right) & \left(\begin{array}{c}
+-1\\
+0
+\end{array}\right) & \left(\begin{array}{c}
+0\\
+-1
+\end{array}\right) & \left(\begin{array}{c}
+1\\
+1
+\end{array}\right) & \left(\begin{array}{c}
+-1\\
+1
+\end{array}\right) & \left(\begin{array}{c}
+-1\\
+-1
+\end{array}\right) & \left(\begin{array}{c}
+1\\
+-1
+\end{array}\right) & \begin{array}{c}
+\leftarrow\boldsymbol{v}_{j_{x}}\\
+\leftarrow\boldsymbol{v}_{j_{y}}
+\end{array}
+\end{array}
+\]
+
+LBE
+
+\[
+\boldsymbol{f}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=\boldsymbol{f}(\boldsymbol{x},t)-\boldsymbol{M}^{-1}\boldsymbol{S}(\boldsymbol{x})\boldsymbol{M}\left[\boldsymbol{f}(\boldsymbol{x},t)-\boldsymbol{f}^{eq}(\boldsymbol{x},t)\right]+\boldsymbol{\mathcal{F}}\delta t
+\]
+
+MRT coll ope
+
+\[
+\boldsymbol{\Omega}^{MRT}=-\boldsymbol{M}^{-1}\boldsymbol{S}(\boldsymbol{x})\boldsymbol{M}\left[\boldsymbol{f}(\boldsymbol{x},t)-\boldsymbol{f}^{eq}(\boldsymbol{x},t)\right]
+\]
+
+\begin{itemize}
+\item {\small{}$\boldsymbol{M}$ and $\boldsymbol{S}$ are two invertible
+matrices of dim $(N_{pop}+1)\times(N_{pop}+1)$}{\small\par}
+\begin{itemize}
+\item[{\small{}$\bullet$}] {\small{}}{\footnotesize{}$\boldsymbol{M}$ represents a change of
+basis: ``space of distribution functions'' $\rightarrow$ ``space
+of moments''}{\footnotesize\par}
+\item[{\small{}$\bullet$}] {\small{}}{\footnotesize{}$\boldsymbol{S}$ contains the relaxation
+coefficients}{\footnotesize\par}
+\end{itemize}
+\end{itemize}
+\[
+\boldsymbol{f}(\boldsymbol{x},t)=\left(\begin{array}{c}
+f_{0}(\boldsymbol{x},t)\\
+f_{1}(\boldsymbol{x},t)\\
+\vdots\\
+f_{N_{pop}}(\boldsymbol{x},t)
+\end{array}\right),\quad\boldsymbol{f}^{eq}(\boldsymbol{x},t)=\left(\begin{array}{c}
+f_{0}^{eq}(\boldsymbol{x},t)\\
+f_{1}^{eq}(\boldsymbol{x},t)\\
+\vdots\\
+f_{N_{pop}}^{eq}(\boldsymbol{x},t)
+\end{array}\right),\quad\boldsymbol{\mathcal{F}}(\boldsymbol{x},t)=\left(\begin{array}{c}
+\mathcal{F}_{0}(\boldsymbol{x},t)\\
+\mathcal{F}_{1}(\boldsymbol{x},t)\\
+\vdots\\
+\mathcal{F}_{N_{pop}}(\boldsymbol{x},t)
+\end{array}\right)
+\]
+
+\[
+\rho=\sum_{i}f_{i}=\boldsymbol{v}_{\rho}\cdot\boldsymbol{f}
+\]
+
+\[
+\rho u_{x}=\sum_{i}f_{i}c_{ix}=\boldsymbol{v}_{j_{x}}\cdot\boldsymbol{f}
+\]
+
+\[
+\rho u_{y}=\sum_{i}f_{i}c_{iy}=\boldsymbol{v}_{j_{y}}\cdot\boldsymbol{f}
+\]
+
+where
+
+$\boldsymbol{v}_{\rho}=(1,1,1,1,1,1,1,1,1)$
+
+$\boldsymbol{v}_{j_{x}}=(0,1,0,-1,0,1,-1,-1,1)$
+
+$\boldsymbol{v}_{j_{y}}=(0,0,1,0,-1,1,1,-1,-1)$
+
+Moments
+
+\[
+\boldsymbol{m}=\boldsymbol{M}\boldsymbol{f}\qquad\text{with }\boldsymbol{m}=(\rho,m_{1},m_{2},\rho u_{x},m_{4},\rho u_{y},m_{7},m_{8})
+\]
+
+{\footnotesize{}where the matrix $\boldsymbol{M}$ is built with orthogonal
+vectors $\boldsymbol{v}_{\rho}$, $\boldsymbol{v}_{j_{x}}$, $\boldsymbol{v}_{j_{y}}$,
+$\ldots$, $\boldsymbol{v}_{N_{pop}}$}{\footnotesize\par}
+
+\[
+\boldsymbol{M}=\left(\begin{array}{c}
+\boldsymbol{v}_{\rho}\\
+\boldsymbol{v}_{e}\\
+\boldsymbol{v}_{\epsilon}\\
+\boldsymbol{v}_{j_{x}}\\
+\boldsymbol{v}_{q_{x}}\\
+\boldsymbol{v}_{j_{y}}\\
+\boldsymbol{v}_{q_{y}}\\
+\boldsymbol{v}_{p_{xx}}\\
+\boldsymbol{v}_{p_{xy}}
+\end{array}\right)=\left(\begin{array}{ccccccccc}
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+-4 & -1 & -1 & -1 & -1 & 2 & 2 & 2 & 2\\
+4 & -2 & -2 & -2 & -2 & 1 & 1 & 1 & 1\\
+0 & 1 & 0 & -1 & 0 & 1 & -1 & -1 & 1\\
+0 & -2 & 0 & 2 & 0 & 1 & -1 & -1 & 1\\
+0 & 0 & 1 & 0 & -1 & 1 & 1 & -1 & -1\\
+0 & 0 & -2 & 0 & 2 & 1 & 1 & -1 & -1\\
+0 & 1 & -1 & 1 & -1 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 1 & -1 & 1 & -1
+\end{array}\right)
+\]
+
+\[
+\boldsymbol{S}=\text{diag}(0,\omega_{e},\omega_{\epsilon},0,\omega_{q},0,\omega_{q},\omega_{\nu},\omega_{\nu})
+\]
+
+\[
+\boldsymbol{M}^{-1}=\left(\begin{array}{ccccccccc}
+\frac{1}{9} & -\frac{1}{9} & \frac{1}{9} & 0 & 0 & 0 & 0 & 0 & 0\\
+\frac{1}{9} & -\frac{1}{36} & -\frac{1}{18} & \frac{1}{6} & -\frac{1}{6} & 0 & 0 & \frac{1}{4} & 0\\
+\frac{1}{9} & -\frac{1}{36} & -\frac{1}{18} & 0 & 0 & \frac{1}{6} & -\frac{1}{6} & -\frac{1}{4} & 0\\
+\frac{1}{9} & -\frac{1}{36} & -\frac{1}{18} & -\frac{1}{6} & \frac{1}{6} & 0 & 0 & \frac{1}{4} & 0\\
+\frac{1}{9} & -\frac{1}{36} & -\frac{1}{18} & 0 & 0 & -\frac{1}{6} & \frac{1}{6} & -\frac{1}{4} & 0\\
+\frac{1}{9} & \frac{1}{18} & \frac{1}{36} & \frac{1}{6} & \frac{1}{12} & \frac{1}{6} & \frac{1}{12} & 0 & \frac{1}{4}\\
+\frac{1}{9} & \frac{1}{18} & \frac{1}{36} & -\frac{1}{6} & -\frac{1}{12} & \frac{1}{6} & \frac{1}{12} & 0 & -\frac{1}{4}\\
+\frac{1}{9} & \frac{1}{18} & \frac{1}{36} & -\frac{1}{6} & -\frac{1}{12} & -\frac{1}{6} & -\frac{1}{12} & 0 & \frac{1}{4}\\
+\frac{1}{9} & \frac{1}{18} & \frac{1}{36} & \frac{1}{6} & \frac{1}{12} & -\frac{1}{6} & -\frac{1}{12} & 0 & -\frac{1}{4}
+\end{array}\right)
+\]
+
+
+\section{Equilibrium distribution functions}
+
+\[
+f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]
+\]
+
+
+\subsection{Incompressible Navier-Stokes}
+
+\[
+f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_{h}+\rho_{0}c_{s}^{2}\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]
+\]
+
+\[
+p_{h}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)
+\]
+
+\[
+\rho_{0}\boldsymbol{u}(\boldsymbol{x},t)=\frac{1}{c_{s}^{2}}\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
+\]
+
+
+\subsection{Incompressible Navier-Stokes for two-phase flows}
+
+\[
+\boldsymbol{\nabla}\cdot\boldsymbol{u}=0
+\]
+
+\[
+\varrho(\phi)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\eta(\boldsymbol{x},t)\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]+\boldsymbol{F}_{s}+\boldsymbol{F}_{g}
+\]
+
+\[
+\boldsymbol{F}_{s}=\mu_{\phi}\boldsymbol{\nabla}\phi
+\]
+
+\[
+\boldsymbol{F}_{g}=\varrho(\phi)\boldsymbol{g}
+\]
+
+
+\subsubsection{Version 1 for variable density}
+
+\[
+f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_{h}+\varrho(\phi)c_{s}^{2}\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]
+\]
+
+\[
+p_{h}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)
+\]
+
+\[
+\varrho(\phi)\boldsymbol{u}(\boldsymbol{x},t)=\frac{1}{c_{s}^{2}}\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
+\]
+
+\begin{itemize}
+\item Equivalent macroscopic equations
+\end{itemize}
+\[
+\frac{\partial p_{h}}{\partial t}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)c_{s}^{2}\boldsymbol{u}\right]=0
+\]
+
+\[
+\varrho(\phi)\cancel{c_{s}^{2}}\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}\cancel{c_{s}^{2}}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\cancel{c_{s}^{2}}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\mathcal{O}(\rho u^{3})
+\]
+
+\[
+\nu=\frac{1}{3}\left(\tau-\frac{1}{2}\right)\frac{\delta x^{2}}{\delta t}
+\]
+
+
+\subsubsection{Version 2 for variable density}
+
+\[
+f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p^{\star}+\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]
+\]
+
+where
+
+\[
+p^{\star}=\frac{p_{h}}{\varrho(\phi)c_{s}^{2}}
+\]
+
+Moments
+
+\[
+p^{\star}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)
+\]
+
+\[
+\boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
+\]
+
+\[
+\frac{\partial p^{\star}}{\partial t}+\boldsymbol{\nabla}\cdot\boldsymbol{u}=0
+\]
+
+\[
+\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}(p^{\star}c_{s}^{2})+\boldsymbol{\nabla}\cdot\left[\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]
+\]
+
+\[
+\nu=\frac{1}{3}\left(\tau-\frac{1}{2}\right)\frac{\delta x^{2}}{\delta t}
+\]
+
+Force terms to add
+
+\[
+\boldsymbol{F}_{p}=-\frac{p_{h}}{\varrho}\boldsymbol{\nabla}\varrho
+\]
+
+\[
+\boldsymbol{F}_{v}=\nu\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]\cdot\boldsymbol{\nabla}\varrho(\phi)
+\]
+
+
+\section{Additional gradients}
+
+\subsection{Gradients}
+
+Directional derivative method:
+
+\[
+\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla}\phi\bigr|_{\boldsymbol{x}}=\frac{1}{2\delta x}\left[\phi(\boldsymbol{x}+\boldsymbol{e}_{i}\delta x)-\phi(\boldsymbol{x}-\boldsymbol{e}_{i}\delta x)\right]
+\]
+
+\[
+\boldsymbol{\nabla}\phi=\frac{1}{e^{2}}\sum_{i=0}^{N_{pop}}w_{i}\boldsymbol{e}_{i}\left(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla}\phi\bigr|_{\boldsymbol{x}}\right)
+\]
+
+
+\subsection{Laplacian}
+
+\[
+(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla})^{2}\phi\bigr|_{\boldsymbol{x}}=\frac{1}{\delta x^{2}}\left[\phi(\boldsymbol{x}+\boldsymbol{e}_{i}\delta x)-2\phi(\boldsymbol{x})+\phi(\boldsymbol{x}-\boldsymbol{e}_{i}\delta x)\right]
+\]
+\[
+\boldsymbol{\nabla}^{2}\phi\bigr|_{\boldsymbol{x}}=3\sum_{i=0}^{N_{pop}}w_{i}(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla})^{2}\phi\bigr|_{\boldsymbol{x}}
+\]
+
+
+\section{Equilibrium for transport equations}
+
+\subsection{ADE with source term}
+
+\[
+\partial_{t}\underbrace{\phi}_{\mathcal{M}_{0}}+\boldsymbol{\nabla}\cdot(\underbrace{\boldsymbol{u}\phi}_{\boldsymbol{\mathcal{M}}_{1}})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\boldsymbol{\nabla}\cdot(\underbrace{\phi\boldsymbol{I}}_{\boldsymbol{\mathcal{M}}_{2}})\Bigr]+\mathscr{S}_{\phi}
+\]
+
+where
+\begin{itemize}
+\item $\mathcal{M}_{0}$: scalar (moment of order 0)
+\item $\boldsymbol{\mathcal{M}}_{1}$: vector (moment of order 1)
+\item $\boldsymbol{\mathcal{M}}_{2}$: tensor (moment of order 2)
+\end{itemize}
+
+\paragraph{LBE}
+
+\[
+g_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=g_{i}(\boldsymbol{x},t)-\frac{1}{\tau_{g}+0.5}\left[g_{i}(\boldsymbol{x},t)-g_{i}^{eq}(\boldsymbol{x},t)\right]+\delta tw_{i}\mathscr{S}_{\phi}
+\]
+
+
+\paragraph{Equilibrium with source term}
+
+\[
+g_{i}^{eq,ADE}(\boldsymbol{x},t)=w_{i}\phi\left[1+\frac{\boldsymbol{u}\cdot\boldsymbol{c}_{i}}{c_{s}^{2}}\right]=w_{i}\underbrace{\phi}_{\mathcal{M}_{0}\text{ and }\boldsymbol{\mathcal{M}}_{2}}+w_{i}\frac{(\overbrace{\boldsymbol{u}\phi}^{\boldsymbol{\mathcal{M}}_{1}})\cdot\boldsymbol{c}_{i}}{c_{s}^{2}}
+\]
+
+
+\paragraph{Moment}
+
+\[
+\phi=\sum_{i}g_{i}+\frac{\delta t}{2}\mathscr{S}_{\phi}
+\]
+
+
+\paragraph{Mobility}
+
+\[
+M_{\phi}=\tau_{g}c_{s}^{2}\delta t
+\]
+
+
+\subsection{Cahn-Hilliard equation}
+\begin{itemize}
+\item PDE
+\end{itemize}
+\[
+\partial_{t}\underbrace{\phi}_{\mathcal{M}_{0}}+\boldsymbol{\nabla}\cdot(\underbrace{\boldsymbol{u}\phi}_{\boldsymbol{\mathcal{M}}_{1}})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\boldsymbol{\nabla}\cdot(\underbrace{\mu_{\phi}\boldsymbol{I}}_{\boldsymbol{\mathcal{M}}_{2}})\Bigr]
+\]
+
+\[
+\mu_{\phi}=4H\phi(\phi-1)(\phi-1/2)-\zeta\underbrace{\boldsymbol{\nabla}^{2}\phi}_{\text{Laplacian}}
+\]
+
+\begin{itemize}
+\item Equilibrium
+\end{itemize}
+\[
+g_{i}^{eq,\,CH}=\mathcal{A}_{i}(\phi,\,\mu_{\phi})+w_{i}\frac{\boldsymbol{c}_{i}\cdot(\overbrace{\boldsymbol{u}\phi}^{\boldsymbol{\mathcal{M}}_{1}})}{c_{s}^{2}}
+\]
+
+\[
+\mathcal{A}_{i}(\phi,\,\mu_{\phi})=\begin{cases}
+\phi-3\mu_{\phi}(1-w_{0}) & \text{if }i=0\quad\mathcal{M}_{0}\\
+3w_{i}\mu_{\phi} & \text{if }i\neq0\quad\boldsymbol{\mathcal{M}}_{2}
+\end{cases}
+\]
+
+\begin{itemize}
+\item Moment
+\end{itemize}
+\[
+M_{\phi}=\tau_{g}c_{s}^{2}\delta t,
+\]
+
+\[
+\phi=\sum_{i}g_{i}
+\]
+
+
+\subsection{Conservative Allen-Cahn}
+\begin{itemize}
+\item PDE
+\end{itemize}
+\[
+\partial_{t}\underbrace{\phi}_{\mathcal{M}_{0}}+\boldsymbol{\nabla}\cdot(\underbrace{\boldsymbol{u}\phi}_{\boldsymbol{\mathcal{M}}_{1}})+\boldsymbol{\nabla}\cdot\biggl[\underbrace{M_{\phi}\frac{4}{W}\phi(1-\phi)\boldsymbol{n}}_{\boldsymbol{j}_{ct}\equiv\boldsymbol{\mathcal{M}}_{1}}\biggr]=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\boldsymbol{\nabla}\cdot(\underbrace{\phi\boldsymbol{I}}_{\boldsymbol{\mathcal{M}}_{2}})\Bigr]
+\]
+
+\begin{itemize}
+\item First method: CAC equilibrium
+\end{itemize}
+\[
+g_{i}^{eq}=g_{i}^{eq,ADE}+g_{i}^{eq,ct}\qquad\text{with }\begin{cases}
+g_{i}^{eq,ADE} & =w_{i}\phi+(\boldsymbol{u}\phi)\cdot\left(\frac{w_{i}\boldsymbol{c}_{i}}{c_{s}^{2}}\right)\\
+g_{i}^{eq,ct} & =\boldsymbol{j}_{ct}\cdot\left(\frac{w_{i}\boldsymbol{c}_{i}}{c_{s}^{2}}\right)
+\end{cases}
+\]
+
+\[
+g_{i}^{eq,CAC}(\boldsymbol{x},\,t)=\underbrace{w_{i}\phi\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}\right]}_{g_{i}^{eq,ADE}}+\underbrace{M_{\phi}\left[\frac{4}{W}\phi(1-\phi)\right]\boldsymbol{n}}_{\boldsymbol{j}_{ct}}\cdot\left(\frac{w_{i}\boldsymbol{c}_{i}}{c_{s}^{2}}\right)
+\]
+
+\begin{itemize}
+\item Second method: ADE equilibrium and source term
+\end{itemize}
+\[
+g_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=g_{i}(\boldsymbol{x},t)-\frac{1}{\tau_{g}+1/2}\left[g_{i}(\boldsymbol{x},t)-\overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)\right]+\delta t\mathcal{G}_{i}
+\]
+
+\[
+\overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)=w_{i}\phi\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}\right]-\frac{\delta t}{2}\mathcal{G}_{i}
+\]
+
+\[
+\mathcal{G}_{i}=\frac{4}{W}\phi(1-\phi)w_{i}\boldsymbol{c}_{i}\cdot\boldsymbol{n}
+\]
+
+\begin{itemize}
+\item Moment
+\end{itemize}
+\[
+\phi=\sum_{i}g_{i}+\frac{\delta t}{2}\mathcal{G}_{i}
+\]
+
+\[
+M_{\phi}=\tau_{g}c_{s}^{2}\delta t
+\]
+
+\end{document}

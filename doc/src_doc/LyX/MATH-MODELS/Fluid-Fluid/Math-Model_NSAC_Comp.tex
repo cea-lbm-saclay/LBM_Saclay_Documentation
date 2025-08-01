@@ -1,0 +1,122 @@
+%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[american]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{babel}
+\begin{document}
+
+\section{Mathematical model}
+
+\begin{align*}
+\boldsymbol{\nabla}\cdot\boldsymbol{u} & =0\\
+\varrho(\phi,c)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right] & =-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\eta(\phi)\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\boldsymbol{F}_{c}+\boldsymbol{F}_{g}+\varrho(\phi,c)\boldsymbol{g}\\
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi) & =\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right)\right]+\mathscr{S}_{\phi}\\
+\frac{\partial c}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}c) & =\boldsymbol{\nabla}\cdot\left[\mathcal{D}(\phi)\boldsymbol{\nabla}\mu_{c}\right]
+\end{align*}
+where the main variables of model are
+
+$\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)$ is the fluid
+velocity,
+
+$p_{h}\equiv p_{h}(\boldsymbol{x},t)$ is the hydrodynamic pressure
+
+$\phi\equiv\phi(\boldsymbol{x},t)$ is the phase-field
+
+$c\equiv c(\boldsymbol{x},t)$ is the composition.
+
+\subsection{Closure relationships}
+
+In Eq. (), $\boldsymbol{F}_{c}$ is the capillary force defined by
+
+\[
+\boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi
+\]
+
+\[
+\boldsymbol{F}_{M}=\frac{3W}{2}\left[\boldsymbol{\nabla}\sigma|\boldsymbol{\nabla}\phi|^{2}-\boldsymbol{\nabla}\phi(\boldsymbol{\nabla}\phi\cdot\boldsymbol{\nabla}\sigma)\right]
+\]
+where the chemical potential $\mu_{\phi}$ is defined by
+
+\[
+\mu_{\phi}=\frac{3}{2}\sigma\left[\frac{16}{W}\phi(1-\phi)(1-2\phi)-W\boldsymbol{\nabla}^{2}\phi\right]
+\]
+where $\sigma$ is the surface tension and $W$ is the interface width.
+
+\[
+\mu_{c}=\mu_{c}^{eq}+c(\phi,\mu_{c})-\left[c_{1}^{eq}\phi+c_{0}^{eq}(1-\phi)\right]
+\]
+The total density $\varrho$ is interpolated by $\phi$ and $c$:
+
+\[
+\varrho(\phi,c)=\rho_{1}(c)p(\phi)+\rho_{0}(c)(1-p(\phi))
+\]
+where each bulk density $\rho_{\Phi}$ is linearly interpolated by
+$c$:
+
+\[
+\rho_{\Phi}(c)=(\rho_{\Phi}^{eq}-\rho_{\Phi}^{ini})\frac{c-c_{\Phi}^{ini}}{c_{\Phi}^{eq}-c_{\Phi}^{ini}}+\rho_{\Phi}^{ini}\quad()
+\]
+
+The index $\Phi=0,1$ indicates phase 0 or phase 1. The interpolation
+function $p(\phi)$ can be chosen:
+
+\[
+p(\phi)=\begin{cases}
+\phi\qquad\text{or}\\
+\phi^{2}(3-2\phi)
+\end{cases}
+\]
+
+The dynamic viscosity is interpolated by a harmonic mean formula:
+
+\begin{align*}
+\frac{1}{\eta(\phi)} & =\frac{\phi}{\eta_{1}}+\frac{1-\phi}{\eta_{0}}
+\end{align*}
+
+Finally in the composition equation, the diffusion parameter is also
+linearly interpolated:
+
+\[
+\mathcal{D}(\phi)=D_{1}\phi+D_{0}(1-\phi)
+\]
+
+\[
+\sigma=\sigma_{ref}+\frac{d\sigma}{dc}(c-c_{ref})
+\]
+
+\[
+\frac{d\sigma}{dc}=\sigma_{c}<0
+\]
+
+
+\section{Cahn-Hilliard model}
+
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\mathcal{M}_{\phi}\boldsymbol{\nabla}^{2}\mu_{\phi}
+\]
+
+where $\mu_{\phi}$ is defined by
+
+\[
+\mu_{\phi}=2H\phi(1-\phi)(1-2\phi)-\zeta\boldsymbol{\nabla}^{2}\phi
+\]
+
+
+\section{Alternative forms}
+
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=M_{\phi}\boldsymbol{\nabla}^{2}\phi\underbrace{-\boldsymbol{\nabla}\cdot\left[\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right]}_{\mathcal{S}_{ct}}
+\]
+
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=M_{\phi}\boldsymbol{\nabla}^{2}\phi\underbrace{-\frac{M_{\phi}}{W^{2}}2\phi(1-\phi)(1-2\phi)}_{\mathcal{S}_{dw}}+\underbrace{\frac{\lambda M_{\phi}}{W^{2}}\mathscr{S}_{\phi}(\phi,\,\overline{\mu})}_{\mathcal{S}_{st}}
+\]
+
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=M_{\phi}\boldsymbol{\nabla}^{2}[\chi_{1}\mu_{\phi}+(1-\chi_{1})\phi]-(1-\chi_{1})\left[\chi_{2}\mathcal{S}_{ct}+(1-\chi_{2})\mathcal{S}_{dw}+\mathcal{S}_{st}\right]
+\]
+
+\end{document}

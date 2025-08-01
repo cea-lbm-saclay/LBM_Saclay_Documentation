@@ -1,0 +1,145 @@
+%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[american]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{babel}
+\begin{document}
+
+\section{Mathematical model}
+
+\[
+\phi_{0}=1-\phi_{1}-\phi_{2}
+\]
+
+In what follows, the notation $\boldsymbol{\phi}=(\phi_{0},\phi_{1},\phi_{2})$
+will be used.
+
+\subsection{Mass balance}
+
+The mass balance equation writes
+
+\[
+\boldsymbol{\nabla}\cdot\boldsymbol{u}=0
+\]
+where $\boldsymbol{u}=(u_{x},u_{y},u_{z})$ is the velocity vector.
+
+\subsection{Impulsion balance}
+
+The impulsion balance equation is
+
+\[
+\varrho(\boldsymbol{\phi})\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\varrho\vartheta(\boldsymbol{\phi})\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\boldsymbol{F}_{tot}
+\]
+
+where $\varrho(\boldsymbol{\phi})$ is the total density and $\vartheta(\boldsymbol{\phi})$
+is the total viscosity. They are respectively defined by by :eq:`Total\_Density`
+and :eq:`Total\_Viscosity`. The hydrodynamic pressure is noted $p_{h}$
+and $\boldsymbol{F}_{tot}$ is the total force defined by Eq. :eq:`Total\_Force`.
+
+\subsection{First phase-field equation}
+
+\[
+\frac{\partial\phi_{1}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi_{1})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\bigl(\boldsymbol{\nabla}\phi_{1}-\bigl|\boldsymbol{\nabla}\phi_{1}\bigr|^{eq}\boldsymbol{n}_{1}+\mathscr{L}(\boldsymbol{\phi})\bigr)\Bigr]
+\]
+
+where the Lagrange multiplier is defined by
+
+\[
+\mathscr{L}(\boldsymbol{\phi})=\frac{1}{3}\sum\bigl|\boldsymbol{\nabla}\phi_{k}\bigr|^{eq}\boldsymbol{n}_{k}
+\]
+
+and the unit normal vector for each phase $k$ is defined by
+
+\[
+\boldsymbol{n}_{k}=\frac{\boldsymbol{\nabla}\phi}{\bigl|\boldsymbol{\nabla}\phi\bigr|}
+\]
+
+
+\subsection{Second phase-field equation}
+
+\[
+\frac{\partial\phi_{2}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi_{2})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\bigl(\boldsymbol{\nabla}\phi_{2}-\bigl|\boldsymbol{\nabla}\phi_{2}\bigr|^{eq}\boldsymbol{n}_{2}+\mathscr{L}(\boldsymbol{\phi})\bigr)\Bigr]
+\]
+
+
+\subsection{Composition equation}
+
+\[
+\frac{\partial c}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}c)=\boldsymbol{\nabla}\cdot\left\{ (D_{k}\phi_{k})\boldsymbol{\nabla}\bigl[\mu_{c}^{eq}+c(\phi,\mu_{c})-c_{k}^{eq}\phi_{k}\bigr]\right\} 
+\]
+
+
+\section{Force terms}
+
+The total force is the sum of the capillary force $\boldsymbol{F}_{c}$
+and the gravity force $\boldsymbol{F}_{g}$:
+
+\[
+\boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}
+\]
+
+The capillary force is the sum of contribution of every phase-field:
+
+\[
+\boldsymbol{F}_{c}=\mu_{\phi_{0}}\boldsymbol{\nabla}\phi_{0}+\mu_{\phi_{1}}\boldsymbol{\nabla}\phi_{1}+\mu_{\phi_{2}}\boldsymbol{\nabla}\phi_{2}
+\]
+
+The gravity force writes:
+
+\[
+\boldsymbol{F}_{g}=\varrho(\boldsymbol{\phi})\boldsymbol{g}
+\]
+
+where the chemical potential $\mu_{\phi_{k}}$ for each phase $k$
+is defined by
+
+\[
+\mu_{\phi_{k}}(\boldsymbol{x},t)=\frac{4\gamma_{T}}{W}\sum_{\ell\neq k}\left[\frac{1}{\gamma_{\ell}}\left(\frac{\partial f_{dw}}{\partial\phi_{k}}-\frac{\partial f_{dw}}{\partial\phi_{\ell}}\right)\right]-\frac{3}{4}W\gamma_{k}\boldsymbol{\nabla}^{2}\phi_{k}
+\]
+and the spreading coefficient $\gamma_{T}$ is the harmonic mean of
+each one:
+
+\[
+\frac{3}{\gamma_{T}}=\sum_{k}\frac{1}{\gamma_{k}}
+\]
+
+and the double-well potential is:
+
+\[
+f_{dw}(\phi_{0},\phi_{1},\phi_{2})=\sum_{k=0}^{2}\frac{12}{W}\left[\frac{\gamma_{k}}{2}\phi_{k}^{2}(1-\phi_{k})^{2}\right]
+\]
+
+The spreading coefficient of each phase is defined by a combination
+of their surface tensions:
+
+\begin{align*}
+\gamma_{0} & =\sigma_{10}+\sigma_{20}-\sigma_{12}\\
+\gamma_{1} & =\sigma_{10}+\sigma_{12}-\sigma_{20}\\
+\gamma_{2} & =\sigma_{20}+\sigma_{12}-\sigma_{01}
+\end{align*}
+
+
+\section{Closure terms}
+
+\subsection*{Total density}
+
+The total density is simply an interpolation of each bulk density:
+
+\[
+\varrho(\boldsymbol{\phi})=\sum_{k}\rho_{k}\phi_{k}(\boldsymbol{x},t)
+\]
+
+
+\subsection*{Total kinematic viscosity}
+
+The total kinematic viscosity is obtained by a harmoni mean of bulk
+kinematic viscosities:
+
+\[
+\frac{1}{\vartheta(\boldsymbol{\phi})}=\sum_{k}\frac{\phi_{k}(\boldsymbol{x},t)}{\nu_{k}}
+\]
+
+\end{document}

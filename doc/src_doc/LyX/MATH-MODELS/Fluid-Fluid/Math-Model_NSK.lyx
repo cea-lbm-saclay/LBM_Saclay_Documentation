@@ -1,0 +1,227 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Mathematical model
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\rho}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial(\rho\boldsymbol{u})}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}+\boldsymbol{\nabla}\cdot\left[\eta\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\overline{\overline{\boldsymbol{P}}}=\left[p^{eos}(\rho,T)-\kappa\rho\boldsymbol{\nabla}^{2}\rho-\frac{1}{2}\kappa\bigl|\boldsymbol{\nabla}\rho\bigr|^{2}\right]\overline{\overline{\boldsymbol{I}}}+\kappa\boldsymbol{\nabla}\rho\otimes\boldsymbol{\nabla}\rho
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Equations of state
+\end_layout
+
+\begin_layout Standard
+Definition of thermodynamic pressure from potential
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p^{eos}(\rho)=\rho\partial_{\rho}\mathcal{W}(\rho)-\mathcal{W}(\rho)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+van der Waals eos
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{vdW}^{eos}(\rho,T)=\frac{\rho RT}{1-b\rho}-a\rho^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Carnahan-Starling eos
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{CS}^{eos}(\rho,T)=\rho RT\frac{1+b\rho/4+(b\rho/4)^{2}-(b\rho/4)^{3}}{(1-b\rho/4)^{3}}-a\rho^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Equivalence of pressure tensor
+\end_layout
+
+\begin_layout Itemize
+Potential form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+-\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}=-\boldsymbol{\nabla}p^{eos}+\boldsymbol{F}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{F}=\kappa\rho\boldsymbol{\nabla}(\boldsymbol{\nabla}^{2}\rho)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Chemical potential form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+-\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}=-\rho\boldsymbol{\nabla}\mu_{\rho}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{\rho}=\mathcal{W}^{\prime}(\rho)-\kappa\boldsymbol{\nabla}^{2}\rho
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,389 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Mathematical model
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\boldsymbol{\nabla}\cdot\boldsymbol{u} & =0\\
+\varrho(\phi,c)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right] & =-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\eta(\phi)\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\boldsymbol{F}_{c}+\boldsymbol{F}_{g}+\varrho(\phi,c)\boldsymbol{g}\\
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi) & =\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right)\right]+\mathscr{S}_{\phi}\\
+\frac{\partial c}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}c) & =\boldsymbol{\nabla}\cdot\left[\mathcal{D}(\phi)\boldsymbol{\nabla}\mu_{c}\right]
+\end{align*}
+
+\end_inset
+
+where the main variables of model are
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)$
+\end_inset
+
+ is the fluid velocity,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p_{h}\equiv p_{h}(\boldsymbol{x},t)$
+\end_inset
+
+ is the hydrodynamic pressure
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\phi\equiv\phi(\boldsymbol{x},t)$
+\end_inset
+
+ is the phase-field
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $c\equiv c(\boldsymbol{x},t)$
+\end_inset
+
+ is the composition.
+\end_layout
+
+\begin_layout Subsection
+Closure relationships
+\end_layout
+
+\begin_layout Standard
+In Eq.
+ (), 
+\begin_inset Formula $\boldsymbol{F}_{c}$
+\end_inset
+
+ is the capillary force defined by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{F}_{M}=\frac{3W}{2}\left[\boldsymbol{\nabla}\sigma|\boldsymbol{\nabla}\phi|^{2}-\boldsymbol{\nabla}\phi(\boldsymbol{\nabla}\phi\cdot\boldsymbol{\nabla}\sigma)\right]
+\]
+
+\end_inset
+
+where the chemical potential 
+\begin_inset Formula $\mu_{\phi}$
+\end_inset
+
+ is defined by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{\phi}=\frac{3}{2}\sigma\left[\frac{16}{W}\phi(1-\phi)(1-2\phi)-W\boldsymbol{\nabla}^{2}\phi\right]
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is the surface tension and 
+\begin_inset Formula $W$
+\end_inset
+
+ is the interface width.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{c}=\mu_{c}^{eq}+c(\phi,\mu_{c})-\left[c_{1}^{eq}\phi+c_{0}^{eq}(1-\phi)\right]
+\]
+
+\end_inset
+
+The total density 
+\begin_inset Formula $\varrho$
+\end_inset
+
+ is interpolated by 
+\begin_inset Formula $\phi$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\varrho(\phi,c)=\rho_{1}(c)p(\phi)+\rho_{0}(c)(1-p(\phi))
+\]
+
+\end_inset
+
+where each bulk density 
+\begin_inset Formula $\rho_{\Phi}$
+\end_inset
+
+ is linearly interpolated by 
+\begin_inset Formula $c$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{\Phi}(c)=(\rho_{\Phi}^{eq}-\rho_{\Phi}^{ini})\frac{c-c_{\Phi}^{ini}}{c_{\Phi}^{eq}-c_{\Phi}^{ini}}+\rho_{\Phi}^{ini}\quad()
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The index 
+\begin_inset Formula $\Phi=0,1$
+\end_inset
+
+ indicates phase 0 or phase 1.
+ The interpolation function 
+\begin_inset Formula $p(\phi)$
+\end_inset
+
+ can be chosen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p(\phi)=\begin{cases}
+\phi\qquad\text{or}\\
+\phi^{2}(3-2\phi)
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The dynamic viscosity is interpolated by a harmonic mean formula:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{1}{\eta(\phi)} & =\frac{\phi}{\eta_{1}}+\frac{1-\phi}{\eta_{0}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally in the composition equation, the diffusion parameter is also linearly
+ interpolated:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathcal{D}(\phi)=D_{1}\phi+D_{0}(1-\phi)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sigma=\sigma_{ref}+\frac{d\sigma}{dc}(c-c_{ref})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{d\sigma}{dc}=\sigma_{c}<0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Cahn-Hilliard model
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\mathcal{M}_{\phi}\boldsymbol{\nabla}^{2}\mu_{\phi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\mu_{\phi}$
+\end_inset
+
+ is defined by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{\phi}=2H\phi(1-\phi)(1-2\phi)-\zeta\boldsymbol{\nabla}^{2}\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Alternative forms
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=M_{\phi}\boldsymbol{\nabla}^{2}\phi\underbrace{-\boldsymbol{\nabla}\cdot\left[\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right]}_{\mathcal{S}_{ct}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=M_{\phi}\boldsymbol{\nabla}^{2}\phi\underbrace{-\frac{M_{\phi}}{W^{2}}2\phi(1-\phi)(1-2\phi)}_{\mathcal{S}_{dw}}+\underbrace{\frac{\lambda M_{\phi}}{W^{2}}\mathscr{S}_{\phi}(\phi,\,\overline{\mu})}_{\mathcal{S}_{st}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=M_{\phi}\boldsymbol{\nabla}^{2}[\chi_{1}\mu_{\phi}+(1-\chi_{1})\phi]-(1-\chi_{1})\left[\chi_{2}\mathcal{S}_{ct}+(1-\chi_{2})\mathcal{S}_{dw}+\mathcal{S}_{st}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

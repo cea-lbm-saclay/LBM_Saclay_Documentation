@@ -1,0 +1,1651 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Lattice Boltzmann Equation
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial f}{\partial t}+\boldsymbol{c}\cdot\boldsymbol{\nabla}f+\boldsymbol{F}\cdot\boldsymbol{\nabla}_{\boldsymbol{c}}f=\Omega(f,f^{eq})\label{eq:Boltzmann_Eq}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $f(\boldsymbol{x},\boldsymbol{c},t)$
+\end_inset
+
+ is the distribution function of particles which is a function of position
+ 
+\begin_inset Formula $\boldsymbol{x}$
+\end_inset
+
+, microscopic speeds 
+\begin_inset Formula $\boldsymbol{c}$
+\end_inset
+
+ and time 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\boldsymbol{F}$
+\end_inset
+
+ is the external force and 
+\begin_inset Formula $\Omega(f,f^{eq})$
+\end_inset
+
+ is the collision operator that relaxes the distribution function 
+\begin_inset Formula $f$
+\end_inset
+
+ toward an equilibrium 
+\begin_inset Formula $f^{eq}$
+\end_inset
+
+.
+ For the classical Batnaghar-Gross-Krook (
+\series bold
+BGK
+\series default
+) approximation, that collision operator simply writes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Omega(f,f^{eq})\sim-\frac{1}{\lambda}\left[f-f^{eq}\right]
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is the collision rate.
+\end_layout
+
+\begin_layout Standard
+Eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Boltzmann_Eq"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), computes the evolution of 
+\begin_inset Formula $f$
+\end_inset
+
+ in space and time.
+ The macrosopic quantities such as the density 
+\begin_inset Formula $\rho$
+\end_inset
+
+, impulsion 
+\begin_inset Formula $\rho\boldsymbol{u}$
+\end_inset
+
+ and energy 
+\begin_inset Formula $\rho\varepsilon$
+\end_inset
+
+ can be derived from that distribution function by integration over the
+ velocity space:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\rho & =\int fd\boldsymbol{c}\\
+\rho\boldsymbol{u} & =\int f\boldsymbol{c}d\boldsymbol{c}\\
+\rho\varepsilon & =\frac{1}{2}\int(\boldsymbol{c}-\boldsymbol{u})^{2}fd\boldsymbol{c}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Those macroscopic quantities are called moments of the distribution function
+ 
+\begin_inset Formula $f(\boldsymbol{x},\boldsymbol{c},t)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+After discretization of 
+\begin_inset Formula $\boldsymbol{x}$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{c}$
+\end_inset
+
+ and 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\delta t$
+\end_inset
+
+ is the time step and 
+\begin_inset Formula $\tau$
+\end_inset
+
+ is the collision rate which is related to the collision time by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\tau=\frac{\lambda}{\delta t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The right-hand side represents the collision stage and often noted
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}^{\star}(\boldsymbol{x},t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Feq NS
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\rho\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the coefficient 
+\begin_inset Formula $c_{s}$
+\end_inset
+
+ is defined by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+c_{s}=\frac{1}{\sqrt{3}}\frac{\delta x}{\delta t}
+\]
+
+\end_inset
+
+and 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ are weights which depend on the lattice considered.
+\end_layout
+
+\begin_layout Subsection
+Lattice D2Q9
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{e}_{0}=\left(\begin{array}{c}
+0\\
+0
+\end{array}\right),\quad\boldsymbol{e}_{1}=\left(\begin{array}{c}
+1\\
+0
+\end{array}\right),\quad\boldsymbol{e}_{2}=\left(\begin{array}{c}
+0\\
+1
+\end{array}\right),\quad\boldsymbol{e}_{3}=\left(\begin{array}{c}
+-1\\
+0
+\end{array}\right),\quad\boldsymbol{e}_{4}=\left(\begin{array}{c}
+0\\
+-1
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{e}_{5}=\left(\begin{array}{c}
+1\\
+1
+\end{array}\right),\quad\boldsymbol{e}_{6}=\left(\begin{array}{c}
+-1\\
+1
+\end{array}\right),\quad\boldsymbol{e}_{7}=\left(\begin{array}{c}
+-1\\
+-1
+\end{array}\right),\quad\boldsymbol{e}_{8}=\left(\begin{array}{c}
+1\\
+-1
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Explicit algorithm
+\end_layout
+
+\begin_layout Enumerate
+Collision: 
+\begin_inset Formula $f_{i}(\boldsymbol{x},t)\rightarrow f_{i}^{\star}(\boldsymbol{x},t)$
+\end_inset
+
+ (right-hand side of Eq.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Streaming: 
+\begin_inset Formula $f_{i}^{\star}(\boldsymbol{x},t)\rightarrow f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)$
+\end_inset
+
+ (left-hand side)
+\end_layout
+
+\begin_layout Enumerate
+Updating the density and impulsion 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho(\boldsymbol{x},t)\boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Collision operators
+\end_layout
+
+\begin_layout Subsection
+BGK
+\end_layout
+
+\begin_layout Standard
+The BGK approximation is the simplest collision operator
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Omega_{i}^{BGK}(f_{i},f_{i}^{eq})=-\frac{1}{\tau}\left[f_{i}-f_{i}^{eq}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Its main advantage is its simplicity but 
+\end_layout
+
+\begin_layout Subsection
+TRT
+\end_layout
+
+\begin_layout Standard
+opposite directions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{c}_{\overline{i}}=-\boldsymbol{c}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+example on the standard D2Q9 lattice 
+\begin_inset Formula $\boldsymbol{c}_{\overline{1}}=-\boldsymbol{c}_{1}=\boldsymbol{c}_{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With that notation, the symmetric parts of 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{i}^{eq}$
+\end_inset
+
+ are defined by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}^{+}=\frac{f_{i}+f_{\overline{i}}}{2}\qquad\text{and}\qquad f_{i}^{eq+}=\frac{f_{i}^{eq}+f_{\overline{i}}^{eq}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the anti-symmetric part by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}^{-}=\frac{f_{i}-f_{\overline{i}}}{2}\qquad\text{and}\qquad f_{i}^{eq-}=\frac{f_{i}^{eq}-f_{\overline{i}}^{eq}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Two-Relaxation-Times collision operator considers the collision stage
+ with two relaxation parameters 
+\begin_inset Formula $\tau^{+}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau^{-}$
+\end_inset
+
+ acting on respectively the symmetric part and the anti-symmetric part.
+ The LBE writes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}-\frac{1}{\tau^{+}}\left[f_{i}^{+}-f_{i}^{eq+}\right]-\frac{1}{\tau^{-}}\left[f_{i}^{-}-f_{i}^{eq-}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Omega_{i}^{TRT}=-\frac{1}{\tau^{+}}\left[f_{i}^{+}-f_{i}^{eq+}\right]-\frac{1}{\tau^{-}}\left[f_{i}^{-}-f_{i}^{eq-}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When the equilibrium distribution function is defined such as the Navier-Stokes
+ equations are recovered, the kinematic viscosity is related to the parameter
+ 
+\begin_inset Formula $\tau^{-}$
+\end_inset
+
+ by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nu=c_{s}^{2}\left(\tau^{-}-\frac{1}{2}\right)\delta t
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the parameter 
+\begin_inset Formula $\tau^{+}$
+\end_inset
+
+ is a free paramater to tune to improve accuracy and stability.
+ In practice, the parameter 
+\begin_inset Formula $\Lambda$
+\end_inset
+
+ is often for that purpose:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Lambda=\left(\tau^{+}-\frac{1}{2}\right)\left(\tau^{-}-\frac{1}{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+MRT
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{cccccccccc}
+{\color{gray}\boldsymbol{e}_{0}} & {\color{gray}\boldsymbol{e}_{1}} & {\color{gray}\boldsymbol{e}_{2}} & {\color{gray}\boldsymbol{e}_{3}} & {\color{gray}\boldsymbol{e}_{4}} & {\color{gray}\boldsymbol{e}_{5}} & {\color{gray}\boldsymbol{e}_{6}} & {\color{gray}\boldsymbol{e}_{7}} & {\color{gray}\boldsymbol{e}_{8}}\\
+\left(\begin{array}{c}
+0\\
+0
+\end{array}\right) & \left(\begin{array}{c}
+1\\
+0
+\end{array}\right) & \left(\begin{array}{c}
+0\\
+1
+\end{array}\right) & \left(\begin{array}{c}
+-1\\
+0
+\end{array}\right) & \left(\begin{array}{c}
+0\\
+-1
+\end{array}\right) & \left(\begin{array}{c}
+1\\
+1
+\end{array}\right) & \left(\begin{array}{c}
+-1\\
+1
+\end{array}\right) & \left(\begin{array}{c}
+-1\\
+-1
+\end{array}\right) & \left(\begin{array}{c}
+1\\
+-1
+\end{array}\right) & \begin{array}{c}
+\leftarrow\boldsymbol{v}_{j_{x}}\\
+\leftarrow\boldsymbol{v}_{j_{y}}
+\end{array}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+LBE
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{f}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=\boldsymbol{f}(\boldsymbol{x},t)-\boldsymbol{M}^{-1}\boldsymbol{S}(\boldsymbol{x})\boldsymbol{M}\left[\boldsymbol{f}(\boldsymbol{x},t)-\boldsymbol{f}^{eq}(\boldsymbol{x},t)\right]+\boldsymbol{\mathcal{F}}\delta t
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+MRT coll ope
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{\Omega}^{MRT}=-\boldsymbol{M}^{-1}\boldsymbol{S}(\boldsymbol{x})\boldsymbol{M}\left[\boldsymbol{f}(\boldsymbol{x},t)-\boldsymbol{f}^{eq}(\boldsymbol{x},t)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\boldsymbol{M}$
+\end_inset
+
+ and 
+\begin_inset Formula $\boldsymbol{S}$
+\end_inset
+
+ are two invertible matrices of dim 
+\begin_inset Formula $(N_{pop}+1)\times(N_{pop}+1)$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size small
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+
+\size small
+\begin_inset Formula $\bullet$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\size footnotesize
+
+\begin_inset Formula $\boldsymbol{M}$
+\end_inset
+
+ represents a change of basis: 
+\begin_inset Quotes eld
+\end_inset
+
+space of distribution functions
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+space of moments
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+
+\size small
+\begin_inset Formula $\bullet$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\size footnotesize
+
+\begin_inset Formula $\boldsymbol{S}$
+\end_inset
+
+ contains the relaxation coefficients
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{f}(\boldsymbol{x},t)=\left(\begin{array}{c}
+f_{0}(\boldsymbol{x},t)\\
+f_{1}(\boldsymbol{x},t)\\
+\vdots\\
+f_{N_{pop}}(\boldsymbol{x},t)
+\end{array}\right),\quad\boldsymbol{f}^{eq}(\boldsymbol{x},t)=\left(\begin{array}{c}
+f_{0}^{eq}(\boldsymbol{x},t)\\
+f_{1}^{eq}(\boldsymbol{x},t)\\
+\vdots\\
+f_{N_{pop}}^{eq}(\boldsymbol{x},t)
+\end{array}\right),\quad\boldsymbol{\mathcal{F}}(\boldsymbol{x},t)=\left(\begin{array}{c}
+\mathcal{F}_{0}(\boldsymbol{x},t)\\
+\mathcal{F}_{1}(\boldsymbol{x},t)\\
+\vdots\\
+\mathcal{F}_{N_{pop}}(\boldsymbol{x},t)
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho=\sum_{i}f_{i}=\boldsymbol{v}_{\rho}\cdot\boldsymbol{f}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho u_{x}=\sum_{i}f_{i}c_{ix}=\boldsymbol{v}_{j_{x}}\cdot\boldsymbol{f}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho u_{y}=\sum_{i}f_{i}c_{iy}=\boldsymbol{v}_{j_{y}}\cdot\boldsymbol{f}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{v}_{\rho}=(1,1,1,1,1,1,1,1,1)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{v}_{j_{x}}=(0,1,0,-1,0,1,-1,-1,1)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{v}_{j_{y}}=(0,0,1,0,-1,1,1,-1,-1)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Moments
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{m}=\boldsymbol{M}\boldsymbol{f}\qquad\text{with }\boldsymbol{m}=(\rho,m_{1},m_{2},\rho u_{x},m_{4},\rho u_{y},m_{7},m_{8})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+where the matrix 
+\begin_inset Formula $\boldsymbol{M}$
+\end_inset
+
+ is built with orthogonal vectors 
+\begin_inset Formula $\boldsymbol{v}_{\rho}$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{v}_{j_{x}}$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{v}_{j_{y}}$
+\end_inset
+
+, 
+\begin_inset Formula $\ldots$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{v}_{N_{pop}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{M}=\left(\begin{array}{c}
+\boldsymbol{v}_{\rho}\\
+\boldsymbol{v}_{e}\\
+\boldsymbol{v}_{\epsilon}\\
+\boldsymbol{v}_{j_{x}}\\
+\boldsymbol{v}_{q_{x}}\\
+\boldsymbol{v}_{j_{y}}\\
+\boldsymbol{v}_{q_{y}}\\
+\boldsymbol{v}_{p_{xx}}\\
+\boldsymbol{v}_{p_{xy}}
+\end{array}\right)=\left(\begin{array}{ccccccccc}
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+-4 & -1 & -1 & -1 & -1 & 2 & 2 & 2 & 2\\
+4 & -2 & -2 & -2 & -2 & 1 & 1 & 1 & 1\\
+0 & 1 & 0 & -1 & 0 & 1 & -1 & -1 & 1\\
+0 & -2 & 0 & 2 & 0 & 1 & -1 & -1 & 1\\
+0 & 0 & 1 & 0 & -1 & 1 & 1 & -1 & -1\\
+0 & 0 & -2 & 0 & 2 & 1 & 1 & -1 & -1\\
+0 & 1 & -1 & 1 & -1 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 1 & -1 & 1 & -1
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{S}=\text{diag}(0,\omega_{e},\omega_{\epsilon},0,\omega_{q},0,\omega_{q},\omega_{\nu},\omega_{\nu})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{M}^{-1}=\left(\begin{array}{ccccccccc}
+\frac{1}{9} & -\frac{1}{9} & \frac{1}{9} & 0 & 0 & 0 & 0 & 0 & 0\\
+\frac{1}{9} & -\frac{1}{36} & -\frac{1}{18} & \frac{1}{6} & -\frac{1}{6} & 0 & 0 & \frac{1}{4} & 0\\
+\frac{1}{9} & -\frac{1}{36} & -\frac{1}{18} & 0 & 0 & \frac{1}{6} & -\frac{1}{6} & -\frac{1}{4} & 0\\
+\frac{1}{9} & -\frac{1}{36} & -\frac{1}{18} & -\frac{1}{6} & \frac{1}{6} & 0 & 0 & \frac{1}{4} & 0\\
+\frac{1}{9} & -\frac{1}{36} & -\frac{1}{18} & 0 & 0 & -\frac{1}{6} & \frac{1}{6} & -\frac{1}{4} & 0\\
+\frac{1}{9} & \frac{1}{18} & \frac{1}{36} & \frac{1}{6} & \frac{1}{12} & \frac{1}{6} & \frac{1}{12} & 0 & \frac{1}{4}\\
+\frac{1}{9} & \frac{1}{18} & \frac{1}{36} & -\frac{1}{6} & -\frac{1}{12} & \frac{1}{6} & \frac{1}{12} & 0 & -\frac{1}{4}\\
+\frac{1}{9} & \frac{1}{18} & \frac{1}{36} & -\frac{1}{6} & -\frac{1}{12} & -\frac{1}{6} & -\frac{1}{12} & 0 & \frac{1}{4}\\
+\frac{1}{9} & \frac{1}{18} & \frac{1}{36} & \frac{1}{6} & \frac{1}{12} & -\frac{1}{6} & -\frac{1}{12} & 0 & -\frac{1}{4}
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Equilibrium distribution functions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Incompressible Navier-Stokes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_{h}+\rho_{0}c_{s}^{2}\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{h}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{0}\boldsymbol{u}(\boldsymbol{x},t)=\frac{1}{c_{s}^{2}}\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Incompressible Navier-Stokes for two-phase flows
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{\nabla}\cdot\boldsymbol{u}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\varrho(\phi)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\eta(\boldsymbol{x},t)\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]+\boldsymbol{F}_{s}+\boldsymbol{F}_{g}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{F}_{s}=\mu_{\phi}\boldsymbol{\nabla}\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{F}_{g}=\varrho(\phi)\boldsymbol{g}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Version 1 for variable density
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_{h}+\varrho(\phi)c_{s}^{2}\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{h}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\varrho(\phi)\boldsymbol{u}(\boldsymbol{x},t)=\frac{1}{c_{s}^{2}}\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Equivalent macroscopic equations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial p_{h}}{\partial t}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)c_{s}^{2}\boldsymbol{u}\right]=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\varrho(\phi)\cancel{c_{s}^{2}}\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}\cancel{c_{s}^{2}}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\cancel{c_{s}^{2}}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\mathcal{O}(\rho u^{3})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nu=\frac{1}{3}\left(\tau-\frac{1}{2}\right)\frac{\delta x^{2}}{\delta t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Version 2 for variable density
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p^{\star}+\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p^{\star}=\frac{p_{h}}{\varrho(\phi)c_{s}^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Moments
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p^{\star}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial p^{\star}}{\partial t}+\boldsymbol{\nabla}\cdot\boldsymbol{u}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}(p^{\star}c_{s}^{2})+\boldsymbol{\nabla}\cdot\left[\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nu=\frac{1}{3}\left(\tau-\frac{1}{2}\right)\frac{\delta x^{2}}{\delta t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Force terms to add
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{F}_{p}=-\frac{p_{h}}{\varrho}\boldsymbol{\nabla}\varrho
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{F}_{v}=\nu\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]\cdot\boldsymbol{\nabla}\varrho(\phi)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Additional gradients
+\end_layout
+
+\begin_layout Subsection
+Gradients
+\end_layout
+
+\begin_layout Standard
+Directional derivative method:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla}\phi\bigr|_{\boldsymbol{x}}=\frac{1}{2\delta x}\left[\phi(\boldsymbol{x}+\boldsymbol{e}_{i}\delta x)-\phi(\boldsymbol{x}-\boldsymbol{e}_{i}\delta x)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{\nabla}\phi=\frac{1}{e^{2}}\sum_{i=0}^{N_{pop}}w_{i}\boldsymbol{e}_{i}\left(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla}\phi\bigr|_{\boldsymbol{x}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Laplacian
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla})^{2}\phi\bigr|_{\boldsymbol{x}}=\frac{1}{\delta x^{2}}\left[\phi(\boldsymbol{x}+\boldsymbol{e}_{i}\delta x)-2\phi(\boldsymbol{x})+\phi(\boldsymbol{x}-\boldsymbol{e}_{i}\delta x)\right]
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\boldsymbol{\nabla}^{2}\phi\bigr|_{\boldsymbol{x}}=3\sum_{i=0}^{N_{pop}}w_{i}(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla})^{2}\phi\bigr|_{\boldsymbol{x}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Equilibrium for transport equations
+\end_layout
+
+\begin_layout Subsection
+ADE with source term
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\partial_{t}\underbrace{\phi}_{\mathcal{M}_{0}}+\boldsymbol{\nabla}\cdot(\underbrace{\boldsymbol{u}\phi}_{\boldsymbol{\mathcal{M}}_{1}})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\boldsymbol{\nabla}\cdot(\underbrace{\phi\boldsymbol{I}}_{\boldsymbol{\mathcal{M}}_{2}})\Bigr]+\mathscr{S}_{\phi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathcal{M}_{0}$
+\end_inset
+
+: scalar (moment of order 0)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\boldsymbol{\mathcal{M}}_{1}$
+\end_inset
+
+: vector (moment of order 1)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\boldsymbol{\mathcal{M}}_{2}$
+\end_inset
+
+: tensor (moment of order 2)
+\end_layout
+
+\begin_layout Paragraph
+LBE
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=g_{i}(\boldsymbol{x},t)-\frac{1}{\tau_{g}+0.5}\left[g_{i}(\boldsymbol{x},t)-g_{i}^{eq}(\boldsymbol{x},t)\right]+\delta tw_{i}\mathscr{S}_{\phi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Equilibrium with source term
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g_{i}^{eq,ADE}(\boldsymbol{x},t)=w_{i}\phi\left[1+\frac{\boldsymbol{u}\cdot\boldsymbol{c}_{i}}{c_{s}^{2}}\right]=w_{i}\underbrace{\phi}_{\mathcal{M}_{0}\text{ and }\boldsymbol{\mathcal{M}}_{2}}+w_{i}\frac{(\overbrace{\boldsymbol{u}\phi}^{\boldsymbol{\mathcal{M}}_{1}})\cdot\boldsymbol{c}_{i}}{c_{s}^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Moment
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi=\sum_{i}g_{i}+\frac{\delta t}{2}\mathscr{S}_{\phi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Mobility
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+M_{\phi}=\tau_{g}c_{s}^{2}\delta t
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Cahn-Hilliard equation
+\end_layout
+
+\begin_layout Itemize
+PDE
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\partial_{t}\underbrace{\phi}_{\mathcal{M}_{0}}+\boldsymbol{\nabla}\cdot(\underbrace{\boldsymbol{u}\phi}_{\boldsymbol{\mathcal{M}}_{1}})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\boldsymbol{\nabla}\cdot(\underbrace{\mu_{\phi}\boldsymbol{I}}_{\boldsymbol{\mathcal{M}}_{2}})\Bigr]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mu_{\phi}=4H\phi(\phi-1)(\phi-1/2)-\zeta\underbrace{\boldsymbol{\nabla}^{2}\phi}_{\text{Laplacian}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Equilibrium
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g_{i}^{eq,\,CH}=\mathcal{A}_{i}(\phi,\,\mu_{\phi})+w_{i}\frac{\boldsymbol{c}_{i}\cdot(\overbrace{\boldsymbol{u}\phi}^{\boldsymbol{\mathcal{M}}_{1}})}{c_{s}^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathcal{A}_{i}(\phi,\,\mu_{\phi})=\begin{cases}
+\phi-3\mu_{\phi}(1-w_{0}) & \text{if }i=0\quad\mathcal{M}_{0}\\
+3w_{i}\mu_{\phi} & \text{if }i\neq0\quad\boldsymbol{\mathcal{M}}_{2}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Moment
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+M_{\phi}=\tau_{g}c_{s}^{2}\delta t,
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi=\sum_{i}g_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Conservative Allen-Cahn
+\end_layout
+
+\begin_layout Itemize
+PDE
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\partial_{t}\underbrace{\phi}_{\mathcal{M}_{0}}+\boldsymbol{\nabla}\cdot(\underbrace{\boldsymbol{u}\phi}_{\boldsymbol{\mathcal{M}}_{1}})+\boldsymbol{\nabla}\cdot\biggl[\underbrace{M_{\phi}\frac{4}{W}\phi(1-\phi)\boldsymbol{n}}_{\boldsymbol{j}_{ct}\equiv\boldsymbol{\mathcal{M}}_{1}}\biggr]=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\boldsymbol{\nabla}\cdot(\underbrace{\phi\boldsymbol{I}}_{\boldsymbol{\mathcal{M}}_{2}})\Bigr]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+First method: CAC equilibrium
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g_{i}^{eq}=g_{i}^{eq,ADE}+g_{i}^{eq,ct}\qquad\text{with }\begin{cases}
+g_{i}^{eq,ADE} & =w_{i}\phi+(\boldsymbol{u}\phi)\cdot\left(\frac{w_{i}\boldsymbol{c}_{i}}{c_{s}^{2}}\right)\\
+g_{i}^{eq,ct} & =\boldsymbol{j}_{ct}\cdot\left(\frac{w_{i}\boldsymbol{c}_{i}}{c_{s}^{2}}\right)
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g_{i}^{eq,CAC}(\boldsymbol{x},\,t)=\underbrace{w_{i}\phi\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}\right]}_{g_{i}^{eq,ADE}}+\underbrace{M_{\phi}\left[\frac{4}{W}\phi(1-\phi)\right]\boldsymbol{n}}_{\boldsymbol{j}_{ct}}\cdot\left(\frac{w_{i}\boldsymbol{c}_{i}}{c_{s}^{2}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Second method: ADE equilibrium and source term
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=g_{i}(\boldsymbol{x},t)-\frac{1}{\tau_{g}+1/2}\left[g_{i}(\boldsymbol{x},t)-\overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)\right]+\delta t\mathcal{G}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)=w_{i}\phi\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}\right]-\frac{\delta t}{2}\mathcal{G}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)=g_{i}^{eq,ADE}-\frac{\delta t}{2}\mathcal{G}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathcal{G}_{i}=\frac{4}{W}\phi(1-\phi)w_{i}\boldsymbol{c}_{i}\cdot\boldsymbol{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Moment
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi=\sum_{i}g_{i}+\frac{\delta t}{2}\mathcal{G}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+M_{\phi}=\tau_{g}c_{s}^{2}\delta t
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Analytical solution of Prosperetti
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+a(t)=\frac{4(1-4\beta)\nu^{2}k^{4}}{8(1-4\beta)\nu^{2}k^{4}+\omega_{0}^{2}}a_{0}\text{erfc}(\nu k^{2}t)^{1/2}+\sum_{i=1}^{4}\frac{z_{i}}{Z_{i}}\left(\frac{\omega_{0}^{2}a_{0}}{z_{i}^{2}-\nu k^{2}}-u_{0}\right)\times\exp[(z_{i}^{2}-\nu k^{2})t]\text{erfc}(z_{i}t^{1/2})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+z^{4}-4\beta(k^{2}\nu)^{1/2}z^{3}+2(1-6\beta)k^{2}\nu z^{2}+4(1-3\beta)(k^{2}\nu)^{3/2}z+(1-4\beta)\nu^{2}k^{4}+\omega_{0}^{2}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Z_{1}=(z_{2}-z_{1})(z_{3}-z_{1})(z_{4}-z_{1})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Z_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $Z_{3}$
+\end_inset
+
+, 
+\begin_inset Formula $Z_{4}$
+\end_inset
+
+ are obtained by circular permutation of indices.
+\end_layout
+
+\end_body
+\end_document

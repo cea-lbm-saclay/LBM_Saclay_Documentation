@@ -1,0 +1,79 @@
+%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[american]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsbsy}
+\usepackage{babel}
+\begin{document}
+
+\section{Mathematical model}
+
+In this model we are concerned with the diffusion of three components
+$A$, $B$ and $C$ of compositions $C_{A}$, $C_{B}$ and $C_{C}$.
+The compositions are conserved and the following relationship holds:
+
+\[
+C_{A}+C_{B}+C_{C}=1
+\]
+
+
+\subsection{Phase-field equation}
+
+\[
+\tau\frac{\partial\phi}{\partial t}=W^{2}\boldsymbol{\nabla}^{2}\phi-\omega_{dw}^{\prime}(\phi)-\lambda p^{\prime}(\phi)\Delta\omega(\boldsymbol{\mu})
+\]
+
+where $\tau$ is the relaxation time, $W$ is the interface width,
+$\omega_{dw}^{\prime}(\phi)$ is the derivative of the double-well
+potential with respect to $\phi$ which is defined by
+
+\[
+\omega_{dw}(\phi)=8\phi^{2}(1-\phi)^{2}
+\]
+$\lambda$ is the coupling parameter, $p^{\prime}(\phi)$ is the derivative
+of an interpolation function with respect to $\phi$:
+
+\[
+p(\phi)=\phi^{2}(3-2\phi)
+\]
+
+and $\Delta\omega(\boldsymbol{\mu})$ is defined by
+
+\[
+\Delta\omega(\boldsymbol{\mu})=
+\]
+
+Let us notice that the parameters $\tau$ can be expressed by thermodynamic
+properties (height of double-well and coefficient of proportionnality
+in factor of $\delta\Omega/\delta\phi$). Finally in the ``.ini``
+input file, the usual parameters $W$ and $M_{\phi}$ are set.
+
+\section{Compositions equations}
+
+\[
+\frac{\partial C_{A}}{\partial t}=\boldsymbol{\nabla}\cdot\left[D_{A}(\phi)C_{A}\boldsymbol{\nabla}\mu_{A}\right]
+\]
+
+\[
+\frac{\partial C_{B}}{\partial t}=\boldsymbol{\nabla}\cdot\left[D_{B}(\phi)C_{B}\boldsymbol{\nabla}\mu_{B}\right]
+\]
+
+The last composition is obtained by Eq. 
+
+\[
+C_{C}=1-C_{A}-C_{B}
+\]
+
+
+\subsection{Chemical potential}
+
+\[
+\mu_{A}=\log\left[\frac{C_{A}}{\phi e^{-\epsilon_{A}^{l}}+(1-\phi)e^{-\epsilon_{A}^{s}}}\right]
+\]
+
+\[
+\mu_{B}=\log\left[\frac{C_{B}}{\phi e^{-\epsilon_{B}^{l}}+(1-\phi)e^{-\epsilon_{B}^{s}}}\right]
+\]
+
+\end{document}

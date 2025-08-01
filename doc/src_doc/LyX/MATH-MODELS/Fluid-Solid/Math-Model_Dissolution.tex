@@ -1,0 +1,44 @@
+%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[american]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{mathrsfs}
+\usepackage{amsbsy}
+\usepackage{babel}
+\begin{document}
+
+\section{Mathematical model}
+
+\subsection{Phase-field equation}
+
+\[
+\frac{\partial\phi}{\partial t}=M_{\phi}\boldsymbol{\nabla}^{2}\phi-\frac{M_{\phi}}{W^{2}}2\phi(1-\phi)(1-2\phi)+\frac{\lambda M_{\phi}}{W^{2}}\mathscr{S}_{\phi}(\phi,\,\overline{\mu})
+\]
+
+
+\subsection{Source term}
+
+\[
+\mathscr{S}_{\phi}(\phi,\,\overline{\mu})=6\phi(1-\phi)(c_{s}^{eq}-c_{l}^{eq})(\overline{\mu}-\overline{\mu}^{eq})
+\]
+
+Diffusion equation
+
+\[
+\frac{\partial c}{\partial t}=\boldsymbol{\nabla}\cdot\left[D_{l}\phi\boldsymbol{\nabla}\overline{\mu}-\boldsymbol{j}_{at}(\phi,\,\overline{\mu})\right]
+\]
+
+Chemical potential
+
+\[
+\overline{\mu}=\overline{\mu}^{eq}+c(\phi,\,\overline{\mu})-\left[c_{l}^{eq}\phi+c_{s}^{eq}\left(1-\phi\right)\right]
+\]
+
+Anti-trapping current
+
+\[
+\boldsymbol{j}_{at}=\frac{1}{4}W(c_{s}^{eq}-c_{l}^{eq})\frac{\partial\phi}{\partial t}\boldsymbol{n}
+\]
+
+\end{document}

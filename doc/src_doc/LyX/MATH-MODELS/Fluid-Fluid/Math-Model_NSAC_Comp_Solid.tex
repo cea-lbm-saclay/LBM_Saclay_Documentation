@@ -1,0 +1,100 @@
+%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[american]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{mathrsfs}
+\usepackage{amsbsy}
+\usepackage{babel}
+\begin{document}
+
+\section{Mathematical model}
+
+\section{Phase-field equation with a Lagrange multiplier}
+
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\biggl\{ M_{\phi}\left[\boldsymbol{\nabla}\phi-\frac{4}{W_{\phi}}\phi(1-\phi)\boldsymbol{n}_{\phi}+\boldsymbol{\mathscr{L}}(\phi,\varphi,\psi)\right]\biggr\}
+\]
+
+
+\section{Advection of $\psi$}
+
+\[
+\frac{\partial\psi}{\partial t}+\boldsymbol{u}_{s}\cdot\boldsymbol{\nabla}\psi=0
+\]
+
+
+\section{Closure}
+
+\[
+\varphi=1-\phi-\psi
+\]
+
+
+\section{Def of Lagrange multiplier}
+
+\[
+\mathscr{L}(\phi,\varphi,\psi)=\frac{1}{2}\left[\frac{4}{W_{\psi}}\psi(1-\psi)\boldsymbol{n}_{\psi}+\frac{4}{W_{\phi}}\phi(1-\phi)\boldsymbol{n}_{\phi}+\frac{4}{W_{\varphi}}\varphi(1-\varphi)\boldsymbol{n}_{\varphi}\right]
+\]
+
+
+\section{Def of normal}
+
+\[
+\boldsymbol{n}_{f}=\frac{\boldsymbol{\nabla}f}{\bigl|\boldsymbol{\nabla}f\bigr|}
+\]
+
+where ($f=\psi,\phi,\varphi$)
+
+\section{Navier-Stokes equations with solid phase}
+
+\[
+\boldsymbol{\nabla}\cdot\boldsymbol{v}=-\boldsymbol{u}_{s}\cdot\boldsymbol{\nabla}\psi
+\]
+
+\[
+\varrho\left[\frac{\partial\boldsymbol{v}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{v}\boldsymbol{u})\right]=-(1-\psi)\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\eta\left(\boldsymbol{\nabla}\boldsymbol{v}+(\boldsymbol{\nabla}\boldsymbol{v})^{T}\right)\right]+(1-\psi)\boldsymbol{F}_{tot}
+\]
+
+\[
+\boldsymbol{v}=(1-\psi)\boldsymbol{u}
+\]
+
+
+\subsection{Interpolations}
+
+\[
+\varrho=\phi\rho_{l}+\varphi\rho_{g}+\psi\rho_{s}
+\]
+
+\[
+\frac{1}{\eta}=\frac{\phi}{\eta_{l}}+\frac{(1-\phi)}{\eta_{g}}
+\]
+
+
+\subsection{Forces}
+
+\[
+\boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}
+\]
+
+\[
+\boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi+\mu_{\varphi}\boldsymbol{\nabla}\varphi+\mu_{\psi}\boldsymbol{\nabla}\psi
+\]
+
+\[
+\boldsymbol{F}_{g}=\varrho(\boldsymbol{\phi})\boldsymbol{g}
+\]
+where $\boldsymbol{\phi}=(\phi_{0},\phi_{1},\phi_{2})$ and we have
+introduced the notations $\phi_{0}\equiv\varphi$, $\phi_{1}\equiv\phi$
+and $\phi_{2}\equiv\psi$. With those notations:
+
+\[
+\mu_{\phi_{k}}(\boldsymbol{x},t)=\frac{4\gamma_{T}}{W}\sum_{\ell\neq k}\left[\frac{1}{\gamma_{\ell}}\left(\frac{\partial f_{dw}}{\partial\phi_{k}}-\frac{\partial f_{dw}}{\partial\phi_{\ell}}\right)\right]-\frac{3}{4}W\gamma_{k}\boldsymbol{\nabla}^{2}\phi_{k}
+\]
+
+\[
+\frac{3}{\gamma_{T}}=\sum_{k}\frac{1}{\gamma_{k}}\qquad(e.g.\,\gamma_{1}=\sigma_{10}+\sigma_{12}-\sigma_{20})
+\]
+
+\end{document}

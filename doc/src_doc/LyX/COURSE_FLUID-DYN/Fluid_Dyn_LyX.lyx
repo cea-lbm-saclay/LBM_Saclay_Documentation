@@ -1,0 +1,649 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Fluid dynamics
+\end_layout
+
+\begin_layout Standard
+The Mach number is defined by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Ma=\frac{\bigl|\boldsymbol{u}\bigr|}{c_{s}}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)$
+\end_inset
+
+ is the fluid velocity and 
+\begin_inset Formula $c_{s}$
+\end_inset
+
+ is the sound speed.
+ At 20°C the sound speed is 344 m/s (1240 km/h) in air and 1500 m/s (5400
+ km/h) in water.
+\end_layout
+
+\begin_layout Standard
+In the rest of this section, two popular models of Navier-Stokes equations
+ are detailed for 
+\begin_inset Formula $Ma\ll1$
+\end_inset
+
+.
+ The first one is the 
+\begin_inset Quotes eld
+\end_inset
+
+low Mach model
+\begin_inset Quotes erd
+\end_inset
+
+ and the second one is the incompressible model.
+\end_layout
+
+\begin_layout Subsection
+Low Mach Navier-Stokes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\partial_{t}\rho+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\partial_{t}(\rho\boldsymbol{u})+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}p+\boldsymbol{\nabla}\cdot\left[\eta(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})+\left(\eta_{B}-\frac{2}{3}\eta\right)(\boldsymbol{\nabla}\cdot\boldsymbol{u})\boldsymbol{I}\right]+\boldsymbol{F}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\rho\equiv\rho(\boldsymbol{x},t)$
+\end_inset
+
+ is the fluid density, 
+\begin_inset Formula $\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)$
+\end_inset
+
+ is the fluid velocity, 
+\begin_inset Formula $p\equiv p(\boldsymbol{x},t)$
+\end_inset
+
+ is the pressure, 
+\begin_inset Formula $\eta=\rho\nu$
+\end_inset
+
+ is the dynamic viscosity and 
+\begin_inset Formula $\nu$
+\end_inset
+
+ is the kinematic viscosity, 
+\begin_inset Formula $\eta_{B}$
+\end_inset
+
+ is the bulk viscosity and 
+\begin_inset Formula $\boldsymbol{I}$
+\end_inset
+
+ is the identity tensor.
+ In Eq.
+ :eq:`Impulsion_Balance`, 
+\begin_inset Formula $\boldsymbol{F}$
+\end_inset
+
+ is the force term and for isothermal fluid, the system is closed by the
+ Equation of State (EoS)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p=\rho RT_{0}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ is the constant temperature and 
+\begin_inset Formula $R$
+\end_inset
+
+ the specific gas constant.
+\end_layout
+
+\begin_layout Subsection
+Incompressible Navier-Stokes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{\nabla}\cdot\boldsymbol{u}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{0}\left[\partial_{t}\boldsymbol{u}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\rho_{0}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\boldsymbol{F}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $p_{h}(\boldsymbol{x},t)$
+\end_inset
+
+ is the hydrodynamic pressure and 
+\begin_inset Formula $\rho_{0}$
+\end_inset
+
+ is the constant density.
+\end_layout
+
+\begin_layout Subsection
+Boundary Conditions (BC)
+\end_layout
+
+\begin_layout Standard
+Dirichlet BC
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{u}(\boldsymbol{x}_{b},t)=\boldsymbol{U}_{b}(\boldsymbol{x}_{b},t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+(\boldsymbol{u}-\boldsymbol{U}_{b})\cdot\boldsymbol{n}_{w}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+(\boldsymbol{u}-\boldsymbol{U}_{b})\cdot\boldsymbol{t}_{w}=0\qquad\text{(no-slip)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\boldsymbol{n}_{w}$
+\end_inset
+
+ is normal boundary vector and 
+\begin_inset Formula $\boldsymbol{t}_{w}$
+\end_inset
+
+ tangential boundary vector (
+\begin_inset Formula $w$
+\end_inset
+
+: wall)
+\end_layout
+
+\begin_layout Standard
+Neumann BC
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{n}_{w}\cdot\boldsymbol{\sigma}(\boldsymbol{x}_{b},t)=\boldsymbol{T}_{b}(\boldsymbol{x}_{b},t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Advection-Diffusion equations
+\end_layout
+
+\begin_layout Subsection
+Levelset or phase-field equations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right)\right]
+\]
+
+\end_inset
+
+where the unknown is the phase-field 
+\begin_inset Formula $\phi\equiv\phi(\boldsymbol{x},t)$
+\end_inset
+
+ and the inputs are the fluid velocity 
+\begin_inset Formula $\boldsymbol{u}$
+\end_inset
+
+ and two parameters: the interface mobility 
+\begin_inset Formula $M_{\phi}$
+\end_inset
+
+ and the interface width 
+\begin_inset Formula $W$
+\end_inset
+
+.
+ The unit normal vector of interface is defined by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{n}\equiv\boldsymbol{n}(\boldsymbol{x},t)=\frac{\boldsymbol{\nabla}\phi}{\bigl|\boldsymbol{\nabla}\phi\bigr|}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Advection-Diffusion Equation (ADE)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C_{p}\frac{\partial T}{\partial t}+\boldsymbol{\nabla}\cdot(T\boldsymbol{u})=\boldsymbol{\nabla}\cdot(\kappa\boldsymbol{\nabla}T)+\mathscr{S}_{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the unknown is the temperature 
+\begin_inset Formula $T\equiv T(\boldsymbol{x},t)$
+\end_inset
+
+ and the inputs are the fluid velocity 
+\begin_inset Formula $\boldsymbol{u}$
+\end_inset
+
+ and two parameters: the thermal conductivity 
+\begin_inset Formula $\kappa$
+\end_inset
+
+ and the specific heat 
+\begin_inset Formula $C_{p}$
+\end_inset
+
+.
+ A source term 
+\begin_inset Formula $\mathscr{S}_{T}$
+\end_inset
+
+ can be defined for phase change problems.
+\end_layout
+
+\begin_layout Subsection
+Boundary conditions
+\end_layout
+
+\begin_layout Standard
+A generic formulation of bounday conditions for ADE writes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+a_{1}\left.\frac{\partial f}{\partial n}\right|_{\boldsymbol{x}_{b},t}+a_{2}f(\boldsymbol{x}_{b},t)=a_{3}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $f$
+\end_inset
+
+ is the differentiable function (here 
+\begin_inset Formula $\phi$
+\end_inset
+
+ or 
+\begin_inset Formula $T$
+\end_inset
+
+), and 
+\begin_inset Formula $a_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $a_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $a_{3}$
+\end_inset
+
+ three scalar values.
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size small
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $a_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dirichlet
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Neumann
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Robin
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+–
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Quotes eld
+\end_inset
+
+–
+\begin_inset Quotes erd
+\end_inset
+
+ means non zero value
+\end_layout
+
+\end_body
+\end_document
