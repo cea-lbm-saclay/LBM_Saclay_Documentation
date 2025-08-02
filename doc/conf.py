@@ -45,6 +45,7 @@ extensions = [
     'sphinx_rtd_theme',
     'myst_parser',
     'sphinx_pdf_generate',
+    'sphinx_design',
     'sphinxcontrib.bibtex'
 ]
 bibtex_default_style = 'plain'
