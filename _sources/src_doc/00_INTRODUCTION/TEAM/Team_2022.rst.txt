@@ -1,0 +1,24 @@
+.. raw:: html
+
+    <style> .blue {color:blue} </style>
+
+.. role:: blue
+
+.. raw:: html
+
+    <style> .red {color:red} </style>
+
+.. role:: red
+
+TEAM 2022
+---------
+
+* Téo BOUTIN
+* Alain CARTALADE
+* Hugo de GIETER
+* Alain GENTY
+* Pierre KESTENER
+* Capucine MÉJANÈS
+* Evangelos STAVROPOULOS-VASILAKIS
+* Werner VERDIER
+
