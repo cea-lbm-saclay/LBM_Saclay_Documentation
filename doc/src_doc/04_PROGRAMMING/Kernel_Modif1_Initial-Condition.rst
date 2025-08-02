@@ -19,119 +19,125 @@ where :math:`r_0` is bubble radius and the distance :math:`d_0` is defined by
 
 where :math:`\boldsymbol{x}_0=(x_0,y_0,z_0)` is the center position of the bubble and :math:`\boldsymbol{x}=(x,y,z)` is one particular node on the mesh.
 
-File ``Models_NS_AC_Comp.h``
-""""""""""""""""""""""""""""
+Implement your initial condition
+""""""""""""""""""""""""""""""""
 
-Edit the file with command:
+You must modify three files which are in the folder: ``Models_NS_AC_Comp.h``, ``LBMScheme_NS_AC_Comp.h`` and ``LBM_enums.h``.
 
-.. code-block:: shell
+.. tab-set::
 
-   $ cd LBM_Saclay_Rech-Dev/src/kernels/NSAC_Comp
-   $ geany Models_NS_AC_Comp.h
+   .. tab-item:: File ``Models_NS_AC_Comp.h``
 
-1. Read the input parameters
+      Edit the file with command:
 
-   In this file, the input parameters :math:`r_0`, :math:`x_0,y_0,z_0` must be read from the ``.ini`` file. Add e.g. between lines 97 and 206
+         .. code-block:: shell
 
-   .. code-block:: ruby
+            $ cd LBM_Saclay_Rech-Dev/src/kernels/NSAC_Comp
+            $ geany Models_NS_AC_Comp.h
 
-      ModelParams(const ConfigMap &configMap, LBMParams params) {
-      ...
-      ...
-      x0 = configMap.getFloat  ("init", "x0", 0.0);
-      y0 = configMap.getFloat  ("init", "y0", 0.0);
-      z0 = configMap.getFloat  ("init", "z0", 0.0);
-      r0 = configMap.getFloat  ("init", "r0", 0.2);
+      1. Read the input parameters
 
-   The first line means that ``x0`` must be read as a real in section ``[init]``. If the line does not exist in the input file, then its value is ``0``.
+         In this file, the input parameters :math:`r_0`, :math:`x_0,y_0,z_0` must be read from the ``.ini`` file. Add e.g. between lines 97 and 206
 
-2. Declare them (between lines 309 and 341)
+         .. code-block:: ruby
 
-   .. code-block:: ruby
+            ModelParams(const ConfigMap &configMap, LBMParams params) {
+            ...
+            ...
+            x0 = configMap.getFloat  ("init", "x0", 0.0);
+            y0 = configMap.getFloat  ("init", "y0", 0.0);
+            z0 = configMap.getFloat  ("init", "z0", 0.0);
+            r0 = configMap.getFloat  ("init", "r0", 0.2);
 
-      ModelParams(const ConfigMap &configMap, LBMParams params) {
-      ...
-      ...
+         The first line means that ``x0`` must be read as a real in section ``[init]``. If the line does not exist in the input file, then its value is ``0``.
 
-      real_t x0, y0, z0, r0 ;
+      2. Declare them (between lines 309 and 341)
 
-3. Add a new keyword for that initial condition (e.g. between lines 234 and 271)
+         .. code-block:: ruby
 
-   .. code-block:: ruby
+            ModelParams(const ConfigMap &configMap, LBMParams params) {
+            ...
+            ...
 
-      else if (initTypeStr == "sphere")
-         initType = PHASE_FIELD_INIT_SPHERE;
+            real_t x0, y0, z0, r0 ;
 
-   The keyword ``sphere`` has to appear in the ``.ini`` file. The keyword ``PHASE_FIELD_INIT_SPHERE`` must be added in the list of enumerations (see below file ``LBM_enums.h``).
+      3. Add a new keyword for that initial condition (e.g. between lines 234 and 271)
 
-4. Definition of hyperbolic tangent function (line 349)
+         .. code-block:: ruby
 
-   .. code-block:: ruby
+            else if (initTypeStr == "sphere")
+               initType = PHASE_FIELD_INIT_SPHERE;
 
-      KOKKOS_INLINE_FUNCTION real_t phi0(real_t x) const {
-         return 0.5 * (1 + tanh(sign * 2.0 * x / W));
-      }
+         The keyword ``sphere`` has to appear in the ``.ini`` file. The keyword ``PHASE_FIELD_INIT_SPHERE`` must be added in the list of enumerations (see below file ``LBM_enums.h``).
 
-   The function ``phi0`` implements the hyperbolic tangent function. It is defined in class ``Model``.
+      4. Definition of hyperbolic tangent function (line 349)
 
-File ``LBMScheme_NS_AC_Comp.h``
-"""""""""""""""""""""""""""""""
+         .. code-block:: ruby
 
-Eq. :eq:`Init_sphere` is implemented in file ``LBMScheme_NS_AC_Comp.h``:
+            KOKKOS_INLINE_FUNCTION real_t phi0(real_t x) const {
+               return 0.5 * (1 + tanh(sign * 2.0 * x / W));
+            }
 
-.. code-block:: shell
+         The function ``phi0`` implements the hyperbolic tangent function. It is defined in class ``Model``.
 
-   $ cd LBM_Saclay_Rech-Dev/src/kernels/NSAC_Comp
-   $ geany LBMScheme_NS_AC_Comp.h
+   .. tab-item:: File ``LBMScheme_NS_AC_Comp.h``
 
-1. The initializations of macroscopic fields are performed in the function (line 1024):
+      Eq. :eq:`Init_sphere` is implemented in file ``LBMScheme_NS_AC_Comp.h``:
 
-   .. code-block:: JSON
+         .. code-block:: shell
 
-      KOKKOS_INLINE_FUNCTION
-      void init_macro(IVect<dim> IJK, RANDOM_POOL::generator_type rand_gen) const {
-      ...
-      }
+            $ cd LBM_Saclay_Rech-Dev/src/kernels/NSAC_Comp
+            $ geany LBMScheme_NS_AC_Comp.h
 
-   In that function, the following lines implement :math:`r_0-d_0` for 2D or 3D cases:
+      1. The initializations of macroscopic fields are performed in the function (line 1024):
 
-   .. code-block:: ruby
+         .. code-block:: JSON
 
-      else if (Model.initType == PHASE_FIELD_INIT_SPHERE) {
-	   if (dim == 2) {
-	      xphi = (Model.r0 - sqrt(SQR(x - Model.x0) + SQR(y - Model.y0)));
-	   }
-	   else if (dim == 3) {
-	      xphi = (Model.r0 - sqrt(SQR(x - Model.x0) + SQR(y - Model.y0) + SQR(z - Model.z0)));
-	   }
-	      xc = xphi ;
-	   }
+            KOKKOS_INLINE_FUNCTION
+            void init_macro(IVect<dim> IJK, RANDOM_POOL::generator_type rand_gen) const {
+               ...
+            }
 
-2. Once :math:`r_0-d_0` is defined (``xphi``), the hyperbolic tangent function is applied (line 1420)
+         In that function, the following lines implement :math:`r_0-d_0` for 2D or 3D cases:
 
-   .. code-block:: ruby
+         .. code-block:: ruby
 
-      phi = Model.phi0(xphi);
+            else if (Model.initType == PHASE_FIELD_INIT_SPHERE) {
+	         if (dim == 2) {
+	            xphi = (Model.r0 - sqrt(SQR(x - Model.x0) + SQR(y - Model.y0)));
+	         }
+	         else if (dim == 3) {
+	            xphi = (Model.r0 - sqrt(SQR(x - Model.x0) + SQR(y - Model.y0) + SQR(z - Model.z0)));
+	         }
+	            xc = xphi ;
+	         }
 
+      2. Once :math:`r_0-d_0` is defined (``xphi``), the hyperbolic tangent function is applied (line 1420)
 
-File ``LBM_enums.h``
-""""""""""""""""""""
+         .. code-block:: ruby
 
-Edit file ``LBM_enums.h``
+            phi = Model.phi0(xphi);
 
-.. code-block:: shell
+   .. tab-item:: File ``LBM_enums.h``
 
-   $ cd LBM_Saclay_Rech-Dev/src
-   $ geany LBM_enums.h
+      Edit file ``LBM_enums.h``
 
-1. Add the keyword ``PHASE_FIELD_INIT_SPHERE`` in the list of enumeration (line 111)
+      .. code-block:: shell
 
-   .. code-block:: ruby
+         $ cd LBM_Saclay_Rech-Dev/src
+         $ geany LBM_enums.h
 
-      enum PhaseFieldInit {
-         ...
+      1. Add the keyword ``PHASE_FIELD_INIT_SPHERE`` in the list of enumeration (line 111)
 
-         PHASE_FIELD_INIT_SPHERE,
+         .. code-block:: ruby
+
+            enum PhaseFieldInit {
+               ...
+
+               PHASE_FIELD_INIT_SPHERE,
+
+Compile, modify your ``.ini`` file and check
+""""""""""""""""""""""""""""""""""""""""""""
 
 
 .. sectionauthor:: Alain Cartalade

@@ -3,18 +3,20 @@
 Quick Start with LBM_Saclay
 ===========================
 
-.. admonition:: Shared directories for DM2S/STMF users
-   :class: important
+.. only:: titania
 
-   TITANIA: two main LBM directories exist
+   .. admonition:: Shared directories for DM2S/STMF users
+      :class: important
+
+      TITANIA: two main LBM directories exist
    
-      - ``/tmpformation/LBM_Saclay``: free access. You will find the ``html`` version of that documentation; the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
+         - ``/tmpformation/LBM_Saclay``: free access. You will find the ``html`` version of that documentation; the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
 
-      - ``/home/lbm-saclay``: shared directory for R&D contributors of LBM_Saclay. Send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr`` to get access.
+         - ``/home/lbm-saclay``: shared directory for R&D contributors of LBM_Saclay. Send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr`` to get access.
 
-   ORCUS: one shared directory exists
+      ORCUS: one shared directory exists
 
-      - ``/tmpformation/LBM_Saclay``: free access. Several versions of LBM_Saclay are already compiled on GPU partitions of ORCUS. You can go directly to :ref:`Simulations-GPU`.
+         - ``/tmpformation/LBM_Saclay``: free access. Several versions of LBM_Saclay are already compiled on GPU partitions of ORCUS. You can go directly to :ref:`Simulations-GPU`.
 
 1. Open LBM_Saclay's documentation
 ----------------------------------

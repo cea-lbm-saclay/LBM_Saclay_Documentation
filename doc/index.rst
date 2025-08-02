@@ -57,9 +57,11 @@ Welcome to LBM_Saclay's documentation
 
    - For hydrodynamic phenomena of two immiscible fluids such as *Rayleigh-Taylor instability*, *rising bubbles*, *splashing droplets*, *capillary wave* etc., the interface is captured by the Conservative Allen-Cahn model (or levelset equation) which coupled with incompressible Navier-Stokes equations.
    
-   - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation.
+   - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation. You will find in this documentation :ref:`Basic-Concepts-Phase-Field-Theory`.
 
-   You will find in this documentation :ref:`Basic-Concepts-Phase-Field-Theory`. A complete presentation can be found in :download:`CEA INSTN Course of two-phase flows with phase-field models <./src_doc/05_COURSES/Course_PF/CEA-INSTN_TwoPhase_with_Phase-Field.pdf>`. In this course, basic of thermodynamics, free energy functional, derivation of constitutive laws, and all proofs of equivalence between potential form and conservative forms of surface tension force, etc.
+   .. only:: titania
+   
+      - A complete presentation can be found in :download:`CEA INSTN Course of two-phase flows with phase-field models <file:///home/lbm-saclay/PRESENTATIONS-LBM/COURSE-TRAINING/2025_Cartalade_COURS-INSTN_CFD-DIPHASIQUE_PARTIE1C_16et17juin2025_MAP.pdf>`. In this course, basic of thermodynamics, free energy functional, derivation of constitutive laws, and all proofs of equivalence between potential form and conservative forms of surface tension force, etc.
 
 .. admonition:: Numerical schemes: Lattice Boltzmann Methods
 
