@@ -1,0 +1,24 @@
+.. raw:: html
+
+    <style> .blue {color:blue} </style>
+
+.. role:: blue
+
+.. raw:: html
+
+    <style> .red {color:red} </style>
+
+.. role:: red
+
+TEAM 2023
+---------
+
+* Téo BOUTIN
+* Alain CARTALADE
+* Théo DUEZ
+* Chaïma ELHARTI
+* Alain GENTY
+* Pierre KESTENER
+* Hoel KERAUDREN
+* Capucine MÉJANÈS
+
