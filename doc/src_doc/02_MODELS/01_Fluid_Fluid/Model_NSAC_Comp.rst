@@ -75,67 +75,30 @@ The mathematical model is composed of incompressible Navier-Stokes equations cou
 Force and source terms
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Several forces are defined in ``NSAC_Comp`` kernel.
 
-**Total force**
 
-The total force :math:`\boldsymbol{F}_{tot}` in Eq. :eq:`Impulsion_Balance` is defined by
+.. admonition:: Total force
+   :class: caution
 
-.. math::
-   :label: Force_Total
+   Several forces are defined in ``NSAC_Comp`` kernel.
+
+   .. grid:: 2
+      :gutter: 4
+      :margin: 3 3 0 5
+
+      .. grid-item-card:: Total force
+
+         The total force :math:`\boldsymbol{F}_{tot}` in Eq. :eq:`Impulsion_Balance` is defined by
+
+         .. math::
+            :label: Force_Total
    
-   \boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}+\boldsymbol{F}_{M}
-   
-where :math:`\boldsymbol{F}_{c}` is the capillary force, :math:`\boldsymbol{F}_{g}` is the gravity force and :math:`\boldsymbol{F}_{M}` is the Marangoni force. They are detailed below.
+            \boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}+\boldsymbol{F}_{M}
 
-.. container:: sphinx-features
-
-   .. admonition:: Capillary force
-      :class: hint
-
-      The capillary force :math:`\boldsymbol{F}_{c}` is defined by
-
-      .. math::
-         :label: Force_Capillary
-   
-         \boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi
-
-      where the chemical potential :math:`\mu_{\phi}` is defined by
-
-      .. math::
-         :label: pot_chem_phi
-   
-         \mu_{\phi}=\frac{3}{2}\sigma\left[\frac{16}{W}\phi(1-\phi)(1-2\phi)-W\boldsymbol{\nabla}^{2}\phi\right]
-
-      :math:`\sigma` is the surface tension and :math:`W` is the interface width.
-
-   :math:`\hspace{5mm}`
-      
-   .. admonition:: Marangoni force
-      :class: hint
-
-      The Marangoni force :math:`\boldsymbol{F}_{M}` is a surfacic gradient of :math:`\sigma(c)` defined by 
-
-      .. math::
-         :label: Force_Marangoni
-   
-         \boldsymbol{F}_{M}=\frac{3W}{2}\left[\boldsymbol{\nabla}\sigma|\boldsymbol{\nabla}\phi|^{2}-\boldsymbol{\nabla}\phi(\boldsymbol{\nabla}\phi\cdot\boldsymbol{\nabla}\sigma)\right]
-
-      .. math::
-         :label: Sigma_c
-   
-         \sigma(c)=\sigma_{ref}+\frac{d\sigma}{dc}(c-c_{ref})
-
-      .. math::
-         :label: ds_dc
-   
-         \frac{d\sigma}{dc}=\sigma_{c}<0
+         where :math:`\boldsymbol{F}_{c}` is the capillary force, :math:`\boldsymbol{F}_{g}` is the gravity force and :math:`\boldsymbol{F}_{M}` is the Marangoni force.
 
 
-   .. container:: sphinx-features
-
-      .. admonition:: Gravity force
-         :class: hint
+      .. grid-item-card:: Gravity force
 
          The gravity force :math:`\boldsymbol{F}_{g}` is defined by
 
@@ -145,6 +108,55 @@ where :math:`\boldsymbol{F}_{c}` is the capillary force, :math:`\boldsymbol{F}_{
             \boldsymbol{F}_{g}=\varrho(\phi,c)\boldsymbol{g}
 
          where :math:`\varrho(\phi,c)` is an interpolation of bulk densities by Eq. :eq:`Density_Total_Surf`
+   
+   
+   .. grid:: 2
+      :gutter: 4
+      :margin: 3 3 0 5
+
+      .. grid-item-card:: Capillary force
+
+         The capillary force :math:`\boldsymbol{F}_{c}` is defined by
+
+         .. math::
+            :label: Force_Capillary
+   
+            \boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi
+
+         where the chemical potential :math:`\mu_{\phi}` is defined by
+
+         .. math::
+            :label: pot_chem_phi
+   
+            \mu_{\phi}=\frac{3}{2}\sigma\left[\frac{16}{W}\phi(1-\phi)(1-2\phi)-W\boldsymbol{\nabla}^{2}\phi\right]
+
+         :math:`\sigma` is the surface tension and :math:`W` is the interface width.
+      
+      .. grid-item-card:: Marangoni force
+
+         The Marangoni force :math:`\boldsymbol{F}_{M}` is a surfacic gradient of :math:`\sigma(c)` defined by 
+
+         .. math::
+            :label: Force_Marangoni
+   
+            \boldsymbol{F}_{M}=\frac{3W}{2}\left[\boldsymbol{\nabla}\sigma|\boldsymbol{\nabla}\phi|^{2}-\boldsymbol{\nabla}\phi(\boldsymbol{\nabla}\phi\cdot\boldsymbol{\nabla}\sigma)\right]
+
+         .. math::
+            :label: Sigma_c
+   
+            \sigma(c)=\sigma_{ref}+\frac{d\sigma}{dc}(c-c_{ref})
+
+         .. math::
+            :label: ds_dc
+   
+            \frac{d\sigma}{dc}=\sigma_{c}<0
+
+
+   .. grid:: 1
+
+      .. div:: sd-text-center
+
+         
 
 **Source term of Eq.** :eq:`CAC_Equation`
 

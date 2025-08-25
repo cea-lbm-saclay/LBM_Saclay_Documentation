@@ -150,3 +150,5 @@ with
 .. math::
 
    W=\frac{1}{\phi^{\star}}\sqrt{\frac{2\zeta}{H}}
+
+.. sectionauthor:: Alain Cartalade

@@ -16,47 +16,50 @@ On Orcus, several GPU partitions are available. Here we give an example for comp
          loginname@is247529:~$ ssh -XC orcusloginamd2
 
 
-2. Single GPU: compilation and run (updated February 11th, 2025)
-----------------------------------------------------------------
+2. Single GPU: compilation and run (deprecated)
+-----------------------------------------------
 
-.. admonition:: Single-GPU compilation on ORCUS (deprecated)
-   :class: versionchanged
+.. dropdown::
+   :icon: comment
 
-   **Modules to load**
+   .. admonition:: Single-GPU compilation on ORCUS (deprecated)
+      :class: note
 
-      .. code-block:: shell
+      **Modules to load**
 
-         $ source /tmpformation/LBM_Saclay/modules_compil_h100_v11fev2025
+         .. code-block:: shell
 
-   where the modules list inside file ``modules_compil_h100_v11fev2025`` is
+            $ source /tmpformation/LBM_Saclay/modules_compil_h100_v11fev2025
 
-      .. code-block:: ruby
+      where the modules list inside file ``modules_compil_h100_v11fev2025`` is
 
-         module purge
-         module load cmake/3.28.3
-         module load gcc/13.3.0
-         module load cuda/12.4.0
-         module load hdf5/gcc_13.3.0_openmpi_4.1.6/1.14.3
-         module list
+         .. code-block:: ruby
 
-   **cmake and compilation**
+            module purge
+            module load cmake/3.28.3
+            module load gcc/13.3.0
+            module load cuda/12.4.0
+            module load hdf5/gcc_13.3.0_openmpi_4.1.6/1.14.3
+            module list
 
-      .. code-block:: shell
+      **cmake and compilation**
 
-         $ mkdir build_cuda_h100
-         $ cd build_cuda_h100
+         .. code-block:: shell
 
-      Creation of ``makefile``
+            $ mkdir build_cuda_h100
+            $ cd build_cuda_h100
 
-      .. code-block:: shell
+         Creation of ``makefile``
 
-         $ /tmpformation/LBM_Saclay/cmake_h100.scr
+         .. code-block:: shell
 
-      Compilation
+            $ /tmpformation/LBM_Saclay/cmake_h100.scr
 
-      .. code-block:: shell
+         Compilation
 
-         $ make -j 22
+         .. code-block:: shell
+
+            $ make -j 22
 
 3. Multi-GPU: compilation and run on multi-H100 with MPI (updated July 8th, 2025)
 ---------------------------------------------------------------------------------

@@ -319,3 +319,5 @@ Bibliography
 .. [1] Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva, E. Viggen, The Lattice Boltzmann Method: Principles and Practice, Graduate Texts in Physics, Springer, 2016.
 
 .. [2] Bird G.A., Molecular Gas Dynamics and the Direct Simulation of Gas Flows, Oxford Engineering Science Series, 1994.
+
+.. sectionauthor:: Alain Cartalade

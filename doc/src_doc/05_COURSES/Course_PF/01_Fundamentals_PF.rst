@@ -474,3 +474,5 @@ Appendices
    ./A_Minimization_Free_Energy.rst
    ./B_Calculation_TanhSolution.rst
    ./C_Calculation_SurfaceTension.rst
+
+.. sectionauthor:: Alain Cartalade

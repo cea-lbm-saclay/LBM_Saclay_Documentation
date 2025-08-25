@@ -15,83 +15,123 @@ As already said, in this model we introduce of a new field :math:`\psi\equiv\psi
    
    \varphi(\boldsymbol{x},t)=1-\phi(\boldsymbol{x},t)-\psi(\boldsymbol{x},t)
    
-The mass balance equation writes:
+.. admonition:: Mathematical model
+   :class: error
 
-.. math::
-   :label: Mass_Balance_Psi
+   **Mass balance equation**
+
+   The mass balance equation writes:
+
+   .. math::
+      :label: Mass_Balance_Psi
    
-   \boldsymbol{\nabla}\cdot\boldsymbol{v}=-\boldsymbol{u}_{s}\cdot\boldsymbol{\nabla}\psi
+      \boldsymbol{\nabla}\cdot\boldsymbol{v}=-\boldsymbol{u}_{s}\cdot\boldsymbol{\nabla}\psi
    
-where the fluid velocity is noted :math:`\boldsymbol{u}` and a variable change is introduced :math:`\boldsymbol{v}=(1-\psi)\boldsymbol{u}`. In the solid phase :math:`\psi=1` and :math:`\boldsymbol{v}=\boldsymbol{0}`. In the right-hand side, :math:`\boldsymbol{u}_{s}` is the velocity of the solid phase which must be known and imposed as input parameter.
+   where the fluid velocity is noted :math:`\boldsymbol{u}` and a variable change is introduced :math:`\boldsymbol{v}=(1-\psi)\boldsymbol{u}`. In the solid phase :math:`\psi=1` and :math:`\boldsymbol{v}=\boldsymbol{0}`. In the right-hand side, :math:`\boldsymbol{u}_{s}` is the velocity of the solid phase which must be known and imposed as input parameter.
 
-The impulsion balance equation writes:
+   **Impulsion balance equation**
 
-.. math::
-   :label: Impulsion_Balance_Psi
+   The impulsion balance equation writes:
+
+   .. math::
+      :label: Impulsion_Balance_Psi
    
-   \varrho\left[\frac{\partial\boldsymbol{v}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{v}\boldsymbol{u})\right]=-(1-\psi)\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\eta\left(\boldsymbol{\nabla}\boldsymbol{v}+(\boldsymbol{\nabla}\boldsymbol{v})^{T}\right)\right]+(1-\psi)\boldsymbol{F}_{tot}
+      \varrho\left[\frac{\partial\boldsymbol{v}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{v}\boldsymbol{u})\right]=-(1-\psi)\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\eta\left(\boldsymbol{\nabla}\boldsymbol{v}+(\boldsymbol{\nabla}\boldsymbol{v})^{T}\right)\right]+(1-\psi)\boldsymbol{F}_{tot}
    
-If :math:`\psi=1`, all terms of this equation cancel.
+   If :math:`\psi=1`, all terms of this equation cancel.
 
-The phase-field equation is modified to take into account the both fields :math:`\psi` and :math:`\varphi`:
+   **Phase-field equation**
 
-.. math::
-   :label: Phi_Equation
+   The phase-field equation is modified to take into account the both fields :math:`\psi` and :math:`\varphi`:
+
+   .. math::
+      :label: Phi_Equation
    
-   \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left\{ M_{\phi}\left[\boldsymbol{\nabla}\phi-\frac{4}{W_{\phi}}\phi(1-\phi)\boldsymbol{n}_{\phi}+\boldsymbol{\mathscr{L}}(\phi,\varphi,\psi)\right]\right\}
+      \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left\{ M_{\phi}\left[\boldsymbol{\nabla}\phi-\frac{4}{W_{\phi}}\phi(1-\phi)\boldsymbol{n}_{\phi}+\boldsymbol{\mathscr{L}}(\phi,\varphi,\psi)\right]\right\}
 
-In right-hand side of Eq. :eq:`Phi_Equation`, a Lagrange multiplier :math:`\boldsymbol{\mathscr{L}}` is introduced to impose the constrainst :eq:`Closure`. Its expression is:
+   In right-hand side of Eq. :eq:`Phi_Equation`, a Lagrange multiplier :math:`\boldsymbol{\mathscr{L}}` is introduced to impose the constrainst :eq:`Closure`. Its expression is:
 
-.. math::
-   :label: Lagrange_Mult
+   .. math::
+      :label: Lagrange_Mult
    
-   \boldsymbol{\mathscr{L}}(\phi,\varphi,\psi)=\frac{1}{2}\left[\frac{4}{W_{\psi}}\psi(1-\psi)\boldsymbol{n}_{\psi}+\frac{4}{W_{\phi}}\phi(1-\phi)\boldsymbol{n}_{\phi}+\frac{4}{W_{\varphi}}\varphi(1-\varphi)\boldsymbol{n}_{\varphi}\right]
+      \boldsymbol{\mathscr{L}}(\phi,\varphi,\psi)=\frac{1}{2}\left[\frac{4}{W_{\psi}}\psi(1-\psi)\boldsymbol{n}_{\psi}+\frac{4}{W_{\phi}}\phi(1-\phi)\boldsymbol{n}_{\phi}+\frac{4}{W_{\varphi}}\varphi(1-\varphi)\boldsymbol{n}_{\varphi}\right]
 
-For every phase-field, the unit normal vector of the interface is defined by
+   For every phase-field, the unit normal vector of the interface is defined by
 
-.. math::
-   :label: Normal
+   .. math::
+      :label: Normal
    
-   \boldsymbol{n}_{f}=\frac{\boldsymbol{\nabla}f}{\bigl|\boldsymbol{\nabla}f\bigr|}
+      \boldsymbol{n}_{f}=\frac{\boldsymbol{\nabla}f}{\bigl|\boldsymbol{\nabla}f\bigr|}
 
-where :math:`f=\psi,\phi,\varphi`.
+   where :math:`f=\psi,\phi,\varphi`.
 
-Finally the evolution equation on :math:`\psi` is a standard advection equation:
-
-.. math::
-   :label: Psi_Equation
+   **Solid phase transport equation**
    
-   \frac{\partial\psi}{\partial t}+\boldsymbol{u}_{s}\cdot\boldsymbol{\nabla}\psi=0
+   Finally the evolution equation on :math:`\psi` is a standard advection equation:
+
+   .. math::
+      :label: Psi_Equation
    
-Let us mention that the composition equation remains unchanged in that version of model. Integration of :math:`\psi`: in that equation could be done in future work.
+      \frac{\partial\psi}{\partial t}+\boldsymbol{u}_{s}\cdot\boldsymbol{\nabla}\psi=0
+   
+   Let us mention that the composition equation remains unchanged in that version of model. Integration of :math:`\psi`: in that equation could be done in future work.
 
 
 Force terms
 ^^^^^^^^^^^
 
-The total force term :math:`\boldsymbol{F}_{tot}` is composed of two forces: the capillary force and the gravity force which write:
+.. admonition:: Force terms
+   :class: caution
 
-.. math::
-   :label: Force_Capillary
-   
-   \boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi+\mu_{\varphi}\boldsymbol{\nabla}\varphi+\mu_{\psi}\boldsymbol{\nabla}\psi
-   
-The first term of the righ-hand side corresponds to the capillary force between fluid 1 (:math:`\phi`) and fluid 2 (:math:`\varphi`) which involves the surface tension :math:`\sigma_{12}`. The second term corresponds to the capillary force between fluid 1 (:math:`\phi`) and solid (:math:`\psi`) which involves the surface tension :math:`\sigma_{1s}`. Finally, the last term corresponds to the capillary force between fluid 2 (:math:`\phi`) and solid (:math:`\psi`) which involves the surface tension :math:`\sigma_{2s}`.
+   .. grid:: 2
+      :gutter: 4
+      :margin: 3 3 0 5
 
-The gravity force is defined by
+      .. grid-item-card:: Total force
 
-.. math::
-   :label: Force_Gravity
-   
-   \boldsymbol{F}_{g}=\varrho(\boldsymbol{\phi})\boldsymbol{g}
+         The total force term :math:`\boldsymbol{F}_{tot}` is the sum of two forces: the capillary force :math:`\boldsymbol{F}_{c}` and the gravity force :math:`\boldsymbol{F}_{g}`.
 
-where :math:`\boldsymbol{\phi}=(\phi_{0},\phi_{1},\phi_{2})` and we have introduced the notations :math:`\phi_{0}\equiv\varphi`, :math:`\phi_{1}\equiv\phi` and :math:`\phi_{2}\equiv\psi`. With those notations, the chemical potentials write
+         .. math::
+            :label: Total_Force_Solid
 
-.. math::
-   :label: Force_Capillary_PotChem
+            \boldsymbol{F}_{tot} = \boldsymbol{F}_{c} + \boldsymbol{F}_{g}
+
+
+      .. grid-item-card:: Gravity force
+
+         The gravity force is defined by
+
+         .. math::
+            :label: Force_Gravity
    
-   \mu_{\phi_{k}}(\boldsymbol{x},t)=\frac{4\gamma_{T}}{W}\sum_{\ell\neq k}\left[\frac{1}{\gamma_{\ell}}\left(\frac{\partial f_{dw}}{\partial\phi_{k}}-\frac{\partial f_{dw}}{\partial\phi_{\ell}}\right)\right]-\frac{3}{4}W\gamma_{k}\boldsymbol{\nabla}^{2}\phi_{k}
+            \boldsymbol{F}_{g}=\varrho(\boldsymbol{\phi})\boldsymbol{g}
+
+         where :math:`\boldsymbol{\phi}=(\phi_{0},\phi_{1},\phi_{2})` and we have introduced the notations :math:`\phi_{0}\equiv\varphi`, :math:`\phi_{1}\equiv\phi` and :math:`\phi_{2}\equiv\psi`.
+
+
+   .. grid:: 2
+      :gutter: 4
+      :margin: 3 3 0 5
+
+      .. grid-item-card:: Capillary force
    
+         .. math::
+            :label: Force_Capillary
+   
+            \boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi+\mu_{\varphi}\boldsymbol{\nabla}\varphi+\mu_{\psi}\boldsymbol{\nabla}\psi
+   
+         The first term of the righ-hand side corresponds to the capillary force between fluid 1 (:math:`\phi`) and fluid 2 (:math:`\varphi`) which involves the surface tension :math:`\sigma_{12}`. The second term corresponds to the capillary force between fluid 1 (:math:`\phi`) and solid (:math:`\psi`) which involves the surface tension :math:`\sigma_{1s}`. Finally, the last term corresponds to the capillary force between fluid 2 (:math:`\phi`) and solid (:math:`\psi`) which involves the surface tension :math:`\sigma_{2s}`.
+   
+
+      .. grid-item-card:: Chemical potentials
+      
+         With the notations of gravity force, the chemical potentials write
+
+         .. math::
+            :label: Chemical-Potential_Solid
+   
+            \mu_{\phi_{k}}(\boldsymbol{x},t)=\frac{4\gamma_{T}}{W}\sum_{\ell\neq k}\left[\frac{1}{\gamma_{\ell}}\left(\frac{\partial f_{dw}}{\partial\phi_{k}}-\frac{\partial f_{dw}}{\partial\phi_{\ell}}\right)\right]-\frac{3}{4}W\gamma_{k}\boldsymbol{\nabla}^{2}\phi_{k}
+
 
 Closure relationships
 ^^^^^^^^^^^^^^^^^^^^^

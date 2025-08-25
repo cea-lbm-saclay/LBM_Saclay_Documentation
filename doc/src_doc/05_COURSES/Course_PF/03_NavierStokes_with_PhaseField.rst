@@ -243,3 +243,6 @@ Bibliography
 .. [1] J. Brackbill, D.B. Kothe, C. Zemach, A continuum method for modeling surface tension, Journal of Computational Physics, Volume 100, Issue 2, June 1992, Pages 335-354. 1992. https://doi.org/10.1016/0021-9991(92)90240-Y
 
 .. [2] Jacqmin D., Calculation of Two-Phase Navier–Stokes Flows Using Phase-Field Modeling, Journal of Computational Physics, Volume 155, Issue 1, Pages 96-127, 1999. https://doi.org/10.1006/jcph.1999.6332
+
+.. sectionauthor:: Alain Cartalade
+   

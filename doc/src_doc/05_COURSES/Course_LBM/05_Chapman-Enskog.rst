@@ -557,3 +557,5 @@ Bibliography
 .. [3] Dubois F., Equivalent partial differential equations of a lattice Boltzmann scheme, Computers & Mathematics with Applications 55 (7) (2008) 1441 – 1449, mesoscopic Methods in Engineering and Science. https://doi.org/10.1016/j.camwa.2007.08.003
 
 .. [4] Huang H., M. Sukop, X.-Y. Lu, Multiphase Lattice Boltzmann Methods. Theory and Application, Wiley & Sons, 2015.
+
+.. sectionauthor:: Alain Cartalade

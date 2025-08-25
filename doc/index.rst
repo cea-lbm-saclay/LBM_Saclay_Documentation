@@ -90,8 +90,6 @@ Welcome to LBM_Saclay's documentation
 
 .. admonition:: LBM_Saclay workforce
 
-   .. .. figure:: src_doc/FIGS/Logos_LBM_Saclay/Logo_LBM_Saclay_Workforce.png
-
    .. figure:: src_doc/FIGS/Logos_LBM_Saclay/Logo-Workforce_LBM_Saclay.png
       :class: align-left
       :height: 300
@@ -105,7 +103,7 @@ Welcome to LBM_Saclay's documentation
 
       src_doc/00_INTRODUCTION/TEAM/Team_Presentation.rst
       src_doc/00_INTRODUCTION/TEAM/List-Of-Publications.rst
-      
+
       
 .. admonition:: Content of this documentation
    :class: error

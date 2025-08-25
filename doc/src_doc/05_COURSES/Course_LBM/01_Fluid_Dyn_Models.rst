@@ -122,3 +122,5 @@ values.
             ========= ============= ============= =============
 
 where “–” means non zero value
+
+.. sectionauthor:: Alain Cartalade

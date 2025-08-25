@@ -218,3 +218,4 @@ Bibliography
 
 .. [1] Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva, E. Viggen, The Lattice Boltzmann Method: Principles and Practice, Graduate Texts in Physics, Springer, 2017.
 
+.. sectionauthor:: Alain Cartalade

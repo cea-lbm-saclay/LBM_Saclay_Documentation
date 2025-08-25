@@ -99,3 +99,5 @@ expression dans laquelle on reconnait l'opérateur divergence. Finalement d'Eule
    :label:
 
    \boxed{\frac{\partial\mathcal{F}}{\partial\phi}-\boldsymbol{\nabla}\cdot\left(\frac{\partial\mathcal{F}}{\partial(\boldsymbol{\nabla}\phi)}\right)=0}
+
+.. sectionauthor:: Alain Cartalade

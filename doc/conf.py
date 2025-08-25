@@ -44,8 +44,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme',
     'myst_parser',
-    'sphinx_pdf_generate',
     'sphinx_design',
+    'sphinx_pdf_generate',
     'sphinxcontrib.bibtex'
 ]
 bibtex_default_style = 'plain'
@@ -101,3 +101,27 @@ pygments_style = 'perldoc'
 # Enable numref
 numfig = True
 show_authors = True
+
+# inside conf.py
+latex_engine = 'xelatex'
+latex_elements = {
+    'passoptionstopackages': r'''
+\PassOptionsToPackage{svgnames}{xcolor}
+''',
+    'fontpkg': r'''
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+''',
+    'preamble': r'''
+\usepackage[titles]{tocloft}
+\cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
+\setlength{\cftchapnumwidth}{0.75cm}
+\setlength{\cftsecindent}{\cftchapnumwidth}
+\setlength{\cftsecnumwidth}{1.25cm}
+''',
+    'sphinxsetup': 'TitleColor=DarkGoldenrod',
+    'fncychap': r'\usepackage[Bjornstrup]{fncychap}',
+    'printindex': r'\footnotesize\raggedright\printindex',
+}
+latex_show_urls = 'footnote'

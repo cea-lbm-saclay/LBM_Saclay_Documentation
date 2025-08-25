@@ -477,3 +477,6 @@ Bibliography
 .. [5] Liu J., C.M. Landis, H. Gomez, T.J.R. Hughes, Liquid–vapor phase transition: Thermomechanical theory, entropy stable numerical formulation, and boiling simulations. Comput. Methods Appl. Mech. Engrg. 297 (2015) 476–553, http://dx.doi.org/10.1016/j.cma.2015.09.007
 
 .. [6] Bueno J., H. Gomez, Liquid-vapor transformations with surfactants. Phase-field model and Isogeometric Analysis. Journal of Computational Physics 321 (2016) 797–818, http://dx.doi.org/10.1016/j.jcp.2016.06.008
+
+.. sectionauthor:: Alain Cartalade
+   

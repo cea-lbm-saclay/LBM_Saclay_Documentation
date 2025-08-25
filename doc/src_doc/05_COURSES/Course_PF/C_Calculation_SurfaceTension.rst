@@ -123,3 +123,6 @@ En utilisant :math:`\texttt{wxmaxima}` on trouve bien que l'intégrale vaut :mat
    :label:
 
    \sigma=\frac{4\phi^{\star3}}{3}\sqrt{2\zeta H}
+
+
+.. sectionauthor:: Alain Cartalade

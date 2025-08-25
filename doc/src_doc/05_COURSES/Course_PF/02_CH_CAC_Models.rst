@@ -309,3 +309,5 @@ where, for the second line we used Eq. :eq:`Grad_Kernel_Function_Scal_n` for the
 
    \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right]
 
+.. sectionauthor:: Alain Cartalade
+   

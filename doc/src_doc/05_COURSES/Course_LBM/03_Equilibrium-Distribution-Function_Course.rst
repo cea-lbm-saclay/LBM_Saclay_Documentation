@@ -17,3 +17,4 @@ For scalar EDP, such as transport or heat equation or phase-field equation, the 
    
    Because the EDF depends on the mathematical model (number of EDP, scalar or vector, etc.) we must refer to the description of each ``Kernels``. If the documentation is not updated, you must see the ``LBMScheme.h`` file. For example for ``NSAC_Comp`` model, the EDF are implemented in file ``LBMScheme_NS_AC_Comp.h`` (folder ``src/kernels/NSAC_Comp``).
 
+.. sectionauthor:: Alain Cartalade
