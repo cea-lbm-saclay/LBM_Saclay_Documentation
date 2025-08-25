@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Model of dissolution &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Model of crystal growth" href="Model_CrystalGrowth.html" />
+    <link rel="prev" title="Model of Navier-Stokes/Korteweg with surfactant" href="../01_Fluid_Fluid/Model_NSK_Surfactant.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Model_CrystalGrowth.html" title="Model of crystal growth"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../01_Fluid_Fluid/Model_NSK_Surfactant.html" title="Model of Navier-Stokes/Korteweg with surfactant"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" accesskey="U">PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of dissolution</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="model-of-dissolution">
+<span id="math-dissolution"></span><h1>Model of dissolution<a class="headerlink" href="#model-of-dissolution" title="Link to this heading"></a></h1>
+<section id="mathematical-model-of-dissolution">
+<h2>Mathematical model of dissolution<a class="headerlink" href="#mathematical-model-of-dissolution" title="Link to this heading"></a></h2>
+<p>The mathematical model of dissolution is composed of two coupled PDEs. The first one for interface-tracking on <span class="math notranslate nohighlight">\(\phi\)</span> and the second one on the composition <span class="math notranslate nohighlight">\(c\)</span>. The interface movement is based on the Allen-Cahn equation</p>
+<div class="math notranslate nohighlight" id="equation-allen-cahn-equation">
+<span class="eqno">(102)<a class="headerlink" href="#equation-allen-cahn-equation" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}=M_{\phi}\boldsymbol{\nabla}^{2}\phi-\frac{M_{\phi}}{W^{2}}2\phi(1-\phi)(1-2\phi)+\frac{\lambda M_{\phi}}{W^{2}}\mathscr{S}_{\phi}(\phi,\,\overline{\mu})\]</div>
+<p>where <span class="math notranslate nohighlight">\(W\)</span> is the interface width, <span class="math notranslate nohighlight">\(M_{\phi}\)</span> is the interface mobility, and <span class="math notranslate nohighlight">\(M_{\lambda}\)</span> is the coupling coefficient which is related to the interface surface tension. The source term <span class="math notranslate nohighlight">\(\mathscr{S}_{\phi}(\phi,\,\overline{\mu})\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-source-term-dissolution">
+<span class="eqno">(103)<a class="headerlink" href="#equation-source-term-dissolution" title="Link to this equation"></a></span>\[\mathscr{S}_{\phi}(\phi,\,\overline{\mu})=6\phi(1-\phi)(c_{s}^{eq}-c_{l}^{eq})(\overline{\mu}-\overline{\mu}^{eq})\]</div>
+<p>where <span class="math notranslate nohighlight">\(c_{s}^{eq}\)</span> and <span class="math notranslate nohighlight">\(c_{l}^{eq}\)</span> are equilibrium compositions in solid and liquid respectively. They are both scalar values. <span class="math notranslate nohighlight">\(\overline{\mu}^{eq}\)</span> is the equilibrium chemical potentiel which is also a scalar value. <span class="math notranslate nohighlight">\(\overline{\mu}\)</span> is the chemical potential which is involved in the diffusion equation below:</p>
+<div class="math notranslate nohighlight" id="equation-diffusion-equation">
+<span class="eqno">(104)<a class="headerlink" href="#equation-diffusion-equation" title="Link to this equation"></a></span>\[\frac{\partial c}{\partial t}=\boldsymbol{\nabla}\cdot\left[D_{l}\phi\boldsymbol{\nabla}\overline{\mu}-\boldsymbol{j}_{at}(\phi,\,\overline{\mu})\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(c\)</span> is the composition, <span class="math notranslate nohighlight">\(D_l\)</span> is the diffusion coefficient in the liquid phase. The flux is given by the gradient of chemical potential. It is related to the composition by:</p>
+<div class="math notranslate nohighlight" id="equation-chemical-potential">
+<span class="eqno">(105)<a class="headerlink" href="#equation-chemical-potential" title="Link to this equation"></a></span>\[\overline{\mu}=\overline{\mu}^{eq}+c(\phi,\,\overline{\mu})-\left[c_{l}^{eq}\phi+c_{s}^{eq}\left(1-\phi\right)\right]\]</div>
+<p>Finally in Eq. <a class="reference internal" href="#equation-diffusion-equation">(104)</a>, <span class="math notranslate nohighlight">\(\boldsymbol{j}_{at}\)</span> is the anti-trapping current which is defined by:</p>
+<div class="math notranslate nohighlight" id="equation-anti-trapping">
+<span class="eqno">(106)<a class="headerlink" href="#equation-anti-trapping" title="Link to this equation"></a></span>\[\boldsymbol{j}_{at}=\frac{1}{4}W(c_{s}^{eq}-c_{l}^{eq})\frac{\partial\phi}{\partial t}\boldsymbol{n}\]</div>
+<section id="closure-relationships">
+<h3>Closure relationships<a class="headerlink" href="#closure-relationships" title="Link to this heading"></a></h3>
+</section>
+</section>
+<section id="input-parameters-in-ini-file">
+<h2>Input parameters in <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file<a class="headerlink" href="#input-parameters-in-ini-file" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Model of dissolution</a><ul>
+<li><a class="reference internal" href="#mathematical-model-of-dissolution">Mathematical model of dissolution</a><ul>
+<li><a class="reference internal" href="#closure-relationships">Closure relationships</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#input-parameters-in-ini-file">Input parameters in <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../01_Fluid_Fluid/Model_NSK_Surfactant.html"
+                          title="previous chapter">Model of Navier-Stokes/Korteweg with surfactant</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Model_CrystalGrowth.html"
+                          title="next chapter">Model of crystal growth</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/02_MODELS/02_Fluid_Solid/Model_Dissolution.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Model_CrystalGrowth.html" title="Model of crystal growth"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../01_Fluid_Fluid/Model_NSK_Surfactant.html" title="Model of Navier-Stokes/Korteweg with surfactant"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" >PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of dissolution</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

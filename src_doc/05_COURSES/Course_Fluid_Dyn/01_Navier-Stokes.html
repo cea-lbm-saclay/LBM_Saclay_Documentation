@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Navier-Stokes equations for single-phase flows &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Energy balance equation" href="02_Energy-Equation.html" />
+    <link rel="prev" title="Fluid dynamics &amp; Thermodynamics" href="TOC_Fluid-Dyn.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="02_Energy-Equation.html" title="Energy balance equation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="TOC_Fluid-Dyn.html" title="Fluid dynamics &amp; Thermodynamics"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Fluid-Dyn.html" accesskey="U">Fluid dynamics &amp; Thermodynamics</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Navier-Stokes equations for single-phase flows</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="navier-stokes-equations-for-single-phase-flows">
+<span id="reminder-navier-stokes"></span><h1>Navier-Stokes equations for single-phase flows<a class="headerlink" href="#navier-stokes-equations-for-single-phase-flows" title="Link to this heading"></a></h1>
+<p>This section is a summary of <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (section V.2 p. 88, section V.4 p. 92 and appendix p. 112) and reminds the derivation of Navier-Stokes (NS) equations for single phase flows. Among several forms that exist, we only write here the <strong>local conservative form</strong> of NS equations.</p>
+<section id="mass-balance">
+<h2>Mass balance<a class="headerlink" href="#mass-balance" title="Link to this heading"></a></h2>
+<p>We consider a volume of fluid <span class="math notranslate nohighlight">\(V\)</span>. The total mass contained in that volume is:</p>
+<div class="math notranslate nohighlight" id="equation-eq-total-mass-ns-course">
+<span class="eqno">(255)<a class="headerlink" href="#equation-eq-total-mass-ns-course" title="Link to this equation"></a></span>\[m=\int_{V}\rho dV\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho\)</span> is the local density. Without source (or well) term the total mass is constant and</p>
+<div class="math notranslate nohighlight" id="equation-eq-variation-m-ns-course">
+<span class="eqno">(256)<a class="headerlink" href="#equation-eq-variation-m-ns-course" title="Link to this equation"></a></span>\[\frac{d}{dt}m=\frac{d}{dt}\int_{V}\rho dV=0\]</div>
+<p>We apply the Reynolds’ transport theorem:</p>
+<div class="math notranslate nohighlight" id="equation-eq-reynolds-theorem">
+<span class="eqno">(257)<a class="headerlink" href="#equation-eq-reynolds-theorem" title="Link to this equation"></a></span>\[\frac{d}{dt}\int_{V}\rho dV=\int_{V}\frac{\partial\rho}{\partial t}dV+\int_{A}\rho\boldsymbol{u}\cdot\boldsymbol{n}dA\]</div>
+<p>so that:</p>
+<div class="math notranslate nohighlight" id="equation-eq-after-reynolds-theorem">
+<span class="eqno">(258)<a class="headerlink" href="#equation-eq-after-reynolds-theorem" title="Link to this equation"></a></span>\[\int_{V}\frac{\partial\rho}{\partial t}dV+\int_{A}\rho\boldsymbol{u}\cdot\boldsymbol{n}dA=0\]</div>
+<p>With Green-Ostrogradsky’s theorem, the surfacic integral can be
+transformed into volumic one:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-01-navier-stokes-0">
+<span class="eqno">(259)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-01-navier-stokes-0" title="Link to this equation"></a></span>\[\int_{A}\rho\boldsymbol{u}\cdot\boldsymbol{n}dA=\int_{V}\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})dV\]</div>
+<p>Eq. <a class="reference internal" href="#equation-eq-after-reynolds-theorem">(258)</a></p>
+<div class="math notranslate nohighlight">
+\[\int_{V}\left[\frac{\partial\rho}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})\right]dV=0\]</div>
+<p>The volume of integration is arbitrary and consequently the integrand
+must be zero:</p>
+<div class="math notranslate nohighlight" id="equation-final-mass-balance-ns-course">
+<span class="eqno">(260)<a class="headerlink" href="#equation-final-mass-balance-ns-course" title="Link to this equation"></a></span>\[\boxed{\frac{\partial\rho}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0}\]</div>
+</section>
+<section id="impulsion-balance">
+<h2>Impulsion balance<a class="headerlink" href="#impulsion-balance" title="Link to this heading"></a></h2>
+<p>The impulsion inside that volume is</p>
+<div class="math notranslate nohighlight" id="equation-eq-total-impulsion-ns-course">
+<span class="eqno">(261)<a class="headerlink" href="#equation-eq-total-impulsion-ns-course" title="Link to this equation"></a></span>\[\int_{V}\rho\boldsymbol{u}dV\]</div>
+<p>The fundamental principle of dynamics says that the variation of
+impulsion of that material system is equal to all external forces:</p>
+<div class="math notranslate nohighlight" id="equation-eq-principle-of-dynamics">
+<span class="eqno">(262)<a class="headerlink" href="#equation-eq-principle-of-dynamics" title="Link to this equation"></a></span>\[\frac{d}{dt}\int_{V}\rho\boldsymbol{u}dV=\boldsymbol{F}\]</div>
+<p>Two kinds of forces act on fluid contained in that volume:</p>
+<ul class="simple">
+<li><p>Volumic forces</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-eq-volumic-forces-ns-course">
+<span class="eqno">(263)<a class="headerlink" href="#equation-eq-volumic-forces-ns-course" title="Link to this equation"></a></span>\[\int_{V}\rho\boldsymbol{g}dV\]</div>
+<ul class="simple">
+<li><p>Surfacic forces:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-eq-surfacic-forces-ns-course">
+<span class="eqno">(264)<a class="headerlink" href="#equation-eq-surfacic-forces-ns-course" title="Link to this equation"></a></span>\[\int_{A}\boldsymbol{t}(\boldsymbol{n})dA\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{t}(\boldsymbol{n})\)</span> is the stress vector acting
+on <span class="math notranslate nohighlight">\(dA\)</span> of normal <span class="math notranslate nohighlight">\(\boldsymbol{n}\)</span>.</p>
+<div class="math notranslate nohighlight" id="equation-eq-pod-with-v-s-forces-ns-course">
+<span class="eqno">(265)<a class="headerlink" href="#equation-eq-pod-with-v-s-forces-ns-course" title="Link to this equation"></a></span>\[\frac{d}{dt}\int_{V}\rho\boldsymbol{u}dV=\int_{V}\rho\boldsymbol{g}dV+\int_{A}\boldsymbol{t}(\boldsymbol{n})dA\]</div>
+<p>The stress vector <span class="math notranslate nohighlight">\(\boldsymbol{t}(\boldsymbol{n})\)</span> can be
+expressed with the symmetric stress tensor
+<span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{T}}}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-stress-tensor-ns-course">
+<span class="eqno">(266)<a class="headerlink" href="#equation-eq-stress-tensor-ns-course" title="Link to this equation"></a></span>\[\boldsymbol{t}(\boldsymbol{n})=\overline{\overline{\boldsymbol{T}}}\cdot\boldsymbol{n}\]</div>
+<p>and the stress tensor is decomposed into a stress due to pressure and
+another one due to viscous strain. The first one is isotropic and its
+value depends only on the thermodynamic state of fluid whereas the second one, the viscous stress,
+is related to the fluid strain and we can write:</p>
+<div class="math notranslate nohighlight" id="equation-eq-decomposition-stress-tensor-ns-course">
+<span class="eqno">(267)<a class="headerlink" href="#equation-eq-decomposition-stress-tensor-ns-course" title="Link to this equation"></a></span>\[\underbrace{\overline{\overline{\boldsymbol{T}}}}_{\text{Stress tensor}}=\underbrace{-p^{eos}\overline{\overline{\boldsymbol{I}}}}_{\text{Pressure stress tensor}}+\underbrace{\overline{\overline{\boldsymbol{\tau}}}}_{\text{Viscous stress tensor}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(p^{eos}\)</span> is the thermodynamic pressure which must be given by an Equation of State (eos). For simple fluids, the law of perfect gas (or ideal gas) hold:</p>
+<div class="math notranslate nohighlight" id="equation-eos-perfect-gases">
+<span class="eqno">(268)<a class="headerlink" href="#equation-eos-perfect-gases" title="Link to this equation"></a></span>\[\boxed{p^{eos}_{pg}(\rho,T)=\rho RT}\]</div>
+<p>where <span class="math notranslate nohighlight">\(R`\)</span> is the gas constant and <span class="math notranslate nohighlight">\(T\)</span> is the temperature. Expressed with components, that tensor writes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left(\begin{array}{ccc}
+T_{_{xx}} &amp; T_{xy} &amp; T_{xz}\\
+T_{yx} &amp; T_{yy} &amp; T_{yz}\\
+T_{zx} &amp; T_{zy} &amp; T_{zz}
+\end{array}\right)=\left(\begin{array}{ccc}
+-p^{eos} &amp; 0 &amp; 0\\
+0 &amp; -p^{eos} &amp; 0\\
+0 &amp; 0 &amp; -p^{eos}
+\end{array}\right)+\left(\begin{array}{ccc}
+\tau_{_{xx}} &amp; \tau_{xy} &amp; \tau_{xz}\\
+\tau_{yx} &amp; \tau_{yy} &amp; \tau_{yz}\\
+\tau_{zx} &amp; \tau_{zy} &amp; \tau_{zz}
+\end{array}\right)\end{split}\]</div>
+<p>With Eqs. <a class="reference internal" href="#equation-eq-stress-tensor-ns-course">(266)</a> and <a class="reference internal" href="#equation-eq-decomposition-stress-tensor-ns-course">(267)</a>,
+Eq. <a class="reference internal" href="#equation-eq-pod-with-v-s-forces-ns-course">(265)</a> becomes</p>
+<div class="math notranslate nohighlight">
+\[\frac{d}{dt}\int_{V}\rho\boldsymbol{u}dV=\int_{V}\rho\boldsymbol{g}dV+\int_{A}(-p\overline{\overline{\boldsymbol{I}}}+\overline{\overline{\boldsymbol{\tau}}})\cdot\boldsymbol{n}dA\]</div>
+<p>the surfacic integral is changed into volumic integral with
+Green-Ostrogradsky theorem:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-01-navier-stokes-1">
+<span class="eqno">(269)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-01-navier-stokes-1" title="Link to this equation"></a></span>\[\frac{d}{dt}\int_{V}\rho\boldsymbol{u}dV=\int_{V}\rho\boldsymbol{g}dV+\int_{V}-\boldsymbol{\nabla}\cdot(p\overline{\overline{\boldsymbol{I}}}+\overline{\overline{\boldsymbol{\tau}}})dV\]</div>
+<p>For the left-hand side, we use the Reynolds’ transport theorem:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\frac{d}{dt}\int_{V}\rho\boldsymbol{u}dV &amp; =\int_{V}\frac{\partial(\rho\boldsymbol{u})}{\partial t}dV+\int_{A}\rho\boldsymbol{u}(\boldsymbol{u}\cdot\boldsymbol{n})dA\\
+ &amp; =\int_{V}\left[\frac{\partial(\rho\boldsymbol{u})}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})\right]dV\end{aligned}\end{split}\]</div>
+<p>where, once again the Green-Ostrograski’s theorem has been used for
+surfacic integral. Finally:</p>
+<div class="math notranslate nohighlight" id="equation-ns-without-stress-tensor">
+<span class="eqno">(270)<a class="headerlink" href="#equation-ns-without-stress-tensor" title="Link to this equation"></a></span>\[\frac{\partial(\rho\boldsymbol{u})}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}p^{eos}+\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{\tau}}}+\rho\boldsymbol{g}\]</div>
+</section>
+<section id="constitutive-relation-viscous-stress-tensor-for-newtonian-fluids">
+<h2>Constitutive relation: viscous stress tensor for Newtonian fluids<a class="headerlink" href="#constitutive-relation-viscous-stress-tensor-for-newtonian-fluids" title="Link to this heading"></a></h2>
+<p>The viscous stress tensor is usually expressed as a function of strain rate. For newtonian fluids, the viscous stress tensor writes:</p>
+<div class="math notranslate nohighlight" id="equation-newtonian-law-ns-course">
+<span class="eqno">(271)<a class="headerlink" href="#equation-newtonian-law-ns-course" title="Link to this equation"></a></span>\[\overline{\overline{\boldsymbol{\tau}}}=2\eta\overline{\overline{\boldsymbol{D}}}+(\eta_{B}-\frac{2}{3}\eta)(\boldsymbol{\nabla}\cdot\boldsymbol{u})\overline{\overline{\boldsymbol{I}}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\eta\)</span> is the dynamic viscosity, <span class="math notranslate nohighlight">\(\eta_B\)</span> is
+the bulk viscosity and <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{D}}}\)</span> is the symmetric part of velocity gradient:</p>
+<p>with</p>
+<div class="math notranslate nohighlight">
+\[\overline{\overline{\boldsymbol{D}}}=\frac{1}{2}(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})\]</div>
+<p>In most of applications, we consider <span class="math notranslate nohighlight">\(\eta_{B}=0\)</span> (Stokes’ hypothesis) and finally:</p>
+<div class="math notranslate nohighlight" id="equation-viscous-stress-tensor-newtonian-ns-course">
+<span class="eqno">(272)<a class="headerlink" href="#equation-viscous-stress-tensor-newtonian-ns-course" title="Link to this equation"></a></span>\[\overline{\overline{\boldsymbol{\tau}}}=\eta(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})-\frac{2}{3}\eta(\boldsymbol{\nabla}\cdot\boldsymbol{u})\overline{\overline{\boldsymbol{I}}}\]</div>
+<p>We replace the viscous stress tensor expressed by Eq. <a class="reference internal" href="#equation-viscous-stress-tensor-newtonian-ns-course">(272)</a> in Eq. <a class="reference internal" href="#equation-ns-without-stress-tensor">(270)</a> and we finally obtain</p>
+<div class="math notranslate nohighlight" id="equation-final-impulsion-balance-ns-course">
+<span class="eqno">(273)<a class="headerlink" href="#equation-final-impulsion-balance-ns-course" title="Link to this equation"></a></span>\[\boxed{\frac{\partial(\rho\boldsymbol{u})}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}p^{eos}+\boldsymbol{\nabla}\cdot\eta\left[(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})-\frac{2}{3}(\boldsymbol{\nabla}\cdot\boldsymbol{u})\overline{\overline{\boldsymbol{I}}}\right]+\rho\boldsymbol{g}}\]</div>
+<div class="error admonition">
+<p class="admonition-title">Summary</p>
+<p>The low-Mach Navier-Stokes equations are composed of one equation of mass conservation</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-summary-ns-course">
+<span class="eqno">(274)<a class="headerlink" href="#equation-mass-balance-summary-ns-course" title="Link to this equation"></a></span>\[\frac{\partial\rho}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0\]</div>
+<p>plus one equation of impulsion balance</p>
+<div class="math notranslate nohighlight" id="equation-impusion-balance-summary-ns-course">
+<span class="eqno">(275)<a class="headerlink" href="#equation-impusion-balance-summary-ns-course" title="Link to this equation"></a></span>\[\frac{\partial(\rho\boldsymbol{u})}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}p^{eos}(\rho,T)+\boldsymbol{\nabla}\cdot\eta\left[(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})-\frac{2}{3}(\boldsymbol{\nabla}\cdot\boldsymbol{u})\overline{\overline{\boldsymbol{I}}}\right]+\rho\boldsymbol{g}\]</div>
+<p>with the equation of state</p>
+<div class="math notranslate nohighlight" id="equation-eos-perfect-gases-summary-ns-course">
+<span class="eqno">(276)<a class="headerlink" href="#equation-eos-perfect-gases-summary-ns-course" title="Link to this equation"></a></span>\[p^{eos}_{pg}(\rho,T)=\rho RT\]</div>
+<p>The temperature <span class="math notranslate nohighlight">\(T\)</span> is computed by an additional equation (heat equation). The dynamic viscosity <span class="math notranslate nohighlight">\(\eta\)</span> is related to the kinematic viscosity <span class="math notranslate nohighlight">\(\nu\)</span> by:</p>
+<div class="math notranslate nohighlight" id="equation-def-dynamic-kinematic-viscosity">
+<span class="eqno">(277)<a class="headerlink" href="#equation-def-dynamic-kinematic-viscosity" title="Link to this equation"></a></span>\[\eta=\rho \nu\]</div>
+</div>
+</section>
+<section id="index-notations">
+<h2>Index notations<a class="headerlink" href="#index-notations" title="Link to this heading"></a></h2>
+<p>For chapman-Enskog expansions, the algebraic calculations are performed with index notations with Einstein’s convention of summation.</p>
+<div class="math notranslate nohighlight" id="equation-def-index-notations-ns-course">
+<span class="eqno">(278)<a class="headerlink" href="#equation-def-index-notations-ns-course" title="Link to this equation"></a></span>\[\partial_{t}:=\frac{\partial}{\partial t}\]</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-01-navier-stokes-2">
+<span class="eqno">(279)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-01-navier-stokes-2" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+\partial_{\alpha}(\rho u_{\alpha}) &amp; := &amp; \partial_{x}(\rho u_{x})+\partial_{y}(\rho u_{y})+\partial_{z}(\rho u_{z})\\
+&amp; := &amp; \boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})
+\end{eqnarray}\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-mass-balance-eq-index-ns-course">
+<span class="eqno">(280)<a class="headerlink" href="#equation-mass-balance-eq-index-ns-course" title="Link to this equation"></a></span>\[\partial_{t}\rho+\partial_{\alpha}(\rho u_{\alpha})=0\]</div>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-eq-index-ns-course">
+<span class="eqno">(281)<a class="headerlink" href="#equation-impulsion-balance-eq-index-ns-course" title="Link to this equation"></a></span>\[\partial_{t}(\rho u_{\alpha})+\partial_{\beta}(\rho u_{\alpha}u_{\beta})=\partial_{\alpha}p+\partial_{\beta}\tau_{\alpha\beta}+\rho g_{\alpha}\]</div>
+<p>With the viscous stress tensor defined by</p>
+<div class="math notranslate nohighlight" id="equation-viscous-stress-index-ns-course">
+<span class="eqno">(282)<a class="headerlink" href="#equation-viscous-stress-index-ns-course" title="Link to this equation"></a></span>\[\tau_{\alpha\beta}=\eta\left[\partial_{\alpha}u_{\beta}+\partial_{\beta}u_{\alpha}-\frac{2}{3}\partial_{\gamma}u_{\gamma}\delta_{\alpha\beta}\right]\]</div>
+<p>the impulsion balance equation writes</p>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-eq-with-stress-index-ns-course">
+<span class="eqno">(283)<a class="headerlink" href="#equation-impulsion-balance-eq-with-stress-index-ns-course" title="Link to this equation"></a></span>\[\partial_{t}(\rho u_{\alpha})+\partial_{\beta}(\rho u_{\alpha}u_{\beta})=\partial_{\alpha}p+\partial_{\beta}\left\{ \eta\left[\partial_{\alpha}u_{\beta}+\partial_{\beta}u_{\alpha}-\frac{2}{3}\partial_{\gamma}u_{\gamma}\delta_{\alpha\beta}\right]\right\} +\rho g_{\alpha}\]</div>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Candel S., Mécanique des fluides, 2e édition, Dunod, 2001.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Navier-Stokes equations for single-phase flows</a><ul>
+<li><a class="reference internal" href="#mass-balance">Mass balance</a></li>
+<li><a class="reference internal" href="#impulsion-balance">Impulsion balance</a></li>
+<li><a class="reference internal" href="#constitutive-relation-viscous-stress-tensor-for-newtonian-fluids">Constitutive relation: viscous stress tensor for Newtonian fluids</a></li>
+<li><a class="reference internal" href="#index-notations">Index notations</a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="TOC_Fluid-Dyn.html"
+                          title="previous chapter">Fluid dynamics &amp; Thermodynamics</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="02_Energy-Equation.html"
+                          title="next chapter">Energy balance equation</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_Fluid_Dyn/01_Navier-Stokes.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="02_Energy-Equation.html" title="Energy balance equation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="TOC_Fluid-Dyn.html" title="Fluid dynamics &amp; Thermodynamics"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Fluid-Dyn.html" >Fluid dynamics &amp; Thermodynamics</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Navier-Stokes equations for single-phase flows</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

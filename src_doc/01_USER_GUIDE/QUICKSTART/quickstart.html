@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Quick Start with LBM_Saclay &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Compilation mono-CPU (desktop): training session" href="Compil_MonoGPU.html" />
+    <link rel="prev" title="PART I: User’s guide" href="../TOC_User-Guide.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Compil_MonoGPU.html" title="Compilation mono-CPU (desktop): training session"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../TOC_User-Guide.html" title="PART I: User’s guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" accesskey="U">PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Quick Start with LBM_Saclay</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="quick-start-with-lbm-saclay">
+<span id="quick-start"></span><h1>Quick Start with LBM_Saclay<a class="headerlink" href="#quick-start-with-lbm-saclay" title="Link to this heading"></a></h1>
+<section id="open-lbm-saclay-s-documentation">
+<h2>1. Open LBM_Saclay’s documentation<a class="headerlink" href="#open-lbm-saclay-s-documentation" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For training session: LBM_Saclay’s documentation</p>
+<p>Open a terminal, copy the file <code class="docutils literal notranslate"><span class="pre">bashrc-lbm</span></code> from directory <code class="docutils literal notranslate"><span class="pre">/tmpformation/LBM_Saclay/CONFIG</span></code> in your <code class="docutils literal notranslate"><span class="pre">/home</span></code> and source it:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>/tmpformation/LBM_Saclay/CONFIG/bashrc-lbm<span class="w"> </span>~/.bashrc
+$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+</div></blockquote>
+<p>Open the documentation</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>lbm-saclay-doc<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">lbm-saclay-doc</span></code> is an alias of command <code class="docutils literal notranslate"><span class="pre">google-chrome</span> <span class="pre">/tmpformation/LBM_Saclay/LBM_Saclay_Doc/_build/html/index.html</span></code></p>
+</div>
+</section>
+<section id="create-your-training-lbm-directory">
+<h2>2. Create your <code class="docutils literal notranslate"><span class="pre">Training-LBM</span></code> directory<a class="headerlink" href="#create-your-training-lbm-directory" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For training session: create a new directory on <code class="docutils literal notranslate"><span class="pre">volatile</span></code></p>
+<p>Go to your local disk <code class="docutils literal notranslate"><span class="pre">/volatile/formation/</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/volatile/formation/
+</pre></div>
+</div>
+</div></blockquote>
+<p>Make your own directory <code class="docutils literal notranslate"><span class="pre">Training-LBM</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>Training-LBM
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>Training-LBM
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="get-the-source-files-of-lbm-saclay">
+<h2>3. Get the source files of LBM_Saclay<a class="headerlink" href="#get-the-source-files-of-lbm-saclay" title="Link to this heading"></a></h2>
+<section id="a-from-git-repository-recommended">
+<h3>A. From git repository (recommended)<a class="headerlink" href="#a-from-git-repository-recommended" title="Link to this heading"></a></h3>
+<p><strong>Get access to the git repository</strong></p>
+<div class="admonition-get-access-to-the-git-repository admonition">
+<p class="admonition-title">Get access to the git repository</p>
+<p>LBM_Saclay is on the git repository <a class="footnote-reference brackets" href="#id4" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. To get an access to codev-tuleap, open an <strong>AD EXTRA</strong> account by sending a message on <a class="footnote-reference brackets" href="#id5" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. For scientists of other institutes (CNRS, INRIA, University, etc.) open an <strong>AD partner</strong> account by sending an email to <code class="docutils literal notranslate"><span class="pre">alain.cartalade</span> <span class="pre">at</span> <span class="pre">cea.fr</span></code> or <code class="docutils literal notranslate"><span class="pre">teo.boutin</span> <span class="pre">at</span> <span class="pre">cea.fr</span></code>. Once you got the account, change your password on <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
+<blockquote>
+<div><aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://codev-tuleap.cea.fr/plugins/git/lbmsaclay">https://codev-tuleap.cea.fr/plugins/git/lbmsaclay</a></p>
+</aside>
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://post.intra.cea.fr/sp">https://post.intra.cea.fr/sp</a></p>
+</aside>
+<aside class="footnote brackets" id="id6" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://gestion-ad.intra.cea.fr:9443/">https://gestion-ad.intra.cea.fr:9443/</a></p>
+</aside>
+</aside>
+</div></blockquote>
+</div>
+<p><strong>Download LBM_Saclay</strong></p>
+<div class="admonition-download-lbm-saclay admonition">
+<p class="admonition-title">Download LBM_Saclay</p>
+<p>To download either the <strong>Training</strong> version or the <strong>Rech-Dev</strong> version, open a terminal (or Konsole) and copy-paste one of two commands below.</p>
+<p>e.g. for <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Training</span></code> version</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
+</pre></div>
+</div>
+</div></blockquote>
+<p>e.g. for <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev</span></code> version:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Rech-Dev.git
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="b-from-folder-tmpformation-for-training-session">
+<h3>B. From folder <code class="docutils literal notranslate"><span class="pre">tmpformation</span></code> for training session<a class="headerlink" href="#b-from-folder-tmpformation-for-training-session" title="Link to this heading"></a></h3>
+<div class="important admonition">
+<p class="admonition-title">For training session</p>
+<p>Copy file <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev.tar</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>/tmpformation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar<span class="w"> </span>.
+</pre></div>
+</div>
+</div></blockquote>
+<p>untar your file</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tar<span class="w"> </span>-xvf<span class="w"> </span>LBM_Saclay_Rech-Dev.tar
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+</section>
+<section id="compilation">
+<h2>4. Compilation<a class="headerlink" href="#compilation" title="Link to this heading"></a></h2>
+<p>You can run your first simulations on CPUs of your personal desktop. However, it is highly recommended to run LBM_Saclay on one (or better on several) graphic cards. You will find on the links below tutorials for compiling on single-CPU, single-GPU, and multi-GPU.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Compil_MonoGPU.html">Compilation mono-CPU (desktop): training session</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Compil_MonoGPU.html#compilation-mono-gpu-desktop">Compilation mono-GPU (desktop)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Compil_GPU_MPI_Orcus.html">ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Compil_Multi_GPU.html">Compilation Multi-GPU (supercomputers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Compil_GetInfo_GPU.html">Get information on Graphic card for Kokkos</a></li>
+</ul>
+</div>
+</section>
+<section id="run-your-first-test-case-on-your-local-cpu">
+<h2>5. Run your first test case on your local CPU<a class="headerlink" href="#run-your-first-test-case-on-your-local-cpu" title="Link to this heading"></a></h2>
+<p>It is recommended to start with a test case of folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> and execute on local disk <code class="docutils literal notranslate"><span class="pre">/volatile</span></code>. For example:</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: local computer</p>
+<p>Copy folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> on your local disk:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/volatile/formation/Training-LBM/
+$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>/tmpformation/LBM_Saclay/run_training_lbm<span class="w"> </span>.
+</pre></div>
+</div>
+</div></blockquote>
+<p>Go to one test case, e.g. <code class="docutils literal notranslate"><span class="pre">TestCase02_Poiseuille_Water</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/volatile/formation/Training-LBM/run_training_lbm/TestCase02_Poiseuille_Water
+</pre></div>
+</div>
+</div></blockquote>
+<p>Run LBM_saclay with the input file <code class="docutils literal notranslate"><span class="pre">name.ini</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>/volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay<span class="w"> </span>TestCase02_Poiseuille_Water.ini
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="post-processing-with-paraview">
+<h2>6. Post-processing with Paraview<a class="headerlink" href="#post-processing-with-paraview" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file contains an alias for paraview versions 5.11 and 5.12 in <code class="docutils literal notranslate"><span class="pre">/tmpformation/LBM_Saclay</span></code>. In paraview, open the <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files. For post-processing the <code class="docutils literal notranslate"><span class="pre">.h5</span></code> (HDF5) files open the <code class="docutils literal notranslate"><span class="pre">.xml</span></code> file and clic on <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code>.</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: post-processing with paraview</p>
+<p>For post-processing <code class="docutils literal notranslate"><span class="pre">.xmf</span></code> and <code class="docutils literal notranslate"><span class="pre">.h5</span></code> files for videos use paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>For comparison with analytical solutions, use paraview12</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview12<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>and follow tutorials presented in <a class="reference internal" href="../RUN_TRAINING_LBM/runtraininglbm.html#run-training-lbm"><span class="std std-ref">Practice of two-phase flows with test cases of run_training_lbm</span></a>.</p>
+</div>
+</section>
+<section id="help-and-support">
+<h2>7. Help and Support<a class="headerlink" href="#help-and-support" title="Link to this heading"></a></h2>
+<p>On weblink <a class="footnote-reference brackets" href="#id8" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> open a <code class="docutils literal notranslate"><span class="pre">NEW</span> <span class="pre">ID_LBM</span></code> and explain your problem.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">4</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://codev-tuleap.cea.fr/plugins/tracker/?tracker=1870">https://codev-tuleap.cea.fr/plugins/tracker/?tracker=1870</a></p>
+</aside>
+</aside>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Quick Start with LBM_Saclay</a><ul>
+<li><a class="reference internal" href="#open-lbm-saclay-s-documentation">1. Open LBM_Saclay’s documentation</a></li>
+<li><a class="reference internal" href="#create-your-training-lbm-directory">2. Create your <code class="docutils literal notranslate"><span class="pre">Training-LBM</span></code> directory</a></li>
+<li><a class="reference internal" href="#get-the-source-files-of-lbm-saclay">3. Get the source files of LBM_Saclay</a><ul>
+<li><a class="reference internal" href="#a-from-git-repository-recommended">A. From git repository (recommended)</a></li>
+<li><a class="reference internal" href="#b-from-folder-tmpformation-for-training-session">B. From folder <code class="docutils literal notranslate"><span class="pre">tmpformation</span></code> for training session</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#compilation">4. Compilation</a></li>
+<li><a class="reference internal" href="#run-your-first-test-case-on-your-local-cpu">5. Run your first test case on your local CPU</a></li>
+<li><a class="reference internal" href="#post-processing-with-paraview">6. Post-processing with Paraview</a></li>
+<li><a class="reference internal" href="#help-and-support">7. Help and Support</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../TOC_User-Guide.html"
+                          title="previous chapter">PART I: User’s guide</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Compil_MonoGPU.html"
+                          title="next chapter">Compilation mono-CPU (desktop): training session</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/QUICKSTART/quickstart.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Compil_MonoGPU.html" title="Compilation mono-CPU (desktop): training session"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../TOC_User-Guide.html" title="PART I: User’s guide"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Quick Start with LBM_Saclay</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

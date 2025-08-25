@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Add a new kernel &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Copy and rename directory and files" href="Kernel_Add_New-Kernel.html" />
+    <link rel="prev" title="Write new closure relationships in Models_NS_AC_Comp.h" href="Kernel_Modif3_Def-Macro-Functions.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Kernel_Add_New-Kernel.html" title="Copy and rename directory and files"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Modif3_Def-Macro-Functions.html" title="Write new closure relationships in Models_NS_AC_Comp.h"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" accesskey="U">PART IV: Guidelines for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Add a new kernel</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="add-a-new-kernel">
+<span id="kernel-new"></span><h1>Add a new kernel<a class="headerlink" href="#add-a-new-kernel" title="Link to this heading"></a></h1>
+<p>Here we present how to add a new kernel in the <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev</span></code> version. For example, we want to add a new kernel based on <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> and named <code class="docutils literal notranslate"><span class="pre">MPwSLphC</span></code> for <em>Multi-Phase with Solid-Liquid phase Change</em>. The mathematical model of <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> detailed in <a class="reference internal" href="../02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.html#math-nsac-comp"><span class="std std-ref">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</span></a>, is extended here to add a new phase-field equation for simulating crystal growth.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Kernel_Add_New-Kernel.html">Copy and rename directory and files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kernel_Add_New-Eq.html">Add a new equation inside the new kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kernel_Add_Setup-Collider.html">Write your function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code></a></li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Kernel_Modif3_Def-Macro-Functions.html"
+                          title="previous chapter">Write new closure relationships in <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Kernel_Add_New-Kernel.html"
+                          title="next chapter">Copy and rename directory and files</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/04_PROGRAMMING/Kernel_New.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Kernel_Add_New-Kernel.html" title="Copy and rename directory and files"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Modif3_Def-Macro-Functions.html" title="Write new closure relationships in Models_NS_AC_Comp.h"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Add a new kernel</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

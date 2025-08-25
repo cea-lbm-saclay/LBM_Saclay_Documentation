@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Basic concepts of phase-field theory: two-phase &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Fundamentals of phase-field theory" href="01_Fundamentals_PF.html" />
+    <link rel="prev" title="Equilibrium distribution functions" href="../Course_LBM/03_Equilibrium-Distribution-Function_Course.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="01_Fundamentals_PF.html" title="Fundamentals of phase-field theory"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../Course_LBM/03_Equilibrium-Distribution-Function_Course.html" title="Equilibrium distribution functions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" accesskey="U">PART V: course reminders</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Basic concepts of phase-field theory: two-phase</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="basic-concepts-of-phase-field-theory-two-phase">
+<span id="basic-concepts-phase-field-theory"></span><h1>Basic concepts of phase-field theory: two-phase<a class="headerlink" href="#basic-concepts-of-phase-field-theory-two-phase" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01_Fundamentals_PF.html">Fundamentals of phase-field theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_Fundamentals_PF.html#free-energy-functional-with-phi-and-double-wells">Free energy functional with <span class="math notranslate nohighlight">\(\phi\)</span> and double-wells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Fundamentals_PF.html#euler-lagrange-equation-and-chemical-potential">Euler-Lagrange equation and chemical potential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Fundamentals_PF.html#fundamental-solution-of-euler-lagrange-equation">Fundamental solution of Euler-Lagrange equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Fundamentals_PF.html#alternative-forms-of-double-wells">Alternative forms of double-wells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Fundamentals_PF.html#properties-of-equilibrium-solutions">Properties of equilibrium solutions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Fundamentals_PF.html#bibliography">Bibliography</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Fundamentals_PF.html#appendices">Appendices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02_CH_CAC_Models.html">Time-evolution: Cahn-Hilliard and Allen-Cahn models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02_CH_CAC_Models.html#cahn-hilliard-ch-model-for-conservative-order-parameter">Cahn-Hilliard (CH) model for conservative order parameter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_CH_CAC_Models.html#allen-cahn-model-for-non-conservative-order-parameter">Allen-Cahn model for non-conservative order parameter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_CH_CAC_Models.html#conservative-allen-cahn-cac-model">Conservative Allen-Cahn (CAC) model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03_NavierStokes_with_PhaseField.html">Model of incompressible Navier-Stokes with interface-capturing equation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03_NavierStokes_with_PhaseField.html#bulk-and-local-densities">Bulk and local densities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_NavierStokes_with_PhaseField.html#mass-balance">Mass balance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_NavierStokes_with_PhaseField.html#incompressible-two-phase-flows-without-phase-change">Incompressible two-phase flows without phase change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_NavierStokes_with_PhaseField.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="04_NavierStokes_Korteweg.html">Isothermal Navier-Stokes/Korteweg model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04_NavierStokes_Korteweg.html#free-energy-functional-with-rho">Free energy functional with <span class="math notranslate nohighlight">\(\rho\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_NavierStokes_Korteweg.html#van-der-waals-equation-of-state-and-maxwell-construction">van der Waals equation of state and Maxwell construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_NavierStokes_Korteweg.html#free-energy-density-and-non-local-pressure">Free energy density and non-local pressure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_NavierStokes_Korteweg.html#maxwell-construction-for-bulk-densities-rho-l-and-rho-g">Maxwell construction for bulk densities <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(\rho_g\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_NavierStokes_Korteweg.html#pressure-tensor-and-korteweg-tensor">Pressure tensor and Korteweg tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_NavierStokes_Korteweg.html#mathematical-model-of-van-der-waals-fluids">Mathematical model of van der Waals fluids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_NavierStokes_Korteweg.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="05_Thermodynamic_Of_PhaseTransition.html">Thermodynamics of phase transition (to be written)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="05_Thermodynamic_Of_PhaseTransition.html#common-tangent-construction">Common tangent construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_Thermodynamic_Of_PhaseTransition.html#droplet-growth">Droplet growth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_Thermodynamic_Of_PhaseTransition.html#ostwald-ripening">Ostwald ripening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_Thermodynamic_Of_PhaseTransition.html#models-of-phase-change">Models of phase change</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../Course_LBM/03_Equilibrium-Distribution-Function_Course.html"
+                          title="previous chapter">Equilibrium distribution functions</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="01_Fundamentals_PF.html"
+                          title="next chapter">Fundamentals of phase-field theory</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_PF/TOC_Phase-Field.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="01_Fundamentals_PF.html" title="Fundamentals of phase-field theory"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../Course_LBM/03_Equilibrium-Distribution-Function_Course.html" title="Equilibrium distribution functions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Basic concepts of phase-field theory: two-phase</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

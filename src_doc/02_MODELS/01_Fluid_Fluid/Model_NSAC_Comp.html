@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Model of Navier-Stokes/CAC with surfactant" href="Model_NSAC_Surfactant.html" />
+    <link rel="prev" title="PART II: Mathematical models in LBM_Saclay" href="../models.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Model_NSAC_Surfactant.html" title="Model of Navier-Stokes/CAC with surfactant"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../models.html" title="PART II: Mathematical models in LBM_Saclay"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" accesskey="U">PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="model-of-navier-stokes-conservative-allen-cahn-cac-composition">
+<span id="math-nsac-comp"></span><h1>Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition<a class="headerlink" href="#model-of-navier-stokes-conservative-allen-cahn-cac-composition" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<div class="warning admonition">
+<p class="admonition-title">Basic model</p>
+<p>That model is one of the most popular model of two-phase flows with interface-capturing. It is composed of incompressible Navier-Stokes (<code class="docutils literal notranslate"><span class="pre">NS</span></code>) equations coupled with the Conservative Allen-Cahn (<code class="docutils literal notranslate"><span class="pre">CAC</span></code>) equation (or levelset equation). That model is applied for simulating many classical problems such as “rising bubbles”, splashing droplets”, “Rayleigh-Taylor instability”, etc. In LBM_Saclay, that model is implemented in the kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> where <code class="docutils literal notranslate"><span class="pre">_Comp</span></code> means Composition equation. The kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> is extensively used for two-phase test cases which are contained in the folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>. The test cases of this folder are used in a training session of LBM with the Training version of LBM_Saclay.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../01_USER_GUIDE/RUN_TRAINING_LBM/runtraininglbm.html#run-training-lbm"><span class="std std-ref">Practice of two-phase flows with test cases of run_training_lbm</span></a> with that model can be performed with <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input files of folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>.</p></li>
+</ul>
+</div>
+<p>That model is a basis for other models which are developed in other kernels e.g. two-phase flows with surfactant, two-phase flows with phase change, two-phase flows interacting with a solid phase and three immiscible fluids:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="Model_NSAC_Surfactant.html#math-nsac-surfactant"><span class="std std-ref">Model of Navier-Stokes/CAC with surfactant</span></a></p></li>
+<li><p><a class="reference internal" href="Model_NSAC_Comp_PhaseChange.html#math-nsac-phasechange"><span class="std std-ref">Model of Navier-Stokes/CAC with Liquid-Gas phase change</span></a></p></li>
+<li><p><a class="reference internal" href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#math-nsac-comp-solid"><span class="std std-ref">Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase</span></a></p></li>
+<li><p><a class="reference internal" href="../04_Fluid_Fluid_Fluid/NS_2AC_Comp.html#math-ns2ac-comp"><span class="std std-ref">Model of fluid flow for three immiscible phases</span></a></p></li>
+</ul>
+</section>
+<section id="mathematical-model-of-incompressible-two-phase-flows">
+<h2>Mathematical model of incompressible two-phase flows<a class="headerlink" href="#mathematical-model-of-incompressible-two-phase-flows" title="Link to this heading"></a></h2>
+<p>The mathematical model is composed of incompressible Navier-Stokes equations coupled with the phase-field equation and the composition equation.</p>
+<div class="error admonition">
+<p class="admonition-title">Mathematical model</p>
+<p><strong>Mass balance equation</strong></p>
+<p>The mass balance writes:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-cac-model">
+<span class="eqno">(31)<a class="headerlink" href="#equation-mass-balance-cac-model" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)=(u_x,u_y,u_z)^T\)</span> is the fluid velocity.</p>
+<p><strong>Impulsion balance equation</strong></p>
+<p>The impulsion balance equation writes:</p>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance">
+<span class="eqno">(32)<a class="headerlink" href="#equation-impulsion-balance" title="Link to this equation"></a></span>\[\varrho(\phi,c)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\eta(\phi)\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\boldsymbol{F}_{tot}\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_{h}\equiv p_{h}(\boldsymbol{x},t)\)</span> is the hydrodynamic pressure, <span class="math notranslate nohighlight">\(\varrho\)</span> is the total densiy and <span class="math notranslate nohighlight">\(\eta\)</span> is the dynamic viscosity. Those quantities are obtained from the interpolation of bulk properties with the phase-field <span class="math notranslate nohighlight">\(\phi\)</span>. Their expressions will be given in the subsection “Closure”.</p>
+<p><strong>Phase-field equation</strong></p>
+<p>The interface is followed by an additional PDE on the phase-field:</p>
+<div class="math notranslate nohighlight" id="equation-cac-equation">
+<span class="eqno">(33)<a class="headerlink" href="#equation-cac-equation" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right)\right]+\lambda\mathscr{S}_{\phi}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\phi\equiv\phi(\boldsymbol{x},t)\)</span> is the phase-field, <span class="math notranslate nohighlight">\(M_{\phi}\)</span> is the mobility and <span class="math notranslate nohighlight">\(W\)</span> is the interface width. That equation is called “Conservative Allen-Cahn” equation (CAC). It is also encountered in the literature as the “Levelset” equation.</p>
+<p><strong>Composition equation</strong></p>
+<p>Finally, the composition equation is also considered in that model:</p>
+<div class="math notranslate nohighlight" id="equation-composition-equation">
+<span class="eqno">(34)<a class="headerlink" href="#equation-composition-equation" title="Link to this equation"></a></span>\[\frac{\partial c}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}c)=\boldsymbol{\nabla}\cdot\left[\mathcal{D}(\phi)\boldsymbol{\nabla}\mu_{c}\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(c\equiv c(\boldsymbol{x},t)\)</span> is the composition, <span class="math notranslate nohighlight">\(\mathcal{D}(\phi)\)</span> is the diffusion coefficient and <span class="math notranslate nohighlight">\(\mu_{c}\)</span> is the chemical potential relative to the composition <span class="math notranslate nohighlight">\(c\)</span>.</p>
+</div>
+<section id="force-and-source-terms">
+<h3>Force and source terms<a class="headerlink" href="#force-and-source-terms" title="Link to this heading"></a></h3>
+<div class="caution admonition">
+<p class="admonition-title">Total force</p>
+<p>Several forces are defined in <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> kernel.</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Total force</div>
+<p class="sd-card-text">The total force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{tot}\)</span> in Eq. <a class="reference internal" href="../../05_COURSES/Course_LBM/01_Fluid_Dyn_Models.html#equation-impulsion-balance">(333)</a> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-total">
+<span class="eqno">(35)<a class="headerlink" href="#equation-force-total" title="Link to this equation"></a></span>\[\boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}+\boldsymbol{F}_{M}\]</div>
+<p class="sd-card-text">where <span class="math notranslate nohighlight">\(\boldsymbol{F}_{c}\)</span> is the capillary force, <span class="math notranslate nohighlight">\(\boldsymbol{F}_{g}\)</span> is the gravity force and <span class="math notranslate nohighlight">\(\boldsymbol{F}_{M}\)</span> is the Marangoni force.</p>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Gravity force</div>
+<p class="sd-card-text">The gravity force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{g}\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-gravity">
+<span class="eqno">(36)<a class="headerlink" href="#equation-force-gravity" title="Link to this equation"></a></span>\[\boldsymbol{F}_{g}=\varrho(\phi,c)\boldsymbol{g}\]</div>
+<p class="sd-card-text">where <span class="math notranslate nohighlight">\(\varrho(\phi,c)\)</span> is an interpolation of bulk densities by Eq. <a class="reference internal" href="Model_NSAC_Surfactant.html#equation-density-total-surf">(66)</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Capillary force</div>
+<p class="sd-card-text">The capillary force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{c}\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-capillary">
+<span class="eqno">(37)<a class="headerlink" href="#equation-force-capillary" title="Link to this equation"></a></span>\[\boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi\]</div>
+<p class="sd-card-text">where the chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-pot-chem-phi">
+<span class="eqno">(38)<a class="headerlink" href="#equation-pot-chem-phi" title="Link to this equation"></a></span>\[\mu_{\phi}=\frac{3}{2}\sigma\left[\frac{16}{W}\phi(1-\phi)(1-2\phi)-W\boldsymbol{\nabla}^{2}\phi\right]\]</div>
+<p class="sd-card-text"><span class="math notranslate nohighlight">\(\sigma\)</span> is the surface tension and <span class="math notranslate nohighlight">\(W\)</span> is the interface width.</p>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Marangoni force</div>
+<p class="sd-card-text">The Marangoni force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{M}\)</span> is a surfacic gradient of <span class="math notranslate nohighlight">\(\sigma(c)\)</span> defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-marangoni">
+<span class="eqno">(39)<a class="headerlink" href="#equation-force-marangoni" title="Link to this equation"></a></span>\[\boldsymbol{F}_{M}=\frac{3W}{2}\left[\boldsymbol{\nabla}\sigma|\boldsymbol{\nabla}\phi|^{2}-\boldsymbol{\nabla}\phi(\boldsymbol{\nabla}\phi\cdot\boldsymbol{\nabla}\sigma)\right]\]</div>
+<div class="math notranslate nohighlight" id="equation-sigma-c">
+<span class="eqno">(40)<a class="headerlink" href="#equation-sigma-c" title="Link to this equation"></a></span>\[\sigma(c)=\sigma_{ref}+\frac{d\sigma}{dc}(c-c_{ref})\]</div>
+<div class="math notranslate nohighlight" id="equation-ds-dc">
+<span class="eqno">(41)<a class="headerlink" href="#equation-ds-dc" title="Link to this equation"></a></span>\[\frac{d\sigma}{dc}=\sigma_{c}&lt;0\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-1 sd-row-cols-lg-1 docutils">
+<div class="sd-text-center docutils">
+</div>
+</div>
+</div>
+</div>
+<p><strong>Source term of Eq.</strong> <a class="reference internal" href="#equation-cac-equation">(33)</a></p>
+<p>In the last term of the right-hand side of Eq. <a class="reference internal" href="#equation-cac-equation">(33)</a>, the source term <span class="math notranslate nohighlight">\(\mathscr{S}_{\phi}\)</span> can be defined for phase-change problems. An example of such a source term can be found on <a class="reference internal" href="../02_Fluid_Solid/Model_Dissolution.html#math-dissolution"><span class="std std-ref">Model of dissolution</span></a> (Eq. <a class="reference internal" href="../02_Fluid_Solid/Model_Dissolution.html#equation-source-term-dissolution">(103)</a>) and <a class="reference internal" href="../02_Fluid_Solid/Model_CrystalGrowth.html#math-crystal"><span class="std std-ref">Model of crystal growth</span></a>. In that case, the <span class="math notranslate nohighlight">\(\lambda\)</span> coefficient must be appropriately chosen. For two immiscible fluid flows, that coefficient is set equal to zero.</p>
+</section>
+<section id="closure-relationships">
+<h3>Closure relationships<a class="headerlink" href="#closure-relationships" title="Link to this heading"></a></h3>
+<p>In order to close the model, it is required to add closure relationships. In Eq. <a class="reference internal" href="#equation-composition-equation">(34)</a>, the flux is given by the gradient of chemical potential <span class="math notranslate nohighlight">\(\mu_c\)</span> which is generalization of the classic Fick’s law. The chemical potential is related to the composition <span class="math notranslate nohighlight">\(c\)</span> by</p>
+<div class="math notranslate nohighlight" id="equation-pot-chem-compos">
+<span class="eqno">(42)<a class="headerlink" href="#equation-pot-chem-compos" title="Link to this equation"></a></span>\[\mu_{c}=\mu_{c}^{eq}+c(\phi,\mu_{c})-\left[c_{1}^{eq}\phi+c_{0}^{eq}(1-\phi)\right]\]</div>
+<p>In that equation, <span class="math notranslate nohighlight">\(\mu_{c}^{eq}\)</span>, <span class="math notranslate nohighlight">\(c_{0}^{eq}\)</span> and <span class="math notranslate nohighlight">\(c_{1}^{eq}\)</span> are three scalar values which must be set in the input file. If all of them are zero, then the classic diffusion equation is recoved. Non-zero positive values of <span class="math notranslate nohighlight">\(c_{0}^{eq}\)</span> and <span class="math notranslate nohighlight">\(c_{1}^{eq}\)</span> mean that the compositions in each phase will tend to the equilibrium compositions <span class="math notranslate nohighlight">\(c_{0}^{eq}\)</span> and <span class="math notranslate nohighlight">\(c_{1}^{eq}\)</span> during the simulation.</p>
+<p>The total density <span class="math notranslate nohighlight">\(\varrho\)</span> is interpolated by <span class="math notranslate nohighlight">\(\phi\)</span> and <span class="math notranslate nohighlight">\(c\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-density-total">
+<span class="eqno">(43)<a class="headerlink" href="#equation-density-total" title="Link to this equation"></a></span>\[\varrho(\phi,c)=\rho_{1}(c)p(\phi)+\rho_{0}(c)(1-p(\phi))\]</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> the bulk density can slightly vary with the composition. The interpolation is linear in <span class="math notranslate nohighlight">\(c\)</span> between the initial density <span class="math notranslate nohighlight">\(\rho^{ini}\)</span> and the equilibrium one <span class="math notranslate nohighlight">\(\rho^{eq}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-density-bulk">
+<span class="eqno">(44)<a class="headerlink" href="#equation-density-bulk" title="Link to this equation"></a></span>\[\rho_{\Phi}(c)=(\rho_{\Phi}^{eq}-\rho_{\Phi}^{ini})\frac{c-c_{\Phi}^{ini}}{c_{\Phi}^{eq}-c_{\Phi}^{ini}}+\rho_{\Phi}^{ini}\]</div>
+<p>It is recommended to keep the variation of <span class="math notranslate nohighlight">\(\Delta \rho = \rho^{ini}-\rho^{eq}\)</span> small. The index <span class="math notranslate nohighlight">\(\Phi=0,1\)</span> indicates phase 0 or phase 1. The interpolation function <span class="math notranslate nohighlight">\(p(\phi)\)</span> can be chosen:</p>
+<div class="math notranslate nohighlight" id="equation-polynom-interpol">
+<span class="eqno">(45)<a class="headerlink" href="#equation-polynom-interpol" title="Link to this equation"></a></span>\[\begin{split}p(\phi)=\begin{cases}
+\phi\qquad\text{or}\\
+\phi^{2}(3-2\phi)
+\end{cases}\end{split}\]</div>
+<p>The dynamic viscosity is interpolated by a harmonic mean formula:</p>
+<div class="math notranslate nohighlight" id="equation-viscosity-total">
+<span class="eqno">(46)<a class="headerlink" href="#equation-viscosity-total" title="Link to this equation"></a></span>\[\frac{1}{\eta(\phi)}=\frac{\phi}{\eta_{1}}+\frac{1-\phi}{\eta_{0}}\]</div>
+<p>Finally in the composition equation, the diffusion parameter is also
+linearly interpolated:</p>
+<div class="math notranslate nohighlight" id="equation-diffusion-total">
+<span class="eqno">(47)<a class="headerlink" href="#equation-diffusion-total" title="Link to this equation"></a></span>\[\mathcal{D}(\phi)=D_{1}\phi+D_{0}(1-\phi)\]</div>
+</section>
+<section id="alternative-phase-field-model">
+<h3>Alternative phase-field model<a class="headerlink" href="#alternative-phase-field-model" title="Link to this heading"></a></h3>
+<p>With the kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>, other phase-field equations can be simulated with appropriate options inside the input file. For example, the well-known model of Cahn-Hilliard writes:</p>
+<p><strong>Cahn-Hilliard model</strong></p>
+<div class="math notranslate nohighlight" id="equation-cahn-hilliard">
+<span class="eqno">(48)<a class="headerlink" href="#equation-cahn-hilliard" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\mathcal{M}_{\phi}\boldsymbol{\nabla}^{2}\mu_{\phi}\]</div>
+<p>where the chemical potential is defined by</p>
+<div class="math notranslate nohighlight" id="equation-chem-pot-cahn-hilliard">
+<span class="eqno">(49)<a class="headerlink" href="#equation-chem-pot-cahn-hilliard" title="Link to this equation"></a></span>\[\mu_{\phi}=2H\phi(1-\phi)(1-2\phi)-\zeta\boldsymbol{\nabla}^{2}\phi\]</div>
+<p><strong>Alternative form of conservative Allen-Cahn equation</strong></p>
+<p>The counter term <span class="math notranslate nohighlight">\((4/W)\phi(1-\phi)\boldsymbol{n}\)</span> in the Conservative Allen-Cahn (CAC) Eq. <a class="reference internal" href="#equation-cac-equation">(33)</a> can also be put outside the divergence term and noted <span class="math notranslate nohighlight">\(\mathcal{S}_{ct}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-cac-2nd-form">
+<span class="eqno">(50)<a class="headerlink" href="#equation-cac-2nd-form" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=M_{\phi}\boldsymbol{\nabla}^{2}\phi\underbrace{-\boldsymbol{\nabla}\cdot\left[\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right]}_{\mathcal{S}_{ct}}\]</div>
+<p><strong>Allen-Cahn equation for phase change problems</strong></p>
+<p>For problems of phase change, e.g. dissolution of porous media, the phase-field equation makes appear a first term involving the derivative of double-well <span class="math notranslate nohighlight">\(\mathcal{S}_{dw}\)</span> and a second term, a source term, <span class="math notranslate nohighlight">\(\mathcal{S}_{st}\)</span> which is responsible for the interface displacement and proportional to a coupling coefficient <span class="math notranslate nohighlight">\(\lambda\)</span>. Such a model is presented in <a class="reference internal" href="../02_Fluid_Solid/Model_Dissolution.html#math-dissolution"><span class="std std-ref">Model of dissolution</span></a> where the phase-field equation writes:</p>
+<div class="math notranslate nohighlight" id="equation-allen-cahn">
+<span class="eqno">(51)<a class="headerlink" href="#equation-allen-cahn" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=M_{\phi}\boldsymbol{\nabla}^{2}\phi\underbrace{-\frac{M_{\phi}}{W^{2}}2\phi(1-\phi)(1-2\phi)}_{\mathcal{S}_{dw}}+\underbrace{\frac{\lambda M_{\phi}}{W^{2}}\mathscr{S}_{\phi}(\phi,\,\overline{\mu})}_{\mathcal{S}_{st}}\]</div>
+<p><strong>General form of phase-field equation</strong></p>
+<div class="important admonition">
+<p class="admonition-title">General formulation for phase-field equation</p>
+<p>Finally, if we introduce two integers <span class="math notranslate nohighlight">\(\chi_1\)</span> and <span class="math notranslate nohighlight">\(\chi_2\)</span>, a general formulation of the phase-field equation writes:</p>
+<div class="math notranslate nohighlight" id="equation-general-phase-field">
+<span class="eqno">(52)<a class="headerlink" href="#equation-general-phase-field" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=M_{\phi}\boldsymbol{\nabla}^{2}[\chi_{1}\mu_{\phi}+(1-\chi_{1})\phi]-(1-\chi_{1})\left[\chi_{2}\mathcal{S}_{ct}+(1-\chi_{2})\mathcal{S}_{dw}+\mathcal{S}_{st}\right]\]</div>
+<p>In that equation if</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\chi_1=1\)</span> then the CH Eq. <a class="reference internal" href="#equation-cahn-hilliard">(48)</a> is recovered.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\chi_1=0\)</span> and <span class="math notranslate nohighlight">\(\chi_2=1\)</span>, then the CAC Eq. <a class="reference internal" href="#equation-cac-equation">(33)</a> is recovered.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\chi_1=0\)</span> and <span class="math notranslate nohighlight">\(\chi_2=0\)</span>, then the CAC Eq. <a class="reference internal" href="#equation-allen-cahn">(51)</a> is recovered.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<p>In the input file of LBM_Saclay, the integers <span class="math notranslate nohighlight">\(\chi_1\)</span> and <span class="math notranslate nohighlight">\(\chi_2\)</span> are respectively named <code class="docutils literal notranslate"><span class="pre">cahn_hilliard</span></code> and <code class="docutils literal notranslate"><span class="pre">counter_term</span></code>. Examples of <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input files are given in the folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></p>
+<ul class="simple">
+<li><p>For Cahn-Hilliard model: <code class="docutils literal notranslate"><span class="pre">TestCase05_Spinodal-Decomposition2D</span></code></p></li>
+<li><p>For Allen-Cahn equation with phase change: <code class="docutils literal notranslate"><span class="pre">TestCase06b_Stefan-Problem</span></code></p></li>
+<li><p>For Conservative Allen-Cahn equation: all other two-phase test cases (e.g. <code class="docutils literal notranslate"><span class="pre">TestCase09_Capillary-Wave2D</span></code>)</p></li>
+</ul>
+</section>
+</section>
+<section id="list-of-input-parameters-in-ini-file">
+<h2>List of input parameters in <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file<a class="headerlink" href="#list-of-input-parameters-in-ini-file" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Section <code class="docutils literal notranslate"><span class="pre">[lbm]</span></code></p>
+<p>In section <code class="docutils literal notranslate"><span class="pre">[lbm]</span></code> use the keyword <code class="docutils literal notranslate"><span class="pre">problem=NSAC_Comp</span></code> to simulate that mathematical model. Next, the sections <code class="docutils literal notranslate"><span class="pre">[params]</span></code> and <code class="docutils literal notranslate"><span class="pre">[params_composition]</span></code> must be set.</p>
+</li>
+<li><p>Section <code class="docutils literal notranslate"><span class="pre">[params]</span></code></p>
+<p>The list of parameters are summarized in Table below.</p>
+</li>
+</ol>
+<div class="sphinx-features docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Math symbol</strong></p></td>
+<td><p><strong>Parameter name</strong></p></td>
+<td><p><strong>Equation</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.ini</span></code> <strong>file</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(M_{\phi}\)</span></p></td>
+<td><p>Mobility of interface</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-cac-equation">(33)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Mphi</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(W\)</span></p></td>
+<td><p>Interface width</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-cac-equation">(33)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">W</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\lambda\)</span></p></td>
+<td><p>Coupling parameter</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-cac-equation">(33)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">lambda</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\rho_0\)</span></p></td>
+<td><p>Bulk density of phase 0</p></td>
+<td><p>Eq. <a class="reference internal" href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#equation-density-total">(129)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rho0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\rho_1\)</span></p></td>
+<td><p>Bulk density of phase 1</p></td>
+<td><p>Eq. <a class="reference internal" href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#equation-density-total">(129)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rho1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\nu_0\)</span></p></td>
+<td><p>Kinematic viscosity of phase 0</p></td>
+<td><p>Eq. <a class="reference internal" href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#equation-viscosity-total">(130)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nu0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\nu_1\)</span></p></td>
+<td><p>Kinematic viscosity of phase 1</p></td>
+<td><p>Eq. <a class="reference internal" href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#equation-viscosity-total">(130)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nu1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p>Surface tension</p></td>
+<td><p>Eq. <a class="reference internal" href="Model_NSAC_Comp_PhaseChange.html#equation-pot-chem-phi">(82)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigma</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(g_{\alpha}\)</span> with <span class="math notranslate nohighlight">\(\alpha=x,y,z\)</span></p></td>
+<td><p>Gravity</p></td>
+<td><p>Impulsion balance</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gy</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(D_0\)</span></p></td>
+<td><p>Bulk diffusion of phase 0</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-diffusion-total">(47)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rho0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D_1\)</span></p></td>
+<td><p>Bulk diffusion of phase 1</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-diffusion-total">(47)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rho1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\rho_{0}^{ini}\)</span></p></td>
+<td><p>Initial bulk density of phase 0</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-density-bulk">(44)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rho0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\rho_{0}^{eq}\)</span></p></td>
+<td><p>Equilibrium bulk density of phase 0</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-density-bulk">(44)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rho1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\rho_{1}^{ini}\)</span></p></td>
+<td><p>Initial bulk density of phase 0</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-density-bulk">(44)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rho0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\rho_{1}^{eq}\)</span></p></td>
+<td><p>Equilibrium bulk density of phase 0</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-density-bulk">(44)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rho1</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Section <code class="docutils literal notranslate"><span class="pre">[params_composition]</span></code></p></li>
+</ol>
+<div class="sphinx-features docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Math symbol</strong></p></td>
+<td><p><strong>Parameter name</strong></p></td>
+<td><p><strong>Equation</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.ini</span></code> <strong>file</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mu^{eq}_c\)</span></p></td>
+<td><p>Equilibrium chemical potential</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-pot-chem-compos">(42)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mu_eq</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(c_0^{ini}\)</span></p></td>
+<td><p>Initial composition of phase 0</p></td>
+<td><p>Init cond for Eq. <a class="reference internal" href="#equation-composition-equation">(34)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">c0_inf</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(c_0^{eq}\)</span></p></td>
+<td><p>Equilibrium composition of phase 0</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-pot-chem-compos">(42)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">c0_co</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(c_1^{ini}\)</span></p></td>
+<td><p>Initial composition of phase 1</p></td>
+<td><p>Init cond for Eq. <a class="reference internal" href="#equation-composition-equation">(34)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">c1_inf</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(c_1^{eq}\)</span></p></td>
+<td><p>Equilibrium composition of phase 1</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-pot-chem-compos">(42)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">c1_co</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol class="arabic" start="4">
+<li><p>Section <code class="docutils literal notranslate"><span class="pre">[params_marangoni]</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">force_marangoni=</span></code>: <code class="docutils literal notranslate"><span class="pre">1</span></code> or <code class="docutils literal notranslate"><span class="pre">0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sigma_marangoni=</span></code>: positive real value (Eq. <a class="reference internal" href="#equation-sigma-c">(40)</a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dsigmadcomp</span> <span class="pre">=</span></code>: negative real value (Eq. <a class="reference internal" href="#equation-ds-dc">(41)</a>)</p></li>
+</ul>
+</li>
+<li><p>Section <code class="docutils literal notranslate"><span class="pre">[output]</span></code></p>
+<p>In the output section <code class="docutils literal notranslate"><span class="pre">[output]</span></code> of <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file, the fields to write must be indicated as a list in <code class="docutils literal notranslate"><span class="pre">write_variables=</span></code>. For example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">write_variables=vx,vy,vz,pressure,phi,composition</span></code></p>
+<p>The names of fields can be found in the source file <code class="docutils literal notranslate"><span class="pre">Index_NS_AC_Comp.h</span></code> of directory <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev/src/kernels/NSAC_Comp</span></code>.</p>
+</li>
+</ol>
+</section>
+<section id="validation-with-analytical-solution-of-prosperetti">
+<h2>Validation with analytical solution of Prosperetti<a class="headerlink" href="#validation-with-analytical-solution-of-prosperetti" title="Link to this heading"></a></h2>
+<p>That analytical solution has been implemented in sage math (see ref <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>)</p>
+<section id="setup-for-lbm-saclay">
+<h3>Setup for LBM_Saclay<a class="headerlink" href="#setup-for-lbm-saclay" title="Link to this heading"></a></h3>
+<p>The simulations with LBM_Saclay are run with kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>. Even though the composition equation is solved in that kernel, the composition is not used for that test case. The collision operators are BGK for phase-field and composition equations. For Navier-Stokes equations, the MRT is used.</p>
+<p><strong>Input parameters</strong></p>
+<p>In <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files, the following parameters are identical:</p>
+<ul class="simple">
+<li><p>For hydrodynamic the parameters are <span class="math notranslate nohighlight">\(\rho_l=1\)</span>, <span class="math notranslate nohighlight">\(\rho_g=0.01\)</span>, <span class="math notranslate nohighlight">\(\nu_l=\nu_g=0.005\)</span>, <span class="math notranslate nohighlight">\(g_y=0\)</span>, <span class="math notranslate nohighlight">\(\sigma=10^{-4}\)</span>.</p></li>
+<li><p>For phase-field equation, they are <span class="math notranslate nohighlight">\(W=5\)</span>, <span class="math notranslate nohighlight">\(M_{\phi}=0.02\)</span>.</p></li>
+</ul>
+<p>The positions of boundaries are</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x_{min}=-64\)</span>, <span class="math notranslate nohighlight">\(x_{max}=64\)</span> corresponding to <span class="math notranslate nohighlight">\(L_x=128\)</span>. The conditions are periodic.</p></li>
+<li><p><span class="math notranslate nohighlight">\(y_{min}=0\)</span>, <span class="math notranslate nohighlight">\(y_{max}=256\)</span> corresponding to <span class="math notranslate nohighlight">\(L_y=256\)</span>. The conditions are bounce-back.</p></li>
+</ul>
+<p>For following simulations <span class="math notranslate nohighlight">\(L_x=128\)</span> and <span class="math notranslate nohighlight">\(L_y=256\)</span> are set constant. We modify <span class="math notranslate nohighlight">\(N_x\)</span> and <span class="math notranslate nohighlight">\(N_y\)</span> i.e. <span class="math notranslate nohighlight">\(\delta x\)</span> and <span class="math notranslate nohighlight">\(\delta t\)</span>. For those comparisons, the density ratio is <span class="math notranslate nohighlight">\(\rho_l/\rho_g=100\)</span>. For higher density ratios (~830) the comparisons are presented in <a class="reference internal" href="../../01_USER_GUIDE/RUN_TRAINING_LBM/Test_Cases_Two_Phase.html#twop-training-lbm"><span class="std std-ref">Run “Two-phase with fluid flows”</span></a>. The simulations ran on MANWE equipped with one GPU A6000.</p>
+<ul class="simple">
+<li><p>The wavelength is <span class="math notranslate nohighlight">\(\lambda=L_x\)</span> and the initial amplitude <span class="math notranslate nohighlight">\(a_0\)</span> is set equal to <span class="math notranslate nohighlight">\(L_x/100=1.28\)</span></p></li>
+</ul>
+</section>
+<section id="results">
+<h3>Results<a class="headerlink" href="#results" title="Link to this heading"></a></h3>
+<p><strong>Mesh 128x256</strong></p>
+<p>For that first simulation the mesh is composed of 128x256 cells corresponding to <span class="math notranslate nohighlight">\(\delta x=1\)</span>. We also set <span class="math notranslate nohighlight">\(\delta t=1\)</span>. The total number of time-steps is set equal to <span class="math notranslate nohighlight">\(N_t=300001\)</span> (<code class="docutils literal notranslate"><span class="pre">nStepmax</span></code>) and <code class="docutils literal notranslate"><span class="pre">nOutput=2000</span></code>. The simulation took 222.9 seconds (~3min43s). The comparison is presented on Fig. <a class="reference internal" href="#target-fig-prosperetti-mesh128x256"><span class="std std-numref">Fig. 27</span></a>.</p>
+<p><strong>Mesh 256x512</strong></p>
+<p>For that first simulation the mesh is composed of 256x512 cells corresponding to <span class="math notranslate nohighlight">\(\delta x=0.5\)</span>. We also set <span class="math notranslate nohighlight">\(\delta t=0.5\)</span>. The total number of time-steps is set equal to <span class="math notranslate nohighlight">\(N_t=600001\)</span> (<code class="docutils literal notranslate"><span class="pre">nStepmax</span></code>) and <code class="docutils literal notranslate"><span class="pre">nOutput=4000</span></code>. The simulation took 1042.3 seconds (~17min22s). The comparison is presented on Fig. <a class="reference internal" href="#target-fig-prosperetti-mesh256x512"><span class="std std-numref">Fig. 28</span></a>.</p>
+<p>2085.389 s.</p>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="id4">
+<span id="target-fig-prosperetti-mesh128x256"></span><a class="reference internal image-reference" href="../../../_images/Comparison_Prosperetti_Mesh128x256.png"><img alt="../../../_images/Comparison_Prosperetti_Mesh128x256.png" src="../../../_images/Comparison_Prosperetti_Mesh128x256.png" style="width: 475.0px; height: 380.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 27 </span><span class="caption-text">Comparison on mesh size 128x256 and <span class="math notranslate nohighlight">\(\delta x=\delta t=1\)</span>.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id5">
+<span id="target-fig-prosperetti-mesh256x512"></span><a class="reference internal image-reference" href="../../../_images/Comparison_Prosperetti_Mesh256x512.png"><img alt="../../../_images/Comparison_Prosperetti_Mesh256x512.png" src="../../../_images/Comparison_Prosperetti_Mesh256x512.png" style="width: 475.0px; height: 380.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 28 </span><span class="caption-text">Comparison on mesh size 256x512 and <span class="math notranslate nohighlight">\(\delta x=\delta t=0.5\)</span>.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="id6">
+<span id="target-fig-prosperetti-comparemesh"></span><a class="reference internal image-reference" href="../../../_images/Fig_Prosperetti_CompareMesh.png"><img alt="../../../_images/Fig_Prosperetti_CompareMesh.png" src="../../../_images/Fig_Prosperetti_CompareMesh.png" style="width: 650.0px; height: 500.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 29 </span><span class="caption-text">Zoom for mesh sizes 64x128 (green), 128x256 (blue) and 256x512 (black) with reference (red).</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<p>As expected, the numerical solution becomes more and more accurate when the mesh size and time step diminish.</p>
+</section>
+</section>
+<section id="examples-of-simulations-with-that-model">
+<h2>Examples of simulations with that model<a class="headerlink" href="#examples-of-simulations-with-that-model" title="Link to this heading"></a></h2>
+<p>As already mentioned, many test cases using that math model can be found in the directory <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> to  <a class="reference internal" href="../../01_USER_GUIDE/RUN_TRAINING_LBM/runtraininglbm.html#run-training-lbm"><span class="std std-ref">Practice of two-phase flows with test cases of run_training_lbm</span></a>. It is recommended to start running the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files contained in that directory. Here we present few videos of 3D simulations. Other videos can be found in <a class="reference internal" href="../../01_USER_GUIDE/RUN_TRAINING_LBM/Test_Cases_Two_Phase.html#twop-training-lbm"><span class="std std-ref">Run “Two-phase with fluid flows”</span></a></p>
+<video controls src="../../../_static/Vid3D_RT-2modes_900x900x512_Crop.webm" width="700" height="530"> </video><video controls src="../../../_static/Vid3D_Taylor-Bubble_vC_Bo20.webm" width="800" height="620"> </video></section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>Andrea Prosperetti. Motion of two superposed viscous fluids. The Physics of Fluids, 24(7):1217–1223, 07 1981. URL: <a class="reference external" href="https://doi.org/10.1063/1.863522">https://doi.org/10.1063/1.863522</a>.</p>
+</aside>
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">2</a><span class="fn-bracket">]</span></span>
+<p>Hoel Keraudren. Pseudo-potential method for multiphase flows using Lattice Boltzmann Methods (Simulation of Navier-Stokes-Korteweg equations). Technical Report CEA, 2023.</p>
+</aside>
+</aside>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#mathematical-model-of-incompressible-two-phase-flows">Mathematical model of incompressible two-phase flows</a><ul>
+<li><a class="reference internal" href="#force-and-source-terms">Force and source terms</a></li>
+<li><a class="reference internal" href="#closure-relationships">Closure relationships</a></li>
+<li><a class="reference internal" href="#alternative-phase-field-model">Alternative phase-field model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#list-of-input-parameters-in-ini-file">List of input parameters in <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file</a></li>
+<li><a class="reference internal" href="#validation-with-analytical-solution-of-prosperetti">Validation with analytical solution of Prosperetti</a><ul>
+<li><a class="reference internal" href="#setup-for-lbm-saclay">Setup for LBM_Saclay</a></li>
+<li><a class="reference internal" href="#results">Results</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples-of-simulations-with-that-model">Examples of simulations with that model</a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../models.html"
+                          title="previous chapter">PART II: Mathematical models in LBM_Saclay</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Model_NSAC_Surfactant.html"
+                          title="next chapter">Model of Navier-Stokes/CAC with surfactant</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Model_NSAC_Surfactant.html" title="Model of Navier-Stokes/CAC with surfactant"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../models.html" title="PART II: Mathematical models in LBM_Saclay"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" >PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

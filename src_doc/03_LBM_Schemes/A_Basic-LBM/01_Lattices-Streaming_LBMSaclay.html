@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lattices and streaming &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Collisions operators in LBM_Saclay" href="02_Collision-Operators_LBMSaclay.html" />
+    <link rel="prev" title="PART III: Lattice Boltzmann schemes in LBM_Saclay" href="../TOC_LBM_Schemes.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="02_Collision-Operators_LBMSaclay.html" title="Collisions operators in LBM_Saclay"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../TOC_LBM_Schemes.html" title="PART III: Lattice Boltzmann schemes in LBM_Saclay"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" accesskey="U">PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Lattices and streaming</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="lattices-and-streaming">
+<span id="def-lattices"></span><h1>Lattices and streaming<a class="headerlink" href="#lattices-and-streaming" title="Link to this heading"></a></h1>
+<p>After discretization of the continuous Boltzmann Equation, the Lattice Boltzmann Equation (LBE) writes</p>
+<div class="math notranslate nohighlight" id="equation-lbe-omegacoll">
+<span class="eqno">(145)<a class="headerlink" href="#equation-lbe-omegacoll" title="Link to this equation"></a></span>\[f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)+\Omega_{i}^{\iota}(f_{i},f_{i}^{eq})+\mathcal{F}_i\]</div>
+<p>where <span class="math notranslate nohighlight">\(f_i\)</span> is the distribution function, <span class="math notranslate nohighlight">\(\Omega_i^{\iota}(f_{i},f_{i}^{eq})\)</span> is the collision operator and <span class="math notranslate nohighlight">\(\mathcal{F}_i\)</span> is the microscopic forcing term. The right-hand side is called the collision stage which is local and explicit. The algorithm is splitted into two main stages: the collision stage and the streaming stage. After the collision, the values are set in the function <span class="math notranslate nohighlight">\(f_i^{\star}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-collision-stage">
+<span class="eqno">(146)<a class="headerlink" href="#equation-collision-stage" title="Link to this equation"></a></span>\[f_i^{\star}(\boldsymbol{x},t)=f_{i}(\boldsymbol{x},t)+\Omega_{i}^{\iota}(f_{i},f_{i}^{eq})+\mathcal{F}_i\]</div>
+<p>Once the collision is performed, the streaming stage writes:</p>
+<div class="math notranslate nohighlight" id="equation-streaming-stage">
+<span class="eqno">(147)<a class="headerlink" href="#equation-streaming-stage" title="Link to this equation"></a></span>\[f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_i^{\star}(\boldsymbol{x},t)\]</div>
+<section id="definition-of-lattices">
+<h2>Definition of lattices<a class="headerlink" href="#definition-of-lattices" title="Link to this heading"></a></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>All lattices are defined in the C++ file <code class="docutils literal notranslate"><span class="pre">src/LBM_Base_Functor.cpp</span></code>. In that file, all 2D or 3D lattices are defined by several functions which implement the weights <span class="math notranslate nohighlight">\(w_i\)</span>, the moving directions <span class="math notranslate nohighlight">\(\boldsymbol{e}_i\)</span>, their opposite directions <span class="math notranslate nohighlight">\(\boldsymbol{e}_\bar{i}\)</span>, the matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> of change of basis and its inverse <span class="math notranslate nohighlight">\(\boldsymbol{M}^{-1}\)</span>.</p>
+</div>
+<p>In the source file <code class="docutils literal notranslate"><span class="pre">src/LBM_Base_Functor.cpp</span></code>, the functions are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">LBM_Weights</span></code>: defines the weights <span class="math notranslate nohighlight">\(w_i\)</span> in <code class="docutils literal notranslate"><span class="pre">w</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LBM_speeds</span></code>: defines the moving directions <span class="math notranslate nohighlight">\(\boldsymbol{e}_i\)</span> in <code class="docutils literal notranslate"><span class="pre">E</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LBM_speeds_opposite</span></code>: defines the opposite moving directions <span class="math notranslate nohighlight">\(\boldsymbol{e}_\bar{i}\)</span> in <code class="docutils literal notranslate"><span class="pre">Ebar</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Matrix</span></code>: defined the matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{M}^{-1}\)</span> for MRT collision in <code class="docutils literal notranslate"><span class="pre">M</span></code> and <code class="docutils literal notranslate"><span class="pre">Minv</span></code></p></li>
+</ul>
+<p>The index <span class="math notranslate nohighlight">\(i=0,...,N_{pop}\)</span> where <span class="math notranslate nohighlight">\(N_{pop}\)</span> depends on the lattice. The elements lattices <span class="math notranslate nohighlight">\(w_i\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{e}_i\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{e}_\bar{i}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> are defined for</p>
+<ul class="simple">
+<li><p>D2Q5</p></li>
+<li><p>D2Q9</p></li>
+<li><p>D3Q7</p></li>
+<li><p>D3Q15</p></li>
+<li><p>D3Q19</p></li>
+<li><p>D3Q27</p></li>
+</ul>
+<p>The inverse matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}^{-1}\)</span> is defined only for D2Q9 and D3Q27.</p>
+</section>
+<section id="streaming-in-lbm-saclay">
+<h2>Streaming in LBM_Saclay<a class="headerlink" href="#streaming-in-lbm-saclay" title="Link to this heading"></a></h2>
+<p>The streaming stage occurs after the collision and writes:</p>
+<div class="math notranslate nohighlight" id="equation-streaming">
+<span class="eqno">(148)<a class="headerlink" href="#equation-streaming" title="Link to this equation"></a></span>\[f_i(\boldsymbol{x}+\boldsymbol{c}_i\delta t,t+\delta t)=f_i^{\star}(\boldsymbol{x},t)\]</div>
+<p>where, for one particular direction <span class="math notranslate nohighlight">\(i\)</span>, the value of the distribution function at position <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> after the collison stage <span class="math notranslate nohighlight">\(f_i^{\star}(\boldsymbol{x},t)\)</span> is moved to the neighboring node <span class="math notranslate nohighlight">\(\boldsymbol{x}+\boldsymbol{c}_i\delta t\)</span> at time <span class="math notranslate nohighlight">\(t+\delta t\)</span>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The streaming stage in LBM_Saclay is written in the C++ function <code class="docutils literal notranslate"><span class="pre">stream</span></code> in the file <code class="docutils literal notranslate"><span class="pre">src/kernels/LBMSchemeBase.h</span></code>.</p>
+</div>
+<section id="definitions-of-c-functions">
+<h3>Definitions of C++ functions<a class="headerlink" href="#definitions-of-c-functions" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">stream</span></code> function splits the streaming into two different functions: the first one, <code class="docutils literal notranslate"><span class="pre">stream_alldir</span></code>, checks if the displacement is possible and the second one, <code class="docutils literal notranslate"><span class="pre">set_ftmp_val</span></code>, sets the value of post-collision.</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">typename</span><span class="w"> </span><span class="no">Collider</span><span class="o">&gt;</span>
+<span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">stream</span><span class="p">(</span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span>
+<span class="w">                                  </span><span class="n">const</span><span class="w"> </span><span class="no">Collider</span><span class="w"> </span><span class="o">&amp;</span><span class="n">collider</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">IJKs</span><span class="p">;</span>
+<span class="w">   </span><span class="n">bool</span><span class="w"> </span><span class="n">can_str</span><span class="p">;</span>
+<span class="w">   </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">can_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stream_alldir</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IJKs</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">can_str</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="n">set_ftmp_val</span><span class="p">(</span><span class="no">IJKs</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">collider</span><span class="o">.</span><span class="n">collide</span><span class="p">(</span><span class="n">ipop</span><span class="p">));</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>An example of function <code class="docutils literal notranslate"><span class="pre">stream_alldir</span></code> in 2D is</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="n">bool</span><span class="w"> </span><span class="n">stream_alldir</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">IVect2</span><span class="w"> </span><span class="o">&amp;</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IVect2</span><span class="w"> </span><span class="o">&amp;</span><span class="no">IJKs</span><span class="p">,</span>
+<span class="w">                                         </span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">IJK</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">IJK</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lattice</span><span class="o">.</span><span class="n">E</span><span class="o">[</span><span class="n">ipop</span><span class="o">][</span><span class="no">IX</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">jp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lattice</span><span class="o">.</span><span class="n">E</span><span class="o">[</span><span class="n">ipop</span><span class="o">][</span><span class="no">IY</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="no">IJKs</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ip</span><span class="p">;</span>
+<span class="w">   </span><span class="no">IJKs</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jp</span><span class="p">;</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="no">IJKs</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="no">IJKs</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">params</span><span class="o">.</span><span class="n">isize</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="no">IJKs</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="ow">and</span>
+<span class="w">         </span><span class="no">IJKs</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">params</span><span class="o">.</span><span class="n">jsize</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Let us notice that the current node is set in the 2D/3D vector <code class="docutils literal notranslate"><span class="pre">IJK</span></code> whereas the neighboring node is set in the 2D/3D vector <code class="docutils literal notranslate"><span class="pre">IJKs</span></code> (<code class="docutils literal notranslate"><span class="pre">s</span></code> for stream). Once the stream is checked possible for all directions, the values of post-collision are set with the C++ function <code class="docutils literal notranslate"><span class="pre">set_ftmp_val</span></code>:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">set_ftmp_val</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">IVect2</span><span class="w"> </span><span class="n">ijk</span><span class="p">,</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span>
+<span class="w">                                        </span><span class="n">real_t</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">f_tmp</span><span class="p">(</span><span class="n">ijk</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">ijk</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>where the values of <span class="math notranslate nohighlight">\(f_i^{\star}\)</span> are stored in <code class="docutils literal notranslate"><span class="pre">collider.collide(ipop)</span></code> and set in <code class="docutils literal notranslate"><span class="pre">f_tmp</span></code>. Let us notice again that the neighboring node <code class="docutils literal notranslate"><span class="pre">IJKs</span></code> is put in argument.</p>
+</section>
+<section id="call-of-c-function-stream">
+<h3>Call of C++ function <code class="docutils literal notranslate"><span class="pre">stream</span></code><a class="headerlink" href="#call-of-c-function-stream" title="Link to this heading"></a></h3>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">stream</span></code> is called in the functor <code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">operator()</span></code> with first argument <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">TagUpdate</span></code> in the file <code class="docutils literal notranslate"><span class="pre">src/kernels/FunctorSheme.h</span></code>.</p>
+</div>
+<p>For example, the 2D functor writes:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">operator</span><span class="p">()(</span><span class="n">const</span><span class="w"> </span><span class="no">TagUpdate</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="n">typename</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if</span><span class="o">&lt;</span><span class="n">dim_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">int</span><span class="o">&gt;::</span><span class="n">type</span><span class="o">&amp;</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="n">const</span>
+<span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="no">IVect2</span><span class="w"> </span><span class="no">IJK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">index2coord</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">isize</span><span class="p">,</span><span class="w"> </span><span class="n">jsize</span><span class="p">);</span>
+
+<span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_in_bounds</span><span class="p">(</span><span class="no">IJK</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="sr">//</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="n">feq</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="n">terms</span>
+<span class="w">         </span><span class="no">Collider</span><span class="w"> </span><span class="n">collider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Collider</span><span class="p">(</span><span class="n">lattice</span><span class="p">);</span>
+<span class="w">         </span><span class="n">scheme</span><span class="o">.</span><span class="n">setup_collider</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">collider</span><span class="p">);</span>
+<span class="w">         </span><span class="sr">//</span><span class="w"> </span><span class="n">collide</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">stream</span>
+<span class="w">         </span><span class="n">scheme</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">collider</span><span class="p">);</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Lattices and streaming</a><ul>
+<li><a class="reference internal" href="#definition-of-lattices">Definition of lattices</a></li>
+<li><a class="reference internal" href="#streaming-in-lbm-saclay">Streaming in LBM_Saclay</a><ul>
+<li><a class="reference internal" href="#definitions-of-c-functions">Definitions of C++ functions</a></li>
+<li><a class="reference internal" href="#call-of-c-function-stream">Call of C++ function <code class="docutils literal notranslate"><span class="pre">stream</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../TOC_LBM_Schemes.html"
+                          title="previous chapter">PART III: Lattice Boltzmann schemes in LBM_Saclay</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="02_Collision-Operators_LBMSaclay.html"
+                          title="next chapter">Collisions operators in LBM_Saclay</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/03_LBM_Schemes/A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="02_Collision-Operators_LBMSaclay.html" title="Collisions operators in LBM_Saclay"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../TOC_LBM_Schemes.html" title="PART III: Lattice Boltzmann schemes in LBM_Saclay"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" >PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Lattices and streaming</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

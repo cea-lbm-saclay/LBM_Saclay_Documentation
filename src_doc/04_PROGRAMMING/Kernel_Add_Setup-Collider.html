@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Write your function setup_collider &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="PART V: course reminders" href="../05_COURSES/TOC_Courses.html" />
+    <link rel="prev" title="Add a new equation inside the new kernel" href="Kernel_Add_New-Eq.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../05_COURSES/TOC_Courses.html" title="PART V: course reminders"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Add_New-Eq.html" title="Add a new equation inside the new kernel"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Kernel_New.html" accesskey="U">Add a new kernel</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Write your function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="write-your-function-setup-collider">
+<span id="tuto-setup-collider"></span><h1>Write your function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code><a class="headerlink" href="#write-your-function-setup-collider" title="Link to this heading"></a></h1>
+<p>The example is given on Conservative Allen-Cahn equation of kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>.</p>
+<section id="objective">
+<h2>Objective<a class="headerlink" href="#objective" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">Write a function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code></p>
+<p>In LBM_Saclay, it is required to write a C++ function named <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> for each PDE we want to simulate. For example if we want to simulate the CAC equation with a BGK collision, that function must be defined in file <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">void</span><span class="w"> </span><span class="n">setup_collider</span><span class="p">(</span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">BGK_Collider</span><span class="w"> </span><span class="o">&amp;</span><span class="n">collider</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">   </span><span class="no">To</span><span class="w"> </span><span class="n">complete</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">EquationTag1</span></code> refers to the phase-field equation and <code class="docutils literal notranslate"><span class="pre">BGK_Collider</span></code> indicates that the function defines the inputs necessary for BGK collision. The distribution function for the phase-field <span class="math notranslate nohighlight">\(\phi\)</span> is <span class="math notranslate nohighlight">\(g_i(\boldsymbol{x},t)\)</span>. The BGK operator requires four inputs that must be defined in that function (see <a class="reference internal" href="../03_LBM_Schemes/A_Basic-LBM/02_Collision-Operators_LBMSaclay.html#collision-op"><span class="std std-ref">Collisions operators in LBM_Saclay</span></a>):</p>
+<div class="math notranslate nohighlight" id="equation-distrib-after-collision-tutorial2">
+<span class="eqno">(252)<a class="headerlink" href="#equation-distrib-after-collision-tutorial2" title="Link to this equation"></a></span>\[g_{i}^{\star}(\boldsymbol{x},t)=\underbrace{g_{i}(\boldsymbol{x},t)}_{\text{collider.f[ipop]}}-\frac{1}{\underbrace{\tau_{g}}_{\text{collider.tau}}}\bigl[g_{i}(\boldsymbol{x},t)-\underbrace{\overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)}_{\text{collider.feq[ipop]}}\bigr]+\underbrace{\delta t{\color{red}\mathscr{S}_{i}^{\phi}}(\boldsymbol{x},t)}_{\text{collider.S0[ipop]}}\]</div>
+<p>The inputs are the distribution function <code class="docutils literal notranslate"><span class="pre">f[ipop]</span></code>, the equilibrium distribution function <code class="docutils literal notranslate"><span class="pre">feq[ipop]</span></code>, the collision rate <code class="docutils literal notranslate"><span class="pre">tau</span></code> and the source term <code class="docutils literal notranslate"><span class="pre">S0[ipop]</span></code>. For CAC equation, the equilibrium distribution function can be defined by:</p>
+<div class="math notranslate nohighlight" id="equation-feq-for-cac-tutorial2">
+<span class="eqno">(253)<a class="headerlink" href="#equation-feq-for-cac-tutorial2" title="Link to this equation"></a></span>\[\overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)=\overbrace{w_{i}}^{\text{w[ipop]}}\underbrace{{\color{red}\phi}}_{{\color{red}\text{Model.M0_PHI}}}\biggl[1+\frac{c\overbrace{\boldsymbol{e}_{i}\cdot\boldsymbol{u}}^{\text{Base::compute_scal}}}{c_{s}^{2}}\biggr]-\frac{1}{2}\underbrace{\delta t{\color{red}\mathscr{S}_{i}^{\phi}}}_{\text{collider.S0[ipop]}}\]</div>
+<p>with a source term defined by:</p>
+<div class="math notranslate nohighlight" id="equation-source-term-for-cac-tutorial2">
+<span class="eqno">(254)<a class="headerlink" href="#equation-source-term-for-cac-tutorial2" title="Link to this equation"></a></span>\[{\color{red}\mathscr{S}_{i}^{\phi}}=w_{i}\biggl[(1-\chi)(\underbrace{\mathscr{S}_{st}}_{\text{Model.S_st}}+\underbrace{\mathscr{S}_{dw}}_{\text{Model.S_dw}})+\chi\underbrace{\mathscr{S}_{ct}}_{\text{Model.S_ct}}\times c\times\underbrace{\boldsymbol{e}_{i}\cdot\boldsymbol{n}}_{\text{Base::compute_scal}}\biggr]\]</div>
+<p>The coefficient <span class="math notranslate nohighlight">\(\chi\)</span> is either 0 or 1.</p>
+</section>
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Link to this heading"></a></h2>
+<section id="preliminary-declarations">
+<h3>Preliminary declarations<a class="headerlink" href="#preliminary-declarations" title="Link to this heading"></a></h3>
+<div class="hint admonition">
+<p class="admonition-title">Declaration of local variables</p>
+<p>Many variables such as the time step <span class="math notranslate nohighlight">\(\delta t\)</span>, the space-step <span class="math notranslate nohighlight">\(\delta x\)</span>, the lattice coefficient <span class="math notranslate nohighlight">\(e^2\)</span>, etc. are already defined in the struture <code class="docutils literal notranslate"><span class="pre">ModelParam</span></code> contained in file <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code>. We must get them</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">void</span><span class="w"> </span><span class="n">setup_collider</span><span class="p">(</span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">BGK_Collider</span><span class="w"> </span><span class="o">&amp;</span><span class="n">collider</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dt</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">dt</span><span class="p">;</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dx</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">dx</span><span class="p">;</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">e2</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">e2</span><span class="p">;</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dt</span><span class="p">;</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">c_cs2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">c</span><span class="p">;</span><span class="w"> </span><span class="sr">//</span><span class="w"> </span><span class="no">Ratio</span><span class="w"> </span><span class="n">c</span><span class="o">/</span><span class="n">cs2</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Get the moments and source terms</p>
+<p>The C++ functions computing the source terms and the moments of order 0, 1 and 2 are also defined in file <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code>. They must be set</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+
+<span class="no">LBMState</span><span class="w"> </span><span class="n">lbmState</span><span class="p">;</span>
+<span class="no">Base</span><span class="o">::</span><span class="n">template</span><span class="w"> </span><span class="n">setupLBMState2</span><span class="o">&lt;</span><span class="no">LBMState</span><span class="p">,</span><span class="w"> </span><span class="no">COMPONENT_SIZE</span><span class="o">&gt;</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+
+<span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">M0</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">M0_PHI</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+<span class="n">const</span><span class="w"> </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">M1</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">M1_PHI</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+<span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">M2_AC</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">M2_PHI</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+<span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">M2_CH</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">M2_MU_PHI</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">M0_PHI</span></code> refers to <span class="math notranslate nohighlight">\(\phi\)</span>, <code class="docutils literal notranslate"><span class="pre">M1_PHI</span></code> refers to <span class="math notranslate nohighlight">\(\boldsymbol{u}\phi\)</span>, and <code class="docutils literal notranslate"><span class="pre">M2_PHI</span></code> refers to <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{I}}}\phi\)</span>. For Cahn-Hilliard equation, <code class="docutils literal notranslate"><span class="pre">M2_MU_PHI</span></code> refers to <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{I}}}\mu_{\phi}\)</span>.</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">const</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="no">CH</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">cahn_hilliard</span><span class="w"> </span><span class="p">;</span>
+<span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">M2</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="no">CH</span><span class="o">*</span><span class="no">M2_CH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="no">CH</span><span class="p">)</span><span class="o">*</span><span class="no">M2_AC</span><span class="w"> </span><span class="p">;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">CH</span></code> is either 0 or 1. The source terms are also defined in <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code>:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">G_st</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">S_st</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+<span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">G_dw</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">S_dw</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+<span class="n">const</span><span class="w"> </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">G_ct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">S_ct</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lbmState</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="inputs-for-bgk-operator">
+<h3>Inputs for BGK operator<a class="headerlink" href="#inputs-for-bgk-operator" title="Link to this heading"></a></h3>
+<div class="important admonition">
+<p class="admonition-title">First <code class="docutils literal notranslate"><span class="pre">collider.</span></code> input: collision rate <code class="docutils literal notranslate"><span class="pre">tau</span></code></p>
+<p><strong>Collision rate</strong></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">collider</span><span class="o">.</span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">tau_PHI</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The collision rate <span class="math notranslate nohighlight">\(\tau_{\phi}\)</span> is also defined in <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code>. It is useful to define a new coefficient involving <code class="docutils literal notranslate"><span class="pre">collider.tau</span></code></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">real_t</span><span class="w"> </span><span class="n">staudx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">((</span><span class="n">collider</span><span class="o">.</span><span class="n">tau</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<section id="for-i-0">
+<h4>For <span class="math notranslate nohighlight">\(i=0\)</span><a class="headerlink" href="#for-i-0" title="Link to this heading"></a></h4>
+<div class="important admonition">
+<p class="admonition-title">Other <code class="docutils literal notranslate"><span class="pre">collider.</span></code> inputs</p>
+<p><strong>Distribution function</strong> <code class="docutils literal notranslate"><span class="pre">f[0]</span></code></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Source term</strong> <code class="docutils literal notranslate"><span class="pre">S0[0]</span></code></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="no">G_st</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">G_dw</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">staudx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_scal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="no">G_ct</span><span class="p">));</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Equilibrium distribution function</strong> <code class="docutils literal notranslate"><span class="pre">feq[0]</span></code></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">M0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">M2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="for-1-leqslant-i-leqslant-n-pop-1-loop-on-ipop">
+<h4>For <span class="math notranslate nohighlight">\(1\leqslant i\leqslant N_{pop}-1\)</span>: loop on <code class="docutils literal notranslate"><span class="pre">ipop</span></code><a class="headerlink" href="#for-1-leqslant-i-leqslant-n-pop-1-loop-on-ipop" title="Link to this heading"></a></h4>
+<div class="important admonition">
+<p class="admonition-title">Other <code class="docutils literal notranslate"><span class="pre">collider.</span></code> inputs</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+<span class="w">   </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="no">G_st</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">G_dw</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">staudx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_scal</span><span class="p">(</span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="no">G_ct</span><span class="p">));</span>
+<span class="w">   </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="no">M2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c_cs2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_scal</span><span class="p">(</span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="no">M1</span><span class="p">))</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="p">;</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span><span class="w"> </span><span class="sr">//</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">setup_collider</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">phase</span><span class="w"> </span><span class="n">field</span><span class="w"> </span><span class="n">equation</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Write your function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code></a><ul>
+<li><a class="reference internal" href="#objective">Objective</a></li>
+<li><a class="reference internal" href="#solution">Solution</a><ul>
+<li><a class="reference internal" href="#preliminary-declarations">Preliminary declarations</a></li>
+<li><a class="reference internal" href="#inputs-for-bgk-operator">Inputs for BGK operator</a><ul>
+<li><a class="reference internal" href="#for-i-0">For <span class="math notranslate nohighlight">\(i=0\)</span></a></li>
+<li><a class="reference internal" href="#for-1-leqslant-i-leqslant-n-pop-1-loop-on-ipop">For <span class="math notranslate nohighlight">\(1\leqslant i\leqslant N_{pop}-1\)</span>: loop on <code class="docutils literal notranslate"><span class="pre">ipop</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Kernel_Add_New-Eq.html"
+                          title="previous chapter">Add a new equation inside the new kernel</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../05_COURSES/TOC_Courses.html"
+                          title="next chapter">PART V: course reminders</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/04_PROGRAMMING/Kernel_Add_Setup-Collider.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../05_COURSES/TOC_Courses.html" title="PART V: course reminders"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Add_New-Eq.html" title="Add a new equation inside the new kernel"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Kernel_New.html" >Add a new kernel</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Write your function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

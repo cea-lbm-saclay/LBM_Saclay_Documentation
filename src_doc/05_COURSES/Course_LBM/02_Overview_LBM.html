@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview of Lattice Boltzmann Methods &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Chapman-Enskog expansion for Navier-Stokes equations" href="05_Chapman-Enskog.html" />
+    <link rel="prev" title="Summary of basic models" href="01_Fluid_Dyn_Models.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="05_Chapman-Enskog.html" title="Chapman-Enskog expansion for Navier-Stokes equations"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="01_Fluid_Dyn_Models.html" title="Summary of basic models"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_LBM_Course.html" accesskey="U">Basic concepts of Lattice Boltzmann Methods</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Overview of Lattice Boltzmann Methods</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="overview-of-lattice-boltzmann-methods">
+<span id="basic-lbm"></span><h1>Overview of Lattice Boltzmann Methods<a class="headerlink" href="#overview-of-lattice-boltzmann-methods" title="Link to this heading"></a></h1>
+<p>This part is a quick introduction to the Lattice Boltzmann Method.  More details on the origin and the theoretical aspects of the method can be found in reference <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<p>More details of numerical methods that are implemented in LBM_Saclay will be found in the pages below.</p>
+<section id="continuous-boltzmann-equation">
+<span id="overview-lbm"></span><h2>Continuous Boltzmann equation<a class="headerlink" href="#continuous-boltzmann-equation" title="Link to this heading"></a></h2>
+<p>At mesoscopic level, a collection of particles can be described by a distribution function of particles <span class="math notranslate nohighlight">\(f(\boldsymbol{x},\boldsymbol{c},t)\)</span> which is a function of position <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>, microscopic speeds <span class="math notranslate nohighlight">\(\boldsymbol{c}\)</span> and time <span class="math notranslate nohighlight">\(t\)</span>. Its evolution in time and space obeys to the continuous Boltzmann equation:</p>
+<div class="math notranslate nohighlight" id="equation-boltzmann-eq">
+<span class="eqno">(339)<a class="headerlink" href="#equation-boltzmann-eq" title="Link to this equation"></a></span>\[\frac{\partial f}{\partial t}+\boldsymbol{c}\cdot\boldsymbol{\nabla}f+\boldsymbol{F}\cdot\boldsymbol{\nabla}_{\boldsymbol{c}}f=\Omega(f,f^{eq})\label{eq:Boltzmann_Eq}\]</div>
+<p>which is a transport equation where <span class="math notranslate nohighlight">\(\boldsymbol{F}\)</span> is the external force and <span class="math notranslate nohighlight">\(\Omega(f,f^{eq})\)</span> is the collision operator that relaxes the distribution function <span class="math notranslate nohighlight">\(f\)</span> toward an equilibrium <span class="math notranslate nohighlight">\(f^{eq}\)</span>. For the classical Batnaghar-Gross-Krook (<strong>BGK</strong>) approximation, that collision operator simply writes:</p>
+<div class="math notranslate nohighlight" id="equation-bgk-operator">
+<span class="eqno">(340)<a class="headerlink" href="#equation-bgk-operator" title="Link to this equation"></a></span>\[ \Omega(f,f^{eq})\sim-\frac{1}{\lambda}\left[f-f^{eq}\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda\)</span> is the collision time. Eq. <a class="reference internal" href="#equation-boltzmann-eq">(339)</a>, computes the evolution of the distribution function <span class="math notranslate nohighlight">\(f\)</span> in space and time. The macrosopic quantities such as the density <span class="math notranslate nohighlight">\(\rho\)</span>, impulsion <span class="math notranslate nohighlight">\(\rho\boldsymbol{u}\)</span> and energy <span class="math notranslate nohighlight">\(\rho\varepsilon\)</span> can be derived from that distribution function by integration over the velocity space:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\rho &amp; =\int fd\boldsymbol{c}\\
+\rho\boldsymbol{u} &amp; =\int f\boldsymbol{c}d\boldsymbol{c}\\
+\rho\varepsilon &amp; =\frac{1}{2}\int(\boldsymbol{c}-\boldsymbol{u})^{2}fd\boldsymbol{c}\end{aligned}\end{split}\]</div>
+<p>Those macroscopic quantities are called the moments of the distribution function <span class="math notranslate nohighlight">\(f(\boldsymbol{x},\boldsymbol{c},t)\)</span>.</p>
+<p>For more details on the origin of the Boltzmann equation and the physical interpretation of distribution function see reference <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
+</section>
+<section id="discretization-of-velocity-space">
+<h2>Discretization of velocity space<a class="headerlink" href="#discretization-of-velocity-space" title="Link to this heading"></a></h2>
+<p>Eq. <a class="reference internal" href="#equation-boltzmann-eq">(339)</a> must be discretized for <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{c}\)</span> and <span class="math notranslate nohighlight">\(t\)</span>. After discretization of the velocity space with a finite number of speeds, <span class="math notranslate nohighlight">\(\boldsymbol{c}\)</span> becomes <span class="math notranslate nohighlight">\(\boldsymbol{c}_i\)</span> where <span class="math notranslate nohighlight">\(i\)</span> is the index of velocity varying between <span class="math notranslate nohighlight">\(0\)</span> and the total number of speeds <span class="math notranslate nohighlight">\(N\)</span>. The discrete distribution function <span class="math notranslate nohighlight">\(f(\boldsymbol{x},\boldsymbol{c}_i,t)\)</span> is noted <span class="math notranslate nohighlight">\(f_i(\boldsymbol{x},t)\)</span>.</p>
+<p><strong>Discrete velocity space</strong></p>
+<p>The discrete velocity is related to them time-step <span class="math notranslate nohighlight">\(\delta t\)</span> and space-step of spatial discretization <span class="math notranslate nohighlight">\(\delta x\)</span> by</p>
+<div class="math notranslate nohighlight" id="equation-discrete-speeds">
+<span class="eqno">(341)<a class="headerlink" href="#equation-discrete-speeds" title="Link to this equation"></a></span>\[\boldsymbol{c}_i = \frac{\delta x}{\delta t}\boldsymbol{e}_i\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{e}_i\)</span> are the moving directions. A representation of that discretization is presented on Fig. 1. On that example, for one position <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> and time <span class="math notranslate nohighlight">\(t\)</span>, the distribution function <span class="math notranslate nohighlight">\(f\)</span> represents a collection of particles of different velocities. After discretization of <span class="math notranslate nohighlight">\(\boldsymbol{c}\)</span>, only five speeds are kept on that example: right-direction (blue), upward-direction (red), left-direction (green), downward-direction (orange) and non-moving direction (black).</p>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../../../_images/DiscreteSpeeds.png"><img alt="../../../_images/DiscreteSpeeds.png" src="../../../_images/DiscreteSpeeds.png" style="width: 450.0px; height: 320.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 37 </span><span class="caption-text">Fig. 1: Principle of discrete velocity space and discrete distribution function <span class="math notranslate nohighlight">\(f_i\)</span></span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>After discretization in space the lattice is a superposition of one standard mesh with the discrete velocity space. If the dimension of space is 2 and the number of total discrete speeds is 5, the lattice name D2Q5 is presented on Fig. 2.</p>
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="../../../_images/Mesh-Lattice.png"><img alt="../../../_images/Mesh-Lattice.png" src="../../../_images/Mesh-Lattice.png" style="width: 500.0px; height: 300.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 38 </span><span class="caption-text">Fig. 2: Example of lattice D2Q5 after discretization of <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{c}\)</span>.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Lattices</strong></p>
+<p>Many lattices exist in LBM. The most popular lattices are D2Q9 for two-dimensional simulations, and D3Q15, D3Q19 and D3Q27 for three-dimensional simulations. Let us mention that for simulations problems involving only diffusion, the minimal lattices D2Q5 and D3Q7 can be sufficient. In LBM_Saclay, one supplementary lattice is available: D3Q27.</p>
+<div class="admonition-two-dimensional-lattices-d2q5-left-and-d2q9-right admonition">
+<p class="admonition-title">Two-dimensional lattices: D2Q5 (left) and D2Q9 (right)</p>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="target-fig-d2q5">
+<a class="reference internal image-reference" href="../../../_images/Lattice_D2Q5.png"><img alt="../../../_images/Lattice_D2Q5.png" src="../../../_images/Lattice_D2Q5.png" style="width: 250px; height: 250px;" />
+</a>
+</figure>
+<figure class="align-center" id="target-fig-d2q9">
+<a class="reference internal image-reference" href="../../../_images/Lattice_D2Q9.png"><img alt="../../../_images/Lattice_D2Q9.png" src="../../../_images/Lattice_D2Q9.png" style="width: 250px; height: 250px;" />
+</a>
+</figure>
+</div>
+<p>For lattice D2Q5, the five moving vectors are defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-d2q5">
+<span class="eqno">(342)<a class="headerlink" href="#equation-def-d2q5" title="Link to this equation"></a></span>\[\begin{split}\boldsymbol{e}_{0}=\left(\begin{array}{c}
+0\\
+0
+\end{array}\right),\quad\boldsymbol{e}_{1}=\left(\begin{array}{c}
+1\\
+0
+\end{array}\right),\quad\boldsymbol{e}_{2}=\left(\begin{array}{c}
+0\\
+1
+\end{array}\right),\quad\boldsymbol{e}_{3}=\left(\begin{array}{c}
+-1\\
+0
+\end{array}\right),\quad\boldsymbol{e}_{4}=\left(\begin{array}{c}
+0\\
+-1
+\end{array}\right)\end{split}\]</div>
+<p>For D2Q9, the four diagonal moving vectors are added:</p>
+<div class="math notranslate nohighlight" id="equation-def-d2q9">
+<span class="eqno">(343)<a class="headerlink" href="#equation-def-d2q9" title="Link to this equation"></a></span>\[\begin{split}\boldsymbol{e}_{5}=\left(\begin{array}{c}
+1\\
+1
+\end{array}\right),\quad\boldsymbol{e}_{6}=\left(\begin{array}{c}
+-1\\
+1
+\end{array}\right),\quad\boldsymbol{e}_{7}=\left(\begin{array}{c}
+-1\\
+-1
+\end{array}\right),\quad\boldsymbol{e}_{8}=\left(\begin{array}{c}
+1\\
+-1
+\end{array}\right)\end{split}\]</div>
+</div>
+<div class="admonition-three-dimensional-lattices admonition">
+<p class="admonition-title">Three-dimensional lattices</p>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="id7">
+<span id="target-fig-d3q7"></span><a class="reference internal image-reference" href="../../../_images/D3Q7.png"><img alt="../../../_images/D3Q7.png" src="../../../_images/D3Q7.png" style="width: 240px; height: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 39 </span><span class="caption-text">Lattice D3Q7</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id8">
+<span id="target-fig-d3q15"></span><a class="reference internal image-reference" href="../../../_images/D3Q15.png"><img alt="../../../_images/D3Q15.png" src="../../../_images/D3Q15.png" style="width: 240px; height: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 40 </span><span class="caption-text">Lattice D3Q15</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id9">
+<span id="target-fig-d3q19"></span><a class="reference internal image-reference" href="../../../_images/D3Q19.png"><img alt="../../../_images/D3Q19.png" src="../../../_images/D3Q19.png" style="width: 240px; height: 200px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 41 </span><span class="caption-text">Lattice D3Q19</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="lattice-boltzmann-equation-lbe">
+<h2>Lattice Boltzmann Equation (LBE)<a class="headerlink" href="#lattice-boltzmann-equation-lbe" title="Link to this heading"></a></h2>
+<p>Once the Boltzmann equation is discretized in space and time the following Lattice Boltzmann Equation (<strong>LBE</strong>) is obtained:</p>
+<div class="math notranslate nohighlight" id="equation-lbe">
+<span class="eqno">(344)<a class="headerlink" href="#equation-lbe" title="Link to this equation"></a></span>\[f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta t\)</span> is the time step and the second term of the right-hand side is the discrete BGK collision operator. The coefficient of proportionnality <span class="math notranslate nohighlight">\(\tau\)</span> is the collision rate which is related to the collision time by</p>
+<div class="math notranslate nohighlight" id="equation-def-tau">
+<span class="eqno">(345)<a class="headerlink" href="#equation-def-tau" title="Link to this equation"></a></span>\[\tau=\frac{\lambda}{\delta t}\]</div>
+<p>The right-hand side represents the collision stage and it is often noted</p>
+<div class="math notranslate nohighlight" id="equation-def-collision">
+<span class="eqno">(346)<a class="headerlink" href="#equation-def-collision" title="Link to this equation"></a></span>\[f_{i}^{\star}(\boldsymbol{x},t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]\]</div>
+<p>The expression of the equilibrium distribution function <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> depends on the physical problem to simulate.</p>
+</section>
+<section id="equilibrium-distribution-function">
+<h2>Equilibrium distribution function<a class="headerlink" href="#equilibrium-distribution-function" title="Link to this heading"></a></h2>
+<p><strong>For low Mach version of Navier-Stokes equations</strong></p>
+<p>For example for low Mach version of Navier-Stokes equations:</p>
+<div class="math notranslate nohighlight" id="equation-feq-ns">
+<span class="eqno">(347)<a class="headerlink" href="#equation-feq-ns" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\rho\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right]\]</div>
+<p>where the coefficient <span class="math notranslate nohighlight">\(c_{s}\)</span>, called the sound speed, is defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-cs">
+<span class="eqno">(348)<a class="headerlink" href="#equation-def-cs" title="Link to this equation"></a></span>\[c_{s}=\frac{1}{\sqrt{3}}\frac{\delta x}{\delta t}\]</div>
+<p>and <span class="math notranslate nohighlight">\(w_{i}\)</span> are weights which depend on the lattice considered.</p>
+<p><strong>For Advection-Diffusion Equation (ADE)</strong></p>
+<div class="math notranslate nohighlight" id="equation-feq-ade">
+<span class="eqno">(349)<a class="headerlink" href="#equation-feq-ade" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}T\left[1+\frac{\boldsymbol{u}\cdot\boldsymbol{c}_{i}}{c_{s}^{2}}\right]\]</div>
+</section>
+<section id="explicit-algorithm">
+<h2>Explicit algorithm<a class="headerlink" href="#explicit-algorithm" title="Link to this heading"></a></h2>
+<p>The algorithm is extremely simple and it can be summarized into three main stages:</p>
+<ol class="arabic simple">
+<li><p>Collision: <span class="math notranslate nohighlight">\(f_{i}(\boldsymbol{x},t)\rightarrow f_{i}^{\star}(\boldsymbol{x},t)\)</span> (right-hand side of Eq. <a class="reference internal" href="#equation-lbe">(344)</a>)</p></li>
+<li><p>Streaming: <span class="math notranslate nohighlight">\(f_{i}^{\star}(\boldsymbol{x},t)\rightarrow f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)\)</span> (left-hand side)</p></li>
+<li><p>Update the density and impulsion</p></li>
+</ol>
+<div class="math notranslate nohighlight" id="equation-def-moment-o0">
+<span class="eqno">(350)<a class="headerlink" href="#equation-def-moment-o0" title="Link to this equation"></a></span>\[\rho(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\]</div>
+<div class="math notranslate nohighlight" id="equation-def-moment-o1">
+<span class="eqno">(351)<a class="headerlink" href="#equation-def-moment-o1" title="Link to this equation"></a></span>\[\rho(\boldsymbol{x},t)\boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}\]</div>
+<div class="hint admonition">
+<p class="admonition-title">Algorithm</p>
+<p>Finally, once the lattice is defined, the Navier-Stokes solver using the lattice Boltzmann method consists in a succession of collision and streaming:</p>
+<div class="math notranslate nohighlight" id="equation-lbe-overview">
+<span class="eqno">(352)<a class="headerlink" href="#equation-lbe-overview" title="Link to this equation"></a></span>\[f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]\]</div>
+<p>where the equilibrium distribution function is defined by</p>
+<div class="math notranslate nohighlight" id="equation-feq-ns-overview-lbm">
+<span class="eqno">(353)<a class="headerlink" href="#equation-feq-ns-overview-lbm" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\rho\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right]\]</div>
+<p>Once those two stages are performed, the density and impulsion are updated with the relationships:</p>
+<div class="math notranslate nohighlight" id="equation-update-moment-o0">
+<span class="eqno">(354)<a class="headerlink" href="#equation-update-moment-o0" title="Link to this equation"></a></span>\[\rho(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\]</div>
+<div class="math notranslate nohighlight" id="equation-update-moment-o1">
+<span class="eqno">(355)<a class="headerlink" href="#equation-update-moment-o1" title="Link to this equation"></a></span>\[\rho(\boldsymbol{x},t)\boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}\]</div>
+</div>
+</section>
+<section id="chapman-enskog-expansion">
+<h2>Chapman-Enskog expansion<a class="headerlink" href="#chapman-enskog-expansion" title="Link to this heading"></a></h2>
+<p>The link between the discrete Boltzmann equation with the macroscopic Navier-Stokes equations is performed with a mathematical procedure of asymptotic expansions called the Chapman-Enskog expansion. Details of those expansions can be founds in the link below.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="05_Chapman-Enskog.html">Chapman-Enskog expansion for Navier-Stokes equations</a></li>
+</ul>
+</div>
+<p>The starting point is the algorithm Eq. <a class="reference internal" href="#equation-lbe">(344)</a> – <a class="reference internal" href="#equation-update-moment-o1">(355)</a>. Once the Chapman-Enskog expansion is performed, the procedure recovers the following macroscopic equations:</p>
+<div class="error admonition">
+<p class="admonition-title">Equivalent macroscopic PDE with the condition <span class="math notranslate nohighlight">\(\bigl|\boldsymbol{u}\bigr|\ll c_{s}\)</span></p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-lowmac">
+<span class="eqno">(398)<a class="headerlink" href="#equation-mass-balance-lowmac" title="Link to this equation"></a></span>\[\partial_{t}\rho+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0\]</div>
+<p>for the mass balance equation, and</p>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-lowmach">
+<span class="eqno">(399)<a class="headerlink" href="#equation-impulsion-balance-lowmach" title="Link to this equation"></a></span>\[\partial_{t}(\rho\boldsymbol{u})+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}p+\boldsymbol{\nabla}\cdot\left[\rho\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\mathcal{O}(\rho u^{3})\]</div>
+<p>where the pressure is given by the law of perfect gas <span class="math notranslate nohighlight">\(p=\rho c_{s}^{2}\)</span> and the kinematic viscosity <span class="math notranslate nohighlight">\(\nu\)</span> is related to the relaxation rate <span class="math notranslate nohighlight">\(\tau\)</span> by <span class="math notranslate nohighlight">\(\nu=(\tau-1/2)c_{s}^{2}\delta t\)</span>.</p>
+</div>
+</section>
+<section id="variable-change-in-lbe-with-a-source-term">
+<h2>Variable change in LBE with a source term<a class="headerlink" href="#variable-change-in-lbe-with-a-source-term" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="04_Variable_Change.html">Variable change in LBE for source term</a></li>
+</ul>
+</div>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva, E. Viggen, The Lattice Boltzmann Method: Principles and Practice, Graduate Texts in Physics, Springer, 2016.</p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Bird G.A., Molecular Gas Dynamics and the Direct Simulation of Gas Flows, Oxford Engineering Science Series, 1994.</p>
+</aside>
+</aside>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Overview of Lattice Boltzmann Methods</a><ul>
+<li><a class="reference internal" href="#continuous-boltzmann-equation">Continuous Boltzmann equation</a></li>
+<li><a class="reference internal" href="#discretization-of-velocity-space">Discretization of velocity space</a></li>
+<li><a class="reference internal" href="#lattice-boltzmann-equation-lbe">Lattice Boltzmann Equation (LBE)</a></li>
+<li><a class="reference internal" href="#equilibrium-distribution-function">Equilibrium distribution function</a></li>
+<li><a class="reference internal" href="#explicit-algorithm">Explicit algorithm</a></li>
+<li><a class="reference internal" href="#chapman-enskog-expansion">Chapman-Enskog expansion</a></li>
+<li><a class="reference internal" href="#variable-change-in-lbe-with-a-source-term">Variable change in LBE with a source term</a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="01_Fluid_Dyn_Models.html"
+                          title="previous chapter">Summary of basic models</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="05_Chapman-Enskog.html"
+                          title="next chapter">Chapman-Enskog expansion for Navier-Stokes equations</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_LBM/02_Overview_LBM.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="05_Chapman-Enskog.html" title="Chapman-Enskog expansion for Navier-Stokes equations"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="01_Fluid_Dyn_Models.html" title="Summary of basic models"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_LBM_Course.html" >Basic concepts of Lattice Boltzmann Methods</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Overview of Lattice Boltzmann Methods</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

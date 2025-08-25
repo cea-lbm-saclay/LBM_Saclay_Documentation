@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Variable change in LBE for source term &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Equilibrium distribution functions" href="03_Equilibrium-Distribution-Function_Course.html" />
+    <link rel="prev" title="Chapman-Enskog expansion for Navier-Stokes equations" href="05_Chapman-Enskog.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="03_Equilibrium-Distribution-Function_Course.html" title="Equilibrium distribution functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="05_Chapman-Enskog.html" title="Chapman-Enskog expansion for Navier-Stokes equations"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_LBM_Course.html" >Basic concepts of Lattice Boltzmann Methods</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="02_Overview_LBM.html" accesskey="U">Overview of Lattice Boltzmann Methods</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Variable change in LBE for source term</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="variable-change-in-lbe-for-source-term">
+<h1>Variable change in LBE for source term<a class="headerlink" href="#variable-change-in-lbe-for-source-term" title="Link to this heading"></a></h1>
+<p>L’équation de Boltzmann discrète avec un terme source (ou terme force
+externe) <span class="math notranslate nohighlight">\(\mathcal{S}_{i}^{\vartheta}\)</span> peut s’écrire sous la forme
+suivante avec le terme de collision BGK :</p>
+<div class="math notranslate nohighlight" id="equation-eq-dlbe">
+<span class="eqno">(400)<a class="headerlink" href="#equation-eq-dlbe" title="Link to this equation"></a></span>\[\frac{\partial\vartheta_{i}}{\partial t}+\mathbf{c}_{i}\cdot\boldsymbol{\nabla}\vartheta_{i}=-\frac{\vartheta_{i}-\vartheta_{i}^{eq}}{\tau_{\vartheta}}+S_{i}^{\vartheta}.\]</div>
+<p>Dans ce qui suit, les calculs sont développés en posant
+<span class="math notranslate nohighlight">\(\vartheta\equiv f\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{S}_{i}^{\vartheta}=\mathcal{S}_{i}^{f}=\mathcal{S}_{i}\)</span>
+et <span class="math notranslate nohighlight">\(\tau_{\vartheta}\equiv\tau\)</span>, mais l’approche du changement de
+variable est également valable pour <span class="math notranslate nohighlight">\(\vartheta\equiv h\)</span> et
+<span class="math notranslate nohighlight">\(\vartheta\equiv s\)</span>. Les termes qui sont évalués en
+<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> et <span class="math notranslate nohighlight">\(t\)</span> sont notés
+<span class="math notranslate nohighlight">\(f_{i}\equiv f_{i}(\boldsymbol{x},\,t)\)</span>,
+<span class="math notranslate nohighlight">\(f_{i}^{eq}\equiv f_{i}^{eq}(\boldsymbol{x},\,t)\)</span> et
+<span class="math notranslate nohighlight">\(\mathcal{S}_{i}\equiv\mathcal{S}_{i}(\boldsymbol{x},\,t)\)</span>, tandis
+que les termes évalués en
+<span class="math notranslate nohighlight">\(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t\)</span> et <span class="math notranslate nohighlight">\(t+\delta t\)</span>
+sont notés avec une étoile :
+<span class="math notranslate nohighlight">\(f_{i}^{\star}\equiv f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,\,t+\delta t)\)</span>,
+<span class="math notranslate nohighlight">\(f_{i}^{\star eq}\equiv f_{i}^{eq}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,\,t+\delta t)\)</span>
+et
+<span class="math notranslate nohighlight">\(\mathcal{S}_{i}^{\star}\equiv\mathcal{S}_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,\,t+\delta t)\)</span>.
+Avec ces notations, l’intégration de l’Eq. <a class="reference internal" href="#equation-eq-dlbe">(400)</a>
+entre <span class="math notranslate nohighlight">\(t\)</span> et <span class="math notranslate nohighlight">\(t+\delta t\)</span> donne :</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbe-trapezoidal">
+<span class="eqno">(401)<a class="headerlink" href="#equation-eq-lbe-trapezoidal" title="Link to this equation"></a></span>\[f_{i}^{\star}=f_{i}-\frac{\delta t}{2\tau}\left(f_{i}^{\star}-f_{i}^{\star eq}\right)-\frac{\delta t}{2\tau}\left(f_{i}-f_{i}^{eq}\right)+\frac{\delta t}{2}\mathcal{S}_{i}^{\star}+\frac{\delta t}{2}\mathcal{S}_{i}\]</div>
+<p>où la loi des trapèzes à été appliquée pour le membre de droite de l’Eq.
+<a class="reference internal" href="#equation-eq-dlbe">(400)</a>. Dans cette expression, pour les termes en
+<span class="math notranslate nohighlight">\(\mathbf{x}+\mathbf{c}_{i}\delta t\)</span> et <span class="math notranslate nohighlight">\(t+\delta t\)</span>, on
+introduit le changement de variable suivant :</p>
+<div class="math notranslate nohighlight" id="equation-eq-variablechange">
+<span class="eqno">(402)<a class="headerlink" href="#equation-eq-variablechange" title="Link to this equation"></a></span>\[\overline{f}_{i}^{\star}=f_{i}^{\star}+\frac{\delta t}{2\tau}\left(f_{i}^{\star}-f_{i}^{\star eq}\right)-\frac{\delta t}{2}\mathcal{S}_{i}^{\star}\]</div>
+<p>Le même changement de variable est utilisé pour les termes en
+<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> et <span class="math notranslate nohighlight">\(t\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-eq-variablechange-expl">
+<span class="eqno">(403)<a class="headerlink" href="#equation-eq-variablechange-expl" title="Link to this equation"></a></span>\[\overline{f}_{i}=f_{i}+\frac{\delta t}{2\tau}\left(f_{i}-f_{i}^{eq}\right)-\frac{\delta t}{2}\mathcal{S}_{i}\]</div>
+<p>En inversant cette dernière relation pour exprimer <span class="math notranslate nohighlight">\(f_{i}\)</span> en
+fonction de <span class="math notranslate nohighlight">\(\overline{f}_{i}\)</span>, on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-eq-f-versus-fbarre">
+<span class="eqno">(404)<a class="headerlink" href="#equation-eq-f-versus-fbarre" title="Link to this equation"></a></span>\[f_{i}=\frac{2\tau}{2\tau+\delta t}\left(\overline{f}_{i}+\frac{\delta t}{2\tau}f_{i}^{eq}+\frac{\delta t}{2}\mathcal{S}_{i}\right)\]</div>
+<p>Avec les Eqs. <a class="reference internal" href="#equation-eq-variablechange">(402)</a> et <a class="reference internal" href="#equation-eq-f-versus-fbarre">(404)</a>, l’Eq. <a class="reference internal" href="#equation-eq-lbe-trapezoidal">(401)</a> devient</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbe-intermediate">
+<span class="eqno">(405)<a class="headerlink" href="#equation-eq-lbe-intermediate" title="Link to this equation"></a></span>\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{\delta t}{\tau+\delta t/2}\left(\overline{f}_{i}-f_{i}^{eq}+\frac{\delta t}{2}\mathcal{S}_{i}\right)+\delta t\mathcal{S}_{i}\]</div>
+<p>Si on définit un nouveau changement de variable</p>
+<div class="math notranslate nohighlight" id="equation-eq-feq-barre">
+<span class="eqno">(406)<a class="headerlink" href="#equation-eq-feq-barre" title="Link to this equation"></a></span>\[\overline{f}_{i}^{eq}=f_{i}^{eq}-\frac{\delta t}{2}\mathcal{S}_{i}\]</div>
+<p>alors l’Eq. <a class="reference internal" href="#equation-eq-lbe-intermediate">(405)</a> est équivalente à</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbe-form1">
+<span class="eqno">(407)<a class="headerlink" href="#equation-eq-lbe-form1" title="Link to this equation"></a></span>\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{\delta t}{\tau+\delta t/2}\left(\overline{f}_{i}-\overline{f}_{i}^{eq}\right)+\delta t\mathcal{S}_{i}\]</div>
+<p>Sans le changement de variable sur <span class="math notranslate nohighlight">\(f_{i}^{eq}\)</span>, l’Eq.
+<a class="reference internal" href="#equation-eq-lbe-intermediate">(405)</a> est équivalente à</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbe-form2">
+<span class="eqno">(408)<a class="headerlink" href="#equation-eq-lbe-form2" title="Link to this equation"></a></span>\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{\delta t}{\tau+\delta t/2}\left(\overline{f}_{i}-f_{i}^{eq}\right)+\frac{\tau\delta t}{\tau+\delta t/2}\mathcal{S}_{i}\]</div>
+<p>où seul le facteur devant le terme source est modifié.</p>
+<p>En introduisant le taux de collision sans dimension défini par
+<span class="math notranslate nohighlight">\(\overline{\tau}=\tau/\delta t\)</span>, l’Eq.
+<a class="reference internal" href="#equation-eq-lbe-form1">(407)</a> s’écrit finalement</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbe-2ndordertime-form1">
+<span class="eqno">(409)<a class="headerlink" href="#equation-eq-lbe-2ndordertime-form1" title="Link to this equation"></a></span>\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{1}{\overline{\tau}+1/2}\left(\overline{f}_{i}-\overline{f}_{i}^{eq}\right)+\delta t\mathcal{S}_{i}\]</div>
+<p>ou alternativement,</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbe-2ndordertime-form2">
+<span class="eqno">(410)<a class="headerlink" href="#equation-eq-lbe-2ndordertime-form2" title="Link to this equation"></a></span>\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{1}{\overline{\tau}+1/2}\left(\overline{f}_{i}-f_{i}^{eq}\right)+\frac{\overline{\tau}\delta t}{\overline{\tau}+1/2}\mathcal{S}_{i}\]</div>
+<p>Dans les chapitres de cette documentation, l’Eq.
+<a class="reference internal" href="#equation-eq-lbe-2ndordertime-form1">(409)</a> est
+l’équation d’évolution utilisée dans les algorithmes LBM. Le changement
+de variable Eq. <a class="reference internal" href="#equation-eq-variablechange-expl">(403)</a> conduit à
+calculer les moments d’ordre zéro par :</p>
+<div class="math notranslate nohighlight" id="equation-eq-moment-order0">
+<span class="eqno">(411)<a class="headerlink" href="#equation-eq-moment-order0" title="Link to this equation"></a></span>\[\mathcal{M}_{0}=\sum_{i}\overline{f}_{i}+\frac{\delta t}{2}\sum_{i}\mathcal{S}_{i}\]</div>
+<section id="equivalence">
+<h2>Equivalence<a class="headerlink" href="#equivalence" title="Link to this heading"></a></h2>
+<p>On montre ici l’équivalence entre l’Eq. 6.25 dans <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (page 239) et de l’Eq. <a class="reference internal" href="#equation-eq-lbe-2ndordertime-form2">(410)</a></p>
+<section id="demonstrations-de-lequivalence">
+<h3>Démonstrations de l’équivalence<a class="headerlink" href="#demonstrations-de-lequivalence" title="Link to this heading"></a></h3>
+<p>Dans Krüger <em>et al</em>., l’équation d’évolution pour <span class="math notranslate nohighlight">\(\overline{f}_{i}\)</span> s’écrit (Eq. 6.25) :</p>
+<div class="math notranslate nohighlight" id="equation-eq-eq6-25">
+<span class="eqno">(412)<a class="headerlink" href="#equation-eq-eq6-25" title="Link to this equation"></a></span>\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{\delta t}{\lambda}\left(\overline{f}_{i}-f_{i}^{eq}\right)+\left(1-\frac{\delta t}{2\lambda}\right)F_{i}\delta t\]</div>
+<p>où <span class="math notranslate nohighlight">\(\overline{f}_{i}^{\star}\equiv\overline{f}_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,\,t+\delta t)\)</span>. On note que le temps de relaxation <span class="math notranslate nohighlight">\(\lambda\)</span> est homogène à un
+temps et il est défini sous 6.25 par</p>
+<div class="math notranslate nohighlight" id="equation-eq-lambda">
+<span class="eqno">(413)<a class="headerlink" href="#equation-eq-lambda" title="Link to this equation"></a></span>\[\lambda=\tau+\frac{\delta t}{2}\]</div>
+<p>On définit le taux de relaxation (sans dimension) par :</p>
+<div class="math notranslate nohighlight" id="equation-eq-tauxrelax">
+<span class="eqno">(414)<a class="headerlink" href="#equation-eq-tauxrelax" title="Link to this equation"></a></span>\[\overline{\tau}=\frac{\tau}{\delta t}\]</div>
+<p>En l’utilisant dans <a class="reference internal" href="#equation-eq-lambda">(413)</a>, on obtient :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+   \lambda &amp; =\overline{\tau}\delta t+\frac{\delta t}{2}\nonumber \\
+   &amp; =\left(\overline{\tau}+1/2\right)\delta t\label{eq:Lambda_adim}
+\end{aligned}\end{split}\]</div>
+<p>En remplaçant dans Eq. <a class="reference internal" href="#equation-eq-eq6-25">(412)</a>, on obtient :</p>
+<div class="math notranslate nohighlight">
+\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{1}{\overline{\tau}+1/2}\left(\overline{f}_{i}-f_{i}^{eq}\right)+\left(1-\frac{\delta t}{2\left(\overline{\tau}+1/2\right)\delta t}\right)F_{i}\delta t\]</div>
+<p>En simplifiant le facteur devant <span class="math notranslate nohighlight">\(F_{i}\)</span>, on obtient :</p>
+<div class="math notranslate nohighlight">
+\[\left(1-\frac{\delta t}{2\left(\overline{\tau}+1/2\right)\delta t}\right)=\frac{2\overline{\tau}}{2\overline{\tau}+1}=\frac{\overline{\tau}}{\overline{\tau}+1/2}\]</div>
+<p>Finalement, on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-eq-eqc-11">
+<span class="eqno">(415)<a class="headerlink" href="#equation-eq-eqc-11" title="Link to this equation"></a></span>\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{1}{\overline{\tau}+1/2}\left(\overline{f}_{i}-f_{i}^{eq}\right)+\frac{\overline{\tau}}{\overline{\tau}+1/2}F_{i}\delta t\]</div>
+<p>qui correspond à l’Eq. <a class="reference internal" href="#equation-eq-lbe-2ndordertime-form2">(410)</a>.</p>
+</section>
+<section id="lien-avec-la-formulation-qui-introduit-overline-f-i-eq">
+<h3>Lien avec la formulation qui introduit <span class="math notranslate nohighlight">\(\overline{f}_{i}^{eq}\)</span><a class="headerlink" href="#lien-avec-la-formulation-qui-introduit-overline-f-i-eq" title="Link to this heading"></a></h3>
+<p>L’Eq. <a class="reference internal" href="#equation-eq-eq6-25">(412)</a> avec <span class="math notranslate nohighlight">\(\lambda\)</span> défini par l’Eq. <a class="reference internal" href="#equation-eq-lambda">(413)</a> s’écrit :</p>
+<div class="math notranslate nohighlight">
+\[\begin{aligned}
+   \overline{f}_{i}^{\star} &amp; =\overline{f}_{i}-\frac{\delta t}{\tau+\frac{\delta t}{2}}\left(\overline{f}_{i}-f_{i}^{eq}\right)+\left(1-\frac{\delta t}{2\tau+\delta t}\right)F_{i}\delta t
+\end{aligned}\]</div>
+<p>En manipulant le dernier terme du membre de droite, on obtient :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+   \overline{f}_{i}^{\star} &amp; =\overline{f}_{i}-\frac{\delta t}{\tau+\frac{\delta t}{2}}\left(\overline{f}_{i}-f_{i}^{eq}\right)-\frac{\delta t}{2(\tau+\delta t/2)}F_{i}\delta t+F_{i}\delta t\\
+   &amp; =\overline{f}_{i}-\frac{\delta t}{\tau+\frac{\delta t}{2}}\left(\overline{f}_{i}-f_{i}^{eq}\right)-\frac{\delta t}{(\tau+\delta t/2)}\frac{\delta t}{2}F_{i}+F_{i}\delta t
+\end{aligned}\end{split}\]</div>
+<p>En factorisant les second et troisième termes on obtient :</p>
+<div class="math notranslate nohighlight">
+\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{\delta t}{\tau+\frac{\delta t}{2}}\left(\overline{f}_{i}-f_{i}^{eq}+\frac{\delta t}{2}F_{i}\right)+F_{i}\delta t\]</div>
+<p>Si on pose :</p>
+<div class="math notranslate nohighlight">
+\[\overline{f}_{i}^{eq}=f_{i}^{eq}-\frac{\delta t}{2}F_{i}\]</div>
+<p>Alors on obtient :</p>
+<div class="math notranslate nohighlight">
+\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{\delta t}{\tau+\frac{\delta t}{2}}\left(\overline{f}_{i}-\overline{f}_{i}^{eq}\right)+F_{i}\delta t\]</div>
+<p>Encore une fois si on pose <span class="math notranslate nohighlight">\(\overline{\tau}=\tau/\delta t\)</span> alors :</p>
+<div class="math notranslate nohighlight">
+\[\overline{f}_{i}^{\star}=\overline{f}_{i}-\frac{1}{\overline{\tau}+1/2}\left(\overline{f}_{i}-\overline{f}_{i}^{eq}\right)+F_{i}\delta t\]</div>
+<p>qui est l’équation d’évolution LBE utilisée dans ce document.</p>
+</section>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva, E. Viggen, The Lattice Boltzmann Method: Principles and Practice, Graduate Texts in Physics, Springer, 2017.</p>
+</aside>
+</aside>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Variable change in LBE for source term</a><ul>
+<li><a class="reference internal" href="#equivalence">Equivalence</a><ul>
+<li><a class="reference internal" href="#demonstrations-de-lequivalence">Démonstrations de l’équivalence</a></li>
+<li><a class="reference internal" href="#lien-avec-la-formulation-qui-introduit-overline-f-i-eq">Lien avec la formulation qui introduit <span class="math notranslate nohighlight">\(\overline{f}_{i}^{eq}\)</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="05_Chapman-Enskog.html"
+                          title="previous chapter">Chapman-Enskog expansion for Navier-Stokes equations</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="03_Equilibrium-Distribution-Function_Course.html"
+                          title="next chapter">Equilibrium distribution functions</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_LBM/04_Variable_Change.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="03_Equilibrium-Distribution-Function_Course.html" title="Equilibrium distribution functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="05_Chapman-Enskog.html" title="Chapman-Enskog expansion for Navier-Stokes equations"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_LBM_Course.html" >Basic concepts of Lattice Boltzmann Methods</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="02_Overview_LBM.html" >Overview of Lattice Boltzmann Methods</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Variable change in LBE for source term</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

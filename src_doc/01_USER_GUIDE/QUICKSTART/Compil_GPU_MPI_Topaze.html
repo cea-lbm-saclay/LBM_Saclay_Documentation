@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024 &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024" href="Compil_GPU_MPI_JeanZay.html" />
+    <link rel="prev" title="Compilation Multi-GPU (supercomputers)" href="Compil_Multi_GPU.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Compil_GPU_MPI_JeanZay.html" title="Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Compil_Multi_GPU.html" title="Compilation Multi-GPU (supercomputers)"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" >Quick Start with LBM_Saclay</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="Compil_Multi_GPU.html" accesskey="U">Compilation Multi-GPU (supercomputers)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="first-simulations-on-topaze-cea-ccrt-doc-updated-nov-27th-2024">
+<h1>First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024<a class="headerlink" href="#first-simulations-on-topaze-cea-ccrt-doc-updated-nov-27th-2024" title="Link to this heading"></a></h1>
+<p>On Topaze, one GPU partition of GPUs A100 is available.</p>
+<div class="important admonition">
+<p class="admonition-title">Documentation</p>
+<p>The documentation of supercomputer is available on</p>
+<p><a class="reference external" href="https://www-ccrt.ccc.cea.fr/docs/topaze/fr/html/toc/fulldoc/Introduction.html">https://www-ccrt.ccc.cea.fr/docs/topaze/fr/html/toc/fulldoc/Introduction.html</a></p>
+</div>
+<p>Here we give an example for compiling and running a job on partition <code class="docutils literal notranslate"><span class="pre">a100</span></code> equipped with 4 GPU A100 per node. For <code class="docutils literal notranslate"><span class="pre">cmake</span></code> the flag <code class="docutils literal notranslate"><span class="pre">-DKokkos_ARCH_AMPERE80=ON</span></code> will be used for A100. The test is also performed with the problem <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>.</p>
+<section id="connexion-and-available-disks-on-topaze">
+<h2>Connexion and available disks on Topaze<a class="headerlink" href="#connexion-and-available-disks-on-topaze" title="Link to this heading"></a></h2>
+<div class="hint admonition">
+<p class="admonition-title">Connexion on Topaze</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ac165432@is247529:~$<span class="w"> </span>ssh<span class="w"> </span>-XY<span class="w"> </span>loginname@topaze.ccc.cea.fr
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>returns after password</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>┌─────────────────┐
+│▀▛▘<span class="w">              </span>│
+│<span class="w"> </span>▌▞▀▖▛▀▖▝▀▖▀▜▘▞▀▖│
+│<span class="w"> </span>▌▌<span class="w"> </span>▌▙▄▘▞▀▌▗▘<span class="w"> </span>▛▀<span class="w"> </span>│
+│<span class="w"> </span>▘▝▀<span class="w"> </span>▌<span class="w">  </span>▝▀▘▀▀▘▝▀▘│
+└─────────────────┘
+
+Hotline:<span class="w"> </span>hotline.tgcc@cea.fr
+<span class="w">          </span>+33<span class="w"> </span><span class="m">17757</span><span class="w"> </span><span class="m">4242</span>
+
+Help:<span class="w"> </span>$<span class="w"> </span>machine.info
+
+Web<span class="w"> </span>site:<span class="w"> </span>https://www-ccrt.ccc.cea.fr/
+
+loginname@topaze171:/ccc/cont002/dsku/lautrec/home/user/den/loginname$
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition-available-disks admonition">
+<p class="admonition-title">Available disks</p>
+<p>Several disks are available</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">HOME</span></code> only for configuration files</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/ccc/cont002/home/den/loginname
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WORK</span></code> for source files of LBM_Saclay, compilation and binary</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/ccc/work/cont002/den/loginname
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SCRATCH</span></code> for running and output files (<code class="docutils literal notranslate"><span class="pre">.vti</span></code> and <code class="docutils literal notranslate"><span class="pre">.h5</span></code>)</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/ccc/scratch/cont002/den/loginname
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">STORE</span></code> for saving output files</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/ccc/store/cont002/den/loginname
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>SHARE LBM_Saclay</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/ccc/work/cont002/den/den/LBM_Saclay
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</section>
+<section id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Link to this heading"></a></h2>
+<div class="hint admonition">
+<p class="admonition-title">Modules to load (last test October 2024)</p>
+<p>It can be useful to put those lines inside a file <code class="docutils literal notranslate"><span class="pre">modules_compil_a100_mpi</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">module</span><span class="w"> </span><span class="nn">purge</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">cmake</span><span class="o">/</span><span class="mi">3</span><span class="o">.</span><span class="mi">26</span><span class="o">.</span><span class="mi">4</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">gnu</span><span class="o">/</span><span class="mi">11</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">ucx</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">14</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">flavor</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">standard</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">cuda</span><span class="o">/</span><span class="mi">12</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">mpi</span><span class="o">/</span><span class="n">openmpi</span><span class="o">/</span><span class="mi">4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">6</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">flavor</span><span class="o">/</span><span class="n">hdf5</span><span class="o">/</span><span class="n">parallel</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">hdf5</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">12</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">list</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Next, load all modules with the command</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>modules_compil_a100_mpi
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">cmake and compilation</p>
+<p>Write inside a new file (e.g. <code class="docutils literal notranslate"><span class="pre">cmake_a100_mpi.scr</span></code>) the following commands</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="n">cmake</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ENABLE_OPENMP</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ENABLE_CUDA</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ENABLE_CUDA_LAMBDA</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ARCH_AMPERE80</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DUSE_MPI</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DUSE_MPI_CUDA_AWARE_ENFORCED</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ENABLE_HWLOC</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DUSE_HDF5</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DPROBLEM</span><span class="o">=</span><span class="no">NSAC_Comp</span><span class="w"> </span><span class="o">..</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Here the options <code class="docutils literal notranslate"><span class="pre">-DUSE_MPI=ON</span></code>, <code class="docutils literal notranslate"><span class="pre">-DUSE_MPI_CUDA_AWARE_ENFORCED=ON</span></code> are used for <code class="docutils literal notranslate"><span class="pre">MPI</span></code>. For outputs with <code class="docutils literal notranslate"><span class="pre">HDF5</span></code> format the option <code class="docutils literal notranslate"><span class="pre">-DUSE_HDF5=ON</span></code> is turned on. After a <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">u+x</span> <span class="pre">cmake_a100_mpi.scr</span></code> command, you can run the script to create the <code class="docutils literal notranslate"><span class="pre">makefile</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>build_cuda_mpi
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build_cuda_mpi
+$<span class="w"> </span>cmake_a100_mpi.scr
+</pre></div>
+</div>
+</div></blockquote>
+<p>Finally compile</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="submit-a-job-and-run">
+<h2>Submit a job and run<a class="headerlink" href="#submit-a-job-and-run" title="Link to this heading"></a></h2>
+<p>Write a script to submit your job, e.g. with name <code class="docutils literal notranslate"><span class="pre">GPU_H100_Taylor-Bubble3D.slurm</span></code>:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#MSUB -r Cyl16GPU # nom du job</span>
+<span class="c1">#MSUB -q a100</span>
+<span class="c1">#MSUB -Q normal</span>
+<span class="c1">#MSUB -n 16 # nombre total de tache MPI</span>
+<span class="c1">#MSUB -N 4  # nombre de nœuds</span>
+<span class="c1">#MSUB -m work,scratch</span>
+<span class="c1">#MSUB -c 32 # nombre de cœurs par tache</span>
+<span class="c1">#MSUB -o Cyl16G_%j.o # nom du fichier de sortie</span>
+<span class="c1">#MSUB -e Cyl16G_%j.e # nom du fichier d erreur (ici commun avec la sortie)</span>
+<span class="c1">#MSUB -T 86400 # temps limite à modifier en secondes</span>
+
+<span class="c1"># nettoyage des modules charges en interactif et herites par defaut</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">purge</span>
+<span class="c1"># chargement des modules</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">gnu</span><span class="o">/</span><span class="mi">11</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">ucx</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">14</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">flavor</span><span class="o">/</span><span class="n">cuda</span><span class="o">/</span><span class="n">standard</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">cuda</span><span class="o">/</span><span class="mi">12</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">mpi</span><span class="o">/</span><span class="n">openmpi</span><span class="o">/</span><span class="mi">4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">6</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">flavor</span><span class="o">/</span><span class="n">hdf5</span><span class="o">/</span><span class="n">parallel</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">hdf5</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">12</span><span class="o">.</span><span class="mi">0</span>
+
+<span class="c1"># echo des commandes lancees</span>
+<span class="n">set</span><span class="w"> </span><span class="o">-</span><span class="n">x</span>
+<span class="c1"># execution du code</span>
+<span class="n">ccc_mprun</span><span class="w"> </span><span class="sr">/ccc/</span><span class="n">work</span><span class="o">/</span><span class="n">cont002</span><span class="o">/</span><span class="n">den</span><span class="o">/</span><span class="n">loginname</span><span class="o">/</span><span class="no">LBM_saclay</span><span class="o">/</span><span class="n">build_cuda_mpi</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="no">LBM_saclay</span><span class="w"> </span><span class="o">.</span><span class="n n-Operator">/</span><span class="no">TestCase_016GPU</span><span class="o">.</span><span class="n">ini</span><span class="w"> </span><span class="o">--</span><span class="n">kokkos</span><span class="o">-</span><span class="n">map</span><span class="o">-</span><span class="n">device</span><span class="o">-</span><span class="nb">id</span><span class="o">-</span><span class="n">by</span><span class="o">=</span><span class="n">mpi_rank</span>
+</pre></div>
+</div>
+<p>The job will run on 16 MPI processes (<code class="docutils literal notranslate"><span class="pre">#MSUB</span> <span class="pre">-n</span> <span class="pre">16</span></code>) on GPU partition A100 (<code class="docutils literal notranslate"><span class="pre">#MSUB</span> <span class="pre">-q</span> <span class="pre">a100</span></code>). To run the job write the following command</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ccc_msub<span class="w"> </span><span class="m">016</span>-GPU.slurm
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">TestCase19_Taylor-Bubble3D_004-GPU.ini</span></code> is the input file for LBM_Saclay with the appropriate domain decomposition.</p>
+</section>
+<section id="visualization-with-topaze">
+<h2>Visualization with Topaze<a class="headerlink" href="#visualization-with-topaze" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Allocate one node for visualization with command</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ccc_visu<span class="w"> </span>console<span class="w"> </span>-T<span class="w"> </span><span class="m">43200</span><span class="w"> </span>-p<span class="w"> </span>a100
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Returns</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>_______________
+<span class="w"> </span>/<span class="w"> </span>___/<span class="w"> </span>___/<span class="w"> </span>___/<span class="w">  </span>A<span class="w"> </span>compute<span class="w"> </span>node<span class="w"> </span>is<span class="w"> </span>going<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>allocated<span class="w"> </span>and<span class="w"> </span>a
+/<span class="w"> </span>/__/<span class="w"> </span>/__/<span class="w"> </span>/__<span class="w">    </span>Nice<span class="w"> </span>DCV<span class="w"> </span>visualisation<span class="w"> </span>session<span class="w"> </span>as<span class="w"> </span>well<span class="w"> </span>as<span class="w"> </span>an
+<span class="se">\_</span>__/<span class="se">\_</span>__/<span class="se">\_</span>__/<span class="w">    </span>interactive<span class="w"> </span>shell<span class="w"> </span>session<span class="w"> </span>launched<span class="w"> </span>on<span class="w"> </span>it.
+
+<span class="w">           </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>free<span class="w"> </span>ressources...<span class="w"> </span><span class="o">(</span>Hit<span class="w"> </span>CTL-C<span class="w"> </span>to<span class="w"> </span>abort<span class="o">)</span>
+
+Visualisation<span class="w"> </span>session<span class="w"> </span>is<span class="w"> </span>now<span class="w"> </span>available<span class="w"> </span>and<span class="w"> </span>accessible<span class="w"> </span>at<span class="w"> </span>:
+https://visu-ccrt.ccc.cea.fr/visu-ccrt/?choice<span class="p">&amp;</span><span class="nv">node</span><span class="o">=</span>topaze7003<span class="p">&amp;</span><span class="nv">sid</span><span class="o">=</span>slurm-u40114-j6603652-ftJbvMwxBc45KbXu-console
+
+<span class="w">   </span>Hit<span class="w"> </span>CTL-D<span class="w"> </span>or<span class="w"> </span>enter<span class="w"> </span><span class="s2">&quot;exit 0&quot;</span><span class="w"> </span>to<span class="w"> </span>close<span class="w"> </span>the<span class="w"> </span>interactive
+<span class="w">   </span>and<span class="w"> </span>visualisation<span class="w"> </span>sessions<span class="w"> </span>and<span class="w"> </span>release<span class="w"> </span>the<span class="w"> </span>allocation.
+
+<span class="w">   </span>/!<span class="se">\ </span><span class="w"> </span>Warning:<span class="w"> </span>performing<span class="w"> </span>the<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>action<span class="w"> </span>will<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>any
+<span class="w">   </span>/!<span class="se">\ </span><span class="w"> </span>task<span class="w"> </span>still<span class="w"> </span>active<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>visualisation<span class="w"> </span>session.
+<span class="w">   </span>/!<span class="se">\ </span><span class="w"> </span>You<span class="w"> </span>should<span class="w"> </span>close<span class="w"> </span>the<span class="w"> </span>visualisation<span class="w"> </span>session<span class="w"> </span>first.
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Copy the weblink <a class="reference external" href="https://visu-ccrt.ccc.cea.fr">https://visu-ccrt.ccc.cea.fr</a> (link above) returned in Firefox and next</p>
+<ul class="simple">
+<li><p>Write your username and password</p></li>
+<li><p>Click on “Web connexion”</p></li>
+<li><p>Write your username and password (again)</p></li>
+<li><p>Click on “Activities” (top left) and open a terminal</p></li>
+</ul>
+</li>
+<li><p>Inside the new terminal, write the following commands</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>module<span class="w"> </span>load<span class="w"> </span>gnu/8<span class="w"> </span>mpi/openmpi/4<span class="w"> </span>flavor/paraview/opengl<span class="w"> </span>paraview/5.11.0<span class="w"> </span>python3/3.10.6
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/ccc/scratch/cont002/den/loginname/RUN_TRAINING_LBM3D
+$<span class="w"> </span>paraview<span class="p">&amp;</span>
+</pre></div>
+</div>
+<section id="useful-commands-on-topaze">
+<h3>Useful commands on Topaze<a class="headerlink" href="#useful-commands-on-topaze" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Follow the job submission (useful to make an alias in <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code>)</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>squeue<span class="w"> </span>-u<span class="w"> </span>loginname<span class="w"> </span><span class="c1"># jobs of loginname</span>
+$<span class="w"> </span>squeue<span class="w"> </span>-p<span class="w"> </span>a100<span class="w">     </span><span class="c1"># all jobs for partition a100 of Topaze</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Remaining hours</p></li>
+</ol>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ccc_myproject
+</pre></div>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024</a><ul>
+<li><a class="reference internal" href="#connexion-and-available-disks-on-topaze">Connexion and available disks on Topaze</a></li>
+<li><a class="reference internal" href="#compilation">Compilation</a></li>
+<li><a class="reference internal" href="#submit-a-job-and-run">Submit a job and run</a></li>
+<li><a class="reference internal" href="#visualization-with-topaze">Visualization with Topaze</a><ul>
+<li><a class="reference internal" href="#useful-commands-on-topaze">Useful commands on Topaze</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Compil_Multi_GPU.html"
+                          title="previous chapter">Compilation Multi-GPU (supercomputers)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Compil_GPU_MPI_JeanZay.html"
+                          title="next chapter">Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/QUICKSTART/Compil_GPU_MPI_Topaze.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Compil_GPU_MPI_JeanZay.html" title="Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Compil_Multi_GPU.html" title="Compilation Multi-GPU (supercomputers)"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" >Quick Start with LBM_Saclay</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="Compil_Multi_GPU.html" >Compilation Multi-GPU (supercomputers)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

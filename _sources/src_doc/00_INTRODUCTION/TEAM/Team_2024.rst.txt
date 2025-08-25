@@ -1,0 +1,25 @@
+.. raw:: html
+
+    <style> .blue {color:blue} </style>
+
+.. role:: blue
+
+.. raw:: html
+
+    <style> .red {color:red} </style>
+
+.. role:: red
+
+TEAM 2024
+---------
+
+* Clément BARDET
+* Téo BOUTIN
+* Simon CAPPE
+* Alain CARTALADE
+* Sacha DUPUY
+* Alain GENTY
+* Pierre KESTENER
+* Hoel KERAUDREN
+* Capucine MÉJANÈS
+

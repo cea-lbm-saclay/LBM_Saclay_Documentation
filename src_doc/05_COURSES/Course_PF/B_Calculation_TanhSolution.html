@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Appendix B: solutions of one-dimensional Euler-Lagrange &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Appendix C: calculation of surface tension" href="C_Calculation_SurfaceTension.html" />
+    <link rel="prev" title="Annexe A : minimisation d’une fonctionnelle d’énergie libre" href="A_Minimization_Free_Energy.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="C_Calculation_SurfaceTension.html" title="Appendix C: calculation of surface tension"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="A_Minimization_Free_Energy.html" title="Annexe A : minimisation d’une fonctionnelle d’énergie libre"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" >Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="01_Fundamentals_PF.html" accesskey="U">Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Appendix B: solutions of one-dimensional Euler-Lagrange</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="appendix-b-solutions-of-one-dimensional-euler-lagrange">
+<span id="calculation-tanh-solution"></span><h1>Appendix B: solutions of one-dimensional Euler-Lagrange<a class="headerlink" href="#appendix-b-solutions-of-one-dimensional-euler-lagrange" title="Link to this heading"></a></h1>
+<p>In this appendix we detail the main stages to obtain the solution of:</p>
+<div class="math notranslate nohighlight" id="equation-euler-lagrange-1d">
+<span class="eqno">(465)<a class="headerlink" href="#equation-euler-lagrange-1d" title="Link to this equation"></a></span>\[\zeta\frac{d^{2}\phi}{dx^{2}}-H\frac{dg(\phi)}{d\phi}=0\]</div>
+<p>We demonstrate that the solution has a hyperbolic tangent profile for several choices of double-wells g(phi).</p>
+<section id="equivalent-form-of-1d-euler-lagrange">
+<h2>Equivalent form of 1D Euler-Lagrange<a class="headerlink" href="#equivalent-form-of-1d-euler-lagrange" title="Link to this heading"></a></h2>
+<p>First, we multiply Eq. <a class="reference internal" href="#equation-euler-lagrange-1d">(465)</a> by <span class="math notranslate nohighlight">\(d\phi/dx\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-0">
+<span class="eqno">(466)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-0" title="Link to this equation"></a></span>\[\zeta\frac{d\phi}{dx}\frac{d^{2}\phi}{dx^{2}}-H\frac{d\phi}{dx}\frac{dg(\phi)}{d\phi}=0\]</div>
+<p>The first term is the derivative of <span class="math notranslate nohighlight">\(d\phi/dx\)</span> squared, whereas the second one becomes a derivative wrt <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-1">
+<span class="eqno">(467)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-1" title="Link to this equation"></a></span>\[\frac{\zeta}{2}\frac{d}{dx}\left(\frac{d\phi}{dx}\right)^{2}-H\frac{dg(\phi)}{dx}=0\]</div>
+<p>We obtain a first result that will be used for the calculation of the surface tension in <a class="reference internal" href="C_Calculation_SurfaceTension.html#calculation-surface-tension"><span class="std std-ref">Appendix C: calculation of surface tension</span></a>:</p>
+<div class="math notranslate nohighlight" id="equation-equality-for-surface-tension">
+<span class="eqno">(468)<a class="headerlink" href="#equation-equality-for-surface-tension" title="Link to this equation"></a></span>\[\boxed{\frac{\zeta}{2}\left(\frac{d\phi}{dx}\right)^{2}=Hg(\phi)}\]</div>
+<p>The second result derives from that relation by keeping the positive root <span class="math notranslate nohighlight">\(d\phi/dx=\sqrt{2Hg(\phi)/\zeta}\)</span>. We obtain one relation between <span class="math notranslate nohighlight">\(dx\)</span> and <span class="math notranslate nohighlight">\(d\phi\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-chgt-variable">
+<span class="eqno">(469)<a class="headerlink" href="#equation-eq-chgt-variable" title="Link to this equation"></a></span>\[dx=\frac{1}{\sqrt{2Hg(\phi)/\zeta}}d\phi\]</div>
+<p>That relation will be useful for variable change by transforming the integral on <span class="math notranslate nohighlight">\(x\)</span> into integral on <span class="math notranslate nohighlight">\(\phi\)</span>. That relation is equivalent to:</p>
+<div class="math notranslate nohighlight" id="equation-eq-egalite-dp-2">
+<span class="eqno">(470)<a class="headerlink" href="#equation-eq-egalite-dp-2" title="Link to this equation"></a></span>\[\boxed{\frac{d\phi}{dx}=\sqrt{2\frac{H}{\zeta}g(\phi)}}\]</div>
+</section>
+<section id="case-g-1-phi-phi-2-1-phi-2">
+<h2>Case <span class="math notranslate nohighlight">\(g_1(\phi)=\phi^2(1-\phi)^2\)</span><a class="headerlink" href="#case-g-1-phi-phi-2-1-phi-2" title="Link to this heading"></a></h2>
+<p>If we choose <span class="math notranslate nohighlight">\(g(\phi)=g_1(\phi)=\phi^2(1-\phi)^2\)</span>, then we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-2">
+<span class="eqno">(471)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-2" title="Link to this equation"></a></span>\[\frac{d\phi}{dx}=\sqrt{2\frac{H}{\zeta}}\phi(1-\phi)\]</div>
+<p>L’équation s’écrit simplement <span class="math notranslate nohighlight">\(d\phi/\phi(1-\phi)=Cdx\)</span> with <span class="math notranslate nohighlight">\(C=\sqrt{2H/\zeta}\)</span>, that, once integrated is equal to: <span class="math notranslate nohighlight">\(\ln(\phi)-\ln(1-\phi)=Cx\)</span>. By applying the exponential on both sides and making appear the factor 2 inside the right-hand side, we obtain: <span class="math notranslate nohighlight">\(\phi/(1-\phi)=\exp\left[2(Cx/2)\right]\)</span>. Next we compute separately  <span class="math notranslate nohighlight">\(\exp\left[2(Cx/2)\right]-1\)</span> and <span class="math notranslate nohighlight">\(\exp\left[2(Cx/2)\right]+1\)</span>. We express those two expressions with <span class="math notranslate nohighlight">\(\phi\)</span> and we take the ratio (let us remind that <span class="math notranslate nohighlight">\(\tanh(X)=(e^{2X}-1)/(e^{2X}+1)\)</span>). We find: <span class="math notranslate nohighlight">\(2\phi-1=\tanh(Cx/2)\)</span>. Finally by replacing  <span class="math notranslate nohighlight">\(C\)</span> by <span class="math notranslate nohighlight">\(C=\sqrt{2H/\zeta}\)</span>, we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-3">
+<span class="eqno">(472)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-3" title="Link to this equation"></a></span>\[\phi(x)=\frac{1}{2}\left[1+\tanh\left(\frac{1}{2}\sqrt{\frac{2H}{\zeta}}x\right)\right]\]</div>
+<p>We make appear inside the hyperbolic tangent function the simplified form <span class="math notranslate nohighlight">\(2x/W\)</span>, we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-4">
+<span class="eqno">(473)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-4" title="Link to this equation"></a></span>\[\boxed{\phi(x)=\frac{1}{2}\left[1+\tanh\left(\frac{2x}{W}\right)\right]}\]</div>
+<p>where the interface width is defined by:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-5">
+<span class="eqno">(474)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-5" title="Link to this equation"></a></span>\[\boxed{W=\sqrt{\frac{8\zeta}{H}}}\]</div>
+</section>
+<section id="case-g-2-phi-phi-l-phi-2-phi-phi-g-2">
+<h2>Case <span class="math notranslate nohighlight">\(g_{2}(\phi)=(\phi_{l}-\phi)^{2}(\phi-\phi_{g})^{2}\)</span><a class="headerlink" href="#case-g-2-phi-phi-l-phi-2-phi-phi-g-2" title="Link to this heading"></a></h2>
+<p>We start from Eq. <a class="reference internal" href="#equation-eq-egalite-dp-2">(470)</a> by using <span class="math notranslate nohighlight">\(g_{2}(\phi)=(\phi_{l}-\phi)^{2}(\phi-\phi_{g})^{2}\)</span> where <span class="math notranslate nohighlight">\(\phi_{g}&lt;\phi&lt;\phi_{l}\)</span>. After integration of <span class="math notranslate nohighlight">\(d\phi/(\phi_{l}-\phi)(\phi-\phi_{g})=Cdx\)</span>, we obtain <span class="math notranslate nohighlight">\(\ln(\phi-\phi_{g})-\ln(\phi_{l}-\phi)=(\phi_{l}-\phi_{g})Cx\)</span>. We make appear the ratio <span class="math notranslate nohighlight">\((\phi-\phi_{g})/(\phi_{l}-\phi)\)</span> inside a unique logarithmic function, next we apply the exponential function to both members of equality with a factor 2 in the right-hand side: <span class="math notranslate nohighlight">\((\phi-\phi_{g})/(\phi_{l}-\phi)=\exp\left[2(\phi_{l}-\phi_{g})Cx/2\right]\)</span>.</p>
+<p>We set <span class="math notranslate nohighlight">\(X=(\phi_{l}-\phi_{g})Cx/2\)</span>, to make appear the hyperbolic tangent function (like in previous section), we calculate separately <span class="math notranslate nohighlight">\(e^{2X}-1\)</span> and <span class="math notranslate nohighlight">\(e^{2X}+1\)</span> and we make the ratio. We obtain:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-6">
+<span class="eqno">(475)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-6" title="Link to this equation"></a></span>\[\frac{e^{2X}-1}{e^{2X}+1}=\tanh\left[\frac{(\phi_{l}-\phi_{g})}{2}Cx\right]=\frac{2\phi-(\phi_{l}+\phi_{g})}{\phi_{l}-\phi_{g}}\]</div>
+<p>Finally we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-7">
+<span class="eqno">(476)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-7" title="Link to this equation"></a></span>\[\phi(x)=\frac{\phi_{l}+\phi_{g}}{2}+\frac{\phi_{l}-\phi_{g}}{2}\tanh\left[\frac{(\phi_{l}-\phi_{g})}{2}\sqrt{\frac{2H}{\zeta}}x\right]\]</div>
+<p>We make appear inside the hyperbolic tangent function the simplified expression 2x/W:</p>
+<div class="math notranslate nohighlight" id="equation-eq-sol-tanh-rhol-rhog">
+<span class="eqno">(477)<a class="headerlink" href="#equation-eq-sol-tanh-rhol-rhog" title="Link to this equation"></a></span>\[\boxed{\phi(x)=\frac{\phi_{l}+\phi_{g}}{2}+\frac{\phi_{l}-\phi_{g}}{2}\tanh\left[\frac{2x}{W}\right]}\]</div>
+<p>with the interface width defined by:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-8">
+<span class="eqno">(478)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-8" title="Link to this equation"></a></span>\[\boxed{W=\frac{4}{(\phi_{l}-\phi_{g})}\sqrt{\frac{\zeta}{2H}}}\]</div>
+</section>
+<section id="case-g-3-phi-phi-star-phi-2-phi-star-phi-2">
+<h2>Case <span class="math notranslate nohighlight">\(g_{3}(\phi)=(\phi^{\star}-\phi)^{2}(\phi^{\star}+\phi)^{2}\)</span><a class="headerlink" href="#case-g-3-phi-phi-star-phi-2-phi-star-phi-2" title="Link to this heading"></a></h2>
+<p>This is a particular case of <span class="math notranslate nohighlight">\(g_{2}(\phi)\)</span> with <span class="math notranslate nohighlight">\(\phi_{l}=\phi^{\star}\)</span> and <span class="math notranslate nohighlight">\(\phi_{g}=-\phi^{\star}\)</span>. With those variable changes Eq. <a class="reference internal" href="#equation-eq-sol-tanh-rhol-rhog">(477)</a> becomes</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-9">
+<span class="eqno">(479)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-9" title="Link to this equation"></a></span>\[\boxed{\phi(x)=\phi^{\star}\tanh\left[\frac{2x}{W}\right]}\]</div>
+<p>with an interface width defined by</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-10">
+<span class="eqno">(480)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-b-calculation-tanhsolution-10" title="Link to this equation"></a></span>\[\boxed{W=\frac{1}{\phi^{\star}}\sqrt{\frac{2\zeta}{H}}}\]</div>
+<p><strong>Proof</strong></p>
+<p>We check by starting from Eq. <a class="reference internal" href="#equation-eq-egalite-dp-2">(470)</a> en utilisant <span class="math notranslate nohighlight">\(g_{3}(\phi)=(\phi^{\star}-\phi)^{2}(\phi^{\star}+\phi)^{2}\)</span> where <span class="math notranslate nohighlight">\(-\phi^{\star}&lt;\phi&lt;\phi^{\star}\)</span>. By integrating <span class="math notranslate nohighlight">\(d\phi/(\phi^{\star}-\phi)(\phi^{\star}+\phi)=Cdx\)</span>, we obtain <span class="math notranslate nohighlight">\(\ln(\phi^{\star}+\phi)-\ln(\phi^{\star}-\phi)=2\phi^{\star}Cx\)</span>. After application of exponential function: <span class="math notranslate nohighlight">\(\exp\left[2\phi^{\star}Cx\right]=(\phi^{\star}+\phi)/(\phi^{\star}-\phi)\)</span>. Relation à partir de laquelle on en déduit simplement <span class="math notranslate nohighlight">\(\phi\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\phi(x)=\phi^{\star}\tanh\left(\phi^{\star}\sqrt{\frac{2H}{\zeta}}x\right)\]</div>
+<p>With simple form <span class="math notranslate nohighlight">\(2x/W\)</span> inside the hyperbolic tangent:</p>
+<div class="math notranslate nohighlight">
+\[\phi(x)=\phi^{\star}\tanh\left(\frac{2x}{W}\right)\]</div>
+<p>with</p>
+<div class="math notranslate nohighlight">
+\[W=\frac{1}{\phi^{\star}}\sqrt{\frac{2\zeta}{H}}\]</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Appendix B: solutions of one-dimensional Euler-Lagrange</a><ul>
+<li><a class="reference internal" href="#equivalent-form-of-1d-euler-lagrange">Equivalent form of 1D Euler-Lagrange</a></li>
+<li><a class="reference internal" href="#case-g-1-phi-phi-2-1-phi-2">Case <span class="math notranslate nohighlight">\(g_1(\phi)=\phi^2(1-\phi)^2\)</span></a></li>
+<li><a class="reference internal" href="#case-g-2-phi-phi-l-phi-2-phi-phi-g-2">Case <span class="math notranslate nohighlight">\(g_{2}(\phi)=(\phi_{l}-\phi)^{2}(\phi-\phi_{g})^{2}\)</span></a></li>
+<li><a class="reference internal" href="#case-g-3-phi-phi-star-phi-2-phi-star-phi-2">Case <span class="math notranslate nohighlight">\(g_{3}(\phi)=(\phi^{\star}-\phi)^{2}(\phi^{\star}+\phi)^{2}\)</span></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="A_Minimization_Free_Energy.html"
+                          title="previous chapter">Annexe A : minimisation d’une fonctionnelle d’énergie libre</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="C_Calculation_SurfaceTension.html"
+                          title="next chapter">Appendix C: calculation of surface tension</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_PF/B_Calculation_TanhSolution.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="C_Calculation_SurfaceTension.html" title="Appendix C: calculation of surface tension"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="A_Minimization_Free_Energy.html" title="Annexe A : minimisation d’une fonctionnelle d’énergie libre"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" >Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="01_Fundamentals_PF.html" >Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Appendix B: solutions of one-dimensional Euler-Lagrange</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

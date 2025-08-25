@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fluid dynamics &amp; Thermodynamics &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Navier-Stokes equations for single-phase flows" href="01_Navier-Stokes.html" />
+    <link rel="prev" title="PART V: course reminders" href="../TOC_Courses.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="01_Navier-Stokes.html" title="Navier-Stokes equations for single-phase flows"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../TOC_Courses.html" title="PART V: course reminders"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" accesskey="U">PART V: course reminders</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Fluid dynamics &amp; Thermodynamics</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="fluid-dynamics-thermodynamics">
+<span id="fluid-dynamics"></span><h1>Fluid dynamics &amp; Thermodynamics<a class="headerlink" href="#fluid-dynamics-thermodynamics" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01_Navier-Stokes.html">Navier-Stokes equations for single-phase flows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_Navier-Stokes.html#mass-balance">Mass balance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Navier-Stokes.html#impulsion-balance">Impulsion balance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Navier-Stokes.html#constitutive-relation-viscous-stress-tensor-for-newtonian-fluids">Constitutive relation: viscous stress tensor for Newtonian fluids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Navier-Stokes.html#index-notations">Index notations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Navier-Stokes.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02_Energy-Equation.html">Energy balance equation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02_Energy-Equation.html#formulation-with-total-energy">Formulation with total energy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_Energy-Equation.html#alternative-formulations">Alternative formulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_Energy-Equation.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03_Least_Action_Principle.html">Principe de moindre action</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03_Least_Action_Principle.html#action-mathscr-s-et-lagrangien-mathcal-l">Action <span class="math notranslate nohighlight">\(\mathscr{S}\)</span> et Lagrangien <span class="math notranslate nohighlight">\(\mathcal{L}\)</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_Least_Action_Principle.html#principe-de-stationnarite-et-derivee-variationnelle">Principe de stationnarité et dérivée variationnelle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_Least_Action_Principle.html#equations-d-euler-lagrange">Équations d’Euler-Lagrange</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_Least_Action_Principle.html#application-loi-du-mouvement-de-newton">Application: loi du mouvement de Newton</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../TOC_Courses.html"
+                          title="previous chapter">PART V: course reminders</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="01_Navier-Stokes.html"
+                          title="next chapter">Navier-Stokes equations for single-phase flows</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_Fluid_Dyn/TOC_Fluid-Dyn.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="01_Navier-Stokes.html" title="Navier-Stokes equations for single-phase flows"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../TOC_Courses.html" title="PART V: course reminders"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Fluid dynamics &amp; Thermodynamics</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

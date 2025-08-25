@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PART II: Mathematical models in LBM_Saclay &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition" href="01_Fluid_Fluid/Model_NSAC_Comp.html" />
+    <link rel="prev" title="Law of similarity: practice on Rayleigh-Taylor instability" href="../01_USER_GUIDE/SET_OWN_PARAMETERS/LawOfSimilarity_Two_Phase.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="01_Fluid_Fluid/Model_NSAC_Comp.html" title="Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../01_USER_GUIDE/SET_OWN_PARAMETERS/LawOfSimilarity_Two_Phase.html" title="Law of similarity: practice on Rayleigh-Taylor instability"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART II: Mathematical models in LBM_Saclay</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="part-ii-mathematical-models-in-lbm-saclay">
+<span id="math-models"></span><h1>PART II: Mathematical models in LBM_Saclay<a class="headerlink" href="#part-ii-mathematical-models-in-lbm-saclay" title="Link to this heading"></a></h1>
+<p>In this Section you will find details on mathematical models which are implemented in LBM_Saclay. They are separated into two main Sections for <strong>Two-phase models</strong> and <strong>Multi-phase models</strong>.</p>
+<section id="two-phase-models">
+<h2>Two-phase models<a class="headerlink" href="#two-phase-models" title="Link to this heading"></a></h2>
+<section id="fluid-fluid-interface">
+<h3>Fluid-Fluid interface<a class="headerlink" href="#fluid-fluid-interface" title="Link to this heading"></a></h3>
+<p>Two formulations of Fluid-Fluid interface models differ from the hypotheses of Navier-Stokes (NS) equations. In the first one, the two fluids are supposed to be incompressible. The interface is captured with a levelset-type equation called the <em>Conservative Allen-Cahn</em> (CAC) equation. In the second one, the two fluid phases are modelled by a low-Mach formulation of the NS equations with an Equation of State (EoS). Such a model is called <em>Navier-Stokes/Korteweg</em> model.</p>
+<p><strong>NS/Conservative Allen-Cahn based models</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01_Fluid_Fluid/Model_NSAC_Comp.html">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_Fluid_Fluid/Model_NSAC_Surfactant.html">Model of Navier-Stokes/CAC with surfactant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_Fluid_Fluid/Model_NSAC_Comp_PhaseChange.html">Model of Navier-Stokes/CAC with Liquid-Gas phase change</a></li>
+</ul>
+</div>
+<p><strong>NS/Korteweg based models</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01_Fluid_Fluid/Model_NSK.html">Model of Navier-Stokes/Korteweg (NSK)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_Fluid_Fluid/Model_NSK_Surfactant.html">Model of Navier-Stokes/Korteweg with surfactant</a></li>
+</ul>
+</div>
+</section>
+<section id="fluid-solid-interface">
+<h3>Fluid-Solid interface<a class="headerlink" href="#fluid-solid-interface" title="Link to this heading"></a></h3>
+<p>In this section, the interface is a separation between one liquid phase with one solid phase. fluid flows are not taken into account (no NS equations) in the fluid phase. The interface moves only because of thermodynamic imbalance due to phase change. The models are derived from the phase-field theory. In the first model (<em>dissolution</em>), the solid phase disappears whereas in the second one (<em>crystal growth</em>) the solid phase expands. For both models, only two components are considered (binary systems). In the third model (<em>gel maturation</em>), three components are considered (ternary systems).</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="02_Fluid_Solid/Model_Dissolution.html">Model of dissolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_Fluid_Solid/Model_CrystalGrowth.html">Model of crystal growth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_Fluid_Solid/Model_Maturation_Gel.html">Model of gel maturation</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="multi-phase-models">
+<h2>Multi-phase models<a class="headerlink" href="#multi-phase-models" title="Link to this heading"></a></h2>
+<section id="fluid-fluid-solid-interfaces">
+<h3>Fluid-Fluid-Solid interfaces<a class="headerlink" href="#fluid-fluid-solid-interfaces" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html">Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase</a></li>
+</ul>
+</div>
+</section>
+<section id="fluid-fluid-fluid-interfaces">
+<h3>Fluid-Fluid-Fluid interfaces<a class="headerlink" href="#fluid-fluid-fluid-interfaces" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="04_Fluid_Fluid_Fluid/NS_2AC_Comp.html">Model of fluid flow for three immiscible phases</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">PART II: Mathematical models in LBM_Saclay</a><ul>
+<li><a class="reference internal" href="#two-phase-models">Two-phase models</a><ul>
+<li><a class="reference internal" href="#fluid-fluid-interface">Fluid-Fluid interface</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#fluid-solid-interface">Fluid-Solid interface</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#multi-phase-models">Multi-phase models</a><ul>
+<li><a class="reference internal" href="#fluid-fluid-solid-interfaces">Fluid-Fluid-Solid interfaces</a></li>
+<li><a class="reference internal" href="#fluid-fluid-fluid-interfaces">Fluid-Fluid-Fluid interfaces</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../01_USER_GUIDE/SET_OWN_PARAMETERS/LawOfSimilarity_Two_Phase.html"
+                          title="previous chapter">Law of similarity: practice on Rayleigh-Taylor instability</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="01_Fluid_Fluid/Model_NSAC_Comp.html"
+                          title="next chapter">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/02_MODELS/models.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="01_Fluid_Fluid/Model_NSAC_Comp.html" title="Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../01_USER_GUIDE/SET_OWN_PARAMETERS/LawOfSimilarity_Two_Phase.html" title="Law of similarity: practice on Rayleigh-Taylor instability"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART II: Mathematical models in LBM_Saclay</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

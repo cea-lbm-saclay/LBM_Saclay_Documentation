@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Observations in nuclear glass &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Team presentation" href="TEAM/Team_Presentation.html" />
+    <link rel="prev" title="Videos gallery of simulations with LBM" href="Simulation_with_LBM.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="TEAM/Team_Presentation.html" title="Team presentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Simulation_with_LBM.html" title="Videos gallery of simulations with LBM"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Observations in nuclear glass</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="observations-in-nuclear-glass">
+<h1>Observations in nuclear glass<a class="headerlink" href="#observations-in-nuclear-glass" title="Link to this heading"></a></h1>
+<p>Many phenomena of demixing are observed in nuclear glass at CEA of Marcoule. The nuclear glass is a multi-component system which is composed of twenty (or more) chemical species (or components). In this documentation, when one system is composed of two components, it will be qualified of <em>binary</em>. When it is composed of three components, it will be qualified of <em>ternary</em>. The nuclear glass is an example of multi-component system. At macroscopic scale and high temperature, the nuclear glass is usually considered as a single-phase system. However, for specific conditions of temperature and global composition, several observations show two phases, either liquid/liquid, or solid/liquid. The objective of LBM_Saclay is to model and simulate those phenomena in order to simulate them by varying the temperature and the composition of the system.</p>
+<p><strong>Liquid-Liquid interface</strong></p>
+<p>Demixing phenomena between two liquid phases are observed in nuclear glass such as the <em>nucleation and growth</em> (<a class="reference internal" href="#target-fig-nucleation"><span class="std std-numref">Fig. 1</span></a>) and <em>spinodal decomposition</em> (<a class="reference internal" href="#target-fig-spinodal"><span class="std std-numref">Fig. 2</span></a>). Those phenomena occur at high temperature when the temperature is below a critical temperature (see next section).</p>
+<div class="sphinx-features docutils container">
+<figure class="align-default" id="id1">
+<span id="target-fig-nucleation"></span><a class="align-center reference internal image-reference" href="../../_images/Nucleation-Growth.png"><img alt="../../_images/Nucleation-Growth.png" class="align-center" src="../../_images/Nucleation-Growth.png" style="width: 150.0px; height: 300.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Nucleation and growth (S. Schuller ISEC/DPME, 2013)</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<span id="target-fig-spinodal"></span><a class="align-center reference internal image-reference" href="../../_images/SpinodalDecomposition.png"><img alt="../../_images/SpinodalDecomposition.png" class="align-center" src="../../_images/SpinodalDecomposition.png" style="width: 200.0px; height: 300.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Spinodal decomposition (D. Bouttes, PhD 2015)</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<p><strong>Solid-Liquid interface</strong></p>
+<p>When the temperature is lowered, a phase solid/liquid change occurs for some species and .*crystal growth* (<a class="reference internal" href="#target-fig-crystalgrowth"><span class="std std-numref">Fig. 3</span></a>), is observed. Various gemetric shapes are observed. Finally at lower temperature, when glass and water are in contact, a phenomenon of  <em>gel maturation</em> (<a class="reference internal" href="#target-fig-maturation"><span class="std std-numref">Fig. 4</span></a>) is observed.</p>
+<div class="sphinx-features docutils container">
+<figure class="align-default" id="id3">
+<span id="target-fig-crystalgrowth"></span><a class="align-center reference internal image-reference" href="../../_images/MEB-Cristaux.png"><img alt="../../_images/MEB-Cristaux.png" class="align-center" src="../../_images/MEB-Cristaux.png" style="width: 300.0px; height: 200.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Crystal growth (E. Régnier, ISEC/DPME 2011)</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<span id="target-fig-maturation"></span><a class="align-center reference internal image-reference" href="../../_images/Maturation-Gel.png"><img alt="../../_images/Maturation-Gel.png" class="align-center" src="../../_images/Maturation-Gel.png" style="width: 300.0px; height: 200.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Maturation of gels (S. Gin, ISEC/DPME 2015)</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="thermodynamics">
+<h1>Thermodynamics<a class="headerlink" href="#thermodynamics" title="Link to this heading"></a></h1>
+<p>Those phenomena occur because they depend on the thermodynamic and they make appear an interface which separates two or several phases. The thermodynamics of a binary system is sketched on <a class="reference internal" href="#target-fig-binaryphasediagram"><span class="std std-numref">Fig. 5</span></a>. On that figure, when the temperature <span class="math notranslate nohighlight">\(T\)</span> is above a critical temperature <span class="math notranslate nohighlight">\(T&gt;T_c\)</span>, we observe only one phase. But when the temperature is below that critical temperature <span class="math notranslate nohighlight">\(T&lt;T_c\)</span>, we observe two phases, provided that the point of composition <span class="math notranslate nohighlight">\(C\)</span> and temperature <span class="math notranslate nohighlight">\(T\)</span> is within the red curve (binodal line). The demixing can occur into two different regimes: when the composition is inside the black line (spinodal line) the <em>spinodal</em> regime is observed, whereas the <em>nucleation and growth</em> regime is observed in other cases.</p>
+<p>For three components, the phase diagram is much more complicated. It is represented by the Gibbs triangle (<a class="reference internal" href="#target-fig-gibbstriangle"><span class="std std-numref">Fig. 6</span></a>) where the green lines are the conodes. On that figure, the miscibility gap is the area where the observations confirm the presence of two phases (blue dots).</p>
+<div class="sphinx-features docutils container">
+<figure class="align-default" id="id5">
+<span id="target-fig-binaryphasediagram"></span><a class="align-center reference internal image-reference" href="../../_images/PhaseDiagram.png"><img alt="../../_images/PhaseDiagram.png" class="align-center" src="../../_images/PhaseDiagram.png" style="width: 350.0px; height: 300.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Thermodynamics of phase separation</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id6">
+<span id="target-fig-gibbstriangle"></span><a class="align-center reference internal image-reference" href="../../_images/GibbsTriangle.png"><img alt="../../_images/GibbsTriangle.png" class="align-center" src="../../_images/GibbsTriangle.png" style="width: 450.0px; height: 300.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Phase diagram of <span class="math notranslate nohighlight">\(SiO_2-Na_2O-MoO_3\)</span> (S. Bordier, PhD 2015)</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Observations in nuclear glass</a></li>
+<li><a class="reference internal" href="#thermodynamics">Thermodynamics</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Simulation_with_LBM.html"
+                          title="previous chapter">Videos gallery of simulations with LBM</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="TEAM/Team_Presentation.html"
+                          title="next chapter">Team presentation</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/00_INTRODUCTION/Context_Motivation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="TEAM/Team_Presentation.html" title="Team presentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Simulation_with_LBM.html" title="Videos gallery of simulations with LBM"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Observations in nuclear glass</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

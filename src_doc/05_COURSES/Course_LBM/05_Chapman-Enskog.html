@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapman-Enskog expansion for Navier-Stokes equations &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Variable change in LBE for source term" href="04_Variable_Change.html" />
+    <link rel="prev" title="Overview of Lattice Boltzmann Methods" href="02_Overview_LBM.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="04_Variable_Change.html" title="Variable change in LBE for source term"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="02_Overview_LBM.html" title="Overview of Lattice Boltzmann Methods"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_LBM_Course.html" >Basic concepts of Lattice Boltzmann Methods</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="02_Overview_LBM.html" accesskey="U">Overview of Lattice Boltzmann Methods</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Chapman-Enskog expansion for Navier-Stokes equations</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="chapman-enskog-expansion-for-navier-stokes-equations">
+<span id="chapman-enskog-expansions"></span><h1>Chapman-Enskog expansion for Navier-Stokes equations<a class="headerlink" href="#chapman-enskog-expansion-for-navier-stokes-equations" title="Link to this heading"></a></h1>
+<p>We detail here the algebraic calculations of Chapman-Enskog expansion of Lattice Boltzmann Equation for simulating Navier-Stokes (NS) equations. Here, the expansions are inspired from <a class="footnote-reference brackets" href="#id5" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (pp 332–336). An introduction of that method can be found in <a class="footnote-reference brackets" href="#id6" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> (page 106). An alternative method, but equivalent to C-E expansions, is presented in <a class="footnote-reference brackets" href="#id7" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. Here we assume that the equilibrium distribution function and the lattice are known to focus on derivation and approximation. The intermediate calculations of Chapman-Enskog expansion are rarely detailed in publications except in appendices in few of them which improve the numerical methods. Here we present the classical procedure without force term in NS.</p>
+<section id="starting-point">
+<h2>Starting point<a class="headerlink" href="#starting-point" title="Link to this heading"></a></h2>
+<p>The LBM aims to simulate the discrete Boltzmann equation:</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbe-bgk">
+<span class="eqno">(356)<a class="headerlink" href="#equation-eq-lbe-bgk" title="Link to this equation"></a></span>\[f_{i}(\mathbf{x}+\mathbf{e}_{i}\Delta t,\,t+\Delta t)=f_{i}(\mathbf{x},\,t)-\frac{1}{\lambda}\left[f_{i}(\mathbf{x},\,t)-f_{i}^{(0)}(\mathbf{x},\,t)\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{x}=(x,y,z)^{T}\)</span> is the position, <span class="math notranslate nohighlight">\(\Delta x\)</span> is the spatial discretization, <span class="math notranslate nohighlight">\(\Delta t\)</span> is the time-step and <span class="math notranslate nohighlight">\(\lambda\)</span> is a relaxation coefficient of distribution function
+<span class="math notranslate nohighlight">\(f_{i}(\mathbf{x},\,t)\)</span> toward an equilibrium function
+<span class="math notranslate nohighlight">\(f_{i}^{(0)}(\mathbf{x},\,t)\)</span>. Those functions depend on the lattice speeds <span class="math notranslate nohighlight">\(\mathbf{e}_{i}\)</span> with <span class="math notranslate nohighlight">\(i=1,...,N\)</span>. The equilibrium distribution function is defined by:</p>
+<div class="math notranslate nohighlight" id="equation-eq-feq">
+<span class="eqno">(357)<a class="headerlink" href="#equation-eq-feq" title="Link to this equation"></a></span>\[f_{i}^{(0)}(\mathbf{x},\,t)=\rho(\mathbf{x},\,t)w_{i}\left[1+3\frac{(\mathbf{e}_{i}\cdot\mathbf{u}(\mathbf{x},\,t))}{c^{2}}+\frac{9}{2}\frac{(\mathbf{e}_{i}\cdot\mathbf{u}(\mathbf{x},\,t))^{2}}{c^{4}}-\frac{3}{2}\frac{\mathbf{u}^{2}(\mathbf{x},\,t)}{c^{2}}\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho(\mathbf{x},\,t)\)</span> is the density,
+<span class="math notranslate nohighlight">\(\mathbf{u}=(u_{x},\,u_{y},\,u_{z})^{T}\)</span> is the fluid velocity,
+<span class="math notranslate nohighlight">\(c=\frac{\Delta x}{\Delta t}\)</span> is the lattice speed and
+<span class="math notranslate nohighlight">\(w_{i}\)</span> are weights depending on the lattice.</p>
+<p>In the remainder of this page, in order to alleviate the notations, the dependences with <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and <span class="math notranslate nohighlight">\(t\)</span> will be canceled in distribution functions  <span class="math notranslate nohighlight">\(f_{i}\)</span> et <span class="math notranslate nohighlight">\(f_{i}^{(0)}\)</span> and macroscopic variables <span class="math notranslate nohighlight">\(\rho\)</span> et <span class="math notranslate nohighlight">\(\mathbf{u}\)</span>. We also choose the popular lattice D2Q9 defined by ( for <span class="math notranslate nohighlight">\(i=0,...,8\)</span>):</p>
+<div class="math notranslate nohighlight" id="equation-eq-dire0">
+<span class="eqno">(358)<a class="headerlink" href="#equation-eq-dire0" title="Link to this equation"></a></span>\[\begin{split}\mathbf{e}_{0}=\left(\begin{array}{c}
+0\\
+0
+\end{array}\right)\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-dire1-e4">
+<span class="eqno">(359)<a class="headerlink" href="#equation-eq-dire1-e4" title="Link to this equation"></a></span>\[\begin{split}\mathbf{e}_{1}=\left(\begin{array}{c}
+1\\
+0
+\end{array}\right)c,\,\mathbf{e}_{2}=\left(\begin{array}{c}
+0\\
+1
+\end{array}\right)c,\,\mathbf{e}_{3}=\left(\begin{array}{c}
+-1\\
+0
+\end{array}\right)c,\,\mathbf{e}_{4}=\left(\begin{array}{c}
+0\\
+-1
+\end{array}\right)c\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-dire5-e8">
+<span class="eqno">(360)<a class="headerlink" href="#equation-eq-dire5-e8" title="Link to this equation"></a></span>\[\begin{split}\mathbf{e}_{5}=\left(\begin{array}{c}
+1\\
+1
+\end{array}\right)c,\,\mathbf{e}_{6}=\left(\begin{array}{c}
+-1\\
+1
+\end{array}\right)c,\,\mathbf{e}_{7}=\left(\begin{array}{c}
+-1\\
+-1
+\end{array}\right)c,\,\mathbf{e}_{8}=\left(\begin{array}{c}
+1\\
+-1
+\end{array}\right)c\end{split}\]</div>
+<p>The weights <span class="math notranslate nohighlight">\(w_{i}\)</span> are:</p>
+<div class="math notranslate nohighlight" id="equation-eq-poidsd2q9">
+<span class="eqno">(361)<a class="headerlink" href="#equation-eq-poidsd2q9" title="Link to this equation"></a></span>\[w_{0}=\frac{4}{9},\qquad w_{1,\,...,\,4}=\frac{1}{9},\qquad w_{5,\,...,\,8}=\frac{1}{36}\]</div>
+</section>
+<section id="objectives">
+<h2>Objectives<a class="headerlink" href="#objectives" title="Link to this heading"></a></h2>
+<p>The purpose of this section is to demonstrate with the Chapman-Enskog expansion that Eq.  <a class="reference internal" href="#equation-eq-lbe-bgk">(356)</a> with equilibrium  <a class="reference internal" href="#equation-eq-feq">(357)</a> and lattice D2Q9 (relations <a class="reference internal" href="#equation-eq-dire0">(358)</a> – <a class="reference internal" href="#equation-eq-dire5-e8">(360)</a> and
+<a class="reference internal" href="#equation-eq-poidsd2q9">(361)</a>) simulate the low-Mach Navier-Stokes equations:</p>
+<div class="math notranslate nohighlight" id="equation-eq-conversation-masse">
+<span class="eqno">(362)<a class="headerlink" href="#equation-eq-conversation-masse" title="Link to this equation"></a></span>\[\partial_{t}\rho+\partial_{\alpha}(\rho u_{\alpha})=0\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-conservation-qmvt">
+<span class="eqno">(363)<a class="headerlink" href="#equation-eq-conservation-qmvt" title="Link to this equation"></a></span>\[\partial_{t}(\rho u_{\alpha})+\partial_{\beta}(\rho u_{\alpha}u_{\beta})=-\partial_{\alpha}p+\partial_{\beta}\left[\nu\rho(\partial_{\beta}u_{\alpha}+\partial_{\alpha}u_{\beta})\right]+\mathcal{O}(\rho u^{3})\]</div>
+<p>Eq. <a class="reference internal" href="#equation-eq-conversation-masse">(362)</a> is the mass balance equation and <a class="reference internal" href="#equation-eq-conservation-qmvt">(363)</a> and the impulsion balance equation. In those equations, the greek indices are <span class="math notranslate nohighlight">\(\alpha=x,y\)</span> and
+<span class="math notranslate nohighlight">\(\beta=x,y\)</span> (2D) respectively. The Einstein’s convention of summation aver repeated indices is used (for instance <span class="math notranslate nohighlight">\(\partial_{\alpha}u_{\alpha}=\partial_{x}u_{x}+\partial_{y}u_{y})\)</span>.
+The symbol <span class="math notranslate nohighlight">\(\partial_{\alpha}\)</span> is a notation to express the partial derivative
+<span class="math notranslate nohighlight">\(\frac{\partial}{\partial\alpha}\)</span>. For example
+<span class="math notranslate nohighlight">\(\partial_{x}\equiv\frac{\partial}{\partial x}\)</span>,
+<span class="math notranslate nohighlight">\(\partial_{y}\equiv\frac{\partial}{\partial y}\)</span> and
+<span class="math notranslate nohighlight">\(\partial_{t}\equiv\frac{\partial}{\partial t}\)</span>. In Eq.
+<a class="reference internal" href="#equation-eq-conservation-qmvt">(363)</a> <span class="math notranslate nohighlight">\(p\)</span> is the (thermodynamic)
+pressure, <span class="math notranslate nohighlight">\(\nu\)</span> is the kinematic viscosity.</p>
+</section>
+<section id="conservative-quantities-and-moments-of-equilibrium-distribution-functions">
+<h2>Conservative quantities and moments of equilibrium distribution functions<a class="headerlink" href="#conservative-quantities-and-moments-of-equilibrium-distribution-functions" title="Link to this heading"></a></h2>
+<p>The macroscopic quantities which have to be conserved are the density and the impulsion:</p>
+<div class="math notranslate nohighlight" id="equation-eq-def-f">
+<span class="eqno">(364)<a class="headerlink" href="#equation-eq-def-f" title="Link to this equation"></a></span>\[\begin{split}\begin{cases}
+\sum_{i}f_{i} &amp; =\rho\\
+\sum_{i}f_{i}\mathbf{e}_{i} &amp; =\rho\mathbf{u}
+\end{cases}\end{split}\]</div>
+<p>The conservation of those quantities during a collision implies:</p>
+<div class="math notranslate nohighlight" id="equation-eq-deff0">
+<span class="eqno">(365)<a class="headerlink" href="#equation-eq-deff0" title="Link to this equation"></a></span>\[\begin{split}\begin{cases}
+\sum_{i}f_{i}^{(0)} &amp; =\rho\\
+\sum_{i}f_{i}^{(0)}\mathbf{e}_{i} &amp; =\rho\mathbf{u}
+\end{cases}\end{split}\]</div>
+<p>Without loss of generality, we set <span class="math notranslate nohighlight">\(\Delta x=\Delta t=1\)</span> (lattice units) in order to simplify the notations. In general case, <span class="math notranslate nohighlight">\(\Delta x\)</span> and <span class="math notranslate nohighlight">\(\Delta t\)</span> can take values different of unity. We get in Eq. <a class="reference internal" href="#equation-eq-feq">(357)</a> <span class="math notranslate nohighlight">\(c=1\)</span>. We also set:</p>
+<div class="math notranslate nohighlight" id="equation-eq-vitesseson">
+<span class="eqno">(366)<a class="headerlink" href="#equation-eq-vitesseson" title="Link to this equation"></a></span>\[c_{s}^{2}=\frac{1}{3}\]</div>
+<p>With greek indices, the equilibrium distribution function writes:</p>
+<div class="math notranslate nohighlight" id="equation-eq-feq-grecs">
+<span class="eqno">(367)<a class="headerlink" href="#equation-eq-feq-grecs" title="Link to this equation"></a></span>\[f_{i}^{(0)}=\rho w_{i}\left[1+3e_{i\gamma}u_{\gamma}+\frac{9}{2}e_{i\gamma}e_{i\theta}u_{\gamma}u_{\theta}-\frac{3}{2}u_{\gamma}u_{\theta}\delta_{\gamma\theta}\right]\]</div>
+<p>On a D2Q9 lattice, we can show that the moments of order  0, 1, 2 et 3 of <span class="math notranslate nohighlight">\(f_{i}^{(0)}\)</span> are:</p>
+<div class="math notranslate nohighlight" id="equation-eq-m0-f0">
+<span class="eqno">(368)<a class="headerlink" href="#equation-eq-m0-f0" title="Link to this equation"></a></span>\[\sum_{i}f_{i}^{(0)}=\rho\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-m1-f0">
+<span class="eqno">(369)<a class="headerlink" href="#equation-eq-m1-f0" title="Link to this equation"></a></span>\[\sum_{i}f_{i}^{(0)}e_{i\alpha}=\rho u_{\alpha}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-m2-f0">
+<span class="eqno">(370)<a class="headerlink" href="#equation-eq-m2-f0" title="Link to this equation"></a></span>\[\sum_{i}f_{i}^{(0)}e_{i\alpha}e_{i\beta}=c_{s}^{2}\rho\delta_{\alpha\beta}+\rho u_{\alpha}u_{\beta}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-m3-f0">
+<span class="eqno">(371)<a class="headerlink" href="#equation-eq-m3-f0" title="Link to this equation"></a></span>\[\sum_{i}f_{i}^{(0)}e_{i\alpha}e_{i\beta}e_{i\gamma}=c_{s}^{2}\rho(u_{\alpha}\delta_{\beta\gamma}+u_{\beta}\delta_{\alpha\gamma}+u_{\gamma}\delta_{\alpha\beta})\]</div>
+<p>Those results will be used in calculations of following section.</p>
+<p><strong>Remark</strong></p>
+<p>When we seek to simulate a specific macroscopic PDE, we need to establish the equilibrium distribution function <span class="math notranslate nohighlight">\(f_{i}^{(0)}\)</span> and the number of moving directions, such as the moments of order zero and one <span class="math notranslate nohighlight">\(f_{i}^{(0)}\)</span> are equal to conserved macroscopic quantities.</p>
+</section>
+<section id="chapman-enskog-expansion">
+<h2>Chapman-Enskog expansion<a class="headerlink" href="#chapman-enskog-expansion" title="Link to this heading"></a></h2>
+<section id="first-part-taylor-s-expansion-and-scale-separation">
+<h3>First part: Taylor’s expansion and scale separation<a class="headerlink" href="#first-part-taylor-s-expansion-and-scale-separation" title="Link to this heading"></a></h3>
+<p>The expansions presented in this first part are classical and can be found in references cited above. We can refer to them for physical interpretation of small parameter <span class="math notranslate nohighlight">\(\varepsilon\)</span> in kinetic theory of gases (Knudsen numner).</p>
+<p>By setting <span class="math notranslate nohighlight">\(\Delta x=\Delta t=1\)</span> and using the greek indices, the LBE writes:</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbe-bgk-unite">
+<span class="eqno">(372)<a class="headerlink" href="#equation-eq-lbe-bgk-unite" title="Link to this equation"></a></span>\[f_{i}(x+e_{i\beta},\,t+1)=f_{i}(x,\,t)-\frac{1}{\lambda}\left[f_{i}(x,\,t)-f_{i}^{(0)}(x,\,t)\right]\]</div>
+<p>The Taylor’s expansion of left-hand side of Eq. <a class="reference internal" href="#equation-eq-lbe-bgk-unite">(372)</a> up to second order in space and times yields:</p>
+<div class="math notranslate nohighlight">
+\[f_{i}(x+e_{i\beta},\,t+1)\simeq f_{i}+e_{i\beta}\partial_{\beta}f_{i}+\frac{1}{2}e_{i\alpha}e_{i\beta}\partial_{\alpha}\partial_{\beta}f_{i}+\partial_{t}f_{i}+\frac{1}{2}\partial_{t}^{2}f_{i}+e_{i\beta}\partial_{\beta}\partial_{t}f_{i}\]</div>
+<p>By replacing in Eq. <a class="reference internal" href="#equation-eq-lbe-bgk-unite">(372)</a>, we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-eq-lbe-taylor">
+<span class="eqno">(373)<a class="headerlink" href="#equation-eq-lbe-taylor" title="Link to this equation"></a></span>\[e_{i\beta}\partial_{\beta}f_{i}+\frac{1}{2}e_{i\alpha}e_{i\beta}\partial_{\alpha}\partial_{\beta}f_{i}+\partial_{t}f_{i}+\frac{1}{2}\partial_{t}^{2}f_{i}+e_{i\beta}\partial_{\beta}\partial_{t}f_{i}=-\frac{1}{\lambda}\left[f_{i}-f_{i}^{(0)}\right]\]</div>
+<p>We perform a scale separation in space (<span class="math notranslate nohighlight">\(x_{1}=\varepsilon x\)</span>) and time. For the latter, we distinguish one characteristic time of convection <span class="math notranslate nohighlight">\(t_{0}=\varepsilon t\)</span> and one characteristic time of diffusion <span class="math notranslate nohighlight">\(t_{1}=\varepsilon^{2}t\)</span> such that:</p>
+<div class="math notranslate nohighlight" id="equation-eq-scales">
+<span class="eqno">(374)<a class="headerlink" href="#equation-eq-scales" title="Link to this equation"></a></span>\[\begin{split}\begin{cases}
+t &amp; =\frac{1}{\varepsilon}t_{0}+\frac{1}{\varepsilon^{2}}t_{1}\\
+x &amp; =\frac{1}{\varepsilon}x_{1}
+\end{cases}\end{split}\]</div>
+<p>That leads to following partial derivatives:</p>
+<div class="math notranslate nohighlight" id="equation-eq-scalespartial">
+<span class="eqno">(375)<a class="headerlink" href="#equation-eq-scalespartial" title="Link to this equation"></a></span>\[\begin{split}\begin{cases}
+\partial_{t} &amp; =\varepsilon\partial_{t_{0}}+\varepsilon^{2}\partial_{t_{1}}\\
+\partial_{\alpha} &amp; =\varepsilon\partial_{\alpha}^{(1)}
+\end{cases}\end{split}\]</div>
+<p>The distribution function is expanded up to the second order:</p>
+<div class="math notranslate nohighlight" id="equation-eq-f-expansion">
+<span class="eqno">(376)<a class="headerlink" href="#equation-eq-f-expansion" title="Link to this equation"></a></span>\[f_{i}\simeq f_{i}^{(0)}+\varepsilon f_{i}^{(1)}+\varepsilon f_{i}^{(2)}\]</div>
+<p>That expansion and Eqs. <a class="reference internal" href="#equation-eq-def-f">(364)</a> and <a class="reference internal" href="#equation-eq-deff0">(365)</a> imply that:</p>
+<div class="math notranslate nohighlight" id="equation-eq-m0-fneq">
+<span class="eqno">(377)<a class="headerlink" href="#equation-eq-m0-fneq" title="Link to this equation"></a></span>\[\sum_{i}f_{i}^{(1)}=\sum_{i}f_{i}^{(2)}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-m1-fneq">
+<span class="eqno">(378)<a class="headerlink" href="#equation-eq-m1-fneq" title="Link to this equation"></a></span>\[\sum_{i}f_{i}^{(1)}e_{i\alpha}=\sum_{i}f_{i}^{(2)}e_{i\alpha}=0\]</div>
+<p><strong>Remark</strong></p>
+<p>Eq. <a class="reference internal" href="#equation-eq-m1-fneq">(378)</a> est derived because the impulsion is a conservative local quantity for Navier-Stokes equations. For advection-diffusion equation, this is not any more the case, and it will be necessary to calculate the first order moment of <span class="math notranslate nohighlight">\(f_{i}^{(1)}\)</span>.</p>
+</section>
+<section id="moments-des-termes-en-varepsilon">
+<h3>Moments des termes en <span class="math notranslate nohighlight">\(\varepsilon\)</span><a class="headerlink" href="#moments-des-termes-en-varepsilon" title="Link to this heading"></a></h3>
+<p>The partial derivative in space and times are replaced in <a class="reference internal" href="#equation-eq-lbe-taylor">(373)</a> by using Eq <a class="reference internal" href="#equation-eq-scalespartial">(375)</a> and we also use the expansion of distribution function iwth Eq.
+<a class="reference internal" href="#equation-eq-f-expansion">(376)</a>. We gather the terms of order <span class="math notranslate nohighlight">\(\varepsilon\)</span> and <span class="math notranslate nohighlight">\(\varepsilon^{2}\)</span>.</p>
+<p>The gathering of first order terms in <span class="math notranslate nohighlight">\(\varepsilon\)</span> yields the following equality:</p>
+<div class="math notranslate nohighlight" id="equation-eq-eq-ordre1-flow">
+<span class="eqno">(379)<a class="headerlink" href="#equation-eq-eq-ordre1-flow" title="Link to this equation"></a></span>\[\partial_{\alpha}^{(1)}e_{i\alpha}f_{i}^{(0)}+\partial_{t_{0}}f_{i}^{(0)}=-\frac{1}{\lambda}f_{i}^{(1)}\]</div>
+<p>With preliminary results Eqs. <a class="reference internal" href="#equation-eq-m0-f0">(368)</a> and <a class="reference internal" href="#equation-eq-m1-f0">(369)</a>, the moment of zeroth-order (sum over
+<span class="math notranslate nohighlight">\(i\)</span>) of that equation is:</p>
+<div class="math notranslate nohighlight" id="equation-eq-m0-eq-ordre1-flow">
+<span class="eqno">(380)<a class="headerlink" href="#equation-eq-m0-eq-ordre1-flow" title="Link to this equation"></a></span>\[\partial_{t_{0}}\rho+\partial_{\alpha}^{(1)}(\rho u_{\alpha})=0\]</div>
+<p>Similarily, by using Eqs. <a class="reference internal" href="#equation-eq-m1-f0">(369)</a> and <a class="reference internal" href="#equation-eq-m2-f0">(370)</a>, the moment of first order (multiplication of Eq.
+<a class="reference internal" href="#equation-eq-eq-ordre1-flow">(379)</a> by <span class="math notranslate nohighlight">\(e_{i\beta}\)</span> and sum over <span class="math notranslate nohighlight">\(i\)</span>) leads to:</p>
+<div class="math notranslate nohighlight" id="equation-eq-m1-eq-ordre1-flow">
+<span class="eqno">(381)<a class="headerlink" href="#equation-eq-m1-eq-ordre1-flow" title="Link to this equation"></a></span>\[\partial_{t_{0}}(\rho u_{\alpha})+\partial_{\beta}^{(1)}(c_{s}^{2}\rho\delta_{\alpha\beta}+\rho u_{\alpha}u_{\beta})=0\]</div>
+<p>Those two moments of order 0 and 1 of terms in <span class="math notranslate nohighlight">\(\varepsilon\)</span>
+(Eqs. <a class="reference internal" href="#equation-eq-m0-eq-ordre1-flow">(380)</a> and <a class="reference internal" href="#equation-eq-m1-eq-ordre1-flow">(381)</a>) will be used for calculation of the 2nd order moment of <span class="math notranslate nohighlight">\(f_{i}^{(1)}\)</span> in the second part of this expansion.</p>
+</section>
+<section id="moments-of-terms-of-order-varepsilon-2">
+<h3>Moments of terms of order <span class="math notranslate nohighlight">\(\varepsilon^{2}\)</span><a class="headerlink" href="#moments-of-terms-of-order-varepsilon-2" title="Link to this heading"></a></h3>
+<p>Gathering the <span class="math notranslate nohighlight">\(\varepsilon^{2}\)</span> terms leads to the relation:</p>
+<div class="math notranslate nohighlight" id="equation-eq-termesordre2-flow">
+<span class="eqno">(382)<a class="headerlink" href="#equation-eq-termesordre2-flow" title="Link to this equation"></a></span>\[e_{i\beta}\partial_{\beta}^{(1)}f_{i}^{(1)}+\frac{1}{2}e_{i\alpha}e_{i\beta}\partial_{\alpha}^{(1)}\partial_{\beta}^{(1)}f_{i}^{(0)}+\partial_{t_{0}}f_{i}^{(1)}+\partial_{t_{1}}f_{i}^{(0)}+\frac{1}{2}\partial_{t_{0}}^{2}f_{i}^{(0)}+e_{i\beta}\partial_{\beta}^{(1)}\partial_{t_{0}}f_{i}^{(0)}=-\frac{1}{\lambda}f_{i}^{(2)}\]</div>
+<p>Applying separately <span class="math notranslate nohighlight">\(\frac{1}{2}e_{i\beta}\partial_{\beta}\)</span> and <span class="math notranslate nohighlight">\(\frac{1}{2}\partial_{t_{0}}\)</span> on Eq. <a class="reference internal" href="#equation-eq-eq-ordre1-flow">(379)</a> and summing those two results, that Eq. <a class="reference internal" href="#equation-eq-termesordre2-flow">(382)</a> se simplifies into:</p>
+<div class="math notranslate nohighlight">
+\[\partial_{t_{1}}f_{i}^{(0)}+\left(1-\frac{1}{2\lambda}\right)\left[\partial_{\beta}^{(1)}e_{i\beta}f_{i}^{(1)}+\partial_{t_{0}}f_{i}^{(1)}\right]=-\frac{1}{\lambda}f_{i}^{(2)}\]</div>
+<p>With equations <a class="reference internal" href="#equation-eq-m0-f0">(368)</a>, <a class="reference internal" href="#equation-eq-m0-fneq">(377)</a> and <a class="reference internal" href="#equation-eq-m1-fneq">(378)</a>, the moment of order 0 of that equation yiedls:</p>
+<div class="math notranslate nohighlight" id="equation-eq-m0-eq-ordre2-flow">
+<span class="eqno">(383)<a class="headerlink" href="#equation-eq-m0-eq-ordre2-flow" title="Link to this equation"></a></span>\[\partial_{t_{1}}\rho=0\]</div>
+<p>and its first-order moment:</p>
+<div class="math notranslate nohighlight" id="equation-eq-m1-eq-ordre2-flow">
+<span class="eqno">(384)<a class="headerlink" href="#equation-eq-m1-eq-ordre2-flow" title="Link to this equation"></a></span>\[\partial_{t_{1}}(\rho u_{\alpha})+\left(1-\frac{1}{2\lambda}\right)\left[\partial_{\beta}^{(1)}\sum_{i}f_{i}^{(1)}e_{i\alpha}e_{i\beta}\right]=0\]</div>
+</section>
+<section id="gathering-moments">
+<h3>Gathering moments<a class="headerlink" href="#gathering-moments" title="Link to this heading"></a></h3>
+<p>We gather the moments of zeroth- and first-order that have been derived separately for terms in <span class="math notranslate nohighlight">\(\varepsilon\)</span> and <span class="math notranslate nohighlight">\(\varepsilon^{2}\)</span>. We carry out <span class="math notranslate nohighlight">\(\varepsilon\times\)</span>Eq
+<a class="reference internal" href="#equation-eq-m0-eq-ordre1-flow">(380)</a> + <span class="math notranslate nohighlight">\(\varepsilon^{2}\times\)</span>Eq <a class="reference internal" href="#equation-eq-m0-eq-ordre2-flow">(383)</a>, the moment of order zero is:</p>
+<div class="math notranslate nohighlight" id="equation-eq-conservmasse">
+<span class="eqno">(385)<a class="headerlink" href="#equation-eq-conservmasse" title="Link to this equation"></a></span>\[\partial_{t}\rho+\partial_{\alpha}(\rho u_{\alpha})=0\]</div>
+<p>which is the first equation of NS system i.e. the mass balance equation. We perform now <span class="math notranslate nohighlight">\(\varepsilon\times\)</span>Eq <a class="reference internal" href="#equation-eq-m1-eq-ordre1-flow">(381)</a> + <span class="math notranslate nohighlight">\(\varepsilon^{2}\times\)</span>Eq <a class="reference internal" href="#equation-eq-m1-eq-ordre2-flow">(384)</a>, the first-order moment is:</p>
+<div class="math notranslate nohighlight" id="equation-eq-conservqmvt">
+<span class="eqno">(386)<a class="headerlink" href="#equation-eq-conservqmvt" title="Link to this equation"></a></span>\[\partial_{t}(\rho u_{\alpha})+\partial_{\beta}(\Pi_{\alpha\beta}^{(0)}+\Pi_{\alpha\beta}^{(1)})=0\]</div>
+<p>where we set:</p>
+<div class="math notranslate nohighlight" id="equation-eq-pi0">
+<span class="eqno">(387)<a class="headerlink" href="#equation-eq-pi0" title="Link to this equation"></a></span>\[\Pi_{\alpha\beta}^{(0)}=\sum_{i}f_{i}^{(0)}e_{i\alpha}e_{i\beta}\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-pi1">
+<span class="eqno">(388)<a class="headerlink" href="#equation-eq-pi1" title="Link to this equation"></a></span>\[\Pi_{\alpha\beta}^{(1)}=\left(1-\frac{1}{2\lambda}\right)\varepsilon\sum_{i}f_{i}^{(1)}e_{i\alpha}e_{i\beta}\]</div>
+<p>The notations <span class="math notranslate nohighlight">\(\Pi_{\alpha\beta}^{(0)}\)</span> and <span class="math notranslate nohighlight">\(\Pi_{\alpha\beta}^{(1)}\)</span> are the second-order moments of <span class="math notranslate nohighlight">\(f_{i}^{(0)}\)</span> and <span class="math notranslate nohighlight">\(f_{i}^{(1)}\)</span> respectively. <span class="math notranslate nohighlight">\(\Pi_{\alpha\beta}^{(0)}\)</span> is known with definition of EDF and preliminary results <a class="reference internal" href="#equation-eq-m2-f0">(370)</a>. We have to derive now the second-order moment of <span class="math notranslate nohighlight">\(f_{i}^{(1)}\)</span>. It is the purpose of the following second part.</p>
+</section>
+</section>
+<section id="second-part-viscosity-coefficient-and-impulsion-balance">
+<h2>Second part: viscosity coefficient and impulsion balance<a class="headerlink" href="#second-part-viscosity-coefficient-and-impulsion-balance" title="Link to this heading"></a></h2>
+<p><strong>Viscosity</strong></p>
+<p>For <span class="math notranslate nohighlight">\(f_{i}^{(1)}\)</span> (<span class="math notranslate nohighlight">\(\sum_{i}f_{i}^{(1)}e_{i\alpha}e_{i\beta}\)</span>), we use the preliminary results <a class="reference internal" href="#equation-eq-m2-f0">(370)</a> and <a class="reference internal" href="#equation-eq-m3-f0">(371)</a> for moments of second- and third-order of EDF <span class="math notranslate nohighlight">\(f_{i}^{(0)}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\sum_{i}f_{i}^{(1)}e_{i\alpha}e_{i\beta} &amp; =-\lambda\left[\partial_{\gamma}^{(1)}(\sum_{i}f_{i}^{(0)}e_{i\alpha}e_{i\beta}e_{i\gamma})+\partial_{t_{0}}(\sum_{i}f_{i}^{(0)}e_{i\alpha}e_{i\beta})\right]\\
+ &amp; =-\lambda\left[\partial_{\gamma}^{(1)}c_{s}^{2}\rho(u_{\alpha}\delta_{\beta\gamma}+u_{\beta}\delta_{\alpha\gamma}+u_{\gamma}\delta_{\alpha\beta})+\partial_{t_{0}}(c_{s}^{2}\rho\delta_{\alpha\beta}+\rho u_{\alpha}u_{\beta})\right]\\
+ &amp; =-\lambda c_{s}^{2}\left[\partial_{\beta}^{(1)}(\rho u_{\alpha})+\partial_{\alpha}^{(1)}(\rho u_{\beta})+\partial_{\gamma}^{(1)}(\rho u_{\gamma})\delta_{\alpha\beta}\right]-\lambda\partial_{t_{0}}(c_{s}^{2}\rho\delta_{\alpha\beta})-\lambda\partial_{t_{0}}(\rho u_{\alpha}u_{\beta})\end{aligned}\end{split}\]</div>
+<p>For last two terms, the time derivative are transformed into space-derivative by using moments of order zero and one of equation of order <span class="math notranslate nohighlight">\(\varepsilon\)</span> (Eq. <a class="reference internal" href="#equation-eq-m0-eq-ordre1-flow">(380)</a> and <a class="reference internal" href="#equation-eq-m1-eq-ordre1-flow">(381)</a> respectively). For the penultimate term we obtain:</p>
+<div class="math notranslate nohighlight">
+\[-\lambda\partial_{t_{0}}(c_{s}^{2}\rho\delta_{\alpha\beta})=+\lambda c_{s}^{2}\partial_{\gamma}^{(1)}(\rho u_{\gamma})\delta_{\alpha\beta}\]</div>
+<p>That term cancels with one of opposite sign contained in the bracket. For last term, we use the following result:</p>
+<div class="math notranslate nohighlight" id="equation-eq-equivalence">
+<span class="eqno">(389)<a class="headerlink" href="#equation-eq-equivalence" title="Link to this equation"></a></span>\[\partial_{t_{0}}(\rho u_{\alpha}u_{\beta})=-\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})-c_{s}^{2}(u_{\alpha}\partial_{\beta}^{(1)}\rho+u_{\beta}\partial_{\alpha}^{(1)}\rho)\]</div>
+<p>By expansing the partial derivatives in the bracket, we finally get:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\sum_{i}f_{i}^{(1)}e_{i\alpha}e_{i\beta} &amp; =-\lambda c_{s}^{2}\left[\partial_{\beta}^{(1)}(\rho u_{\alpha})+\partial_{\alpha}^{(1)}(\rho u_{\beta})\right]+\lambda\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})+\lambda c_{s}^{2}(u_{\alpha}\partial_{\beta}^{(1)}\rho+u_{\beta}\partial_{\alpha}^{(1)}\rho)\\
+ &amp; =-\lambda c_{s}^{2}\left[\rho\partial_{\beta}^{(1)}u_{\alpha}+\rho\partial_{\alpha}^{(1)}u_{\beta}\right]+\lambda\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})
+\end{aligned}\end{split}\]</div>
+<p>The term <span class="math notranslate nohighlight">\(\Pi_{\alpha\beta}^{(1)}\)</span> becomes:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\Pi_{\alpha\beta}^{(1)} &amp; =\left(1-\frac{1}{2\lambda}\right)\varepsilon\sum_{i}f_{i}^{(1)}e_{i\alpha}e_{i\beta}\\
+ &amp; =\left(1-\frac{1}{2\lambda}\right)\varepsilon\left\{ -\lambda c_{s}^{2}\left[\rho\partial_{\beta}^{(1)}u_{\alpha}+\rho\partial_{\alpha}^{(1)}u_{\beta}\right]+\lambda\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})\right\} \\
+ &amp; =c_{s}^{2}\left(\lambda-\frac{1}{2}\right)\left\{ -\left[\rho\partial_{\beta}u_{\alpha}+\rho\partial_{\alpha}u_{\beta}\right]+\frac{1}{c_{s}^{2}}\partial_{\gamma}(\rho u_{\alpha}u_{\beta}u_{\gamma})\right\} \end{aligned}\end{split}\]</div>
+<p>By setting:</p>
+<div class="math notranslate nohighlight" id="equation-eq-viscositecin">
+<span class="eqno">(390)<a class="headerlink" href="#equation-eq-viscositecin" title="Link to this equation"></a></span>\[\nu=c_{s}^{2}\left(\lambda-\frac{1}{2}\right)\]</div>
+<p>we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-eq-res-pi1">
+<span class="eqno">(391)<a class="headerlink" href="#equation-eq-res-pi1" title="Link to this equation"></a></span>\[\Pi_{\alpha\beta}^{(1)}=-\nu\left[\rho\partial_{\beta}u_{\alpha}+\rho\partial_{\alpha}u_{\beta}\right]+\frac{1}{c_{s}^{2}}\nu\partial_{\gamma}(\rho u_{\alpha}u_{\beta}u_{\gamma})\]</div>
+<p>L’équation <a class="reference internal" href="#equation-eq-viscositecin">(390)</a> donne la relation
+entre le paramètre de relaxation <span class="math notranslate nohighlight">\(\lambda\)</span> de l’équation cinétique
+de Boltzmann et la viscosité cinématique <span class="math notranslate nohighlight">\(\nu\)</span> du fluide.</p>
+<dl class="simple">
+<dt>Remarque</dt><dd><p>: en toute rigueur, lors du développement de Taylor, il est
+nécessaire de considérer <span class="math notranslate nohighlight">\(\Delta x\neq1\)</span> et
+<span class="math notranslate nohighlight">\(\Delta t\neq1\)</span> et on voit apparaître le rapport
+<span class="math notranslate nohighlight">\(\Delta x^{2}/\Delta t\)</span> en facteur devant le terme entre
+parenthèses :</p>
+</dd>
+</dl>
+<div class="math notranslate nohighlight">
+\[\nu=c_{s}^{2}\left(\lambda-\frac{1}{2}\right)\frac{\Delta x^{2}}{\Delta t}\]</div>
+<p><strong>Impulsion balance equation</strong></p>
+<p>En remplaçant <a class="reference internal" href="#equation-eq-m2-f0">(370)</a> et
+<a class="reference internal" href="#equation-eq-res-pi1">(391)</a> dans
+<a class="reference internal" href="#equation-eq-conservqmvt">(386)</a>, on obtient :</p>
+<div class="math notranslate nohighlight">
+\[\partial_{t}(\rho u_{\alpha})+\partial_{\beta}\left[c_{s}^{2}\rho\delta_{\alpha\beta}+\rho u_{\alpha}u_{\beta}-\nu(\rho\partial_{\beta}u_{\alpha}+\rho\partial_{\alpha}u_{\beta})\right]+\frac{1}{c_{s}^{2}}\partial_{\beta}\nu\partial_{\gamma}(\rho u_{\alpha}u_{\beta}u_{\gamma})=0\]</div>
+<div class="math notranslate nohighlight">
+\[\partial_{t}(\rho u_{\alpha})+\partial_{\beta}(\rho u_{\alpha}u_{\beta})=-\partial_{\alpha}(c_{s}^{2}\rho)+\partial_{\beta}\left[\nu(\rho\partial_{\beta}u_{\alpha}+\rho\partial_{\alpha}u_{\beta})\right]+\mathcal{O}(\rho u^{3})\]</div>
+<p>où on a considéré
+<span class="math notranslate nohighlight">\(-\frac{1}{c_{s}^{2}}\partial_{\beta}\nu\partial_{\gamma}(\rho u_{\alpha}u_{\beta}u_{\gamma})=\mathcal{O}(\rho u^{3})\)</span>.
+Finalement, en posant <span class="math notranslate nohighlight">\(p=c_{s}^{2}\rho\)</span>, on obtient l’équation de
+conservation de la quantité de mouvement :</p>
+<div class="math notranslate nohighlight">
+\[\partial_{t}(\rho u_{\alpha})+\partial_{\beta}(\rho u_{\alpha}u_{\beta})=-\partial_{\alpha}p+\partial_{\beta}\left[\nu\rho(\partial_{\beta}u_{\alpha}+\partial_{\alpha}u_{\beta})\right]+\mathcal{O}(\rho u^{3})\]</div>
+<p>qui correspond à la seconde équation recherchée du système d’équations
+de Navier-Stokes.</p>
+</section>
+<section id="recapitulatif">
+<h2>Récapitulatif<a class="headerlink" href="#recapitulatif" title="Link to this heading"></a></h2>
+<p>En effectuant le développement de Chapman-Enskog (ordre deux en espace,
+ordre deux en temps et en <span class="math notranslate nohighlight">\(\varepsilon^{2}\)</span>) et en calculant les
+moments d’ordre 0 et 1 des équations en <span class="math notranslate nohighlight">\(\varepsilon\)</span> et
+<span class="math notranslate nohighlight">\(\varepsilon^{2}\)</span>, on a montré que les équations
+<a class="reference internal" href="#equation-eq-lbe-bgk">(356)</a> et <a class="reference internal" href="#equation-eq-feq">(357)</a> permettent
+de résoudre sur un réseau D2Q9 les équations de Navier-Stokes :</p>
+<div class="math notranslate nohighlight" id="equation-eq-res-eq1-chapmanenskog">
+<span class="eqno">(392)<a class="headerlink" href="#equation-eq-res-eq1-chapmanenskog" title="Link to this equation"></a></span>\[\partial_{t}\rho+\partial_{\alpha}(\rho u_{\alpha})=0\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-res-eq2-chapmanenskog">
+<span class="eqno">(393)<a class="headerlink" href="#equation-eq-res-eq2-chapmanenskog" title="Link to this equation"></a></span>\[\partial_{t}(\rho u_{\alpha})+\partial_{\beta}(\rho u_{\alpha}u_{\beta})=-\partial_{\alpha}p+\partial_{\beta}\left[\nu\rho(\partial_{\beta}u_{\alpha}+\partial_{\alpha}u_{\beta})\right]+\mathcal{O}(u^{3})\]</div>
+<p>avec la pression reliée à la densité par la relation
+<span class="math notranslate nohighlight">\(p=c_{s}^{2}\rho\)</span> et une viscosité cinématique <span class="math notranslate nohighlight">\(\nu\)</span> donnée
+par :</p>
+<div class="math notranslate nohighlight" id="equation-eq-viscosite">
+<span class="eqno">(394)<a class="headerlink" href="#equation-eq-viscosite" title="Link to this equation"></a></span>\[\nu=c_{s}^{2}\left(\lambda-\frac{1}{2}\right)\frac{\Delta x^{2}}{\Delta t}\]</div>
+<p>Dans l’équation
+<a class="reference internal" href="#equation-eq-res-eq2-chapmanenskog">(393)</a>, le terme
+en <span class="math notranslate nohighlight">\(\mathcal{O}(u^{3})\)</span> est de la forme
+<span class="math notranslate nohighlight">\(-\frac{1}{c_{s}^{2}}\partial_{\beta}\nu\partial_{\gamma}(\rho u_{\alpha}u_{\beta}u_{\gamma})\)</span>
+qui est négligeable pour les faibles nombres de Mach. Lorsque ce dernier
+devient important, il est nécessaire de corriger la fonction de
+distribution à l’équilibre pour éliminer/diminuer l’influence de ce
+terme. On pourra se référer à <a class="footnote-reference brackets" href="#id8" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> qui analyse
+plusieurs <span class="math notranslate nohighlight">\(f_{i}^{(0)}\)</span> ou termes forces en ce sens.</p>
+</section>
+<section id="demonstration-de-legalite-eq-equivalence">
+<h2>Démonstration de l’égalité <a class="reference internal" href="#equation-eq-equivalence">(389)</a><a class="headerlink" href="#demonstration-de-legalite-eq-equivalence" title="Link to this heading"></a></h2>
+<p>On démontre dans cette annexe la relation :</p>
+<div class="math notranslate nohighlight">
+\[\partial_{t_{0}}(\rho u_{\alpha}u_{\beta})=-\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})-c_{s}^{2}(u_{\alpha}\partial_{\beta}^{(1)}\rho+u_{\beta}\partial_{\alpha}^{(1)}\rho)\]</div>
+<p>Le développement du membre de gauche donne :</p>
+<div class="math notranslate nohighlight">
+\[\partial_{t_{0}}(\rho u_{\alpha}u_{\beta})=u_{\alpha}u_{\beta}\partial_{t_{0}}\rho+\rho u_{\alpha}\partial_{t_{0}}u_{\beta}+\rho u_{\beta}\partial_{t_{0}}u_{\alpha}\]</div>
+<p>En remarquant que
+<span class="math notranslate nohighlight">\(\rho u_{\alpha}\partial_{t_{0}}u_{\beta}=u_{\alpha}\partial_{t_{0}}(\rho u_{\beta})-u_{\alpha}u_{\beta}\partial_{t_{0}}\rho\)</span>
+et que
+<span class="math notranslate nohighlight">\(\rho u_{\beta}\partial_{t_{0}}u_{\alpha}=u_{\beta}\partial_{t_{0}}(\rho u_{\alpha})-u_{\alpha}u_{\beta}\partial_{t_{0}}\rho\)</span>,
+on obtient :</p>
+<div class="math notranslate nohighlight">
+\[\partial_{t_{0}}(\rho u_{\alpha}u_{\beta})=-u_{\alpha}u_{\beta}\partial_{t_{0}}\rho+u_{\alpha}\partial_{t_{0}}(\rho u_{\beta})+u_{\beta}\partial_{t_{0}}(\rho u_{\alpha})\]</div>
+<p>Les dérivées partielles en temps sont converties en dérivées partielles
+en espace à l’aide des équations
+<a class="reference internal" href="#equation-eq-m0-eq-ordre1-flow">(380)</a> pour le premier
+terme et <a class="reference internal" href="#equation-eq-m1-eq-ordre1-flow">(381)</a> pour les
+deux derniers :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\partial_{t_{0}}(\rho u_{\alpha}u_{\beta}) &amp; =u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})-u_{\alpha}\left[\partial_{\gamma}^{(1)}(c_{s}^{2}\rho\delta_{\beta\gamma})+\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})\right]-u_{\beta}\left[\partial_{\gamma}^{(1)}(c_{s}^{2}\rho\delta_{\alpha\gamma})+\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})\right]\nonumber \\
+ &amp; =u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})-u_{\alpha}\left[\partial_{\beta}^{(1)}(c_{s}^{2}\rho)+\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})\right]-u_{\beta}\left[\partial_{\alpha}^{(1)}(c_{s}^{2}\rho)+\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})\right]\nonumber \\
+ &amp; =-\left[u_{\alpha}\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})+u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})-u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})\right]-c_{s}^{2}\left[u_{\alpha}\partial_{\beta}^{(1)}\rho+u_{\beta}\partial_{\alpha}^{(1)}\rho\right]\label{eq:Intermediaire}\end{aligned}\end{split}\]</div>
+<p>Les trois premiers termes contenus dans le premier crochet peuvent être
+exprimés sous la forme condensée
+<span class="math notranslate nohighlight">\(\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})\)</span>. Il
+existe plusieurs façons de la démontrer, on présente dans cette annexe
+une façon de procéder.</p>
+<p>Un premier développement donne
+<span class="math notranslate nohighlight">\(\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})=u_{\alpha}\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})+\rho u_{\beta}u_{\gamma}(\partial_{\gamma}^{(1)}u_{\alpha})\)</span>
+c’est-à-dire :</p>
+<div class="math notranslate nohighlight" id="equation-eq-cond1">
+<span class="eqno">(395)<a class="headerlink" href="#equation-eq-cond1" title="Link to this equation"></a></span>\[u_{\alpha}\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})=\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})-\rho u_{\beta}u_{\gamma}(\partial_{\gamma}^{(1)}u_{\alpha})\]</div>
+<p>Un second développement conduit à
+<span class="math notranslate nohighlight">\(\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})=u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})+\rho u_{\alpha}u_{\gamma}(\partial_{\gamma}^{(1)}u_{\beta})\)</span>
+c’est-à-dire :</p>
+<div class="math notranslate nohighlight" id="equation-eq-cond2">
+<span class="eqno">(396)<a class="headerlink" href="#equation-eq-cond2" title="Link to this equation"></a></span>\[u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})=\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})-\rho u_{\alpha}u_{\gamma}(\partial_{\gamma}^{(1)}u_{\beta})\]</div>
+<p>Enfin, un dernier développement donne
+<span class="math notranslate nohighlight">\(\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})=u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})+\rho u_{\gamma}\partial_{\gamma}^{(1)}(u_{\alpha}u_{\beta})\)</span>
+c’est-à-dire :</p>
+<div class="math notranslate nohighlight" id="equation-eq-cond3">
+<span class="eqno">(397)<a class="headerlink" href="#equation-eq-cond3" title="Link to this equation"></a></span>\[-u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})=-\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})+\rho u_{\gamma}\partial_{\gamma}^{(1)}(u_{\alpha}u_{\beta})\]</div>
+<p>En effectuant la somme <a class="reference internal" href="#equation-eq-cond1">(395)</a>, <a class="reference internal" href="#equation-eq-cond2">(396)</a> et <a class="reference internal" href="#equation-eq-cond3">(397)</a>, on obtient
+:</p>
+<div class="math notranslate nohighlight">
+\[u_{\alpha}\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})+u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})-u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})=\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})-\rho u_{\beta}u_{\gamma}(\partial_{\gamma}^{(1)}u_{\alpha})-\rho u_{\alpha}u_{\gamma}(\partial_{\gamma}^{(1)}u_{\beta})+\rho u_{\gamma}\partial_{\gamma}^{(1)}(u_{\alpha}u_{\beta})\]</div>
+<p>Dans l’équation ci-dessus, les trois derniers termes du membre de droite
+s’annulent entre eux, on a donc bien démontré que :</p>
+<div class="math notranslate nohighlight">
+\[\left[u_{\alpha}\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})+u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})-u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})\right]=\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})\]</div>
+<p>Finalement en remplaçant ce résultat dans
+(<a class="reference external" href="#eq:Intermediaire">[eq:Intermediaire]</a>), on obtient la relation
+recherchée :</p>
+<div class="math notranslate nohighlight">
+\[\partial_{t_{0}}(\rho u_{\alpha}u_{\beta})=-\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})-c_{s}^{2}\left[u_{\alpha}\partial_{\beta}^{(1)}\rho+u_{\beta}\partial_{\alpha}^{(1)}\rho\right]\]</div>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Chen S., G. Doolen, Lattice boltzmann method for fluid flows, Annual Reviews of Fluid Mechanics 30 (1998), pp. 329–364. <a class="reference external" href="https://doi.org/10.1146/annurev.fluid.30.1.329">https://doi.org/10.1146/annurev.fluid.30.1.329</a></p>
+</aside>
+<aside class="footnote brackets" id="id6" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva, E. Viggen, The Lattice Boltzmann Method: Principles and Practice, Graduate Texts in Physics, Springer, 2017.</p>
+</aside>
+<aside class="footnote brackets" id="id7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Dubois F., Equivalent partial differential equations of a lattice Boltzmann scheme, Computers &amp; Mathematics with Applications 55 (7) (2008) 1441 – 1449, mesoscopic Methods in Engineering and Science. <a class="reference external" href="https://doi.org/10.1016/j.camwa.2007.08.003">https://doi.org/10.1016/j.camwa.2007.08.003</a></p>
+</aside>
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Huang H., M. Sukop, X.-Y. Lu, Multiphase Lattice Boltzmann Methods. Theory and Application, Wiley &amp; Sons, 2015.</p>
+</aside>
+</aside>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Chapman-Enskog expansion for Navier-Stokes equations</a><ul>
+<li><a class="reference internal" href="#starting-point">Starting point</a></li>
+<li><a class="reference internal" href="#objectives">Objectives</a></li>
+<li><a class="reference internal" href="#conservative-quantities-and-moments-of-equilibrium-distribution-functions">Conservative quantities and moments of equilibrium distribution functions</a></li>
+<li><a class="reference internal" href="#chapman-enskog-expansion">Chapman-Enskog expansion</a><ul>
+<li><a class="reference internal" href="#first-part-taylor-s-expansion-and-scale-separation">First part: Taylor’s expansion and scale separation</a></li>
+<li><a class="reference internal" href="#moments-des-termes-en-varepsilon">Moments des termes en <span class="math notranslate nohighlight">\(\varepsilon\)</span></a></li>
+<li><a class="reference internal" href="#moments-of-terms-of-order-varepsilon-2">Moments of terms of order <span class="math notranslate nohighlight">\(\varepsilon^{2}\)</span></a></li>
+<li><a class="reference internal" href="#gathering-moments">Gathering moments</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#second-part-viscosity-coefficient-and-impulsion-balance">Second part: viscosity coefficient and impulsion balance</a></li>
+<li><a class="reference internal" href="#recapitulatif">Récapitulatif</a></li>
+<li><a class="reference internal" href="#demonstration-de-legalite-eq-equivalence">Démonstration de l’égalité <code class="xref eq docutils literal notranslate"><span class="pre">eq:Equivalence</span></code></a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="02_Overview_LBM.html"
+                          title="previous chapter">Overview of Lattice Boltzmann Methods</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="04_Variable_Change.html"
+                          title="next chapter">Variable change in LBE for source term</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_LBM/05_Chapman-Enskog.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="04_Variable_Change.html" title="Variable change in LBE for source term"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="02_Overview_LBM.html" title="Overview of Lattice Boltzmann Methods"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_LBM_Course.html" >Basic concepts of Lattice Boltzmann Methods</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="02_Overview_LBM.html" >Overview of Lattice Boltzmann Methods</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Chapman-Enskog expansion for Navier-Stokes equations</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

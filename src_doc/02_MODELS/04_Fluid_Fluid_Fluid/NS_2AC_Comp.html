@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Model of fluid flow for three immiscible phases &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="PART III: Lattice Boltzmann schemes in LBM_Saclay" href="../../03_LBM_Schemes/TOC_LBM_Schemes.html" />
+    <link rel="prev" title="Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase" href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../03_LBM_Schemes/TOC_LBM_Schemes.html" title="PART III: Lattice Boltzmann schemes in LBM_Saclay"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html" title="Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" accesskey="U">PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of fluid flow for three immiscible phases</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="model-of-fluid-flow-for-three-immiscible-phases">
+<span id="math-ns2ac-comp"></span><h1>Model of fluid flow for three immiscible phases<a class="headerlink" href="#model-of-fluid-flow-for-three-immiscible-phases" title="Link to this heading"></a></h1>
+<p>That model is an extension of <a class="reference internal" href="../01_Fluid_Fluid/Model_NSAC_Comp.html#math-nsac-comp"><span class="std std-ref">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</span></a> for three immiscible fluids. The philosophy is identical as <a class="reference internal" href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#math-nsac-comp-solid"><span class="std std-ref">Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase</span></a>. Two other phase-fields are introduced to model every fluid phase: <span class="math notranslate nohighlight">\(\phi_{k}\)</span> for <span class="math notranslate nohighlight">\(k=0,1,2\)</span>. Two PDEs are solved, the first one for <span class="math notranslate nohighlight">\(\phi_{1}\)</span> and the second one for <span class="math notranslate nohighlight">\(\phi_{2}\)</span>. The last phase-field is obtained by the conservation principle which writes:</p>
+<div class="math notranslate nohighlight" id="equation-closure-ns2ac-comp">
+<span class="eqno">(131)<a class="headerlink" href="#equation-closure-ns2ac-comp" title="Link to this equation"></a></span>\[\phi_{0}=1-\phi_{1}-\phi_{2}\]</div>
+<p>In what follows, the notation <span class="math notranslate nohighlight">\(\boldsymbol{\phi}=(\phi_{0},\phi_{1},\phi_{2})\)</span> will be used.</p>
+<section id="mathematical-model">
+<h2>Mathematical model<a class="headerlink" href="#mathematical-model" title="Link to this heading"></a></h2>
+<p><strong>Mass balance</strong></p>
+<p>The mass balance equation writes</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-mass-balance">
+<span class="eqno">(132)<a class="headerlink" href="#equation-ns2ac-comp-mass-balance" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{u}=(u_{x},u_{y},u_{z})\)</span> is the velocity vector.</p>
+<p><strong>Impulsion balance</strong></p>
+<p>The impulsion balance equation is</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-impulsion-balance">
+<span class="eqno">(133)<a class="headerlink" href="#equation-ns2ac-comp-impulsion-balance" title="Link to this equation"></a></span>\[\varrho(\boldsymbol{\phi})\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\varrho\vartheta(\boldsymbol{\phi})\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\boldsymbol{F}_{tot}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\varrho(\boldsymbol{\phi})\)</span> is the total density and <span class="math notranslate nohighlight">\(\vartheta(\boldsymbol{\phi})\)</span> is the total viscosity. They are respectively defined by Eqs <a class="reference internal" href="#equation-ns2ac-comp-total-density">(143)</a> and <a class="reference internal" href="#equation-ns2ac-comp-total-viscosity">(144)</a>. The hydrodynamic pressure is noted <span class="math notranslate nohighlight">\(p_{h}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{F}_{tot}\)</span> is the total force defined by Eq. <a class="reference internal" href="#equation-ns2ac-comp-total-force">(138)</a>.</p>
+<p><strong>First phase-field equation</strong></p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-phi1">
+<span class="eqno">(134)<a class="headerlink" href="#equation-ns2ac-comp-phi1" title="Link to this equation"></a></span>\[\frac{\partial\phi_{1}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi_{1})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\bigl(\boldsymbol{\nabla}\phi_{1}-\bigl|\boldsymbol{\nabla}\phi_{1}\bigr|^{eq}\boldsymbol{n}_{1}+\mathscr{L}(\boldsymbol{\phi})\bigr)\Bigr]\]</div>
+<p>where the Lagrange multiplier is defined by</p>
+<div class="math notranslate nohighlight">
+\[\mathscr{L}(\boldsymbol{\phi})=\frac{1}{3}\sum\bigl|\boldsymbol{\nabla}\phi_{k}\bigr|^{eq}\boldsymbol{n}_{k}\]</div>
+<p>and the unit normal vector for each phase <span class="math notranslate nohighlight">\(k\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-normal-vect">
+<span class="eqno">(135)<a class="headerlink" href="#equation-ns2ac-comp-normal-vect" title="Link to this equation"></a></span>\[\boldsymbol{n}_{k}=\frac{\boldsymbol{\nabla}\phi}{\bigl|\boldsymbol{\nabla}\phi\bigr|}\]</div>
+<p><strong>Second phase-field equation</strong></p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-phi2">
+<span class="eqno">(136)<a class="headerlink" href="#equation-ns2ac-comp-phi2" title="Link to this equation"></a></span>\[\frac{\partial\phi_{2}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi_{2})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\bigl(\boldsymbol{\nabla}\phi_{2}-\bigl|\boldsymbol{\nabla}\phi_{2}\bigr|^{eq}\boldsymbol{n}_{2}+\mathscr{L}(\boldsymbol{\phi})\bigr)\Bigr]\]</div>
+<p><strong>Composition equation</strong></p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-composition">
+<span class="eqno">(137)<a class="headerlink" href="#equation-ns2ac-comp-composition" title="Link to this equation"></a></span>\[\frac{\partial c}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}c)=\boldsymbol{\nabla}\cdot\left\{ (D_{k}\phi_{k})\boldsymbol{\nabla}\bigl[\mu_{c}^{eq}+c(\phi,\mu_{c})-c_{k}^{eq}\phi_{k}\bigr]\right\}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Compared to the <a class="reference internal" href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#math-nsac-comp-solid"><span class="std std-ref">Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase</span></a>, the differences come from the form of PDE on <span class="math notranslate nohighlight">\(\phi_2\)</span> (resp. <span class="math notranslate nohighlight">\(\psi\)</span>) and the form of the Lagrange multiplier <span class="math notranslate nohighlight">\(\mathscr{L}(\boldsymbol{\phi})\)</span>.</p>
+</div>
+</section>
+<section id="force-terms">
+<h2>Force terms<a class="headerlink" href="#force-terms" title="Link to this heading"></a></h2>
+<p><strong>Total force</strong></p>
+<p>The total force is the sum of the capillary force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{c}\)</span> and the gravity force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{g}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-total-force">
+<span class="eqno">(138)<a class="headerlink" href="#equation-ns2ac-comp-total-force" title="Link to this equation"></a></span>\[\boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}\]</div>
+<p><strong>Capillary forces</strong></p>
+<p>The capillary force is the sum of contribution of every phase-field:</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-capillary-force">
+<span class="eqno">(139)<a class="headerlink" href="#equation-ns2ac-comp-capillary-force" title="Link to this equation"></a></span>\[\boldsymbol{F}_{c}=\mu_{\phi_{0}}\boldsymbol{\nabla}\phi_{0}+\mu_{\phi_{1}}\boldsymbol{\nabla}\phi_{1}+\mu_{\phi_{2}}\boldsymbol{\nabla}\phi_{2}\]</div>
+<p>where the chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi_{k}}\)</span> for each phase <span class="math notranslate nohighlight">\(k\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-chempot">
+<span class="eqno">(140)<a class="headerlink" href="#equation-ns2ac-comp-chempot" title="Link to this equation"></a></span>\[\mu_{\phi_{k}}(\boldsymbol{x},t)=\frac{4\gamma_{T}}{W}\sum_{\ell\neq k}\left[\frac{1}{\gamma_{\ell}}\left(\frac{\partial f_{dw}}{\partial\phi_{k}}-\frac{\partial f_{dw}}{\partial\phi_{\ell}}\right)\right]-\frac{3}{4}W\gamma_{k}\boldsymbol{\nabla}^{2}\phi_{k}\]</div>
+<p>and the spreading coefficient <span class="math notranslate nohighlight">\(\gamma_{T}\)</span> is the harmonic mean of each one:</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-spread">
+<span class="eqno">(141)<a class="headerlink" href="#equation-ns2ac-comp-spread" title="Link to this equation"></a></span>\[\frac{3}{\gamma_{T}}=\sum_{k}\frac{1}{\gamma_{k}}\]</div>
+<p>and the double-well potential is:</p>
+<div class="math notranslate nohighlight">
+\[f_{dw}(\phi_{0},\phi_{1},\phi_{2})=\sum_{k=0}^{2}\frac{12}{W}\left[\frac{\gamma_{k}}{2}\phi_{k}^{2}(1-\phi_{k})^{2}\right]\]</div>
+<p>The spreading coefficient of each phase is defined by a combination of
+their surface tensions:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\gamma_{0} &amp; =\sigma_{10}+\sigma_{20}-\sigma_{12}\\
+\gamma_{1} &amp; =\sigma_{10}+\sigma_{12}-\sigma_{20}\\
+\gamma_{2} &amp; =\sigma_{20}+\sigma_{12}-\sigma_{01}\end{aligned}\end{split}\]</div>
+<p><strong>Gravity force</strong></p>
+<p>The gravity force writes:</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-gravity-force">
+<span class="eqno">(142)<a class="headerlink" href="#equation-ns2ac-comp-gravity-force" title="Link to this equation"></a></span>\[\boldsymbol{F}_{g}=\varrho(\boldsymbol{\phi})\boldsymbol{g}\]</div>
+</section>
+<section id="closure-terms">
+<h2>Closure terms<a class="headerlink" href="#closure-terms" title="Link to this heading"></a></h2>
+<p><strong>Total density</strong></p>
+<p>The total density is simply an interpolation of each bulk density:</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-total-density">
+<span class="eqno">(143)<a class="headerlink" href="#equation-ns2ac-comp-total-density" title="Link to this equation"></a></span>\[\varrho(\boldsymbol{\phi})=\sum_{k}\rho_{k}\phi_{k}(\boldsymbol{x},t)\]</div>
+<p><strong>Total kinematic viscosity</strong></p>
+<p>The total kinematic viscosity is obtained by a harmoni mean of bulk
+kinematic viscosities:</p>
+<div class="math notranslate nohighlight" id="equation-ns2ac-comp-total-viscosity">
+<span class="eqno">(144)<a class="headerlink" href="#equation-ns2ac-comp-total-viscosity" title="Link to this equation"></a></span>\[\frac{1}{\vartheta(\boldsymbol{\phi})}=\sum_{k}\frac{\phi_{k}(\boldsymbol{x},t)}{\nu_{k}}\]</div>
+</section>
+<section id="examples-of-simulations-with-that-model">
+<h2>Examples of simulations with that model<a class="headerlink" href="#examples-of-simulations-with-that-model" title="Link to this heading"></a></h2>
+<p><strong>Double-Serpentine</strong></p>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_ThreePhases_Vortex_Phi1-Phi2.webm" width="500" height="370"> </video></div>
+<p><strong>Spreading lenses</strong></p>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_ThreePhases_SpreadingCapsule_vB.webm" width="600" height="420"> </video></div>
+<p><strong>Spinodal decomposition of three immiscible fluids</strong></p>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_ThreePhases_Spinodal_Test22_vD.webm" width="480" height="320"> </video><video controls src="../../../_static/Vid_ThreePhases_Spinodal_Test22_vE.webm" width="480" height="320"> </video></div>
+<p><strong>Rayleigh-Taylor and splash of three immiscible fluids</strong></p>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_ThreePhases_RayleighTaylor_Splashing.webm" width="900" height="520"> </video></div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Model of fluid flow for three immiscible phases</a><ul>
+<li><a class="reference internal" href="#mathematical-model">Mathematical model</a></li>
+<li><a class="reference internal" href="#force-terms">Force terms</a></li>
+<li><a class="reference internal" href="#closure-terms">Closure terms</a></li>
+<li><a class="reference internal" href="#examples-of-simulations-with-that-model">Examples of simulations with that model</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html"
+                          title="previous chapter">Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../03_LBM_Schemes/TOC_LBM_Schemes.html"
+                          title="next chapter">PART III: Lattice Boltzmann schemes in LBM_Saclay</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/02_MODELS/04_Fluid_Fluid_Fluid/NS_2AC_Comp.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../03_LBM_Schemes/TOC_LBM_Schemes.html" title="PART III: Lattice Boltzmann schemes in LBM_Saclay"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html" title="Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" >PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of fluid flow for three immiscible phases</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

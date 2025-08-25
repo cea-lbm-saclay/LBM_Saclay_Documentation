@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PART III: Lattice Boltzmann schemes in LBM_Saclay &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Lattices and streaming" href="A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.html" />
+    <link rel="prev" title="Model of fluid flow for three immiscible phases" href="../02_MODELS/04_Fluid_Fluid_Fluid/NS_2AC_Comp.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.html" title="Lattices and streaming"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../02_MODELS/04_Fluid_Fluid_Fluid/NS_2AC_Comp.html" title="Model of fluid flow for three immiscible phases"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART III: Lattice Boltzmann schemes in LBM_Saclay</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="part-iii-lattice-boltzmann-schemes-in-lbm-saclay">
+<span id="lbm-saclay-schemes"></span><h1>PART III: Lattice Boltzmann schemes in LBM_Saclay<a class="headerlink" href="#part-iii-lattice-boltzmann-schemes-in-lbm-saclay" title="Link to this heading"></a></h1>
+<section id="basic-lattice-boltzmann-methods">
+<h2>Basic Lattice Boltzmann Methods<a class="headerlink" href="#basic-lattice-boltzmann-methods" title="Link to this heading"></a></h2>
+<p>This section focuses on the description of Lattice Boltzmann schemes in LBM_Saclay. We start with the <a class="reference internal" href="A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.html#def-lattices"><span class="std std-ref">Lattices and streaming</span></a> and we give precisions on the streaming stage. Next section <a class="reference internal" href="A_Basic-LBM/02_Collision-Operators_LBMSaclay.html#collision-op"><span class="std std-ref">Collisions operators in LBM_Saclay</span></a> focuses on four most popular collision operators <span class="math notranslate nohighlight">\(\Omega_i^{\iota}(f_{i},f_{i}^{eq})\)</span> with <span class="math notranslate nohighlight">\(\iota=BGK, TRT, MRT, CM\)</span>. Next, the equilibrium distribution functions <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> will be described for various PDEs. Finally the last term <span class="math notranslate nohighlight">\(\mathcal{F}_i\)</span> is detailed in the third subsection <a class="reference internal" href="A_Basic-LBM/04_Forces-LBMSaclay.html#forces-lbm"><span class="std std-ref">Force and source terms in LBM</span></a>. Finally, that part will wrap up with details on boundary conditions and computations of gradients.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.html">Lattices and streaming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.html#definition-of-lattices">Definition of lattices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.html#streaming-in-lbm-saclay">Streaming in LBM_Saclay</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="A_Basic-LBM/02_Collision-Operators_LBMSaclay.html">Collisions operators in LBM_Saclay</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="A_Basic-LBM/02_Collision-Operators_LBMSaclay.html#batnaghar-gross-krook-bgk-operator">Batnaghar-Gross-Krook (BGK) operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="A_Basic-LBM/02_Collision-Operators_LBMSaclay.html#two-relaxation-times-trt-operator">Two-Relaxation-Times (TRT) operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="A_Basic-LBM/02_Collision-Operators_LBMSaclay.html#multiple-relaxation-times-mrt-operator">Multiple-Relaxation-Times (MRT) operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="A_Basic-LBM/02_Collision-Operators_LBMSaclay.html#central-moments-collision-operator">Central moments collision operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="A_Basic-LBM/02_Collision-Operators_LBMSaclay.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="A_Basic-LBM/03_Equilibrium-Functions_LBMSaclay.html">Equilibrium distribution functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="A_Basic-LBM/03_Equilibrium-Functions_LBMSaclay.html#incompressible-navier-stokes-equations-for-two-phase-flows">Incompressible Navier-Stokes equations for two-phase flows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="A_Basic-LBM/03_Equilibrium-Functions_LBMSaclay.html#transport-equations">Transport equations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="A_Basic-LBM/04_Forces-LBMSaclay.html">Force and source terms in LBM</a></li>
+</ul>
+</div>
+</section>
+<section id="specific-schemes">
+<h2>Specific schemes<a class="headerlink" href="#specific-schemes" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="B_Specific-Schemes/LBM_for_NSK.html">LBM for Navier-Stokes/Korteweg model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="B_Specific-Schemes/LBM_for_NSK.html#pseudo-potential-methods">Pseudo-potential methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="B_Specific-Schemes/LBM_for_NSK.html#potential-form-of-pressure-tensor">Potential form of pressure tensor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="C_Other/Additional_Gradients.html">Gradients and Laplacian</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="C_Other/Additional_Gradients.html#bulk-directional-derivatives">Bulk: directional derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C_Other/Additional_Gradients.html#boundaries">Boundaries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="C_Other/Boundary_Conditions.html">Boundary conditions</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">PART III: Lattice Boltzmann schemes in LBM_Saclay</a><ul>
+<li><a class="reference internal" href="#basic-lattice-boltzmann-methods">Basic Lattice Boltzmann Methods</a></li>
+<li><a class="reference internal" href="#specific-schemes">Specific schemes</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../02_MODELS/04_Fluid_Fluid_Fluid/NS_2AC_Comp.html"
+                          title="previous chapter">Model of fluid flow for three immiscible phases</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.html"
+                          title="next chapter">Lattices and streaming</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/03_LBM_Schemes/TOC_LBM_Schemes.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.html" title="Lattices and streaming"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../02_MODELS/04_Fluid_Fluid_Fluid/NS_2AC_Comp.html" title="Model of fluid flow for three immiscible phases"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART III: Lattice Boltzmann schemes in LBM_Saclay</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

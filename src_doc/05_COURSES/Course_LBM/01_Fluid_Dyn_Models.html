@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Summary of basic models &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview of Lattice Boltzmann Methods" href="02_Overview_LBM.html" />
+    <link rel="prev" title="Basic concepts of Lattice Boltzmann Methods" href="TOC_LBM_Course.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="02_Overview_LBM.html" title="Overview of Lattice Boltzmann Methods"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="TOC_LBM_Course.html" title="Basic concepts of Lattice Boltzmann Methods"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_LBM_Course.html" accesskey="U">Basic concepts of Lattice Boltzmann Methods</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Summary of basic models</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="summary-of-basic-models">
+<span id="fluid-dynamics-models"></span><h1>Summary of basic models<a class="headerlink" href="#summary-of-basic-models" title="Link to this heading"></a></h1>
+<p>The Mach number is defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-mach">
+<span class="eqno">(331)<a class="headerlink" href="#equation-def-mach" title="Link to this equation"></a></span>\[Ma=\frac{\bigl|\boldsymbol{u}\bigr|}{c_{s}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)\)</span> is the fluid velocity and <span class="math notranslate nohighlight">\(c_{s}\)</span> is the sound speed. At 20°C the sound speed is 344 m/s (1240 km/h) in air and 1500 m/s (5400 km/h) in
+water.</p>
+<p>In the rest of this section, two popular models of Navier-Stokes equations are detailed for <span class="math notranslate nohighlight">\(Ma\ll1\)</span>. The first one is the “low Mach model” and the second one is the incompressible model.</p>
+<section id="low-mach-navier-stokes">
+<h2>Low Mach Navier-Stokes<a class="headerlink" href="#low-mach-navier-stokes" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-mass-balance">
+<span class="eqno">(332)<a class="headerlink" href="#equation-mass-balance" title="Link to this equation"></a></span>\[\partial_{t}\rho+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0\]</div>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance">
+<span class="eqno">(333)<a class="headerlink" href="#equation-impulsion-balance" title="Link to this equation"></a></span>\[\partial_{t}(\rho\boldsymbol{u})+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}p+\boldsymbol{\nabla}\cdot\left[\eta(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})+\left(\eta_{B}-\frac{2}{3}\eta\right)(\boldsymbol{\nabla}\cdot\boldsymbol{u})\boldsymbol{I}\right]+\boldsymbol{F}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho\equiv\rho(\boldsymbol{x},t)\)</span> is the fluid density, <span class="math notranslate nohighlight">\(\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)\)</span> is the
+fluid velocity, <span class="math notranslate nohighlight">\(p\equiv p(\boldsymbol{x},t)\)</span> is the pressure, <span class="math notranslate nohighlight">\(\eta=\rho\nu\)</span> is the dynamic viscosity and <span class="math notranslate nohighlight">\(\nu\)</span> is the
+kinematic viscosity, <span class="math notranslate nohighlight">\(\eta_{B}\)</span> is the bulk viscosity and <span class="math notranslate nohighlight">\(\boldsymbol{I}\)</span> is the identity tensor. In Eq.
+<a class="reference internal" href="#equation-impulsion-balance">(333)</a>, <span class="math notranslate nohighlight">\(\boldsymbol{F}\)</span> is the force term and for isothermal fluid, the system is closed by the Equation of State
+(EoS)</p>
+<div class="math notranslate nohighlight">
+\[p=\rho RT_{0}\]</div>
+<p>where <span class="math notranslate nohighlight">\(T_{0}\)</span> is the constant temperature and <span class="math notranslate nohighlight">\(R\)</span> is the specific gas constant.</p>
+</section>
+<section id="incompressible-navier-stokes">
+<h2>Incompressible Navier-Stokes<a class="headerlink" href="#incompressible-navier-stokes" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-incompr-mb">
+<span class="eqno">(334)<a class="headerlink" href="#equation-incompr-mb" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-incompr-ns">
+<span class="eqno">(335)<a class="headerlink" href="#equation-incompr-ns" title="Link to this equation"></a></span>\[\rho_{0}\left[\partial_{t}\boldsymbol{u}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\rho_{0}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\boldsymbol{F}\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_{h}(\boldsymbol{x},t)\)</span> is the hydrodynamic pressure and <span class="math notranslate nohighlight">\(\rho_{0}\)</span> is the constant density.</p>
+</section>
+<section id="advection-diffusion-equations">
+<h2>Advection-Diffusion equations<a class="headerlink" href="#advection-diffusion-equations" title="Link to this heading"></a></h2>
+<p><strong>Levelset or phase-field equations</strong></p>
+<div class="math notranslate nohighlight" id="equation-pf-eq">
+<span class="eqno">(336)<a class="headerlink" href="#equation-pf-eq" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right)\right]\]</div>
+<p>where the unknown is the phase-field <span class="math notranslate nohighlight">\(\phi\equiv\phi(\boldsymbol{x},t)\)</span> and the inputs are the fluid velocity <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and two parameters: the interface mobility <span class="math notranslate nohighlight">\(M_{\phi}\)</span> and the interface width <span class="math notranslate nohighlight">\(W\)</span>. The unit normal vector of interface is defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-normal">
+<span class="eqno">(337)<a class="headerlink" href="#equation-def-normal" title="Link to this equation"></a></span>\[\boldsymbol{n}\equiv\boldsymbol{n}(\boldsymbol{x},t)=\frac{\boldsymbol{\nabla}\phi}{\bigl|\boldsymbol{\nabla}\phi\bigr|}\]</div>
+<p><strong>Advection-Diffusion Equation (ADE)</strong></p>
+<div class="math notranslate nohighlight" id="equation-ade">
+<span class="eqno">(338)<a class="headerlink" href="#equation-ade" title="Link to this equation"></a></span>\[C_{p}\frac{\partial T}{\partial t}+\boldsymbol{\nabla}\cdot(T\boldsymbol{u})=\boldsymbol{\nabla}\cdot(\kappa\boldsymbol{\nabla}T)+\mathscr{S}_{T}\]</div>
+<p>where the unknown is the temperature <span class="math notranslate nohighlight">\(T\equiv T(\boldsymbol{x},t)\)</span> and the inputs are the fluid velocity <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and two parameters: the thermal conductivity <span class="math notranslate nohighlight">\(\kappa\)</span> and the specific heat <span class="math notranslate nohighlight">\(C_{p}\)</span>. A source term <span class="math notranslate nohighlight">\(\mathscr{S}_{T}\)</span> can be defined for phase change problems.</p>
+</section>
+<section id="boundary-conditions-bc">
+<h2>Boundary Conditions (BC)<a class="headerlink" href="#boundary-conditions-bc" title="Link to this heading"></a></h2>
+<p><strong>For Navier-Stokes equations</strong></p>
+<p>Dirichlet BC</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{u}(\boldsymbol{x}_{b},t)=\boldsymbol{U}_{b}(\boldsymbol{x}_{b},t)\]</div>
+<div class="math notranslate nohighlight">
+\[(\boldsymbol{u}-\boldsymbol{U}_{b})\cdot\boldsymbol{n}_{w}=0\]</div>
+<div class="math notranslate nohighlight">
+\[(\boldsymbol{u}-\boldsymbol{U}_{b})\cdot\boldsymbol{t}_{w}=0\qquad\text{(no-slip)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{n}_{w}\)</span> is normal boundary vector and
+<span class="math notranslate nohighlight">\(\boldsymbol{t}_{w}\)</span> tangential boundary vector (<span class="math notranslate nohighlight">\(w\)</span>: wall)</p>
+<p>Neumann BC</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{n}_{w}\cdot\boldsymbol{\sigma}(\boldsymbol{x}_{b},t)=\boldsymbol{T}_{b}(\boldsymbol{x}_{b},t)\]</div>
+<p><strong>For ADE</strong></p>
+<p>A generic formulation of bounday conditions for ADE writes:</p>
+<div class="math notranslate nohighlight">
+\[a_{1}\left.\frac{\partial f}{\partial n}\right|_{\boldsymbol{x}_{b},t}+a_{2}f(\boldsymbol{x}_{b},t)=a_{3}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f\)</span> is the differentiable function (here <span class="math notranslate nohighlight">\(\phi\)</span> or
+<span class="math notranslate nohighlight">\(T\)</span>), and <span class="math notranslate nohighlight">\(a_{1}\)</span>, <span class="math notranslate nohighlight">\(a_{2}\)</span>, <span class="math notranslate nohighlight">\(a_{3}\)</span> three scalar
+values.</p>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name</strong></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(a_{1}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(a_{2}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(a_{3}\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Dirichlet</p></td>
+<td><p>0</p></td>
+<td><p>–</p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-odd"><td><p>Neumann</p></td>
+<td><p>–</p></td>
+<td><p>0</p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-even"><td><p>Robin</p></td>
+<td><p>–</p></td>
+<td><p>–</p></td>
+<td><p>–</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>where “–” means non zero value</p>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Summary of basic models</a><ul>
+<li><a class="reference internal" href="#low-mach-navier-stokes">Low Mach Navier-Stokes</a></li>
+<li><a class="reference internal" href="#incompressible-navier-stokes">Incompressible Navier-Stokes</a></li>
+<li><a class="reference internal" href="#advection-diffusion-equations">Advection-Diffusion equations</a></li>
+<li><a class="reference internal" href="#boundary-conditions-bc">Boundary Conditions (BC)</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="TOC_LBM_Course.html"
+                          title="previous chapter">Basic concepts of Lattice Boltzmann Methods</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="02_Overview_LBM.html"
+                          title="next chapter">Overview of Lattice Boltzmann Methods</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_LBM/01_Fluid_Dyn_Models.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="02_Overview_LBM.html" title="Overview of Lattice Boltzmann Methods"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="TOC_LBM_Course.html" title="Basic concepts of Lattice Boltzmann Methods"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_LBM_Course.html" >Basic concepts of Lattice Boltzmann Methods</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Summary of basic models</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

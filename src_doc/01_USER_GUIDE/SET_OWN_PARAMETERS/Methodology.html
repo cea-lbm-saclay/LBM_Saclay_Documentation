@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Methodology to set your own parameters in input file &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Law of similarity: application on Poiseuille flow" href="LawOfSimilarity_Poiseuille.html" />
+    <link rel="prev" title="Description of LBM_Saclay input file" href="../INPUTFILE/inputfile.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="LawOfSimilarity_Poiseuille.html" title="Law of similarity: application on Poiseuille flow"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../INPUTFILE/inputfile.html" title="Description of LBM_Saclay input file"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" accesskey="U">PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Methodology to set your own parameters in input file</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="methodology-to-set-your-own-parameters-in-input-file">
+<h1>Methodology to set your own parameters in input file<a class="headerlink" href="#methodology-to-set-your-own-parameters-in-input-file" title="Link to this heading"></a></h1>
+<p>For new LBM users, it is recommended to start with the test cases of folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>, because several examples are given to set dimensionless parameters inside the input file of LBM_Saclay. You will find python scripts to help users to convert parameters given in S.I. units into dimensionless parameters.</p>
+<section id="how-to-set-dimensionless-parameters">
+<h2>How to set dimensionless parameters<a class="headerlink" href="#how-to-set-dimensionless-parameters" title="Link to this heading"></a></h2>
+<p>Most of two-phase test cases of that folder use physical properties of water and air (see first Table below) expressed in lattice units. Those lattice units (lu) are derived by setting the reference length as <span class="math notranslate nohighlight">\(\delta x\)</span>, the reference time as <span class="math notranslate nohighlight">\(\delta t\)</span>, the reference mass as <span class="math notranslate nohighlight">\(\rho\)</span>.</p>
+<p>Other parameters such as gravity, surface tension, etc. are derived by using the dimensionless characteristic numbers which control the flows (Reynolds, Bond, Weber, Morton, etc.), i.e. by applying the <a class="reference internal" href="LawOfSimilarity_Poiseuille.html#law-similarity"><span class="std std-ref">Law of similarity: application on Poiseuille flow</span></a>.</p>
+<section id="law-of-similarity-for-single-phase">
+<h3>Law of similarity for single-phase<a class="headerlink" href="#law-of-similarity-for-single-phase" title="Link to this heading"></a></h3>
+<p>Most of the time, in LBM publications, the input parameters are dimensionless and the results are presented in <em>Lattice Units</em>. The dimensionless parameters are obtained by setting one length of reference <span class="math notranslate nohighlight">\(\ell_{ref}\)</span>, one time of reference <span class="math notranslate nohighlight">\(t_{ref}\)</span> and one mass of reference <span class="math notranslate nohighlight">\(\rho_{ref}\)</span>. The other parameters are derived by applying the <strong>law of similarity</strong>. In this section the procedure is reminded to set dimensionless parameters in the input file of LBM_Saclay.</p>
+<p>In LBM_Saclay, the choice is left to users if they want to work with parameters with physical units or not. Nevertheless, one important stability criterion must be kept in mind for LBM simulations: the fluid velocity magnitude <span class="math notranslate nohighlight">\(|\boldsymbol{u}|\)</span> has to be lower than the sound speed <span class="math notranslate nohighlight">\(c_s=(1/\sqrt3)\delta x/\delta t\)</span> where <span class="math notranslate nohighlight">\(\delta x\)</span> is the spatial discretization and <span class="math notranslate nohighlight">\(\delta t\)</span> is the time-step of time discretization. If the velocity is to close or greater than <span class="math notranslate nohighlight">\(c_s\)</span>, the simulation will be unstable.</p>
+<div class="admonition-law-of-similarity admonition">
+<p class="admonition-title">Law of similarity</p>
+<p>Two incompressible flows are dynamically similar if they have the same Reynolds number and geometry. With different words, the results of two simulations will be the same provided that the Reynolds number and the geometry are identical:</p>
+<div class="math notranslate nohighlight" id="equation-re-similarity">
+<span class="eqno">(11)<a class="headerlink" href="#equation-re-similarity" title="Link to this equation"></a></span>\[\text{Re}=\frac{\bigl|\boldsymbol{u}\bigr|L}{\nu}=\frac{\bigl|\boldsymbol{u}_{sim}\bigr|L_{sim}}{\nu_{sim}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(u\)</span>, <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(\nu\)</span> have physical dimensions, whereas <span class="math notranslate nohighlight">\(u_{sim}\)</span>, <span class="math notranslate nohighlight">\(L_{sim}\)</span> and <span class="math notranslate nohighlight">\(\nu_{sim}\)</span> are dimensionless quantities obtained from references of length <span class="math notranslate nohighlight">\(\ell_{ref}\)</span>, of time <span class="math notranslate nohighlight">\(t_{ref}\)</span> and mass <span class="math notranslate nohighlight">\(\rho_{ref}\)</span>.</p>
+</div>
+<div class="admonition-coefficients-of-conversion admonition">
+<p class="admonition-title">Coefficients of conversion</p>
+<p>To convert the results without dimensions to results with physical dimensions, it is necessary to convert them with coefficients of conversion. They are obtained with <span class="math notranslate nohighlight">\(\ell_{ref}\)</span>, of time <span class="math notranslate nohighlight">\(t_{ref}\)</span> and <span class="math notranslate nohighlight">\(\rho_{ref}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-conversion">
+<span class="eqno">(12)<a class="headerlink" href="#equation-conversion" title="Link to this equation"></a></span>\[\underbrace{C_{u}=\frac{\ell_{ref}}{t_{ref}}}_{\text{Velocity}},\qquad\underbrace{C_{\nu}=\frac{\ell_{ref}^{2}}{t_{ref}}}_{\text{Viscosity}},\qquad\underbrace{C_{g}=\frac{\ell_{ref}}{t_{ref}^{2}}}_{\text{Gravity}},\qquad\underbrace{C_{p}=\frac{C_{\rho}\ell_{ref}^{2}}{t_{ref}^{2}}}_{\text{Pressure}}\]</div>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">For LBM: lattice units (l.u.)</p>
+<p>The lattice units correspond to the case <span class="math notranslate nohighlight">\(\ell_{ref}=\delta x\)</span> and <span class="math notranslate nohighlight">\(t_{ref}=\delta t\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-dxdt-star">
+<span class="eqno">(13)<a class="headerlink" href="#equation-dxdt-star" title="Link to this equation"></a></span>\[\delta x^{\star}=\frac{\delta x}{\delta x}=1,\qquad\delta t^{\star}=\frac{\delta t}{\delta t}=1\]</div>
+<p>The reference density is one of the two bulk densities, e.g. the greater one: <span class="math notranslate nohighlight">\(\rho_{ref}=\rho_l\)</span> where the index <span class="math notranslate nohighlight">\(l\)</span> stands for liquid.</p>
+<div class="math notranslate nohighlight" id="equation-rho-star">
+<span class="eqno">(14)<a class="headerlink" href="#equation-rho-star" title="Link to this equation"></a></span>\[\rho_l^{\star}=\frac{\rho_l}{\rho_{ref}}=1,\qquad\rho_g^{\star}=\frac{\rho_g}{\rho_{ref}}\]</div>
+<p>In that case, the factors of conversion Eq. <a class="reference internal" href="#equation-conversion">(12)</a> between dimensionless results of simulations and quantities with physical dimension are:</p>
+<div class="math notranslate nohighlight" id="equation-c-u-nu-g-p">
+<span class="eqno">(15)<a class="headerlink" href="#equation-c-u-nu-g-p" title="Link to this equation"></a></span>\[C_{u}=\frac{\delta x}{\delta t},\qquad C_{\nu}=\frac{\delta x^{2}}{\delta t},\qquad C_{g}=\frac{\delta x}{\delta t^{2}},\qquad C_{p}=\rho_{ref}\frac{\delta x^{2}}{\delta t^{2}},\qquad C_{\sigma}=\rho_{ref}\frac{\delta x^{3}}{\delta t^{2}}\]</div>
+<p>With those factors, the remaining dimensionless quantities can be derived:</p>
+<div class="math notranslate nohighlight" id="equation-quantities-star">
+<span class="eqno">(16)<a class="headerlink" href="#equation-quantities-star" title="Link to this equation"></a></span>\[L^{\star}=\frac{L}{\delta x},\qquad u^{\star}=\frac{u}{C_{u}},\qquad\nu^{\star}=\frac{\nu}{C_{\nu}},\qquad g^{\star}=\frac{g}{C_{g}},\qquad \sigma^{\star}=\frac{\sigma}{C_{\sigma}}\]</div>
+<p>The Reynolds number is</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-01-user-guide-set-own-parameters-methodology-0">
+<span class="eqno">(17)<a class="headerlink" href="#equation-src-doc-01-user-guide-set-own-parameters-methodology-0" title="Link to this equation"></a></span>\[\text{Re}=\frac{u^{\star}L^{\star}}{\nu^{\star}}\]</div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For training session: law of similarity applied to Poiseuille flow</p>
+<p>The law of similarity is applied on Poiseuille flow.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LawOfSimilarity_Poiseuille.html">Law of similarity: application on Poiseuille flow</a></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="law-of-similarity-for-two-phase">
+<h3>Law of similarity for two-phase<a class="headerlink" href="#law-of-similarity-for-two-phase" title="Link to this heading"></a></h3>
+<p>In <a class="reference internal" href="LawOfSimilarity_Poiseuille.html#law-similarity"><span class="std std-ref">Law of similarity: application on Poiseuille flow</span></a>, the procedure has been described to derive the dimensionless parameters to set in the input file. The example was given on the single-phase fluid flow: the Poiseuille flow. Here we present the methodology for two-phase flows on two examples: “Rayleigh-Taylor instability” and an “air bubble rising inside a channel filled of water”. For two-phase with interface-tracking, there is an additional parameter to set: the surface tension between both phases. In this Section, we first remind the standard dimensionless number for two-phase flows involving that new parameter. Next we describe the methodology to set dimensionless paramaters.</p>
+</section>
+<section id="dimensionless-numbers-for-two-phase">
+<h3>Dimensionless numbers for two-phase<a class="headerlink" href="#dimensionless-numbers-for-two-phase" title="Link to this heading"></a></h3>
+<p>When the gravity is taken into account in simulations, another dimensionless number can be used: the Froude number compares one characteristic velocity <span class="math notranslate nohighlight">\(U_c\)</span> to the characteristic velocity due to gravity <span class="math notranslate nohighlight">\(g\)</span> in a domain of width <span class="math notranslate nohighlight">\(L\)</span>: <span class="math notranslate nohighlight">\(U_g=\sqrt{gL}\)</span></p>
+<div class="sphinx-features docutils container">
+<div class="admonition-reynolds-number admonition">
+<p class="admonition-title">Reynolds number</p>
+<div class="math notranslate nohighlight">
+\[\text{Re}=\frac{U_cL}{\nu}\]</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{3mm}\]</div>
+<div class="admonition-froude-number admonition">
+<p class="admonition-title">Froude number</p>
+<div class="math notranslate nohighlight">
+\[\text{Fr}=\frac{U_c}{\sqrt{gL}}\]</div>
+</div>
+</div>
+<p>For two-phase, there is a new parameter, the surface tension <span class="math notranslate nohighlight">\(\sigma\)</span> which a property of the interface between both phases. That new parameter is involved in three new dimensionless numbers which compare the surface tension force with forces of gravity (Bond number), of viscosity (Capillary number), and inertia (Weber number). For a two-phase problem, one simulation must respect those dimensionless number in order to simulate the same underlying physics.</p>
+<p>The competition between surface tension and gravity is given by the Bond number (Bo) or Eötvös (Eo). It can be defined as the ratio of hydrostatic pressure difference <span class="math notranslate nohighlight">\(\Delta p_h\)</span> over the capillary pressure difference <span class="math notranslate nohighlight">\(\Delta p_c\)</span>. It can also be defined as the ratio of <span class="math notranslate nohighlight">\(L^2\)</span> over the capillary length <span class="math notranslate nohighlight">\(\ell_c^2=\sigma/\rho g\)</span></p>
+<div class="sphinx-features docutils container">
+<div class="admonition-bond-number admonition">
+<p class="admonition-title">Bond number</p>
+<div class="math notranslate nohighlight">
+\[\text{Bo}=\frac{\Delta p_{h}}{\Delta p_{c}}=\frac{\rho g(2R)}{2\sigma/R}=\frac{\rho gR^{2}}{\sigma}\]</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{3mm}\]</div>
+<div class="admonition-weber-number admonition">
+<p class="admonition-title">Weber number</p>
+<div class="math notranslate nohighlight">
+\[\text{We}=\frac{\rho U^{2}L}{\sigma}\]</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{3mm}\]</div>
+<div class="admonition-capilary-number admonition">
+<p class="admonition-title">Capilary number</p>
+<div class="math notranslate nohighlight">
+\[\text{Ca}=\frac{\text{We}}{\text{Re}}=\frac{\rho U^{2}L/\sigma}{UL/\nu}=\frac{\eta U}{\sigma}\]</div>
+</div>
+</div>
+<p>The Weber number compares the kinetic energy and the energy of interface (surface tension). The capillary number compare dynamic viscosity with surface tension. Finally, a commonly used dimensionless number for shapes of bubbles is the Morton (Mo) number. It can be defined from We, Fr and Re and make appear in the same number the gravity <span class="math notranslate nohighlight">\(g\)</span>, the dynamic viscosity <span class="math notranslate nohighlight">\(\eta\)</span> and the surface tension <span class="math notranslate nohighlight">\(\sigma\)</span>.</p>
+<div class="sphinx-features docutils container">
+<div class="admonition-morton-number admonition">
+<p class="admonition-title">Morton number</p>
+<div class="math notranslate nohighlight">
+\[\text{Mo}=\frac{\text{We}^{3}}{\text{Fr}^{2}\text{Re}^{4}}=\frac{gL\left(\rho U^{2}L/\sigma\right)^{3}}{U^{2}(\rho UL/\eta)^{4}}=\frac{g\eta^{4}}{\rho\sigma^{3}}\]</div>
+</div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For training session: practice with Rayleigh-Taylor instability</p>
+<p>Application of law of similarity for two-phase is presented on the Rayleigh-Taylor instability.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="LawOfSimilarity_Two_Phase.html">Law of similarity: practice on Rayleigh-Taylor instability</a></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="recipes-for-stability-and-accuracy">
+<h2>Recipes for stability and accuracy<a class="headerlink" href="#recipes-for-stability-and-accuracy" title="Link to this heading"></a></h2>
+<p>Once the Chapman-Enskog expansion is performed, the Navier-Stokes equations are recovered provided that <span class="math notranslate nohighlight">\(|\boldsymbol{u}|&lt;c_s\)</span> where <span class="math notranslate nohighlight">\(c_s=\delta x/(\delta t \sqrt{3})\)</span>, <span class="math notranslate nohighlight">\(\delta x\)</span> is the space-step and <span class="math notranslate nohighlight">\(\delta t\)</span> is the time step. In lattice unit <span class="math notranslate nohighlight">\(\delta x^{\star}=\delta t^{\star}=1\)</span>, that condition means that the maximum dimensionless velocity <span class="math notranslate nohighlight">\(|\boldsymbol{u}_{max}^{\star}|\)</span> has to be lower than</p>
+<div class="math notranslate nohighlight" id="equation-stability-cond">
+<span class="eqno">(30)<a class="headerlink" href="#equation-stability-cond" title="Link to this equation"></a></span>\[|\boldsymbol{u}_{max}^{\star}| &lt; \frac{1}{\sqrt{3}}\approx 0.577\]</div>
+<p>for lattices D2Q9, D3Q15, D3Q19 and D3Q27. For one-dimensional lattice D1Q3 that condition is <span class="math notranslate nohighlight">\(|\boldsymbol{u}_{max}^{\star}| &lt; \sqrt{2/3}\approx 0.816\)</span>.</p>
+<p>Another stability condition involves the collision rate <span class="math notranslate nohighlight">\(\tau\)</span> in the BGK collision operator. That coefficient is directly related to the kinematic viscosity by <span class="math notranslate nohighlight">\(\nu=(1/3)(\tau-0.5)c_s^2\delta t\)</span>. The relaxation rate must be strictly greater than 0.5.</p>
+<div class="sphinx-features docutils container">
+<div class="hint admonition">
+<p class="admonition-title">Stability conditions</p>
+<p>Two main conditions have to be respected:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(|\boldsymbol{u}_{max}^{\star}| &lt; \frac{1}{\sqrt{3}}\approx 0.577\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau &gt; 0.5\)</span></p></li>
+</ul>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{3mm}\]</div>
+<div class="hint admonition">
+<p class="admonition-title">Accuracy</p>
+<p>For accurate simulations</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(|\boldsymbol{u}_{max}^{\star}| &lt; 0.01 - 0.3\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau\)</span> not much larger than unity</p></li>
+<li><p><span class="math notranslate nohighlight">\(\delta x\)</span> and <span class="math notranslate nohighlight">\(\delta t\)</span> sufficiently fine</p></li>
+</ul>
+</div>
+</div>
+<section id="alternative-collision-operators">
+<h3>Alternative collision operators<a class="headerlink" href="#alternative-collision-operators" title="Link to this heading"></a></h3>
+<p>The recipes of stability are given for the simplest one, the BGK operator. For two-phase flows with high denstiy ratio, alternative collision such as <code class="docutils literal notranslate"><span class="pre">TRT</span></code> and <code class="docutils literal notranslate"><span class="pre">MRT</span></code> exist in the literature and are available in LBM_Saclay. For those operators, one additional parameter for TRT controls the stability and accuracy. For MRT many other can affect stability and accuracy.</p>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Methodology to set your own parameters in input file</a><ul>
+<li><a class="reference internal" href="#how-to-set-dimensionless-parameters">How to set dimensionless parameters</a><ul>
+<li><a class="reference internal" href="#law-of-similarity-for-single-phase">Law of similarity for single-phase</a></li>
+<li><a class="reference internal" href="#law-of-similarity-for-two-phase">Law of similarity for two-phase</a></li>
+<li><a class="reference internal" href="#dimensionless-numbers-for-two-phase">Dimensionless numbers for two-phase</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#recipes-for-stability-and-accuracy">Recipes for stability and accuracy</a><ul>
+<li><a class="reference internal" href="#alternative-collision-operators">Alternative collision operators</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../INPUTFILE/inputfile.html"
+                          title="previous chapter">Description of LBM_Saclay input file</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="LawOfSimilarity_Poiseuille.html"
+                          title="next chapter">Law of similarity: application on Poiseuille flow</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/SET_OWN_PARAMETERS/Methodology.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="LawOfSimilarity_Poiseuille.html" title="Law of similarity: application on Poiseuille flow"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../INPUTFILE/inputfile.html" title="Description of LBM_Saclay input file"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Methodology to set your own parameters in input file</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

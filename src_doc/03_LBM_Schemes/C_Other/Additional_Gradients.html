@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Gradients and Laplacian &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Boundary conditions" href="Boundary_Conditions.html" />
+    <link rel="prev" title="LBM for Navier-Stokes/Korteweg model" href="../B_Specific-Schemes/LBM_for_NSK.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Boundary_Conditions.html" title="Boundary conditions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../B_Specific-Schemes/LBM_for_NSK.html" title="LBM for Navier-Stokes/Korteweg model"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" accesskey="U">PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Gradients and Laplacian</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="gradients-and-laplacian">
+<span id="directional-deriv"></span><h1>Gradients and Laplacian<a class="headerlink" href="#gradients-and-laplacian" title="Link to this heading"></a></h1>
+<p>Sometimes it is necessary to compute gradients or Laplacian of one function e.g. <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x},t)\)</span>. For example, the conservative Allen-Cahn equation involves the unit normal vector <span class="math notranslate nohighlight">\(\boldsymbol{n}=\boldsymbol{\nabla}\phi/|\boldsymbol{\nabla}\phi|\)</span> whereas the Cahn-Hilliard equation involves the Laplacian of <span class="math notranslate nohighlight">\(\phi\)</span>. That Laplacian <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}^2\phi\)</span> also appears explicitely in the chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> of capillary force <span class="math notranslate nohighlight">\(\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi\)</span> in the impulsion balance equation.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>In LBM_Saclay, those gradients and Laplacian are computed in the source file <code class="docutils literal notranslate"><span class="pre">src/kernels/LBMSchemeBase.h</span></code></p>
+</div>
+<section id="bulk-directional-derivatives">
+<h2>Bulk: directional derivatives<a class="headerlink" href="#bulk-directional-derivatives" title="Link to this heading"></a></h2>
+<p>When the node <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> is inside the computational domain, not close to the boundary, the gradients and Laplacian are computed by <em>directional derivatives</em> method which is a finite difference method applied for every direction <span class="math notranslate nohighlight">\(\boldsymbol{e}_i\)</span> of lattice.</p>
+<p><strong>Gradients</strong></p>
+<p>For gradient, the directional derivative <span class="math notranslate nohighlight">\(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla}\phi\bigr|_{\boldsymbol{x}}\)</span> for each direction <span class="math notranslate nohighlight">\(\boldsymbol{e}_i\)</span> writes:</p>
+<div class="math notranslate nohighlight" id="equation-dd-grad">
+<span class="eqno">(242)<a class="headerlink" href="#equation-dd-grad" title="Link to this equation"></a></span>\[ \boldsymbol{e}_{i}\cdot\boldsymbol{\nabla}\phi\bigr|_{\boldsymbol{x}}=\frac{1}{2\delta x}\left[\phi(\boldsymbol{x}+\boldsymbol{e}_{i}\delta x)-\phi(\boldsymbol{x}-\boldsymbol{e}_{i}\delta x)\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta x\)</span> is the discretization step in space and <span class="math notranslate nohighlight">\(e^2\)</span> is a lattice-dependent coefficient. Except for D2Q5, its value is <span class="math notranslate nohighlight">\(e^2=1/3\)</span> meaning that <span class="math notranslate nohighlight">\(1/e^2=3\)</span>. In Eq. <a class="reference internal" href="#equation-dd-grad">(242)</a>, let us notice that for one particular direction (e.g. <span class="math notranslate nohighlight">\(x\)</span>-direction i.e. <span class="math notranslate nohighlight">\(i=1\)</span>), the directional derivative corresponds to the second order central finite difference method. The gradient is obtained by a weighted sum of all those directional derivatives:</p>
+<div class="math notranslate nohighlight" id="equation-grad">
+<span class="eqno">(243)<a class="headerlink" href="#equation-grad" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\phi=\frac{1}{e^{2}}\sum_{i=0}^{N_{pop}}w_{i}\boldsymbol{e}_{i}\left(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla}\phi\bigr|_{\boldsymbol{x}}\right)\]</div>
+<p><strong>Laplacian</strong></p>
+<p>For Laplacian, the method is identical. First we compute the components for all directions</p>
+<div class="math notranslate nohighlight" id="equation-dd-lapl">
+<span class="eqno">(244)<a class="headerlink" href="#equation-dd-lapl" title="Link to this equation"></a></span>\[(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla})^{2}\phi\bigr|_{\boldsymbol{x}}=\frac{1}{\delta x^{2}}\left[\phi(\boldsymbol{x}+\boldsymbol{e}_{i}\delta x)-2\phi(\boldsymbol{x})+\phi(\boldsymbol{x}-\boldsymbol{e}_{i}\delta x)\right]\]</div>
+<p>Once again, for one particular direction (e.g. <span class="math notranslate nohighlight">\(x\)</span>-direction i.e. <span class="math notranslate nohighlight">\(i=1\)</span>), the directional derivative corresponds to the second order central finite difference method. The Laplcian is obtained by the weighted sum:</p>
+<div class="math notranslate nohighlight" id="equation-lapl">
+<span class="eqno">(245)<a class="headerlink" href="#equation-lapl" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}^{2}\phi\bigr|_{\boldsymbol{x}}=3\sum_{i=0}^{N_{pop}}w_{i}(\boldsymbol{e}_{i}\cdot\boldsymbol{\nabla})^{2}\phi\bigr|_{\boldsymbol{x}}\]</div>
+</section>
+<section id="boundaries">
+<h2>Boundaries<a class="headerlink" href="#boundaries" title="Link to this heading"></a></h2>
+<p>When the node <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> is close to one of boundaries, in that case, the classic</p>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Gradients and Laplacian</a><ul>
+<li><a class="reference internal" href="#bulk-directional-derivatives">Bulk: directional derivatives</a></li>
+<li><a class="reference internal" href="#boundaries">Boundaries</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../B_Specific-Schemes/LBM_for_NSK.html"
+                          title="previous chapter">LBM for Navier-Stokes/Korteweg model</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Boundary_Conditions.html"
+                          title="next chapter">Boundary conditions</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/03_LBM_Schemes/C_Other/Additional_Gradients.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Boundary_Conditions.html" title="Boundary conditions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../B_Specific-Schemes/LBM_for_NSK.html" title="LBM for Navier-Stokes/Korteweg model"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" >PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Gradients and Laplacian</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

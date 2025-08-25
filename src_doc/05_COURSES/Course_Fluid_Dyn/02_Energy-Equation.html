@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Energy balance equation &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Principe de moindre action" href="03_Least_Action_Principle.html" />
+    <link rel="prev" title="Navier-Stokes equations for single-phase flows" href="01_Navier-Stokes.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="03_Least_Action_Principle.html" title="Principe de moindre action"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="01_Navier-Stokes.html" title="Navier-Stokes equations for single-phase flows"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Fluid-Dyn.html" accesskey="U">Fluid dynamics &amp; Thermodynamics</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Energy balance equation</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="energy-balance-equation">
+<span id="reminder-energy-equation"></span><h1>Energy balance equation<a class="headerlink" href="#energy-balance-equation" title="Link to this heading"></a></h1>
+<section id="formulation-with-total-energy">
+<h2>Formulation with total energy<a class="headerlink" href="#formulation-with-total-energy" title="Link to this heading"></a></h2>
+<p>This section is a summary of <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (section VI.3 p. 119) and reminds the derivation of energy equation. The total energy which is contained inside a volume <span class="math notranslate nohighlight">\(V\)</span> is:</p>
+<div class="math notranslate nohighlight" id="equation-eq-total-energy-heat-course">
+<span class="eqno">(284)<a class="headerlink" href="#equation-eq-total-energy-heat-course" title="Link to this equation"></a></span>\[\int_{V}\rho(e+\frac{1}{2}u^{2})dV\]</div>
+<p>where <span class="math notranslate nohighlight">\(e\)</span> is the internal energy and <span class="math notranslate nohighlight">\(\rho u^{2}/2\)</span> is the kinetic energy of fluid. From first principle of thermodynamics, the time-variation of that energy is equal to the work of forces and the heat quantity exchanged between the system and the external medium:</p>
+<div class="math notranslate nohighlight" id="equation-eq-variation-total-energy-heat-course">
+<span class="eqno">(285)<a class="headerlink" href="#equation-eq-variation-total-energy-heat-course" title="Link to this equation"></a></span>\[\frac{d}{dt}\int_{V}\rho(e+\frac{1}{2}u^{2})dV=\dot{W}+\dot{Q}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\dot{W}\)</span> is the work per time unit of non-conservative forces such as the volumic force and stress force applied at the surface
+of volume <span class="math notranslate nohighlight">\(V\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-work">
+<span class="eqno">(286)<a class="headerlink" href="#equation-eq-work" title="Link to this equation"></a></span>\[\dot{W}=\int_{V}\rho\boldsymbol{g}\cdot\boldsymbol{u}dV+\int_{A}\boldsymbol{t}(\boldsymbol{n})\cdot\boldsymbol{u}dA\]</div>
+<p>and <span class="math notranslate nohighlight">\(\dot{Q}\)</span> is the heat which is exchanged from the external to the system. Without source term, it is given by the heat flux by
+conduction <span class="math notranslate nohighlight">\(\boldsymbol{q}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-def-heat">
+<span class="eqno">(287)<a class="headerlink" href="#equation-eq-def-heat" title="Link to this equation"></a></span>\[\dot{Q}=-\int_{A}\boldsymbol{q}\cdot\boldsymbol{n}dA\]</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-02-energy-equation-0">
+<span class="eqno">(288)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-02-energy-equation-0" title="Link to this equation"></a></span>\[\frac{d}{dt}\int_{V}\rho(e+\frac{1}{2}u^{2})dV=\int_{V}\rho\boldsymbol{g}\cdot\boldsymbol{u}dV+\int_{A}\boldsymbol{t}(\boldsymbol{n})\cdot\boldsymbol{u}dA-\int_{A}\boldsymbol{q}\cdot\boldsymbol{n}dA\]</div>
+<p>Once again we use the Reynolds’ transport theorem for the left-hand side
+and we transform both surfacic integral of right-hand side into volumic
+ones with Green-Ostrogradsky’s theorem:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-02-energy-equation-1">
+<span class="eqno">(289)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-02-energy-equation-1" title="Link to this equation"></a></span>\[\int_{V}\left\{ \frac{\partial}{\partial t}\left[\rho(e+\frac{1}{2}u^{2})\right]+\boldsymbol{\nabla}\cdot\rho\boldsymbol{u}(e+\frac{1}{2}u^{2})\right\} dV=\int_{V}\rho\boldsymbol{g}\cdot\boldsymbol{u}dV+\int_{V}\left[-\boldsymbol{\nabla}\cdot(p\boldsymbol{u})+\boldsymbol{\nabla}\cdot(\overline{\overline{\boldsymbol{\tau}}}\cdot\boldsymbol{u})\right]dV+\int_{V}\boldsymbol{\nabla}\cdot\boldsymbol{q}dV\]</div>
+<p>The volume is arbitray, hence</p>
+<div class="math notranslate nohighlight" id="equation-eq-balance-energy-heat-course">
+<span class="eqno">(290)<a class="headerlink" href="#equation-eq-balance-energy-heat-course" title="Link to this equation"></a></span>\[\frac{\partial}{\partial t}\left[\rho(e+\frac{1}{2}u^{2})\right]+\boldsymbol{\nabla}\cdot\left[\rho(e+\frac{1}{2}u^{2})\boldsymbol{u}\right]=-\boldsymbol{\nabla}\cdot(p^{eos}\boldsymbol{u})+\boldsymbol{\nabla}\cdot(\overline{\overline{\boldsymbol{\tau}}}\cdot\boldsymbol{u})-\boldsymbol{\nabla}\cdot\boldsymbol{q}+\rho\boldsymbol{g}\cdot\boldsymbol{u}\]</div>
+</section>
+<section id="alternative-formulations">
+<h2>Alternative formulations<a class="headerlink" href="#alternative-formulations" title="Link to this heading"></a></h2>
+<p><strong>Formulation with internal energy</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-internal-energy-heat-course">
+<span class="eqno">(291)<a class="headerlink" href="#equation-eq-internal-energy-heat-course" title="Link to this equation"></a></span>\[\frac{\partial(\rho e)}{\partial t}+\boldsymbol{\nabla}\cdot\left[\rho e\boldsymbol{u}\right]=-\boldsymbol{\nabla}\cdot\boldsymbol{q}-p^{eos}\boldsymbol{\nabla}\cdot\boldsymbol{u}+\overline{\overline{\boldsymbol{\tau}}}:\boldsymbol{\nabla}\boldsymbol{u}\]</div>
+<p><strong>Formulation with total enthalpy</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-total-enthalpy-heat-course">
+<span class="eqno">(292)<a class="headerlink" href="#equation-eq-total-enthalpy-heat-course" title="Link to this equation"></a></span>\[\frac{\partial}{\partial t}\left[\rho(h+\frac{1}{2}u^{2})\right]+\boldsymbol{\nabla}\cdot\left[\rho(h+\frac{1}{2}u^{2})\boldsymbol{u}\right]=-\boldsymbol{\nabla}\cdot\boldsymbol{q}+\frac{\partial p^{eos}}{\partial t}+\boldsymbol{\nabla}\cdot(\overline{\overline{\boldsymbol{\tau}}}\cdot\boldsymbol{u})+\rho\boldsymbol{g}\cdot\boldsymbol{u}\]</div>
+<p><strong>Formulation with enthalpy</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-enthalpy-heat-course">
+<span class="eqno">(293)<a class="headerlink" href="#equation-eq-enthalpy-heat-course" title="Link to this equation"></a></span>\[\frac{\partial(\rho h)}{\partial t}+\boldsymbol{\nabla}\cdot(\rho h\boldsymbol{u})=-\boldsymbol{\nabla}\cdot\boldsymbol{q}+\overline{\overline{\boldsymbol{\tau}}}:\boldsymbol{\nabla}\boldsymbol{u}+\frac{dp^{eos}}{dt}\]</div>
+<p><strong>Formulation with entropy</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-entropy-heat-course">
+<span class="eqno">(294)<a class="headerlink" href="#equation-eq-entropy-heat-course" title="Link to this equation"></a></span>\[T\left[\frac{\partial(\rho s)}{\partial t}+\boldsymbol{\nabla}\cdot(\rho s\boldsymbol{u})\right]=-\boldsymbol{\nabla}\cdot\boldsymbol{q}+\overline{\overline{\boldsymbol{\tau}}}:\boldsymbol{\nabla}\boldsymbol{u}\]</div>
+<p><strong>Formulation with temperature and</strong> <span class="math notranslate nohighlight">\(c_p\)</span></p>
+<div class="math notranslate nohighlight" id="equation-eq-temp-cv-heat-course">
+<span class="eqno">(295)<a class="headerlink" href="#equation-eq-temp-cv-heat-course" title="Link to this equation"></a></span>\[\frac{\partial(\rho c_{p}T)}{\partial t}+\boldsymbol{\nabla}\cdot(\rho c_{p}T\boldsymbol{u})=-\boldsymbol{\nabla}\cdot\boldsymbol{q}-T\left(\frac{\partial\ln\rho}{\partial\ln T}\right)_{\rho}\frac{dp}{dt}+\overline{\overline{\boldsymbol{\tau}}}:\boldsymbol{\nabla}\boldsymbol{u}+\rho T\frac{dc_{p}}{dt}\]</div>
+<p><strong>Formulation with temperature and</strong> <span class="math notranslate nohighlight">\(c_v\)</span></p>
+<div class="math notranslate nohighlight" id="equation-eq-temp-cp-heat-course">
+<span class="eqno">(296)<a class="headerlink" href="#equation-eq-temp-cp-heat-course" title="Link to this equation"></a></span>\[\frac{\partial(\rho c_{v}T)}{\partial t}+\boldsymbol{\nabla}\cdot(\rho c_{v}T\boldsymbol{u})=-\boldsymbol{\nabla}\cdot\boldsymbol{q}-T\left(\frac{\partial p}{\partial T}\right)_{\rho}\boldsymbol{\nabla}\cdot\boldsymbol{u}+\overline{\overline{\boldsymbol{\tau}}}:\boldsymbol{\nabla}\boldsymbol{u}+\rho T\frac{dc_{v}}{dt}\]</div>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Candel S., Mécanique des fluides, 2e édition, Dunod, 2001.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Energy balance equation</a><ul>
+<li><a class="reference internal" href="#formulation-with-total-energy">Formulation with total energy</a></li>
+<li><a class="reference internal" href="#alternative-formulations">Alternative formulations</a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="01_Navier-Stokes.html"
+                          title="previous chapter">Navier-Stokes equations for single-phase flows</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="03_Least_Action_Principle.html"
+                          title="next chapter">Principe de moindre action</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_Fluid_Dyn/02_Energy-Equation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="03_Least_Action_Principle.html" title="Principe de moindre action"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="01_Navier-Stokes.html" title="Navier-Stokes equations for single-phase flows"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Fluid-Dyn.html" >Fluid dynamics &amp; Thermodynamics</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Energy balance equation</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

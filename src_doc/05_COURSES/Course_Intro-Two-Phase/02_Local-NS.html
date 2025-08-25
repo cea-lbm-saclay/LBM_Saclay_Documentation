@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Local and instantaneous Navier-Stokes equations &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview of interface-tracking methods with one-fluid formulation (to be completed)" href="03_Interface-Tracking.html" />
+    <link rel="prev" title="Scales and approaches (to be written)" href="01_Intro_Two-Phase.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="03_Interface-Tracking.html" title="Overview of interface-tracking methods with one-fluid formulation (to be completed)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="01_Intro_Two-Phase.html" title="Scales and approaches (to be written)"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Two-Phase_Intro.html" accesskey="U">Introduction of two-phase flows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Local and instantaneous Navier-Stokes equations</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="local-and-instantaneous-navier-stokes-equations">
+<span id="local-instantaneous-ns"></span><h1>Local and instantaneous Navier-Stokes equations<a class="headerlink" href="#local-and-instantaneous-navier-stokes-equations" title="Link to this heading"></a></h1>
+<section id="two-fluid-formulation-without-phase-change">
+<h2>Two-fluid formulation without phase-change<a class="headerlink" href="#two-fluid-formulation-without-phase-change" title="Link to this heading"></a></h2>
+<p>That section is a summary of <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (section 3.2 page 205). We consider a control volume <a class="reference internal" href="#fig-volume-control"><span class="std std-numref">Fig. 35</span></a> with two fluids of index 1 and 2 seprated by one interface. The volume of each fluid is <span class="math notranslate nohighlight">\(V_k\)</span> with <span class="math notranslate nohighlight">\(k=1,2\)</span>, the surrounding surface is noted <span class="math notranslate nohighlight">\(A_k\)</span> and the surface of separation is <span class="math notranslate nohighlight">\(A_i\)</span> where the index <span class="math notranslate nohighlight">\(i\)</span> means <em>interface</em>.</p>
+<figure class="align-center" id="id4">
+<span id="fig-volume-control"></span><a class="reference internal image-reference" href="../../../_images/Two-Phase_Volume-Control.png"><img alt="../../../_images/Two-Phase_Volume-Control.png" src="../../../_images/Two-Phase_Volume-Control.png" style="width: 500.0px; height: 220.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 35 </span><span class="caption-text">Control volume of two-phase flows</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="mass-balance">
+<h3>Mass balance<a class="headerlink" href="#mass-balance" title="Link to this heading"></a></h3>
+<p>The mass balance for each fluid writes</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+   \frac{\partial\rho_{1}}{\partial t}+\boldsymbol{\nabla}\cdot(\rho_{1}\boldsymbol{u}_{1}) &amp; =0\\
+   \frac{\partial\rho_{2}}{\partial t}+\boldsymbol{\nabla}\cdot(\rho_{2}\boldsymbol{u}_{2}) &amp; =0
+\end{aligned}\end{split}\]</div>
+<p>In more compact form with index <span class="math notranslate nohighlight">\(k=1,2\)</span> for fluid 1 and fluid 2:</p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial\rho_{k}}{\partial t}+\boldsymbol{\nabla}\cdot(\rho_{k}\boldsymbol{u}_{k})=0}\]</div>
+<p>The local and instantaneous equation at interface writes:</p>
+<div class="math notranslate nohighlight" id="equation-eq-mass-balance-interface-twophase-course">
+<span class="eqno">(314)<a class="headerlink" href="#equation-eq-mass-balance-interface-twophase-course" title="Link to this equation"></a></span>\[\rho_{1}(\boldsymbol{u}_{1}-\boldsymbol{u}_{i})\cdot\boldsymbol{n}_{1}=\rho_{2}(\boldsymbol{u}_{2}-\boldsymbol{u}_{i})\cdot\boldsymbol{n}_{2}=0\]</div>
+<p>It expresses the mass balance through the interface. It is common to set:</p>
+<div class="math notranslate nohighlight">
+\[\dot{m}_{k}:=\rho_{k}(\boldsymbol{u}_{k}-\boldsymbol{u}_{i})\cdot\boldsymbol{n}_{k}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\dot{m}_{k}\)</span> is the local mass flux of phase <span class="math notranslate nohighlight">\(k\)</span>
+which goes out the domain occupied by phase <span class="math notranslate nohighlight">\(k\)</span> at one point of
+the interface. With that quantity Eq.
+<a class="reference internal" href="#equation-eq-mass-balance-interface-twophase-course">(314)</a> writes:</p>
+<div class="math notranslate nohighlight">
+\[\dot{m}_{1}+\dot{m}_{2}=0\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+   (\boldsymbol{u}_{1}-\boldsymbol{u}_{i})\cdot\boldsymbol{n}_{1} &amp; =0\\
+   (\boldsymbol{u}_{2}-\boldsymbol{u}_{i})\cdot\boldsymbol{n}_{2} &amp; =0
+\end{aligned}\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{u}_{1}\cdot\boldsymbol{n}_{1}+\boldsymbol{u}_{2}\cdot\boldsymbol{n}_{2}=0\]</div>
+<p>If we assume that both fluids do not slip, then the tangential
+velocities are identical <span class="math notranslate nohighlight">\(\boldsymbol{u}_{1}^{t}=\boldsymbol{u}_{2}^{t}\)</span> and</p>
+<div class="math notranslate nohighlight">
+\[\boxed{\boldsymbol{u}_{1}=\boldsymbol{u}_{2}}\]</div>
+<p>Without phase change and no-slip of both fluids, the velocity of each
+phase is identical.</p>
+</section>
+<section id="impulsion-balance-with-surface-tension">
+<h3>Impulsion balance with surface tension<a class="headerlink" href="#impulsion-balance-with-surface-tension" title="Link to this heading"></a></h3>
+<p>The impulsion balance for each bulk phase writes:</p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial(\rho_{k}\boldsymbol{u}_{k})}{\partial t}+\boldsymbol{\nabla}\cdot(\rho_{k}\boldsymbol{u}_{k}\boldsymbol{u}_{k})=\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{T}}}_{k}+\rho_{k}\boldsymbol{g}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{T}}}_{k}\)</span> is the stress tensor which is defined by Eq. <a class="reference internal" href="../Course_Fluid_Dyn/01_Navier-Stokes.html#equation-eq-decomposition-stress-tensor-ns-course">(267)</a> for each phase <span class="math notranslate nohighlight">\(k\)</span>. At interface, the impulsion balance through an element of interface writes</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+   \frac{d}{dt}\int_{V_{1}}\rho_{1}\boldsymbol{u}_{1}dV+\frac{d}{dt}\int_{V_{2}}\rho_{2}\boldsymbol{u}_{2}dV &amp; =-\int_{A_{1}}\rho_{1}\boldsymbol{u}_{1}(\boldsymbol{u}_{1}\cdot\boldsymbol{n}_{1})dA-\int_{A_{2}}\rho_{2}\boldsymbol{u}_{2}(\boldsymbol{u}_{2}\cdot\boldsymbol{n}_{2})dA+\int_{V_{1}}\rho_{1}\boldsymbol{F}dV+\int_{V_{2}}\rho_{2}\boldsymbol{F}dV\\
+   &amp; \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad+\int_{A_{1}}\boldsymbol{n}_{1}\cdot\overline{\overline{\boldsymbol{T}}}_{1}dA+\int_{A_{1}}\boldsymbol{n}_{1}\cdot\overline{\overline{\boldsymbol{T}}}_{1}dA+\oint_{C}\sigma\boldsymbol{n}_{i}dC
+\end{aligned}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma\)</span> is the surface tension and
+<span class="math notranslate nohighlight">\(\boldsymbol{n}_{i}\)</span> is the unit normal vector of <span class="math notranslate nohighlight">\(C\)</span> and
+directed toward outside the volume <span class="math notranslate nohighlight">\(V\)</span>. The impulsion balance the
+local instantaneous relation at interface:</p>
+<div class="math notranslate nohighlight">
+\[\dot{m}_{1}\boldsymbol{u}_{1}+\dot{m}_{2}\boldsymbol{u}_{2}-\boldsymbol{n}_{1}\cdot\overline{\overline{\boldsymbol{T}}}_{1}-\boldsymbol{n}_{2}\cdot\overline{\overline{\boldsymbol{T}}}_{2}+\underbrace{\frac{d\sigma}{ds}\boldsymbol{t}}_{\text{Marangoni term}}-\underbrace{\frac{\sigma}{R}\boldsymbol{n}_{1}}_{\text{Young-Laplace term}}=0\]</div>
+<p>where <span class="math notranslate nohighlight">\(s\)</span> is the curvilinear coordinate at interface, <span class="math notranslate nohighlight">\(\boldsymbol{t}\)</span> is the tangential unit vector at interface and
+<span class="math notranslate nohighlight">\(R\)</span> is the curvature radius. The term <span class="math notranslate nohighlight">\(d\sigma/ds\)</span> is related to Marangoni effects due to variation of surface tension with
+temperature or concentration at interface. The term <span class="math notranslate nohighlight">\(\sigma\boldsymbol{n}_{1}/R\)</span> is the Young-Laplace term. In static case, we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-laplace-law-twophase-course">
+<span class="eqno">(315)<a class="headerlink" href="#equation-laplace-law-twophase-course" title="Link to this equation"></a></span>\[\boxed{P_{1}-P_{2}=\frac{\sigma}{R}}\]</div>
+</section>
+</section>
+<section id="one-fluid-formulation-for-incompressible-fluids">
+<h2>One-fluid formulation for incompressible fluids<a class="headerlink" href="#one-fluid-formulation-for-incompressible-fluids" title="Link to this heading"></a></h2>
+<p>In one-fluid formulation, there are only one mean velocity <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> and one mean pressure for two fluids of bulk densities <span class="math notranslate nohighlight">\(\rho_1\)</span> and <span class="math notranslate nohighlight">\(\rho_2\)</span> and dynamic viscosity <span class="math notranslate nohighlight">\(\eta_1\)</span> and <span class="math notranslate nohighlight">\(\eta_2\)</span>. We must introduce a new numerical quantity to track the interface and respect the jump conditions.</p>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Delhaye J.M., Thermohydraulique des réacteurs, Collection Génie Atomique, INSTN, EDP Sciences, 2008.</p>
+</aside>
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p>Andrea Prosperetti. Motion of two superposed viscous fluids. The Physics of Fluids, 24(7):1217–1223, 07 1981. URL: <a class="reference external" href="https://doi.org/10.1063/1.863522">https://doi.org/10.1063/1.863522</a>.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Local and instantaneous Navier-Stokes equations</a><ul>
+<li><a class="reference internal" href="#two-fluid-formulation-without-phase-change">Two-fluid formulation without phase-change</a><ul>
+<li><a class="reference internal" href="#mass-balance">Mass balance</a></li>
+<li><a class="reference internal" href="#impulsion-balance-with-surface-tension">Impulsion balance with surface tension</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#one-fluid-formulation-for-incompressible-fluids">One-fluid formulation for incompressible fluids</a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="01_Intro_Two-Phase.html"
+                          title="previous chapter">Scales and approaches (to be written)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="03_Interface-Tracking.html"
+                          title="next chapter">Overview of interface-tracking methods with one-fluid formulation (to be completed)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_Intro-Two-Phase/02_Local-NS.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="03_Interface-Tracking.html" title="Overview of interface-tracking methods with one-fluid formulation (to be completed)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="01_Intro_Two-Phase.html" title="Scales and approaches (to be written)"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Two-Phase_Intro.html" >Introduction of two-phase flows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Local and instantaneous Navier-Stokes equations</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

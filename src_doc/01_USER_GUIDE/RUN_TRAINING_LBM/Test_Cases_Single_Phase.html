@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Run “Single phase test cases” &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Run “Two-phase without fluid flows”" href="Test_Cases_Two_Phase_Without-Flows.html" />
+    <link rel="prev" title="Practice of two-phase flows with test cases of run_training_lbm" href="runtraininglbm.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Test_Cases_Two_Phase_Without-Flows.html" title="Run “Two-phase without fluid flows”"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="runtraininglbm.html" title="Practice of two-phase flows with test cases of run_training_lbm"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="runtraininglbm.html" accesskey="U">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Run “Single phase test cases”</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="run-single-phase-test-cases">
+<span id="single-training-lbm"></span><h1>Run “Single phase test cases”<a class="headerlink" href="#run-single-phase-test-cases" title="Link to this heading"></a></h1>
+<section id="lid-driven-cavity-flow">
+<h2>Lid driven cavity flow<a class="headerlink" href="#lid-driven-cavity-flow" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: example on Orcus</p>
+<p>Run one of the three <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file, e.g. for Re=1000:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase01_Lid_driven_cavity_flow_Re1000.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>On gpuq_h100 of Orcus, the simulation ran 55.300 seconds to achieve 200.001 time-steps..</p>
+</div>
+<p>Once the simulation is complete, in paraview12</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: commands in paraview</p>
+<ol class="arabic simple">
+<li><p>Open <code class="docutils literal notranslate"><span class="pre">lid_driven_cavity_flow_1000_FINAL.vti</span></code> file and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> + <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> + <code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">Over</span> <span class="pre">Line</span></code></p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">Sample</span> <span class="pre">At</span> <span class="pre">Segment</span> <span class="pre">Centers</span></code> Clic on <code class="docutils literal notranslate"><span class="pre">Y</span> <span class="pre">axis</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code> –&gt; new graph with profile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Data</span></code>, <code class="docutils literal notranslate"><span class="pre">file</span> <span class="pre">name</span></code>: <code class="docutils literal notranslate"><span class="pre">profil_lid_driven_cavity_BGK_1000_Ux.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+</ol>
+</div>
+<p>Next in your terminal</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: python script</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Post-Pro_Lid_Driven_Cavity_Flow_Profile_Ux_y_Re1000.py
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>Benchmark on cavity flow with Ghia et al (1982)</p>
+<div class="sphinx-features docutils container">
+<figure class="align-left" id="id1">
+<span id="target-fig-profiles-cavityflow"></span><a class="reference internal image-reference" href="../../../_images/res1_ldcf.png"><img alt="../../../_images/res1_ldcf.png" src="../../../_images/res1_ldcf.png" style="width: 350.0px; height: 280.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Profiles <span class="math notranslate nohighlight">\(u_x(y)\)</span>.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../../../_images/res2_ldcf.png"><img alt="../../../_images/res2_ldcf.png" src="../../../_images/res2_ldcf.png" style="width: 350.0px; height: 280.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Profiles <span class="math notranslate nohighlight">\(u_y(x)\)</span>.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<p>The streamlines inside the cavity are presented on <a class="reference internal" href="#target-fig-stream-cavityflow"><span class="std std-numref">Fig. 11</span></a></p>
+<figure class="align-center" id="id3">
+<span id="target-fig-stream-cavityflow"></span><a class="reference internal image-reference" href="../../../_images/simu_ldcf.png"><img alt="../../../_images/simu_ldcf.png" src="../../../_images/simu_ldcf.png" style="width: 300.0px; height: 300.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Streamlines</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="poiseuille-flow">
+<h2>Poiseuille flow<a class="headerlink" href="#poiseuille-flow" title="Link to this heading"></a></h2>
+<p>Once the simulation is complete (78.891 seconds on CPU of is154726 for 250.000 time-steps), follow the instructions below</p>
+<p>In paraview12</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: commands in paraview</p>
+<ol class="arabic simple">
+<li><p>Open <code class="docutils literal notranslate"><span class="pre">TestCase02_Poiseuille_Water_FINAL.vti</span></code> file and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> + <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> + <code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">Over</span> <span class="pre">Line</span></code></p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">Sample</span> <span class="pre">At</span> <span class="pre">Segment</span> <span class="pre">Centers</span></code> Clic on <code class="docutils literal notranslate"><span class="pre">Y</span> <span class="pre">axis</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code> –&gt; new graph with profile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Data</span></code>, <code class="docutils literal notranslate"><span class="pre">file</span> <span class="pre">name</span></code>: <code class="docutils literal notranslate"><span class="pre">Poiseuille_Water.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+</ol>
+</div>
+<p>Next in your terminal</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: python script</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Post-Pro_Poiseuille_CompareAnaly.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>In input file <code class="docutils literal notranslate"><span class="pre">TestCase02_Poiseuille_Water.ini</span></code> test successively <code class="docutils literal notranslate"><span class="pre">nStepmax=250000</span></code> and <code class="docutils literal notranslate"><span class="pre">nStepmax=500000</span></code>. The python script shoult plot <a class="reference internal" href="#target-fig-singlepoiseuille"><span class="std std-numref">Fig. 12</span></a>.</p>
+</div>
+<div class="important admonition">
+<p class="admonition-title">For training session: if problem with plot</p>
+<p>Check in <code class="docutils literal notranslate"><span class="pre">Poiseuille_Water.csv</span></code> file that the column numbers of <code class="docutils literal notranslate"><span class="pre">&quot;vx&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;Points:1&quot;</span></code> match with numbers set in <code class="docutils literal notranslate"><span class="pre">Post-Pro_Poiseuille_Water_CompareAnaly.py</span></code> file:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]!=</span><span class="w"> </span><span class="s1">&#39;laplaphi&#39;</span><span class="p">:</span>
+<span class="w">      </span><span class="n">x_star</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span><span class="w"> </span><span class="n">float</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="mi">32</span><span class="o">]</span><span class="p">))</span>
+<span class="w">      </span><span class="n">u_star</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_star</span><span class="p">,</span><span class="w"> </span><span class="n">float</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<figure class="align-center" id="id4">
+<span id="target-fig-singlepoiseuille"></span><a class="reference internal image-reference" href="../../../_images/Poiseuille_Water.png"><img alt="../../../_images/Poiseuille_Water.png" src="../../../_images/Poiseuille_Water.png" style="width: 500.0px; height: 400.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">Validation with Poiseuille analytical solution.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Run “Single phase test cases”</a><ul>
+<li><a class="reference internal" href="#lid-driven-cavity-flow">Lid driven cavity flow</a></li>
+<li><a class="reference internal" href="#poiseuille-flow">Poiseuille flow</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="runtraininglbm.html"
+                          title="previous chapter">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Test_Cases_Two_Phase_Without-Flows.html"
+                          title="next chapter">Run “Two-phase without fluid flows”</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/RUN_TRAINING_LBM/Test_Cases_Single_Phase.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Test_Cases_Two_Phase_Without-Flows.html" title="Run “Two-phase without fluid flows”"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="runtraininglbm.html" title="Practice of two-phase flows with test cases of run_training_lbm"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="runtraininglbm.html" >Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Run “Single phase test cases”</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

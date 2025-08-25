@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Isothermal Navier-Stokes/Korteweg model &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Thermodynamics of phase transition (to be written)" href="05_Thermodynamic_Of_PhaseTransition.html" />
+    <link rel="prev" title="Model of incompressible Navier-Stokes with interface-capturing equation" href="03_NavierStokes_with_PhaseField.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="05_Thermodynamic_Of_PhaseTransition.html" title="Thermodynamics of phase transition (to be written)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="03_NavierStokes_with_PhaseField.html" title="Model of incompressible Navier-Stokes with interface-capturing equation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" accesskey="U">Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Isothermal Navier-Stokes/Korteweg model</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="isothermal-navier-stokes-korteweg-model">
+<span id="model-nsk-course"></span><h1>Isothermal Navier-Stokes/Korteweg model<a class="headerlink" href="#isothermal-navier-stokes-korteweg-model" title="Link to this heading"></a></h1>
+<p>Historically, the thermodynamic theory of capillarity was developed by van der Waals under the hypothesis of a continuous variation of density <a class="footnote-reference brackets" href="#id7" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. In that sense, this is the very first diffuse interface theory. Next Korteweg has modified the Navier-Stokes equations to take into account the surface tension force through what we call the Korteweg’s tensor <a class="footnote-reference brackets" href="#id8" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. Those equations are known as the Navier-Stokes/Korteweg model (NSK) which is a popular model for simulating two-phase flows. That model is a low Mach formulation of the Navier-Stokes equations, where <span class="math notranslate nohighlight">\(\rho\)</span> plays the role of phase index. The two-phase behavior is obtained by an appropriate choice of the Equation of State (EoS). The NSK model is an alternative model to the Navier-Stokes/Conservative Allen-Cahn model for two incompressible fluids (see <a class="reference internal" href="03_NavierStokes_with_PhaseField.html#model-ins-with-phasefield-course"><span class="std std-ref">Model of incompressible Navier-Stokes with interface-capturing equation</span></a>).</p>
+<section id="free-energy-functional-with-rho">
+<h2>Free energy functional with <span class="math notranslate nohighlight">\(\rho\)</span><a class="headerlink" href="#free-energy-functional-with-rho" title="Link to this heading"></a></h2>
+<p>For a sake of simplicity of this presentation, we assume an isothermal fluid: the temperature <span class="math notranslate nohighlight">\(T\)</span> will appear in the equation of states but it will be considered as a constant. The free energy is defined by</p>
+<div class="math notranslate nohighlight" id="equation-free-energy-nsk-course">
+<span class="eqno">(549)<a class="headerlink" href="#equation-free-energy-nsk-course" title="Link to this equation"></a></span>\[\mathscr{F}[\rho]=\int_{V}\underbrace{\mathcal{W}(\rho)+\frac{\kappa}{2}\bigl|\boldsymbol{\nabla}\rho\bigr|^{2}}_{\equiv\mathcal{F}(\rho,\boldsymbol{\nabla}\rho)}dV\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho\equiv \rho(\boldsymbol{x},t)\)</span> is the fluid density which replaces the phase-field <span class="math notranslate nohighlight">\(\phi\)</span> previously used as order parameter for incompressible flows. <span class="math notranslate nohighlight">\(\mathcal{W}(\rho)\)</span> plays the role of double-well, and the gradient energy term is given by the last term <span class="math notranslate nohighlight">\(\kappa |\boldsymbol{\nabla}\rho\bigr|^{2}/2\)</span>. The coefficient <span class="math notranslate nohighlight">\(\kappa\)</span> is named the capillary coefficient. It will be considered as a constant in this section. As seen in <a class="reference internal" href="01_Fundamentals_PF.html#free-energy-double-wells"><span class="std std-ref">Fundamentals of phase-field theory</span></a>, the gradient energy term is non-local and it is responsible for the surface tension <span class="math notranslate nohighlight">\(\sigma\)</span> and width <span class="math notranslate nohighlight">\(W\)</span> of diffuse interface.</p>
+<p><strong>Double-well potentiel</strong></p>
+<p>In two-phase flows literature the free energy density <span class="math notranslate nohighlight">\(\mathcal{W}(\rho)\)</span> can take two different forms. In the first one, it takes a similar form as previously noted <span class="math notranslate nohighlight">\(f_{dw}(\phi)\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-0">
+<span class="eqno">(550)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-0" title="Link to this equation"></a></span>\[\mathcal{W}(\rho):=\mathcal{W}_{dw}(\rho)=H(\rho-\rho_l)^2(\rho-\rho_g)^2\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(\rho_g\)</span> are the bulk densities of liquid and gas and the subscript <span class="math notranslate nohighlight">\(_{dw}\)</span> means double-well. That expression is equivalent to the double-well <span class="math notranslate nohighlight">\(f_{dw}(\phi)=Hg_2(\phi)\)</span> of <a class="reference internal" href="01_Fundamentals_PF.html#free-energy-double-wells"><span class="std std-ref">Fundamentals of phase-field theory</span></a>. In particular, the equilibrium solution of Euler-Lagrange equation is:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-1">
+<span class="eqno">(551)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-1" title="Link to this equation"></a></span>\[\rho(x)=\frac{\rho_{l}+\rho_{g}}{2}+\frac{\rho_{l}-\rho_{g}}{2}\tanh\left[\frac{2x}{W}\right]\]</div>
+<p>The solution of density <span class="math notranslate nohighlight">\(\rho(x)\)</span> follows a hyperbolic tangent profile and varies continuously between a minimum value <span class="math notranslate nohighlight">\(\rho_g\)</span> and maximum value <span class="math notranslate nohighlight">\(\rho_l\)</span>. The slope of that variation is controlled by the parameter <span class="math notranslate nohighlight">\(W\)</span> which is the interface width. The expressions of interface width <span class="math notranslate nohighlight">\(W\)</span> and surface tension <span class="math notranslate nohighlight">\(\sigma\)</span> can also be re-used:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-2">
+<span class="eqno">(552)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-2" title="Link to this equation"></a></span>\[W=\frac{4}{(\rho_{l}-\rho_{g})}\sqrt{\frac{\kappa}{2H}}\]</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-3">
+<span class="eqno">(553)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-3" title="Link to this equation"></a></span>\[\sigma=\frac{1}{6}(\rho_{l}-\rho_{g})^{3} \sqrt{2\kappa H}\]</div>
+<p><strong>Potential and Equation of State</strong></p>
+<p>In the rest of this section, we will focus on another way to define the potential <span class="math notranslate nohighlight">\(\mathcal{W}(\rho)\)</span> and we will relate it to the thermodynamic pressure <span class="math notranslate nohighlight">\(p^{eos}(\rho)\)</span> where the superscript <span class="math notranslate nohighlight">\(^{eos}\)</span> means <em>Equation of State</em>.</p>
+</section>
+<section id="van-der-waals-equation-of-state-and-maxwell-construction">
+<h2>van der Waals equation of state and Maxwell construction<a class="headerlink" href="#van-der-waals-equation-of-state-and-maxwell-construction" title="Link to this heading"></a></h2>
+<p>The equation of state for an ideal gas is given by (1 mole):</p>
+<div class="math notranslate nohighlight" id="equation-eos-perfect-gas-nsk-course">
+<span class="eqno">(554)<a class="headerlink" href="#equation-eos-perfect-gas-nsk-course" title="Link to this equation"></a></span>\[ PV=RT\]</div>
+<p>which is derived from point-like particles whitout interaction. Expressed with density <span class="math notranslate nohighlight">\(V=1/\rho\)</span> that equation of state takes the expression</p>
+<div class="math notranslate nohighlight" id="equation-eos-perfect-gas-density-nsk-course">
+<span class="eqno">(555)<a class="headerlink" href="#equation-eos-perfect-gas-density-nsk-course" title="Link to this equation"></a></span>\[p^{eos}_{pg}(\rho,T)=\rho RT\]</div>
+<p>where the subscript <span class="math notranslate nohighlight">\(_{pg}\)</span> means <em>perfect gas</em>. That EoS of perfect gas is monotonous: for one pressure corresponds only a unique density. That relationship is also local in the sense that, at a same point <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>, the pressure <span class="math notranslate nohighlight">\(p^{eos}(\boldsymbol{x})\)</span> is related to the density <span class="math notranslate nohighlight">\(\rho(\boldsymbol{x})\)</span> and temperature <span class="math notranslate nohighlight">\(T(\boldsymbol{x})\)</span>. We will see below that the gradient energy term in Eq. <a class="reference internal" href="#equation-free-energy-nsk-course">(549)</a> is responsible for a <em>non-local pressure</em> <span class="math notranslate nohighlight">\(\mathcal{P}\)</span>.</p>
+<p><strong>van der Waals equation of state</strong></p>
+<p>Van der Waals modified that assumption. A new equation of state was formulated with short range repulsion (excluded volume) and long range attractions:</p>
+<div class="math notranslate nohighlight" id="equation-eos-vdw-nsk-course">
+<span class="eqno">(556)<a class="headerlink" href="#equation-eos-vdw-nsk-course" title="Link to this equation"></a></span>\[P(V,T)+\frac{a}{V^2}=\frac{RT}{V-b}\]</div>
+<p>where <span class="math notranslate nohighlight">\(a\)</span> represents attractive interactions which modify the pressure and <span class="math notranslate nohighlight">\(b\)</span> corresponds to the excluded volume occupied by hard sphere atoms. Those interactions can be described by interactomic potential, e.g. Lennard-Jones. Expressed with density, that Equation of State writes:</p>
+<div class="math notranslate nohighlight" id="equation-eos-vdw-density-nsk-course">
+<span class="eqno">(557)<a class="headerlink" href="#equation-eos-vdw-density-nsk-course" title="Link to this equation"></a></span>\[p^{eos}_{vdW}(\rho,T)=\frac{\rho RT}{1-b\rho}-a\rho^2\]</div>
+<p>The main advantage of that form of EoS, is that, for certain values of temperature, the EoS is not any more monotonous, and for one pressure corresponds two values of densities. Indeed, on <a class="reference internal" href="#fig-eos-vdw-volume-nsk-course"><span class="std std-numref">Fig. 47</span></a> the pressure is presented as a function of volume <span class="math notranslate nohighlight">\(V\)</span> whereas on <a class="reference internal" href="#fig-eos-vdw-density-nsk-course"><span class="std std-numref">Fig. 48</span></a> it is presented as a function of density <span class="math notranslate nohighlight">\(\rho\)</span>. On those figures, one temperature <span class="math notranslate nohighlight">\(T_5\)</span> (the magenta curve) is above the critical temperature. The curve is monotonous and only one density corresponds to one pressure. For temperature <span class="math notranslate nohighlight">\(T_4\)</span> (cyan curve) there is an inflexion point corresponding to the critical temperature (zero derivative with respect to rho). At last, for three next temperatures <span class="math notranslate nohighlight">\(T_1,T_2,T_3\)</span> (respectively black, red and blue curves), the pressure presents a cubic form enabling the existence of two densities corresponding to one pressure.</p>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="id13">
+<span id="fig-eos-vdw-volume-nsk-course"></span><a class="reference internal image-reference" href="../../../_images/EOS_vdWaals_P-V.png"><img alt="../../../_images/EOS_vdWaals_P-V.png" src="../../../_images/EOS_vdWaals_P-V.png" style="width: 350.0px; height: 250.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 47 </span><span class="caption-text">Phase diagram <span class="math notranslate nohighlight">\(P-V\)</span></span><a class="headerlink" href="#id13" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id14">
+<span id="fig-eos-vdw-density-nsk-course"></span><a class="reference internal image-reference" href="../../../_images/EOS_vdWaals_P-Rho.png"><img alt="../../../_images/EOS_vdWaals_P-Rho.png" src="../../../_images/EOS_vdWaals_P-Rho.png" style="width: 350.0px; height: 250.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 48 </span><span class="caption-text">Phase diagram <span class="math notranslate nohighlight">\(P-\rho\)</span></span><a class="headerlink" href="#id14" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<p><strong>Critical point</strong></p>
+<p>The critical point corresponds to the presence of an inflexion point on the curve <span class="math notranslate nohighlight">\(p^{eos}(V)\)</span>. It is defined by:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-4">
+<span class="eqno">(558)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-4" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \frac{\partial P}{\partial V} &amp; = &amp; 0\\
+   \frac{\partial^2 P}{\partial V^2} &amp; = &amp; 0
+\end{eqnarray}\end{split}\]</div>
+<p>The application of those two conditions to the van der Waals EoS, yields a critical point which is defined by:</p>
+<div class="math notranslate nohighlight" id="equation-critical-point-vdw">
+<span class="eqno">(559)<a class="headerlink" href="#equation-critical-point-vdw" title="Link to this equation"></a></span>\[V_c=3b,\quad T_c=\frac{8a}{27Rb},\quad P_c=\frac{a}{27b^2}\]</div>
+</section>
+<section id="free-energy-density-and-non-local-pressure">
+<h2>Free energy density and non-local pressure<a class="headerlink" href="#free-energy-density-and-non-local-pressure" title="Link to this heading"></a></h2>
+<p>From EoS, we can define a thermodynamic potential <span class="math notranslate nohighlight">\(\mathcal{W}(V)\)</span>, which is the work (an energy) of pressure force per volume unit:</p>
+<div class="math notranslate nohighlight" id="equation-potential-w-volume-for-eos">
+<span class="eqno">(560)<a class="headerlink" href="#equation-potential-w-volume-for-eos" title="Link to this equation"></a></span>\[\mathcal{W}(V)=-\frac{1}{V}\int p^{eos}(V)dV\]</div>
+<p>i.e. with the variable change <span class="math notranslate nohighlight">\(\rho=1/V\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-potential-w-density-for-eos">
+<span class="eqno">(561)<a class="headerlink" href="#equation-potential-w-density-for-eos" title="Link to this equation"></a></span>\[\mathcal{W}(\rho)=\rho\int\frac{p^{eos}(\rho)}{\rho^{2}}d\rho\]</div>
+<p>For van der Waals EoS, such a potential writes:</p>
+<div class="math notranslate nohighlight" id="equation-thermo-potential-vdw-eos">
+<span class="eqno">(562)<a class="headerlink" href="#equation-thermo-potential-vdw-eos" title="Link to this equation"></a></span>\[\mathcal{W}^{vdW}(\rho)=\rho RT\ln\left(\frac{\rho}{1-b\rho}\right)-a\rho^{2}\]</div>
+<p>It is straightforward (derive Eq. <a class="reference internal" href="#equation-potential-w-density-for-eos">(561)</a> wrt <span class="math notranslate nohighlight">\(\rho\)</span>) to show that the thermodynamic pressure <span class="math notranslate nohighlight">\(p^{eos}(\rho)\)</span> can derive from a thermodynamic potential <span class="math notranslate nohighlight">\(\mathcal{W}(\rho)\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-def-thermo-pressure">
+<span class="eqno">(563)<a class="headerlink" href="#equation-def-thermo-pressure" title="Link to this equation"></a></span>\[\boxed{p^{eos}(\rho)=\rho \frac{\partial \mathcal{W}(\rho)}{\partial \rho}-\mathcal{W}(\rho)}\]</div>
+<p>The potential <span class="math notranslate nohighlight">\(\mathcal{W}(\rho)\)</span> is more general because once it is set, we can derive the thermodynamic pressure <span class="math notranslate nohighlight">\(p^{eos}(\rho)\)</span> but also other quantities such as the chemical potential <span class="math notranslate nohighlight">\(\mu_{\rho}^{(0)}\)</span> where the superscript <span class="math notranslate nohighlight">\(^{(0)}\)</span> means “local”. Moreover, we can use it in Eq. <a class="reference internal" href="#equation-free-energy-nsk-course">(549)</a> and derive other non-local quantities such as the non-local pressure <span class="math notranslate nohighlight">\(\mathcal{P}(\rho,\boldsymbol{\nabla}\rho)\)</span> and the non-local chemical potential <span class="math notranslate nohighlight">\(\mu_{\rho}(\rho,\boldsymbol{\nabla}\rho)\)</span>. Both quantities are called “non-local” because they depend on <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\rho\)</span>.</p>
+<p>The <strong>non-local pressure</strong> <span class="math notranslate nohighlight">\(\mathcal{P}(\rho,\boldsymbol{\nabla}\rho)\)</span> is obtained by applying the definition Eq. <a class="reference internal" href="#equation-def-thermo-pressure">(563)</a>, but with free energy density <span class="math notranslate nohighlight">\(\mathcal{F}(\rho,\boldsymbol{\nabla}\rho)\)</span> replacing the potential <span class="math notranslate nohighlight">\(\mathcal{W}(\rho)\)</span>. The partial derivative <span class="math notranslate nohighlight">\(\partial /\partial\rho\)</span> must also be replaced by the variational derivative <span class="math notranslate nohighlight">\(\delta / \delta \rho\)</span> because the two independent variables <span class="math notranslate nohighlight">\(\rho\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\rho\)</span> are involded in the free energy density <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-nonlocal-pressure-nsk-course">
+<span class="eqno">(564)<a class="headerlink" href="#equation-nonlocal-pressure-nsk-course" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \mathcal{P}(\rho,\boldsymbol{\nabla}\rho) &amp; = &amp; \rho \frac{\delta \mathcal{F}(\rho,\boldsymbol{\nabla}\rho)}{\delta \rho}-\mathcal{F}(\rho,\boldsymbol{\nabla}\rho)\\
+   &amp; = &amp; \rho \left[ \frac{\partial \mathcal{W}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right] - \mathcal{W}(\rho) - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}\\
+   &amp; = &amp; p^{eos}(\rho) - \kappa\rho \boldsymbol{\nabla}^2\rho - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}
+\end{eqnarray}\end{split}\]</div>
+<p>where the Euler-Lagrange equation is used in the brackets (see <a class="reference internal" href="01_Fundamentals_PF.html#free-energy-double-wells"><span class="std std-ref">Fundamentals of phase-field theory</span></a>) for the second line and <a class="reference internal" href="#equation-def-thermo-pressure">(563)</a> for the third line. Now we see the consequence on pressure of adding a gradient energy term in the free energy density: the pressure is not any more equal to the eos pressure, it is modified by two non-local terms (i.e. depending on <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\rho\)</span>), both depending on the capillary coefficient <span class="math notranslate nohighlight">\(\kappa\)</span>. The gradient energy term is responsible for the surface tension, the diffuse interface and the modification of pressure which becomes non-local.</p>
+<p>In <a class="reference internal" href="01_Fundamentals_PF.html#free-energy-double-wells"><span class="std std-ref">Fundamentals of phase-field theory</span></a>, we have seen that <span class="math notranslate nohighlight">\(\delta \mathcal{F}/\delta \rho\)</span> is the definition of chemical potential <span class="math notranslate nohighlight">\(\mu_{\rho}\)</span>. In the second line of Eq. <a class="reference internal" href="#equation-nonlocal-pressure-nsk-course">(564)</a>, the term inside the brackets is the <strong>non-local chemical potential</strong> <span class="math notranslate nohighlight">\(\mu_{\rho}\)</span>. Its expression for a van der Waals EoS (i.e. with <span class="math notranslate nohighlight">\(\mathcal{W}\)</span> defined by Eq. <a class="reference internal" href="#equation-thermo-potential-vdw-eos">(562)</a>) writes</p>
+<div class="math notranslate nohighlight" id="equation-non-local-chemical-potential-nsk-course">
+<span class="eqno">(565)<a class="headerlink" href="#equation-non-local-chemical-potential-nsk-course" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \mu_{\rho}^{vdW} &amp; = &amp; \left[ \frac{\partial \mathcal{W}^{vdW}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right]\\
+   &amp; = &amp; RT\left[\ln\left(\frac{\rho}{1-b\rho}\right)+\frac{1}{1-b\rho}\right]-2a\rho-\kappa\boldsymbol{\nabla}^{2}\rho
+\end{eqnarray}\end{split}\]</div>
+<p>Let us emphasize that the non-local terms in Eqs. <a class="reference internal" href="#equation-nonlocal-pressure-nsk-course">(564)</a> and <a class="reference internal" href="#equation-non-local-chemical-potential-nsk-course">(565)</a> have an impact only at the interface between both fluids or in the vicinity of the interface because in the bulk phases, the densities are constant of values <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(\rho_g\)</span>, and consequently their gradients are zero.</p>
+<div class="admonition-summary-of-van-der-waals-eos admonition">
+<p class="admonition-title">Summary of van der Waals EoS</p>
+<p>The Van der Waal EoS writes</p>
+<div class="math notranslate nohighlight" id="equation-eos-van-der-waals-nsk-course">
+<span class="eqno">(566)<a class="headerlink" href="#equation-eos-van-der-waals-nsk-course" title="Link to this equation"></a></span>\[p_{vdW}^{eos}(\rho,T)=\frac{\rho RT}{1-b\rho}-a\rho^{2}\]</div>
+<p>which can be derived from potential <span class="math notranslate nohighlight">\(\mathcal{W^{vdW}}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-w-van-der-waals-nsk-course">
+<span class="eqno">(567)<a class="headerlink" href="#equation-w-van-der-waals-nsk-course" title="Link to this equation"></a></span>\[\mathcal{W}_{vdW}(\rho)=\rho RT\ln\left(\frac{\rho}{1-b\rho}\right)-a\rho^{2}\]</div>
+<p>The chemical potential writes:</p>
+<div class="math notranslate nohighlight" id="equation-mu-van-der-waals-nsk-course">
+<span class="eqno">(568)<a class="headerlink" href="#equation-mu-van-der-waals-nsk-course" title="Link to this equation"></a></span>\[\mu_{\rho}^{vdW}=RT\left[\ln\left(\frac{\rho}{1-b\rho}\right)+\frac{1}{1-b\rho}\right]-2a\rho-\kappa\boldsymbol{\nabla}^{2}\rho\]</div>
+</div>
+</section>
+<section id="maxwell-construction-for-bulk-densities-rho-l-and-rho-g">
+<h2>Maxwell construction for bulk densities <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(\rho_g\)</span><a class="headerlink" href="#maxwell-construction-for-bulk-densities-rho-l-and-rho-g" title="Link to this heading"></a></h2>
+<p><strong>Common tangent construction</strong></p>
+<p>The van der Waals EoS indicates how the pressure varies as a function of density. Under the critical point, the equilibrium solutions, or bulk densities <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(\rho_g\)</span> are obtained with the Maxwell construction. We remind that the thermodynamic equilibrium is reached when the intensive variables are equal and constant inside the whole domain. More precisely, for two phases of density <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(\rho_g\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-5">
+<span class="eqno">(569)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-5" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   p^{eos}(\rho_l) &amp; = &amp; p^{eos}(\rho_g)\\
+   \mu^{(0)}(\rho_l) &amp; = &amp; \mu^{(0)}(\rho_g)
+\end{eqnarray}\end{split}\]</div>
+<p>With the definition of thermodynamic pressure Eq. <a class="reference internal" href="#equation-def-thermo-pressure">(563)</a>, it is straightforward to obtain</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-6">
+<span class="eqno">(570)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-6" title="Link to this equation"></a></span>\[\mu^{(0)}=\frac{\mathcal{W}(\rho_l)-\mathcal{W}(\rho_g)}{\rho_l-\rho_g}\]</div>
+<p>This means that <span class="math notranslate nohighlight">\((\rho_l,\mathcal{W}(\rho_l))\)</span> and <span class="math notranslate nohighlight">\((\rho_g,\mathcal{W}(\rho_g))\)</span> lie on a common tangent line of <span class="math notranslate nohighlight">\(\mathcal{W}(\rho)\)</span> of slope <span class="math notranslate nohighlight">\(\mu^{(0)}\)</span>.</p>
+<p><strong>Graphic interpretation</strong></p>
+<p>The graphic interpretation of Maxwell construction is known as an “equal area rule”. That construction states that, for one particular pressure <span class="math notranslate nohighlight">\(P_b\)</span>, the bulk volumes (or densities) <span class="math notranslate nohighlight">\(V_{l}\)</span> and <span class="math notranslate nohighlight">\(V_{g}\)</span> are obtained such as</p>
+<div class="math notranslate nohighlight">
+\[\underbrace{\int_{V_{l}}^{V_{g}}p^{eos}(V)dV}_{S_{1}}=\underbrace{P_{b}(V_{g}-V_{l})}_{S_{2}}\]</div>
+<p>That relation can be interpreted as equal surfaces <span class="math notranslate nohighlight">\(S_{1}=S_{2}\)</span> where the area between <span class="math notranslate nohighlight">\(P_b\)</span> and the upper part of the vdW EoS and the area between <span class="math notranslate nohighlight">\(P_b\)</span> and the lower part of the vdW EoS are equal. For example, with vdW eos:</p>
+<div class="math notranslate nohighlight">
+\[p^{eos}(V)=\frac{RT}{V-b}-a\left(\frac{1}{V}\right)^{2}\]</div>
+<p>the bulk pressure <span class="math notranslate nohighlight">\(P_b\)</span> and the two equilibrium densities <span class="math notranslate nohighlight">\(\rho_g\)</span> and <span class="math notranslate nohighlight">\(\rho_l\)</span> are solution of <span class="math notranslate nohighlight">\(S_1=S_2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+   S_{1} &amp; =\left[RT\ln(V_{g}-b)+\frac{a}{V_{g}}\right]-\left[RT\ln(V_{l}-b)+\frac{a}{V_{l}}\right]\\
+   S_{2} &amp; =P_{b}(V_{g}-V_{l})
+\end{cases}\end{split}\]</div>
+<p>By solving semi-analytically we obtain the equilibrium densities (or coexistence densities) of bulks <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(\rho_g\)</span> for several temperatures as presented in <a class="reference internal" href="#fig-densitybulk-eos-vdw-nsk-course"><span class="std std-numref">Fig. 49</span></a> and <a class="reference internal" href="#fig-volumebulk-vdw-volume-nsk-course"><span class="std std-numref">Fig. 50</span></a>. For example, on <a class="reference internal" href="#fig-densitybulk-eos-vdw-nsk-course"><span class="std std-numref">Fig. 49</span></a>, at <span class="math notranslate nohighlight">\(T=280\)</span> two fluids will coexist. The first one density <span class="math notranslate nohighlight">\(\rho_g \approx 4\)</span> and the second one of density <span class="math notranslate nohighlight">\(\rho_l \approx 12\)</span>.</p>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="id15">
+<span id="fig-densitybulk-eos-vdw-nsk-course"></span><a class="reference internal image-reference" href="../../../_images/Construction-Maxwell_EOSvdWaals_rho.png"><img alt="../../../_images/Construction-Maxwell_EOSvdWaals_rho.png" src="../../../_images/Construction-Maxwell_EOSvdWaals_rho.png" style="width: 350.0px; height: 250.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 49 </span><span class="caption-text">Equilibrium densities for vdW eos</span><a class="headerlink" href="#id15" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id16">
+<span id="fig-volumebulk-vdw-volume-nsk-course"></span><a class="reference internal image-reference" href="../../../_images/Construction-Maxwell_EOSvdWaals.png"><img alt="../../../_images/Construction-Maxwell_EOSvdWaals.png" src="../../../_images/Construction-Maxwell_EOSvdWaals.png" style="width: 350.0px; height: 250.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 50 </span><span class="caption-text">Equilibrium volumes for vdW eos</span><a class="headerlink" href="#id16" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="pressure-tensor-and-korteweg-tensor">
+<h2>Pressure tensor and Korteweg tensor<a class="headerlink" href="#pressure-tensor-and-korteweg-tensor" title="Link to this heading"></a></h2>
+<p>For a sake of simplicity of this presentation, here we follow the argument presented in reference <a class="footnote-reference brackets" href="#id9" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> to derive the tensor pressure and the Korteweg’s tensor. As seen in <a class="reference internal" href="01_Fundamentals_PF.html#free-energy-double-wells"><span class="std std-ref">Fundamentals of phase-field theory</span></a>, when the order parameter is conserved (this is the case for <span class="math notranslate nohighlight">\(\rho\)</span>), the chemical potential <span class="math notranslate nohighlight">\(\mu_{\rho}\)</span> can be interpreted as a the Lagrange multiplier associated with the constraint of mass conservation. The integrand of <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> as well as that of the mass constraint are independent of the spatial coordinates. Consequently, it follows from Noether’s theorem (see <a class="footnote-reference brackets" href="#id10" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> sections 12-3 p. 555 and 12-7 p. 588) that there is a corresponding conservation law given by</p>
+<div class="math notranslate nohighlight" id="equation-conservation-law-from-noether">
+<span class="eqno">(571)<a class="headerlink" href="#equation-conservation-law-from-noether" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}=\boldsymbol{0}\]</div>
+<p>where the pressure tensor <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{P}}}\)</span> is a tensor of second rank which is given by</p>
+<div class="math notranslate nohighlight" id="equation-def-pressure-tensor">
+<span class="eqno">(572)<a class="headerlink" href="#equation-def-pressure-tensor" title="Link to this equation"></a></span>\[\overline{\overline{\boldsymbol{P}}}=\mathcal{L}\overline{\overline{\boldsymbol{I}}}-\boldsymbol{\nabla}\rho\otimes\frac{\partial\mathcal{L}}{\partial(\boldsymbol{\nabla}\rho)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{I}}}\)</span> is the identity tensor, and <span class="math notranslate nohighlight">\(\mathcal{L}(\rho,\boldsymbol{\nabla}\rho)\)</span> is</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-7">
+<span class="eqno">(573)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-7" title="Link to this equation"></a></span>\[\mathcal{L}(\rho,\boldsymbol{\nabla}\rho)=\mathcal{F}(\rho,\boldsymbol{\nabla}\rho)-\rho\mu_{\rho}\]</div>
+<p>where the free energy density is defined by Eq. <a class="reference internal" href="#equation-free-energy-nsk-course">(549)</a> i.e. <span class="math notranslate nohighlight">\(\mathcal{F}=\mathcal{W}(\rho)+\kappa|\boldsymbol{\nabla}\rho|^2/2\)</span> and the Lagrange multiplier <span class="math notranslate nohighlight">\(\mu_{\rho}\)</span> (or chemical potential) is given by <span class="math notranslate nohighlight">\(\mu_{\rho}=\delta\mathcal{F}/\delta\rho\)</span> (Euler-Lagrange)</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-8">
+<span class="eqno">(574)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-navierstokes-korteweg-8" title="Link to this equation"></a></span>\[\mu_{\rho}=\partial_{\rho}\mathcal{W}-\kappa\boldsymbol{\nabla}^2\rho\]</div>
+<p>It is straightforward to obtain</p>
+<div class="math notranslate nohighlight" id="equation-def-pressuretensor-kortewegtensor-nsk-course">
+<span class="eqno">(575)<a class="headerlink" href="#equation-def-pressuretensor-kortewegtensor-nsk-course" title="Link to this equation"></a></span>\[\overline{\overline{\boldsymbol{P}}}=\left[ -p^{eos}(\rho)+\rho\kappa\boldsymbol{\nabla}^2\rho+\frac{\kappa}{2}(\boldsymbol{\nabla}\rho)^2 \right]\overline{\overline{\boldsymbol{I}}}-\kappa \boldsymbol{\nabla}\rho \otimes \boldsymbol{\nabla}\rho\]</div>
+<p>where we recognize the non-local pressure <span class="math notranslate nohighlight">\(\mathcal{P}\)</span> inside the brackets, but also a second term which gives birth to the surface tension force between both fluids. The second rank tensor</p>
+<div class="math notranslate nohighlight" id="equation-def-korteweg-tensor">
+<span class="eqno">(576)<a class="headerlink" href="#equation-def-korteweg-tensor" title="Link to this equation"></a></span>\[\overline{\overline{\boldsymbol{\varsigma}}}=\left[ \rho\kappa\boldsymbol{\nabla}^2\rho+\frac{\kappa}{2}(\boldsymbol{\nabla}\rho)^2 \right]\overline{\overline{\boldsymbol{I}}}-\kappa \boldsymbol{\nabla}\rho \otimes \boldsymbol{\nabla}\rho\]</div>
+<p>is called the korteweg’s tensor.</p>
+<section id="equivalence-of-tensor-pressure">
+<h3>Equivalence of tensor pressure<a class="headerlink" href="#equivalence-of-tensor-pressure" title="Link to this heading"></a></h3>
+<p>In most of numerical methods that implement the NSK model, the pressure tensor Eq. <a class="reference internal" href="#equation-def-pressuretensor-kortewegtensor-nsk-course">(575)</a> is not directly discretized because there exist two equivalent algebraic forms which are easier to implement. The first one is the potential form and the second involves the chemical potential.</p>
+<div class="admonition-first-form-potential-form admonition">
+<p class="admonition-title">First form: potential form</p>
+<p>The first form is called the potential form and writes:</p>
+<div class="math notranslate nohighlight" id="equation-potential-form-nsk-course">
+<span class="eqno">(577)<a class="headerlink" href="#equation-potential-form-nsk-course" title="Link to this equation"></a></span>\[-\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}=-\boldsymbol{\nabla}p^{eos}+\kappa\rho\boldsymbol{\nabla}(\boldsymbol{\nabla}^{2}\rho)\]</div>
+</div>
+<p>Demo:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_{\beta}P_{\alpha\beta}&amp;=\partial_{\beta}\left\{ \left[p^{eos}-\kappa\rho\partial_{\gamma}\partial_{\gamma}\rho-\frac{1}{2}\kappa(\partial_{\gamma}\rho)^{2}\right]\delta_{\alpha\beta}+\kappa(\partial_{\alpha}\rho)(\partial_{\beta}\rho)\right\} \\&amp;=\partial_{\alpha}p^{eos}-\partial_{\alpha}(\kappa\rho\partial_{\gamma}\partial_{\gamma}\rho)-\frac{1}{2}\underbrace{\partial_{\alpha}(\kappa(\partial_{\gamma}\rho)^{2})}_{\text{development}}+\underbrace{\partial_{\gamma}(\kappa(\partial_{\alpha}\rho)(\partial_{\gamma}\rho))}_{\text{index }\beta\rightarrow\gamma}\\&amp;=\partial_{\alpha}p^{eos}-\partial_{\alpha}(\kappa\rho\partial_{\gamma}\partial_{\gamma}\rho)-\left[\kappa(\partial_{\gamma}\rho)(\partial_{\alpha}\partial_{\gamma}\rho)\right]+\underbrace{\partial_{\gamma}(\kappa(\partial_{\alpha}\rho)(\partial_{\gamma}\rho))}_{\text{Development}}\\&amp;=\partial_{\alpha}p^{eos}-\underbrace{\partial_{\alpha}(\kappa\rho\partial_{\gamma}\partial_{\gamma}\rho)}_{\text{Development}}-\left[\cancel{\kappa(\partial_{\gamma}\rho)(\partial_{\alpha}\partial_{\gamma}\rho)}\right]+\left[\cancel{\kappa\partial_{\gamma}(\partial_{\alpha}\rho)(\partial_{\gamma}\rho)}+\kappa(\partial_{\alpha}\rho)\partial_{\gamma}(\partial_{\gamma}\rho)\right]\\&amp;=\partial_{\alpha}p^{eos}-\left[\bcancel{\kappa(\partial_{\alpha}\rho)\partial_{\gamma}\partial_{\gamma}\rho}+\kappa\rho\partial_{\alpha}\partial_{\gamma}\partial_{\gamma}\rho\right]+\bcancel{\kappa(\partial_{\alpha}\rho)\partial_{\gamma}(\partial_{\gamma}\rho)}\\&amp;=\partial_{\alpha}p^{eos}-\kappa\rho\partial_{\alpha}(\partial_{\gamma}\partial_{\gamma}\rho)\end{split}\]</div>
+<div class="admonition-second-form-chemical-potential-form admonition">
+<p class="admonition-title">Second form: chemical potential form</p>
+<div class="math notranslate nohighlight" id="equation-chemical-form-nsk-course">
+<span class="eqno">(578)<a class="headerlink" href="#equation-chemical-form-nsk-course" title="Link to this equation"></a></span>\[-\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}=-\rho\boldsymbol{\nabla}\mu_{\rho}\]</div>
+<p>with</p>
+<div class="math notranslate nohighlight" id="equation-chemical-potential-nsk-course">
+<span class="eqno">(579)<a class="headerlink" href="#equation-chemical-potential-nsk-course" title="Link to this equation"></a></span>\[\mu_{\rho}=\mathcal{W}^{\prime}(\rho)-\kappa\boldsymbol{\nabla}^{2}\rho\]</div>
+</div>
+<p>Demo</p>
+<p>As function of potential <span class="math notranslate nohighlight">\(\mathcal{W}\)</span> the chemical potential writes:</p>
+<div class="math notranslate nohighlight" id="equation-chem-pot-rho-nsk-course">
+<span class="eqno">(580)<a class="headerlink" href="#equation-chem-pot-rho-nsk-course" title="Link to this equation"></a></span>\[\mu_{\rho}=\mathcal{W}^{\prime}(\rho)-\kappa\boldsymbol{\nabla}^{2}\rho\]</div>
+<p>and the thermodynamic pressure is:</p>
+<div class="math notranslate nohighlight" id="equation-thermo-pressure-nsk-course">
+<span class="eqno">(581)<a class="headerlink" href="#equation-thermo-pressure-nsk-course" title="Link to this equation"></a></span>\[p^{eos}(\rho)=\rho\mathcal{W}^{\prime}(\rho)-\mathcal{W}(\rho)\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\rho\boldsymbol{\nabla}\mu_{\rho}&amp;=\rho\boldsymbol{\nabla}\left[\frac{1}{\rho}\left(p^{eos}+\mathcal{W}(\rho)\right)-\kappa\boldsymbol{\nabla}^{2}\rho\right]\\&amp;=\left(p^{eos}+\mathcal{W}(\rho)\right)\rho\boldsymbol{\nabla}\left(\frac{1}{\rho}\right)+\boldsymbol{\nabla}\left(p^{eos}+\mathcal{W}(\rho)\right){\color{gray}-\rho\kappa\boldsymbol{\nabla}(\boldsymbol{\nabla}^{2}\rho)}\\&amp;=\left(p^{eos}+\mathcal{W}(\rho)\right)\cancel{\rho}\left(-\frac{1}{\rho^{\cancel{2}}}\right)\boldsymbol{\nabla}\rho+\boldsymbol{\nabla}p^{eos}+\mathcal{W}^{\prime}(\rho)\boldsymbol{\nabla}\rho{\color{gray}-\rho\kappa\boldsymbol{\nabla}(\boldsymbol{\nabla}^{2}\rho)}\\&amp;=\bigl[-p^{eos}\underbrace{-\mathcal{W}(\rho)+\rho\mathcal{W}^{\prime}(\rho)}_{\equiv+p^{eos}}\bigr]\frac{\boldsymbol{\nabla}\rho}{\rho}{\color{gray}+\boldsymbol{\nabla}p^{eos}-\rho\kappa\boldsymbol{\nabla}(\boldsymbol{\nabla}^{2}\rho)}\\&amp;=\boldsymbol{\nabla}p^{eos}-\rho\kappa\boldsymbol{\nabla}(\boldsymbol{\nabla}^{2}\rho)\end{split}\]</div>
+<p>where in the first line we used the definition of <span class="math notranslate nohighlight">\(\mu_{\rho}\)</span> Eq. <a class="reference internal" href="#equation-chem-pot-rho-nsk-course">(580)</a> with <span class="math notranslate nohighlight">\(\mathcal{W}^{\prime}(\rho)\)</span> derived from Eq. <a class="reference internal" href="#equation-thermo-pressure-nsk-course">(581)</a>.</p>
+</section>
+</section>
+<section id="mathematical-model-of-van-der-waals-fluids">
+<h2>Mathematical model of van der Waals fluids<a class="headerlink" href="#mathematical-model-of-van-der-waals-fluids" title="Link to this heading"></a></h2>
+<p>The model of Navier-Stokes/Korteweg is obtained from a low Mach formulation of Navier-Stokes equations by simply replacing the gradient of pressure <span class="math notranslate nohighlight">\(-\boldsymbol{\nabla}p\)</span> by the divergence of the pressure tensor <span class="math notranslate nohighlight">\(-\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}\)</span>. That tensor contains the pressure defined by the equation of state and others terms which are responsible for the surface tension force.</p>
+<div class="error admonition">
+<p class="admonition-title">Model of Navier-Stokes/Korteweg</p>
+<p>The mathematical model is based on the low Mach formulation of the Navier-Stokes equations. The mass balance writes</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-nsk-course">
+<span class="eqno">(582)<a class="headerlink" href="#equation-mass-balance-nsk-course" title="Link to this equation"></a></span>\[\frac{\partial\rho}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0\]</div>
+<p>The impulsion balance equation makes appear the pressure tensor</p>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-nsk-course">
+<span class="eqno">(583)<a class="headerlink" href="#equation-impulsion-balance-nsk-course" title="Link to this equation"></a></span>\[\frac{\partial(\rho\boldsymbol{u})}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}+\boldsymbol{\nabla}\cdot\left[\eta\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{P}}}\)</span> is the pressure tensor which is defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-pressure-tensor-nsk-course">
+<span class="eqno">(584)<a class="headerlink" href="#equation-def-pressure-tensor-nsk-course" title="Link to this equation"></a></span>\[\overline{\overline{\boldsymbol{P}}}=\left[p^{eos}(\rho,T)-\kappa\rho\boldsymbol{\nabla}^{2}\rho-\frac{1}{2}\kappa\bigl|\boldsymbol{\nabla}\rho\bigr|^{2}\right]\overline{\overline{\boldsymbol{I}}}+\kappa\boldsymbol{\nabla}\rho\otimes\boldsymbol{\nabla}\rho\]</div>
+<ul class="simple">
+<li><p>For numerical implementation, the divergence of pressure tensor <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}\)</span> can advantageously be replaced by one of the two following forms given either by Eq. <a class="reference internal" href="#equation-potential-form-nsk-course">(577)</a> or by Eq. <a class="reference internal" href="#equation-chemical-form-nsk-course">(578)</a> with Eq. <a class="reference internal" href="#equation-chemical-potential-nsk-course">(579)</a>.</p></li>
+<li><p>In Eq. <a class="reference internal" href="#equation-def-pressure-tensor-nsk-course">(584)</a> <span class="math notranslate nohighlight">\(p^{eos}(\rho,T)\)</span> is the thermodynamic pressure which is related to the density and temperature by one Equation of State. Several ones exist: the van der Waals EoS (Eq. <a class="reference internal" href="#equation-eos-van-der-waals-nsk-course">(566)</a>) can be used or others defined in the next section.</p></li>
+</ul>
+</div>
+<p>Let us mention that other methods exist to derive the Navier-Stokes/Korteweg models, especially when the coupling with temperature <a class="footnote-reference brackets" href="#id11" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> or surfactant <a class="footnote-reference brackets" href="#id12" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> are considered. In those references, the constitutive laws (closures for energy flux, expression of stress tensor, etc.) are derived such that the dissipation (given by the Clausius-Duhem inequality) is positive or null. The main advantage of that approach is to derive models of two-phase flows which are thermodynamicaly-consistent. But that rigorous approach has a cost: the algebraic calculations are expensive and are beyond the scope of that introduction.</p>
+<section id="other-equations-of-state-eos">
+<span id="equations-of-state"></span><h3>Other equations of state (EoS)<a class="headerlink" href="#other-equations-of-state-eos" title="Link to this heading"></a></h3>
+<p>Several Equations of State (EoS) exist in the literature to simulate two-phase flows: van der Waals, Carnahan-Starling, Peng-Robinson, Redlich-Kwong, etc. The van der Waals EoS is at the heart of this presentation. We present below a summary of other ones.</p>
+<div class="admonition-carnahan-starling-eos admonition">
+<p class="admonition-title">Carnahan-Starling EoS</p>
+<p>The Carnahan-Starling EoS writes:</p>
+<div class="math notranslate nohighlight" id="equation-eos-carnahan-starling-nsk-course">
+<span class="eqno">(585)<a class="headerlink" href="#equation-eos-carnahan-starling-nsk-course" title="Link to this equation"></a></span>\[p_{CS}^{eos}(\rho,T)=\rho RT\frac{1+b\rho/4+(b\rho/4)^{2}-(b\rho/4)^{3}}{(1-b\rho/4)^{3}}-a\rho^{2}\]</div>
+<div class="math notranslate nohighlight" id="equation-w-carnahan-starling-nsk-course">
+<span class="eqno">(586)<a class="headerlink" href="#equation-w-carnahan-starling-nsk-course" title="Link to this equation"></a></span>\[\mathcal{W}_{CS}(\rho)=\rho RT\left[\frac{3-b\rho/2}{(1-b\rho/4)^{2}}+\ln(b\rho/4)\right]-a\rho^{2}\]</div>
+<div class="math notranslate nohighlight" id="equation-chempot-carnahan-starling-nsk-course">
+<span class="eqno">(587)<a class="headerlink" href="#equation-chempot-carnahan-starling-nsk-course" title="Link to this equation"></a></span>\[\mu_{\rho}^{CS}=RT\left[\frac{3-b\rho/4}{(1-b\rho/4)^{3}}+\ln(b\rho/4)+1\right]-2a\rho-\kappa\boldsymbol{\nabla}^{2}\rho\]</div>
+</div>
+<p>In Eqs. <a class="reference internal" href="#equation-eos-van-der-waals-nsk-course">(566)</a> and <a class="reference internal" href="#equation-eos-carnahan-starling-nsk-course">(585)</a>, the input parameters are <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(b\)</span> <span class="math notranslate nohighlight">\(R\)</span> and <span class="math notranslate nohighlight">\(T\)</span>.</p>
+<section id="redlich-kwong-rk">
+<h4>Redlich-Kwong (RK)<a class="headerlink" href="#redlich-kwong-rk" title="Link to this heading"></a></h4>
+<div class="math notranslate nohighlight" id="equation-redlich-kwong-eos-nsk-course">
+<span class="eqno">(588)<a class="headerlink" href="#equation-redlich-kwong-eos-nsk-course" title="Link to this equation"></a></span>\[\begin{split}p_{RK}^{eos}(\rho,T)&amp;=\frac{\rho RT}{1-b\rho}-\frac{a\alpha(T)\rho^{2}}{1+b\rho}\\\alpha(T)&amp;=1/\sqrt{T}\\\text{Soave modif }\alpha(T)&amp;=[1+(\alpha_{1}+\alpha_{2}\omega-\alpha_{3}\omega^{2})(1-\sqrt{T/T_{c}})]^{2}\\\text{coeff}&amp;\alpha_{1}=0.480,\quad\alpha_{2}=1.574,\quad\alpha_{3}=0.176\end{split}\]</div>
+</section>
+<section id="peng-robinson-pr">
+<h4>Peng-Robinson (PR)<a class="headerlink" href="#peng-robinson-pr" title="Link to this heading"></a></h4>
+<div class="math notranslate nohighlight" id="equation-peng-robinson-eos-nsk-course">
+<span class="eqno">(589)<a class="headerlink" href="#equation-peng-robinson-eos-nsk-course" title="Link to this equation"></a></span>\[\begin{split}p_{PR}^{eos}(\rho,T)&amp;=\frac{\rho RT}{1-b\rho}-\frac{a\alpha(T)\rho^{2}}{1+2b\rho-b^{2}\rho^{2}}\\\alpha(T)&amp;=[1+(\alpha_{1}+\alpha_{2}\omega+\alpha_{3}\omega^{2})(1-\sqrt{T/T_{c}})]^{2}\\\text{coeff}&amp;\alpha_{1}=0.37464,\quad\alpha_{2}=1.54226,\quad\alpha_{3}=0.26992\end{split}\]</div>
+</section>
+</section>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>van der Waals J.D., The thermodynamic theory of capillarity under the hypothesis of a continuous variation of density. Translation of “The Thermodynamic Theory of Capillarity” by J.S. Rowlinson. Journal of Statistical Physics, Vol. 20, No. 2, 1979.</p>
+</aside>
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Korteweg D.J., Sur la forme que prennent les équations du mouvement des fluides si l’on tient compte des forces capillaires causées par des variations de densités considérables mais continues et sur la théorie de la capillarité dans l’hypothèse d’une variation continue de la densité. Archives Néerlandaises, Série II, Tome VI. 1901.</p>
+</aside>
+<aside class="footnote brackets" id="id9" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Anderson D.M., G.B. McFadden, A.A. Wheeler, Diffuse-interface methods in fluid mechanics, Annu. Rev. Fluid Mech. 1998. 30:139–65.</p>
+</aside>
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Goldstein H., Classical mechanics, 2nd Edition, Addison Wesley, 1981.</p>
+</aside>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>Liu J., C.M. Landis, H. Gomez, T.J.R. Hughes, Liquid–vapor phase transition: Thermomechanical theory, entropy stable numerical formulation, and boiling simulations. Comput. Methods Appl. Mech. Engrg. 297 (2015) 476–553, <a class="reference external" href="http://dx.doi.org/10.1016/j.cma.2015.09.007">http://dx.doi.org/10.1016/j.cma.2015.09.007</a></p>
+</aside>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
+<p>Bueno J., H. Gomez, Liquid-vapor transformations with surfactants. Phase-field model and Isogeometric Analysis. Journal of Computational Physics 321 (2016) 797–818, <a class="reference external" href="http://dx.doi.org/10.1016/j.jcp.2016.06.008">http://dx.doi.org/10.1016/j.jcp.2016.06.008</a></p>
+</aside>
+</aside>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Isothermal Navier-Stokes/Korteweg model</a><ul>
+<li><a class="reference internal" href="#free-energy-functional-with-rho">Free energy functional with <span class="math notranslate nohighlight">\(\rho\)</span></a></li>
+<li><a class="reference internal" href="#van-der-waals-equation-of-state-and-maxwell-construction">van der Waals equation of state and Maxwell construction</a></li>
+<li><a class="reference internal" href="#free-energy-density-and-non-local-pressure">Free energy density and non-local pressure</a></li>
+<li><a class="reference internal" href="#maxwell-construction-for-bulk-densities-rho-l-and-rho-g">Maxwell construction for bulk densities <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(\rho_g\)</span></a></li>
+<li><a class="reference internal" href="#pressure-tensor-and-korteweg-tensor">Pressure tensor and Korteweg tensor</a><ul>
+<li><a class="reference internal" href="#equivalence-of-tensor-pressure">Equivalence of tensor pressure</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mathematical-model-of-van-der-waals-fluids">Mathematical model of van der Waals fluids</a><ul>
+<li><a class="reference internal" href="#other-equations-of-state-eos">Other equations of state (EoS)</a><ul>
+<li><a class="reference internal" href="#redlich-kwong-rk">Redlich-Kwong (RK)</a></li>
+<li><a class="reference internal" href="#peng-robinson-pr">Peng-Robinson (PR)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="03_NavierStokes_with_PhaseField.html"
+                          title="previous chapter">Model of incompressible Navier-Stokes with interface-capturing equation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="05_Thermodynamic_Of_PhaseTransition.html"
+                          title="next chapter">Thermodynamics of phase transition (to be written)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_PF/04_NavierStokes_Korteweg.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="05_Thermodynamic_Of_PhaseTransition.html" title="Thermodynamics of phase transition (to be written)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="03_NavierStokes_with_PhaseField.html" title="Model of incompressible Navier-Stokes with interface-capturing equation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" >Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Isothermal Navier-Stokes/Korteweg model</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

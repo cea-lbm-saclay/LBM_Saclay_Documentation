@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Law of similarity: application on Poiseuille flow &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Law of similarity: practice on Rayleigh-Taylor instability" href="LawOfSimilarity_Two_Phase.html" />
+    <link rel="prev" title="Methodology to set your own parameters in input file" href="Methodology.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="LawOfSimilarity_Two_Phase.html" title="Law of similarity: practice on Rayleigh-Taylor instability"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Methodology.html" title="Methodology to set your own parameters in input file"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Methodology.html" accesskey="U">Methodology to set your own parameters in input file</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Law of similarity: application on Poiseuille flow</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="law-of-similarity-application-on-poiseuille-flow">
+<span id="law-similarity"></span><h1>Law of similarity: application on Poiseuille flow<a class="headerlink" href="#law-of-similarity-application-on-poiseuille-flow" title="Link to this heading"></a></h1>
+<p>To start practicing with input parameters without physical dimension, we recommmend to run the classical test case of Poiseuille flow which is contained in folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>. The law of similarity is applied to derive dimensionless parameters from physical parameters in SI units. In the case of Poiseuille flow, Reynolds number is used to derive dimensionless parameters.</p>
+<p>The analytical solution of Poiseuille flow is</p>
+<div class="math notranslate nohighlight" id="equation-poiseuille">
+<span class="eqno">(18)<a class="headerlink" href="#equation-poiseuille" title="Link to this equation"></a></span>\[u_{x}(y)=u_{max}\left(1-\frac{4y^{2}}{L^{2}}\right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(u_{max}=gL^{2}/8\nu\)</span>. If we consider water properties inside a channel of width <span class="math notranslate nohighlight">\(L\)</span></p>
+<div class="sphinx-features docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Parameter</strong></p></th>
+<th class="head"><p><strong>Math symbol</strong></p></th>
+<th class="head"><p><strong>Value</strong></p></th>
+<th class="head"><p><strong>Dimension</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Gravity</p></td>
+<td><p><span class="math notranslate nohighlight">\(g\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(9.81\cong10\)</span></p></td>
+<td><p>m/s2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_w\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(998.29\cong1000\)</span></p></td>
+<td><p>kg/m3</p></td>
+</tr>
+<tr class="row-even"><td><p>Kinematic viscosity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\nu\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(10^{-6}\)</span></p></td>
+<td><p>m2/s</p></td>
+</tr>
+<tr class="row-odd"><td><p>Width</p></td>
+<td><p><span class="math notranslate nohighlight">\(L\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(10^{-3}\)</span></p></td>
+<td><p>m</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>it is possible to compute the maximum velocity <span class="math notranslate nohighlight">\(u_{max}\)</span></p>
+<div class="math notranslate nohighlight" id="equation-u-max-poiseuille">
+<span class="eqno">(19)<a class="headerlink" href="#equation-u-max-poiseuille" title="Link to this equation"></a></span>\[u_{max}=\frac{gL^{2}}{8\nu}=1.25\text{ m.s}^{-1}\]</div>
+<p>and the Reynolds number Re:</p>
+<div class="math notranslate nohighlight" id="equation-re-mas-poiseuille">
+<span class="eqno">(20)<a class="headerlink" href="#equation-re-mas-poiseuille" title="Link to this equation"></a></span>\[\text{Re}=\frac{u_{max}L}{\nu}=1250\]</div>
+<figure class="align-center" id="analy-poiseuille">
+<a class="reference internal image-reference" href="../../../_images/Poiseuille.png"><img alt="../../../_images/Poiseuille.png" src="../../../_images/Poiseuille.png" style="width: 400.0px; height: 320.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 26 </span><span class="caption-text">Poiseuille flow inside a channel</span><a class="headerlink" href="#analy-poiseuille" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>In what follows, we present four different ways to set one characteristic length and one characteristic time to derive all dimensionless parameters.</p>
+<section id="first-choice-of-parameters-delta-x-1-and-tau">
+<h2>First choice of parameters: <span class="math notranslate nohighlight">\(\delta x_1\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span><a class="headerlink" href="#first-choice-of-parameters-delta-x-1-and-tau" title="Link to this heading"></a></h2>
+<p>If we set (initial guess) <span class="math notranslate nohighlight">\(\delta x_1=5 \times 10^{-5}\)</span> m and <span class="math notranslate nohighlight">\(\tau=0.6\)</span>, then we derive the other parameters</p>
+<div class="math notranslate nohighlight">
+\[L_{1}^{\star}=\frac{L}{\delta x_{1}}=20\]</div>
+<p>where <span class="math notranslate nohighlight">\(L_1^{\star}\)</span> is the dimensionless width of domain, obtained from the space-step <span class="math notranslate nohighlight">\(\delta x_1\)</span>. It is equivalent to the total number of nodes <span class="math notranslate nohighlight">\(N_y\)</span>.</p>
+<p>The kinematic viscosity is linked to the collision rate:</p>
+<div class="math notranslate nohighlight">
+\[\nu_{1}^{\star}=\frac{1}{3}(\tau-0.5)=0.03333\]</div>
+<p>We can derive the time step:</p>
+<div class="math notranslate nohighlight">
+\[\delta t=\frac{1}{3}(\tau-0.5)\frac{\delta x_{1}^{2}}{\nu}=8.33\times10^{-5}\]</div>
+<div class="warning admonition">
+<p class="admonition-title">Unstable simulation</p>
+<p>For a given Re number <span class="math notranslate nohighlight">\(\text{Re}=u_{max}^{\star}L^{\star}/\nu^{\star}=1250\)</span>, the maximum dimensionless velocity is:</p>
+<div class="math notranslate nohighlight">
+\[u_{max}^{\star}=\frac{\nu^{\star}\text{Re}}{L^{\star}}=2.08\]</div>
+<p>That value is greater than <span class="math notranslate nohighlight">\(\color{red}{u_{max}^{\star}}{\color{red}{\gg0.4}}\)</span> so that the simulation will be unstable.</p>
+</div>
+</section>
+<section id="second-choice-of-parameters-l-star-and-nu-star">
+<h2>Second choice of parameters: <span class="math notranslate nohighlight">\(L^{\star}\)</span> and <span class="math notranslate nohighlight">\(\nu^{\star}\)</span><a class="headerlink" href="#second-choice-of-parameters-l-star-and-nu-star" title="Link to this heading"></a></h2>
+<p>From the previous set of parameters, one solution to keep the simulation stable is to set <span class="math notranslate nohighlight">\(L^{\star}\)</span> and <span class="math notranslate nohighlight">\(\nu^{\star}\)</span> such that <span class="math notranslate nohighlight">\(u_{max}^{\star}/10=0.208\)</span>. To achieve that, for a given Reynolds number, it is sufficient to multiply by five the dimensionless width <span class="math notranslate nohighlight">\(L_{1}^{\star}\times5\)</span> and divide by two the kinematic viscosity <span class="math notranslate nohighlight">\(\nu_{1}^{\star}/2\)</span>.</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(L^{\star}=L_{1}^{\star}\times5=100\)</span>, means that the number of nodes is <span class="math notranslate nohighlight">\(N_y=100\)</span>. We can derive the space-step by:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-dx-poiseuille">
+<span class="eqno">(21)<a class="headerlink" href="#equation-dx-poiseuille" title="Link to this equation"></a></span>\[\delta x=\frac{L}{L^{\star}}=10^{-5}\]</div>
+</div></blockquote>
+</li>
+<li><p>The target value of dimensionless kinematic viscosity is</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-nu-poiseuille">
+<span class="eqno">(22)<a class="headerlink" href="#equation-nu-poiseuille" title="Link to this equation"></a></span>\[\nu^{\star}=\frac{\nu_1^{\star}}{2}=0.016667\]</div>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><p>We can derive the collision rate which is linked to kinematic viscosity by <span class="math notranslate nohighlight">\(\tau^{\star}=3\nu^{\star}+0.5=0.55\)</span>.</p>
+</div></blockquote>
+<ul>
+<li><p>We can derive the time step, for example here with the kinematic viscosity:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-dt-poiseuille">
+<span class="eqno">(23)<a class="headerlink" href="#equation-dt-poiseuille" title="Link to this equation"></a></span>\[\delta t=\frac{1}{3}(\tau-0.5)\frac{\delta x^{2}}{\nu}=1.6667\times10^{-6}\]</div>
+</div></blockquote>
+</li>
+<li><p>Finally, the dimensionless gravity <span class="math notranslate nohighlight">\(g^{\star}\)</span> is obtained from the physical value of gravity and the factor of conversion <span class="math notranslate nohighlight">\(C_g=\delta x/\delta t^2\)</span> (see Eq. <a class="reference internal" href="Methodology.html#equation-c-u-nu-g-p">(15)</a>):</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-gravity-poiseuille">
+<span class="eqno">(24)<a class="headerlink" href="#equation-gravity-poiseuille" title="Link to this equation"></a></span>\[g^{\star}=g\frac{\delta t^{2}}{\delta x}=2.777\times10^{-6}\]</div>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><p>The simulation is accurate because <span class="math notranslate nohighlight">\(u_{max}^{\star}&lt;0.3\)</span> and stable because <span class="math notranslate nohighlight">\(u_{max}^{\star}&lt;0.4\)</span>.</p>
+</div></blockquote>
+<div class="hint admonition">
+<p class="admonition-title">Parameters of input file</p>
+<p>For test case <code class="docutils literal notranslate"><span class="pre">TestCase02_Poiseuille_Water</span></code> of folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>, those values are set in the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input file. The main parameters are presented below:</p>
+<div class="sphinx-features docutils container">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="n">run</span><span class="o">]</span>
+<span class="n">dt</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="o">[</span><span class="n">mesh</span><span class="o">]</span>
+<span class="n">ny</span><span class="o">=</span><span class="mi">100</span>
+<span class="n">ymin</span><span class="o">=-</span><span class="mi">50</span>
+<span class="n">ymax</span><span class="o">=</span><span class="mi">50</span>
+
+<span class="o">[</span><span class="n">params</span><span class="o">]</span>
+<span class="n">rho0</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">rho1</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">nu0</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mo">0166666666666666</span><span class="mi">8</span>
+<span class="n">nu1</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mo">0166666666666666</span><span class="mi">8</span>
+<span class="n">gx</span><span class="o">=</span><span class="mi">2</span><span class="o">.</span><span class="mi">777777777777784</span><span class="n">e</span><span class="o">-</span><span class="mo">06</span>
+</pre></div>
+</div>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dt=1</span></code> means that <span class="math notranslate nohighlight">\(\delta t^{\star}=1\)</span></p></li>
+<li><p>The number of nodes <span class="math notranslate nohighlight">\(N_y\)</span> in <span class="math notranslate nohighlight">\(y\)</span>-direction is <code class="docutils literal notranslate"><span class="pre">ny=100</span></code></p></li>
+<li><p>The width of domain (<span class="math notranslate nohighlight">\(L^{\star}\)</span>) is <code class="docutils literal notranslate"><span class="pre">ymax-ymin=100</span></code> meaning that <span class="math notranslate nohighlight">\(\delta x^{\star}=L^{\star}/N_y=1\)</span></p></li>
+<li><p>The value of kinematic viscosities <code class="docutils literal notranslate"><span class="pre">nu0</span></code> and <code class="docutils literal notranslate"><span class="pre">nu1</span></code> are given by Eq. <a class="reference internal" href="#equation-nu-poiseuille">(22)</a></p></li>
+<li><p>The dimensionless gravity is given by Eq. <a class="reference internal" href="#equation-gravity-poiseuille">(24)</a></p>
+<blockquote>
+<div><p>Once the simulation is complete, use <span class="math notranslate nohighlight">\(\delta x\)</span> defined by Eq. <a class="reference internal" href="#equation-dx-poiseuille">(21)</a>, <span class="math notranslate nohighlight">\(\delta t\)</span> defined by <br />
+Eq. <a class="reference internal" href="#equation-dt-poiseuille">(23)</a>, and the density to calculate the conversion factors Eqs. <a class="reference internal" href="Methodology.html#equation-c-u-nu-g-p">(15)</a>. <br />
+Use those conversion factors to obtain the results with physical dimensions. <br />
+A python script <code class="docutils literal notranslate"><span class="pre">Post-Pro_Poiseuille_Water_CompareAnaly.py</span></code> is available  <br />
+in the folder to compare numerical and analytical solutions.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session</p>
+<p>Those stages are written in a python script:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase02_Poiseuille_Water
+$<span class="w"> </span>python<span class="w"> </span>Pre-Pro_Poiseuille.py
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For training session</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>gedit<span class="w"> </span>TestCase02_Poiseuille_Water<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Check that the numerical parameters of your input file correspond to the output of python script.</p>
+</div>
+<p>The methodology is described in the jupyter notebook <code class="docutils literal notranslate"><span class="pre">Validation-Sheet_Poiseuille_Similarity_Water.ipynb</span></code>. The input parameters of <code class="docutils literal notranslate"><span class="pre">TestCase02_Poiseuille_Water.ini</span></code> are dimensionless.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_lbm/TestCase02_Poiseuille_Water
+$<span class="w"> </span>jupyter<span class="w"> </span>notebook<span class="w"> </span>Validation-Sheet_Poiseuille_Similarity_Water.ipynb
+</pre></div>
+</div>
+</section>
+<section id="third-choice-of-parameters-u-max-star-and-tau">
+<h2>Third choice of parameters: <span class="math notranslate nohighlight">\(u_{max}^{\star}\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span><a class="headerlink" href="#third-choice-of-parameters-u-max-star-and-tau" title="Link to this heading"></a></h2>
+<p>As unit of length and time, it is also possible to set <span class="math notranslate nohighlight">\(u_{max}^{\star}=0.1&lt;0.4\)</span> and <span class="math notranslate nohighlight">\(\tau=0.8&gt;052\)</span>. The simulation will be stable and accurate. In order to derive the other parameters, we use the first one to calculate de conversion factor of velocity:</p>
+<div class="math notranslate nohighlight">
+\[C_{u}=\frac{u_{max}}{u_{max}^{\star}}=12.5=\frac{\delta x}{\delta t}\]</div>
+<p>Newt we use the relaxation rate for deriving the dimensionless kinematic viscosity:</p>
+<div class="math notranslate nohighlight">
+\[\nu^{\star}=\frac{1}{3}(\tau-0.5)=0.1\]</div>
+<p>and the conversion factor of <span class="math notranslate nohighlight">\(\nu\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[C_{\nu}=\frac{\nu}{\nu^{\star}}=10^{-5}=\frac{\delta x^{2}}{\delta t}\]</div>
+<p>The dimensionless width (or number of nodes) is derived from the Reynolds number</p>
+<div class="math notranslate nohighlight">
+\[L^{\star}=\frac{\text{Re}\nu^{\star}}{u_{max}^{\star}}=1250\]</div>
+<div class="warning admonition">
+<p class="admonition-title">Remark</p>
+<p>That set of initial parameters requires a discretization with 1250 nodes. The simulation won’t be efficient.</p>
+</div>
+<p>The ratio between both conversion factors allows deriving the space-step</p>
+<div class="math notranslate nohighlight">
+\[\delta x=\frac{C_{\nu}}{C_{u}}=8\times10^{-7}\quad{\color{gray}(\text{check }=L/L^{\star})}\]</div>
+<p>Finally, <span class="math notranslate nohighlight">\(\delta t\)</span> can be obtained</p>
+<div class="math notranslate nohighlight">
+\[\delta t=\frac{\delta x}{C_{u}}=6.4\times10^{-8}\quad{\color{gray}(\text{check }\nu=\nu^{\star}\delta x^{2}/\delta t)}\]</div>
+<p>as well as <span class="math notranslate nohighlight">\(g^{\star}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[g^{\star}=g\frac{\delta t^{2}}{\delta x}=5.12\times10^{-8}\]</div>
+</section>
+<section id="fourth-choice-of-parameters-u-max-star-and-l-star">
+<h2>Fourth choice of parameters: <span class="math notranslate nohighlight">\(u_{max}^{\star}\)</span> and <span class="math notranslate nohighlight">\(L^{\star}\)</span><a class="headerlink" href="#fourth-choice-of-parameters-u-max-star-and-l-star" title="Link to this heading"></a></h2>
+<p>Another choice of parameters is possible. Set for instance <span class="math notranslate nohighlight">\(L^{\star}=5\times 10^{2}\)</span> and <span class="math notranslate nohighlight">\(u_{max}^{\star}=0.1&lt;0.4\)</span>. In that case, we can derive the missing parameters as follows:</p>
+<div class="math notranslate nohighlight">
+\[\delta x=\frac{L}{L^{\star}}=2\times10^{-6}\]</div>
+<div class="math notranslate nohighlight">
+\[C_{u}=\frac{u_{max}}{u_{max}^{\star}}=12.5=\frac{\delta x}{\delta t}\]</div>
+<div class="math notranslate nohighlight">
+\[\delta t=\frac{\delta x}{C_{u}}=1.6\times10^{-7}\]</div>
+<div class="math notranslate nohighlight">
+\[\nu^{\star}=\frac{u_{max}^{\star}L^{\star}}{\text{Re}}=0.04\quad{\color{gray}(\text{check }\nu=\nu^{\star}\delta x^{2}/\delta t)}\]</div>
+<div class="math notranslate nohighlight">
+\[\tau=3\nu^{\star}+0.5=0.62\;({\color{red}&gt;0.55})\]</div>
+<div class="math notranslate nohighlight">
+\[g^{\star}=g\frac{\delta t^{2}}{\delta x}=1.28\times10^{-7}\]</div>
+<section id="conclusion">
+<h3>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h3>
+<div class="hint admonition">
+<p class="admonition-title">Conclusion</p>
+<p>On that simple Poiseuille flow, we see that several ways are possible to set two initial parameters and derive all others. For other configurations and types of flows, those choices depend on the system and phenomenology to be simulated. The example was given here for a single-phase flow. For two-phase flows, one example is detailed in <a class="reference internal" href="LawOfSimilarity_Two_Phase.html#similarity-two-phases"><span class="std std-ref">Law of similarity: practice on Rayleigh-Taylor instability</span></a>. To help users to set dimensionless parameters, several python scripts are available in the test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>. A description of one of them is done in <a class="reference internal" href="LawOfSimilarity_Two_Phase.html#similarity-two-phases"><span class="std std-ref">Law of similarity: practice on Rayleigh-Taylor instability</span></a>.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Law of similarity: application on Poiseuille flow</a><ul>
+<li><a class="reference internal" href="#first-choice-of-parameters-delta-x-1-and-tau">First choice of parameters: <span class="math notranslate nohighlight">\(\delta x_1\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span></a></li>
+<li><a class="reference internal" href="#second-choice-of-parameters-l-star-and-nu-star">Second choice of parameters: <span class="math notranslate nohighlight">\(L^{\star}\)</span> and <span class="math notranslate nohighlight">\(\nu^{\star}\)</span></a></li>
+<li><a class="reference internal" href="#third-choice-of-parameters-u-max-star-and-tau">Third choice of parameters: <span class="math notranslate nohighlight">\(u_{max}^{\star}\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span></a></li>
+<li><a class="reference internal" href="#fourth-choice-of-parameters-u-max-star-and-l-star">Fourth choice of parameters: <span class="math notranslate nohighlight">\(u_{max}^{\star}\)</span> and <span class="math notranslate nohighlight">\(L^{\star}\)</span></a><ul>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Methodology.html"
+                          title="previous chapter">Methodology to set your own parameters in input file</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="LawOfSimilarity_Two_Phase.html"
+                          title="next chapter">Law of similarity: practice on Rayleigh-Taylor instability</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/SET_OWN_PARAMETERS/LawOfSimilarity_Poiseuille.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="LawOfSimilarity_Two_Phase.html" title="Law of similarity: practice on Rayleigh-Taylor instability"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Methodology.html" title="Methodology to set your own parameters in input file"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Methodology.html" >Methodology to set your own parameters in input file</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Law of similarity: application on Poiseuille flow</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

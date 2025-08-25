@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PART I: User’s guide &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Quick Start with LBM_Saclay" href="QUICKSTART/quickstart.html" />
+    <link rel="prev" title="Contribution guidelines" href="../00_INTRODUCTION/contribute.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="QUICKSTART/quickstart.html" title="Quick Start with LBM_Saclay"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../00_INTRODUCTION/contribute.html" title="Contribution guidelines"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART I: User’s guide</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="part-i-user-s-guide">
+<span id="parti"></span><h1>PART I: User’s guide<a class="headerlink" href="#part-i-user-s-guide" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="QUICKSTART/quickstart.html">Quick Start with LBM_Saclay</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/quickstart.html#open-lbm-saclay-s-documentation">1. Open LBM_Saclay’s documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/quickstart.html#create-your-training-lbm-directory">2. Create your <code class="docutils literal notranslate"><span class="pre">Training-LBM</span></code> directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/quickstart.html#get-the-source-files-of-lbm-saclay">3. Get the source files of LBM_Saclay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/quickstart.html#compilation">4. Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/quickstart.html#run-your-first-test-case-on-your-local-cpu">5. Run your first test case on your local CPU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/quickstart.html#post-processing-with-paraview">6. Post-processing with Paraview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/quickstart.html#help-and-support">7. Help and Support</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html">First simulations on ORCUS: example with GPU partition</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html#connexion-and-disks-on-orcus">Connexion and disks on ORCUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html#get-information-about-orcus">Get information about ORCUS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html#submit-your-job-with-slurm-script">Submit your job with slurm script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html#transfer-your-output-files-on-your-local-computer">Transfer your output files on your local computer</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="RUN_TRAINING_LBM/runtraininglbm.html">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="RUN_TRAINING_LBM/runtraininglbm.html#overview-of-test-cases">Overview of test cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RUN_TRAINING_LBM/runtraininglbm.html#list-of-test-cases-in-run-training-lbm">List of test cases in <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="RUN_TRAINING_LBM/runtraininglbm.html#types-of-files-in-run-training-lbm">Types of files in <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="RUN_TRAINING_LBM/runtraininglbm.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="INPUTFILE/inputfile.html">Description of LBM_Saclay input file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="INPUTFILE/inputfile.html#list-of-section-names-section-name">List of section names: <code class="docutils literal notranslate"><span class="pre">[section</span> <span class="pre">name]</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="INPUTFILE/inputfile.html#sections-part-i-generic-sections">Sections Part I: generic sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="INPUTFILE/inputfile.html#sections-part-ii-problem-dependent-sections">Sections Part II: problem-dependent sections</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SET_OWN_PARAMETERS/Methodology.html">Methodology to set your own parameters in input file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SET_OWN_PARAMETERS/Methodology.html#how-to-set-dimensionless-parameters">How to set dimensionless parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SET_OWN_PARAMETERS/Methodology.html#recipes-for-stability-and-accuracy">Recipes for stability and accuracy</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="QUICKSTART/Compil_GPU_MPI_Topaze.html">First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/Compil_GPU_MPI_Topaze.html#connexion-and-available-disks-on-topaze">Connexion and available disks on Topaze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/Compil_GPU_MPI_Topaze.html#compilation">Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/Compil_GPU_MPI_Topaze.html#submit-a-job-and-run">Submit a job and run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QUICKSTART/Compil_GPU_MPI_Topaze.html#visualization-with-topaze">Visualization with Topaze</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../00_INTRODUCTION/contribute.html"
+                          title="previous chapter">Contribution guidelines</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="QUICKSTART/quickstart.html"
+                          title="next chapter">Quick Start with LBM_Saclay</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/01_USER_GUIDE/TOC_User-Guide.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="QUICKSTART/quickstart.html" title="Quick Start with LBM_Saclay"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../00_INTRODUCTION/contribute.html" title="Contribution guidelines"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART I: User’s guide</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Run “Two-phase fluid flows interacting with a solid phase” &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Description of LBM_Saclay input file" href="../INPUTFILE/inputfile.html" />
+    <link rel="prev" title="Run “Two-phase with fluid flows with composition effect”" href="Test_Cases_TwoPhase_ComposEffect.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../INPUTFILE/inputfile.html" title="Description of LBM_Saclay input file"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Test_Cases_TwoPhase_ComposEffect.html" title="Run “Two-phase with fluid flows with composition effect”"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="runtraininglbm.html" accesskey="U">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Run “Two-phase fluid flows interacting with a solid phase”</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="run-two-phase-fluid-flows-interacting-with-a-solid-phase">
+<span id="twop-solid-training-lbm"></span><h1>Run “Two-phase fluid flows interacting with a solid phase”<a class="headerlink" href="#run-two-phase-fluid-flows-interacting-with-a-solid-phase" title="Link to this heading"></a></h1>
+<p>The mathematical model is described in <a class="reference internal" href="../../02_MODELS/03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#math-nsac-comp-solid"><span class="std std-ref">Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase</span></a>.</p>
+<section id="hydrophobic-surface">
+<h2>Hydrophobic surface<a class="headerlink" href="#hydrophobic-surface" title="Link to this heading"></a></h2>
+<p>Folder <code class="docutils literal notranslate"><span class="pre">TestCase17_Hydrophobic-Solid</span></code> contains four test cases for simulations of surface tension sensitivity <span class="math notranslate nohighlight">\(\sigma\)</span>.</p>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go to folder <code class="docutils literal notranslate"><span class="pre">TestCase17_Hydrophobic-Solid/Sensib_Sigma1s_val1</span></code> for <span class="math notranslate nohighlight">\(\sigma_1=10^{-5}\)</span> and run</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase17_Hydrophobic-Solid/Sensib_Sigma1s_val1
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase_Hydrophobic-Surface_val1.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 394.865 seconds (~6min35sec) on partition gpuq_h100 of Orcus to achieve 200.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In paraview:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>open <code class="docutils literal notranslate"><span class="pre">TestCase_HyPhob-Surf_val1.xmf</span></code>, select <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code> and clic on green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code>.</p></li>
+<li><p>Select field <code class="docutils literal notranslate"><span class="pre">rho</span></code> and visualize it for several times.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">For training session: Exercise</p>
+<p>Run three simulations with <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file of folders <code class="docutils literal notranslate"><span class="pre">Sensib_Sigma2s_val1</span></code> and <code class="docutils literal notranslate"><span class="pre">Sensib_Sigma2s_val2</span></code> and <code class="docutils literal notranslate"><span class="pre">Sensib_Sigma2s_val3</span></code> to study the influence of <span class="math notranslate nohighlight">\(\sigma_{2s}\)</span> on wetting. You should obtain results presented in video below.</p>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_Contact-Angle_Wetting_Surface.webm" width="700" height="450"> </video></div>
+</section>
+<section id="vertical-walls">
+<h2>Vertical walls<a class="headerlink" href="#vertical-walls" title="Link to this heading"></a></h2>
+<p>Same test case than previous one but with vertical walls.</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_Contact-Angle_Vertical-Walls.webm" width="700" height="450"> </video></div>
+</section>
+<section id="container-with-splashing-droplet">
+<h2>Container with splashing droplet<a class="headerlink" href="#container-with-splashing-droplet" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go to folder  <code class="docutils literal notranslate"><span class="pre">TestCase18_Container-Splash</span></code> and run LBM_Saclay on Orcus.</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase18_Container-Splash
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase18_Container-Splash.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 966.784 seconds (~16min07sec) on partition gpuq_h100 of Orcus to achieve 300.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In paraview:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>open <code class="docutils literal notranslate"><span class="pre">TestCase18_Container-Splash.xmf</span></code>, select <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code> and clic on green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code>.</p></li>
+<li><p>Select field <code class="docutils literal notranslate"><span class="pre">rho</span></code> and visualize it for several times.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_Container-with-Splash.webm" width="650" height="350"> </video></div>
+</section>
+<section id="static-container-with-hole">
+<h2>Static container with hole<a class="headerlink" href="#static-container-with-hole" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go to either folder  <code class="docutils literal notranslate"><span class="pre">TestCase19_Static-Container-Hole</span></code> or <code class="docutils literal notranslate"><span class="pre">TestCase20_Moving-Container-Hole</span></code> and run LBM_Saclay on Orcus.</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase19_Static-Container-Hole
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase19_Static-Container-Hole.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 489.607 seconds (~8min10sec) on partition gpuq_h100 of Orcus to achieve 260.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In paraview:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>open <code class="docutils literal notranslate"><span class="pre">TestCase19_Static-Container-Hole.xmf</span></code>, select <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code> and clic on green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code>.</p></li>
+<li><p>Select field <code class="docutils literal notranslate"><span class="pre">rho</span></code> and visualize it for several times.</p></li>
+</ol>
+</div></blockquote>
+</div>
+</section>
+<section id="moving-container-with-hole">
+<h2>Moving container with hole<a class="headerlink" href="#moving-container-with-hole" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go to either folder  <code class="docutils literal notranslate"><span class="pre">TestCase19_Static-Container-Hole</span></code> or <code class="docutils literal notranslate"><span class="pre">TestCase20_Moving-Container-Hole</span></code> and run LBM_Saclay on Orcus.</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase20_Moving-Container-Hole
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase20_Moving-Container-Hole.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 1956.470 seconds (~32min36sec) on partition gpuq_h100 of Orcus to achieve 1.000.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In paraview:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>open <code class="docutils literal notranslate"><span class="pre">TestCase20_Moving-Container-Hole.xmf</span></code>, select <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code> and clic on green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code>.</p></li>
+<li><p>Select field <code class="docutils literal notranslate"><span class="pre">rho</span></code> and visualize it for several times.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_Container-Hole_Move-noMove.webm" width="650" height="420"> </video></div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Run “Two-phase fluid flows interacting with a solid phase”</a><ul>
+<li><a class="reference internal" href="#hydrophobic-surface">Hydrophobic surface</a></li>
+<li><a class="reference internal" href="#vertical-walls">Vertical walls</a></li>
+<li><a class="reference internal" href="#container-with-splashing-droplet">Container with splashing droplet</a></li>
+<li><a class="reference internal" href="#static-container-with-hole">Static container with hole</a></li>
+<li><a class="reference internal" href="#moving-container-with-hole">Moving container with hole</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Test_Cases_TwoPhase_ComposEffect.html"
+                          title="previous chapter">Run “Two-phase with fluid flows with composition effect”</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../INPUTFILE/inputfile.html"
+                          title="next chapter">Description of LBM_Saclay input file</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/RUN_TRAINING_LBM/Test_Cases_TwoPhase_Interacting-SolidPhase.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../INPUTFILE/inputfile.html" title="Description of LBM_Saclay input file"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Test_Cases_TwoPhase_ComposEffect.html" title="Run “Two-phase with fluid flows with composition effect”"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="runtraininglbm.html" >Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Run “Two-phase fluid flows interacting with a solid phase”</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

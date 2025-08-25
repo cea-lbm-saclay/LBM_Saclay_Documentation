@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Time-evolution: Cahn-Hilliard and Allen-Cahn models &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Model of incompressible Navier-Stokes with interface-capturing equation" href="03_NavierStokes_with_PhaseField.html" />
+    <link rel="prev" title="Appendix C: calculation of surface tension" href="C_Calculation_SurfaceTension.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="03_NavierStokes_with_PhaseField.html" title="Model of incompressible Navier-Stokes with interface-capturing equation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="C_Calculation_SurfaceTension.html" title="Appendix C: calculation of surface tension"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" accesskey="U">Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Time-evolution: Cahn-Hilliard and Allen-Cahn models</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="time-evolution-cahn-hilliard-and-allen-cahn-models">
+<span id="ch-cac-models"></span><h1>Time-evolution: Cahn-Hilliard and Allen-Cahn models<a class="headerlink" href="#time-evolution-cahn-hilliard-and-allen-cahn-models" title="Link to this heading"></a></h1>
+<p>In the previous section <a class="reference internal" href="01_Fundamentals_PF.html#free-energy-double-wells"><span class="std std-ref">Fundamentals of phase-field theory</span></a> we have derived the equilibrium properties (in space) by postulating the principle of stationarity of one specific thermodynamic potential, the free energy <span class="math notranslate nohighlight">\(\mathscr{F}[\phi]\)</span>. That principle has lead to the Euler-Lagrange equation and its fundamental solution with a hyperbolic tangent profile. The diffuse interface was characterized by two parameters: the interface width <span class="math notranslate nohighlight">\(W\)</span> and the surface tension <span class="math notranslate nohighlight">\(\sigma\)</span>.</p>
+<p>In this section, we focus on the <strong>dynamics</strong>, i.e. the time-evolution of the phase-field <span class="math notranslate nohighlight">\(\phi\)</span>. Two cases are considered: when the phase-field is a conservative order parameter and when it is not. In both cases, the spatial part must follow the stationary principle of the previous section. When the order parameter is a conserved quantity then we get the <strong>Cahn-Hilliard model</strong>. When the order parameter is not a conserved quantity, then we get the <strong>Allen-Cahn</strong> model which will be extended for <strong>Conservative Allen-Cahn model</strong>.</p>
+<section id="cahn-hilliard-ch-model-for-conservative-order-parameter">
+<span id="ch-model"></span><h2>Cahn-Hilliard (CH) model for conservative order parameter<a class="headerlink" href="#cahn-hilliard-ch-model-for-conservative-order-parameter" title="Link to this heading"></a></h2>
+<p>The Cahn-Hilliard equation is a very popular model which is capable of simulating spinodal decomposition, coalescence of droplets, and so on. That model is derived for an order parameter which is conserved over the whole computational domain. The phase-field <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x},t)\)</span> plays two roles: it tracks the interface and indicates the local value of composition. This is the reason why in the literature, the Cahn-Hilliard equation is alternatively formulated in <span class="math notranslate nohighlight">\(c(\boldsymbol{x},t)\)</span>. Here for consistency, we present the equation with the main variable <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
+<p>The Cahn-Hilliard model is simply an equation of conservation (mass balance):</p>
+<div class="math notranslate nohighlight" id="equation-conservation-cahn-hilliard-course">
+<span class="eqno">(493)<a class="headerlink" href="#equation-conservation-cahn-hilliard-course" title="Link to this equation"></a></span>\[\frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{diff}(\boldsymbol{x},t)\]</div>
+<p>where the diffusive flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{diff}\)</span> must be defined such as the free energy decreases with time i.e.:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-0">
+<span class="eqno">(494)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-0" title="Link to this equation"></a></span>\[\frac{\partial\mathscr{F}[\phi]}{\partial t} &lt; 0\]</div>
+<p><strong>Expression of diffusive flux</strong></p>
+<p>With the definition of free energy Eq. <a class="reference internal" href="01_Fundamentals_PF.html#equation-free-energy">(422)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-1">
+<span class="eqno">(495)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-1" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \frac{\partial \mathscr{F}}{\partial t} &amp; = &amp; \frac{\partial}{\partial t}\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV\\
+   &amp; = &amp; \int_{V} \left[\frac{\delta \mathcal{F}}{\delta \phi}\frac{\partial \phi}{\partial t} \right]dV\\
+   &amp; = &amp; \int_V \frac{\delta \mathcal{F}}{\delta \phi}(-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{diff}(\boldsymbol{x},t))
+\end{eqnarray}\end{split}\]</div>
+<p>where the chain rule was applied for the second line and the conservation equation Eq. <a class="reference internal" href="#equation-conservation-cahn-hilliard-course">(493)</a> for the third line. The simplest choice to define the flux is to consider it proportional to the gradient of <span class="math notranslate nohighlight">\(\delta \mathcal{F}/\delta \phi\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-diffusive-flux-ch-course">
+<span class="eqno">(496)<a class="headerlink" href="#equation-diffusive-flux-ch-course" title="Link to this equation"></a></span>\[\boldsymbol{j}_{diff}(\boldsymbol{x},t)=-\mathcal{M}_{\phi}\boldsymbol{\nabla}\left( \frac{\delta \mathcal{F}}{\delta \phi} \right)\]</div>
+<p>because:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-2">
+<span class="eqno">(497)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-2" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \frac{\partial\mathscr{F}}{\partial t}    &amp; = &amp; \int_{V}\frac{\delta\mathcal{F}}{\delta\phi}(-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{diff})dV\\
+        &amp; = &amp; \int_{V}\frac{\delta\mathcal{F}}{\delta\phi}\left[\boldsymbol{\nabla}\cdot\mathcal{M}_{\phi}\boldsymbol{\nabla}\left(\frac{\delta\mathcal{F}}{\delta\phi}\right)\right]dV\\
+        &amp; = &amp; \mathcal{M}_{\phi}\int_{V}\frac{\delta\mathcal{F}}{\delta\phi}\left[\boldsymbol{\nabla}^{2}\left(\frac{\delta\mathcal{F}}{\delta\phi}\right)\right]dV
+\end{eqnarray}\end{split}\]</div>
+<p>After an integration by parts</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-3">
+<span class="eqno">(498)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-3" title="Link to this equation"></a></span>\[\frac{\partial\mathscr{F}}{\partial t}=-\mathcal{M}_{\phi}\int_{V}\left[\boldsymbol{\nabla}\left(\frac{\delta\mathcal{F}}{\delta\phi}\right)\right]^{2}dV\]</div>
+<p>which is necessarily negative if <span class="math notranslate nohighlight">\(\mathcal{M}_{\phi}\)</span> is positive. The quantity <span class="math notranslate nohighlight">\(\delta \mathcal{F}/\delta \phi\)</span> is the chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span>. Finally, the diffusive flux defined by</p>
+<div class="math notranslate nohighlight" id="equation-diffusive-flux-ch-potchem-course">
+<span class="eqno">(499)<a class="headerlink" href="#equation-diffusive-flux-ch-potchem-course" title="Link to this equation"></a></span>\[\boxed{\boldsymbol{j}_{diff}(\boldsymbol{x},t)=-\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}}\]</div>
+<p>is sufficient to ensure a decrease of free energy. The minus sign indicates that the flux is directed from the high values of <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> to the small ones. The coefficient of proportionality <span class="math notranslate nohighlight">\(\mathcal{M}_{\phi}\)</span> plays an identical role as the diffusion coefficient. It is called the mobility coefficient.</p>
+<p>By replacing Eq. <a class="reference internal" href="#equation-diffusive-flux-ch-potchem-course">(499)</a> in Eq. <a class="reference internal" href="#equation-conservation-cahn-hilliard-course">(493)</a> we obtain</p>
+<div class="math notranslate nohighlight" id="equation-ch-expressed-mobility">
+<span class="eqno">(500)<a class="headerlink" href="#equation-ch-expressed-mobility" title="Link to this equation"></a></span>\[\boxed{\frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left[\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}(\boldsymbol{x},t)  \right]}\]</div>
+<p>The chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> is obtained from the Euler-Lagrange equation <span class="math notranslate nohighlight">\(\mu_{\phi}=\delta \mathcal{F}/\delta \phi\)</span>. If we define the free energy density <span class="math notranslate nohighlight">\(\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)\)</span> equal to (see <a class="reference internal" href="01_Fundamentals_PF.html#free-energy-double-wells"><span class="std std-ref">Fundamentals of phase-field theory</span></a>):</p>
+<div class="math notranslate nohighlight" id="equation-dp-ch-course">
+<span class="eqno">(501)<a class="headerlink" href="#equation-dp-ch-course" title="Link to this equation"></a></span>\[\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)=H\phi^{2}(1-\phi)^{2}+\frac{\zeta}{2}(\boldsymbol{\nabla}\phi)^{2}\]</div>
+<p>then, the chemical potential writes:</p>
+<div class="math notranslate nohighlight" id="equation-chemical-potential-ch-course">
+<span class="eqno">(502)<a class="headerlink" href="#equation-chemical-potential-ch-course" title="Link to this equation"></a></span>\[\mu_{\phi}=\underbrace{2H\phi(1-\phi)(1-2\phi)}_{f_{dw}^{\prime}(\phi)}-\zeta\boldsymbol{\nabla}^{2}\phi\]</div>
+<p><strong>Mobility and diffusivity</strong></p>
+<p>We have seen that the physical dimension of <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> is <span class="math notranslate nohighlight">\([\text{E}]/[\text{L}]^3\)</span> meaning that the physical dimension of <span class="math notranslate nohighlight">\(\mathcal{M}_{\phi}\)</span> is <span class="math notranslate nohighlight">\([\text{L}]^5/[\text{E.T}]\)</span>. It is possible to make appear a diffusivity coefficient <span class="math notranslate nohighlight">\(M_{\phi}\)</span> of dimension <span class="math notranslate nohighlight">\([\text{L}]^2/[\text{T}]\)</span>. By replacing Eq. <a class="reference internal" href="#equation-chemical-potential-ch-course">(502)</a> in Eq. <a class="reference internal" href="#equation-ch-expressed-mobility">(500)</a> and by defining</p>
+<div class="math notranslate nohighlight" id="equation-def-diffusivity-ch">
+<span class="eqno">(503)<a class="headerlink" href="#equation-def-diffusivity-ch" title="Link to this equation"></a></span>\[M_{\phi}=H\mathcal{M}_{\phi}\]</div>
+<p>We obtain:</p>
+<div class="math notranslate nohighlight" id="equation-ch-expressed-diffusivity">
+<span class="eqno">(504)<a class="headerlink" href="#equation-ch-expressed-diffusivity" title="Link to this equation"></a></span>\[\frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}\]</div>
+<p>For coupling with fluid flow of velocity <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>, the advective flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{adv}=\boldsymbol{u}\phi\)</span> must be considered. In that case, the conservation involves the total flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{tot}=\boldsymbol{j}_{adv}+\boldsymbol{j}_{diff}\)</span> and the advective Cahn-Hilliard model writes:</p>
+<div class="error admonition">
+<p class="admonition-title">Summary: Advective Cahn-Hilliard model for conserved order parameter</p>
+<p>Finally, for the simplest form of free energy density, the advective Cahn-Hilliard model writes:</p>
+<div class="math notranslate nohighlight" id="equation-adv-ch-model-course-summary">
+<span class="eqno">(505)<a class="headerlink" href="#equation-adv-ch-model-course-summary" title="Link to this equation"></a></span>\[\frac{\partial\phi(\boldsymbol{x},t)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}\]</div>
+<p>The Cahn-Hilliard model is powerful model which is capable of simulating interface phenomena and particularly  <em>spinodal decomposition</em>. However, it is a particular model in the sense that the phase-field <span class="math notranslate nohighlight">\(\phi\)</span> plays two roles: first it tracks the interface and second it gives the local value of compositions. More specifically, the compositions values of bulk phases cannot be freely chosen equal to 0 and 1. They must be equal to <span class="math notranslate nohighlight">\(c_0^{eq}\)</span> and <span class="math notranslate nohighlight">\(c_1^{eq}\)</span> where those two values come from the thermodynamic. Another difficulty lays in the bilaplacian and specific numerical methods are needed to tackle that fourth-order derivative.</p>
+</div>
+</section>
+<section id="allen-cahn-model-for-non-conservative-order-parameter">
+<span id="ac-model-course"></span><h2>Allen-Cahn model for non-conservative order parameter<a class="headerlink" href="#allen-cahn-model-for-non-conservative-order-parameter" title="Link to this heading"></a></h2>
+<p>For non-conservative order parameter</p>
+<div class="math notranslate nohighlight" id="equation-non-conservation-ac-course">
+<span class="eqno">(506)<a class="headerlink" href="#equation-non-conservation-ac-course" title="Link to this equation"></a></span>\[\frac{\partial \phi}{\partial t}=S\]</div>
+<p>where <span class="math notranslate nohighlight">\(S\)</span> is a source term to be defined such as the free energy decreases:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-4">
+<span class="eqno">(507)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-4" title="Link to this equation"></a></span>\[\frac{\partial\mathscr{F}[\phi]}{\partial t} &lt; 0\]</div>
+<p>With the definition of free energy Eq. <a class="reference internal" href="01_Fundamentals_PF.html#equation-free-energy">(422)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-5">
+<span class="eqno">(508)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-5" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \frac{\partial \mathscr{F}}{\partial t} &amp; = &amp; \frac{\partial}{\partial t}\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV\\
+   &amp; = &amp; \int_{V} \left[\frac{\delta \mathcal{F}}{\delta \phi}\frac{\partial \phi}{\partial t} \right]dV\\
+   &amp; = &amp; \int_V \frac{\delta \mathcal{F}}{\delta \phi}SdV
+\end{eqnarray}\end{split}\]</div>
+<p>where the chain rule was applied for the second line and the non-conservation equation Eq. <a class="reference internal" href="#equation-non-conservation-ac-course">(506)</a> for the third line. The simplest choice to define the source term is to consider it proportional to <span class="math notranslate nohighlight">\(\delta \mathcal{F}/\delta \phi\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-6">
+<span class="eqno">(509)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-6" title="Link to this equation"></a></span>\[S=-\mathscr{M}_{\phi}\frac{\delta \mathcal{F}}{\delta \phi}\]</div>
+<p>so that</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-7">
+<span class="eqno">(510)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-7" title="Link to this equation"></a></span>\[\frac{\partial \mathscr{F}}{\partial t}=-\mathscr{M}_{\phi} \int_V \left[ \frac{\delta \mathcal{F}}{\delta \phi}\right]^2dV\]</div>
+<p>which is necessarily negative if <span class="math notranslate nohighlight">\(\mathscr{M}_{\phi}\)</span> is positive.</p>
+<p>The Allen-Cahn model acts for non-conservative order parameter. Problems of phase change give an example of such a non-conservative phase-field because its integrations over the whole domain yield different values at the starting time and final time of simulation. In that case, the evolution of interface obeys simply to</p>
+<div class="math notranslate nohighlight" id="equation-allen-cahn-course">
+<span class="eqno">(511)<a class="headerlink" href="#equation-allen-cahn-course" title="Link to this equation"></a></span>\[\boxed{\frac{\partial\phi}{\partial t}=-\mathscr{M}_{\phi}\mu_{\phi}}\]</div>
+<p>where, once again, the chemical potential is defined by <span class="math notranslate nohighlight">\(\mu_{\phi}=\delta \mathcal{F}/\delta \phi\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-chem-pot-ac-course">
+<span class="eqno">(512)<a class="headerlink" href="#equation-chem-pot-ac-course" title="Link to this equation"></a></span>\[\boxed{\mu_{\phi}=2H\phi(1-\phi)(1-2\phi)-\zeta\boldsymbol{\nabla}^{2}\phi}\]</div>
+<p>and <span class="math notranslate nohighlight">\(\mathscr{M}_{\phi}\)</span> is a positive coefficient of proportionality. As seen in <a class="reference internal" href="01_Fundamentals_PF.html#free-energy-double-wells"><span class="std std-ref">Fundamentals of phase-field theory</span></a>, the physical dimension of <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> is <span class="math notranslate nohighlight">\([\text{E}]/[\text{L}]^3\)</span>. Hence, the physical dimension of <span class="math notranslate nohighlight">\(\mathscr{M}_{\phi}\)</span> is <span class="math notranslate nohighlight">\([\text{L}]^3/[\text{E}].[\text{T}]\)</span>.</p>
+<div class="important admonition">
+<p class="admonition-title">Important</p>
+<p>The Allen-Cahn equation has a physical meaning only if it is coupled to a heat PDE (Eq. on <span class="math notranslate nohighlight">\(T\)</span>) or a composition PDE (Eq. on <span class="math notranslate nohighlight">\(c\)</span>) because the temperature (or composition) is responsible for the phase change, and consequently the displacement of interface. For those problems, the free energy must depend on that new variable (<span class="math notranslate nohighlight">\(T\)</span> or <span class="math notranslate nohighlight">\(c\)</span>) <span class="math notranslate nohighlight">\(\mathscr{F}[\phi,T]\)</span>. A new free energy density must also be added in the definition of the free energy functional to take into account that coupling between <span class="math notranslate nohighlight">\(\phi\)</span> and <span class="math notranslate nohighlight">\(T\)</span> (or <span class="math notranslate nohighlight">\(c\)</span>). That coupling makes appear a source term in Eq. <a class="reference internal" href="#equation-allen-cahn-course">(511)</a>. Examples of derivation of such phase-field models are presented in <span class="xref std std-ref">Phase-Field-Phase-Change</span>.</p>
+</div>
+</section>
+<section id="conservative-allen-cahn-cac-model">
+<span id="cac-model"></span><h2>Conservative Allen-Cahn (CAC) model<a class="headerlink" href="#conservative-allen-cahn-cac-model" title="Link to this heading"></a></h2>
+<p>The advective Cahn-Hilliard model is a very popular model to track an interface for a conserved quantity. However, as already mentioned, it presents two difficulties: the two roles played by the phase-field (interface position and composition) and its fourth-order derivative. In particular, for phase change problems involving composition, the composition must follow its own PDE whereas the interface position must obey to the Allen-Cahn model with a source term.</p>
+<p>In order to capture the interface between two immiscible fluids, without phase change, a new phase-field equation of second-order derivative is derived. Without phase change, the two immiscible fluids are conserved. To design such an equation, we assume that the phase-field <span class="math notranslate nohighlight">\(\phi\)</span> is a conservative order parameter which obeys to</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-cac-course">
+<span class="eqno">(513)<a class="headerlink" href="#equation-mass-balance-cac-course" title="Link to this equation"></a></span>\[\partial_{t}\phi=-\nabla\cdot\boldsymbol{j}_{tot}\]</div>
+<p>where the total flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{tot}\)</span> is the sum of three contributions. The first two are standard.The first one is the diffusive flux</p>
+<div class="math notranslate nohighlight" id="equation-diff-flux-cac-course">
+<span class="eqno">(514)<a class="headerlink" href="#equation-diff-flux-cac-course" title="Link to this equation"></a></span>\[\boldsymbol{j}_{diff}=-M_{\phi}\boldsymbol{\nabla}\phi\]</div>
+<p>where <span class="math notranslate nohighlight">\(M_{\phi}\)</span> is a positive coefficient characterizing the mobility of the interface. Its physical dimension is <span class="math notranslate nohighlight">\([\text{L}]^2/[\text{T}]\)</span>. The second one is the advective flux</p>
+<div class="math notranslate nohighlight" id="equation-adv-flux-cac-course">
+<span class="eqno">(515)<a class="headerlink" href="#equation-adv-flux-cac-course" title="Link to this equation"></a></span>\[\boldsymbol{j}_{adv}=\boldsymbol{u}\phi\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is the velocity fluid calculated by the Navier-Stokes equations. The last one <span class="math notranslate nohighlight">\(\boldsymbol{j}_{CT}\)</span>, where <span class="math notranslate nohighlight">\(CT\)</span> means “Counter Term”, is designed such as at equilibrium, <span class="math notranslate nohighlight">\(\boldsymbol{j}_{CT}\)</span> cancels the diffusive flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{diff}=-M_{\phi}\boldsymbol{\nabla}\phi\)</span>. When the steady state is reached and at equilibrium, the profile of <span class="math notranslate nohighlight">\(\phi\)</span> must be the fundamental solution of Euler-Lagrange equation <span class="math notranslate nohighlight">\(\phi^{eq}\)</span> given by Eq. <a class="reference internal" href="01_Fundamentals_PF.html#equation-hyperbolic-tangent-solution-course">(439)</a>. We can calculate the equilibrium diffusive flux:</p>
+<div class="math notranslate nohighlight" id="equation-diff-flux-equilibrium-course">
+<span class="eqno">(516)<a class="headerlink" href="#equation-diff-flux-equilibrium-course" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \boldsymbol{j}_{diff}^{eq} &amp; = &amp; -M_{\phi}\boldsymbol{\nabla}\phi^{eq}\\
+   &amp; = &amp; -M_{\phi}\boldsymbol{\nabla}\left[\frac{1}{2}\left(1+\text{tanh}\left(\frac{2s}{W}\right)\right)\right]\\
+   &amp; = &amp; -M_{\phi}\boldsymbol{n}_{\phi}\frac{\partial}{\partial s}\left[\frac{1}{2}\left(1+\text{tanh}\left(\frac{2s}{W}\right)\right)\right]\\
+   &amp; = &amp; -M_{\phi}\frac{4}{W}\phi^{eq}(1-\phi^{eq})\boldsymbol{n}_{\phi}
+\end{eqnarray}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(s\)</span> is the normal coordinate at the interface and <span class="math notranslate nohighlight">\(\boldsymbol{n}_{\phi}\)</span> is the normal vector of interface defined by <span class="math notranslate nohighlight">\(\boldsymbol{n}_{\phi}=\boldsymbol{\nabla}\phi/|\boldsymbol{\nabla}\phi|\)</span>. Finally the counter term flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{CT}\)</span> is defined such as it cancels at equilibrium the diffusive flux, i.e. it must be equal and opposite to <span class="math notranslate nohighlight">\(\boldsymbol{j}_{diff}^{eq}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-counter-term-flux-course">
+<span class="eqno">(517)<a class="headerlink" href="#equation-counter-term-flux-course" title="Link to this equation"></a></span>\[\boldsymbol{j}_{CT}=+M_{\phi}\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\]</div>
+<div class="error admonition">
+<p class="admonition-title">Summary of Conservative Allen-Cahn</p>
+<p>The Conservative Allen-Cahn (CAC) model is a conservative PDE of second-order which captures a diffuse interface between two immiscible fluids:</p>
+<div class="math notranslate nohighlight" id="equation-cac-course">
+<span class="eqno">(518)<a class="headerlink" href="#equation-cac-course" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right]\]</div>
+<p>The interface position is given by <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is the fluid velocity and <span class="math notranslate nohighlight">\(\boldsymbol{n}_{\phi}=\boldsymbol{\nabla}\phi/|\boldsymbol{\nabla}\phi|\)</span> is the unit normal vector at the interface. That model involves two additional parameters representative of the diffuse interface: the interface mobility <span class="math notranslate nohighlight">\(M_{\phi}\)</span>, homogeneous to a diffusion coefficient <span class="math notranslate nohighlight">\([\text{L}]^2/[\text{T}]\)</span>, and the interface width <span class="math notranslate nohighlight">\(W\)</span> of dimension <span class="math notranslate nohighlight">\([\text{L}]\)</span>.</p>
+</div>
+<p><strong>Interpretation of Counter Term</strong></p>
+<p>Another way to derive the CAC model is to start from Allen-Cahn equation <a class="reference internal" href="#equation-allen-cahn-course">(511)</a> with <a class="reference internal" href="#equation-chem-pot-ac-course">(512)</a></p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-8">
+<span class="eqno">(519)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-8" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \frac{\partial\phi}{\partial t}&amp; = &amp; -\mathscr{M}_{\phi}[2H\phi(1-\phi)(1-2\phi)-\zeta\boldsymbol{\nabla}^{2}\phi]\\
+   &amp; = &amp; -\mathscr{M}_{\phi}\zeta[2\frac{H}{\zeta}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi]\\
+   &amp; = &amp; -\mathscr{M}_{\phi}\zeta[\frac{16}{W^2}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi]
+\end{eqnarray}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\zeta\)</span> is put in factor for the second line and the equivalence <span class="math notranslate nohighlight">\(H/\zeta=8/W^2\)</span> has been used (see ration of Eqs. <a class="reference internal" href="01_Fundamentals_PF.html#equation-def-h-course">(442)</a> and <a class="reference internal" href="01_Fundamentals_PF.html#equation-def-zeta-course">(443)</a> in <a class="reference internal" href="01_Fundamentals_PF.html#free-energy-double-wells"><span class="std std-ref">Fundamentals of phase-field theory</span></a>) for the third line. The product <span class="math notranslate nohighlight">\(\mathscr{M}_{\phi}\zeta\)</span> is homogeneous to a diffusivity coefficient because <span class="math notranslate nohighlight">\([\mathscr{M}_{\phi}]=[\text{L}]^3/[\text{E}].[\text{T}]\)</span> and <span class="math notranslate nohighlight">\([\zeta]=[\text{E}]/[\text{L}]\)</span>. So, we define a new coefficient <span class="math notranslate nohighlight">\(M_{\phi}=\mathscr{M}_{\phi}\zeta\)</span> wich is homogeneous to <span class="math notranslate nohighlight">\([M_{\phi}]=[\text{L}]/[\text{T}]\)</span>.</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-02-ch-cac-models-9">
+<span class="eqno">(520)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-02-ch-cac-models-9" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}=M_{\phi}\left[\boldsymbol{\nabla}^{2}\phi-\frac{16}{W^2}\phi(1-\phi)(1-2\phi)\right]\]</div>
+<p>The term inside the bracket is interpreted as a movement of interface due to the curvature. Indeed, we can prove that</p>
+<div class="math notranslate nohighlight" id="equation-equiv-derivative-curvature">
+<span class="eqno">(521)<a class="headerlink" href="#equation-equiv-derivative-curvature" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \kappa\left|\boldsymbol{\nabla}\phi\right| &amp; = &amp; (\boldsymbol{\nabla}\cdot\boldsymbol{n})\left|\boldsymbol{\nabla}\phi\right|\\
+   &amp; = &amp; \boldsymbol{\nabla}\cdot(\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{n})-\boldsymbol{n}\cdot\boldsymbol{\nabla}\left|\boldsymbol{\nabla}\phi\right|\\
+   &amp; = &amp; \boldsymbol{\nabla}\cdot\left(\cancel{\left|\boldsymbol{\nabla}\phi\right|}\frac{\boldsymbol{\nabla}\phi}{\cancel{\left|\boldsymbol{\nabla}\phi\right|}}\right)-\boldsymbol{n}\cdot\boldsymbol{\nabla}\left|\boldsymbol{\nabla}\phi\right|\\
+   &amp; = &amp; \boldsymbol{\nabla}^{2}\phi-\frac{16}{W^{2}}\phi(1-\phi)(1-2\phi)
+\end{eqnarray}\end{split}\]</div>
+<p>At this stage, in order to cancel curvature-driven motion of interface, an additional term, the counter term <span class="math notranslate nohighlight">\(-M_{\phi}\kappa|\boldsymbol{\nabla}\phi|\)</span> is added in the right-hand side of that equation:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial\phi}{\partial t}=M_{\phi}\left[\boldsymbol{\nabla}^{2}\phi-\frac{16}{W^2}\phi(1-\phi)(1-2\phi)\right]-M_{\phi}\kappa|\boldsymbol{\nabla}\phi|\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{eqnarray}
+   \frac{\partial\phi}{\partial t} &amp; = &amp; M_{\phi}\Bigl[\boldsymbol{\nabla}^{2}\phi-\boldsymbol{n}_{\phi}\cdot\boldsymbol{\nabla}\left|\boldsymbol{\nabla}\phi\right|-\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{\nabla}\cdot\boldsymbol{n}_{\phi}\Bigr]\\
+   &amp; = &amp; M_{\phi}\Bigl[\boldsymbol{\nabla}^{2}\phi-\boldsymbol{\nabla}\cdot(\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{n}_{\phi})\Bigr]
+\end{eqnarray}\end{split}\]</div>
+<p>where, for the second line we used Eq. <a class="reference internal" href="01_Fundamentals_PF.html#equation-grad-kernel-function-scal-n">(453)</a> for the second term inside the brackets and Eq. <a class="reference internal" href="01_Fundamentals_PF.html#equation-def-curvature-course">(450)</a> for curvature <span class="math notranslate nohighlight">\(\kappa\)</span>. For the third line the last two terms are gathered inside the divergence operator. Finally by using the kernel function we obtain the same Conservative Allen-Cahn model:</p>
+<div class="math notranslate nohighlight" id="equation-cac-2nd-method-course">
+<span class="eqno">(522)<a class="headerlink" href="#equation-cac-2nd-method-course" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right]\]</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Time-evolution: Cahn-Hilliard and Allen-Cahn models</a><ul>
+<li><a class="reference internal" href="#cahn-hilliard-ch-model-for-conservative-order-parameter">Cahn-Hilliard (CH) model for conservative order parameter</a></li>
+<li><a class="reference internal" href="#allen-cahn-model-for-non-conservative-order-parameter">Allen-Cahn model for non-conservative order parameter</a></li>
+<li><a class="reference internal" href="#conservative-allen-cahn-cac-model">Conservative Allen-Cahn (CAC) model</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="C_Calculation_SurfaceTension.html"
+                          title="previous chapter">Appendix C: calculation of surface tension</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="03_NavierStokes_with_PhaseField.html"
+                          title="next chapter">Model of incompressible Navier-Stokes with interface-capturing equation</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_PF/02_CH_CAC_Models.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="03_NavierStokes_with_PhaseField.html" title="Model of incompressible Navier-Stokes with interface-capturing equation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="C_Calculation_SurfaceTension.html" title="Appendix C: calculation of surface tension"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" >Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Time-evolution: Cahn-Hilliard and Allen-Cahn models</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

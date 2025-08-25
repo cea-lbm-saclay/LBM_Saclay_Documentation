@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Description of LBM_Saclay input file &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Methodology to set your own parameters in input file" href="../SET_OWN_PARAMETERS/Methodology.html" />
+    <link rel="prev" title="Run “Two-phase fluid flows interacting with a solid phase”" href="../RUN_TRAINING_LBM/Test_Cases_TwoPhase_Interacting-SolidPhase.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../SET_OWN_PARAMETERS/Methodology.html" title="Methodology to set your own parameters in input file"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../RUN_TRAINING_LBM/Test_Cases_TwoPhase_Interacting-SolidPhase.html" title="Run “Two-phase fluid flows interacting with a solid phase”"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" accesskey="U">PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Description of LBM_Saclay input file</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="description-of-lbm-saclay-input-file">
+<span id="input-file"></span><h1>Description of LBM_Saclay input file<a class="headerlink" href="#description-of-lbm-saclay-input-file" title="Link to this heading"></a></h1>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The LBM_Saclay input file is a text file which must have a suffix name <code class="docutils literal notranslate"><span class="pre">.ini</span></code>.</p>
+<p>Several examples of input files are given in the folder <code class="docutils literal notranslate"><span class="pre">settings</span></code>. To <a class="reference internal" href="../RUN_TRAINING_LBM/runtraininglbm.html#run-training-lbm"><span class="std std-ref">Practice of two-phase flows with test cases of run_training_lbm</span></a>, we recommend to start practicing with the input files of folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> which give examples of such input files for classical two-phase simulations.</p>
+</div>
+<p>The parameters of input file are gathered in <strong>sections</strong>, their names must be put in brackets.</p>
+<section id="list-of-section-names-section-name">
+<h2>List of section names: <code class="docutils literal notranslate"><span class="pre">[section</span> <span class="pre">name]</span></code><a class="headerlink" href="#list-of-section-names-section-name" title="Link to this heading"></a></h2>
+<p>We distinguish <strong>Generic sections</strong> for input parameters relative to execution (<code class="docutils literal notranslate"><span class="pre">[run]</span></code>), mesh, mpi processes, mathematical problem to simulate and outputs. The <strong>Problem-dependent sections</strong> contain input paramaters depending on the mathematical model to be solved. Finally, several other sections can be turn on for specific models in <strong>Optional sections</strong>.</p>
+<p><strong>Generic sections</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[run]</span></code>: lattice name (e.g. <code class="docutils literal notranslate"><span class="pre">D2Q9</span></code> or <code class="docutils literal notranslate"><span class="pre">D3Q27</span></code>) and time management (e.g. <span class="math notranslate nohighlight">\(\delta t\)</span>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[mesh]</span></code>: number of nodes <span class="math notranslate nohighlight">\(n_x\)</span>, <span class="math notranslate nohighlight">\(n_y\)</span>, <span class="math notranslate nohighlight">\(n_z\)</span>, and positions of domain in <span class="math notranslate nohighlight">\(\boldsymbol{x}_{min}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{x}_{max}\)</span> where <span class="math notranslate nohighlight">\(\boldsymbol{x}=(x,y,z)^T\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[mpi]</span></code>: number of mpi processes <span class="math notranslate nohighlight">\(m_x\)</span>, <span class="math notranslate nohighlight">\(m_y\)</span>, <span class="math notranslate nohighlight">\(m_z\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[lbm]</span></code>: name of problem solved and number of distribution functions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[output]</span></code>: information for output files</p></li>
+</ul>
+<p><strong>Problem-dependent sections</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[equationN]</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span></code> is the equation index: boundary conditions and collision operator for equation <code class="docutils literal notranslate"><span class="pre">N</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[MRT_NS]</span></code>: values of the collision rates for the Multiple-Relaxation-Times collision operator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[init]</span></code>: initial conditions for every equation. Depending on problem: <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(p_h\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>, etc.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[params]</span></code>: values of parameter for the mathematical model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[params_composition]</span></code>: values of parameters for the composition equation</p></li>
+</ul>
+<p><strong>Optional sections</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[init_solid]</span></code>: initial condition for the solid phase <span class="math notranslate nohighlight">\(\psi\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[move_solid]</span></code>: parameters for a moving solid phase</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[contact_angle]</span></code>: parameters for contact angles</p></li>
+</ul>
+<p>Those sections are not described here. For details see <a class="reference internal" href="../../02_MODELS/03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#math-nsac-comp-solid"><span class="std std-ref">Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase</span></a>.</p>
+</section>
+<section id="sections-part-i-generic-sections">
+<h2>Sections Part I: generic sections<a class="headerlink" href="#sections-part-i-generic-sections" title="Link to this heading"></a></h2>
+<section id="run">
+<h3><code class="docutils literal notranslate"><span class="pre">[run]</span></code><a class="headerlink" href="#run" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lbm_name=</span></code>: lattice name. Value: <code class="docutils literal notranslate"><span class="pre">D2Q9</span></code>, <code class="docutils literal notranslate"><span class="pre">D3Q15</span></code>, <code class="docutils literal notranslate"><span class="pre">D3Q19</span></code>, <code class="docutils literal notranslate"><span class="pre">D3Q27</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tEnd=</span></code>: final time of simulation where <code class="docutils literal notranslate"><span class="pre">tEnd</span></code> is a real</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nStepmax=</span></code>: total numer of time-iterations where <code class="docutils literal notranslate"><span class="pre">nStepmax</span></code> is an integer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nOutput=</span></code>: output file every <code class="docutils literal notranslate"><span class="pre">nOutput</span></code> where <code class="docutils literal notranslate"><span class="pre">nOutput</span></code> is an integer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nlog=</span></code>: output log file every <code class="docutils literal notranslate"><span class="pre">nlog</span></code> where <code class="docutils literal notranslate"><span class="pre">nlog</span></code> is an integer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dt=</span></code>: time discretization (<span class="math notranslate nohighlight">\(\delta t\)</span>) where <code class="docutils literal notranslate"><span class="pre">dt</span></code> is a real</p></li>
+</ul>
+</section>
+<section id="mesh">
+<h3><code class="docutils literal notranslate"><span class="pre">[mesh]</span></code><a class="headerlink" href="#mesh" title="Link to this heading"></a></h3>
+<p>Number of nodes</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nx=</span></code>: number of nodes in <span class="math notranslate nohighlight">\(x\)</span>-direction. Integer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ny=</span></code>: number of nodes in <span class="math notranslate nohighlight">\(y\)</span>-direction. Integer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nz=</span></code>: number of nodes in <span class="math notranslate nohighlight">\(z\)</span>-direction. Integer.</p></li>
+</ul>
+<p>Positions of domain</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xmin=</span></code>: position of <span class="math notranslate nohighlight">\(x_{min}\)</span>. Real. May be negative</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xmax=</span></code>: position of <span class="math notranslate nohighlight">\(x_{max}\)</span>. Real. Must be greater than <span class="math notranslate nohighlight">\(x_{min}\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ymin=</span></code>: position of <span class="math notranslate nohighlight">\(y_{min}\)</span>. Real. May be negative</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ymax=</span></code>: position of <span class="math notranslate nohighlight">\(y_{max}\)</span>. Real. Must be greater than <span class="math notranslate nohighlight">\(y_{min}\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ymin=</span></code>: position of <span class="math notranslate nohighlight">\(z_{min}\)</span>. Real. May be negative</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ymax=</span></code>: position of <span class="math notranslate nohighlight">\(z_{max}\)</span>. Real. Must be greater than <span class="math notranslate nohighlight">\(z_{min}\)</span>.</p></li>
+</ul>
+<p>Boundary conditions</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_xmin=</span></code>: global value for <span class="math notranslate nohighlight">\(x_{min}\)</span> boundary condition</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_xmax=</span></code>: global value for <span class="math notranslate nohighlight">\(x_{max}\)</span> boundary condition</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_ymin=</span></code>: global value for <span class="math notranslate nohighlight">\(y_{min}\)</span> boundary condition</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_ymax=</span></code>: global value for <span class="math notranslate nohighlight">\(y_{max}\)</span> boundary condition</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_zmin=</span></code>: global value for <span class="math notranslate nohighlight">\(z_{min}\)</span> boundary condition</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_zmax=</span></code>: global value for <span class="math notranslate nohighlight">\(z_{max}\)</span> boundary condition</p></li>
+</ul>
+</section>
+<section id="lbm">
+<h3><code class="docutils literal notranslate"><span class="pre">[lbm]</span></code><a class="headerlink" href="#lbm" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">problem=</span></code>: name of kernel. Keyword (e.g. <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> for <a class="reference internal" href="../../02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.html#math-nsac-comp"><span class="std std-ref">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</span></a> or <code class="docutils literal notranslate"><span class="pre">NSK</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model=</span></code>: type of model for the problem (.e.g. <code class="docutils literal notranslate"><span class="pre">base</span></code> or <code class="docutils literal notranslate"><span class="pre">sansGamma</span></code> for <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> kernel)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">e2=3.0</span></code>: do not change.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fcount=</span></code>: number of distribution functions used in the kernel. Kernel dependent (e.g. <code class="docutils literal notranslate"><span class="pre">3</span></code> for <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> kernel)</p></li>
+</ul>
+<p>Example</p>
+<div class="error admonition">
+<p class="admonition-title">For training session</p>
+<p>Open one input file with <code class="docutils literal notranslate"><span class="pre">gedit</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">TestCase10_Rayleigh-Plateau_Sigma1.ini</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_lbm/TestCase10_Rayleigh-Plateau2D/Sigma1
+$<span class="w"> </span>gedit<span class="w"> </span>TestCase10_Rayleigh-Plateau_Sigma1.ini<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>returns</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="n">run</span><span class="o">]</span>
+<span class="n">lbm_name</span><span class="o">=</span><span class="no">D2Q9</span>
+<span class="n">tEnd</span><span class="o">=</span><span class="mi">9999000</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">nStepmax</span><span class="o">=</span><span class="mi">500001</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">nOutput</span><span class="o">=</span><span class="mi">2000</span>
+<span class="n">nlog</span><span class="o">=</span><span class="mi">50000</span>
+<span class="n">dt</span><span class="o">=</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+
+<span class="o">[</span><span class="n">mesh</span><span class="o">]</span>
+<span class="n">nx</span><span class="o">=</span><span class="mi">256</span>
+<span class="n">ny</span><span class="o">=</span><span class="mi">512</span>
+<span class="n">xmin</span><span class="o">=-</span><span class="mi">128</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">xmax</span><span class="o">=</span><span class="mi">128</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">ymax</span><span class="o">=</span><span class="mi">512</span><span class="o">.</span><span class="mi">0</span>
+
+<span class="c1">#choices are &quot;periodic&quot;/&quot;zero_flux&quot;/&quot;antibounceback&quot;</span>
+<span class="n">boundary_type_ymin</span><span class="o">=</span><span class="n">zero_flux</span>
+<span class="n">boundary_type_ymax</span><span class="o">=</span><span class="n">zero_flux</span>
+<span class="n">boundary_type_xmin</span><span class="o">=</span><span class="n">periodic</span>
+<span class="n">boundary_type_xmax</span><span class="o">=</span><span class="n">periodic</span>
+
+<span class="o">[</span><span class="n">lbm</span><span class="o">]</span>
+<span class="n">problem</span><span class="o">=</span><span class="no">NSAC_Comp</span>
+<span class="c1">#model in {base,sansGamma}</span>
+<span class="n">model</span><span class="o">=</span><span class="n">base</span>
+<span class="n">e2</span><span class="o">=</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">fcount</span><span class="o">=</span><span class="mi">3</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">...</span></code> means that other input parameters have to be set in the input file. The list of parameters depends on the mathematical problem (number of equations, initial conditions and paramters) that is simulated. Here the problem name is <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> corresponding to the mathematical <a class="reference internal" href="../../02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.html#math-nsac-comp"><span class="std std-ref">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</span></a>.</p>
+</div>
+</section>
+<section id="mpi">
+<h3><code class="docutils literal notranslate"><span class="pre">[mpi]</span></code><a class="headerlink" href="#mpi" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mx=</span></code>: number of mpi processes in <span class="math notranslate nohighlight">\(x\)</span>-direction. Integer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">my=</span></code>: number of mpi processes in <span class="math notranslate nohighlight">\(y\)</span>-direction. Integer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mz=</span></code>: number of mpi processes in <span class="math notranslate nohighlight">\(z\)</span>-direction. Integer.</p></li>
+</ul>
+<div class="hint admonition">
+<p class="admonition-title">Example</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="n">mesh</span><span class="o">]</span>
+<span class="n">nx</span><span class="o">=</span><span class="mi">128</span>
+<span class="n">ny</span><span class="o">=</span><span class="mi">128</span>
+<span class="n">nz</span><span class="o">=</span><span class="mi">384</span>
+
+<span class="n">xmin</span><span class="o">=-</span><span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">xmax</span><span class="o">=</span><span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">ymin</span><span class="o">=-</span><span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">ymax</span><span class="o">=</span><span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">zmin</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">zmax</span><span class="o">=</span><span class="mi">1536</span><span class="o">.</span><span class="mi">0</span>
+
+<span class="o">[</span><span class="n">mpi</span><span class="o">]</span>
+<span class="n">mx</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">my</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">mz</span><span class="o">=</span><span class="mi">4</span>
+</pre></div>
+</div>
+<p>means that the whole computational domain is defined by</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{x}_{1}=(-64,-64,0)\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{x}_{2}=(+64,-64,0)\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{x}_{3}=(+64,+64,0)\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{x}_{4}=(-64,+64,0)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{x}_{5}=(-64,-64,1536)\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{x}_{6}=(+64,-64,1536)\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{x}_{7}=(+64,+64,1536)\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{x}_{8}=(-64,+64,1536)\)</span></p></li>
+</ul>
+<p>The whole domain is decomposed into 4 MPI processes (e.g. 4 graphic cards) in <span class="math notranslate nohighlight">\(z\)</span>-direction. Each graphic card will handle one subdomain of mesh size indicated in section <code class="docutils literal notranslate"><span class="pre">[mesh]</span></code>: <code class="docutils literal notranslate"><span class="pre">nx=128</span></code>, <code class="docutils literal notranslate"><span class="pre">ny=128</span></code> and <code class="docutils literal notranslate"><span class="pre">nz=384</span></code>.</p>
+<p>The total number of computational cells is <span class="math notranslate nohighlight">\(N_x=n_x\times m_x\)</span>, <span class="math notranslate nohighlight">\(N_y=n_y\times m_y\)</span>, <span class="math notranslate nohighlight">\(N_z=n_z\times m_z\)</span>. In that example: <code class="docutils literal notranslate"><span class="pre">128x128x1536</span></code>.</p>
+</div></blockquote>
+</div>
+</section>
+<section id="output">
+<h3><code class="docutils literal notranslate"><span class="pre">[output]</span></code><a class="headerlink" href="#output" title="Link to this heading"></a></h3>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">write_variables</span></code>: list of scalar fields to write in the output files. Keywords.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputPrefix=</span></code>: prefix name for output files. Keywords.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vtk_enabled=</span></code>: vtk format for output files (<code class="docutils literal notranslate"><span class="pre">yes</span></code>, <code class="docutils literal notranslate"><span class="pre">no</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hdf5_enabled=</span></code>: hdf5 format for output files (<code class="docutils literal notranslate"><span class="pre">yes</span></code>, <code class="docutils literal notranslate"><span class="pre">no</span></code>)</p>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Extension</strong></p></td>
+<td><p><strong>Description</strong></p></td>
+<td><p><strong>Command</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.vti</span></code></p></td>
+<td><p>Format vtk</p></td>
+<td><p>open .vti files in paraview</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.h5</span></code></p></td>
+<td><p>Format HDF5</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.xmf</span></code></p></td>
+<td><p>Contains list of <code class="docutils literal notranslate"><span class="pre">.h5</span></code> file names</p></td>
+<td><p>open <code class="docutils literal notranslate"><span class="pre">.xmf</span></code> file in paraview for visu of <code class="docutils literal notranslate"><span class="pre">.h5</span></code> files</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+</ul>
+<p>For example, the following options</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="n">output</span><span class="o">]</span>
+<span class="n">write_variables</span><span class="o">=</span><span class="n">vx</span><span class="p">,</span><span class="n">vy</span><span class="p">,</span><span class="n">rho</span><span class="p">,</span><span class="n">phi</span><span class="p">,</span><span class="n">composition</span><span class="p">,</span><span class="n">pressure</span>
+<span class="n">outputPrefix</span><span class="o">=</span><span class="no">TestCase10_Rayleigh</span><span class="o">-</span><span class="no">Plateau_Sigma1</span>
+<span class="n">vtk_enabled</span><span class="o">=</span><span class="n">no</span>
+<span class="n">hdf5_enabled</span><span class="o">=</span><span class="n">yes</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>means that the output files will have a HDF5 format (extension <code class="docutils literal notranslate"><span class="pre">.h5</span></code>) with a prefix name <code class="docutils literal notranslate"><span class="pre">TestCase10_Rayleigh-Plateau_Sigma1</span></code>. The following fields could post-processed with paraview: velocity components <span class="math notranslate nohighlight">\(u_x\)</span> and <span class="math notranslate nohighlight">\(u_y\)</span>, density <span class="math notranslate nohighlight">\(\rho\)</span>, phase-field <span class="math notranslate nohighlight">\(\phi\)</span>, composition <span class="math notranslate nohighlight">\(c\)</span> and pressure <span class="math notranslate nohighlight">\(p_h\)</span>.</p>
+</section>
+</section>
+<section id="sections-part-ii-problem-dependent-sections">
+<h2>Sections Part II: problem-dependent sections<a class="headerlink" href="#sections-part-ii-problem-dependent-sections" title="Link to this heading"></a></h2>
+<p>The sections below depend on the mathematical problem simulated: if we want to simulate 3 PDEs, then we need to set for every PDE 1) Boudary conditions and type of collision, 2) Initial conditions and 3) parameter values.</p>
+<section id="equationn">
+<h3><code class="docutils literal notranslate"><span class="pre">[equationN]</span></code><a class="headerlink" href="#equationn" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">N</span></code>: equation number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_ymin=</span></code>: type of boudary condition for <span class="math notranslate nohighlight">\(y_{min}\)</span>. Keyword.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_ymax=</span></code>: type of boudary condition for <span class="math notranslate nohighlight">\(y_{max}\)</span>. Keyword.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_xmin=</span></code>: type of boudary condition for <span class="math notranslate nohighlight">\(x_{min}\)</span>. Keyword.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boundary_type_xmax=</span></code>: type of boudary condition for <span class="math notranslate nohighlight">\(x_{max}\)</span>. Keyword.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">collision=</span></code>: type of collision for that equation. Keyword.</p></li>
+</ul>
+<p>Example for 3 PDEs, the first PDE is the phase-field, the second one is the Navier-Stokes and the third one is the composition:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="n">equation1</span><span class="o">]</span>
+<span class="n">boundary_type_ymin</span><span class="o">=</span><span class="n">zero_flux</span>
+<span class="n">boundary_type_ymax</span><span class="o">=</span><span class="n">zero_flux</span>
+<span class="n">boundary_type_xmin</span><span class="o">=</span><span class="n">periodic</span>
+<span class="n">boundary_type_xmax</span><span class="o">=</span><span class="n">periodic</span>
+<span class="n">collision</span><span class="o">=</span><span class="no">BGK</span>
+
+<span class="o">[</span><span class="n">equation2</span><span class="o">]</span>
+<span class="n">boundary_type_ymin</span><span class="o">=</span><span class="n">zero_flux</span>
+<span class="n">boundary_type_ymax</span><span class="o">=</span><span class="n">zero_flux</span>
+<span class="n">boundary_type_xmin</span><span class="o">=</span><span class="n">periodic</span>
+<span class="n">boundary_type_xmax</span><span class="o">=</span><span class="n">periodic</span>
+<span class="n">collision</span><span class="o">=</span><span class="no">MRT</span>
+
+<span class="o">[</span><span class="n">equation3</span><span class="o">]</span>
+<span class="n">boundary_type_ymin</span><span class="o">=</span><span class="n">zero_flux</span>
+<span class="n">boundary_type_ymax</span><span class="o">=</span><span class="n">zero_flux</span>
+<span class="n">boundary_type_xmin</span><span class="o">=</span><span class="n">periodic</span>
+<span class="n">boundary_type_xmax</span><span class="o">=</span><span class="n">periodic</span>
+<span class="n">collision</span><span class="o">=</span><span class="no">BGK</span>
+</pre></div>
+</div>
+<p>Here the BGK collision operator (<code class="docutils literal notranslate"><span class="pre">collision=BGK</span></code>) is used for phase-field equation (<code class="docutils literal notranslate"><span class="pre">[equation1]</span></code>) and composition equation (<code class="docutils literal notranslate"><span class="pre">[equation3]</span></code>). MRT (<code class="docutils literal notranslate"><span class="pre">collision=MRT</span></code>) is used for Navier-Stokes equations (<code class="docutils literal notranslate"><span class="pre">[equation2]</span></code>).</p>
+</div></blockquote>
+</section>
+<section id="mrt-ns">
+<h3><code class="docutils literal notranslate"><span class="pre">[MRT_NS]</span></code><a class="headerlink" href="#mrt-ns" title="Link to this heading"></a></h3>
+<p>If the keyword for <code class="docutils literal notranslate"><span class="pre">collision</span></code> is <code class="docutils literal notranslate"><span class="pre">MRT</span></code>, then it is required to add one supplementary section for relaxation collision rates. Example for <code class="docutils literal notranslate"><span class="pre">[equation2]</span></code></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="no">MRT_NS</span><span class="o">]</span>
+<span class="n">tau0</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">tau1</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">tau2</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">tau3</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">tau4</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">tau5</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">tau6</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">tau7</span><span class="o">=-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">tau8</span><span class="o">=-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>For phase-field and composition equations, the section names are <code class="docutils literal notranslate"><span class="pre">[MRT_AC]</span></code> and <code class="docutils literal notranslate"><span class="pre">[MRT_COMP]</span></code>.</p>
+</section>
+<section id="params">
+<h3><code class="docutils literal notranslate"><span class="pre">[params]</span></code><a class="headerlink" href="#params" title="Link to this heading"></a></h3>
+<p>In order to set appropriate parameters in this section, is is recommended to start with an existing file in the database <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>. All values must be dimensionless.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">W=</span></code>: interface width <span class="math notranslate nohighlight">\(W\)</span>. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Mphi=</span></code>: interface mobility <span class="math notranslate nohighlight">\(M_{\phi}\)</span>. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">counter_term=</span></code>: counter term <span class="math notranslate nohighlight">\(4M_{\phi}\phi(1-\phi)/W\)</span> in the phase-field equation ? yes: <code class="docutils literal notranslate"><span class="pre">1.0</span></code>, no: <code class="docutils literal notranslate"><span class="pre">0.0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rho0=</span></code>: density value of phase 0. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rho1=</span></code>: density value of phase 1. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nu0=</span></code>: kinetic viscosity value of phase 0. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nu1=</span></code>: kinetic viscosity value of phase 1. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sigma=</span></code>: surface tension between phases 0 and 1. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gy=</span></code>: value of gravity in <span class="math notranslate nohighlight">\(y\)</span>-direction. Use alternatively <code class="docutils literal notranslate"><span class="pre">gx=</span></code> or <code class="docutils literal notranslate"><span class="pre">gz=</span></code>. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gamma=</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lambda=</span></code>: coupling parameter in the phase-field equation for phase-change problems. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PF_advec=</span></code>: unused.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">D0=</span></code>: diffusion coefficient in phase 0. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">D1=</span></code>: diffusion coefficient in phase 1. Real.</p></li>
+</ul>
+<p>For problems where densities are interpolated by composition</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rho0_ini=</span></code>: initial value of density (phase 0) with <span class="math notranslate nohighlight">\(c\)</span>. Positive real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rho0_eq=</span></code>: equilibrium value of density (phase 0) with <span class="math notranslate nohighlight">\(c\)</span>. Positive real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rho1_ini=</span></code>: initial value of density (phase 1) with <span class="math notranslate nohighlight">\(c\)</span>. Positive real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rho1_eq=</span></code>: equilibrium value of density (phase 1) with <span class="math notranslate nohighlight">\(c\)</span>. Positive real.</p></li>
+</ul>
+</section>
+<section id="params-compos">
+<h3><code class="docutils literal notranslate"><span class="pre">[params_compos]</span></code><a class="headerlink" href="#params-compos" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mu_eq=0.0</span></code>: equilibrium value of chemical potential. Real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c0_inf=0.02</span></code>: initial composition of phase 0. Positive real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c0_co=0.15</span></code>: equilibrium (or coexistence) composition of phase 0. Positive real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c1_inf=0.15</span></code>: initial composition of phase 1. Positive real.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c1_co=0.6</span></code>: equilibrium (or coexistence) composition of phase 1. Positive real.</p></li>
+</ul>
+</section>
+<section id="init">
+<h3><code class="docutils literal notranslate"><span class="pre">[init]</span></code><a class="headerlink" href="#init" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">init_type=</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">amplitude=</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hauteur=</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nombre_onde=</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">longueur_onde=</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initVX=</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initVY=</span></code>:</p></li>
+</ul>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Description of LBM_Saclay input file</a><ul>
+<li><a class="reference internal" href="#list-of-section-names-section-name">List of section names: <code class="docutils literal notranslate"><span class="pre">[section</span> <span class="pre">name]</span></code></a></li>
+<li><a class="reference internal" href="#sections-part-i-generic-sections">Sections Part I: generic sections</a><ul>
+<li><a class="reference internal" href="#run"><code class="docutils literal notranslate"><span class="pre">[run]</span></code></a></li>
+<li><a class="reference internal" href="#mesh"><code class="docutils literal notranslate"><span class="pre">[mesh]</span></code></a></li>
+<li><a class="reference internal" href="#lbm"><code class="docutils literal notranslate"><span class="pre">[lbm]</span></code></a></li>
+<li><a class="reference internal" href="#mpi"><code class="docutils literal notranslate"><span class="pre">[mpi]</span></code></a></li>
+<li><a class="reference internal" href="#output"><code class="docutils literal notranslate"><span class="pre">[output]</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sections-part-ii-problem-dependent-sections">Sections Part II: problem-dependent sections</a><ul>
+<li><a class="reference internal" href="#equationn"><code class="docutils literal notranslate"><span class="pre">[equationN]</span></code></a></li>
+<li><a class="reference internal" href="#mrt-ns"><code class="docutils literal notranslate"><span class="pre">[MRT_NS]</span></code></a></li>
+<li><a class="reference internal" href="#params"><code class="docutils literal notranslate"><span class="pre">[params]</span></code></a></li>
+<li><a class="reference internal" href="#params-compos"><code class="docutils literal notranslate"><span class="pre">[params_compos]</span></code></a></li>
+<li><a class="reference internal" href="#init"><code class="docutils literal notranslate"><span class="pre">[init]</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../RUN_TRAINING_LBM/Test_Cases_TwoPhase_Interacting-SolidPhase.html"
+                          title="previous chapter">Run “Two-phase fluid flows interacting with a solid phase”</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../SET_OWN_PARAMETERS/Methodology.html"
+                          title="next chapter">Methodology to set your own parameters in input file</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/INPUTFILE/inputfile.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../SET_OWN_PARAMETERS/Methodology.html" title="Methodology to set your own parameters in input file"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../RUN_TRAINING_LBM/Test_Cases_TwoPhase_Interacting-SolidPhase.html" title="Run “Two-phase fluid flows interacting with a solid phase”"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Description of LBM_Saclay input file</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

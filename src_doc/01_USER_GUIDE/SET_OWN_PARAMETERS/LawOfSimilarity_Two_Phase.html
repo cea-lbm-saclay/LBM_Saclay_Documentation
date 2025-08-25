@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Law of similarity: practice on Rayleigh-Taylor instability &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="PART II: Mathematical models in LBM_Saclay" href="../../02_MODELS/models.html" />
+    <link rel="prev" title="Law of similarity: application on Poiseuille flow" href="LawOfSimilarity_Poiseuille.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../02_MODELS/models.html" title="PART II: Mathematical models in LBM_Saclay"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="LawOfSimilarity_Poiseuille.html" title="Law of similarity: application on Poiseuille flow"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Methodology.html" accesskey="U">Methodology to set your own parameters in input file</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Law of similarity: practice on Rayleigh-Taylor instability</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="law-of-similarity-practice-on-rayleigh-taylor-instability">
+<span id="similarity-two-phases"></span><h1>Law of similarity: practice on Rayleigh-Taylor instability<a class="headerlink" href="#law-of-similarity-practice-on-rayleigh-taylor-instability" title="Link to this heading"></a></h1>
+<p>The Rayleigh-Taylor test case can be found in folder</p>
+<div class="error admonition">
+<p class="admonition-title">For training session</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_lbm/TestCase08_Rayleigh-Taylor2D
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>For that test case, we set <span class="math notranslate nohighlight">\(\rho_h^{\star}=3\)</span> (heavy fluid), <span class="math notranslate nohighlight">\(\rho_l^{\star}=3\)</span> (light fluid), the domain width <span class="math notranslate nohighlight">\(L^{\star}=128\)</span>, <span class="math notranslate nohighlight">\(\delta x^{\star}=1\)</span> and <span class="math notranslate nohighlight">\(\delta t^{\star}=1\)</span>.</p>
+<div class="error admonition">
+<p class="admonition-title">For training session</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">Pre-Pro_InputParam_Rayleigh-Taylor.py</span></code> is a python script that derives all dimensionless parameters. The command</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Pre-Pro_InputParam_Rayleigh-Taylor.py
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>returns</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">###                      NUMERICAL VALUES FOR LBM_Saclay                    ###</span>
+<span class="c1">###                        TEST CASE: RAYLEIGH-TAYLOR                       ###</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+
+<span class="c1"># INPUT PARAMETERS (ADIM)</span>
+<span class="n">rhoH</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">3</span>
+<span class="n">rhoL</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">1</span>
+<span class="no">At</span><span class="w">   </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="n">L</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="mi">128</span>
+<span class="no">Nx</span><span class="w">   </span><span class="o">=</span><span class="w">  </span><span class="mi">128</span>
+</pre></div>
+</div>
+<p>The characteristic numbers are <span class="math notranslate nohighlight">\(\text{Re}=3000\)</span>,  <span class="math notranslate nohighlight">\(\text{Pe}=1000\)</span>,  <span class="math notranslate nohighlight">\(\text{Ca}=0.26\)</span> and one chacteristic time of instability <span class="math notranslate nohighlight">\(t_c^{\star}=16000\)</span>.</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1"># TARGET ADIM NB</span>
+<span class="no">Re</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">3000</span>
+<span class="no">Pe</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">1000</span>
+<span class="no">Ca</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mi">26</span>
+<span class="c1"># CHARACTERISTIC TIME OF SIMULATION</span>
+<span class="no">Tcar</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">16000</span>
+</pre></div>
+</div>
+<p>We derive successively</p>
+<ul class="simple">
+<li><p>Atwood number:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-atwood-nb">
+<span class="eqno">(25)<a class="headerlink" href="#equation-atwood-nb" title="Link to this equation"></a></span>\[\text{At}=\frac{\rho_h^{\star}-\rho_l^{\star}}{\rho_h^{\star}+\rho_l^{\star}}=0.5\]</div>
+<ul class="simple">
+<li><p>gravity</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-g-rt2d">
+<span class="eqno">(26)<a class="headerlink" href="#equation-g-rt2d" title="Link to this equation"></a></span>\[g^{\star}=\frac{L}{t_c^{\star}\times \text{At}}=10^{-6}\]</div>
+<ul class="simple">
+<li><p>kinematic viscosity</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-nu-rt2d">
+<span class="eqno">(27)<a class="headerlink" href="#equation-nu-rt2d" title="Link to this equation"></a></span>\[\nu^{\star}=\frac{L^{\star}\sqrt{g^{\star}L^{\star}}}{\text{Re}}\]</div>
+<ul class="simple">
+<li><p>Surface tension</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-sigma-rt2d">
+<span class="eqno">(28)<a class="headerlink" href="#equation-sigma-rt2d" title="Link to this equation"></a></span>\[\sigma^{\star}=\frac{\rho_h \nu^{\star} \sqrt{g^{\star}L^{\star}}}{\text{Ca}}\]</div>
+<ul class="simple">
+<li><p>Mobility of interface</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-mobility-interface">
+<span class="eqno">(29)<a class="headerlink" href="#equation-mobility-interface" title="Link to this equation"></a></span>\[M_{\phi}=\frac{L^{\star}\sqrt{g^{\star}L^{\star}}}{\text{Pe}}\]</div>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1"># DERIVATION OF INPUT PARAMETERS</span>
+<span class="n">g</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mo">06</span><span class="w"> </span><span class="p">(</span><span class="n">derived</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="no">Tcar</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="no">At</span><span class="p">)</span>
+<span class="n">M</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mo">00144</span><span class="mi">81546878700492</span><span class="w"> </span><span class="p">(</span><span class="n">derived</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="no">Pe</span><span class="p">)</span>
+<span class="n">nu</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mo">0004</span><span class="mi">827182292900164</span><span class="w"> </span><span class="p">(</span><span class="n">derived</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="no">Re</span><span class="p">)</span>
+<span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">6</span><span class="o">.</span><span class="mi">30153846153846</span><span class="n">e</span><span class="o">-</span><span class="mo">05</span><span class="w"> </span><span class="p">(</span><span class="n">derived</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="no">Ca</span><span class="p">)</span>
+<span class="n">lc</span><span class="w">    </span><span class="o">=</span><span class="w">  </span><span class="mi">5</span><span class="o">.</span><span class="mi">613171323564987</span><span class="w"> </span><span class="no">Capillary</span><span class="w"> </span><span class="n">length</span>
+<span class="n">W</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span>
+
+<span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">###########################        END         ################################</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+</pre></div>
+</div>
+<p>Those output values are set in the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file for LBM_Saclay. For example, we see inside file <code class="docutils literal notranslate"><span class="pre">TestCase08_Rayleigh-Taylor_Spike-Bubble.ini</span></code>, first in section <code class="docutils literal notranslate"><span class="pre">[mesh]</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="n">mesh</span><span class="o">]</span>
+<span class="n">nx</span><span class="o">=</span><span class="mi">128</span>
+<span class="n">ny</span><span class="o">=</span><span class="mi">512</span>
+<span class="n">xmin</span><span class="o">=-</span><span class="mi">64</span>
+<span class="n">xmax</span><span class="o">=</span><span class="mi">64</span>
+</pre></div>
+</div>
+<p>Second in section <code class="docutils literal notranslate"><span class="pre">[params]</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="n">params</span><span class="o">]</span>
+<span class="n">W</span><span class="o">=</span><span class="mi">4</span>
+<span class="no">Mphi</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mo">00144</span><span class="mi">81546878700492</span>
+<span class="n">counter_term</span><span class="o">=</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">rho0</span><span class="o">=</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">rho1</span><span class="o">=</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">nu0</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mo">0004</span><span class="mi">827182292900164</span>
+<span class="n">nu1</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mo">0004</span><span class="mi">827182292900164</span>
+<span class="no">PF_advec</span><span class="o">=</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">gy</span><span class="o">=-</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mo">06</span>
+<span class="n">sigma</span><span class="o">=</span><span class="mi">6</span><span class="o">.</span><span class="mi">30153846153846</span><span class="n">e</span><span class="o">-</span><span class="mo">05</span>
+</pre></div>
+</div>
+<section id="practice-on-rising-bubble">
+<h2>Practice on rising bubble<a class="headerlink" href="#practice-on-rising-bubble" title="Link to this heading"></a></h2>
+<p>One example of using dimensionless numbers is presented in the folder <code class="docutils literal notranslate"><span class="pre">TestCase11_Rising-Bubble2D</span></code> of directory <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay/run_training_lbm/TestCase11_Rising-Bubble2D
+</pre></div>
+</div>
+<p>In that folder the file <code class="docutils literal notranslate"><span class="pre">Pre-Pro_InputParam_Rising-Bubble_Water-Air.py</span></code> is a python script which derives dimensionless parameters for two-phase flows. The physical properties are those of water and air (see table <a class="reference internal" href="../RUN_TRAINING_LBM/runtraininglbm.html#tab-water-air"><span class="std std-ref">Water – Air properties</span></a>). That script can be executed with the command</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Pre-Pro_InputParam_Rising-Bubble_Water-Air.py
+</pre></div>
+</div>
+<p>For pedagogical reasons, the result of that command is separated here into several parts for adding comments. In the first part, the values of parameters are reminded in SI units</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">###                      NUMERICAL VALUES FOR LBM_Saclay                    ###</span>
+<span class="c1">###                    TEST CASE: RISING BUBBLE (Water-Air)                 ###</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+
+<span class="c1">#############################################</span>
+<span class="c1">#           1. INPUT PARAMETERS             #</span>
+<span class="c1">#############################################</span>
+
+<span class="c1"># PHYSICAL PROPERTIES (SI)</span>
+<span class="no">Density</span><span class="w">   </span><span class="n">water</span><span class="w">        </span><span class="p">:</span><span class="w">   </span><span class="n">rho_l</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">998</span><span class="o">.</span><span class="mi">29</span><span class="w"> </span><span class="n">kg</span><span class="o">/</span><span class="n">m3</span>
+<span class="no">Viscosity</span><span class="w"> </span><span class="n">water</span><span class="w">        </span><span class="p">:</span><span class="w">   </span><span class="n">nu_l</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="mo">0034</span><span class="n">e</span><span class="o">-</span><span class="mo">06</span><span class="w"> </span><span class="n">m2</span><span class="o">/</span><span class="n">s</span>
+<span class="no">Density</span><span class="w">   </span><span class="n">air</span><span class="w">          </span><span class="p">:</span><span class="w">   </span><span class="n">rho_a</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="mi">204</span><span class="w"> </span><span class="n">kg</span><span class="o">/</span><span class="n">m3</span>
+<span class="no">Viscosity</span><span class="w"> </span><span class="n">air</span><span class="w">          </span><span class="p">:</span><span class="w">   </span><span class="n">nu_a</span><span class="w">  </span><span class="o">=</span><span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="mi">56</span><span class="n">e</span><span class="o">-</span><span class="mo">05</span><span class="w"> </span><span class="n">m2</span><span class="o">/</span><span class="n">s</span>
+<span class="no">Surface</span><span class="w"> </span><span class="n">tension</span><span class="w">        </span><span class="p">:</span><span class="w">   </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mo">072</span><span class="mi">8</span><span class="w"> </span><span class="n">N</span><span class="o">/</span><span class="n">m</span>
+<span class="no">Gravity</span><span class="w">                </span><span class="p">:</span><span class="w">   </span><span class="n">g</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">9</span><span class="o">.</span><span class="mi">81</span><span class="w"> </span><span class="n">m</span><span class="o">/</span><span class="n">s2</span>
+</pre></div>
+</div>
+<p>With those values, the density ratio <span class="math notranslate nohighlight">\(\rho_l/\rho_a\)</span>, the viscosity ratio <span class="math notranslate nohighlight">\(\nu_l/\nu_a\)</span>, the density difference  <span class="math notranslate nohighlight">\(\rho_l-\rho_a\)</span>, the dynamic viscosities  <span class="math notranslate nohighlight">\(\eta_l\)</span>, <span class="math notranslate nohighlight">\(\eta_a\)</span> and its ratio <span class="math notranslate nohighlight">\(\eta_l/\eta_a\)</span> can be calculated:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1"># DERIVED PROPERTIES</span>
+<span class="no">Density</span><span class="w">   </span><span class="n">ratio</span><span class="w">        </span><span class="p">:</span><span class="w">   </span><span class="n">rho_l</span><span class="o">/</span><span class="n">rho_a</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">829</span><span class="o">.</span><span class="mi">1445182724252</span>
+<span class="no">Viscosity</span><span class="w"> </span><span class="n">ratio</span><span class="w">        </span><span class="p">:</span><span class="w">   </span><span class="n">nu_l</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">nu_a</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mo">064320512</span><span class="mi">82051282</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="w"> </span><span class="mi">15</span><span class="o">.</span><span class="mi">54713972493522</span>
+<span class="no">DeltaRho</span><span class="w">               </span><span class="p">:</span><span class="w">   </span><span class="n">rho_l</span><span class="o">-</span><span class="n">rho_a</span><span class="w">     </span><span class="o">=</span><span class="w">  </span><span class="mi">997</span><span class="o">.</span><span class="mi">086</span>
+<span class="no">Dynamic</span><span class="w"> </span><span class="n">viscosity</span><span class="w"> </span><span class="ss">water</span><span class="p">:</span><span class="w">   </span><span class="no">Visc_Dyn_l</span><span class="w">      </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mo">0010016</span><span class="mi">84186</span>
+<span class="no">Dynamic</span><span class="w"> </span><span class="n">viscosity</span><span class="w"> </span><span class="n">air</span><span class="w">  </span><span class="p">:</span><span class="w">   </span><span class="no">Visc_Dyn_a</span><span class="w">      </span><span class="o">=</span><span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="mi">8782399999999998</span><span class="n">e</span><span class="o">-</span><span class="mo">05</span>
+<span class="no">Dynamic</span><span class="w"> </span><span class="n">viscosity</span><span class="w"> </span><span class="ss">ratio</span><span class="p">:</span><span class="w">   </span><span class="no">Visc_l</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="no">Visc_a</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">53</span><span class="o">.</span><span class="mi">33100061759946</span>
+</pre></div>
+</div>
+<p>For Poiseuille flow, the characteristic length was the domain width <span class="math notranslate nohighlight">\(L\)</span>. Here, it is the diameter <span class="math notranslate nohighlight">\(D\)</span> of the bubble and its value is supposed to be equal to <code class="docutils literal notranslate"><span class="pre">D=2mm</span></code>. The characteristic velocity <code class="docutils literal notranslate"><span class="pre">Uref</span></code> is derived:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1"># HYPOTHESES FOR RISING BUBBLE (ADAPT FOR OTHER TEST CASE)</span>
+<span class="ss">Hypothesis</span><span class="p">:</span><span class="w"> </span><span class="no">Uref</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">g</span><span class="o">*</span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="n">where</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="mi">9</span><span class="o">.</span><span class="mi">81</span><span class="n">m</span><span class="o">/</span><span class="n">s2</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">droplet</span><span class="w"> </span><span class="n">diameter</span>
+<span class="no">For</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mo">002</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="k">then</span><span class="p">:</span>
+<span class="no">Uref</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">gD</span><span class="p">)</span><span class="w">                   </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mi">14007141035914503</span><span class="w"> </span><span class="n">m</span><span class="o">/</span><span class="n">s</span>
+</pre></div>
+</div>
+<p>Finally, the numbers of Reynolds (<code class="docutils literal notranslate"><span class="pre">Re</span></code>), Bond (<code class="docutils literal notranslate"><span class="pre">Bo</span></code>) and Morton (<code class="docutils literal notranslate"><span class="pre">Mo</span></code>) can be computed:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1"># COMPUTATION OF REYNOLDS, BOND, AND MORTON NUMBERS</span>
+<span class="no">Re</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">Uref</span><span class="o">*</span><span class="n">D</span><span class="o">/</span><span class="n">nu_l</span><span class="w">                              </span><span class="o">=</span><span class="w">  </span><span class="mi">279</span><span class="o">.</span><span class="mi">1935626054316</span>
+<span class="no">Bo</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="o">*</span><span class="no">DeltaRho</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">D</span><span class="o">**</span><span class="mi">2</span><span class="w">  </span><span class="o">/</span><span class="w"> </span><span class="n">sigma</span><span class="w">               </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mi">537440310989011</span>
+<span class="no">Mo</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="o">*</span><span class="no">DeltaRho</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">eta</span><span class="o">^</span><span class="mi">4</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">rho_l</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sigma</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">.</span><span class="mi">5610456286997475</span><span class="n">e</span><span class="o">-</span><span class="mi">11</span>
+</pre></div>
+</div>
+<p>In that first part, all values have physical units. In the second part, we derive the dimensionless parameters by setting one length of reference (here the radius <span class="math notranslate nohighlight">\(R^{\star}\)</span>), one parameter for time (here the collision rate <span class="math notranslate nohighlight">\(\tau_l^{\star}\)</span>) and the reference density is the water density <span class="math notranslate nohighlight">\(\rho_{ref}=\rho_l\)</span>:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+
+<span class="c1">#############################################</span>
+<span class="c1">#           2. ADIM PARAMETERS              #</span>
+<span class="c1">#############################################</span>
+
+<span class="c1"># We set Rstar, rho_ref, tau_l_star</span>
+<span class="c1"># The reference density is rho_l</span>
+<span class="no">Rayon</span><span class="w"> </span><span class="n">adim</span><span class="w">             </span><span class="p">:</span><span class="w"> </span><span class="no">Rstar</span><span class="w">      </span><span class="o">=</span><span class="w">  </span><span class="mi">37</span><span class="o">.</span><span class="mi">5</span>
+<span class="no">Collision</span><span class="w"> </span><span class="n">rate</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="ss">water</span><span class="p">:</span><span class="w"> </span><span class="n">tau_l_star</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">0</span><span class="o">.</span><span class="mi">51</span>
+</pre></div>
+</div>
+<p>All other dimensionless parameters can be derived by using <span class="math notranslate nohighlight">\(R^{\star}\)</span>, <span class="math notranslate nohighlight">\(\tau_l^{\star}\)</span>, <span class="math notranslate nohighlight">\(\rho_l\)</span> and the dimensionless numbers (Re, Bo Mo). See the order to derive the parameters and the relationships inside the python script.</p>
+<p>The first dimensionless parameters are <span class="math notranslate nohighlight">\(\rho_l^{\star}=1\)</span>, <span class="math notranslate nohighlight">\(\rho_a^{\star}=\rho_a/\rho_l\)</span> and <span class="math notranslate nohighlight">\(\Delta \rho^{\star}\)</span> is straightforward. Next, the space step is <span class="math notranslate nohighlight">\(\delta x= R/R^{\star}\)</span>, and the length <span class="math notranslate nohighlight">\(L^{\star}=L/\delta x\)</span>. As <span class="math notranslate nohighlight">\(\tau_l^{\star}\)</span> is set, we can compute <span class="math notranslate nohighlight">\(nu_l^{\star}\)</span> by:</p>
+<div class="math notranslate nohighlight">
+\[\nu_l^{\star}=\frac{1}{3}(\tau_l^{\star}-0.5)\]</div>
+<p>The (dimensionless) surface tension and gravity are obtained with Bond and Morton numbers. After some algebra, we obtain for surface tension</p>
+<div class="math notranslate nohighlight">
+\[\sigma^{\star}=\sqrt{\frac{\text{Bo}\rho_l^{\star}\nu_l^{\star4}}{\text{Mo}\Delta \rho^{\star}D^{\star2}\rho_l^{\star}}}\]</div>
+<p>and for gravity</p>
+<div class="math notranslate nohighlight">
+\[g^{\star}=\frac{\sigma^{\star}\text{Bo}}{\Delta \rho^{\star}D^{\star2}}\]</div>
+<p>The time step is derived with gravity and its factor of conversion <span class="math notranslate nohighlight">\(C_g\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\delta t=\sqrt{g^{\star}\frac{\delta x}{g}}\]</div>
+<p>At last, we can calculate the dimensionless relxation rate of air <span class="math notranslate nohighlight">\(\tau_a^{\star}=0.5+3.0\nu_a\delta t/\delta x^2\)</span>, and its dimensionless kinematic viscosity <span class="math notranslate nohighlight">\(\nu_a^{\star}=(1/3)(\tau_a^{\star}-0.5)\)</span>. Finally the dimensionless parameters are</p>
+<p>We give here only the results:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1"># DERIVED DIMENSIONLESS VALUES</span>
+<span class="n">dx</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">.</span><span class="mi">6666666666666667</span><span class="n">e</span><span class="o">-</span><span class="mo">05</span>
+<span class="no">Lstar</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="mi">400</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">rho_l_star</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">rho_a_star</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">001206062366646</span><span class="mi">9664</span>
+<span class="no">DeltaRho_star</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">998793937633353</span>
+<span class="n">nu_l_star</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">003333333333333336</span><span class="w"> </span><span class="p">(</span><span class="n">derived</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">tau_l_star</span><span class="p">)</span>
+<span class="no">Sigma_star</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">0214740</span><span class="mi">88528285768</span><span class="w"> </span><span class="p">(</span><span class="n">derived</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="no">Bo</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="no">Mo</span><span class="p">)</span>
+<span class="n">gstar</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">.</span><span class="mo">05421</span><span class="mi">81048108674</span><span class="n">e</span><span class="o">-</span><span class="mo">06</span><span class="w"> </span><span class="p">(</span><span class="n">derived</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="no">Bo</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="no">Sigma_star</span><span class="p">)</span>
+<span class="n">dt</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">.</span><span class="mi">3630512390059374</span><span class="n">e</span><span class="o">-</span><span class="mo">06</span>
+<span class="n">tau_a_star</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">6555183096670782</span>
+<span class="no">Uref_star</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">012412346</span><span class="mi">992443252</span>
+</pre></div>
+</div>
+<p>Once all dimensionless parameters are derived, we can check that the procedure and the values are correct by using the ‘<span class="math notranslate nohighlight">\(\star\)</span>’ values and the appropriate factors of conversion (see <a class="reference internal" href="LawOfSimilarity_Poiseuille.html#law-similarity"><span class="std std-ref">Law of similarity: application on Poiseuille flow</span></a>)</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+
+<span class="c1">#############################################</span>
+<span class="c1">#           3. VERIFICATION                 #</span>
+<span class="c1">#############################################</span>
+
+<span class="c1"># VERIFICATIONS OF DIMENSIONLESS VALUES WITH &#39;star&#39;, dx, dt et rho_ref</span>
+
+<span class="no">Use</span><span class="w"> </span><span class="n">of</span>
+<span class="n">dx</span><span class="w">      </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">.</span><span class="mi">6666666666666667</span><span class="n">e</span><span class="o">-</span><span class="mo">05</span>
+<span class="n">dt</span><span class="w">      </span><span class="o">=</span><span class="w">  </span><span class="mi">2</span><span class="o">.</span><span class="mi">3630512390059374</span><span class="n">e</span><span class="o">-</span><span class="mo">06</span>
+<span class="n">rho_ref</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="mi">998</span><span class="o">.</span><span class="mi">29</span>
+
+<span class="no">SIMILARITY</span><span class="w"> </span><span class="no">OF</span><span class="w"> </span><span class="no">DIMENSIONLESS</span><span class="w"> </span><span class="no">PARAMETERS</span>
+<span class="no">L_verif</span><span class="w">     </span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">Lstar</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx</span><span class="w">                         </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">010666666666666666</span>
+<span class="n">g_verif</span><span class="w">     </span><span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="n">s2</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">gstar</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dt2</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="o">.</span><span class="mi">809999999999999</span>
+<span class="no">R_verif</span><span class="w">     </span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">Rstar</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx</span><span class="w">                         </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">001</span>
+<span class="n">rho_l_verif</span><span class="w"> </span><span class="p">(</span><span class="n">kg</span><span class="o">/</span><span class="n">m3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rho_l_star</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rho_ref</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="mi">998</span><span class="o">.</span><span class="mi">29</span>
+<span class="n">rho_a_verif</span><span class="w"> </span><span class="p">(</span><span class="n">kg</span><span class="o">/</span><span class="n">m3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rho_a_star</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rho_ref</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">204</span>
+<span class="n">nu_l_verif</span><span class="w">  </span><span class="p">(</span><span class="n">m2</span><span class="o">/</span><span class="n">s</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">nu_l_star</span><span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">dx2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dt</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mo">0030</span><span class="mi">973223278534</span><span class="n">e</span><span class="o">-</span><span class="mo">06</span>
+<span class="n">nu_a_verif</span><span class="w">  </span><span class="p">(</span><span class="n">m2</span><span class="o">/</span><span class="n">s</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">nu_a_star</span><span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">dx2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dt</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">56</span><span class="n">e</span><span class="o">-</span><span class="mo">05</span>
+<span class="no">Sigma_verif</span><span class="w"> </span><span class="p">(</span><span class="n">N</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">Sigma_star</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rho_ref</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx3</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">dt2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">0727</span><span class="mi">9999999999999</span>
+<span class="no">Uref_verif</span><span class="w">  </span><span class="p">(</span><span class="n">m</span><span class="o">/</span><span class="n">s</span><span class="p">)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">Uref_star</span><span class="w">  </span><span class="o">*</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dt</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">14007141035914503</span>
+</pre></div>
+</div>
+<p>Finally, a summary is given of values to use in LBM_Saclay input file.</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+<span class="c1"># EXAMPLE OF INPUT VALUES FOR LBM_Saclay</span>
+<span class="o">[</span><span class="n">run</span><span class="o">]</span>
+<span class="n">dt</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+<span class="o">[</span><span class="n">mesh</span><span class="o">]</span>
+<span class="n">nx</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">400</span>
+<span class="n">ny</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">800</span>
+<span class="n">xmin</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">xmax</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">400</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">ymin</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">ymax</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">800</span><span class="o">.</span><span class="mi">0</span>
+<span class="o">[</span><span class="n">params</span><span class="o">]</span>
+<span class="n">rho0</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">001206062366646</span><span class="mi">9664</span>
+<span class="n">rho1</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">nu0</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">051</span><span class="mi">839436555692744</span>
+<span class="n">nu1</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">003333333333333336</span>
+<span class="n">gy</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mo">05421</span><span class="mi">81048108674</span><span class="n">e</span><span class="o">-</span><span class="mo">06</span>
+<span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">0214740</span><span class="mi">88528285768</span>
+<span class="o">[</span><span class="n">init</span><span class="o">]</span>
+<span class="n">rayon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">37</span><span class="o">.</span><span class="mi">5</span>
+
+<span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">###########################        END         ################################</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">###############################################################################</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Law of similarity: practice on Rayleigh-Taylor instability</a><ul>
+<li><a class="reference internal" href="#practice-on-rising-bubble">Practice on rising bubble</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="LawOfSimilarity_Poiseuille.html"
+                          title="previous chapter">Law of similarity: application on Poiseuille flow</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../02_MODELS/models.html"
+                          title="next chapter">PART II: Mathematical models in LBM_Saclay</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/SET_OWN_PARAMETERS/LawOfSimilarity_Two_Phase.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../02_MODELS/models.html" title="PART II: Mathematical models in LBM_Saclay"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="LawOfSimilarity_Poiseuille.html" title="Law of similarity: application on Poiseuille flow"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Methodology.html" >Methodology to set your own parameters in input file</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Law of similarity: practice on Rayleigh-Taylor instability</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

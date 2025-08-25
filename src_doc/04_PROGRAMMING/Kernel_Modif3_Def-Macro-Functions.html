@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Write new closure relationships in Models_NS_AC_Comp.h &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Add a new kernel" href="Kernel_New.html" />
+    <link rel="prev" title="Write a new force in Navier-Stokes solver" href="Kernel_Modif2_Force-Term.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Kernel_New.html" title="Add a new kernel"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Modif2_Force-Term.html" title="Write a new force in Navier-Stokes solver"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Kernel_Modif.html" accesskey="U">Implementing your initial conditions, force terms and closure relationships</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Write new closure relationships in <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="write-new-closure-relationships-in-models-ns-ac-comp-h">
+<span id="tuto-macro-functions"></span><h1>Write new closure relationships in <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code><a class="headerlink" href="#write-new-closure-relationships-in-models-ns-ac-comp-h" title="Link to this heading"></a></h1>
+<p>The <em>closure relationships</em> are all <em>functions</em> such as <strong>source terms</strong> of PDEs, <strong>interpolation functions</strong>, <strong>force terms</strong>, <strong>fluxes</strong>, <strong>moments of distribution functions</strong>, etc. which are needed for the numerical scheme. The example is given on Conservative Allen-Cahn (CAC) equation of kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>.</p>
+<section id="objective">
+<h2>Objective<a class="headerlink" href="#objective" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">Write all macroscopic functions needed for <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code></p>
+<p>Write in file <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code> all macroscopic quantities or functions which are needed for LBM algorithm.</p>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="important admonition">
+<p class="admonition-title">Definition of relaxation rate <span class="math notranslate nohighlight">\(\tau_{\phi}\)</span></p>
+<p>The collision rate <span class="math notranslate nohighlight">\(\tau_{\phi}\)</span> is defined with mobility coefficient <span class="math notranslate nohighlight">\(M_{ \phi}\)</span></p>
+<div class="math notranslate nohighlight" id="equation-def-tau-tutorial1">
+<span class="eqno">(248)<a class="headerlink" href="#equation-def-tau-tutorial1" title="Link to this equation"></a></span>\[\underbrace{\tau_{g}}_{\text{tau}}=\frac{1}{2}+3M_{\phi}\frac{\delta t}{\delta x^{2}}\]</div>
+<p>Its value <code class="docutils literal notranslate"><span class="pre">tau</span></code> is defined inside the function <code class="docutils literal notranslate"><span class="pre">tau_PHI</span></code> by</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">real_t</span><span class="w"> </span><span class="n">tau_PHI</span><span class="p">(</span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">real_t</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">e2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Mphi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">dx</span><span class="p">));</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Moment of order zero</p>
+<p>The moment of order zero returned by the function <code class="docutils literal notranslate"><span class="pre">M0_PHI</span></code> is simply the function <span class="math notranslate nohighlight">\(\phi\)</span>. Its value is stored in container <code class="docutils literal notranslate"><span class="pre">lbmState[IPHI]</span></code></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">real_t</span><span class="w"> </span><span class="no">M0_PHI</span><span class="p">(</span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Moment of second order for Cahn-Hilliard equation</p>
+<p>The chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> is defined by <span class="math notranslate nohighlight">\(\mu_{\phi}=\underbrace{2H\phi(1-\phi)(1-2\phi)}_{f_{dw}^{\prime}(\phi)}-\zeta\boldsymbol{\nabla}^{2}\phi\)</span>. With <span class="math notranslate nohighlight">\(H=12\sigma/W\)</span> and <span class="math notranslate nohighlight">\(\zeta=3/2W\sigma\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-def-mu-phi-tutorial1">
+<span class="eqno">(249)<a class="headerlink" href="#equation-def-mu-phi-tutorial1" title="Link to this equation"></a></span>\[\mu_{\phi}=\frac{3}{2}\frac{\sigma}{W}\left[g^{\prime}(\phi)-W^2\boldsymbol{\nabla}^{2}\phi\right]\]</div>
+<p>It is computed by the function <code class="docutils literal notranslate"><span class="pre">M2_MU_PHI</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">real_t</span><span class="w"> </span><span class="no">M2_MU_PHI</span><span class="p">(</span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">mu_phi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigma</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">g_prime</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ILAPLAPHI</span><span class="o">]</span><span class="p">);</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="n">mu_phi</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Counter term</p>
+<div class="math notranslate nohighlight" id="equation-def-counter-term-tutorial1">
+<span class="eqno">(250)<a class="headerlink" href="#equation-def-counter-term-tutorial1" title="Link to this equation"></a></span>\[\boldsymbol{j}_{CT}=M_{\phi}\frac{4}{W}\phi(1-\phi)\frac{\boldsymbol{\nabla}\phi}{\left|\boldsymbol{\nabla}\phi\right|}\]</div>
+<p>It is defined in the function <code class="docutils literal notranslate"><span class="pre">RVect&lt;dim&gt;</span> <span class="pre">S_ct</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">int</span><span class="w"> </span><span class="n">dim</span><span class="o">&gt;</span>
+<span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">S_ct</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">norm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDX</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDY</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDZ</span><span class="o">]</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">NORMAL_EPSILON</span><span class="p">;</span>
+<span class="w">   </span><span class="n">real_t</span><span class="w"> </span><span class="n">val_ct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Mphi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">counter_term</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">W</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">norm</span><span class="p">);</span>
+<span class="w">   </span><span class="n">real_t</span><span class="w"> </span><span class="n">force_ct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">cahn_hilliard</span><span class="p">)</span><span class="o">*</span><span class="n">val_ct</span><span class="w"> </span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Where <code class="docutils literal notranslate"><span class="pre">counter_term</span></code> and <code class="docutils literal notranslate"><span class="pre">cahn_hilliard</span></code> are either 0 or 1</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+<span class="w">   </span><span class="n">term</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">force_ct</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDX</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="n">term</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">force_ct</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDY</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">term</span><span class="o">[</span><span class="no">IZ</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">force_ct</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDZ</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Source term</p>
+<div class="math notranslate nohighlight" id="equation-def-source-term-tutorial1">
+<span class="eqno">(251)<a class="headerlink" href="#equation-def-source-term-tutorial1" title="Link to this equation"></a></span>\[\mathscr{S}_{\psi}(\psi,\,\overline{\mu})=-\frac{\lambda M_{\psi}}{W^{2}}6\psi(1-\psi)(c_{s}^{co}-c_{l}^{co})(\overline{\mu}(c,\phi)-\overline{\mu}^{eq})\]</div>
+<p>The source term is <span class="math notranslate nohighlight">\(\mathscr{S}_{\phi}\)</span> is defined in function <code class="docutils literal notranslate"><span class="pre">S_st</span></code></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">real_t</span><span class="w"> </span><span class="no">S_st</span><span class="p">(</span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">real_t</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_prime</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">c0_co</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">c1_co</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">mu</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IC</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mu_eq</span><span class="p">);</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="nb">lambda</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Mphi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">S</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>where the function <span class="math notranslate nohighlight">\(\mu(c,\phi)\)</span> (<code class="docutils literal notranslate"><span class="pre">mu</span></code>) is defined by</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="sr">//</span><span class="w"> </span><span class="o">=======================================================</span>
+<span class="sr">//</span><span class="w">                                     </span><span class="no">Model</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">composition</span>
+<span class="sr">//</span><span class="w"> </span><span class="o">=======================================================</span>
+
+<span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">real_t</span><span class="w"> </span><span class="n">mu</span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">phi</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">mu_eq</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">c_co</span><span class="p">(</span><span class="n">phi</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Write new closure relationships in <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code></a><ul>
+<li><a class="reference internal" href="#objective">Objective</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Kernel_Modif2_Force-Term.html"
+                          title="previous chapter">Write a new force in Navier-Stokes solver</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Kernel_New.html"
+                          title="next chapter">Add a new kernel</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/04_PROGRAMMING/Kernel_Modif3_Def-Macro-Functions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Kernel_New.html" title="Add a new kernel"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Modif2_Force-Term.html" title="Write a new force in Navier-Stokes solver"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Kernel_Modif.html" >Implementing your initial conditions, force terms and closure relationships</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Write new closure relationships in <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

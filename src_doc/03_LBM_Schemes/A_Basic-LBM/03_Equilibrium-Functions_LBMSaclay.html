@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Equilibrium distribution functions &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Force and source terms in LBM" href="04_Forces-LBMSaclay.html" />
+    <link rel="prev" title="Collisions operators in LBM_Saclay" href="02_Collision-Operators_LBMSaclay.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="04_Forces-LBMSaclay.html" title="Force and source terms in LBM"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="02_Collision-Operators_LBMSaclay.html" title="Collisions operators in LBM_Saclay"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" accesskey="U">PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Equilibrium distribution functions</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="equilibrium-distribution-functions">
+<span id="feq-alt"></span><h1>Equilibrium distribution functions<a class="headerlink" href="#equilibrium-distribution-functions" title="Link to this heading"></a></h1>
+<p>The equilibrium distribution function (EqDF) <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> is one of the most important functions in LBM because it indicates what macroscopic equation the algorithm simulates. The equilibrium distribution function <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> is involved in the collision operator <span class="math notranslate nohighlight">\(\Omega\)</span> in the discrete LBE:</p>
+<div class="math notranslate nohighlight" id="equation-lbe-feq">
+<span class="eqno">(188)<a class="headerlink" href="#equation-lbe-feq" title="Link to this equation"></a></span>\[f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)+\Omega_{i}(f_{i},f_{i}^{eq})+\mathcal{F}_i\]</div>
+<p>One of the most attractive aspect of LBM, is to use the same evolution Eq. <a class="reference internal" href="#equation-lbe-feq">(188)</a> and simply change the definition of <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> to simulate either the Navier-Stokes equations or the Conservative Allen-Cahn equation. For low Mach Navier-Stokes (NS) and standard Advection-Diffusion Equation (ADE), the EqDF are presented in <a class="reference internal" href="../../05_COURSES/Course_LBM/02_Overview_LBM.html#overview-lbm"><span class="std std-ref">Continuous Boltzmann equation</span></a>. Here we present those for incompressible two-phase NS and several variations of transport equation such as the Cahn-Hilliard equation and the Conservative Allen-Cahn one.</p>
+<div class="important admonition">
+<p class="admonition-title">Equilibrium distribution functions in LBM_Saclay</p>
+<p>The equilibrium distribution functions are problem dependent. They are defined for each kernel in the <code class="docutils literal notranslate"><span class="pre">LBMScheme_Kernel_Name.h</span></code> file of folder <code class="docutils literal notranslate"><span class="pre">src/kernels</span></code>. For example for kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>, the equilibrium distribution functions for all PDEs are written in <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code> file.</p>
+</div>
+<section id="incompressible-navier-stokes-equations-for-two-phase-flows">
+<h2>Incompressible Navier-Stokes equations for two-phase flows<a class="headerlink" href="#incompressible-navier-stokes-equations-for-two-phase-flows" title="Link to this heading"></a></h2>
+<p>For low Mach Navier-Stokes (NS), the EqDF are presented in <a class="reference internal" href="../../05_COURSES/Course_LBM/02_Overview_LBM.html#overview-lbm"><span class="std std-ref">Continuous Boltzmann equation</span></a>. Here are presented some modification for simulating incompressible single-phase and two-phase flows. First we remind the macroscopic PDEs we want to simulate:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-ref">
+<span class="eqno">(189)<a class="headerlink" href="#equation-mass-balance-ref" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-ref">
+<span class="eqno">(190)<a class="headerlink" href="#equation-impulsion-balance-ref" title="Link to this equation"></a></span>\[\varrho(\phi)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\eta(\boldsymbol{x},t)\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_h\)</span> is the hydrodynamic pressure, <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is the fluid velocity , and <span class="math notranslate nohighlight">\(\varrho(\phi)\)</span> is the interpolation of constant bulk densities: each phase is characterized by constant densities, e.g. <span class="math notranslate nohighlight">\(\rho_0\)</span> and <span class="math notranslate nohighlight">\(\rho_1\)</span>. The total density <span class="math notranslate nohighlight">\(\varrho(\boldsymbol{x},t)\)</span> is a function of position and time with the phase-field:</p>
+<div class="math notranslate nohighlight" id="equation-total-density">
+<span class="eqno">(191)<a class="headerlink" href="#equation-total-density" title="Link to this equation"></a></span>\[\varrho(\phi)=\rho_0\phi(\boldsymbol{x},t)+\rho_1(1-\phi(\boldsymbol{x},t))\]</div>
+<section id="standard-f-i-eq-for-incompressible-single-phase">
+<h3>Standard <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for incompressible single-phase<a class="headerlink" href="#standard-f-i-eq-for-incompressible-single-phase" title="Link to this heading"></a></h3>
+<p>For simulating incompressible NS equations for single-phase flows, the EqDF writes:</p>
+<div class="math notranslate nohighlight" id="equation-feq-incompr-v0">
+<span class="eqno">(192)<a class="headerlink" href="#equation-feq-incompr-v0" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_{h}+\rho_{0}c_{s}^{2}\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]\]</div>
+<p>where the macroscopic physical variables are the hydrodynamic pressure <span class="math notranslate nohighlight">\(p_h\)</span>, the fluid velocity <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>, and the constant bulk density <span class="math notranslate nohighlight">\(\rho_0\)</span>. The lattice is defined by its weights <span class="math notranslate nohighlight">\(w_i\)</span> and its moving directions <span class="math notranslate nohighlight">\(\boldsymbol{c}_i\)</span> where <span class="math notranslate nohighlight">\(i=0,...,N_{pop}\)</span>.  <span class="math notranslate nohighlight">\(c_s\)</span> is the lattice sound speed defined by <span class="math notranslate nohighlight">\(c/\sqrt{3}\)</span> which depends the the time and space discretization. The lattice speed <span class="math notranslate nohighlight">\(c\)</span> is defined by <span class="math notranslate nohighlight">\(\delta x/\delta t\)</span>.</p>
+<p>After collision and streaming, the moments are updated with the following relationships. First, the moment of order zero is the hydrodynamic pressure:</p>
+<div class="math notranslate nohighlight" id="equation-m0-v0">
+<span class="eqno">(193)<a class="headerlink" href="#equation-m0-v0" title="Link to this equation"></a></span>\[p_{h}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\]</div>
+<p>Next, the moment of order one is the impulsion:</p>
+<div class="math notranslate nohighlight" id="equation-m1-v0">
+<span class="eqno">(194)<a class="headerlink" href="#equation-m1-v0" title="Link to this equation"></a></span>\[\rho_{0}\boldsymbol{u}(\boldsymbol{x},t)=\frac{1}{c_{s}^{2}}\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}\]</div>
+<div class="error admonition">
+<p class="admonition-title">Equivalent algorithm of artificial compressibility</p>
+<p>We can prove that the Chapman-Enskog expansion of LBE with EqDF <a class="reference internal" href="#equation-feq-incompr-v0">(192)</a> yields to the equivalent system of equations:</p>
+<div class="math notranslate nohighlight" id="equation-comprart-mass">
+<span class="eqno">(195)<a class="headerlink" href="#equation-comprart-mass" title="Link to this equation"></a></span>\[\frac{\partial{\color{red}p_h}}{\partial t}+{\color{red}\rho_{0}c_{s}^{2}}\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-comprart-impulsion">
+<span class="eqno">(196)<a class="headerlink" href="#equation-comprart-impulsion" title="Link to this equation"></a></span>\[{\color{red}\rho_{0}\cancel{c_{s}^{2}}}\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}{\color{red}p_h}\cancel{c_{s}^{2}}+\boldsymbol{\nabla}\cdot\left[{\color{red}\rho_{0}\cancel{c_{s}^{2}}}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\mathcal{O}(\rho u^{3})\]</div>
+<p>The mass balance Eq. <a class="reference internal" href="#equation-comprart-mass">(195)</a> is one particular method of classical CFD to simulate the incompressible Navier-Stokes equations, called the <strong>articial compressibility algorithm</strong>. In LBM the compressibility coefficient is <span class="math notranslate nohighlight">\(\beta=\rho_0c_s^{2}\)</span>.</p>
+</div>
+</section>
+<section id="f-i-eq-for-incompressible-two-phase-flows">
+<h3><span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for incompressible two-phase flows<a class="headerlink" href="#f-i-eq-for-incompressible-two-phase-flows" title="Link to this heading"></a></h3>
+<p>Now we consider two-phase flows by assuming that each phase is incompressible.</p>
+<p>From the previous EqDF, two methods are implemented in LBM_Saclay to account for that variation <a class="reference internal" href="#equation-total-density">(191)</a>. The first method is a direct extension of <a class="reference internal" href="#equation-feq-incompr-v0">(192)</a>. The second one is a slight modification which introduces the dimensionless pressure <span class="math notranslate nohighlight">\(p_h^{\star}\)</span>.</p>
+<p><strong>Version 1 for variable density</strong></p>
+<p>That first version is a direct adaptation of Eq. <a class="reference internal" href="#equation-feq-incompr-v0">(192)</a> where the variable density <span class="math notranslate nohighlight">\(\varrho(\phi)\)</span> simply replaces the constant density <span class="math notranslate nohighlight">\(\rho_0\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-feq-incompr-v1">
+<span class="eqno">(197)<a class="headerlink" href="#equation-feq-incompr-v1" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_{h}+\varrho(\phi)c_{s}^{2}\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]\]</div>
+<p>Let us notice that the physical dimension of terms inside the brackets is equivalent to a pressure. The hydrodynamic pressure <span class="math notranslate nohighlight">\(p_h\)</span> and the impulsion are respectively obtained by the moment of order zero:</p>
+<div class="math notranslate nohighlight" id="equation-m0-v1">
+<span class="eqno">(198)<a class="headerlink" href="#equation-m0-v1" title="Link to this equation"></a></span>\[p_{h}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\]</div>
+<p>and its moment of order 1:</p>
+<div class="math notranslate nohighlight" id="equation-m1-v1">
+<span class="eqno">(199)<a class="headerlink" href="#equation-m1-v1" title="Link to this equation"></a></span>\[\varrho(\phi)\boldsymbol{u}(\boldsymbol{x},t)=\frac{1}{c_{s}^{2}}\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}\]</div>
+<div class="important admonition">
+<p class="admonition-title">Version 1: equivalent macroscopic PDE</p>
+<p>Once the Chapman-Enskog expansion is performed, the macroscopic equations which recovered are with that EqDF are:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-v1">
+<span class="eqno">(200)<a class="headerlink" href="#equation-mass-balance-v1" title="Link to this equation"></a></span>\[\frac{\partial p_{h}}{\partial t}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)c_{s}^{2}\boldsymbol{u}\right]=0\]</div>
+<p>for the mass balance equation, and</p>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-v1">
+<span class="eqno">(201)<a class="headerlink" href="#equation-impulsion-balance-v1" title="Link to this equation"></a></span>\[\varrho(\phi)\cancel{c_{s}^{2}}\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}\cancel{c_{s}^{2}}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\cancel{c_{s}^{2}}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\mathcal{O}(\rho u^{3})\]</div>
+<p>for the impulsion balance, where the kinematic viscosity is given by</p>
+<div class="math notranslate nohighlight" id="equation-kinematic-viscos">
+<span class="eqno">(202)<a class="headerlink" href="#equation-kinematic-viscos" title="Link to this equation"></a></span>\[\nu=\frac{1}{3}\left(\tau-\frac{1}{2}\right)\frac{\delta x^{2}}{\delta t}\]</div>
+</div>
+<p>By expanding the divergence term, the mass balance Eq. <a class="reference internal" href="#equation-mass-balance-v1">(200)</a> can be rewritten:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-v1-expand-div">
+<span class="eqno">(203)<a class="headerlink" href="#equation-mass-balance-v1-expand-div" title="Link to this equation"></a></span>\[\frac{\partial p_{h}}{\partial t}+\varrho(\phi)c_{s}^{2}\boldsymbol{\nabla}\cdot\boldsymbol{u}=-\boldsymbol{u}\cdot\boldsymbol{\nabla}(\varrho(\phi)c_{s}^{2})\]</div>
+<div class="error admonition">
+<p class="admonition-title">Version 1: source term to add</p>
+<p>The mass balance recovered by the Chapman-Ensokg procedure Eq. <a class="reference internal" href="#equation-mass-balance-v1">(200)</a> slighty differs from the classic artificial mass balance equation because the density is a function of position <span class="math notranslate nohighlight">\(\varrho(\phi)\)</span>. To correct that, it is needed to add a source term:</p>
+<div class="math notranslate nohighlight" id="equation-source-pressure">
+<span class="eqno">(204)<a class="headerlink" href="#equation-source-pressure" title="Link to this equation"></a></span>\[S_p=\boldsymbol{u}\cdot\boldsymbol{\nabla}[\varrho(\phi)c_s^2]\]</div>
+<p>in the LBE.</p>
+</div>
+<p><strong>Version 2 for variable density</strong></p>
+<p>That version is implemented in the kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>. The pressure that is used in the equilibrium distribution function is a dimensionless pressure defined by:</p>
+<div class="math notranslate nohighlight" id="equation-def-p-star">
+<span class="eqno">(205)<a class="headerlink" href="#equation-def-p-star" title="Link to this equation"></a></span>\[p_h^{\star}=\frac{p_{h}}{\varrho(\phi)c_{s}^{2}}\]</div>
+<p>The EqDF writes:</p>
+<div class="math notranslate nohighlight" id="equation-feq-incompr-v2">
+<span class="eqno">(206)<a class="headerlink" href="#equation-feq-incompr-v2" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_h^{\star}+\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]\]</div>
+<p>and the moments are</p>
+<div class="math notranslate nohighlight" id="equation-m0-v2">
+<span class="eqno">(207)<a class="headerlink" href="#equation-m0-v2" title="Link to this equation"></a></span>\[p_h^{\star}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\]</div>
+<div class="math notranslate nohighlight" id="equation-m1-v2">
+<span class="eqno">(208)<a class="headerlink" href="#equation-m1-v2" title="Link to this equation"></a></span>\[\boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}\]</div>
+<div class="important admonition">
+<p class="admonition-title">Version 2: equivalent macroscopic PDE</p>
+<p>Once the Chapman-Enskog expansion is performed, the macroscopic equations which recovered are with that EqDF are:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-v2">
+<span class="eqno">(209)<a class="headerlink" href="#equation-mass-balance-v2" title="Link to this equation"></a></span>\[\frac{\partial p^{\star}}{\partial t}+\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-v2">
+<span class="eqno">(210)<a class="headerlink" href="#equation-impulsion-balance-v2" title="Link to this equation"></a></span>\[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}(p^{\star}c_{s}^{2})+\boldsymbol{\nabla}\cdot\left[\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]\]</div>
+</div>
+<p>In Eq. <a class="reference internal" href="#equation-impulsion-balance-v2">(210)</a>, the pressure gradient can be expanded:</p>
+<div class="math notranslate nohighlight" id="equation-gradp-expand">
+<span class="eqno">(211)<a class="headerlink" href="#equation-gradp-expand" title="Link to this equation"></a></span>\[\begin{split}-\frac{1}{\varrho}\boldsymbol{\nabla}p_{h}&amp;=-\boldsymbol{\nabla}(p^{\star}c_{s}^{2})+\frac{1}{\varrho}\boldsymbol{F}_{p}\\{\color{red}\boldsymbol{F}_{p}}&amp;=-\frac{p_{h}}{\varrho}\boldsymbol{\nabla}\varrho\end{split}\]</div>
+<p>The pressure term must be corrrected with a new force term <span class="math notranslate nohighlight">\(\boldsymbol{F}_p\)</span> to match the gradient term of Eq. <a class="reference internal" href="#equation-impulsion-balance-ref">(190)</a>. In that equation, The viscous term can be expanded:</p>
+<div class="math notranslate nohighlight" id="equation-viscos-expand">
+<span class="eqno">(212)<a class="headerlink" href="#equation-viscos-expand" title="Link to this equation"></a></span>\[\frac{1}{\varrho(\phi)}\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]=\boldsymbol{\nabla}\cdot\left[\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\nu\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]\cdot\frac{\boldsymbol{\nabla}\varrho(\phi)}{\varrho(\phi)}\]</div>
+<p>The second term of the right-hand side corresponds to the viscous term of Eq. <a class="reference internal" href="#equation-impulsion-balance-v2">(210)</a>. A supplementary force <span class="math notranslate nohighlight">\(\boldsymbol{F}_v\)</span> has to be added to match Eq. <a class="reference internal" href="#equation-impulsion-balance-ref">(190)</a>.</p>
+<div class="error admonition">
+<p class="admonition-title">Version 2: forces to add</p>
+<p>To match <a class="reference internal" href="#equation-impulsion-balance-v2">(210)</a> to Eq. <a class="reference internal" href="#equation-impulsion-balance-ref">(190)</a>, two force terms must be added in the microscopic forcing term of LBE. The first one is the pressure force pressure force <span class="math notranslate nohighlight">\(\boldsymbol{F}_p\)</span> defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-pressure">
+<span class="eqno">(213)<a class="headerlink" href="#equation-force-pressure" title="Link to this equation"></a></span>\[\boldsymbol{F}_{p}=-\frac{p_{h}}{\varrho}\boldsymbol{\nabla}\varrho\]</div>
+<p>The second one is the viscosity force <span class="math notranslate nohighlight">\(\boldsymbol{F}_v\)</span> defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-viscos">
+<span class="eqno">(214)<a class="headerlink" href="#equation-force-viscos" title="Link to this equation"></a></span>\[\boldsymbol{F}_{v}=\nu\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]\cdot\boldsymbol{\nabla}\varrho(\phi)\]</div>
+</div>
+</section>
+</section>
+<section id="transport-equations">
+<span id="edf-for-transport-equation"></span><h2>Transport equations<a class="headerlink" href="#transport-equations" title="Link to this heading"></a></h2>
+<p>For standard Advection-Diffusion Equation (ADE), the EqDF are presented in <a class="reference internal" href="../../05_COURSES/Course_LBM/02_Overview_LBM.html#overview-lbm"><span class="std std-ref">Continuous Boltzmann equation</span></a>. We present here the EqDF for several ADE-type equations such as the Conservative Allen-Cahn equation, the Cahn-Hilliard equation and phase-field equation for crystal growth. For those phase-field equations, a new distribution function <span class="math notranslate nohighlight">\(g_i\)</span> is introduced. The lattice Boltzmann equation for that <span class="math notranslate nohighlight">\(g_i\)</span> with the BGK collision operator writes:</p>
+<div class="math notranslate nohighlight" id="equation-lbe-ade-sterm">
+<span class="eqno">(215)<a class="headerlink" href="#equation-lbe-ade-sterm" title="Link to this equation"></a></span>\[g_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=g_{i}(\boldsymbol{x},t)-\frac{1}{\tau_{g}+0.5}\left[g_{i}(\boldsymbol{x},t)-g_{i}^{eq,\iota}(\boldsymbol{x},t)\right]+\delta t\mathcal{G}_i\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal{G}_i\)</span> is the microscopic source term. In <span class="math notranslate nohighlight">\(g_i^{eq,\iota}\)</span>, the superscript <span class="math notranslate nohighlight">\(\iota\)</span> can be <span class="math notranslate nohighlight">\(ADE,CH,CAC\)</span>. Those options are described below. In the rest of this section, the coefficient <span class="math notranslate nohighlight">\(M_{\phi}\)</span> involved in the transport equation is related to the collision rate <span class="math notranslate nohighlight">\(\tau_g\)</span> by:</p>
+<div class="math notranslate nohighlight" id="equation-mobility">
+<span class="eqno">(216)<a class="headerlink" href="#equation-mobility" title="Link to this equation"></a></span>\[M_{\phi}=\tau_{g}c_{s}^{2}\delta t\]</div>
+<p>where <span class="math notranslate nohighlight">\(c_s=c/\sqrt{3}\)</span> and <span class="math notranslate nohighlight">\(c=\delta x/\delta t\)</span>.</p>
+<section id="g-i-eq-for-ade-with-source-term">
+<h3><span class="math notranslate nohighlight">\(g_i^{eq}\)</span> for ADE with source term<a class="headerlink" href="#g-i-eq-for-ade-with-source-term" title="Link to this heading"></a></h3>
+<p><strong>Target macroscopic equation</strong></p>
+<p>The ADE with a source term writes:</p>
+<div class="math notranslate nohighlight" id="equation-ade-sterm">
+<span class="eqno">(217)<a class="headerlink" href="#equation-ade-sterm" title="Link to this equation"></a></span>\[\partial_{t}\underbrace{\phi}_{\mathcal{M}_{0}}+\boldsymbol{\nabla}\cdot(\underbrace{\boldsymbol{u}\phi}_{\boldsymbol{\mathcal{M}}_{1}})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\boldsymbol{\nabla}\cdot(\underbrace{\phi\boldsymbol{I}}_{\boldsymbol{\mathcal{M}}_{2}})\Bigr]+\mathscr{S}_{\phi}\]</div>
+<p>where the notation <span class="math notranslate nohighlight">\(\phi\)</span> is used here as the conserved quantity (e.g. concentration), <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is the velocity, the notation <span class="math notranslate nohighlight">\(M_{\phi}\)</span> represents the diffusion coefficient and <span class="math notranslate nohighlight">\(\mathscr{S}_{\phi}\)</span> is the macroscopic source term to be defined. Inside the bracket, <span class="math notranslate nohighlight">\(\boldsymbol{I}\)</span> is the identity tensor of second order. In that equation, the moments are noted:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathcal{M}_{0}\)</span>: is the moment of order 0 (scalar)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\mathcal{M}}_{1}\)</span>: is the moment of order 1 (vector)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\mathcal{M}}_{2}\)</span>: is the moment of order 2 (tensor of rank 2)</p></li>
+</ul>
+<p><strong>Source term</strong></p>
+<p>The microscopic source term is simply defined by</p>
+<div class="math notranslate nohighlight" id="equation-source-term-ade">
+<span class="eqno">(218)<a class="headerlink" href="#equation-source-term-ade" title="Link to this equation"></a></span>\[\mathcal{G}_i=w_i\mathscr{S}_{\phi}\]</div>
+<p>Its moment of order zero is <span class="math notranslate nohighlight">\(\mathscr{S}_{\phi}\)</span> because <span class="math notranslate nohighlight">\(\sum_iw_i=1\)</span>.</p>
+<p><strong>Equilibrium with source term</strong></p>
+<p>The EqDF <span class="math notranslate nohighlight">\(g_i^{eq,ADE}\)</span> must be defined such as <span class="math notranslate nohighlight">\(\mathcal{M}_{0}=\phi\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal{M}}_{1}=\boldsymbol{u}\phi\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal{M}}_{2}=\phi\boldsymbol{I}\)</span>. One can prove that one possible solution is</p>
+<div class="math notranslate nohighlight" id="equation-geq-ade-sterm">
+<span class="eqno">(219)<a class="headerlink" href="#equation-geq-ade-sterm" title="Link to this equation"></a></span>\[g_{i}^{eq,ADE}(\boldsymbol{x},t)=w_{i}\phi\left[1+\frac{\boldsymbol{u}\cdot\boldsymbol{c}_{i}}{c_{s}^{2}}\right]=w_{i}\underbrace{\phi}_{\mathcal{M}_{0}\text{ and }\boldsymbol{\mathcal{M}}_{2}}+w_{i}\frac{(\overbrace{\boldsymbol{u}\phi}^{\boldsymbol{\mathcal{M}}_{1}})\cdot\boldsymbol{c}_{i}}{c_{s}^{2}}\]</div>
+<p>When using a source term in LBE <a class="reference internal" href="#equation-lbe-ade-sterm">(215)</a>, a second order of accuracy is obtained provided that the following variable change <span class="math notranslate nohighlight">\(\overline{g}_{i}^{eq,ADE}\)</span> is used:</p>
+<div class="math notranslate nohighlight" id="equation-geq-ade-change">
+<span class="eqno">(220)<a class="headerlink" href="#equation-geq-ade-change" title="Link to this equation"></a></span>\[\overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)=g_{i}^{eq,ADE}-\frac{\delta t}{2}\mathcal{G}_{i}\]</div>
+<p><strong>Moment</strong></p>
+<p>After collision and streaming, the new <span class="math notranslate nohighlight">\(\phi\)</span> function is obtained by the moment of order zero corrected by the source term <span class="math notranslate nohighlight">\(\mathcal{G}_{i}\delta t/2\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-m0-ade-sterm">
+<span class="eqno">(221)<a class="headerlink" href="#equation-m0-ade-sterm" title="Link to this equation"></a></span>\[\phi=\sum_{i}g_{i}+\frac{\delta t}{2}\mathscr{S}_{\phi}\]</div>
+</section>
+<section id="g-i-eq-for-cahn-hilliard-equation">
+<h3><span class="math notranslate nohighlight">\(g_i^{eq}\)</span> for Cahn-Hilliard equation<a class="headerlink" href="#g-i-eq-for-cahn-hilliard-equation" title="Link to this heading"></a></h3>
+<p><strong>Target macroscopic equation</strong></p>
+<p>The Cahn-Hilliard equation writes:</p>
+<div class="math notranslate nohighlight" id="equation-eq-ch">
+<span class="eqno">(222)<a class="headerlink" href="#equation-eq-ch" title="Link to this equation"></a></span>\[\partial_{t}\underbrace{\phi}_{\mathcal{M}_{0}}+\boldsymbol{\nabla}\cdot(\underbrace{\boldsymbol{u}\phi}_{\boldsymbol{\mathcal{M}}_{1}})=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\boldsymbol{\nabla}\cdot(\underbrace{\mu_{\phi}\boldsymbol{I}}_{\boldsymbol{\mathcal{M}}_{2}})\Bigr]\]</div>
+<p>where  The chemical potential is a function of <span class="math notranslate nohighlight">\(\phi\)</span> defined by</p>
+<div class="math notranslate nohighlight" id="equation-mu-ch">
+<span class="eqno">(223)<a class="headerlink" href="#equation-mu-ch" title="Link to this equation"></a></span>\[\mu_{\phi}=4H\phi(\phi-1)(\phi-1/2)-\zeta\underbrace{\boldsymbol{\nabla}^{2}\phi}_{\text{Laplacian}}\]</div>
+<p>The first term of the right-hand side is the derivative of double-well and the second one involves the Laplacian of <span class="math notranslate nohighlight">\(\phi\)</span>. Compared to the ADE <a class="reference internal" href="#equation-ade-sterm">(217)</a>, in Cahn-Hilliard equation <a class="reference internal" href="#equation-eq-ch">(222)</a>, the source term is null <span class="math notranslate nohighlight">\(\mathscr{S}_{\phi}=0\)</span>, and the chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> replaces <span class="math notranslate nohighlight">\(\phi\)</span> for the moment of second order.</p>
+<p><strong>Equilibrium for CH equation</strong></p>
+<p>To design the EqDF, its moment of order zero ant its moment of first order must remain unchanged i.e. <span class="math notranslate nohighlight">\(\mathcal{M}_{0}=\phi\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal{M}}_{1}=\boldsymbol{u}\phi\)</span>. But now its moment of second order must be equal to <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal{M}}_{2}=\mu_{\phi}\boldsymbol{I}\)</span>. One solution writes:</p>
+<div class="math notranslate nohighlight" id="equation-geq-ch">
+<span class="eqno">(224)<a class="headerlink" href="#equation-geq-ch" title="Link to this equation"></a></span>\[g_{i}^{eq,\,CH}=\mathcal{A}_{i}(\phi,\,\mu_{\phi})+w_{i}\frac{\boldsymbol{c}_{i}\cdot(\overbrace{\boldsymbol{u}\phi}^{\boldsymbol{\mathcal{M}}_{1}})}{c_{s}^{2}}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight" id="equation-coeffa-geq">
+<span class="eqno">(225)<a class="headerlink" href="#equation-coeffa-geq" title="Link to this equation"></a></span>\[\begin{split}\mathcal{A}_{i}(\phi,\,\mu_{\phi})=\begin{cases}
+\phi-3\mu_{\phi}(1-w_{0}) &amp; \text{if }i=0\quad\mathcal{M}_{0}\\
+3w_{i}\mu_{\phi} &amp; \text{if }i\neq0\quad\boldsymbol{\mathcal{M}}_{2}
+\end{cases}\end{split}\]</div>
+<p>The chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> appears in <a class="reference internal" href="#equation-coeffa-geq">(225)</a>. For the computation of the Laplacian which is involved in its definition <a class="reference internal" href="#equation-mu-ch">(223)</a>, see Section <a class="reference internal" href="../C_Other/Additional_Gradients.html#directional-deriv"><span class="std std-ref">Gradients and Laplacian</span></a>.</p>
+<p><strong>Moment</strong></p>
+<p>After collision and streaming, the new <span class="math notranslate nohighlight">\(\phi\)</span> function is obtained by the moment of order zero</p>
+<div class="math notranslate nohighlight" id="equation-m0-ch">
+<span class="eqno">(226)<a class="headerlink" href="#equation-m0-ch" title="Link to this equation"></a></span>\[\phi=\sum_{i}g_{i}\]</div>
+</section>
+<section id="g-i-eq-for-conservative-allen-cahn-equation">
+<h3><span class="math notranslate nohighlight">\(g_i^{eq}\)</span> for Conservative Allen-Cahn equation<a class="headerlink" href="#g-i-eq-for-conservative-allen-cahn-equation" title="Link to this heading"></a></h3>
+<p><strong>Target macroscopic equation</strong></p>
+<p>The Conservative Allen-Cahn equation writes:</p>
+<div class="math notranslate nohighlight" id="equation-eq-cac">
+<span class="eqno">(227)<a class="headerlink" href="#equation-eq-cac" title="Link to this equation"></a></span>\[\partial_{t}\underbrace{\phi}_{\mathcal{M}_{0}}+\boldsymbol{\nabla}\cdot(\underbrace{\boldsymbol{u}\phi}_{\boldsymbol{\mathcal{M}}_{1}})+\boldsymbol{\nabla}\cdot\biggl[\underbrace{M_{\phi}\frac{4}{W}\phi(1-\phi)\boldsymbol{n}}_{\boldsymbol{j}_{ct}\equiv\boldsymbol{\mathcal{M}}_{1}}\biggr]=\boldsymbol{\nabla}\cdot\Bigl[M_{\phi}\boldsymbol{\nabla}\cdot(\underbrace{\phi\boldsymbol{I}}_{\boldsymbol{\mathcal{M}}_{2}})\Bigr]\]</div>
+<p>Compared to ADE with source term, a new term appears: the last one in the left-hand side. That term involves a <em>counter term</em> noted <span class="math notranslate nohighlight">\(\boldsymbol{j}_ct\)</span> which cancels the interface movement due to the curvature. The EqDF is designed such as its moments of order 0 and 2 are unchanged compared to ADE. Its moment of order 1 must be shlightly modified to account for the new counter term. Two methods are possible for that purpose.</p>
+<p><strong>Method 1: equilibrium for CAC without source term</strong> (<span class="math notranslate nohighlight">\(\mathcal{G}_i=0\)</span>)</p>
+<p>The first method consists in modifying the EqDF by adding a new equilibrium for that counter term. That <span class="math notranslate nohighlight">\(g_{i}^{eq,CAC}\)</span> is the sum of the classical ADE equiblibrium plus an equilibrium designed for <span class="math notranslate nohighlight">\(\boldsymbol{j}_{ct}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-geq-cac">
+<span class="eqno">(228)<a class="headerlink" href="#equation-geq-cac" title="Link to this equation"></a></span>\[\begin{split}g_{i}^{eq,CAC}=g_{i}^{eq,ADE}+g_{i}^{eq,ct}\qquad\text{with }\begin{cases}
+g_{i}^{eq,ADE} &amp; =w_{i}\phi+(\boldsymbol{u}\phi)\cdot\left(\frac{w_{i}\boldsymbol{c}_{i}}{c_{s}^{2}}\right)\\
+g_{i}^{eq,ct} &amp; =\boldsymbol{j}_{ct}\cdot\left(\frac{w_{i}\boldsymbol{c}_{i}}{c_{s}^{2}}\right)
+\end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(g_{i}^{eq,ct}\)</span> is simply obtained by the scalar product of <span class="math notranslate nohighlight">\(\boldsymbol{j}_{ct}\)</span> with <span class="math notranslate nohighlight">\(w_i\boldsymbol{c}_{i}/c_{s}^{2}\)</span> like the advective term <span class="math notranslate nohighlight">\(\boldsymbol{u}\phi\)</span>.</p>
+<div class="math notranslate nohighlight" id="equation-geq-cac-full-expr">
+<span class="eqno">(229)<a class="headerlink" href="#equation-geq-cac-full-expr" title="Link to this equation"></a></span>\[g_{i}^{eq,CAC}(\boldsymbol{x},\,t)=\underbrace{w_{i}\phi\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}\right]}_{g_{i}^{eq,ADE}}+\underbrace{M_{\phi}\left[\frac{4}{W}\phi(1-\phi)\right]\boldsymbol{n}}_{\boldsymbol{j}_{ct}}\cdot\left(\frac{w_{i}\boldsymbol{c}_{i}}{c_{s}^{2}}\right)\]</div>
+<p>The evolution of <span class="math notranslate nohighlight">\(g_i\)</span> follows <a class="reference internal" href="#equation-lbe-ade-sterm">(215)</a> with <span class="math notranslate nohighlight">\(\mathcal{G}_i=0\)</span>.</p>
+<p><strong>Method 2: equilibrium for ADE with source term</strong> (<span class="math notranslate nohighlight">\(\mathcal{G}_i\neq0\)</span>)</p>
+<p>Because the moments of order 0, 1 and 2 are the same than ADE, the second method uses the <span class="math notranslate nohighlight">\(g_i^{eq,ADE}\)</span> and considers the divergence of the counter term as a source term <span class="math notranslate nohighlight">\(\mathcal{G}_i\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-geq-varchange">
+<span class="eqno">(230)<a class="headerlink" href="#equation-geq-varchange" title="Link to this equation"></a></span>\[\overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)=w_{i}\phi\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}\right]-\frac{\delta t}{2}\mathcal{G}_{i}\]</div>
+<p>where the source term is defined by</p>
+<div class="math notranslate nohighlight" id="equation-sourcet-cac">
+<span class="eqno">(231)<a class="headerlink" href="#equation-sourcet-cac" title="Link to this equation"></a></span>\[\mathcal{G}_{i}=\frac{4}{W}\phi(1-\phi)w_{i}\boldsymbol{c}_{i}\cdot\boldsymbol{n}\]</div>
+<p>Let us notice that in the right-hand side, the mobility coefficient does not appear compared to the expression which appears in the equilibrium <a class="reference internal" href="#equation-geq-cac-full-expr">(229)</a>.</p>
+<p><strong>Moment</strong></p>
+<p>Finally, after collision and streaming, the new <span class="math notranslate nohighlight">\(\phi\)</span> is updated by</p>
+<div class="math notranslate nohighlight" id="equation-m0-cac">
+<span class="eqno">(232)<a class="headerlink" href="#equation-m0-cac" title="Link to this equation"></a></span>\[\phi=\sum_{i}g_{i}+\frac{\delta t}{2}\mathcal{G}_{i}\]</div>
+<p>For the first method <span class="math notranslate nohighlight">\(\mathcal{G}_i=0\)</span>.</p>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Equilibrium distribution functions</a><ul>
+<li><a class="reference internal" href="#incompressible-navier-stokes-equations-for-two-phase-flows">Incompressible Navier-Stokes equations for two-phase flows</a><ul>
+<li><a class="reference internal" href="#standard-f-i-eq-for-incompressible-single-phase">Standard <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for incompressible single-phase</a></li>
+<li><a class="reference internal" href="#f-i-eq-for-incompressible-two-phase-flows"><span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for incompressible two-phase flows</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transport-equations">Transport equations</a><ul>
+<li><a class="reference internal" href="#g-i-eq-for-ade-with-source-term"><span class="math notranslate nohighlight">\(g_i^{eq}\)</span> for ADE with source term</a></li>
+<li><a class="reference internal" href="#g-i-eq-for-cahn-hilliard-equation"><span class="math notranslate nohighlight">\(g_i^{eq}\)</span> for Cahn-Hilliard equation</a></li>
+<li><a class="reference internal" href="#g-i-eq-for-conservative-allen-cahn-equation"><span class="math notranslate nohighlight">\(g_i^{eq}\)</span> for Conservative Allen-Cahn equation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="02_Collision-Operators_LBMSaclay.html"
+                          title="previous chapter">Collisions operators in LBM_Saclay</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="04_Forces-LBMSaclay.html"
+                          title="next chapter">Force and source terms in LBM</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_LBMSaclay.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="04_Forces-LBMSaclay.html" title="Force and source terms in LBM"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="02_Collision-Operators_LBMSaclay.html" title="Collisions operators in LBM_Saclay"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" >PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Equilibrium distribution functions</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

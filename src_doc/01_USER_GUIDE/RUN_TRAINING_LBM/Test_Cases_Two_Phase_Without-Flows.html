@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Run “Two-phase without fluid flows” &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Run “Two-phase with fluid flows”" href="Test_Cases_Two_Phase.html" />
+    <link rel="prev" title="Run “Single phase test cases”" href="Test_Cases_Single_Phase.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Test_Cases_Two_Phase.html" title="Run “Two-phase with fluid flows”"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Test_Cases_Single_Phase.html" title="Run “Single phase test cases”"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="runtraininglbm.html" accesskey="U">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Run “Two-phase without fluid flows”</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="run-two-phase-without-fluid-flows">
+<span id="twop-withoutff"></span><h1>Run “Two-phase without fluid flows”<a class="headerlink" href="#run-two-phase-without-fluid-flows" title="Link to this heading"></a></h1>
+<section id="without-phase-change">
+<h2>Without phase change<a class="headerlink" href="#without-phase-change" title="Link to this heading"></a></h2>
+<p>This section concerns validation of phase-field equation with three test cases: <em>interface deformation inside a vortex</em>, <em>Zalesak’s disk</em> and one simulation of <em>spinodal decomposition</em> with Cahn-Hilliard model.</p>
+<section id="interface-deformation-inside-a-vortex">
+<h3>Interface deformation inside a vortex<a class="headerlink" href="#interface-deformation-inside-a-vortex" title="Link to this heading"></a></h3>
+<div class="math notranslate nohighlight" id="equation-init-serpentine">
+<span class="eqno">(1)<a class="headerlink" href="#equation-init-serpentine" title="Link to this equation"></a></span>\[\phi(\boldsymbol{x},0)=\frac{1}{2}\left[1+\tanh\left(\frac{R-d_{c}}{\sqrt{2W}}\right)\right]\]</div>
+<div class="math notranslate nohighlight" id="equation-velocity-serpentine">
+<span class="eqno">(2)<a class="headerlink" href="#equation-velocity-serpentine" title="Link to this equation"></a></span>\[\begin{split}u_{x}(x,\,y)=-u_{0}\cos\left[\pi(x-0.5)\right]\sin\left[\pi(y-0.5)\right]\\
+u_{y}(x,\,y)=+u_{0}\sin\left[\pi(x-0.5)\right]\cos\left[\pi(y-0.5)\right]\end{split}\]</div>
+<p>With <span class="math notranslate nohighlight">\(\boldsymbol{u}'(\boldsymbol{x},t)=\boldsymbol{u}(\boldsymbol{x})\times\cos(\pi t/2T_{f})\)</span> for inverting the flow at <span class="math notranslate nohighlight">\(T_{f}\)</span></p>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session</p>
+<ol class="arabic simple">
+<li><p>Go to folder <code class="docutils literal notranslate"><span class="pre">TestCase04_Deformation-Vortex2D</span></code></p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase04_Deformation-Vortex2D
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Run LBM_Saclay with “Conservative Allen-Cahn” model</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase04_Interface-Vortex_CAC.ini
+</pre></div>
+</div>
+<p>The simulation ran 3.651 seconds on gpuq_h100 of Orcus.</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Run LBM_Saclay with “Cahn-Hilliard” model</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase04_Interface-Vortex_CH.ini
+</pre></div>
+</div>
+<p>The simulation ran 3.610 seconds on gpuq_h100 of Orcus.</p>
+</div></blockquote>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For training session: post-processing with Paraview12</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview12<span class="p">&amp;</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Open <code class="docutils literal notranslate"><span class="pre">TestCase04_Serpentine_CAC_FINAL.vti</span></code> (or alternatively all <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> + <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">Contour</span></code>, select <code class="docutils literal notranslate"><span class="pre">phi</span></code>, set value <code class="docutils literal notranslate"><span class="pre">0.5</span></code> and green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p>Coloring <code class="docutils literal notranslate"><span class="pre">Solid</span> <span class="pre">Color</span></code> and Edit with color black</p></li>
+</ol>
+<p>Same commands with 2nd file: open <code class="docutils literal notranslate"><span class="pre">TestCase04_Serpentine_CH_FINAL.vti</span></code> (or alternatively all <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files). Stages 2. and 3. are identical. For step 4 choose color red. You should obtain results of figure below.</p>
+</div></blockquote>
+</div>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../../../_images/Vortex_CH-CAC.png"><img alt="../../../_images/Vortex_CH-CAC.png" src="../../../_images/Vortex_CH-CAC.png" style="width: 720.0px; height: 180.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">Comparison of contours between C-H (red) and CAC (black) models</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="zalesak-s-disk">
+<h3>Zalesak’s disk<a class="headerlink" href="#zalesak-s-disk" title="Link to this heading"></a></h3>
+<p>In that test case, a slotted disk is defined as initial condition (in black on Fig. <a class="reference internal" href="#target-fig-zalesak"><span class="std std-numref">Fig. 14</span></a>) and its deformation is checked during its rotation imposed by an imposed velocity (vortex) defined by:</p>
+<div class="math notranslate nohighlight" id="equation-velocity-zalesak">
+<span class="eqno">(3)<a class="headerlink" href="#equation-velocity-zalesak" title="Link to this equation"></a></span>\[\begin{split}u_{x}(x,\,y)=u_{0}(2y-1)\\
+u_{y}(x,\,y)=u_{0}(1-2x)\end{split}\]</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session</p>
+<ol class="arabic simple">
+<li><p>Go to folder <code class="docutils literal notranslate"><span class="pre">TestCase03_Zalesak-Disk2D</span></code></p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase03_Zalesak-Disk2D
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Run LBM_Saclay with BGK datafile</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase03_Zalesak-Disk_BGK.ini
+</pre></div>
+</div>
+<p>The simulation ran 17.772 seconds on gpuq_h100 of Orcus.</p>
+</div></blockquote>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For training session: post-processing with Paraview12</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview12<span class="p">&amp;</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>Open all <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> + <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">Contour</span></code>, select <code class="docutils literal notranslate"><span class="pre">phi</span></code>, set value <code class="docutils literal notranslate"><span class="pre">0.5</span></code> and green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p>Coloring <code class="docutils literal notranslate"><span class="pre">Solid</span> <span class="pre">Color</span></code> and Edit with color black</p></li>
+</ol>
+</div></blockquote>
+</div>
+<figure class="align-center" id="id2">
+<span id="target-fig-zalesak"></span><a class="reference internal image-reference" href="../../../_images/Zalesak_CAC.png"><img alt="../../../_images/Zalesak_CAC.png" src="../../../_images/Zalesak_CAC.png" style="width: 720.0px; height: 153.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Comparison between CAC model (blue and red) with initial condition (black).</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="spinodal-decomposition">
+<h3>Spinodal decomposition<a class="headerlink" href="#spinodal-decomposition" title="Link to this heading"></a></h3>
+<p>The last test case simulates spinodal decomposition with the Cahn-Hilliard equation.</p>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go folder and run LBM_Saclay on Orcus.</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase05_Spinodal-Decomposition2D
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase05_Spinodal-Decomposition_CH.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 431.685 seconds (~7min11sec) on partition gpuq_h100 of Orcus to achieve 1.000.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In paraview:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>open <code class="docutils literal notranslate"><span class="pre">TestCase05_Spinodal_CH.xmf</span></code>, select <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code> and clic on green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code>.</p></li>
+<li><p>Select field <code class="docutils literal notranslate"><span class="pre">phi</span></code> and visualize it for several times.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_SpinodalDecomp.webm" width="400" height="400">
+   </video></div>
+</section>
+</section>
+<section id="with-phase-change-stefan-problem">
+<h2>With phase change: Stefan problem<a class="headerlink" href="#with-phase-change-stefan-problem" title="Link to this heading"></a></h2>
+<p>The next two test cases are relative to the validation of the composition equation (Gaussian hill) and the composition equation coupled with the phase-field one. For the latter, the numerical solution is compared with the well-known analytical solution of Stefan problem.</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../../../_images/Validation_Stefan-Problem.png"><img alt="../../../_images/Validation_Stefan-Problem.png" src="../../../_images/Validation_Stefan-Problem.png" style="width: 720.0px; height: 180.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 15 </span><span class="caption-text">Comparison with analytical solution of Stefan problem</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Run “Two-phase without fluid flows”</a><ul>
+<li><a class="reference internal" href="#without-phase-change">Without phase change</a><ul>
+<li><a class="reference internal" href="#interface-deformation-inside-a-vortex">Interface deformation inside a vortex</a></li>
+<li><a class="reference internal" href="#zalesak-s-disk">Zalesak’s disk</a></li>
+<li><a class="reference internal" href="#spinodal-decomposition">Spinodal decomposition</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#with-phase-change-stefan-problem">With phase change: Stefan problem</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Test_Cases_Single_Phase.html"
+                          title="previous chapter">Run “Single phase test cases”</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Test_Cases_Two_Phase.html"
+                          title="next chapter">Run “Two-phase with fluid flows”</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/RUN_TRAINING_LBM/Test_Cases_Two_Phase_Without-Flows.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Test_Cases_Two_Phase.html" title="Run “Two-phase with fluid flows”"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Test_Cases_Single_Phase.html" title="Run “Single phase test cases”"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="runtraininglbm.html" >Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Run “Two-phase without fluid flows”</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

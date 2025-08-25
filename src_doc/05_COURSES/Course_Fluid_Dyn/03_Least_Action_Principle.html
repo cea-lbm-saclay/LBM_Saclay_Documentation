@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Principe de moindre action &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Introduction of two-phase flows" href="../Course_Intro-Two-Phase/TOC_Two-Phase_Intro.html" />
+    <link rel="prev" title="Energy balance equation" href="02_Energy-Equation.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Course_Intro-Two-Phase/TOC_Two-Phase_Intro.html" title="Introduction of two-phase flows"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="02_Energy-Equation.html" title="Energy balance equation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Fluid-Dyn.html" accesskey="U">Fluid dynamics &amp; Thermodynamics</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Principe de moindre action</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="principe-de-moindre-action">
+<span id="least-action"></span><h1>Principe de moindre action<a class="headerlink" href="#principe-de-moindre-action" title="Link to this heading"></a></h1>
+<p>On rappelle dans cette annexe le <strong>principe de moindre action</strong> et les équations d’Euler-Lagrange qui en découlent lorsqu’on considère la position <span class="math notranslate nohighlight">\(q(t)\)</span> et la vitesse <span class="math notranslate nohighlight">\(\dot{q}(t)\)</span> comme fonctions indépendantes et ou la seule variable indépendante est le temps <span class="math notranslate nohighlight">\(t\)</span>. Ces équations du mouvement sont établies en supposant que la trajectoire réelle de la particule est celle qui rend son action <span class="math notranslate nohighlight">\(\mathscr{S}\)</span> stationnaire.</p>
+<section id="action-mathscr-s-et-lagrangien-mathcal-l">
+<h2>Action <span class="math notranslate nohighlight">\(\mathscr{S}\)</span> et Lagrangien <span class="math notranslate nohighlight">\(\mathcal{L}\)</span><a class="headerlink" href="#action-mathscr-s-et-lagrangien-mathcal-l" title="Link to this heading"></a></h2>
+<p>On considère une particule caractérisée par deux fonctions qui dépendent de l’unique variable indépendante <span class="math notranslate nohighlight">\(t\)</span> (le temps) : la position <span class="math notranslate nohighlight">\(q(t)\)</span> et la vitesse <span class="math notranslate nohighlight">\(\dot{q}(t)\equiv dq(t)/dt\)</span>. On définit un Lagrangien <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>, une fonctionnelle qui dépend de ces deux fonctions <span class="math notranslate nohighlight">\(\mathcal{L}(q(t),\,\dot{q}(t))\)</span> et son action <span class="math notranslate nohighlight">\(\mathscr{S}\)</span> qui est définie par l’intégrale en temps du Lagrangien :</p>
+<div class="math notranslate nohighlight" id="equation-def-action">
+<span class="eqno">(297)<a class="headerlink" href="#equation-def-action" title="Link to this equation"></a></span>\[\mathscr{S}[q]=\int_{t_{1}}^{t_{2}}\mathcal{L}(q(t),\,\dot{q}(t))dt\]</div>
+</section>
+<section id="principe-de-stationnarite-et-derivee-variationnelle">
+<span id="variational-derivative"></span><h2>Principe de stationnarité et dérivée variationnelle<a class="headerlink" href="#principe-de-stationnarite-et-derivee-variationnelle" title="Link to this heading"></a></h2>
+<p>La trajectoire de la particule est celle pour laquelle son action <span class="math notranslate nohighlight">\(\mathscr{S}\)</span> est stationnaire. La condition nécessaire pour l’obtenir est que sa première variation doit s’annuler (condition du premier ordre) :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-0">
+<span class="eqno">(298)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-0" title="Link to this equation"></a></span>\[\delta^{(1)}\mathscr{S}=0\]</div>
+<p>où l’opérateur <span class="math notranslate nohighlight">\(\delta\)</span> est l’opérateur variationnel (ou dérivée variationnelle) et l’indice supérieur <span class="math notranslate nohighlight">\(^{(1)}\)</span> signifie « premier ordre » qui sera omis par la suite. L’opérateur <span class="math notranslate nohighlight">\(\delta\)</span> est défini tel que :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-1">
+<span class="eqno">(299)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-1" title="Link to this equation"></a></span>\[\delta[q(t)]=\overline{q}(t)-q(t)=\varepsilon\eta(t)\]</div>
+<p>où <span class="math notranslate nohighlight">\(\overline{q}(t)\)</span> est une trajectoire arbitraire, <span class="math notranslate nohighlight">\(q(t)\)</span> la trajectoire optimale, <span class="math notranslate nohighlight">\(\varepsilon\)</span> un petit paramètre scalaire et <span class="math notranslate nohighlight">\(\eta(t)\)</span> une fonction quelconque telle que <span class="math notranslate nohighlight">\(\eta(t_{1})=\eta(t_{2})=0\)</span>. On notera par la suite <span class="math notranslate nohighlight">\(\varepsilon\eta(t)=\delta q(t)\)</span> avec <span class="math notranslate nohighlight">\(\delta q(t_{1})=\delta q(t_{2})=0\)</span>, ce qui donne :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-2">
+<span class="eqno">(300)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-2" title="Link to this equation"></a></span>\[\overline{q}(t)=q(t)+\delta q(t)\]</div>
+<p>En appliquant l’opérateur <span class="math notranslate nohighlight">\(\delta\)</span> à <span class="math notranslate nohighlight">\(\mathcal{L}(q(t),\dot{q(t)})\)</span> et en effectuant un développement de Taylor pour le premier terme, on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-3">
+<span class="eqno">(301)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-3" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \delta\mathcal{L} &amp; = &amp; \mathcal{L}\left(\overline{q}(t),\,\dot{\overline{q}}(t)\right)-\mathcal{L}\left(q(t),\dot{q}(t)\right)\\
+        &amp; = &amp; \mathcal{L}\left(q(t)+\delta q(t),\,\dot{q}(t)+\delta\dot{q}(t)\right)-\mathcal{L}\left(q(t),\,\dot{q}(t)\right)\\
+        &amp; = &amp; \frac{\partial\mathcal{L}}{\partial q}\delta q+\frac{\partial\mathcal{L}}{\partial\dot{q}}\delta\dot{q}+\mathcal{O}(\delta^{2})
+\end{eqnarray}\end{split}\]</div>
+</section>
+<section id="equations-d-euler-lagrange">
+<h2>Équations d’Euler-Lagrange<a class="headerlink" href="#equations-d-euler-lagrange" title="Link to this heading"></a></h2>
+<p>Avec ces définitions, en appliquant l’opérateur delta à l’équation Eq. ([eq:ActionS-1]), on obtient (on peut montrer que l’opérateur delta commute avec l’intégrale) :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-4">
+<span class="eqno">(302)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-4" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \delta\mathscr{S} &amp; = &amp; \int_{t_{1}}^{t_{2}}\delta\mathcal{L}(q(t),\,\dot{q}(t))dt\\
+        &amp; = &amp; \int_{t_{1}}^{t_{2}}\left[\frac{\partial\mathcal{L}}{\partial q}\delta q+\frac{\partial\mathcal{L}}{\partial\dot{q}}\delta\dot{q}\right]dt
+\end{eqnarray}\end{split}\]</div>
+<p>On intègre par partie le second terme de l’Eq. ([eq:Variation_Action-2]) :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-5">
+<span class="eqno">(303)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-5" title="Link to this equation"></a></span>\[\int_{t_{1}}^{t_{2}}\frac{\partial\mathcal{L}}{\partial\dot{q}}\delta\dot{q}dt=\cancel{\left.\frac{\partial\mathcal{L}}{\partial\dot{q}}\delta q\right|_{t_{1}}^{t_{2}}}-\int_{t_{1}}^{t_{2}}\frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial\dot{q}}\right)\delta qdt\]</div>
+<p>Le premier terme du membre de droite s’annule à cause des conditions initiales <span class="math notranslate nohighlight">\(\delta q(t_{1})=\delta q(t_{2})=0\)</span> et on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-6">
+<span class="eqno">(304)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-6" title="Link to this equation"></a></span>\[\delta\mathscr{S}=\int_{t_{1}}^{t_{2}}\left[\frac{\partial\mathcal{L}}{\partial q}-\frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial\dot{q}}\right)\right]\delta qdt\]</div>
+<p>expression qui doit s’annuler quelle que soit la variation <span class="math notranslate nohighlight">\(\delta q\)</span>, i.e.</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-7">
+<span class="eqno">(305)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-7" title="Link to this equation"></a></span>\[\frac{\partial\mathcal{L}}{\partial q}-\frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial\dot{q}}\right)=0\]</div>
+<p>qui est l’équation d’Euler-Lagrange.</p>
+<p><strong>Remarque</strong></p>
+<p>Cette équation peut se retrouver en reprenant les mêmes calculs et en considérant :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-8">
+<span class="eqno">(306)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-8" title="Link to this equation"></a></span>\[\left.\frac{d\mathscr{S}[\overline{q}]}{d\varepsilon}\right|_{\varepsilon=0}=0\]</div>
+<div class="error admonition">
+<p class="admonition-title">Euler-Lagrange equation</p>
+<p>L’hypothèse de stationnarité de l’action <span class="math notranslate nohighlight">\(\mathscr{S}\)</span> conduit à l’équation d’Euler-Lagrange:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-9">
+<span class="eqno">(307)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-9" title="Link to this equation"></a></span>\[\boxed{\frac{\partial\mathcal{L}}{\partial q}-\frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial\dot{q}}\right)=0}\]</div>
+<p>où <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is the Lagrangian which dependent of position <span class="math notranslate nohighlight">\(q(t)\)</span> and velocity <span class="math notranslate nohighlight">\(\dot{q}(t)\)</span>. The independent variable is the time <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</div>
+<p><strong>Plusieurs fonctions indépendantes</strong></p>
+<p>Lorsque Lagrangien défini par plusieurs fonctions <span class="math notranslate nohighlight">\(q_{i}(t)\)</span> et <span class="math notranslate nohighlight">\(\dot{q}_{i}(t)\)</span> pour <span class="math notranslate nohighlight">\(i=1,\ldots,n\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-10">
+<span class="eqno">(308)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-10" title="Link to this equation"></a></span>\[\mathcal{L}(q_{1},\,q_{2},\,\ldots,\,q_{n};\,\dot{q}_{1},\,\dot{q}_{2},\,\ldots,\,\dot{q}_{n})\equiv\mathcal{L}(q_{i},\,\dot{q}_{i})\]</div>
+<p>alors on peut montrer de la même façon que :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-11">
+<span class="eqno">(309)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-11" title="Link to this equation"></a></span>\[\boxed{\frac{\partial\mathcal{L}}{\partial q_{i}}-\frac{d}{dt}\left(\frac{\partial\mathcal{L}}{\partial\dot{q}_{i}}\right)=0}\]</div>
+<p>c’est-à-dire une équation d’Euler-Lagrange pour chaque couple de fonctions <span class="math notranslate nohighlight">\((q_{i},\dot{q}_{i})\)</span>. Par exemple pour <span class="math notranslate nohighlight">\(i=1,2,3\)</span> avec <span class="math notranslate nohighlight">\(q_{i}=x_{i}\)</span> et <span class="math notranslate nohighlight">\(\dot{q}_{i}=\dot{x}_{i}\)</span>, alors on a trois équations d’Euler-Lagrange pour chaque indice <span class="math notranslate nohighlight">\(i=1,2,3\)</span>.</p>
+</section>
+<section id="application-loi-du-mouvement-de-newton">
+<h2>Application: loi du mouvement de Newton<a class="headerlink" href="#application-loi-du-mouvement-de-newton" title="Link to this heading"></a></h2>
+<p>Le Lagrangien est défini par la différence entre l’énergie cinétique <span class="math notranslate nohighlight">\(\mathcal{K}\)</span> et l’énergie potentielle <span class="math notranslate nohighlight">\(\mathcal{V}\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-12">
+<span class="eqno">(310)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-12" title="Link to this equation"></a></span>\[\mathcal{L}(x,y,z,\dot{x},\dot{y},\dot{z})=\mathcal{K}(\dot{x},\dot{y},\dot{z})-\mathcal{V}(x,y,z)\]</div>
+<p>i.e.</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-13">
+<span class="eqno">(311)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-13" title="Link to this equation"></a></span>\[\mathcal{L}(x_{i},\,\dot{x}_{i})=\mathcal{K}(\dot{x}_{i})-\mathcal{V}(x_{i})\qquad i=1,2,3\]</div>
+<p>L’énergie cinétique est :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-14">
+<span class="eqno">(312)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-14" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \mathcal{K}(\dot{x},\dot{y},\dot{z})&amp; = &amp; \frac{1}{2}m|v|^{2}\\
+   &amp; = &amp; \frac{1}{2}m\left(\sqrt{\dot{x}^{2}+\dot{y}^{2}+\dot{z}^{2}}\right)^{2}\\
+        &amp; = &amp; \frac{1}{2}m\left(\dot{x}^{2}+\dot{y}^{2}+\dot{z}^{2}\right)
+\end{eqnarray}\end{split}\]</div>
+<p>Dans ce cas, on a trois couples de fonctions dépendantes <span class="math notranslate nohighlight">\((q_{i},\dot{q}_{i})\)</span> pour <span class="math notranslate nohighlight">\(i=1,2,3\)</span> : <span class="math notranslate nohighlight">\((x,\,\dot{x}), (y,\,\dot{y}), (z,\,\dot{z})\)</span>, et par conséquent trois équations d’Euler-Lagrange : <span class="math notranslate nohighlight">\(m\ddot{x}=-\partial_{x}\mathcal{V}(\boldsymbol{x}),\,  m\ddot{y}=-\partial_{y}\mathcal{V}(\boldsymbol{x}),\, m\ddot{z}=-\partial_{z}\mathcal{V}(\boldsymbol{x})\)</span> i.e. en posant <span class="math notranslate nohighlight">\(\boldsymbol{F}=-\boldsymbol{\nabla}\mathcal{V}(\boldsymbol{x})\)</span> et <span class="math notranslate nohighlight">\(\boldsymbol{a}=(\ddot{x},\,\ddot{y},\,\ddot{z})^{T}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-15">
+<span class="eqno">(313)<a class="headerlink" href="#equation-src-doc-05-courses-course-fluid-dyn-03-least-action-principle-15" title="Link to this equation"></a></span>\[\boldsymbol{F}=m\boldsymbol{a}\]</div>
+<p>On trouvera en annexe des exemples d’application de cette formulation Lagrangienne des équations du mouvement : double pendule oscillant, orbite d’une planète, pendule oscillant avec un ressort.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Principe de moindre action</a><ul>
+<li><a class="reference internal" href="#action-mathscr-s-et-lagrangien-mathcal-l">Action <span class="math notranslate nohighlight">\(\mathscr{S}\)</span> et Lagrangien <span class="math notranslate nohighlight">\(\mathcal{L}\)</span></a></li>
+<li><a class="reference internal" href="#principe-de-stationnarite-et-derivee-variationnelle">Principe de stationnarité et dérivée variationnelle</a></li>
+<li><a class="reference internal" href="#equations-d-euler-lagrange">Équations d’Euler-Lagrange</a></li>
+<li><a class="reference internal" href="#application-loi-du-mouvement-de-newton">Application: loi du mouvement de Newton</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="02_Energy-Equation.html"
+                          title="previous chapter">Energy balance equation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../Course_Intro-Two-Phase/TOC_Two-Phase_Intro.html"
+                          title="next chapter">Introduction of two-phase flows</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_Fluid_Dyn/03_Least_Action_Principle.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Course_Intro-Two-Phase/TOC_Two-Phase_Intro.html" title="Introduction of two-phase flows"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="02_Energy-Equation.html" title="Energy balance equation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Fluid-Dyn.html" >Fluid dynamics &amp; Thermodynamics</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Principe de moindre action</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

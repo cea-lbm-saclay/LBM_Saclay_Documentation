@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025 &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Compilation Multi-GPU (supercomputers)" href="Compil_Multi_GPU.html" />
+    <link rel="prev" title="Compilation mono-CPU (desktop): training session" href="Compil_MonoGPU.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Compil_Multi_GPU.html" title="Compilation Multi-GPU (supercomputers)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Compil_MonoGPU.html" title="Compilation mono-CPU (desktop): training session"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" accesskey="U">Quick Start with LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="orcus-cea-isas-dm2s-compilation-on-single-and-multi-gpu-doc-updated-july-8th-2025">
+<span id="orcus-dm2s"></span><h1>ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025<a class="headerlink" href="#orcus-cea-isas-dm2s-compilation-on-single-and-multi-gpu-doc-updated-july-8th-2025" title="Link to this heading"></a></h1>
+<p>On Orcus, several GPU partitions are available. Here we give an example for compiling and running a job on partition <code class="docutils literal notranslate"><span class="pre">gpuq_h100</span></code> equipped with 4 GPU H100. For <code class="docutils literal notranslate"><span class="pre">cmake</span></code> the flag <code class="docutils literal notranslate"><span class="pre">-DKokkos_ARCH_HOPPER90=ON</span></code> will be used for H100. The test is also performed with problem <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>.</p>
+<section id="connexion-on-orcus">
+<h2>1. Connexion on Orcus<a class="headerlink" href="#connexion-on-orcus" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">Connexion on ORCUS</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>loginname@is247529:~$<span class="w"> </span>ssh<span class="w"> </span>-XC<span class="w"> </span>orcusloginamd2
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="single-gpu-compilation-and-run-deprecated">
+<h2>2. Single GPU: compilation and run (deprecated)<a class="headerlink" href="#single-gpu-compilation-and-run-deprecated" title="Link to this heading"></a></h2>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-kebab-horizontal no-title" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14a2 2 0 1 1-.001-3.999A2 2 0 0 1 20 14ZM6 12a2 2 0 1 1-3.999.001A2 2 0 0 1 6 12Zm8 0a2 2 0 1 1-3.999.001A2 2 0 0 1 14 12Z"></path></svg></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="note admonition">
+<p class="admonition-title">Single-GPU compilation on ORCUS (deprecated)</p>
+<p class="sd-card-text"><strong>Modules to load</strong></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>/tmpformation/LBM_Saclay/modules_compil_h100_v11fev2025
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">where the modules list inside file <code class="docutils literal notranslate"><span class="pre">modules_compil_h100_v11fev2025</span></code> is</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">module</span><span class="w"> </span><span class="nn">purge</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">cmake</span><span class="o">/</span><span class="mi">3</span><span class="o">.</span><span class="mi">28</span><span class="o">.</span><span class="mi">3</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">gcc</span><span class="o">/</span><span class="mi">13</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">cuda</span><span class="o">/</span><span class="mi">12</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">hdf5</span><span class="o">/</span><span class="n">gcc_13</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="n">_openmpi_4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">3</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">list</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text"><strong>cmake and compilation</strong></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>build_cuda_h100
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build_cuda_h100
+</pre></div>
+</div>
+<p class="sd-card-text">Creation of <code class="docutils literal notranslate"><span class="pre">makefile</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>/tmpformation/LBM_Saclay/cmake_h100.scr
+</pre></div>
+</div>
+<p class="sd-card-text">Compilation</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+</details></section>
+<section id="multi-gpu-compilation-and-run-on-multi-h100-with-mpi-updated-july-8th-2025">
+<h2>3. Multi-GPU: compilation and run on multi-H100 with MPI (updated July 8th, 2025)<a class="headerlink" href="#multi-gpu-compilation-and-run-on-multi-h100-with-mpi-updated-july-8th-2025" title="Link to this heading"></a></h2>
+<section id="modules-to-load">
+<h3>Modules to load<a class="headerlink" href="#modules-to-load" title="Link to this heading"></a></h3>
+<div class="important admonition">
+<p class="admonition-title">Modules to load</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>module<span class="w"> </span>load<span class="w"> </span>cmake/3.28.3
+$<span class="w"> </span>module<span class="w"> </span>load<span class="w"> </span>hdf5/nvhpc_25.3_openmpi_5.0.3/1.14.3
+</pre></div>
+</div>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">hdf5</span></code> module loads the following ones: <code class="docutils literal notranslate"><span class="pre">gcccore/.14.2.0</span> <span class="pre">cuda/12.8.0</span> <span class="pre">nvhpc/25.3</span> <span class="pre">hwloc/2.11.1</span> <span class="pre">ucx/1.18.0</span> <span class="pre">pmix/5.0.3</span> <span class="pre">prrte/3.0.6</span> <span class="pre">ucc/1.3.0</span> <span class="pre">openmpi/nvhpc_25.3/5.0.3</span> <span class="pre">nvompi/253.503</span> <span class="pre">szip/2.1.1</span></code>.</p>
+</div>
+</section>
+<section id="cmake-and-compilation">
+<h3>cmake and compilation<a class="headerlink" href="#cmake-and-compilation" title="Link to this heading"></a></h3>
+<div class="admonition-create-a-directory admonition">
+<p class="admonition-title">Create a directory</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>build_cuda_h100_mpi
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build_cuda_h100_mpi
+</pre></div>
+</div>
+</div>
+<p>Next, two methods are possible. In the first one, turn off the <code class="docutils literal notranslate"><span class="pre">RPATH</span></code>:</p>
+<div class="important admonition">
+<p class="admonition-title">First method: turn off the <code class="docutils literal notranslate"><span class="pre">RPATH</span></code> in <code class="docutils literal notranslate"><span class="pre">cmake</span></code></p>
+<p>For that purpose you must add the following options after <code class="docutils literal notranslate"><span class="pre">-DPROBLEM=NSAC_Comp</span></code> in your <code class="docutils literal notranslate"><span class="pre">cmake</span></code> command: <code class="docutils literal notranslate"><span class="pre">-DCMAKE_SKIP_RPATH=ON</span> <span class="pre">-DCMAKE_BUILD_WITH_INSTALL_RPATH=OFF</span> <span class="pre">-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cmake<span class="w"> </span>-DKokkos_ENABLE_OPENMP<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ENABLE_CUDA<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ENABLE_CUDA_LAMBDA<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ARCH_HOPPER90<span class="o">=</span>ON<span class="w"> </span>-DUSE_MPI<span class="o">=</span>ON<span class="w"> </span>-DUSE_MPI_CUDA_AWARE_ENFORCED<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ENABLE_HWLOC<span class="o">=</span>ON<span class="w"> </span>-DUSE_HDF5<span class="o">=</span>ON<span class="w"> </span>-DPROBLEM<span class="o">=</span>NSAC_Comp<span class="w"> </span>-DCMAKE_SKIP_RPATH<span class="o">=</span>ON<span class="w"> </span>-DCMAKE_BUILD_WITH_INSTALL_RPATH<span class="o">=</span>OFF<span class="w"> </span>-DCMAKE_INSTALL_RPATH_USE_LINK_PATH<span class="o">=</span>FALSE<span class="w"> </span>..
+$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>In the second one, use command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code></p>
+<div class="important admonition">
+<p class="admonition-title">Second method: <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code></p>
+<p>Add an option for <code class="docutils literal notranslate"><span class="pre">cmake</span></code>: <code class="docutils literal notranslate"><span class="pre">-DCMAKE_INSTALL_PREFIX=${LBMSACLAY_TOP_DIR}/install/</span></code> where <code class="docutils literal notranslate"><span class="pre">LBMSACLAY_TOP_DIR</span></code> is the LBM directory</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cmake<span class="w"> </span>-DKokkos_ENABLE_OPENMP<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ENABLE_CUDA<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ENABLE_CUDA_LAMBDA<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ARCH_HOPPER90<span class="o">=</span>ON<span class="w"> </span>-DUSE_MPI<span class="o">=</span>ON<span class="w"> </span>-DUSE_MPI_CUDA_AWARE_ENFORCED<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ENABLE_HWLOC<span class="o">=</span>ON<span class="w"> </span>-DUSE_HDF5<span class="o">=</span>ON<span class="w"> </span>-DPROBLEM<span class="o">=</span>NSAC_Comp<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span><span class="si">${</span><span class="nv">LBMSACLAY_TOP_DIR</span><span class="si">}</span>/install/<span class="w"> </span>..
+$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+$<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="run-your-job-on-4-gpu-with-mpi">
+<h3>Run your job on 4 GPU with MPI<a class="headerlink" href="#run-your-job-on-4-gpu-with-mpi" title="Link to this heading"></a></h3>
+<p>Write a script to submit your job, e.g. with name <code class="docutils literal notranslate"><span class="pre">GPU_H100_Taylor-Bubble3D.slurm</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># Paramètres du job slurm. Ajuster en particulier le Walltime, le nom du job</span>
+<span class="c1"># et fichiers de sortie/erreur, et l&#39;adresse mail.</span>
+<span class="c1"># Plus d&#39;infos à la section 5. du manuel utilisateur d&#39;Orcus.</span>
+
+<span class="c1">#SBATCH -N 1                                  # Nombre de nœuds</span>
+<span class="c1">#SBATCH -n 4                                  # Nombre de taches</span>
+<span class="c1">#SBATCH --gres=gpu:4                          # nb GPU Orcus (commande à rajouter depuis décembre)</span>
+<span class="c1">#SBATCH -p gpuq_h100                          # Partitions adaptées au job</span>
+<span class="c1">#SBATCH -t 12:00:00                           # Walltime</span>
+<span class="c1">#SBATCH -J myjob                              # Nom du job</span>
+<span class="c1">#SBATCH -o myjob_%j.o                         # Fichier de sortie</span>
+<span class="c1">#SBATCH -e myjob_%j.e                         # Fichier d&#39;erreur</span>
+<span class="c1">#SBATCH --mail-user=user@cea.fr               # Adresse email</span>
+<span class="c1">#SBATCH --mail-type=begin,end,fail            # Envoi d&#39;email à l&#39;exécution, fin et échec du job</span>
+
+<span class="c1"># Module nécessaires au fonctionnement de LBM_saclay.</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">purge</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">cmake</span><span class="o">/</span><span class="mi">3</span><span class="o">.</span><span class="mi">28</span><span class="o">.</span><span class="mi">3</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">hdf5</span><span class="o">/</span><span class="n">nvhpc_25</span><span class="o">.</span><span class="mi">3</span><span class="n">_openmpi_5</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">3</span>
+
+<span class="c1"># Lance LBM_saclay. Remplacer les deux chemins comme nécessaire.</span>
+<span class="n">mpirun</span><span class="w"> </span><span class="o">-</span><span class="n">np</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">catA</span><span class="o">/</span><span class="n">loginname</span><span class="o">/</span><span class="no">LBM_Saclay_Rech</span><span class="o">-</span><span class="no">Dev</span><span class="o">/</span><span class="n">build_cuda_h100_mpi</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="no">LBM_saclay</span><span class="w"> </span><span class="vg">$1</span><span class="w"> </span><span class="o">--</span><span class="n">kokkos</span><span class="o">-</span><span class="n">map</span><span class="o">-</span><span class="n">device</span><span class="o">-</span><span class="nb">id</span><span class="o">-</span><span class="n">by</span><span class="o">=</span><span class="n">mpi_rank</span>
+<span class="nb">exit</span><span class="w"> </span><span class="mi">0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The job will be run on 4 MPI processes (<code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">-n</span> <span class="pre">4</span></code> and <code class="docutils literal notranslate"><span class="pre">mpirun</span> <span class="pre">-np</span> <span class="pre">4</span></code>) on partition (<code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">-p</span> <span class="pre">gpuq_h100</span></code>).</p>
+<div class="error admonition">
+<p class="admonition-title">Submit your job</p>
+<p>Submit your job with the following command</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>GPU_H100_Taylor-Bubble3D.slurm<span class="w"> </span>TestCase19_Taylor-Bubble3D_004-GPU.ini
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">TestCase19_Taylor-Bubble3D_004-GPU.ini</span></code> is the input file for LBM_Saclay with the appropriate domain decomposition. For example in the input file <code class="docutils literal notranslate"><span class="pre">TestCase19_Taylor-Bubble3D_004-GPU.ini</span></code> the sections <code class="docutils literal notranslate"><span class="pre">[mesh]</span></code> and <code class="docutils literal notranslate"><span class="pre">[mpi]</span></code> are set to</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="n">mesh</span><span class="o">]</span>
+<span class="n">nx</span><span class="o">=</span><span class="mi">128</span>
+<span class="n">ny</span><span class="o">=</span><span class="mi">128</span>
+<span class="n">nz</span><span class="o">=</span><span class="mi">318</span>
+<span class="n">xmin</span><span class="o">=-</span><span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">xmax</span><span class="o">=</span><span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">ymin</span><span class="o">=-</span><span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">ymax</span><span class="o">=</span><span class="mi">64</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">zmin</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">zmax</span><span class="o">=</span><span class="mi">1272</span><span class="o">.</span><span class="mi">0</span>
+
+<span class="o">[</span><span class="n">mpi</span><span class="o">]</span>
+<span class="n">mx</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">my</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">mz</span><span class="o">=</span><span class="mi">4</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025</a><ul>
+<li><a class="reference internal" href="#connexion-on-orcus">1. Connexion on Orcus</a></li>
+<li><a class="reference internal" href="#single-gpu-compilation-and-run-deprecated">2. Single GPU: compilation and run (deprecated)</a></li>
+<li><a class="reference internal" href="#multi-gpu-compilation-and-run-on-multi-h100-with-mpi-updated-july-8th-2025">3. Multi-GPU: compilation and run on multi-H100 with MPI (updated July 8th, 2025)</a><ul>
+<li><a class="reference internal" href="#modules-to-load">Modules to load</a></li>
+<li><a class="reference internal" href="#cmake-and-compilation">cmake and compilation</a></li>
+<li><a class="reference internal" href="#run-your-job-on-4-gpu-with-mpi">Run your job on 4 GPU with MPI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Compil_MonoGPU.html"
+                          title="previous chapter">Compilation mono-CPU (desktop): training session</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Compil_Multi_GPU.html"
+                          title="next chapter">Compilation Multi-GPU (supercomputers)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/QUICKSTART/Compil_GPU_MPI_Orcus.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Compil_Multi_GPU.html" title="Compilation Multi-GPU (supercomputers)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Compil_MonoGPU.html" title="Compilation mono-CPU (desktop): training session"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" >Quick Start with LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

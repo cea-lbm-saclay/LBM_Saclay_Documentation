@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>LBM for Navier-Stokes/Korteweg model &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Gradients and Laplacian" href="../C_Other/Additional_Gradients.html" />
+    <link rel="prev" title="Force and source terms in LBM" href="../A_Basic-LBM/04_Forces-LBMSaclay.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../C_Other/Additional_Gradients.html" title="Gradients and Laplacian"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../A_Basic-LBM/04_Forces-LBMSaclay.html" title="Force and source terms in LBM"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" accesskey="U">PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LBM for Navier-Stokes/Korteweg model</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="lbm-for-navier-stokes-korteweg-model">
+<span id="lbm-nsk"></span><h1>LBM for Navier-Stokes/Korteweg model<a class="headerlink" href="#lbm-for-navier-stokes-korteweg-model" title="Link to this heading"></a></h1>
+<div class="math notranslate nohighlight" id="equation-lbe-low-mach">
+<span class="eqno">(233)<a class="headerlink" href="#equation-lbe-low-mach" title="Link to this equation"></a></span>\[f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},\,t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},\,t)-f_{i}^{eq}(\boldsymbol{x},\,t)\right]+\delta t\mathcal{F}_{i}(\boldsymbol{x},t)\]</div>
+<div class="math notranslate nohighlight" id="equation-feq-pseudo-potential">
+<span class="eqno">(234)<a class="headerlink" href="#equation-feq-pseudo-potential" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\rho\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right]\]</div>
+<div class="math notranslate nohighlight" id="equation-moment0-pseudo-potential">
+<span class="eqno">(235)<a class="headerlink" href="#equation-moment0-pseudo-potential" title="Link to this equation"></a></span>\[\rho=\sum_{i}f_{i}\qquad\]</div>
+<div class="math notranslate nohighlight" id="equation-moment1-pseudo-potential">
+<span class="eqno">(236)<a class="headerlink" href="#equation-moment1-pseudo-potential" title="Link to this equation"></a></span>\[\boldsymbol{u}=\frac{1}{\rho}\sum_{i}f_{i}\boldsymbol{c}_{i}+\frac{\delta t}{2}\boldsymbol{F}\]</div>
+<section id="pseudo-potential-methods">
+<h2>Pseudo-potential methods<a class="headerlink" href="#pseudo-potential-methods" title="Link to this heading"></a></h2>
+<p>Since the historical method of “Shan-Chen” many methods have been published. They are called <strong>Pseudo-potential methods</strong>. We present here, one of them implemented in LBM_Saclay.</p>
+<div class="sphinx-features docutils container">
+<div class="admonition-kupershtokh-s-forcing-term admonition">
+<p class="admonition-title">Kupershtokh’s forcing term</p>
+<p>In Eq. <a class="reference internal" href="#equation-lbe-low-mach">(233)</a>, the Kupershtokh’s forcing term writes</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{F}_{i}(\boldsymbol{x},t)=f_{i}^{eq}(\boldsymbol{u}^{\star}+\Delta\boldsymbol{u})-f_{i}^{eq}(\boldsymbol{u}^{\star})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{u}^{\star}\)</span> and <span class="math notranslate nohighlight">\(\Delta\boldsymbol{u}\)</span> are defined by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{u}^{\star}&amp;=\frac{1}{\rho}\sum_{i}f_{i}\boldsymbol{c}_{i}\\
+\Delta\boldsymbol{u}&amp;=\frac{1}{\rho}\boldsymbol{F}_{int}\delta t\end{split}\]</div>
+<p>The force term <span class="math notranslate nohighlight">\(\boldsymbol{F}_{int}\)</span> is defined in Eq. <a class="reference internal" href="#equation-fint-pseudo-potential">(237)</a>.</p>
+<p>The subscript <span class="math notranslate nohighlight">\(int\)</span> for  stands for <em>interaction</em></p>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{4mm}\]</div>
+<div class="admonition-definition-of-math-boldsymbol-f-int admonition">
+<p class="admonition-title">Definition of <span class="math notranslate nohighlight">\(\boldsymbol{F}_{int}\)</span></p>
+<div class="math notranslate nohighlight" id="equation-fint-pseudo-potential">
+<span class="eqno">(237)<a class="headerlink" href="#equation-fint-pseudo-potential" title="Link to this equation"></a></span>\[\boldsymbol{F}_{int}=\psi(\rho)\boldsymbol{\nabla}\psi(\rho)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\psi(\rho)\equiv \psi^{eos}(\rho)\)</span> is called the <em>pseudo-potential</em> which is defined by</p>
+<div class="math notranslate nohighlight" id="equation-psi-pseudo-potential">
+<span class="eqno">(238)<a class="headerlink" href="#equation-psi-pseudo-potential" title="Link to this equation"></a></span>\[\psi(\rho)=\sqrt{\frac{2(\rho c_{s}^{2}-p^{eos}(\rho))}{c_{s}^{2}}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(p^{eos}(\rho)\)</span> is the <a class="reference internal" href="../../05_COURSES/Course_PF/04_NavierStokes_Korteweg.html#equations-of-state"><span class="std std-ref">Other equations of state (EoS)</span></a>.</p>
+<p>The discrete version of <a class="reference internal" href="#equation-fint-pseudo-potential">(237)</a> writes</p>
+<div class="math notranslate nohighlight" id="equation-fint-discrete">
+<span class="eqno">(239)<a class="headerlink" href="#equation-fint-discrete" title="Link to this equation"></a></span>\[\boldsymbol{F}_{int}(\boldsymbol{x},t)=\psi(\boldsymbol{x},t)\frac{1}{\delta x}\sum_{i}w_{i}\psi(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t)\boldsymbol{c}_{i}\]</div>
+</div>
+</div>
+</section>
+<section id="potential-form-of-pressure-tensor">
+<h2>Potential form of pressure tensor<a class="headerlink" href="#potential-form-of-pressure-tensor" title="Link to this heading"></a></h2>
+<div class="sphinx-features docutils container">
+<div class="admonition-guo-s-forcing-term admonition">
+<p class="admonition-title">Guo’s forcing term</p>
+<p>In Eq. <a class="reference internal" href="#equation-lbe-low-mach">(233)</a>, the forcing term is defined by</p>
+<div class="math notranslate nohighlight" id="equation-guo-force">
+<span class="eqno">(240)<a class="headerlink" href="#equation-guo-force" title="Link to this equation"></a></span>\[\mathcal{F}_{i}(\boldsymbol{x},t)=w_{i}\left[\frac{\boldsymbol{c}_{i}-\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})\boldsymbol{c}_{i}}{c_{s}^{4}}\right]\cdot\boldsymbol{F}_{tot}\]</div>
+<p>where the total force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{tot}\)</span> is defined by Eq. <a class="reference internal" href="#equation-ftot-potential-form">(241)</a></p>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{4mm}\]</div>
+<div class="admonition-definition-of-math-boldsymbol-f-tot admonition">
+<p class="admonition-title">Definition of <span class="math notranslate nohighlight">\(\boldsymbol{F}_{tot}\)</span></p>
+<div class="math notranslate nohighlight" id="equation-ftot-potential-form">
+<span class="eqno">(241)<a class="headerlink" href="#equation-ftot-potential-form" title="Link to this equation"></a></span>\[\boldsymbol{F}_{tot}=\boldsymbol{\nabla}\rho c_{s}^{2}-\rho\boldsymbol{\nabla}\mu_{\rho}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu_{\rho}\)</span> are defined for van der Waals and Carnahan-Starling In</p>
+<p><a class="reference internal" href="../../05_COURSES/Course_PF/04_NavierStokes_Korteweg.html#equations-of-state"><span class="std std-ref">Other equations of state (EoS)</span></a></p>
+</div>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">LBM for Navier-Stokes/Korteweg model</a><ul>
+<li><a class="reference internal" href="#pseudo-potential-methods">Pseudo-potential methods</a></li>
+<li><a class="reference internal" href="#potential-form-of-pressure-tensor">Potential form of pressure tensor</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../A_Basic-LBM/04_Forces-LBMSaclay.html"
+                          title="previous chapter">Force and source terms in LBM</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../C_Other/Additional_Gradients.html"
+                          title="next chapter">Gradients and Laplacian</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/03_LBM_Schemes/B_Specific-Schemes/LBM_for_NSK.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../C_Other/Additional_Gradients.html" title="Gradients and Laplacian"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../A_Basic-LBM/04_Forces-LBMSaclay.html" title="Force and source terms in LBM"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" >PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LBM for Navier-Stokes/Korteweg model</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

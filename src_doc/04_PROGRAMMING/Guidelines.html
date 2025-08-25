@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PART IV: Guidelines for developers &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Before programming: create a new branch from master" href="Before_Programming.html" />
+    <link rel="prev" title="Boundary conditions" href="../03_LBM_Schemes/C_Other/Boundary_Conditions.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Before_Programming.html" title="Before programming: create a new branch from master"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../03_LBM_Schemes/C_Other/Boundary_Conditions.html" title="Boundary conditions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART IV: Guidelines for developers</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="part-iv-guidelines-for-developers">
+<span id="guidelines"></span><h1>PART IV: Guidelines for developers<a class="headerlink" href="#part-iv-guidelines-for-developers" title="Link to this heading"></a></h1>
+<section id="follow-your-developments-with-git">
+<h2>Follow your developments with git<a class="headerlink" href="#follow-your-developments-with-git" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Before_Programming.html">Before programming: create a new branch from master</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Before_Programming.html#after-programming-push-your-developments">After programming: push your developments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Before_Programming.html#compilation-and-run">Compilation and run</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01_USER_GUIDE/QUICKSTART/Compil_GPU_MPI_Orcus.html">ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="modifications-inside-a-kernel">
+<h2>Modifications inside a <code class="docutils literal notranslate"><span class="pre">Kernel</span></code><a class="headerlink" href="#modifications-inside-a-kernel" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Kernel_Description.html">Kernel description: example with <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Kernel_Description.html#list-of-main-kernels">List of main kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Kernel_Description.html#files-structures-and-functions-inside-one-kernel">Files, structures and functions inside one kernel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Kernel_Modif.html">Implementing your initial conditions, force terms and closure relationships</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Kernel_Modif1_Initial-Condition.html">Write a new initial condition inside a kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Kernel_Modif2_Force-Term.html">Write a new force in Navier-Stokes solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Kernel_Modif3_Def-Macro-Functions.html">Write new closure relationships in <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="add-a-new-kernel">
+<h2>Add a new kernel<a class="headerlink" href="#add-a-new-kernel" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Kernel_New.html">Add a new kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Kernel_Add_New-Kernel.html">Copy and rename directory and files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Kernel_Add_New-Eq.html">Add a new equation inside the new kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Kernel_Add_Setup-Collider.html">Write your function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">PART IV: Guidelines for developers</a><ul>
+<li><a class="reference internal" href="#follow-your-developments-with-git">Follow your developments with git</a></li>
+<li><a class="reference internal" href="#modifications-inside-a-kernel">Modifications inside a <code class="docutils literal notranslate"><span class="pre">Kernel</span></code></a></li>
+<li><a class="reference internal" href="#add-a-new-kernel">Add a new kernel</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../03_LBM_Schemes/C_Other/Boundary_Conditions.html"
+                          title="previous chapter">Boundary conditions</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Before_Programming.html"
+                          title="next chapter">Before programming: create a new branch from master</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/04_PROGRAMMING/Guidelines.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Before_Programming.html" title="Before programming: create a new branch from master"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../03_LBM_Schemes/C_Other/Boundary_Conditions.html" title="Boundary conditions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART IV: Guidelines for developers</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

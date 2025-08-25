@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Before programming: create a new branch from master &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Kernel description: example with NSAC_Comp" href="Kernel_Description.html" />
+    <link rel="prev" title="PART IV: Guidelines for developers" href="Guidelines.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Kernel_Description.html" title="Kernel description: example with NSAC_Comp"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Guidelines.html" title="PART IV: Guidelines for developers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" accesskey="U">PART IV: Guidelines for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Before programming: create a new branch from master</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="before-programming-create-a-new-branch-from-master">
+<h1>Before programming: create a new branch from master<a class="headerlink" href="#before-programming-create-a-new-branch-from-master" title="Link to this heading"></a></h1>
+<p><strong>Download one version of LBM_Saclay</strong></p>
+<p>For example here <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev</span></code> version, the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Rech-Dev.git
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Check your current branch</strong></p>
+<blockquote>
+<div><div class="hint admonition">
+<p class="admonition-title">Check your current branch</p>
+<p>Once the download is complete, go to <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev</span></code> directory</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev
+$<span class="w"> </span>git<span class="w"> </span>status
+</pre></div>
+</div>
+</div>
+<p>returns:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Sur</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">branche</span><span class="w"> </span><span class="n">master</span>
+<span class="no">Votre</span><span class="w"> </span><span class="n">branche</span><span class="w"> </span><span class="n">est</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">jour</span><span class="w"> </span><span class="n">avec</span><span class="w"> </span><span class="s1">&#39;origin/master&#39;</span><span class="o">.</span>
+
+<span class="n">rien</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">valider</span><span class="p">,</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">copie</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">travail</span><span class="w"> </span><span class="n">est</span><span class="w"> </span><span class="n">propre</span>
+</pre></div>
+</div>
+<p>means that you are currently on the <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p>
+</div></blockquote>
+<p><strong>Create a new branch</strong></p>
+<blockquote>
+<div><div class="hint admonition">
+<p class="admonition-title">Create a new branch</p>
+<ol class="arabic">
+<li><p>Create a new branch, example name of the new branch <code class="docutils literal notranslate"><span class="pre">dev/alain.cartalade</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>branch<span class="w"> </span>dev/alain.cartalade
+</pre></div>
+</div>
+</li>
+<li><p>Move on that new branch</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>dev/alain.cartalade
+</pre></div>
+</div>
+</li>
+<li><p>Check</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>status
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div></blockquote>
+<p><strong>Move on one existing branch</strong></p>
+<blockquote>
+<div><div class="hint admonition">
+<p class="admonition-title">Move on one existing branch</p>
+<p>Example to move on one existing branch <code class="docutils literal notranslate"><span class="pre">dev/hoel.keraudren</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>dev/hoel.keraudren
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div></blockquote>
+<p><strong>Copy and rename one existing branch</strong></p>
+<blockquote>
+<div><div class="hint admonition">
+<p class="admonition-title">Copy one existing branch</p>
+<p>Example to copy and rename one existing branch e.g. <code class="docutils literal notranslate"><span class="pre">development</span></code></p>
+<ol class="arabic">
+<li><p>Basculement sur la branche <code class="docutils literal notranslate"><span class="pre">development</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>development
+</pre></div>
+</div>
+</li>
+<li><p>New branch <code class="docutils literal notranslate"><span class="pre">dev/alain.cartalade</span></code> copied from <code class="docutils literal notranslate"><span class="pre">development</span></code> + switch</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>dev/alain.cartalade
+</pre></div>
+</div>
+</li>
+<li><p>Create the new branch on Tuleap + link to the local one</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>dev/alain.cartalade
+</pre></div>
+</div>
+</li>
+<li><p>You can start your developments on your branch.</p></li>
+</ol>
+</div>
+</div></blockquote>
+</section>
+<section id="after-programming-push-your-developments">
+<h1>After programming: push your developments<a class="headerlink" href="#after-programming-push-your-developments" title="Link to this heading"></a></h1>
+<p>Check the modifications on the current branch</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>status
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>Add your comment and push your developments</strong></p>
+<blockquote>
+<div><div class="hint admonition">
+<p class="admonition-title">Add, comment and push</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>*<span class="w"> </span><span class="o">(</span>or<span class="w"> </span>-all<span class="o">)</span><span class="w">       </span><span class="c1"># add new modifications</span>
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;comment&quot;</span><span class="w">   </span><span class="c1"># add new comments related to modifications</span>
+$<span class="w"> </span>git<span class="w"> </span>push<span class="w">                  </span><span class="c1"># push modifications on git</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div></blockquote>
+</section>
+<section id="compilation-and-run">
+<h1>Compilation and run<a class="headerlink" href="#compilation-and-run" title="Link to this heading"></a></h1>
+<p>For ORCUS, follow the instructions:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../01_USER_GUIDE/QUICKSTART/Compil_GPU_MPI_Orcus.html">ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025</a></li>
+</ul>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Before programming: create a new branch from master</a></li>
+<li><a class="reference internal" href="#after-programming-push-your-developments">After programming: push your developments</a></li>
+<li><a class="reference internal" href="#compilation-and-run">Compilation and run</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Guidelines.html"
+                          title="previous chapter">PART IV: Guidelines for developers</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Kernel_Description.html"
+                          title="next chapter">Kernel description: example with <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code></a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/04_PROGRAMMING/Before_Programming.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Kernel_Description.html" title="Kernel description: example with NSAC_Comp"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Guidelines.html" title="PART IV: Guidelines for developers"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Before programming: create a new branch from master</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

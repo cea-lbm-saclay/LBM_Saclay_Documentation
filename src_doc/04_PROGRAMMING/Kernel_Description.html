@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Kernel description: example with NSAC_Comp &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Implementing your initial conditions, force terms and closure relationships" href="Kernel_Modif.html" />
+    <link rel="prev" title="Before programming: create a new branch from master" href="Before_Programming.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Kernel_Modif.html" title="Implementing your initial conditions, force terms and closure relationships"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Before_Programming.html" title="Before programming: create a new branch from master"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" accesskey="U">PART IV: Guidelines for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Kernel description: example with <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="kernel-description-example-with-nsac-comp">
+<span id="kernel-description"></span><h1>Kernel description: example with <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code><a class="headerlink" href="#kernel-description-example-with-nsac-comp" title="Link to this heading"></a></h1>
+<p>In LBM_Saclay, a mathematical model is a set of several Partial Derivative Equations (PDEs). Those PDEs are programmed inside a <strong>Kernel</strong>. All kernels are gathered inside the folder <code class="docutils literal notranslate"><span class="pre">LBM_Saclay/src/kernels</span></code>. For example, the mathematical model of kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> is given by Eqs. <a class="reference internal" href="../02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.html#equation-mass-balance-cac-model">(31)</a> – <a class="reference internal" href="../02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.html#equation-composition-equation">(34)</a> in <a class="reference internal" href="../02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.html#math-nsac-comp"><span class="std std-ref">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</span></a>.</p>
+<section id="list-of-main-kernels">
+<h2>List of main kernels<a class="headerlink" href="#list-of-main-kernels" title="Link to this heading"></a></h2>
+<p>The main kernels are</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>: <a class="reference internal" href="../02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.html#math-nsac-comp"><span class="std std-ref">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NSAC_Surfactant</span></code>: <a class="reference internal" href="../02_MODELS/01_Fluid_Fluid/Model_NSAC_Surfactant.html#math-nsac-surfactant"><span class="std std-ref">Model of Navier-Stokes/CAC with surfactant</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NSK</span></code>: <a class="reference internal" href="../02_MODELS/01_Fluid_Fluid/Model_NSK.html#model-nsk"><span class="std std-ref">Model of Navier-Stokes/Korteweg (NSK)</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GPMixtTernary</span></code>: <a class="reference internal" href="../02_MODELS/02_Fluid_Solid/Model_Maturation_Gel.html#model-gpmixtternary"><span class="std std-ref">Model of gel maturation</span></a></p></li>
+</ul>
+</section>
+<section id="files-structures-and-functions-inside-one-kernel">
+<h2>Files, structures and functions inside one kernel<a class="headerlink" href="#files-structures-and-functions-inside-one-kernel" title="Link to this heading"></a></h2>
+<p>Inside one kernel, e.g. <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>, one can find six files:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>NSAC_Comp
+$<span class="w"> </span>ls<span class="w"> </span>-l
+</pre></div>
+</div>
+</div></blockquote>
+<p>returns</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>-rw-rw----+<span class="w"> </span><span class="m">1</span><span class="w"> </span>ac165432<span class="w"> </span>dm2s-user-cat-a<span class="w">  </span><span class="m">2434</span><span class="w"> </span>juil.<span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">13</span>:14<span class="w"> </span>Index_NS_AC_Comp.h
+-rw-rw----+<span class="w"> </span><span class="m">1</span><span class="w"> </span>ac165432<span class="w"> </span>dm2s-user-cat-a<span class="w">   </span><span class="m">968</span><span class="w"> </span>juil.<span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">13</span>:15<span class="w"> </span>InitConditionsTypes.h
+-rw-rw----+<span class="w"> </span><span class="m">1</span><span class="w"> </span>ac165432<span class="w"> </span>dm2s-user-cat-a<span class="w"> </span><span class="m">78015</span><span class="w"> </span>juil.<span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">13</span>:14<span class="w"> </span>LBMScheme_NS_AC_Comp.h
+-rw-rw----+<span class="w"> </span><span class="m">1</span><span class="w"> </span>ac165432<span class="w"> </span>dm2s-user-cat-a<span class="w"> </span><span class="m">49717</span><span class="w"> </span>juil.<span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">13</span>:15<span class="w"> </span>Models_NS_AC_Comp.h
+-rw-rw----+<span class="w"> </span><span class="m">1</span><span class="w"> </span>ac165432<span class="w"> </span>dm2s-user-cat-a<span class="w">  </span><span class="m">6071</span><span class="w"> </span>juil.<span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">13</span>:15<span class="w"> </span>Problem_NS_AC_Comp.h
+-rw-rw----+<span class="w"> </span><span class="m">1</span><span class="w"> </span>ac165432<span class="w"> </span>dm2s-user-cat-a<span class="w">  </span><span class="m">1960</span><span class="w"> </span>juil.<span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="m">13</span>:14<span class="w"> </span>Setup.h
+</pre></div>
+</div>
+</div></blockquote>
+<p>We present below a summary of what those files do.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+File <code class="docutils literal notranslate"><span class="pre">Index_NS_AC_Comp.h</span></code></label><div class="sd-tab-content docutils">
+<div class="important admonition">
+<p class="admonition-title">List of component indices</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">Index_NS_AC_Comp.h</span></code> contains the enumeration of component indices</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">ComponentIndex</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="no">ID</span><span class="p">,</span><span class="w">            </span><span class="sr">/*!&lt; ID Density index */</span>
+<span class="w">   </span><span class="no">IP</span><span class="p">,</span><span class="w">            </span><span class="sr">/*!&lt; Pressure   index */</span>
+<span class="w">   </span><span class="no">IU</span><span class="p">,</span><span class="w">            </span><span class="sr">/*!&lt; X velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">   </span><span class="no">IV</span><span class="p">,</span><span class="w">            </span><span class="sr">/*!&lt; Y velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">   </span><span class="no">IW</span><span class="p">,</span><span class="w">            </span><span class="sr">/*!&lt; Z velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">   </span><span class="no">IPHI</span><span class="p">,</span><span class="w">          </span><span class="sr">/*!&lt; Phase field index */</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Add a new index</p>
+<p>If you want to add a new field, for example <span class="math notranslate nohighlight">\(\psi\)</span>, simply add the new index relative to this field:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">ComponentIndex</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="w">   </span><span class="no">IPSI</span><span class="p">,</span><span class="w">          </span><span class="sr">/*!&lt; Phase field index for solid phase */</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Mapping index and keywords</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">Index_NS_AC_Comp.h</span></code> also contains the mapping between the component indices and the keywords set in <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file for outputs.</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span><span class="w"> </span><span class="n">index2names</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">static</span><span class="w"> </span><span class="n">int2str_t</span><span class="w"> </span><span class="n">get_id2names</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">int2str_t</span><span class="w"> </span><span class="n">map</span><span class="p">;</span>
+<span class="w">   </span><span class="sr">//</span><span class="w"> </span><span class="n">insert</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">fields</span>
+<span class="w">   </span><span class="n">map</span><span class="o">[</span><span class="no">ID</span><span class="o">]</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rho&quot;</span><span class="p">;</span>
+<span class="w">   </span><span class="n">map</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vx&quot;</span><span class="p">;</span>
+<span class="w">   </span><span class="n">map</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vy&quot;</span><span class="p">;</span>
+<span class="w">   </span><span class="n">map</span><span class="o">[</span><span class="no">IW</span><span class="o">]</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vz&quot;</span><span class="p">;</span>
+<span class="w">   </span><span class="n">map</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;phi&quot;</span><span class="p">;</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Output for this new field <span class="math notranslate nohighlight">\(\psi\)</span></p>
+<p>If you want to post-process with paraview this new field <span class="math notranslate nohighlight">\(\psi\)</span>, you must add</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span><span class="w"> </span><span class="n">index2names</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">static</span><span class="w"> </span><span class="n">int2str_t</span><span class="w"> </span><span class="n">get_id2names</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">int2str_t</span><span class="w"> </span><span class="n">map</span><span class="p">;</span>
+<span class="w">   </span><span class="sr">//</span><span class="w"> </span><span class="n">insert</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">fields</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="w">   </span><span class="n">map</span><span class="o">[</span><span class="no">IPSI</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;psi&quot;</span><span class="p">;</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Simply write <code class="docutils literal notranslate"><span class="pre">psi</span></code> in the list of output variables in the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file.</p>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+File <code class="docutils literal notranslate"><span class="pre">InitConditionsTypes.h</span></code></label><div class="sd-tab-content docutils">
+<p>All keywords of initial conditions are gathered in an enumeration list which is written in file <code class="docutils literal notranslate"><span class="pre">InitConditionsTypes.h</span></code>. For example</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">InitCondition</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="no">PHASE_FIELD_INIT_UNDEFINED</span><span class="p">,</span>
+<span class="w">   </span><span class="no">PHASE_FIELD_INIT_VERTICAL</span><span class="p">,</span>
+<span class="w">   </span><span class="no">PHASE_FIELD_INIT_SPHERE</span><span class="p">,</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+File <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code></label><div class="sd-tab-content docutils">
+<p>This file contains the C++ structure <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code> which performs several tasks:</p>
+<ul>
+<li><p>Read input parameters set in <code class="docutils literal notranslate"><span class="pre">.ini</span></code> datafile. For example</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Mphi</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Mphi&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><p>means: read in <code class="docutils literal notranslate"><span class="pre">.ini</span></code> a real value <code class="docutils literal notranslate"><span class="pre">Mphi</span></code> in section <code class="docutils literal notranslate"><span class="pre">params</span></code> and set it in <code class="docutils literal notranslate"><span class="pre">Mphi</span></code>. If it does not exist, then set the default value <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p>
+</div></blockquote>
+<ul>
+<li><p>Read the keyword of initial condition. For example</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;sphere&quot;</span><span class="p">)</span>
+<span class="w">   </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">PHASE_FIELD_INIT_SPHERE</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><p>means: if the keyword is <code class="docutils literal notranslate"><span class="pre">sphere</span></code> in the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file, then initialize with <code class="docutils literal notranslate"><span class="pre">PHASE_FIELD_INIT_SPHERE</span></code></p>
+</div></blockquote>
+<div class="important admonition">
+<p class="admonition-title">Definition of closure functions</p>
+<p>Interpolation functions, source terms, force terms, tanh solution, etc are defined in this file. For example, the classical hyperbolic tangent solution is defined by the function <code class="docutils literal notranslate"><span class="pre">phi0</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">real_t</span><span class="w"> </span><span class="n">phi0</span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tanh</span><span class="p">(</span><span class="n">sign</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">W</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The surface tension force in NS equation writes:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">int</span><span class="w"> </span><span class="n">dim</span><span class="o">&gt;</span>
+<span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">force_TS</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">tension</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigma</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">g_prime</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ILAPLAPHI</span><span class="o">]</span><span class="p">);</span>
+<span class="w">   </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+<span class="w">   </span><span class="n">term</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tension</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDX</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="n">term</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tension</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDY</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">term</span><span class="o">[</span><span class="no">IZ</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tension</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDZ</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>One interpolation function is <span class="math notranslate nohighlight">\(p(\phi)=\phi^2(3-2\phi)\)</span> is defined by the function <cite>p</cite>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">real_t</span><span class="w"> </span><span class="nb">p</span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">phi</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">phi</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+File <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code></label><div class="sd-tab-content docutils">
+<p>This file contains the C++ structure <code class="docutils literal notranslate"><span class="pre">LBMScheme</span></code> which defines five functions described below.</p>
+<div class="important admonition">
+<p class="admonition-title"><code class="docutils literal notranslate"><span class="pre">setup_collider</span></code>: definition of collision stage</p>
+<p>Definition of collision stage for each equation and collision type (BGK, TRT, MRT)</p>
+<p>See <a class="reference internal" href="Kernel_Add_Setup-Collider.html#tuto-setup-collider"><span class="std std-ref">Write your function setup_collider</span></a></p>
+</div>
+<div class="important admonition">
+<p class="admonition-title"><code class="docutils literal notranslate"><span class="pre">make_boundary</span></code>: update the boundary conditions</p>
+<p>for every distribution function</p>
+</div>
+<div class="important admonition">
+<p class="admonition-title"><code class="docutils literal notranslate"><span class="pre">init_macro</span></code>: initialization of macroscopic fields</p>
+<p>The initial conditions are defined in <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code> in function <code class="docutils literal notranslate"><span class="pre">init_macro</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">void</span><span class="w"> </span><span class="n">init_macro</span><span class="p">(</span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">RANDOM_POOL</span><span class="o">::</span><span class="n">generator_type</span><span class="w"> </span><span class="n">rand_gen</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Each initial condition is associated with a keyword, for example:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">PHASE_FIELD_INIT_SPHERE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>means that the phase-field <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x},0)\)</span> will be set as a sphere at initial time.</p>
+</div>
+<div class="important admonition">
+<p class="admonition-title"><code class="docutils literal notranslate"><span class="pre">update_macro</span></code>: update the macroscopic fields</p>
+<p>Update the macroscopic fields with the distributions functions at new time-step <span class="math notranslate nohighlight">\(t+\delta t\)</span></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">void</span><span class="w"> </span><span class="n">update_macro</span><span class="p">(</span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">IJK</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title"><code class="docutils literal notranslate"><span class="pre">update_macro_grad</span></code>: update gradient of new macroscopic fields</p>
+<p>Update all gradients of macroscopic fields computed at <span class="math notranslate nohighlight">\(t+\delta t\)</span>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">void</span><span class="w"> </span><span class="n">update_macro_grad</span><span class="p">(</span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">IJK</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Call of closure functions defined in <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code></p>
+<p>All closure functions defined in file <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code> are called in LBM schemes. In this file, <code class="docutils literal notranslate"><span class="pre">Model</span></code> is defined as a structure <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span><span class="w"> </span><span class="no">LBMScheme</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kp">public</span><span class="w"> </span><span class="no">LBMSchemeBase</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="w">   </span><span class="no">ModelParams</span><span class="w"> </span><span class="no">Model</span><span class="p">;</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Example, the surface tension force is simply called by:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">ForceTS_2liq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">force_TS</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lbmState</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>or for initialization,</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">phi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">phi0</span><span class="p">(</span><span class="n">xphi</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+File <code class="docutils literal notranslate"><span class="pre">Problem_NS_AC_Comp.h</span></code></label><div class="sd-tab-content docutils">
+<p>The file <code class="docutils literal notranslate"><span class="pre">Problem_NS_AC_Comp.h</span></code> contains the functions of various stages of LBM algorithm. We present here only <code class="docutils literal notranslate"><span class="pre">init_f()</span></code>, <code class="docutils literal notranslate"><span class="pre">update_f()</span></code> and <code class="docutils literal notranslate"><span class="pre">update_m()</span></code>.</p>
+<div class="important admonition">
+<p class="admonition-title">Initialization of distribution function <span class="math notranslate nohighlight">\(f_i\)</span>: <code class="docutils literal notranslate"><span class="pre">init_f()</span></code></p>
+<p>Initialize all distribution functions which are necessary for the mathematical model (3 distribution functions for <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>) for all collision operators and all equations.</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">void</span><span class="w"> </span><span class="n">init_f</span><span class="p">()</span><span class="w"> </span><span class="n">override</span><span class="w"> </span><span class="p">{</span>
+<span class="sr">//</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="n">distribution</span><span class="w"> </span><span class="n">functions</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BGK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">init1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">BGKCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Update distribution function <span class="math notranslate nohighlight">\(f_i\)</span>: <code class="docutils literal notranslate"><span class="pre">update_f()</span></code></p>
+<p>Update all distribution functions which are necessary for the mathematical model (3 for NSAC_Com)</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">void</span><span class="w"> </span><span class="n">update_f</span><span class="p">()</span><span class="w"> </span><span class="n">override</span><span class="w"> </span><span class="p">{</span>
+<span class="sr">//</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="n">distribution</span><span class="w"> </span><span class="n">functions</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BGK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">update1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">BGKCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="w">   </span><span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Update macroscopic variables <code class="docutils literal notranslate"><span class="pre">update_m()</span></code></p>
+<p>Small function that updates the macroscopic variables and their gradients.</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">void</span><span class="w"> </span><span class="n">update_m</span><span class="p">()</span><span class="w"> </span><span class="n">override</span><span class="w"> </span><span class="p">{</span>
+<span class="sr">//</span><span class="w"> </span><span class="n">update</span><span class="w"> </span><span class="n">macro</span><span class="w"> </span><span class="n">fields</span>
+<span class="w">   </span><span class="no">MacroKernel</span><span class="o">::</span><span class="n">template</span><span class="w"> </span><span class="n">apply</span><span class="o">&lt;</span><span class="no">TagUpdateMacro</span><span class="o">&gt;</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">scheme</span><span class="p">);</span>
+<span class="w">   </span><span class="no">MacroKernel</span><span class="o">::</span><span class="n">template</span><span class="w"> </span><span class="n">apply</span><span class="o">&lt;</span><span class="no">TagUpdateMacroGrads</span><span class="o">&gt;</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">scheme</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+File <code class="docutils literal notranslate"><span class="pre">Setup.h</span></code></label><div class="sd-tab-content docutils">
+<p>The file <code class="docutils literal notranslate"><span class="pre">Setup.h</span></code> registers the problem (e.g. <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>) so that it may be created from <code class="docutils literal notranslate"><span class="pre">LBMRun</span></code>. You must write a new <code class="docutils literal notranslate"><span class="pre">Setup.h</span></code> file for new kernel. See <a class="reference internal" href="Kernel_New.html#kernel-new"><span class="std std-ref">Add a new kernel</span></a> for more details.</p>
+</div>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Kernel description: example with <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code></a><ul>
+<li><a class="reference internal" href="#list-of-main-kernels">List of main kernels</a></li>
+<li><a class="reference internal" href="#files-structures-and-functions-inside-one-kernel">Files, structures and functions inside one kernel</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Before_Programming.html"
+                          title="previous chapter">Before programming: create a new branch from master</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Kernel_Modif.html"
+                          title="next chapter">Implementing your initial conditions, force terms and closure relationships</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/04_PROGRAMMING/Kernel_Description.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Kernel_Modif.html" title="Implementing your initial conditions, force terms and closure relationships"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Before_Programming.html" title="Before programming: create a new branch from master"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Kernel description: example with <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

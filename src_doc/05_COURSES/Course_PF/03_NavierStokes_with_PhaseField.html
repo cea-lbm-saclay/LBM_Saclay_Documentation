@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Model of incompressible Navier-Stokes with interface-capturing equation &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Isothermal Navier-Stokes/Korteweg model" href="04_NavierStokes_Korteweg.html" />
+    <link rel="prev" title="Time-evolution: Cahn-Hilliard and Allen-Cahn models" href="02_CH_CAC_Models.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="04_NavierStokes_Korteweg.html" title="Isothermal Navier-Stokes/Korteweg model"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="02_CH_CAC_Models.html" title="Time-evolution: Cahn-Hilliard and Allen-Cahn models"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" accesskey="U">Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of incompressible Navier-Stokes with interface-capturing equation</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="model-of-incompressible-navier-stokes-with-interface-capturing-equation">
+<span id="model-ins-with-phasefield-course"></span><h1>Model of incompressible Navier-Stokes with interface-capturing equation<a class="headerlink" href="#model-of-incompressible-navier-stokes-with-interface-capturing-equation" title="Link to this heading"></a></h1>
+<section id="bulk-and-local-densities">
+<h2>Bulk and local densities<a class="headerlink" href="#bulk-and-local-densities" title="Link to this heading"></a></h2>
+<p>We consider two fluids <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> of constant densities <span class="math notranslate nohighlight">\(\rho_A\)</span> and <span class="math notranslate nohighlight">\(\rho_B\)</span> and constant viscosities <span class="math notranslate nohighlight">\(\nu_A\)</span> and <span class="math notranslate nohighlight">\(\nu_B\)</span>. Those properties are called <em>bulk densities</em> and <em>bulk viscosities</em>. We introduce a phase index <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x},t)\)</span> of value 0 in the first phase <span class="math notranslate nohighlight">\(A\)</span> and +1 in the second phase <span class="math notranslate nohighlight">\(B\)</span>. With the phase-field <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x},t)\)</span> we can define local densities depending on position and time <span class="math notranslate nohighlight">\(\varrho_A(\boldsymbol{x},t)\)</span> and <span class="math notranslate nohighlight">\(\varrho_B(\boldsymbol{x},t)\)</span> by:</p>
+<div class="math notranslate nohighlight" id="equation-local-density-a">
+<span class="eqno">(523)<a class="headerlink" href="#equation-local-density-a" title="Link to this equation"></a></span>\[\varrho_{A}(\boldsymbol{x},t)=\rho_{A}(1-\phi(\boldsymbol{x},t))\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight" id="equation-local-density-b">
+<span class="eqno">(524)<a class="headerlink" href="#equation-local-density-b" title="Link to this equation"></a></span>\[\varrho_{B}(\boldsymbol{x},t)=\rho_{B}\phi(\boldsymbol{x},t)\]</div>
+<p>The total local density is</p>
+<div class="math notranslate nohighlight" id="equation-local-density-total">
+<span class="eqno">(525)<a class="headerlink" href="#equation-local-density-total" title="Link to this equation"></a></span>\[\varrho(\boldsymbol{x},t)=\rho_{B}\phi(\boldsymbol{x},\,t)+\rho_{A}(1-\phi(\boldsymbol{x},t))\]</div>
+<p>With that definition, if <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x},t)=0\)</span>, then <span class="math notranslate nohighlight">\(\varrho(\boldsymbol{x},t)=\rho_A\)</span> and if <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x},t)=1\)</span>, then <span class="math notranslate nohighlight">\(\varrho(\boldsymbol{x},t)=\rho_B\)</span>.</p>
+</section>
+<section id="mass-balance">
+<h2>Mass balance<a class="headerlink" href="#mass-balance" title="Link to this heading"></a></h2>
+<p>A mass balance for each local density yields</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-twophase-course">
+<span class="eqno">(530)<a class="headerlink" href="#equation-mass-balance-twophase-course" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \frac{\partial\varrho_{A}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{A}\boldsymbol{u}+\rho_{A}\boldsymbol{j}_{A})&amp; = &amp; -\dot{m}'''\\
+   \frac{\partial\varrho_{B}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{B}\boldsymbol{u}+\rho_{B}\boldsymbol{j}_{B})&amp; = &amp; +\dot{m}'''
+\end{eqnarray}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\varrho_{B}\boldsymbol{u}\)</span> and <span class="math notranslate nohighlight">\(\varrho_{A}\boldsymbol{u}\)</span> are two advective fluxes and <span class="math notranslate nohighlight">\(\rho_{A}\boldsymbol{j}_{A}\)</span> and <span class="math notranslate nohighlight">\(\rho_{B}\boldsymbol{j}_{B}\)</span> are two diffusive fluxes. Here we assume that <span class="math notranslate nohighlight">\(\boldsymbol{j}_{A}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{j}_{B}\)</span> are equal and opposite:</p>
+<div class="math notranslate nohighlight" id="equation-fluxes-assumption">
+<span class="eqno">(527)<a class="headerlink" href="#equation-fluxes-assumption" title="Link to this equation"></a></span>\[\boldsymbol{j}=\boldsymbol{j}_{B}=-\boldsymbol{j}_{A}\]</div>
+<p>On the right-hand side, <span class="math notranslate nohighlight">\(\dot{m}'''\)</span> is a production source term: if it is added in one equation, then that quantity is substracted from the other equation. The three primes <span class="math notranslate nohighlight">\('''\)</span> means that the production is volumic. Its physical dimension is <span class="math notranslate nohighlight">\([\text{M}]/([\text{L}]^3.[\text{T}])\)</span>. Its value is non zero when phase change occurs. For two immiscible fluids we can consider that <span class="math notranslate nohighlight">\(\dot{m}'''=0\)</span>.</p>
+<p>Expressed with <span class="math notranslate nohighlight">\(\phi\)</span>, those two equations write</p>
+<div class="math notranslate nohighlight" id="equation-eqs-phi">
+<span class="eqno">(528)<a class="headerlink" href="#equation-eqs-phi" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi+\boldsymbol{j})&amp; = &amp; +\frac{\dot{m}'''}{\rho_{B}}\\
+   \frac{\partial(1-\phi)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}(1-\phi)-\boldsymbol{j}) &amp; = &amp; -\frac{\dot{m}'''}{\rho_{A}}
+\end{eqnarray}\end{split}\]</div>
+<p>By summing those two equations, we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-mass-conservation-twophase-with-m-course">
+<span class="eqno">(529)<a class="headerlink" href="#equation-mass-conservation-twophase-with-m-course" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=\dot{m}'''\left(\frac{1}{\rho_{B}}-\frac{1}{\rho_{A}}\right)\]</div>
+</section>
+<section id="incompressible-two-phase-flows-without-phase-change">
+<h2>Incompressible two-phase flows without phase change<a class="headerlink" href="#incompressible-two-phase-flows-without-phase-change" title="Link to this heading"></a></h2>
+<p>Without phase change <span class="math notranslate nohighlight">\(\dot{m}'''=0\)</span> and we retrieve the classical mass balance:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-twophase-course">
+<span class="eqno">(530)<a class="headerlink" href="#equation-mass-balance-twophase-course" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<p>For flux <span class="math notranslate nohighlight">\(\boldsymbol{j}\)</span>, two hypotheses are used.</p>
+<ul class="simple">
+<li><p>For the first one, the flux is given by the gradient of chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span>:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-cahn-hilliard-flux">
+<span class="eqno">(531)<a class="headerlink" href="#equation-cahn-hilliard-flux" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \boldsymbol{j} &amp; = &amp; -\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}\\
+   &amp; = &amp; -M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]
+\end{eqnarray}\end{split}\]</div>
+<p>and Eq. <a class="reference internal" href="#equation-eqs-phi">(528)</a> becomes the CH model:</p>
+<div class="math notranslate nohighlight" id="equation-cahn-hilliard-twophase">
+<span class="eqno">(532)<a class="headerlink" href="#equation-cahn-hilliard-twophase" title="Link to this equation"></a></span>\[\frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}\]</div>
+<ul class="simple">
+<li><p>For the second one, the flux is chosen as standard diffusive flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{diff}\)</span> with counter term flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{CT}\)</span> (see <a class="reference internal" href="02_CH_CAC_Models.html#cac-model"><span class="std std-ref">Conservative Allen-Cahn (CAC) model</span></a> for origin and interpretation of counter term):</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-counter-term-flux-course">
+<span class="eqno">(533)<a class="headerlink" href="#equation-counter-term-flux-course" title="Link to this equation"></a></span>\[\boldsymbol{j}=-M_{\phi}\boldsymbol{\nabla}\phi+\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\]</div>
+<p>and Eq. <a class="reference internal" href="#equation-eqs-phi">(528)</a> becomes the CAC model:</p>
+<div class="math notranslate nohighlight" id="equation-cac-twophase">
+<span class="eqno">(534)<a class="headerlink" href="#equation-cac-twophase" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right]\]</div>
+<section id="model-of-navier-stokes-with-interface-capturing-equation">
+<h3>Model of Navier-Stokes with interface-capturing equation<a class="headerlink" href="#model-of-navier-stokes-with-interface-capturing-equation" title="Link to this heading"></a></h3>
+<p>The model of two-phase flows is simply composed of incompressible Navier-Stokes equations which hold in both fluids <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>. An interpolation with <span class="math notranslate nohighlight">\(\phi\)</span> is performed for local densities and local viscosities, and an additional force term is added in the impulsion balance equation: the capillary force representative of surface tension <span class="math notranslate nohighlight">\(\sigma\)</span> between both fluids. The model writes:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-03-navierstokes-with-phasefield-0">
+<span class="eqno">(535)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-03-navierstokes-with-phasefield-0" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \boldsymbol{\nabla}\cdot\boldsymbol{u} &amp; = &amp; 0\\
+   \varrho(\phi)\underbrace{\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]}_{\text{Acceleration}}&amp; = &amp; \underbrace{-\boldsymbol{\nabla}p_{h}}_{\text{Pressure force}}+\underbrace{\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\vartheta(\phi)(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})\right]}_{\text{Viscous force}}+\underbrace{\mu_{\phi}\boldsymbol{\nabla}\phi}_{\text{Capillary force }\boldsymbol{F}_{c}}+\underbrace{\varrho(\phi)\boldsymbol{g}}_{\text{Buoyancy}}
+\end{eqnarray}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is the mean velocity, <span class="math notranslate nohighlight">\(p_h\)</span> is the hydrodynamic pressure, <span class="math notranslate nohighlight">\(\boldsymbol{g}\)</span> is the gravity. The local properties of fluids are noted <span class="math notranslate nohighlight">\(\varrho(\phi)\)</span> for density and <span class="math notranslate nohighlight">\(\vartheta(\phi)\)</span> for kinematic viscosity. Their expressions will will summarized below. The physical dimensions of each term must be <span class="math notranslate nohighlight">\([\text{F}]/[\text{L}]^3\)</span> where <span class="math notranslate nohighlight">\([\text{F}]\)</span> is used for force: <span class="math notranslate nohighlight">\([\text{F}]=[\text{M.L}]/[\text{T}]^2\)</span>. For example for the buoyancy force term</p>
+<div class="math notranslate nohighlight" id="equation-physical-dim-grhog">
+<span class="eqno">(536)<a class="headerlink" href="#equation-physical-dim-grhog" title="Link to this equation"></a></span>\[[\varrho(\phi)\boldsymbol{g}]=\frac{[\text{M}]}{[\text{L}]^3} \frac{[\text{L}]}{[\text{T}]^2}=\frac{[\text{F}]}{[\text{L}]^3}\]</div>
+<p>The capillary force <span class="math notranslate nohighlight">\(\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi\)</span> has been formulated in <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> and <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. That form is equivalent to the surface tension force <span class="math notranslate nohighlight">\(-\delta_d \sigma \kappa \boldsymbol{n}\)</span> where <span class="math notranslate nohighlight">\(\kappa\)</span> is the curvature, <span class="math notranslate nohighlight">\(\sigma\)</span> is the surface tension, <span class="math notranslate nohighlight">\(\boldsymbol{n}\)</span> is the normal vector at the interface and <span class="math notranslate nohighlight">\(\delta_d\)</span> is the Kronecker’s symbol but expressed in the phase-field framework, i.e. with a diffuse interface:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-03-navierstokes-with-phasefield-1">
+<span class="eqno">(537)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-03-navierstokes-with-phasefield-1" title="Link to this equation"></a></span>\[\delta_{d}=\frac{3}{2}W\left|\boldsymbol{\nabla}\phi\right|^{2}\]</div>
+<p>That term is homogeneous to an inverse of length: <span class="math notranslate nohighlight">\([\delta_d]=1/[\text{L}]\)</span>. We can prove that</p>
+<div class="math notranslate nohighlight" id="equation-proof-equiv-surface-tension-nsac">
+<span class="eqno">(538)<a class="headerlink" href="#equation-proof-equiv-surface-tension-nsac" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \boldsymbol{F}_{c} &amp; = &amp; \mu_{\phi}\boldsymbol{\nabla}\phi\\
+   &amp; = &amp; \Bigl[4H\phi(\phi-1)(\phi-1/2)-\zeta\boldsymbol{\nabla}^{2}\phi\Bigr]\boldsymbol{\nabla}\phi\\
+   &amp; = &amp; -\frac{3}{2}W\sigma\Bigl[\Delta\phi-\frac{16}{W^{2}}\phi(1-\phi)(1-2\phi)\Bigr]\boldsymbol{\nabla}\phi\\
+   &amp; = &amp; -\frac{3}{2}W\sigma\kappa\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{\nabla}\phi\\
+   &amp; = &amp; -\delta_{d}\sigma\kappa\boldsymbol{n}
+\end{eqnarray}\end{split}\]</div>
+<p>where we have used</p>
+<ul class="simple">
+<li><p>Eq. <a class="reference internal" href="01_Fundamentals_PF.html#equation-chemical-potential-course">(429)</a> for <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> in the second line.</p></li>
+<li><p>Replace <span class="math notranslate nohighlight">\(H\)</span> and <span class="math notranslate nohighlight">\(\zeta\)</span> by <span class="math notranslate nohighlight">\(H=12\sigma/W\)</span> and <span class="math notranslate nohighlight">\(\zeta=(3/2)W\sigma\)</span> in the third line.</p></li>
+<li><p>Eq. <a class="reference internal" href="02_CH_CAC_Models.html#equation-equiv-derivative-curvature">(521)</a> for <span class="math notranslate nohighlight">\(\kappa\left|\boldsymbol{\nabla}\phi\right|\)</span> in the fourth line.</p></li>
+<li><p>Multiply and divide by <span class="math notranslate nohighlight">\(\left|\boldsymbol{\nabla}\phi\right|\)</span> to make appear <span class="math notranslate nohighlight">\(\boldsymbol{n}\)</span> in the last line.</p></li>
+</ul>
+<p>We can check that the capillary force is homogeneous to a volumic force:</p>
+<div class="math notranslate nohighlight" id="equation-check-physdim-fc">
+<span class="eqno">(539)<a class="headerlink" href="#equation-check-physdim-fc" title="Link to this equation"></a></span>\[[\delta_{d}\sigma\kappa\boldsymbol{n}]=\frac{1}{[\text{L}]}\times \frac{[\text{F}]}{[\text{L}]}\times \frac{1}{[\text{L}]}=\frac{[\text{F}]}{[\text{L}]^3}\]</div>
+<p>When expressed by its potential form:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-03-navierstokes-with-phasefield-2">
+<span class="eqno">(540)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-03-navierstokes-with-phasefield-2" title="Link to this equation"></a></span>\[[\mu_{\phi}\boldsymbol{\nabla}\phi]=\frac{\text{E}}{[\text{L}]^3}\times \frac{1}{[\text{L}]}=\frac{[\text{F.L}]}{[\text{L}]^3}\times \frac{1}{[\text{L}]}=\frac{[\text{F}]}{[\text{L}]^3}\]</div>
+<div class="hint admonition">
+<p class="admonition-title">Two-phase incompressible Navier-Stokes</p>
+<p>The two-phase flows model is composed of incompressible Navier-Stokes equations. The first one is the mass balance equation</p>
+<div class="math notranslate nohighlight" id="equation-twophase-massbalance">
+<span class="eqno">(541)<a class="headerlink" href="#equation-twophase-massbalance" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<p>The second one is the impulsion balance equation:</p>
+<div class="math notranslate nohighlight" id="equation-ns-eqs-twophase">
+<span class="eqno">(542)<a class="headerlink" href="#equation-ns-eqs-twophase" title="Link to this equation"></a></span>\[\varrho(\phi)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\vartheta(\phi)\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\mu_{\phi}\boldsymbol{\nabla}\phi+\varrho(\phi)\boldsymbol{g}\]</div>
+<p>where the local density <span class="math notranslate nohighlight">\(\varrho(\phi)\)</span> is defined by Eq. <a class="reference internal" href="#equation-local-density-total">(525)</a>:</p>
+<div class="math notranslate nohighlight" id="equation-interpolation-density">
+<span class="eqno">(543)<a class="headerlink" href="#equation-interpolation-density" title="Link to this equation"></a></span>\[\varrho(\boldsymbol{x},t)=\rho_{B}\phi(\boldsymbol{x},\,t)+\rho_{A}(1-\phi(\boldsymbol{x},t))\]</div>
+<p>and the kinematic viscosity <span class="math notranslate nohighlight">\(\vartheta(\phi)\)</span> is interpolated with the harmonic mean:</p>
+<div class="math notranslate nohighlight" id="equation-interpolation-viscosity">
+<span class="eqno">(544)<a class="headerlink" href="#equation-interpolation-viscosity" title="Link to this equation"></a></span>\[\frac{1}{\vartheta(\phi)}=\frac{\phi}{\nu_{B}}+\frac{1-\phi}{\nu_{A}}\]</div>
+<p>In capillary force of Eq. <a class="reference internal" href="#equation-ns-eqs-twophase">(542)</a> the chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-chem-pot-twophase">
+<span class="eqno">(545)<a class="headerlink" href="#equation-chem-pot-twophase" title="Link to this equation"></a></span>\[\mu_{\phi}=\frac{3}{2}\sigma W\left[\frac{16}{W^2}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi\right]\]</div>
+</div>
+<p>The phase-field <span class="math notranslate nohighlight">\(\phi\)</span> follows one of the two phase-field equation. The Conservative Allen-Cahn equation writes</p>
+<div class="hint admonition">
+<p class="admonition-title">Interface-capturing model 1: Conservative Allen-Cahn equation</p>
+<div class="math notranslate nohighlight" id="equation-cac-eq-twophase">
+<span class="eqno">(546)<a class="headerlink" href="#equation-cac-eq-twophase" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(M_{\phi}\)</span> is the mobility coefficient of interface, <span class="math notranslate nohighlight">\(W\)</span> is the interface width and the unit normal vector <span class="math notranslate nohighlight">\(\boldsymbol{n}_{\phi}\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-twophase-def-n">
+<span class="eqno">(547)<a class="headerlink" href="#equation-twophase-def-n" title="Link to this equation"></a></span>\[\boldsymbol{n}_{\phi}=\frac{\boldsymbol{\nabla}\phi}{|\boldsymbol{\nabla}\phi|}\]</div>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Interface-capturing model 2: Cahn-Hilliard equation</p>
+<p>Whereas the Cahn-Hilliard equation writes</p>
+<div class="math notranslate nohighlight" id="equation-ch-eq-twophase">
+<span class="eqno">(548)<a class="headerlink" href="#equation-ch-eq-twophase" title="Link to this equation"></a></span>\[\frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}\]</div>
+</div>
+</section>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="10">
+<li><p>Brackbill, D.B. Kothe, C. Zemach, A continuum method for modeling surface tension, Journal of Computational Physics, Volume 100, Issue 2, June 1992, Pages 335-354. 1992. <a class="reference external" href="https://doi.org/10.1016/0021-9991(92)90240-Y">https://doi.org/10.1016/0021-9991(92)90240-Y</a></p></li>
+</ol>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Jacqmin D., Calculation of Two-Phase Navier–Stokes Flows Using Phase-Field Modeling, Journal of Computational Physics, Volume 155, Issue 1, Pages 96-127, 1999. <a class="reference external" href="https://doi.org/10.1006/jcph.1999.6332">https://doi.org/10.1006/jcph.1999.6332</a></p>
+</aside>
+</aside>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Model of incompressible Navier-Stokes with interface-capturing equation</a><ul>
+<li><a class="reference internal" href="#bulk-and-local-densities">Bulk and local densities</a></li>
+<li><a class="reference internal" href="#mass-balance">Mass balance</a></li>
+<li><a class="reference internal" href="#incompressible-two-phase-flows-without-phase-change">Incompressible two-phase flows without phase change</a><ul>
+<li><a class="reference internal" href="#model-of-navier-stokes-with-interface-capturing-equation">Model of Navier-Stokes with interface-capturing equation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="02_CH_CAC_Models.html"
+                          title="previous chapter">Time-evolution: Cahn-Hilliard and Allen-Cahn models</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="04_NavierStokes_Korteweg.html"
+                          title="next chapter">Isothermal Navier-Stokes/Korteweg model</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="04_NavierStokes_Korteweg.html" title="Isothermal Navier-Stokes/Korteweg model"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="02_CH_CAC_Models.html" title="Time-evolution: Cahn-Hilliard and Allen-Cahn models"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" >Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of incompressible Navier-Stokes with interface-capturing equation</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

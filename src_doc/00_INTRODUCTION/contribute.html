@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Contribution guidelines &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="PART I: User’s guide" href="../01_USER_GUIDE/TOC_User-Guide.html" />
+    <link rel="prev" title="STMF Publications with LBM" href="TEAM/List-Of-Publications.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../01_USER_GUIDE/TOC_User-Guide.html" title="PART I: User’s guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="TEAM/List-Of-Publications.html" title="STMF Publications with LBM"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Contribution guidelines</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="contribution-guidelines">
+<h1>Contribution guidelines<a class="headerlink" href="#contribution-guidelines" title="Link to this heading"></a></h1>
+<section id="install-sphinx-on-your-computer">
+<h2>Install Sphinx on your computer<a class="headerlink" href="#install-sphinx-on-your-computer" title="Link to this heading"></a></h2>
+<div class="admonition-install-sphinx admonition">
+<p class="admonition-title">Install Sphinx</p>
+<p>Install sphinx on your computer (see <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/installation.html">https://www.sphinx-doc.org/en/master/usage/installation.html</a>) and check the version:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sphinx-build<span class="w"> </span>--version
+</pre></div>
+</div>
+</div></blockquote>
+<p>Install PyPI packages</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinx-design
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>myst-parser
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinx_rtd_theme
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinxcontrib-bibtex
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinx-pdf-generate
+</pre></div>
+</div>
+</div></blockquote>
+<p>On ubuntu 24.04, if <code class="docutils literal notranslate"><span class="pre">pip</span></code> command does not work, follow, the instructions below:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.venvs
+$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/.venvs/sphinx
+$<span class="w"> </span>~/.venvs/sphinx/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinx-design
+$<span class="w"> </span>~/.venvs/sphinx/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>myst-parser
+$<span class="w"> </span>~/.venvs/sphinx/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinx_rtd_theme
+$<span class="w"> </span>~/.venvs/sphinx/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinxcontrib-bibtex
+$<span class="w"> </span>~/.venvs/sphinx/bin/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinx-pdf-generate
+</pre></div>
+</div>
+</div></blockquote>
+<p>And add the path of directory in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;~/.venvs/sphinx/lib/python3.12/site-packages&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="admonition-generate-the-html-pages admonition">
+<p class="admonition-title">Generate the html pages</p>
+<p>The main file is <code class="docutils literal notranslate"><span class="pre">index.rst</span></code> in the directory <code class="docutils literal notranslate"><span class="pre">/home/lbm-saclay/LBM_Saclay_Documentation/</span></code>. All other source files (<code class="docutils literal notranslate"><span class="pre">.rst</span></code> files) of LBM_Saclay documentation are the in directory <code class="docutils literal notranslate"><span class="pre">/home/lbm-saclay/LBM_Saclay_Documentation/src_doc/</span></code>.</p>
+<p>Compile</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Documentation
+$<span class="w"> </span>make<span class="w"> </span>html
+</pre></div>
+</div>
+</div></blockquote>
+<p>Open in google-chrome</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>google-chrome<span class="w"> </span>/home/lbm-saclay/LBM_Saclay_Documentation/_build/html/index.html<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="write-your-documentation">
+<h2>Write your documentation<a class="headerlink" href="#write-your-documentation" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">Write your documentation</p>
+<p><strong>Write your</strong> <code class="docutils literal notranslate"><span class="pre">.rst</span></code> <strong>files</strong></p>
+<p>The main file is <code class="docutils literal notranslate"><span class="pre">index.rst</span></code> in the folder <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Documentation</span></code>. All other <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files are contained in <code class="docutils literal notranslate"><span class="pre">src_doc</span></code>. Edit them, add new <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files, compile and visualize your modifications.</p>
+<ul class="simple">
+<li><p>Sphinx doc see: <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/index.html">https://www.sphinx-doc.org/en/master/usage/index.html</a></p></li>
+<li><p>Math with Sphinx see: <a class="reference external" href="https://sphinx-rtd-trial.readthedocs.io/en/latest/ext/math.html">https://sphinx-rtd-trial.readthedocs.io/en/latest/ext/math.html</a></p></li>
+<li><p>BibTeX with Sphinx <a class="reference external" href="https://pypi.org/project/sphinxcontrib-bibtex/">https://pypi.org/project/sphinxcontrib-bibtex/</a></p></li>
+<li><p>Sphinx desing: <a class="reference external" href="https://sphinx-design.readthedocs.io/en/latest/index.html">https://sphinx-design.readthedocs.io/en/latest/index.html</a></p></li>
+</ul>
+<p><strong>Write your</strong> <code class="docutils literal notranslate"><span class="pre">.tex</span></code> <strong>files</strong></p>
+<p>Write your documentation directly in LaTeX or with LyX and export it in <code class="docutils literal notranslate"><span class="pre">.tex</span></code> format. Next, convert your <code class="docutils literal notranslate"><span class="pre">.tex</span></code> files into <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files with <code class="docutils literal notranslate"><span class="pre">pandoc</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pandoc<span class="w"> </span>filename.tex<span class="w"> </span>-o<span class="w"> </span>filename.rst
+</pre></div>
+</div>
+</div></blockquote>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-1 sd-row-cols-xs-1 sd-row-cols-sm-1 sd-row-cols-md-1 sd-row-cols-lg-1 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Warning with pandoc</div>
+<ul class="simple">
+<li><p class="sd-card-text">UTF8 format is required for pandoc. For LyX users, Go to Document &gt; Settings, select the section “Language”. Under “Encoding”, select “Other: Unicode (utf8)”.</p></li>
+<li><p class="sd-card-text">pandoc is not a miraculous converter, the generated <code class="docutils literal notranslate"><span class="pre">.rst</span></code> file will require some modification.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Convert your videos to</strong> <code class="docutils literal notranslate"><span class="pre">.webm</span></code> <strong>format</strong></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ffmpeg<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;videoname.avi&quot;</span><span class="w"> </span>-c:v<span class="w"> </span>libvpx<span class="w"> </span>-b:v<span class="w"> </span>2000k<span class="w"> </span>-pix_fmt<span class="w"> </span>yuva420p<span class="w"> </span>-auto-alt-ref<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="s2">&quot;videoname.webm&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>and put them in folder <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Doc/_static/</span></code></p>
+</div>
+</section>
+<section id="push-your-improvements">
+<h2>Push your improvements<a class="headerlink" href="#push-your-improvements" title="Link to this heading"></a></h2>
+<p>If your modifications are brought on the GitHub version, don’t forget to create a new branch and push your addings.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Contribution guidelines</a><ul>
+<li><a class="reference internal" href="#install-sphinx-on-your-computer">Install Sphinx on your computer</a></li>
+<li><a class="reference internal" href="#write-your-documentation">Write your documentation</a></li>
+<li><a class="reference internal" href="#push-your-improvements">Push your improvements</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="TEAM/List-Of-Publications.html"
+                          title="previous chapter">STMF Publications with LBM</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../01_USER_GUIDE/TOC_User-Guide.html"
+                          title="next chapter">PART I: User’s guide</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/00_INTRODUCTION/contribute.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../01_USER_GUIDE/TOC_User-Guide.html" title="PART I: User’s guide"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="TEAM/List-Of-Publications.html" title="STMF Publications with LBM"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Contribution guidelines</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

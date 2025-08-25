@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analytical solutions for two-phase &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Basic concepts of Lattice Boltzmann Methods" href="../Course_LBM/TOC_LBM_Course.html" />
+    <link rel="prev" title="Overview of interface-tracking methods with one-fluid formulation (to be completed)" href="03_Interface-Tracking.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Course_LBM/TOC_LBM_Course.html" title="Basic concepts of Lattice Boltzmann Methods"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="03_Interface-Tracking.html" title="Overview of interface-tracking methods with one-fluid formulation (to be completed)"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Two-Phase_Intro.html" accesskey="U">Introduction of two-phase flows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Analytical solutions for two-phase</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="analytical-solutions-for-two-phase">
+<span id="analytical-solutions-two-phase"></span><h1>Analytical solutions for two-phase<a class="headerlink" href="#analytical-solutions-for-two-phase" title="Link to this heading"></a></h1>
+<section id="laplace-s-law">
+<h2>Laplace’s law<a class="headerlink" href="#laplace-s-law" title="Link to this heading"></a></h2>
+<figure class="align-default">
+<a class="align-left reference internal image-reference" href="../../../_images/Laplace-Law.png"><img alt="../../../_images/Laplace-Law.png" class="align-left" src="../../../_images/Laplace-Law.png" style="width: 160.0px; height: 144.0px;" />
+</a>
+</figure>
+<p>The difference between the pressure inside the droplet <span class="math notranslate nohighlight">\(P_{in}\)</span> and the pressure outside <span class="math notranslate nohighlight">\(P_{out}\)</span> is equal to</p>
+<div class="math notranslate nohighlight" id="equation-laplace-law">
+<span class="eqno">(324)<a class="headerlink" href="#equation-laplace-law" title="Link to this equation"></a></span>\[\underbrace{P_{in}-P_{out}}_{\Delta P}=\frac{\sigma}{R}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma\)</span> is the surface tension and <span class="math notranslate nohighlight">\(R\)</span> is the droplet radius.</p>
+</section>
+<section id="analytical-solution-of-double-poiseuille-flow">
+<h2>Analytical solution of double-Poiseuille flow<a class="headerlink" href="#analytical-solution-of-double-poiseuille-flow" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-intro-two-phase-04-analytical-solutions-two-phase-0">
+<span class="eqno">(325)<a class="headerlink" href="#equation-src-doc-05-courses-course-intro-two-phase-04-analytical-solutions-two-phase-0" title="Link to this equation"></a></span>\[\begin{split}u_{x}(y)=\begin{cases}
+   \frac{Gh^{2}}{2\eta_{A}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{A}}{\eta_{A}+\eta_{B}}\right] &amp; \mbox{if }0\leq y\leq h\\
+   \frac{Gh^{2}}{2\eta_{B}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{B}}{\eta_{A}+\eta_{B}}\right] &amp; \mbox{if }-h\leq y\leq0
+\end{cases}\end{split}\]</div>
+</section>
+<section id="analytical-solution-of-prosperetti-for-capillary-wave">
+<span id="analytical-solution-capillary-wave-prosperetti"></span><h2>Analytical solution of Prosperetti for capillary wave<a class="headerlink" href="#analytical-solution-of-prosperetti-for-capillary-wave" title="Link to this heading"></a></h2>
+<p>The example of such a study is given by the test case of capillary wave. For that test case, an analytical solution exists <a href="#id2"><span class="problematic" id="id1">[2]_</span></a>. The objective is to study the influence of mesh on the solution accuracy. The amplitude is</p>
+<div class="math notranslate nohighlight" id="equation-sol-prosperetti">
+<span class="eqno">(326)<a class="headerlink" href="#equation-sol-prosperetti" title="Link to this equation"></a></span>\[a(t)=\frac{4(1-4\beta)\nu^{2}k^{4}}{8(1-4\beta)\nu^{2}k^{4}+\omega_{0}^{2}}a_{0}\text{erfc}(\nu k^{2}t)^{1/2}+\sum_{i=1}^{4}\frac{z_{i}}{Z_{i}}\left(\frac{\omega_{0}^{2}a_{0}}{z_{i}^{2}-\nu k^{2}}-u_{0}\right)\times\exp[(z_{i}^{2}-\nu k^{2})t]\text{erfc}(z_{i}t^{1/2})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\nu\)</span> is the kinematic viscosity which is identical for both fluids, <span class="math notranslate nohighlight">\(k\)</span> is the wave number which is related to the wavelength <span class="math notranslate nohighlight">\(\lambda\)</span> by <span class="math notranslate nohighlight">\(k=2\pi/\lambda\)</span>. The coefficient <span class="math notranslate nohighlight">\(\beta\)</span> is defined by the liquid <span class="math notranslate nohighlight">\(\rho_l\)</span> and gas <span class="math notranslate nohighlight">\(\rho_g\)</span> densities:</p>
+<div class="math notranslate nohighlight" id="equation-def-beta-prosperetti">
+<span class="eqno">(327)<a class="headerlink" href="#equation-def-beta-prosperetti" title="Link to this equation"></a></span>\[\beta=\frac{\rho_{l}\rho_{g}}{(\rho_{l}+\rho_{g})^{2}}\]</div>
+<p><span class="math notranslate nohighlight">\(\omega_0\)</span> is the inviscid natural frequency given by</p>
+<div class="math notranslate nohighlight" id="equation-natural-freq-prosperetti">
+<span class="eqno">(328)<a class="headerlink" href="#equation-natural-freq-prosperetti" title="Link to this equation"></a></span>\[\omega_{0}=\frac{\rho_{l}-\rho_{g}}{\rho_{l}+\rho_{g}}gk+\frac{\sigma k^{3}}{\rho_{l}+\rho_{g}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(g\)</span> is the gravity. In the following verifications <span class="math notranslate nohighlight">\(g=0\)</span>. The <span class="math notranslate nohighlight">\(z_i\)</span>’s are the four roots of the algebric equation</p>
+<div class="math notranslate nohighlight" id="equation-eq-zi">
+<span class="eqno">(329)<a class="headerlink" href="#equation-eq-zi" title="Link to this equation"></a></span>\[z^{4}-4\beta(k^{2}\nu)^{1/2}z^{3}+2(1-6\beta)k^{2}\nu z^{2}+4(1-3\beta)(k^{2}\nu)^{3/2}z+(1-4\beta)\nu^{2}k^{4}+\omega_{0}^{2}=0\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight" id="equation-def-z1">
+<span class="eqno">(330)<a class="headerlink" href="#equation-def-z1" title="Link to this equation"></a></span>\[Z_{1}=(z_{2}-z_{1})(z_{3}-z_{1})(z_{4}-z_{1})\]</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Analytical solutions for two-phase</a><ul>
+<li><a class="reference internal" href="#laplace-s-law">Laplace’s law</a></li>
+<li><a class="reference internal" href="#analytical-solution-of-double-poiseuille-flow">Analytical solution of double-Poiseuille flow</a></li>
+<li><a class="reference internal" href="#analytical-solution-of-prosperetti-for-capillary-wave">Analytical solution of Prosperetti for capillary wave</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="03_Interface-Tracking.html"
+                          title="previous chapter">Overview of interface-tracking methods with one-fluid formulation (to be completed)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../Course_LBM/TOC_LBM_Course.html"
+                          title="next chapter">Basic concepts of Lattice Boltzmann Methods</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_Intro-Two-Phase/04_Analytical-Solutions_Two-Phase.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Course_LBM/TOC_LBM_Course.html" title="Basic concepts of Lattice Boltzmann Methods"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="03_Interface-Tracking.html" title="Overview of interface-tracking methods with one-fluid formulation (to be completed)"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Two-Phase_Intro.html" >Introduction of two-phase flows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Analytical solutions for two-phase</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

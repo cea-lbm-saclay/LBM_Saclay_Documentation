@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Write a new initial condition inside a kernel &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Write a new force in Navier-Stokes solver" href="Kernel_Modif2_Force-Term.html" />
+    <link rel="prev" title="Implementing your initial conditions, force terms and closure relationships" href="Kernel_Modif.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Kernel_Modif2_Force-Term.html" title="Write a new force in Navier-Stokes solver"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Modif.html" title="Implementing your initial conditions, force terms and closure relationships"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Kernel_Modif.html" accesskey="U">Implementing your initial conditions, force terms and closure relationships</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Write a new initial condition inside a kernel</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="write-a-new-initial-condition-inside-a-kernel">
+<span id="tuto-initial-conditions"></span><h1>Write a new initial condition inside a kernel<a class="headerlink" href="#write-a-new-initial-condition-inside-a-kernel" title="Link to this heading"></a></h1>
+<p>The purpose is to implement one initial condition for the phase-field <span class="math notranslate nohighlight">\(\phi\)</span> such as it represents a circular (2D) or spherical (3D) bubble at the beginning of the simulation. We need to implement the following equation:</p>
+<div class="math notranslate nohighlight" id="equation-init-sphere">
+<span class="eqno">(246)<a class="headerlink" href="#equation-init-sphere" title="Link to this equation"></a></span>\[\phi(\boldsymbol{x},0)=\frac{1}{2}\left[1+\tanh\left(\frac{2(r_0-d_{0})}{W}\right)\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(r_0\)</span> is bubble radius and the distance <span class="math notranslate nohighlight">\(d_0\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-dist">
+<span class="eqno">(247)<a class="headerlink" href="#equation-dist" title="Link to this equation"></a></span>\[d_{0}=\sqrt{(x-x_{0})^{2}+(y-y_{0})^{2}+(z-z_{0})^{2}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{x}_0=(x_0,y_0,z_0)\)</span> is the center position of the bubble and <span class="math notranslate nohighlight">\(\boldsymbol{x}=(x,y,z)\)</span> is one particular node on the mesh.</p>
+<section id="implement-your-initial-condition">
+<h2>Implement your initial condition<a class="headerlink" href="#implement-your-initial-condition" title="Link to this heading"></a></h2>
+<p>You must modify three files which are in the folder: <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code>, <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code> and <code class="docutils literal notranslate"><span class="pre">LBM_enums.h</span></code>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+File <code class="docutils literal notranslate"><span class="pre">Models_NS_AC_Comp.h</span></code></label><div class="sd-tab-content docutils">
+<p>Edit the file with command:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/src/kernels/NSAC_Comp
+$<span class="w"> </span>geany<span class="w"> </span>Models_NS_AC_Comp.h
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic">
+<li><p>Read the input parameters</p>
+<p>In this file, the input parameters <span class="math notranslate nohighlight">\(r_0\)</span>, <span class="math notranslate nohighlight">\(x_0,y_0,z_0\)</span> must be read from the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file. Add e.g. between lines 97 and 206</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">ModelParams</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">ConfigMap</span><span class="w"> </span><span class="o">&amp;</span><span class="n">configMap</span><span class="p">,</span><span class="w"> </span><span class="no">LBMParams</span><span class="w"> </span><span class="n">params</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="o">...</span>
+<span class="o">...</span>
+<span class="n">x0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="w">  </span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x0&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">y0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="w">  </span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;y0&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">z0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="w">  </span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;z0&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">r0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="w">  </span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;r0&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The first line means that <code class="docutils literal notranslate"><span class="pre">x0</span></code> must be read as a real in section <code class="docutils literal notranslate"><span class="pre">[init]</span></code>. If the line does not exist in the input file, then its value is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</li>
+<li><p>Declare them (between lines 309 and 341)</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">ModelParams</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">ConfigMap</span><span class="w"> </span><span class="o">&amp;</span><span class="n">configMap</span><span class="p">,</span><span class="w"> </span><span class="no">LBMParams</span><span class="w"> </span><span class="n">params</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="o">...</span>
+<span class="o">...</span>
+
+<span class="n">real_t</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="n">y0</span><span class="p">,</span><span class="w"> </span><span class="n">z0</span><span class="p">,</span><span class="w"> </span><span class="n">r0</span><span class="w"> </span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Add a new keyword for that initial condition (e.g. between lines 234 and 271)</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;sphere&quot;</span><span class="p">)</span>
+<span class="w">   </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">PHASE_FIELD_INIT_SPHERE</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The keyword <code class="docutils literal notranslate"><span class="pre">sphere</span></code> has to appear in the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file. The keyword <code class="docutils literal notranslate"><span class="pre">PHASE_FIELD_INIT_SPHERE</span></code> must be added in the list of enumerations (see below file <code class="docutils literal notranslate"><span class="pre">LBM_enums.h</span></code>).</p>
+</li>
+<li><p>Definition of hyperbolic tangent function (line 349)</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">phi0</span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tanh</span><span class="p">(</span><span class="n">sign</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">W</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">phi0</span></code> implements the hyperbolic tangent function. It is defined in class <code class="docutils literal notranslate"><span class="pre">Model</span></code>.</p>
+</li>
+</ol>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+File <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code></label><div class="sd-tab-content docutils">
+<p>Eq. <a class="reference internal" href="#equation-init-sphere">(246)</a> is implemented in file <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/src/kernels/NSAC_Comp
+$<span class="w"> </span>geany<span class="w"> </span>LBMScheme_NS_AC_Comp.h
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic">
+<li><p>The initializations of macroscopic fields are performed in the function (line 1024):</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="err">KOKKOS_INLINE_FUNCTION</span>
+<span class="err">void</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">i</span><span class="kc">t</span><span class="err">_macro(IVec</span><span class="kc">t</span><span class="err">&lt;dim&gt;</span><span class="w"> </span><span class="err">IJK</span><span class="p">,</span><span class="w"> </span><span class="err">RANDOM_POOL</span><span class="p">::</span><span class="err">ge</span><span class="kc">nerat</span><span class="err">or_</span><span class="kc">t</span><span class="err">ype</span><span class="w"> </span><span class="err">ra</span><span class="kc">n</span><span class="err">d_ge</span><span class="kc">n</span><span class="err">)</span><span class="w"> </span><span class="err">co</span><span class="kc">nst</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="err">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In that function, the following lines implement <span class="math notranslate nohighlight">\(r_0-d_0\)</span> for 2D or 3D cases:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">PHASE_FIELD_INIT_SPHERE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">xphi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">r0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">y0</span><span class="p">)));</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="w">     </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">xphi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">r0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">y0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">z0</span><span class="p">)));</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="w">        </span><span class="n">xc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xphi</span><span class="w"> </span><span class="p">;</span>
+<span class="w">     </span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Once <span class="math notranslate nohighlight">\(r_0-d_0\)</span> is defined (<code class="docutils literal notranslate"><span class="pre">xphi</span></code>), the hyperbolic tangent function is applied (line 1420)</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">phi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">phi0</span><span class="p">(</span><span class="n">xphi</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+File <code class="docutils literal notranslate"><span class="pre">LBM_enums.h</span></code></label><div class="sd-tab-content docutils">
+<p>Edit file <code class="docutils literal notranslate"><span class="pre">LBM_enums.h</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/src
+$<span class="w"> </span>geany<span class="w"> </span>LBM_enums.h
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p>Add the keyword <code class="docutils literal notranslate"><span class="pre">PHASE_FIELD_INIT_SPHERE</span></code> in the list of enumeration (line 111)</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">PhaseFieldInit</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="o">...</span>
+
+<span class="w">   </span><span class="no">PHASE_FIELD_INIT_SPHERE</span><span class="p">,</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="compile-modify-your-ini-file-and-check">
+<h2>Compile, modify your <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file and check<a class="headerlink" href="#compile-modify-your-ini-file-and-check" title="Link to this heading"></a></h2>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Write a new initial condition inside a kernel</a><ul>
+<li><a class="reference internal" href="#implement-your-initial-condition">Implement your initial condition</a></li>
+<li><a class="reference internal" href="#compile-modify-your-ini-file-and-check">Compile, modify your <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file and check</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Kernel_Modif.html"
+                          title="previous chapter">Implementing your initial conditions, force terms and closure relationships</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Kernel_Modif2_Force-Term.html"
+                          title="next chapter">Write a new force in Navier-Stokes solver</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/04_PROGRAMMING/Kernel_Modif1_Initial-Condition.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Kernel_Modif2_Force-Term.html" title="Write a new force in Navier-Stokes solver"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Modif.html" title="Implementing your initial conditions, force terms and closure relationships"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Kernel_Modif.html" >Implementing your initial conditions, force terms and closure relationships</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Write a new initial condition inside a kernel</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

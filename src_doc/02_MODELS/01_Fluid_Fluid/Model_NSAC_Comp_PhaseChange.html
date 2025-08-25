@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Model of Navier-Stokes/CAC with Liquid-Gas phase change &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Model of Navier-Stokes/Korteweg (NSK)" href="Model_NSK.html" />
+    <link rel="prev" title="Model of Navier-Stokes/CAC with surfactant" href="Model_NSAC_Surfactant.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Model_NSK.html" title="Model of Navier-Stokes/Korteweg (NSK)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Model_NSAC_Surfactant.html" title="Model of Navier-Stokes/CAC with surfactant"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" accesskey="U">PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of Navier-Stokes/CAC with Liquid-Gas phase change</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="model-of-navier-stokes-cac-with-liquid-gas-phase-change">
+<span id="math-nsac-phasechange"></span><h1>Model of Navier-Stokes/CAC with Liquid-Gas phase change<a class="headerlink" href="#model-of-navier-stokes-cac-with-liquid-gas-phase-change" title="Link to this heading"></a></h1>
+<section id="incompressible-two-phase-flows-with-phase-change">
+<h2>Incompressible two-phase flows with phase change<a class="headerlink" href="#incompressible-two-phase-flows-with-phase-change" title="Link to this heading"></a></h2>
+<p>The mathematical model is composed of incompressible Navier-Stokes equations coupled with the phase-field equation and temperature equation. The basic model is the previous one <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> except that the mass balance is modified with a source term and the temperature equation replaces the composition one. The modifications are highlighted in the orange boxes below.</p>
+<div class="warning admonition">
+<p class="admonition-title">Mass balance with source term</p>
+<p>The mass balance writes:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-phasechange">
+<span class="eqno">(75)<a class="headerlink" href="#equation-mass-balance-phasechange" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=\dot{m}'''\left(\frac{1}{\rho_{g}}-\frac{1}{\rho_{l}}\right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)=(u_x,u_y,u_z)^T\)</span> is the fluid velocity, and <span class="math notranslate nohighlight">\(\dot{m}'''\)</span> is the volumic production of one phase at the interface. It is defined in Eq. <a class="reference internal" href="#equation-cac-prodterm">(78)</a>.</p>
+</div>
+<p><strong>Impulsion balance equation</strong></p>
+<p>The impulsion balance equation writes:</p>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-phasechange">
+<span class="eqno">(76)<a class="headerlink" href="#equation-impulsion-balance-phasechange" title="Link to this equation"></a></span>\[\varrho(\phi,c)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\eta(\phi)\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\boldsymbol{F}_{tot}\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_{h}\equiv p_{h}(\boldsymbol{x},t)\)</span> is the hydrodynamic pressure, <span class="math notranslate nohighlight">\(\varrho\)</span> is the total densiy and <span class="math notranslate nohighlight">\(\eta\)</span> is the dynamic viscosity. Those quantities are obtained from the interpolation of bulk properties with the phase-field <span class="math notranslate nohighlight">\(\phi\)</span>. Their expressions will be given in the subsection “Closure”.</p>
+<div class="warning admonition">
+<p class="admonition-title">Phase-field equation</p>
+<p>The interface is followed by an additional PDE on the phase-field:</p>
+<div class="math notranslate nohighlight" id="equation-cac-phasechange">
+<span class="eqno">(77)<a class="headerlink" href="#equation-cac-phasechange" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right)\right]+\frac{\dot{m}'''}{\rho_{g}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\phi\equiv\phi(\boldsymbol{x},t)\)</span> is the phase-field, <span class="math notranslate nohighlight">\(M_{\phi}\)</span> is the mobility and <span class="math notranslate nohighlight">\(W\)</span> is the interface width. <span class="math notranslate nohighlight">\(\dot{m}'''\)</span> is a production term at interface defined by</p>
+<div class="math notranslate nohighlight" id="equation-cac-prodterm">
+<span class="eqno">(78)<a class="headerlink" href="#equation-cac-prodterm" title="Link to this equation"></a></span>\[\frac{\dot{m}'''}{\rho_{g}}=-\frac{4\alpha}{\mathscr{A}W^{2}}(\theta_{I}-\theta)\phi(1-\phi)\]</div>
+<p>where the coefficient <span class="math notranslate nohighlight">\(\mathscr{A}\)</span> is equal to <span class="math notranslate nohighlight">\(\mathscr{A}=10/48\approx0.21\)</span>.</p>
+</div>
+<p>Finally, the temperature equation is also considered in that model:</p>
+<div class="warning admonition">
+<p class="admonition-title">Temperature equation</p>
+<div class="math notranslate nohighlight" id="equation-temperature-phasechange">
+<span class="eqno">(79)<a class="headerlink" href="#equation-temperature-phasechange" title="Link to this equation"></a></span>\[\frac{\partial T}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}T)=\alpha\boldsymbol{\nabla}^{2}T-\frac{\mathcal{L}}{\mathcal{C}_{p}}\left[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)\right].\]</div>
+<p>where <span class="math notranslate nohighlight">\(T\equiv T(\boldsymbol{x},t)\)</span> is the temperature, <span class="math notranslate nohighlight">\(\mathcal{C}_{p}\)</span> is the specific heat, <span class="math notranslate nohighlight">\(\alpha\)</span> is the thermal diffusivity, <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is the latent heat..</p>
+</div>
+<section id="force-and-source-terms">
+<h3>Force and source terms<a class="headerlink" href="#force-and-source-terms" title="Link to this heading"></a></h3>
+<p>Several forces are defined in <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> kernel.</p>
+<p><strong>Total force</strong></p>
+<p>The total force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{tot}\)</span> in Eq. <a class="reference internal" href="#equation-impulsion-balance-phasechange">(76)</a> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-total">
+<span class="eqno">(80)<a class="headerlink" href="#equation-force-total" title="Link to this equation"></a></span>\[\boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{F}_{c}\)</span> is the capillary force, <span class="math notranslate nohighlight">\(\boldsymbol{F}_{g}\)</span> is the gravity force and <span class="math notranslate nohighlight">\(\boldsymbol{F}_{M}\)</span> is the Marangoni force. They are detailed below.</p>
+<div class="sphinx-features docutils container">
+<div class="hint admonition">
+<p class="admonition-title">Capillary force</p>
+<p>The capillary force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{c}\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-capillary">
+<span class="eqno">(81)<a class="headerlink" href="#equation-force-capillary" title="Link to this equation"></a></span>\[\boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi\]</div>
+<p>where the chemical potential <span class="math notranslate nohighlight">\(\mu_{\phi}\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-pot-chem-phi">
+<span class="eqno">(82)<a class="headerlink" href="#equation-pot-chem-phi" title="Link to this equation"></a></span>\[\mu_{\phi}=\frac{3}{2}\sigma\left[\frac{16}{W}\phi(1-\phi)(1-2\phi)-W\boldsymbol{\nabla}^{2}\phi\right]\]</div>
+<p><span class="math notranslate nohighlight">\(\sigma\)</span> is the surface tension and <span class="math notranslate nohighlight">\(W\)</span> is the interface width.</p>
+</div>
+<p><span class="math notranslate nohighlight">\(\hspace{5mm}\)</span></p>
+<div class="hint admonition">
+<p class="admonition-title">Gravity force</p>
+<p>The gravity force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{g}\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-gravity">
+<span class="eqno">(83)<a class="headerlink" href="#equation-force-gravity" title="Link to this equation"></a></span>\[\boldsymbol{F}_{g}=\varrho(\phi,c)\boldsymbol{g}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\varrho(\phi,c)\)</span> is an interpolation of bulk densities by Eq. <a class="reference internal" href="Model_NSAC_Surfactant.html#equation-density-total-surf">(66)</a></p>
+</div>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Model of Navier-Stokes/CAC with Liquid-Gas phase change</a><ul>
+<li><a class="reference internal" href="#incompressible-two-phase-flows-with-phase-change">Incompressible two-phase flows with phase change</a><ul>
+<li><a class="reference internal" href="#force-and-source-terms">Force and source terms</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Model_NSAC_Surfactant.html"
+                          title="previous chapter">Model of Navier-Stokes/CAC with surfactant</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Model_NSK.html"
+                          title="next chapter">Model of Navier-Stokes/Korteweg (NSK)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp_PhaseChange.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Model_NSK.html" title="Model of Navier-Stokes/Korteweg (NSK)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Model_NSAC_Surfactant.html" title="Model of Navier-Stokes/CAC with surfactant"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" >PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of Navier-Stokes/CAC with Liquid-Gas phase change</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

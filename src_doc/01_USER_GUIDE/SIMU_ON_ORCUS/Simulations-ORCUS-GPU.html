@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>First simulations on ORCUS: example with GPU partition &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Practice of two-phase flows with test cases of run_training_lbm" href="../RUN_TRAINING_LBM/runtraininglbm.html" />
+    <link rel="prev" title="Get information on Graphic card for Kokkos" href="../QUICKSTART/Compil_GetInfo_GPU.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../RUN_TRAINING_LBM/runtraininglbm.html" title="Practice of two-phase flows with test cases of run_training_lbm"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../QUICKSTART/Compil_GetInfo_GPU.html" title="Get information on Graphic card for Kokkos"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" accesskey="U">PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">First simulations on ORCUS: example with GPU partition</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="first-simulations-on-orcus-example-with-gpu-partition">
+<span id="simulations-gpu"></span><h1>First simulations on ORCUS: example with GPU partition<a class="headerlink" href="#first-simulations-on-orcus-example-with-gpu-partition" title="Link to this heading"></a></h1>
+<p>On Orcus, several GPU partitions are available. Here we present the basic commands to run a job on GPU partitions of ORCUS.</p>
+<p>For compilation, a tutorial is given on <a class="reference internal" href="../QUICKSTART/Compil_GPU_MPI_Orcus.html#orcus-dm2s"><span class="std std-ref">ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025</span></a> for partition <code class="docutils literal notranslate"><span class="pre">gpuq_h100</span></code> equipped with 4 GPU H100. For <code class="docutils literal notranslate"><span class="pre">cmake</span></code> the flag <code class="docutils literal notranslate"><span class="pre">-DKokkos_ARCH_HOPPER90=ON</span></code> will be used for H100. The test is also performed with problem <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>.</p>
+<section id="connexion-and-disks-on-orcus">
+<h2>Connexion and disks on ORCUS<a class="headerlink" href="#connexion-and-disks-on-orcus" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For training session: connexion on ORCUS</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>loginname@is247529:~$<span class="w"> </span>ssh<span class="w"> </span>-XC<span class="w"> </span>orcusloginamd2
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>returns</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Bienvenue<span class="w"> </span>sur<span class="w"> </span>le<span class="w"> </span>cluster
+
+<span class="w">          </span>____<span class="w">  </span>_____<span class="w">   </span>_____<span class="w"> </span>_<span class="w">    </span>_<span class="w">  </span>_____
+<span class="w">         </span>/<span class="w"> </span>__<span class="w"> </span><span class="se">\|</span><span class="w">  </span>__<span class="w"> </span><span class="se">\ </span>/<span class="w"> </span>____<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="p">|</span>/<span class="w"> </span>____<span class="p">|</span>
+<span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span>__<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">(</span>___
+<span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>_<span class="w">  </span>/<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="se">\_</span>__<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="p">|</span>__<span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\ \|</span><span class="w"> </span><span class="p">|</span>____<span class="p">|</span><span class="w"> </span><span class="p">|</span>__<span class="p">|</span><span class="w"> </span><span class="p">|</span>____<span class="o">)</span><span class="w"> </span><span class="p">|</span>
+<span class="w">         </span><span class="se">\_</span>___/<span class="p">|</span>_<span class="p">|</span><span class="w">  </span><span class="se">\_\\</span>_____<span class="p">|</span><span class="se">\_</span>___/<span class="p">|</span>_____/
+
+
+Support<span class="w"> </span>:<span class="w">      </span>https://codev-tuleap.intra.cea.fr/projects/InfoSc
+Doc<span class="w"> </span>:<span class="w">          </span>evince<span class="w"> </span>/product/documentations/users/user_manual.pdf
+Guide<span class="w"> </span>ACL<span class="w"> </span>:<span class="w">    </span>vim<span class="w"> </span>+<span class="s2">&quot;set syntax=markdown&quot;</span><span class="w"> </span>/product/documentations/users/README_ACL.md
+
+<span class="w">             </span>Frontale<span class="w"> </span>ROCKY<span class="w"> </span>Linux<span class="w"> </span><span class="m">9</span>
+
+Last<span class="w"> </span>login:<span class="w"> </span>Wed<span class="w"> </span>Nov<span class="w"> </span><span class="m">27</span><span class="w"> </span><span class="m">09</span>:10:54<span class="w"> </span><span class="m">2024</span><span class="w"> </span>from<span class="w"> </span><span class="m">132</span>.166.148.113
+loginname@orcusloginamd2:~$
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition-disks-on-orcus admonition">
+<p class="admonition-title">Disks on ORCUS</p>
+<p>Several disks are available</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">HOME</span></code>: configuration files, source files of LBM_Saclay, compilation and binary</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SCRATCH</span></code> for running and output files (<code class="docutils literal notranslate"><span class="pre">.vti</span></code> and <code class="docutils literal notranslate"><span class="pre">.h5</span></code>)</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$SCRATCH</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/tmpformation/LBM_Saclay</span></code>: shared directory for compiled versions of LBM_Saclay and slurm scripts</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/tmpformation/LBM_Saclay
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</section>
+<section id="get-information-about-orcus">
+<h2>Get information about ORCUS<a class="headerlink" href="#get-information-about-orcus" title="Link to this heading"></a></h2>
+<div class="hint admonition">
+<p class="admonition-title">Check the number of nodes</p>
+<p>Check the number of nodes (for CPU and GPU partitions):</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>loginname@orcusloginamd2:~$<span class="w"> </span>sinfo
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>returns (only GPU partitions)</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">PARTITION</span><span class="w"> </span><span class="no">NODES</span><span class="w">      </span><span class="no">STATE</span><span class="w"> </span><span class="no">CPUS</span><span class="w"> </span><span class="no">SOCKETS</span><span class="w"> </span><span class="no">CORES</span><span class="w"> </span><span class="no">MEMORY</span><span class="w"> </span><span class="no">NODELIST</span>
+
+<span class="n">gpuq_v100</span><span class="w">     </span><span class="mi">2</span><span class="w">       </span><span class="n">idle</span><span class="w">   </span><span class="mi">32</span><span class="w">       </span><span class="mi">2</span><span class="w">    </span><span class="mi">16</span><span class="w"> </span><span class="mi">376000</span><span class="w"> </span><span class="n">orcus</span><span class="o">-</span><span class="n">n</span><span class="o">[</span><span class="mi">3001</span><span class="o">-</span><span class="mi">3002</span><span class="o">]</span>
+<span class="n">gpuq_a100</span><span class="w">     </span><span class="mi">1</span><span class="w">      </span><span class="n">mixed</span><span class="w">   </span><span class="mi">32</span><span class="w">       </span><span class="mi">2</span><span class="w">    </span><span class="mi">16</span><span class="w"> </span><span class="mi">485000</span><span class="w"> </span><span class="n">orcus</span><span class="o">-</span><span class="n">n3201</span>
+<span class="n">gpuq_a100</span><span class="w">     </span><span class="mi">1</span><span class="w">       </span><span class="n">idle</span><span class="w">   </span><span class="mi">32</span><span class="w">       </span><span class="mi">2</span><span class="w">    </span><span class="mi">16</span><span class="w"> </span><span class="mi">485000</span><span class="w"> </span><span class="n">orcus</span><span class="o">-</span><span class="n">n3202</span>
+<span class="n">gpuq_h100</span><span class="w">     </span><span class="mi">1</span><span class="w">       </span><span class="n">idle</span><span class="w">   </span><span class="mi">72</span><span class="w">       </span><span class="mi">2</span><span class="w">    </span><span class="mi">36</span><span class="w"> </span><span class="mi">990000</span><span class="w"> </span><span class="n">orcus</span><span class="o">-</span><span class="n">n3401</span>
+</pre></div>
+</div>
+</div></blockquote>
+<dl class="simple">
+<dt>meaning that five GPU partitions are available on Orcus:</dt><dd><ul class="simple">
+<li><p>2 nodes of one GPU V100 (2 GPUs V100)</p></li>
+<li><p>2 nodes of one GPU A100 (2 GPUs A100)</p></li>
+<li><p>1 node of four GPUs H100. The partition <code class="docutils literal notranslate"><span class="pre">gpuq_h100</span></code> contains 4 GPUs H100.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="hint admonition">
+<p class="admonition-title">To check the number of graphic cards on that node</p>
+<p>You can make a reservation in interactive mode with:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>loginname@orcusloginamd2:~$<span class="w"> </span>srun<span class="w"> </span>-p<span class="w"> </span>gpuq_h100<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>--gres<span class="o">=</span>gpu:1<span class="w"> </span>--pty<span class="w"> </span>bash<span class="w"> </span>-i
+</pre></div>
+</div>
+</div></blockquote>
+<p>If the node is free, you will be able to connect and open a terminal. The command</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>loginname@orcus-n3401:~$<span class="w"> </span>nvidia-smi
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>returns</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Tue</span><span class="w"> </span><span class="no">Nov</span><span class="w"> </span><span class="mi">26</span><span class="w"> </span><span class="mi">10</span><span class="p">:</span><span class="mi">17</span><span class="p">:</span><span class="mi">49</span><span class="w"> </span><span class="mi">2024</span>
+<span class="o">+-----------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="no">NVIDIA</span><span class="o">-</span><span class="no">SMI</span><span class="w"> </span><span class="mi">555</span><span class="o">.</span><span class="mi">42</span><span class="o">.</span><span class="mo">02</span><span class="w">              </span><span class="no">Driver</span><span class="w"> </span><span class="ss">Version</span><span class="p">:</span><span class="w"> </span><span class="mi">555</span><span class="o">.</span><span class="mi">42</span><span class="o">.</span><span class="mo">02</span><span class="w">      </span><span class="no">CUDA</span><span class="w"> </span><span class="ss">Version</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="o">.</span><span class="mi">5</span><span class="w">     </span><span class="o">|</span>
+<span class="o">|-----------------------------------------+------------------------+----------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="no">GPU</span><span class="w">  </span><span class="no">Name</span><span class="w">                 </span><span class="no">Persistence</span><span class="o">-</span><span class="n">M</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">Bus</span><span class="o">-</span><span class="no">Id</span><span class="w">          </span><span class="no">Disp</span><span class="o">.</span><span class="n">A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">Volatile</span><span class="w"> </span><span class="no">Uncorr</span><span class="o">.</span><span class="w"> </span><span class="no">ECC</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="no">Fan</span><span class="w">  </span><span class="no">Temp</span><span class="w">   </span><span class="no">Perf</span><span class="w">          </span><span class="ss">Pwr</span><span class="p">:</span><span class="no">Usage</span><span class="o">/</span><span class="no">Cap</span><span class="w"> </span><span class="o">|</span><span class="w">           </span><span class="no">Memory</span><span class="o">-</span><span class="no">Usage</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">GPU</span><span class="o">-</span><span class="no">Util</span><span class="w">  </span><span class="no">Compute</span><span class="w"> </span><span class="n">M</span><span class="o">.</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w">                                         </span><span class="o">|</span><span class="w">                        </span><span class="o">|</span><span class="w">               </span><span class="no">MIG</span><span class="w"> </span><span class="n">M</span><span class="o">.</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|=========================================+========================+======================|</span>
+<span class="o">|</span><span class="w">   </span><span class="mi">0</span><span class="w">  </span><span class="no">NVIDIA</span><span class="w"> </span><span class="no">H100</span><span class="w"> </span><span class="mi">80</span><span class="no">GB</span><span class="w"> </span><span class="no">HBM3</span><span class="w">          </span><span class="no">On</span><span class="w">  </span><span class="o">|</span><span class="w">   </span><span class="mo">00000000</span><span class="p">:</span><span class="mi">4</span><span class="ss">E</span><span class="p">:</span><span class="mo">00</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="no">Off</span><span class="w"> </span><span class="o">|</span><span class="w">                    </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">N</span><span class="o">/</span><span class="n">A</span><span class="w">   </span><span class="mi">39</span><span class="n">C</span><span class="w">    </span><span class="no">P0</span><span class="w">             </span><span class="mi">73</span><span class="n">W</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">700</span><span class="n">W</span><span class="w"> </span><span class="o">|</span><span class="w">       </span><span class="mi">1</span><span class="no">MiB</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">81559</span><span class="no">MiB</span><span class="w"> </span><span class="o">|</span><span class="w">      </span><span class="mi">0</span><span class="o">%</span><span class="w">      </span><span class="no">Default</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w">                                         </span><span class="o">|</span><span class="w">                        </span><span class="o">|</span><span class="w">             </span><span class="no">Disabled</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+-----------------------------------------+------------------------+----------------------+</span>
+<span class="o">|</span><span class="w">   </span><span class="mi">1</span><span class="w">  </span><span class="no">NVIDIA</span><span class="w"> </span><span class="no">H100</span><span class="w"> </span><span class="mi">80</span><span class="no">GB</span><span class="w"> </span><span class="no">HBM3</span><span class="w">          </span><span class="no">On</span><span class="w">  </span><span class="o">|</span><span class="w">   </span><span class="mo">00000000</span><span class="p">:</span><span class="mi">5</span><span class="ss">F</span><span class="p">:</span><span class="mo">00</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="no">Off</span><span class="w"> </span><span class="o">|</span><span class="w">                    </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">N</span><span class="o">/</span><span class="n">A</span><span class="w">   </span><span class="mi">37</span><span class="n">C</span><span class="w">    </span><span class="no">P0</span><span class="w">             </span><span class="mi">70</span><span class="n">W</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">700</span><span class="n">W</span><span class="w"> </span><span class="o">|</span><span class="w">       </span><span class="mi">1</span><span class="no">MiB</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">81559</span><span class="no">MiB</span><span class="w"> </span><span class="o">|</span><span class="w">      </span><span class="mi">0</span><span class="o">%</span><span class="w">      </span><span class="no">Default</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w">                                         </span><span class="o">|</span><span class="w">                        </span><span class="o">|</span><span class="w">             </span><span class="no">Disabled</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+-----------------------------------------+------------------------+----------------------+</span>
+<span class="o">|</span><span class="w">   </span><span class="mi">2</span><span class="w">  </span><span class="no">NVIDIA</span><span class="w"> </span><span class="no">H100</span><span class="w"> </span><span class="mi">80</span><span class="no">GB</span><span class="w"> </span><span class="no">HBM3</span><span class="w">          </span><span class="no">On</span><span class="w">  </span><span class="o">|</span><span class="w">   </span><span class="mo">00000000</span><span class="ss">:CB</span><span class="p">:</span><span class="mo">00</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="no">Off</span><span class="w"> </span><span class="o">|</span><span class="w">                    </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">N</span><span class="o">/</span><span class="n">A</span><span class="w">   </span><span class="mi">38</span><span class="n">C</span><span class="w">    </span><span class="no">P0</span><span class="w">             </span><span class="mi">71</span><span class="n">W</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">700</span><span class="n">W</span><span class="w"> </span><span class="o">|</span><span class="w">       </span><span class="mi">1</span><span class="no">MiB</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">81559</span><span class="no">MiB</span><span class="w"> </span><span class="o">|</span><span class="w">      </span><span class="mi">0</span><span class="o">%</span><span class="w">      </span><span class="no">Default</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w">                                         </span><span class="o">|</span><span class="w">                        </span><span class="o">|</span><span class="w">             </span><span class="no">Disabled</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+-----------------------------------------+------------------------+----------------------+</span>
+<span class="o">|</span><span class="w">   </span><span class="mi">3</span><span class="w">  </span><span class="no">NVIDIA</span><span class="w"> </span><span class="no">H100</span><span class="w"> </span><span class="mi">80</span><span class="no">GB</span><span class="w"> </span><span class="no">HBM3</span><span class="w">          </span><span class="no">On</span><span class="w">  </span><span class="o">|</span><span class="w">   </span><span class="mo">00000000</span><span class="ss">:DB</span><span class="p">:</span><span class="mo">00</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="no">Off</span><span class="w"> </span><span class="o">|</span><span class="w">                    </span><span class="mi">0</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="n">N</span><span class="o">/</span><span class="n">A</span><span class="w">   </span><span class="mi">38</span><span class="n">C</span><span class="w">    </span><span class="no">P0</span><span class="w">             </span><span class="mi">72</span><span class="n">W</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">700</span><span class="n">W</span><span class="w"> </span><span class="o">|</span><span class="w">       </span><span class="mi">1</span><span class="no">MiB</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">81559</span><span class="no">MiB</span><span class="w"> </span><span class="o">|</span><span class="w">      </span><span class="mi">0</span><span class="o">%</span><span class="w">      </span><span class="no">Default</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w">                                         </span><span class="o">|</span><span class="w">                        </span><span class="o">|</span><span class="w">             </span><span class="no">Disabled</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+-----------------------------------------+------------------------+----------------------+</span>
+
+<span class="o">+-----------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="ss">Processes</span><span class="p">:</span><span class="w">                                                                              </span><span class="o">|</span>
+<span class="o">|</span><span class="w">  </span><span class="no">GPU</span><span class="w">   </span><span class="no">GI</span><span class="w">   </span><span class="no">CI</span><span class="w">        </span><span class="no">PID</span><span class="w">   </span><span class="no">Type</span><span class="w">   </span><span class="no">Process</span><span class="w"> </span><span class="nb">name</span><span class="w">                              </span><span class="no">GPU</span><span class="w"> </span><span class="no">Memory</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w">        </span><span class="no">ID</span><span class="w">   </span><span class="no">ID</span><span class="w">                                                               </span><span class="no">Usage</span><span class="w">      </span><span class="o">|</span>
+<span class="o">|=========================================================================================|</span>
+<span class="o">|</span><span class="w">  </span><span class="no">No</span><span class="w"> </span><span class="n">running</span><span class="w"> </span><span class="n">processes</span><span class="w"> </span><span class="n">found</span><span class="w">                                                             </span><span class="o">|</span>
+<span class="o">+-----------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>We can check that four <code class="docutils literal notranslate"><span class="pre">NVIDIA</span> <span class="pre">H100</span> <span class="pre">80GB</span> <span class="pre">HBM3</span></code> are available.</p>
+</section>
+<section id="submit-your-job-with-slurm-script">
+<h2>Submit your job with slurm script<a class="headerlink" href="#submit-your-job-with-slurm-script" title="Link to this heading"></a></h2>
+<div class="important admonition">
+<p class="admonition-title">For LBM training session</p>
+<p>Three slurm scripts are available in folder <code class="docutils literal notranslate"><span class="pre">/tmpformation/LBM_Saclay/</span></code> to submit one job on Orcus.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">JOB_H100_GPU.slurm</span></code> to submit one job on gpuq_h100</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">JOB_A100_GPU.slurm</span></code> to submit one job on gpuq_a100</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">JOB_V100_GPU.slurm</span></code> to submit one job on gpuq_v100</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For training session: run on ORCUS</p>
+<p><strong>Submit a job and run</strong></p>
+<p>Copy folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> in your directory (content on <a class="reference internal" href="../RUN_TRAINING_LBM/runtraininglbm.html#run-training-lbm"><span class="std std-ref">Practice of two-phase flows with test cases of run_training_lbm</span></a>):</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>/tmpformation/LBM_Saclay/LBM_Saclay_Rech-Dev/run_training_lbm<span class="w"> </span>.
+</pre></div>
+</div>
+</div></blockquote>
+<p>Go to one test case folder (e.g. <code class="docutils literal notranslate"><span class="pre">TestCase05_Spinodal-Decomposition2D</span></code>):</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_lbm/TestCase05_Spinodal-Decomposition2D
+</pre></div>
+</div>
+</div></blockquote>
+<p>Submit your test case on one partition: gpuq_h100, gpuq_a100 or gpuq_v100. For example for gpuq_h100:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase05_Spinodal-Decomposition_CH.ini
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">For training session: check your submission</p>
+<p>Check that your job is running: the following command</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>squeue<span class="w"> </span>-u<span class="w"> </span>S-SAC-DM2S-train1
+</pre></div>
+</div>
+</div></blockquote>
+<p>returns</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">JOBID</span><span class="w">   </span><span class="no">PARTITION</span><span class="w">       </span><span class="no">QOS</span><span class="w"> </span><span class="no">PRIORITY</span><span class="w">         </span><span class="no">NAME</span><span class="w">     </span><span class="no">USER</span><span class="w"> </span><span class="no">ST</span><span class="w">       </span><span class="no">TIME</span><span class="w">          </span><span class="no">START_TIME</span><span class="w">   </span><span class="no">TIME_LIMIT</span><span class="w"> </span><span class="no">CPUS</span><span class="w">    </span><span class="no">NODES</span><span class="w"> </span><span class="no">NODELIST</span><span class="p">(</span><span class="no">REASON</span><span class="p">)</span>
+<span class="mi">533013</span><span class="w">   </span><span class="n">gpuq_h100</span><span class="w">     </span><span class="mi">1</span><span class="n">jour</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mo">000000</span><span class="w">        </span><span class="n">myjob</span><span class="w"> </span><span class="n">ac165432</span><span class="w">  </span><span class="n">R</span><span class="w">       </span><span class="mi">0</span><span class="p">:</span><span class="mo">01</span><span class="w"> </span><span class="mi">2025</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">16</span><span class="ss">T11</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mi">25</span><span class="w">     </span><span class="mi">12</span><span class="p">:</span><span class="mo">00</span><span class="p">:</span><span class="mo">00</span><span class="w"> </span><span class="mi">18</span><span class="w">          </span><span class="mi">1</span><span class="w"> </span><span class="n">orcus</span><span class="o">-</span><span class="n">n3401</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>To stop your job</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>scancel<span class="w"> </span><span class="m">533013</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>where 533013 corresponds to your JOBID</p>
+</div>
+</section>
+<section id="transfer-your-output-files-on-your-local-computer">
+<h2>Transfer your output files on your local computer<a class="headerlink" href="#transfer-your-output-files-on-your-local-computer" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For training session: from your local desktop</p>
+<p>Once the job is complete, transfer the output files on your local computer:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>scp<span class="w"> </span>-r<span class="w"> </span>S-SAC-DM2S-train1@orcusloginamd2:~/run_training_lbm/TestCase05_Spinodal-Decomposition2D<span class="w"> </span>.
+</pre></div>
+</div>
+</div></blockquote>
+<p>Post-process with paraview</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">First simulations on ORCUS: example with GPU partition</a><ul>
+<li><a class="reference internal" href="#connexion-and-disks-on-orcus">Connexion and disks on ORCUS</a></li>
+<li><a class="reference internal" href="#get-information-about-orcus">Get information about ORCUS</a></li>
+<li><a class="reference internal" href="#submit-your-job-with-slurm-script">Submit your job with slurm script</a></li>
+<li><a class="reference internal" href="#transfer-your-output-files-on-your-local-computer">Transfer your output files on your local computer</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../QUICKSTART/Compil_GetInfo_GPU.html"
+                          title="previous chapter">Get information on Graphic card for Kokkos</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../RUN_TRAINING_LBM/runtraininglbm.html"
+                          title="next chapter">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/SIMU_ON_ORCUS/Simulations-ORCUS-GPU.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../RUN_TRAINING_LBM/runtraininglbm.html" title="Practice of two-phase flows with test cases of run_training_lbm"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../QUICKSTART/Compil_GetInfo_GPU.html" title="Get information on Graphic card for Kokkos"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">First simulations on ORCUS: example with GPU partition</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

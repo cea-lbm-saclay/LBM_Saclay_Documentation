@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Copy and rename directory and files &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Add a new equation inside the new kernel" href="Kernel_Add_New-Eq.html" />
+    <link rel="prev" title="Add a new kernel" href="Kernel_New.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Kernel_Add_New-Eq.html" title="Add a new equation inside the new kernel"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_New.html" title="Add a new kernel"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Kernel_New.html" accesskey="U">Add a new kernel</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Copy and rename directory and files</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="copy-and-rename-directory-and-files">
+<span id="tuto-new-directory"></span><h1>Copy and rename directory and files<a class="headerlink" href="#copy-and-rename-directory-and-files" title="Link to this heading"></a></h1>
+<ol class="arabic">
+<li><p>First copy and rename the directory <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> with the new name <code class="docutils literal notranslate"><span class="pre">MPwSLphC</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/src/kernels
+$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>NSAC_Comp<span class="w"> </span>MPwSLphC
+</pre></div>
+</div>
+</li>
+<li><p>Next, rename four files which are contained inside the new directory:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>MPwSLphC
+$<span class="w"> </span>mv<span class="w"> </span>Index_NS_AC_Comp.h<span class="w"> </span>Index_MPwSLphC.h
+$<span class="w"> </span>mv<span class="w"> </span>LBMScheme_NS_AC_Comp.h<span class="w"> </span>LBMScheme_MPwSLphC.h
+$<span class="w"> </span>mv<span class="w"> </span>Models_NS_AC_Comp.h<span class="w"> </span>Models_MPwSLphC.h
+$<span class="w"> </span>mv<span class="w"> </span>Problem_NS_AC_Comp.h<span class="w"> </span>Problem_MPwSLphC.h
+</pre></div>
+</div>
+</li>
+<li><p>Once it is done, edit file <code class="docutils literal notranslate"><span class="pre">Setup.h</span></code> with your favorite text editor (here example with <code class="docutils literal notranslate"><span class="pre">geany</span></code>):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>geany<span class="w"> </span>Setup.h<span class="p">&amp;</span>
+</pre></div>
+</div>
+<p>Modify the names with the new kernel name. Below, the new lines are highlighted after the old ones:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#ifndef SETUP_NSAC_COMP_H_</span>
+<span class="linenos"> 2</span><span class="c1">#define SETUP_NSAC_COMP_H_</span>
+<span class="hll"><span class="linenos"> 3</span><span class="c1">#ifndef SETUP_MPWSLPHC_H_</span>
+</span><span class="hll"><span class="linenos"> 4</span><span class="c1">#define SETUP_MPWSLPHC_H_</span>
+</span><span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="c1">#include &quot;Problem_NS_AC_Comp.h&quot;</span>
+<span class="hll"><span class="linenos"> 7</span><span class="c1">#include &quot;Problem_MPwSLphC.h&quot;</span>
+</span><span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_NS_AC_Compo</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">10</span><span class="n">struct</span><span class="w"> </span><span class="n">pbm_registerer_NSAC_comp</span>
+<span class="hll"><span class="linenos">11</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_MPwSLphC</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="linenos">12</span><span class="n">struct</span><span class="w"> </span><span class="n">pbm_registerer_MPwSLphC</span>
+</span><span class="linenos">13</span>
+<span class="linenos">14</span><span class="p">{</span>
+<span class="linenos">15</span><span class="w">   </span><span class="n">pbm_registerer_NSAC_comp</span><span class="p">()</span>
+<span class="hll"><span class="linenos">16</span><span class="w">   </span><span class="n">pbm_registerer_MPwSLphC</span><span class="p">()</span>
+</span><span class="linenos">17</span><span class="w">   </span><span class="p">{</span>
+<span class="linenos">18</span><span class="w">      </span><span class="n">register_problem</span><span class="o">&lt;</span><span class="no">Problem</span><span class="p">,</span><span class="w"> </span><span class="no">ModelParams</span><span class="o">::</span><span class="no">TagCompo</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;NSAC_Comp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;base&quot;</span><span class="p">);</span>
+<span class="linenos">19</span><span class="w">      </span><span class="n">register_problem</span><span class="o">&lt;</span><span class="no">Problem</span><span class="p">,</span><span class="w"> </span><span class="no">ModelParams</span><span class="o">::</span><span class="no">TagSansGamma</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;NSAC_Comp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;sansGamma&quot;</span><span class="p">);</span>
+<span class="hll"><span class="linenos">20</span><span class="w">      </span><span class="n">register_problem</span><span class="o">&lt;</span><span class="no">Problem</span><span class="p">,</span><span class="w"> </span><span class="no">ModelParams</span><span class="o">::</span><span class="no">TagCompo</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;MPwSLphC&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;base&quot;</span><span class="p">);</span>
+</span><span class="hll"><span class="linenos">21</span><span class="w">      </span><span class="n">register_problem</span><span class="o">&lt;</span><span class="no">Problem</span><span class="p">,</span><span class="w"> </span><span class="no">ModelParams</span><span class="o">::</span><span class="no">TagSansGamma</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;MPwSLphC&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;sansGamma&quot;</span><span class="p">);</span>
+</span><span class="linenos">22</span><span class="w">   </span><span class="p">};</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="p">};</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="n">static</span><span class="w"> </span><span class="n">pbm_registerer_NSAC_comp</span><span class="w"> </span><span class="n">registerer_NSAC_comp</span><span class="p">;</span>
+<span class="hll"><span class="linenos">27</span><span class="n">static</span><span class="w"> </span><span class="n">pbm_registerer_MPwSLphC</span><span class="w"> </span><span class="n">registerer_MPwSLphC</span><span class="p">;</span>
+</span><span class="linenos">28</span><span class="p">}</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span><span class="c1">#endif //SETUP_NSAC_COMP_H_</span>
+<span class="hll"><span class="linenos">31</span><span class="c1">#endif //SETUP_MPWSLPHC_H_</span>
+</span></pre></div>
+</div>
+</li>
+<li><p>Modification of file <code class="docutils literal notranslate"><span class="pre">Problem_MPwSLphC.h</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#ifndef PROBLEM_NS_AC_C_H_</span>
+<span class="linenos"> 2</span><span class="c1">#define PROBLEM_NS_AC_C_H_</span>
+<span class="hll"><span class="linenos"> 3</span><span class="c1">#ifndef PROBLEM_MPWSLPHC_H_</span>
+</span><span class="hll"><span class="linenos"> 4</span><span class="c1">#define PROBLEM_MPWSLPHC_H_</span>
+</span><span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="c1">#include &quot;LBMScheme_NS_AC_Comp.h&quot;</span>
+<span class="hll"><span class="linenos"> 7</span><span class="c1">#include &quot;LBMScheme_MPwSLphC.h&quot;</span>
+</span><span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_NS_AC_Compo</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="linenos">10</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_MPwSLphC</span><span class="w"> </span><span class="p">{</span>
+</span></pre></div>
+</div>
+</li>
+<li><p>Modification file <code class="docutils literal notranslate"><span class="pre">Models_MPwSLphC.h</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#ifndef MODELS_NS_AC_C_H_</span>
+<span class="linenos"> 2</span><span class="c1">#define MODELS_NS_AC_C_H_</span>
+<span class="hll"><span class="linenos"> 3</span><span class="c1">#ifndef MODELS_MPWSLPHC_H_</span>
+</span><span class="hll"><span class="linenos"> 4</span><span class="c1">#define MODELS_MPWSLPHC_H_</span>
+</span><span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="c1">#include &quot;Index_NS_AC_Comp.h&quot;</span>
+<span class="hll"><span class="linenos"> 7</span><span class="c1">#include &quot;Index_MPwSLphC.h&quot;</span>
+</span><span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_NS_AC_Compo</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="linenos">10</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_MPwSLphC</span><span class="w"> </span><span class="p">{</span>
+</span></pre></div>
+</div>
+</li>
+<li><p>Modification file <code class="docutils literal notranslate"><span class="pre">LBMScheme_MPwSLphC.h</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#ifndef LBMSCHEME_NS_AC_C_H_</span>
+<span class="linenos"> 2</span><span class="c1">#define LBMSCHEME_NS_AC_C_H_</span>
+<span class="hll"><span class="linenos"> 3</span><span class="c1">#ifndef LBMSCHEME_MPWSLPHC_H_</span>
+</span><span class="hll"><span class="linenos"> 4</span><span class="c1">#define LBMSCHEME_MPWSLPHC_H_</span>
+</span><span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="c1">#include &quot;Models_NS_AC_Comp.h&quot;</span>
+<span class="hll"><span class="linenos"> 7</span><span class="c1">#include &quot;Models_MPwSLphC.h&quot;</span>
+</span><span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_NS_AC_Compo</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="linenos">10</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_MPwSLphC</span><span class="w"> </span><span class="p">{</span>
+</span></pre></div>
+</div>
+</li>
+<li><p>Modification file <code class="docutils literal notranslate"><span class="pre">Index_MPwSLphC.h</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1">#ifndef INDEX_NS_AC_C_H_</span>
+<span class="linenos">2</span><span class="c1">#define INDEX_NS_AC_C_H_</span>
+<span class="hll"><span class="linenos">3</span><span class="c1">#ifndef INDEX_MPWSLPHC_H_</span>
+</span><span class="hll"><span class="linenos">4</span><span class="c1">#define INDEX_MPWSLPHC_H_</span>
+</span><span class="linenos">5</span>
+<span class="linenos">6</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_NS_AC_Compo</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="linenos">7</span><span class="n">namespace</span><span class="w"> </span><span class="no">PBM_MPwSLphC</span><span class="w"> </span><span class="p">{</span>
+</span></pre></div>
+</div>
+</li>
+<li><p>Compilation</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cmake<span class="w"> </span>-DKokkos_ENABLE_OPENMP<span class="o">=</span>ON<span class="w"> </span>-DUSE_HDF5<span class="o">=</span>ON<span class="w"> </span>-DPROBLEM<span class="o">=</span>MPwSLphC<span class="w"> </span>..
+$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Kernel_New.html"
+                          title="previous chapter">Add a new kernel</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Kernel_Add_New-Eq.html"
+                          title="next chapter">Add a new equation inside the new kernel</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/04_PROGRAMMING/Kernel_Add_New-Kernel.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Kernel_Add_New-Eq.html" title="Add a new equation inside the new kernel"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_New.html" title="Add a new kernel"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Guidelines.html" >PART IV: Guidelines for developers</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Kernel_New.html" >Add a new kernel</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Copy and rename directory and files</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

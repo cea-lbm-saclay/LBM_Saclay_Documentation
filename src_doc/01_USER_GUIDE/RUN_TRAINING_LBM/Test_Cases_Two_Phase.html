@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Run “Two-phase with fluid flows” &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Run “Two-phase with fluid flows with composition effect”" href="Test_Cases_TwoPhase_ComposEffect.html" />
+    <link rel="prev" title="Run “Two-phase without fluid flows”" href="Test_Cases_Two_Phase_Without-Flows.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Test_Cases_TwoPhase_ComposEffect.html" title="Run “Two-phase with fluid flows with composition effect”"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Test_Cases_Two_Phase_Without-Flows.html" title="Run “Two-phase without fluid flows”"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="runtraininglbm.html" accesskey="U">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Run “Two-phase with fluid flows”</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="run-two-phase-with-fluid-flows">
+<span id="twop-training-lbm"></span><h1>Run “Two-phase with fluid flows”<a class="headerlink" href="#run-two-phase-with-fluid-flows" title="Link to this heading"></a></h1>
+<p>The first three test cases for two-phase with fluid flows compare the numerical solutions with classical solutions: the first one is the comparison with  of double-Poiseuille analytical solution, the second one is the Rayleigh-Taylor instability and the last one is the comparison with analytical solution of Prosperetti.</p>
+<section id="double-poiseuille-verification-of-viscosity-ratio">
+<h2>Double-Poiseuille: verification of viscosity ratio<a class="headerlink" href="#double-poiseuille-verification-of-viscosity-ratio" title="Link to this heading"></a></h2>
+<p>Comparison of LBM_Saclay with analytical solution:</p>
+<div class="math notranslate nohighlight" id="equation-analy-dp">
+<span class="eqno">(4)<a class="headerlink" href="#equation-analy-dp" title="Link to this equation"></a></span>\[\begin{split}u_{x}(y)=\begin{cases}
+            \frac{Gh^{2}}{2\eta_{A}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{A}}{\eta_{A}+\eta_{B}}\right] &amp; \mbox{if }0\leq y\leq h\\
+            \frac{Gh^{2}}{2\eta_{B}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{B}}{\eta_{A}+\eta_{B}}\right] &amp; \mbox{if }-h\leq y\leq0
+         \end{cases}\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-coeff-g">
+<span class="eqno">(5)<a class="headerlink" href="#equation-coeff-g" title="Link to this equation"></a></span>\[G=\frac{u_{c}}{h^{2}}(\eta_{A}+\eta_{B})\,\,\mbox{and}\,\,u_{c}=5\times10^{-5}\]</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_lbm/TestCase07_Double-Poiseuille
+</pre></div>
+</div>
+</div></blockquote>
+<p>Run with BGK collision operator</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>/volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay<span class="w"> </span>TestCase07_Double_Poiseuille_BGK.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 583.956 seconds on CPU of is154726 against 100.055 on partition gpuq_h100 of Orcus to achieve 300.001 time-steps.</p>
+<p>Run with MRT collision operator</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>/volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay<span class="w"> </span>TestCase07_Double_Poiseuille_MRT.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>For post-processing with paraview see <span class="xref std std-ref">Post-Pro-Paraview12</span></p>
+</div>
+<p>Once the simulation is complete, in paraview12:</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: commands in paraview</p>
+<ol class="arabic simple">
+<li><p>Open <code class="docutils literal notranslate"><span class="pre">double_poiseuille_100_FINAL.vti</span></code> and select <code class="docutils literal notranslate"><span class="pre">vy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> and <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> + <code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">Over</span> <span class="pre">Line</span></code></p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">Sample</span> <span class="pre">At</span> <span class="pre">Segment</span> <span class="pre">Centers</span></code> Clic on <code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">axis</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code> –&gt; new graph with profile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Data</span></code>, <code class="docutils literal notranslate"><span class="pre">file</span> <span class="pre">name</span></code>: <code class="docutils literal notranslate"><span class="pre">Profil_Double-Poiseuille_BGK.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+</ol>
+</div>
+<p>Next in your terminal</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: python script</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Post-Pro_Double-Poiseuille_BGK.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>After running python script, you should obtain <a class="reference internal" href="#target-fig-dp"><span class="std std-numref">Fig. 16</span></a>. If problem with plot, Check in file <code class="docutils literal notranslate"><span class="pre">Profil_Double-Poiseuille_BGK.csv</span></code> that the column numbers of <code class="docutils literal notranslate"><span class="pre">&quot;vy&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;Points:0&quot;</span></code> match with numbers set in file <code class="docutils literal notranslate"><span class="pre">Post-Pro_Double-Poiseuille_BGK.py</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]!=</span><span class="w"> </span><span class="s1">&#39;laplaphi&#39;</span><span class="p">:</span>
+<span class="w">     </span><span class="n">x_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span><span class="w"> </span><span class="n">float</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="mi">31</span><span class="o">]</span><span class="p">))</span>
+<span class="w">     </span><span class="n">u_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_y</span><span class="p">,</span><span class="w"> </span><span class="n">float</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="mi">15</span><span class="o">]</span><span class="p">))</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="id5">
+<span id="target-fig-dp"></span><a class="reference internal image-reference" href="../../../_images/Double-Poiseuille.png"><img alt="../../../_images/Double-Poiseuille.png" src="../../../_images/Double-Poiseuille.png" style="width: 400.0px; height: 320.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 16 </span><span class="caption-text">Validation with double-Poiseuille analytical solution.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id6">
+<span id="target-fig-dp-bgk-mrt"></span><a class="reference internal image-reference" href="../../../_images/Double-Poiseuille_Compare_BGK-MRT.png"><img alt="../../../_images/Double-Poiseuille_Compare_BGK-MRT.png" src="../../../_images/Double-Poiseuille_Compare_BGK-MRT.png" style="width: 400.0px; height: 320.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 17 </span><span class="caption-text">Comparison between BGK and MRT collision for <span class="math notranslate nohighlight">\(\eta_A/\eta_B=100\)</span>.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="rayleigh-taylor-instability-verification-of-small-density-ratio-rho-h-rho-ell-500">
+<h2>Rayleigh-Taylor instability: verification of small density ratio (<span class="math notranslate nohighlight">\(\rho_H/\rho_{\ell}=500\)</span>)<a class="headerlink" href="#rayleigh-taylor-instability-verification-of-small-density-ratio-rho-h-rho-ell-500" title="Link to this heading"></a></h2>
+<p>The second validation is a comparison with the Rayleigh-Taylor instability of the literature. For that test case, several dimensionless numbers are commonly used. First, the characteristic velocity is defined by (Eq. <a class="reference internal" href="#equation-u-rt">(6)</a>) where <span class="math notranslate nohighlight">\(g\)</span> is the gravity and <span class="math notranslate nohighlight">\(L\)</span> is the domain width. Once that characteristic velocity is defined, it is used in dimensionless numbers of fluid flows such as Reynolds (Eq. <a class="reference internal" href="#equation-re-rt">(7)</a>) and capillary numbers. (Eq. <a class="reference internal" href="#equation-ca-rt">(9)</a>) The Atwood number (Eq. <a class="reference internal" href="#equation-at-rt">(8)</a>) is also used in simulations and Peclet number for phase-field equation (Eq. <a class="reference internal" href="#equation-pe-rt">(10)</a>)</p>
+<div class="sphinx-features docutils container">
+<div class="admonition-characteristic-velocity admonition">
+<p class="admonition-title">Characteristic velocity</p>
+<div class="math notranslate nohighlight" id="equation-u-rt">
+<span class="eqno">(6)<a class="headerlink" href="#equation-u-rt" title="Link to this equation"></a></span>\[U=\sqrt{gL}\]</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{3mm}\]</div>
+<div class="admonition-reynolds-number admonition">
+<p class="admonition-title">Reynolds number</p>
+<div class="math notranslate nohighlight" id="equation-re-rt">
+<span class="eqno">(7)<a class="headerlink" href="#equation-re-rt" title="Link to this equation"></a></span>\[\text{Re}=\frac{L\sqrt{gL}}{\nu}\]</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{3mm}\]</div>
+<div class="admonition-atwood-number admonition">
+<p class="admonition-title">Atwood number</p>
+<div class="math notranslate nohighlight" id="equation-at-rt">
+<span class="eqno">(8)<a class="headerlink" href="#equation-at-rt" title="Link to this equation"></a></span>\[\text{At}=\frac{\rho_{h}-\rho_{l}}{\rho_{h}+\rho_{l}}\]</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{3mm}\]</div>
+<div class="admonition-capilary-number admonition">
+<p class="admonition-title">Capilary number</p>
+<div class="math notranslate nohighlight" id="equation-ca-rt">
+<span class="eqno">(9)<a class="headerlink" href="#equation-ca-rt" title="Link to this equation"></a></span>\[\text{Ca}=\frac{\eta\sqrt{gL}}{\sigma}\]</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\hspace{3mm}\]</div>
+<div class="admonition-peclet-number admonition">
+<p class="admonition-title">Peclet number</p>
+<div class="math notranslate nohighlight" id="equation-pe-rt">
+<span class="eqno">(10)<a class="headerlink" href="#equation-pe-rt" title="Link to this equation"></a></span>\[\text{Pe}=\frac{L\sqrt{gL}}{M_{\phi}}\]</div>
+</div>
+</div>
+<p>Input parameters inside the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file of LBM_Saclay correspond to those calculated in the python script <code class="docutils literal notranslate"><span class="pre">Pre-Pro_InputParam_Rayleigh-Taylor.py</span></code>.</p>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_lbm/TestCase08_Rayleigh-Taylor2D
+</pre></div>
+</div>
+</div></blockquote>
+<p>Run with BGK collision operator</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>/volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay<span class="w"> </span>TestCase08_Rayleigh-Taylor_Spike-Bubble.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 587.993 seconds on CPU of is154726 against 28.233 seconds on gpuq_h100 on Orcus to achieve 52.000 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For training session: commands in paraview</p>
+<ol class="arabic simple">
+<li><p>Open all <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files and select <code class="docutils literal notranslate"><span class="pre">phi</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> and <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">contour</span></code> and select field <code class="docutils literal notranslate"><span class="pre">phi</span></code> with value <code class="docutils literal notranslate"><span class="pre">0.5</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Data</span></code>, select <code class="docutils literal notranslate"><span class="pre">Contours</span></code> and file name``: <code class="docutils literal notranslate"><span class="pre">data</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">Write</span> <span class="pre">Time</span> <span class="pre">Steps</span></code> and <code class="docutils literal notranslate"><span class="pre">Write</span> <span class="pre">Time</span> <span class="pre">Steps</span> <span class="pre">Separately</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+</ol>
+<p>For every time-step, the value of phase-field <span class="math notranslate nohighlight">\(\phi=0.5\)</span> will be written in an output file <code class="docutils literal notranslate"><span class="pre">data_I</span></code> where <code class="docutils literal notranslate"><span class="pre">I</span></code> is an integer.</p>
+</div>
+<p>Next in your terminal</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: python script</p>
+<p>Both files <code class="docutils literal notranslate"><span class="pre">RT2D_Bubble_Ref_Fakhari_PRE2017.dat</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">RT2D_Spike_Ref_Fakhari_PRE2017.dat</span></code> contain <span class="math notranslate nohighlight">\(t^{\star}\)</span> and <span class="math notranslate nohighlight">\(y\)</span> positions of bubble point (1st file) and spike (2nd file). They have been digitalized from Fig 6 of reference <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Post-Pro_Rayleigh-Taylor2D_CompareFakhari.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>After running python script you should find <a class="reference internal" href="#target-fig-rt2d-evol"><span class="std std-numref">Fig. 19</span></a>.</p>
+</div>
+<p><strong>Results</strong></p>
+<p>The initial condition is presented on <a class="reference internal" href="#target-fig-rt2d-init"><span class="std std-numref">Fig. 18</span></a> and the evolution of bubble (green dots) and spikes (blue triangles) is presented on <a class="reference internal" href="#target-fig-rt2d-evol"><span class="std std-numref">Fig. 19</span></a>. The benchmark is performed with black dots from reference.</p>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="id7">
+<span id="target-fig-rt2d-init"></span><a class="reference internal image-reference" href="../../../_images/Init_Rayleigh-Taylor.png"><img alt="../../../_images/Init_Rayleigh-Taylor.png" src="../../../_images/Init_Rayleigh-Taylor.png" style="width: 240.0px; height: 360.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 18 </span><span class="caption-text">Initial condition for Rayleigh-Taylor test case</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id8">
+<span id="target-fig-rt2d-evol"></span><a class="reference internal image-reference" href="../../../_images/Valid_RT2D.png"><img alt="../../../_images/Valid_RT2D.png" src="../../../_images/Valid_RT2D.png" style="width: 480.0px; height: 360.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 19 </span><span class="caption-text">Evolution of spike and bubble point. Benchmark with literature.</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_Rayleigh-Taylor_Instability.webm" width="400" height="550"> </video></div>
+</section>
+<section id="capillary-wave-verification-of-high-density-ratio-rho-h-rho-ell-500">
+<h2>Capillary wave: verification of high density ratio (<span class="math notranslate nohighlight">\(\rho_H/\rho_{\ell}=500\)</span>)<a class="headerlink" href="#capillary-wave-verification-of-high-density-ratio-rho-h-rho-ell-500" title="Link to this heading"></a></h2>
+<p>The <em>Capillary wave</em> is a test case with an analytical solution of Prosperetti <a class="reference internal" href="../../05_COURSES/Course_Intro-Two-Phase/04_Analytical-Solutions_Two-Phase.html#analytical-solution-capillary-wave-prosperetti"><span class="std std-ref">Analytical solution of Prosperetti for capillary wave</span></a>.</p>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: mesh 256x512</p>
+<p>Run LBM_Saclay with one value specific value of kinematic viscosity <span class="math notranslate nohighlight">\(\nu\)</span>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_lbm/TestCase09_Capillary-Wave2D/Mesh_256x512_nu0
+$<span class="w"> </span>/volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay<span class="w"> </span>TestCase09_Capillary-Wave_Prosperetti_Cas1_nu0.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 46 min on GPU A6000 of MANWE to achieve 1.600.001 time-steps. The same simulation ran 851.072 seconds (~ 14min11s) on partition gpuq_h100 of Orcus.</p>
+</div>
+<p>For comparison with analytical solution in paraview12:</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: commands in paraview</p>
+<ol class="arabic simple">
+<li><p>Open all <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files and select <code class="docutils literal notranslate"><span class="pre">phi</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> and <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">contour</span></code> and select field <code class="docutils literal notranslate"><span class="pre">phi</span></code> with value <code class="docutils literal notranslate"><span class="pre">0.5</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Data</span></code>, <code class="docutils literal notranslate"><span class="pre">file</span> <span class="pre">name</span></code>: <code class="docutils literal notranslate"><span class="pre">data</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">Write</span> <span class="pre">Time</span> <span class="pre">Steps</span></code> and <code class="docutils literal notranslate"><span class="pre">Write</span> <span class="pre">Time</span> <span class="pre">Steps</span> <span class="pre">Separately</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+</ol>
+<p>For every time-step, the value of phase-field <span class="math notranslate nohighlight">\(\phi=0.5\)</span> will be written in an output file <code class="docutils literal notranslate"><span class="pre">data_I</span></code> where <code class="docutils literal notranslate"><span class="pre">I</span></code> is an integer.</p>
+</div>
+<p>A python script implements the Prosperreti’s analytical solution and plots that solution with LBM_Saclay results post-processed with paraview. To run that script:</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: python script</p>
+<p>File <code class="docutils literal notranslate"><span class="pre">Solution-Prosperetti.dat</span></code> contains <span class="math notranslate nohighlight">\(t^{\star}\)</span> and <span class="math notranslate nohighlight">\(y\)</span> computed by the analytical solution of Prosperetti. That solution was obtained for the following input parameters set inside each python script</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Post-Pro_Capillary-Wave_CompareProsperetti_Cas1_nu0.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>Running python script should plot <a class="reference internal" href="#target-fig-capillary1-nu0"><span class="std std-numref">Fig. 21</span></a>.</p>
+</div>
+<figure class="align-center" id="id9">
+<a class="reference internal image-reference" href="../../../_images/Init_Capillary-Wave.png"><img alt="../../../_images/Init_Capillary-Wave.png" src="../../../_images/Init_Capillary-Wave.png" style="width: 240.0px; height: 320.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 20 </span><span class="caption-text">Initial condition for capillary wave.</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Results</strong></p>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="id10">
+<span id="target-fig-capillary1-nu0"></span><a class="reference internal image-reference" href="../../../_images/Compare_Prosperetti_Mesh256x512_nu0.png"><img alt="../../../_images/Compare_Prosperetti_Mesh256x512_nu0.png" src="../../../_images/Compare_Prosperetti_Mesh256x512_nu0.png" style="width: 400.0px; height: 320.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 21 </span><span class="caption-text">Validation for <span class="math notranslate nohighlight">\(\nu_0\)</span> on mesh size 256x512.</span><a class="headerlink" href="#id10" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id11">
+<span id="target-fig-capillary2-nu1"></span><a class="reference internal image-reference" href="../../../_images/Compare_Prosperetti_Mesh256x512_nu1.png"><img alt="../../../_images/Compare_Prosperetti_Mesh256x512_nu1.png" src="../../../_images/Compare_Prosperetti_Mesh256x512_nu1.png" style="width: 400.0px; height: 320.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 22 </span><span class="caption-text">Validation for <span class="math notranslate nohighlight">\(\nu_1\)</span> on mesh size 256x512.</span><a class="headerlink" href="#id11" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<p>Mesh 400x800</p>
+<div class="sphinx-features docutils container">
+<figure class="align-center" id="id12">
+<span id="target-fig-capillary3-nu0"></span><a class="reference internal image-reference" href="../../../_images/Compare-Prosperetti_Mesh_400x800_nu0.png"><img alt="../../../_images/Compare-Prosperetti_Mesh_400x800_nu0.png" src="../../../_images/Compare-Prosperetti_Mesh_400x800_nu0.png" style="width: 400.0px; height: 320.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 23 </span><span class="caption-text">Validation for <span class="math notranslate nohighlight">\(\nu_0\)</span> on mesh size 400x800.</span><a class="headerlink" href="#id12" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id13">
+<span id="target-fig-capillary4-nu1"></span><a class="reference internal image-reference" href="../../../_images/Compare-Prosperetti_Mesh_400x800_nu1.png"><img alt="../../../_images/Compare-Prosperetti_Mesh_400x800_nu1.png" src="../../../_images/Compare-Prosperetti_Mesh_400x800_nu1.png" style="width: 400.0px; height: 320.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 24 </span><span class="caption-text">Validation for <span class="math notranslate nohighlight">\(\nu_1\)</span> on mesh size 400x800.</span><a class="headerlink" href="#id13" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="simulations-of-bubbles-and-droplets">
+<h2>Simulations of bubbles and droplets<a class="headerlink" href="#simulations-of-bubbles-and-droplets" title="Link to this heading"></a></h2>
+<section id="rising-bubble">
+<h3>Rising bubble<a class="headerlink" href="#rising-bubble" title="Link to this heading"></a></h3>
+<p>Folder <code class="docutils literal notranslate"><span class="pre">TestCase11_Rising-Bubble2D</span></code> contains two test cases for simulations of rising bubble with different Bond and Morton numbers: <code class="docutils literal notranslate"><span class="pre">CASE-A2</span></code> and <code class="docutils literal notranslate"><span class="pre">CASE-A5</span></code>. The choice of dimensionless numbers is inspired from reference <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. For <code class="docutils literal notranslate"><span class="pre">CASE-A2</span></code> <span class="math notranslate nohighlight">\(\text{Bo}=32.2\)</span> and <span class="math notranslate nohighlight">\(\text{Mo}=8.2\times10^{-4}\)</span> and for <code class="docutils literal notranslate"><span class="pre">CASE-A5</span></code> <span class="math notranslate nohighlight">\(\text{Bo}=339\)</span> and <span class="math notranslate nohighlight">\(\text{Mo}=43.1\)</span>.</p>
+<div class="hint admonition">
+<p class="admonition-title">For LBM training session: pre-processing with python scripts</p>
+<p>The dimensionless parameters are derived from python scripts contained in folder <code class="docutils literal notranslate"><span class="pre">PYTHON_Scripts</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase11_Rising-Bubble2D/PYTHON_Scripts
+$<span class="w"> </span>python<span class="w"> </span>Pre-Pro_InputParam_Rising-Bubble_Water-Air.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>The derivation of <span class="math notranslate nohighlight">\(\sigma^{\star}\)</span> and <span class="math notranslate nohighlight">\(g^{\star}\)</span> for target Bo and Mo numbers are done in <code class="docutils literal notranslate"><span class="pre">Pre-Pro_Bo-Mo_2_AdimParam_Rising-Bubble.py</span></code>. For test case <code class="docutils literal notranslate"><span class="pre">CASE-A2</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Pre-Pro_Bo-Mo_2_AdimParam_Rising-Bubble.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>Finally you can check that parameters of LBM_Saclay match with your dimensionless numbers. For <code class="docutils literal notranslate"><span class="pre">CASE-A2</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Ini_2_AdimNb_Rising-Bubble_CASE-A2.py
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go to folder <code class="docutils literal notranslate"><span class="pre">TestCase11_Rising-Bubble2D/CASE-A2</span></code> and run LBM_Saclay.</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase11_Rising-Bubble2D/CASE-A2
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase11_Rising-Bubble_BoMo-A2.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 263.901 seconds (~4min24sec) on partition gpuq_h100 of Orcus to achieve 320.001 time-steps. Simulation of <code class="docutils literal notranslate"><span class="pre">CASE-A5</span></code> took 802.215 seconds (~13min37sec) on same partition to achieve 1.000.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In paraview:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>open <code class="docutils literal notranslate"><span class="pre">TestCase11_Rising-Bubble_CaseA2.xmf</span></code>, select <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code> and clic on green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code>.</p></li>
+<li><p>Select field <code class="docutils literal notranslate"><span class="pre">phi</span></code> and visualize it for several times.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">For training session: Exercise</p>
+<p>Derive parameters for simulating with LBM_Saclay</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CASE-A3</span></code>: <span class="math notranslate nohighlight">\(\text{Bo}=243\)</span> and <span class="math notranslate nohighlight">\(\text{Mo}=266\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CASE-A4</span></code>: <span class="math notranslate nohighlight">\(\text{Bo}=115\)</span> and <span class="math notranslate nohighlight">\(\text{Mo}=4.63\times10^{-3}\)</span></p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_Rising-Bubble_A2.webm" width="500" height="400"> </video></div>
+</section>
+<section id="falling-droplet">
+<h3>Falling droplet<a class="headerlink" href="#falling-droplet" title="Link to this heading"></a></h3>
+<p>Folder <code class="docutils literal notranslate"><span class="pre">TestCase10_Rayleigh-Plateau2D</span></code> contains four test cases for simulations of surface tension sensitivity <span class="math notranslate nohighlight">\(\sigma\)</span>.</p>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go to folder <code class="docutils literal notranslate"><span class="pre">TestCase10_Rayleigh-Plateau2D/Sigma1</span></code> for <span class="math notranslate nohighlight">\(\sigma_1=10^{-5}\)</span> and run</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase10_Rayleigh-Plateau2D/Sigma1
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase10_Rayleigh-Plateau_Sigma1.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 277.977 seconds (~4min38sec) on partition gpuq_h100 of Orcus to achieve 500.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In paraview:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>open <code class="docutils literal notranslate"><span class="pre">TestCase10_Rayleigh-Plateau_Sigma1.xmf</span></code>, select <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code> and clic on green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code>.</p></li>
+<li><p>Select field <code class="docutils literal notranslate"><span class="pre">phi</span></code> and visualize it for several times.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">For training session: Exercise</p>
+<p>Run three simulations with <span class="math notranslate nohighlight">\(\sigma=3\times10^{-5}\)</span>, <span class="math notranslate nohighlight">\(\sigma=5\times10^{-5}\)</span> and <span class="math notranslate nohighlight">\(\sigma=6\times10^{-5}\)</span> to study the influence of surface tension on falling droplet. You should obtain results presented in video below.</p>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_Falling-Droplet_256x512_Compare-Sigma.webm" width="700" height="420"> </video></div>
+</section>
+<section id="taylor-bubble">
+<h3>Taylor bubble<a class="headerlink" href="#taylor-bubble" title="Link to this heading"></a></h3>
+<p>The 2D test case simulates a bubble water inside a rectangle filled with olive oil.</p>
+<div class="hint admonition">
+<p class="admonition-title">For LBM training session: pre-processing with python scripts</p>
+<p>The dimensionless parameters are derived from python script <code class="docutils literal notranslate"><span class="pre">Pre-Pro_InputParam_Taylor-Bubble_OliveOil-Air.py</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase12_Taylor-Bubble2D
+$<span class="w"> </span>python<span class="w"> </span>Pre-Pro_InputParam_Taylor-Bubble_OliveOil-Air.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>The derivation of <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(\eta_l\)</span> for target Bo and Mo numbers are done in <code class="docutils literal notranslate"><span class="pre">Pre-Pro_BoMo_2_AdimNb_Taylor-Bubble.py</span></code>.</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Pre-Pro_BoMo_2_AdimNb_Taylor-Bubble.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>Finally you can check that parameters of LBM_Saclay match with your dimensionless numbers with</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Ini_2_AdimNb_Taylor-Bubble.py
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go to folder and run</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase12_Taylor-Bubble2D/Bo-Mo_Case5
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase11_Taylor-Bubble_BoMo-Cas5.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 597.596 seconds (~10 min) on partition gpuq_h100 of Orcus to achieve 800.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In paraview: Clic on <code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">State</span></code>, select <code class="docutils literal notranslate"><span class="pre">State_Vid_Taylor-Bubble_Case5_PV511.pvsm</span></code>, select <code class="docutils literal notranslate"><span class="pre">Choose</span> <span class="pre">File</span> <span class="pre">Names</span></code>, select <code class="docutils literal notranslate"><span class="pre">.xmf</span></code> file and <code class="docutils literal notranslate"><span class="pre">OK</span></code>.</p>
+</div>
+<div class="important admonition">
+<p class="admonition-title">For LBM training session: Exercise</p>
+<p>Keep Bo=100 and run three other simulations with <span class="math notranslate nohighlight">\(Mo=10^{-2},Mo=10^{-4},Mo=10^{-5}\)</span>, and <span class="math notranslate nohighlight">\(Mo=10^{-6}\)</span>. After post-processing with paraview11 (load <code class="docutils literal notranslate"><span class="pre">State_Vid_Taylor-Bubble_Compare_5Mo_PV511.pvsm</span></code> file) you should obtain the video below.</p>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_Taylor-Bubble2D_Compare_5Mo.webm" width="800" height="600"> </video></div>
+</section>
+<section id="splashing-droplet">
+<h3>Splashing droplet<a class="headerlink" href="#splashing-droplet" title="Link to this heading"></a></h3>
+<p>Folder <code class="docutils literal notranslate"><span class="pre">TestCase13_Splashing-Droplet2D</span></code> contains one test cases for simulations of splashing droplet. This is an example of using Re and We dimensionless numbers.</p>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go to folder and run</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase13_Splashing-Droplet2D/Splash_Re2000-We8000
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase13_SplashingDroplet_Re2000-We8000_H15_1024x220.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 70.609 seconds on partition gpuq_h100 of Orcus to achieve 100.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In paraview:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>open <code class="docutils literal notranslate"><span class="pre">TestCase13_Splash_Re2000-We8000.xmf</span></code>, select <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code> and clic on green button <code class="docutils literal notranslate"><span class="pre">Apply</span></code>.</p></li>
+<li><p>Select field <code class="docutils literal notranslate"><span class="pre">phi</span></code> and visualize it for several times.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../../_static/Vid_Splash_Re876-We2662.webm" width="700" height="350"> </video></div>
+<div class="important admonition">
+<p class="admonition-title">For LBM training session: Exercise</p>
+<p>Perform simulations with other Reynolds and Weber numbers. Python scripts in folder <code class="docutils literal notranslate"><span class="pre">PYTHON_Scripts</span></code> will help you to set dimensionless parameters in your <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file.</p>
+</div>
+</section>
+<section id="dam-break">
+<h3>Dam break<a class="headerlink" href="#dam-break" title="Link to this heading"></a></h3>
+<p>Folder <code class="docutils literal notranslate"><span class="pre">TestCase14_Dam-Break2D</span></code> contains four test cases for simulations of surface tension sensitivity <span class="math notranslate nohighlight">\(\sigma\)</span>.</p>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: run LBM_Saclay on Orcus</p>
+<p>Go to folder and run</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>TestCase14_Dam-Break2D
+$<span class="w"> </span>sbatch<span class="w"> </span>/tmpformation/LBM_Saclay/JOB_H100_GPU.slurm<span class="w"> </span>TestCase14_Dam-Break.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>The simulation ran 385.795 seconds (~6min26sec) on partition gpuq_h100 of Orcus to achieve 500.001 time-steps.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title">For LBM training session: post-processing with paraview 5.11</p>
+<p>Post-process with paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">For LBM training session: Exercise</p>
+<p>Make a video of your simulation with paraview.</p>
+</div>
+</section>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Fakhari et al, PHYSICAL REVIEW E 96, 053301 (2017). doi <a class="reference external" href="https://journals.aps.org/pre/abstract/10.1103/PhysRevE.96.053301">https://journals.aps.org/pre/abstract/10.1103/PhysRevE.96.053301</a></p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Dinesh Kumar E., S.A. Sannasiraj, V. Sundar, Phase field lattice Boltzmann model for air-water two phase flows, Physics of Fluids 31, 072103 (2019). doi <a class="reference external" href="https://doi.org/10.1063/1.5100215">https://doi.org/10.1063/1.5100215</a></p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Run “Two-phase with fluid flows”</a><ul>
+<li><a class="reference internal" href="#double-poiseuille-verification-of-viscosity-ratio">Double-Poiseuille: verification of viscosity ratio</a></li>
+<li><a class="reference internal" href="#rayleigh-taylor-instability-verification-of-small-density-ratio-rho-h-rho-ell-500">Rayleigh-Taylor instability: verification of small density ratio (<span class="math notranslate nohighlight">\(\rho_H/\rho_{\ell}=500\)</span>)</a></li>
+<li><a class="reference internal" href="#capillary-wave-verification-of-high-density-ratio-rho-h-rho-ell-500">Capillary wave: verification of high density ratio (<span class="math notranslate nohighlight">\(\rho_H/\rho_{\ell}=500\)</span>)</a></li>
+<li><a class="reference internal" href="#simulations-of-bubbles-and-droplets">Simulations of bubbles and droplets</a><ul>
+<li><a class="reference internal" href="#rising-bubble">Rising bubble</a></li>
+<li><a class="reference internal" href="#falling-droplet">Falling droplet</a></li>
+<li><a class="reference internal" href="#taylor-bubble">Taylor bubble</a></li>
+<li><a class="reference internal" href="#splashing-droplet">Splashing droplet</a></li>
+<li><a class="reference internal" href="#dam-break">Dam break</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Test_Cases_Two_Phase_Without-Flows.html"
+                          title="previous chapter">Run “Two-phase without fluid flows”</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Test_Cases_TwoPhase_ComposEffect.html"
+                          title="next chapter">Run “Two-phase with fluid flows with composition effect”</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/RUN_TRAINING_LBM/Test_Cases_Two_Phase.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Test_Cases_TwoPhase_ComposEffect.html" title="Run “Two-phase with fluid flows with composition effect”"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Test_Cases_Two_Phase_Without-Flows.html" title="Run “Two-phase without fluid flows”"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="runtraininglbm.html" >Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Run “Two-phase with fluid flows”</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

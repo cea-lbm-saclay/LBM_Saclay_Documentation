@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Model of gel maturation &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase" href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html" />
+    <link rel="prev" title="Model of crystal growth" href="Model_CrystalGrowth.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html" title="Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Model_CrystalGrowth.html" title="Model of crystal growth"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" accesskey="U">PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of gel maturation</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="model-of-gel-maturation">
+<span id="model-gpmixtternary"></span><h1>Model of gel maturation<a class="headerlink" href="#model-of-gel-maturation" title="Link to this heading"></a></h1>
+<p>The model of gel maturation is an example of phase-field model for two phases: solid and liquid and three compositions (ternary system). In section <code class="docutils literal notranslate"><span class="pre">[lbm]</span></code>, the kernel is activated with the keyword <code class="docutils literal notranslate"><span class="pre">problem=ternary_GP_mixt</span></code>. In the rest of this section, the mathematical model and input parameters are described for model option <code class="docutils literal notranslate"><span class="pre">model=two_dilute</span></code>.</p>
+<section id="mathematical-model">
+<h2>Mathematical model<a class="headerlink" href="#mathematical-model" title="Link to this heading"></a></h2>
+<p>In this model we are concerned with the diffusion of three components <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span> of compositions <span class="math notranslate nohighlight">\(C_A\)</span>, <span class="math notranslate nohighlight">\(C_B\)</span> and <span class="math notranslate nohighlight">\(C_C\)</span>. The compositions are conserved and the following relationship holds:</p>
+<div class="math notranslate nohighlight" id="equation-total-conservation">
+<span class="eqno">(107)<a class="headerlink" href="#equation-total-conservation" title="Link to this equation"></a></span>\[C_{A}+C_{B}+C_{C}=1\]</div>
+<p><strong>Phase-field equation</strong></p>
+<p>The phase-field model is derived from the grand-potential functional with dilute assumption for composition equations. The solid phase is indicated by <span class="math notranslate nohighlight">\(\phi=0\)</span> and the liquid phase by <span class="math notranslate nohighlight">\(\phi=1\)</span>. The phase field equation writes:</p>
+<div class="math notranslate nohighlight" id="equation-pf-eq">
+<span class="eqno">(108)<a class="headerlink" href="#equation-pf-eq" title="Link to this equation"></a></span>\[\tau\frac{\partial\phi}{\partial t}=W^{2}\boldsymbol{\nabla}^{2}\phi-\omega_{dw}^{\prime}(\phi)-\lambda p^{\prime}(\phi)\Delta\omega(\boldsymbol{\mu})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tau\)</span> is the relaxation time, <span class="math notranslate nohighlight">\(W\)</span> is the interface width, <span class="math notranslate nohighlight">\(\omega_{dw}^{\prime}(\phi)\)</span> is the derivative of the double-well potential with respect to <span class="math notranslate nohighlight">\(\phi\)</span> which is defined by</p>
+<div class="math notranslate nohighlight" id="equation-double-well">
+<span class="eqno">(109)<a class="headerlink" href="#equation-double-well" title="Link to this equation"></a></span>\[\omega_{dw}(\phi)=8\phi^{2}(1-\phi)^{2}\]</div>
+<p><span class="math notranslate nohighlight">\(\lambda\)</span> is the coupling parameter, <span class="math notranslate nohighlight">\(p^{\prime}(\phi)\)</span> is the derivative of an interpolation function with respect to <span class="math notranslate nohighlight">\(\phi\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-interpolation-p">
+<span class="eqno">(110)<a class="headerlink" href="#equation-interpolation-p" title="Link to this equation"></a></span>\[p(\phi)=\phi^{2}(3-2\phi)\]</div>
+<p>and <span class="math notranslate nohighlight">\(\Delta\omega(\boldsymbol{\mu})\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-delta-omega">
+<span class="eqno">(111)<a class="headerlink" href="#equation-def-delta-omega" title="Link to this equation"></a></span>\[\Delta\omega(\boldsymbol{\mu})=\]</div>
+<p>Let us notice that the parameters <span class="math notranslate nohighlight">\(\tau\)</span> can be expressed by thermodynamic properties (e.g. height of double-well and coefficient in factor of <span class="math notranslate nohighlight">\(\delta\Omega/\delta\phi\)</span>). Finally in the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input file, the usual parameters <span class="math notranslate nohighlight">\(W\)</span>, <span class="math notranslate nohighlight">\(\lambda\)</span> and <span class="math notranslate nohighlight">\(M_{\phi}\)</span> are set.</p>
+<p><strong>Composition equations</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-compos-a">
+<span class="eqno">(112)<a class="headerlink" href="#equation-eq-compos-a" title="Link to this equation"></a></span>\[\frac{\partial C_{A}}{\partial t}=\boldsymbol{\nabla}\cdot\left[D_{A}(\phi)C_{A}\boldsymbol{\nabla}\mu_{A}\right]\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-compos-b">
+<span class="eqno">(113)<a class="headerlink" href="#equation-eq-compos-b" title="Link to this equation"></a></span>\[\frac{\partial C_{B}}{\partial t}=\boldsymbol{\nabla}\cdot\left[D_{B}(\phi)C_{B}\boldsymbol{\nabla}\mu_{B}\right]\]</div>
+<p>where for each specie, the diffusion coefficient is interpolated by the bulk coefficients of each phase (solid and liquid):</p>
+<div class="math notranslate nohighlight" id="equation-diffusion-coeff">
+<span class="eqno">(114)<a class="headerlink" href="#equation-diffusion-coeff" title="Link to this equation"></a></span>\[D_{\alpha}(\phi)=\phi D_{\alpha}^l+(1-\phi)D_{\alpha}^s\]</div>
+<p>for <span class="math notranslate nohighlight">\(\alpha=A,B\)</span>.</p>
+<p>The last composition is obtained by Eq. <a class="reference internal" href="#equation-total-conservation">(107)</a></p>
+<div class="math notranslate nohighlight" id="equation-eq-compos-c">
+<span class="eqno">(115)<a class="headerlink" href="#equation-eq-compos-c" title="Link to this equation"></a></span>\[C_{C}=1-C_{A}-C_{B}\]</div>
+<p><strong>Chemical potentials</strong></p>
+<div class="math notranslate nohighlight" id="equation-eq-chempot-a">
+<span class="eqno">(116)<a class="headerlink" href="#equation-eq-chempot-a" title="Link to this equation"></a></span>\[\mu_{A}=\log\left[\frac{C_{A}}{\phi e^{-\epsilon_{A}^{l}}+(1-\phi)e^{-\epsilon_{A}^{s}}}\right]\]</div>
+<div class="math notranslate nohighlight" id="equation-eq-chempot-b">
+<span class="eqno">(117)<a class="headerlink" href="#equation-eq-chempot-b" title="Link to this equation"></a></span>\[\mu_{B}=\log\left[\frac{C_{B}}{\phi e^{-\epsilon_{B}^{l}}+(1-\phi)e^{-\epsilon_{B}^{s}}}\right]\]</div>
+</section>
+<section id="list-of-input-parameters-in-ini-file">
+<h2>List of input parameters in <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file<a class="headerlink" href="#list-of-input-parameters-in-ini-file" title="Link to this heading"></a></h2>
+<p>One example of input file for that model is <code class="docutils literal notranslate"><span class="pre">settings_ternary_instantaneous_diffusion.ini</span></code>. We describe below the content of that file where the sections <code class="docutils literal notranslate"><span class="pre">[lbm]</span></code>, <code class="docutils literal notranslate"><span class="pre">[params]</span></code>, <code class="docutils literal notranslate"><span class="pre">[ccparams]</span></code> and <code class="docutils literal notranslate"><span class="pre">[init]</span></code> must be wisely set.</p>
+<p><strong>1. Section</strong> <code class="docutils literal notranslate"><span class="pre">[lbm]</span></code></p>
+<p>To simulate that mathematical model, put the following options in section <code class="docutils literal notranslate"><span class="pre">[lbm]</span></code></p>
+<ul class="simple">
+<li><p>use the keyword <code class="docutils literal notranslate"><span class="pre">problem=ternary_GP_mixt</span></code></p></li>
+<li><p>use the keyword <code class="docutils literal notranslate"><span class="pre">model=two_dilute</span></code></p></li>
+</ul>
+<p><strong>2. Section</strong> <code class="docutils literal notranslate"><span class="pre">[params]</span></code></p>
+<p>The list of parameters are summarized in Table below.</p>
+<blockquote>
+<div><p>Phase-field parameters</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Math symbol</strong></p></td>
+<td><p><strong>Parameter name</strong></p></td>
+<td><p><strong>Equation</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.ini</span></code> <strong>file</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(M_{\phi}\)</span></p></td>
+<td><p>Mobility of interface</p></td>
+<td><p>Eq. <a class="reference internal" href="../../05_COURSES/Course_LBM/01_Fluid_Dyn_Models.html#equation-pf-eq">(336)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Mphi</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(W\)</span></p></td>
+<td><p>Interface width</p></td>
+<td><p>Eq. <a class="reference internal" href="../../05_COURSES/Course_LBM/01_Fluid_Dyn_Models.html#equation-pf-eq">(336)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">W</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\lambda\)</span></p></td>
+<td><p>Coupling parameter</p></td>
+<td><p>Eq. <a class="reference internal" href="../../05_COURSES/Course_LBM/01_Fluid_Dyn_Models.html#equation-pf-eq">(336)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">lambda</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Diffusion parameters</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Math symbol</strong></p></td>
+<td><p><strong>Parameter name</strong></p></td>
+<td><p><strong>Equation</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.ini</span></code> <strong>file</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\epsilon_{A}^{l}\)</span></p></td>
+<td><p>Bulk energy of liquid phase for specie <span class="math notranslate nohighlight">\(A\)</span></p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-eq-chempot-a">(116)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">elA</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\epsilon_{A}^{s}\)</span></p></td>
+<td><p>Bulk energy of solid phase  for specie <span class="math notranslate nohighlight">\(A\)</span></p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-eq-chempot-a">(116)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">esA</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\epsilon_{B}^{l}\)</span></p></td>
+<td><p>Bulk energy of liquid phase for specie <span class="math notranslate nohighlight">\(B\)</span></p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-eq-chempot-b">(117)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">elB</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\epsilon_{B}^{s}\)</span></p></td>
+<td><p>Bulk energy of solid phase  for specie <span class="math notranslate nohighlight">\(B\)</span></p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-eq-chempot-b">(117)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">esB</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\epsilon_{C}^{l}\)</span></p></td>
+<td><p>Bulk energy of liquid phase for specie <span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td><p>Eq.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">elC</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\epsilon_{C}^{s}\)</span></p></td>
+<td><p>Bulk energy of solid phase  for specie <span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td><p>Eq.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">esC</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D_{A}^l\)</span></p></td>
+<td><p>Bulk diffusion of specie <span class="math notranslate nohighlight">\(A\)</span> in liquid phase</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-diffusion-coeff">(114)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DA1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(D_{A}^s\)</span></p></td>
+<td><p>Bulk diffusion of specie <span class="math notranslate nohighlight">\(A\)</span> in solid phase</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-diffusion-coeff">(114)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DA0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D_{B}^l\)</span></p></td>
+<td><p>Bulk diffusion of specie <span class="math notranslate nohighlight">\(B\)</span> in liquid phase</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-diffusion-coeff">(114)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DB1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(D_{B}^s\)</span></p></td>
+<td><p>Bulk diffusion of specie <span class="math notranslate nohighlight">\(B\)</span> in solid phase</p></td>
+<td><p>Eq. <a class="reference internal" href="#equation-diffusion-coeff">(114)</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DB0</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>3. Section</strong> <code class="docutils literal notranslate"><span class="pre">[ccparams]</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">cc</span></code> means <em>composantes connexes</em>. In this section six options can be set:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">use_connected_components=</span></code>: <code class="docutils literal notranslate"><span class="pre">yes</span></code> or <code class="docutils literal notranslate"><span class="pre">no</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">print_cc_trace=</span></code>          : <code class="docutils literal notranslate"><span class="pre">yes</span></code> or <code class="docutils literal notranslate"><span class="pre">no</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CC_phi_threshold=</span></code>        : real value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">apply_virtual_volume=</span></code>    : <code class="docutils literal notranslate"><span class="pre">yes</span></code> or <code class="docutils literal notranslate"><span class="pre">no</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">virtual_volume=</span></code>          : real value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">virtual_volume_boundary=</span></code> : real value</p></li>
+</ul>
+<p><strong>4. Section</strong> <code class="docutils literal notranslate"><span class="pre">[init]</span></code></p>
+<p>Example of initialization for <code class="docutils literal notranslate"><span class="pre">init_type=perco</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">init_type=</span></code>: keyword. Here <code class="docutils literal notranslate"><span class="pre">perco</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initClA=</span></code>: positive real value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initClB=</span></code>: positive real value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initCsAA=</span></code>: positive real value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initCsAB=</span></code>: positive real value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initCsBA=</span></code>: positive real value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initCsBB=</span></code>: positive real value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">read_data_phi=</span></code>: <code class="docutils literal notranslate"><span class="pre">yes</span></code> or <code class="docutils literal notranslate"><span class="pre">no</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file_data_phi=</span></code>: filename.dat (format i,j,k,value). See example <code class="docutils literal notranslate"><span class="pre">init_data_perco.dat</span></code></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Model of gel maturation</a><ul>
+<li><a class="reference internal" href="#mathematical-model">Mathematical model</a></li>
+<li><a class="reference internal" href="#list-of-input-parameters-in-ini-file">List of input parameters in <code class="docutils literal notranslate"><span class="pre">.ini</span></code> file</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Model_CrystalGrowth.html"
+                          title="previous chapter">Model of crystal growth</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html"
+                          title="next chapter">Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/02_MODELS/02_Fluid_Solid/Model_Maturation_Gel.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html" title="Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Model_CrystalGrowth.html" title="Model of crystal growth"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../models.html" >PART II: Mathematical models in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of gel maturation</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

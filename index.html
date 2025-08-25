@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Welcome to LBM_Saclay’s documentation &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=94b27872" />
+    
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Videos gallery of simulations with LBM" href="src_doc/00_INTRODUCTION/Simulation_with_LBM.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="src_doc/00_INTRODUCTION/Simulation_with_LBM.html" title="Videos gallery of simulations with LBM"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to LBM_Saclay’s documentation</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="welcome-to-lbm-saclay-s-documentation">
+<h1>Welcome to LBM_Saclay’s documentation<a class="headerlink" href="#welcome-to-lbm-saclay-s-documentation" title="Link to this heading"></a></h1>
+<div class="admonition-lbm-saclay admonition">
+<p class="admonition-title">LBM_Saclay</p>
+<figure class="align-default">
+<a class="align-left reference internal image-reference" href="_images/Logo_LBM_Saclay.png"><img alt="_images/Logo_LBM_Saclay.png" class="align-left" src="_images/Logo_LBM_Saclay.png" style="width: 112.0px; height: 120.0px;" />
+</a>
+</figure>
+<p>LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the <strong>Lattice Boltzmann Methods</strong> (<span class="math notranslate nohighlight">\(\mathcal{LBM}\)</span>). It is developed and maintained at <strong>CEA/Saclay</strong> and its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the <strong>phase-field theory</strong>. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a <strong>multi-GPU</strong> partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on <a class="reference external" href="https://codev-tuleap.cea.fr/projects/LBMSaclay">https://codev-tuleap.cea.fr/projects/LBMSaclay</a>. For that purpose, follow the instructions on <a class="reference internal" href="src_doc/01_USER_GUIDE/QUICKSTART/quickstart.html#quick-start"><span class="std std-ref">Quick Start with LBM_Saclay</span></a>.</p>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Videos gallery</p>
+<p>The combination of phase-field models with LBM and GPU is a very efficient approach for simulating multi-phase and multi-component flows. To illustrate what can be simulated, several videos are presented in different parts of this documentation. An overview can be found on</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/00_INTRODUCTION/Simulation_with_LBM.html">Videos gallery of simulations with LBM</a></li>
+</ul>
+</div>
+<ul class="simple">
+<li><p>2D simulations with LBM_Saclay are presented in <a class="reference internal" href="src_doc/01_USER_GUIDE/RUN_TRAINING_LBM/Test_Cases_Two_Phase.html#twop-training-lbm"><span class="std std-ref">Run “Two-phase with fluid flows”</span></a>.</p></li>
+<li><p>Applications of <a class="reference internal" href="src_doc/02_MODELS/models.html#math-models"><span class="std std-ref">PART II: Mathematical models in LBM_Saclay</span></a> are illustrated with videos.</p></li>
+</ul>
+</div>
+<section id="introduction">
+<h2><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<div class="admonition-context-and-motivations admonition">
+<p class="admonition-title">Context and motivations</p>
+<p>Two-phase flows, and more generally Multi-Phase and Multi-Component flows (MPMC), are involved in many physical phenomena such as <em>spinodal decomposition</em>, <em>nucleation and growth</em>, <em>coalescence and breakup</em> of droplets, <em>rising bubbles</em> &amp; <em>falling droplets</em>, <em>Marangoni flows</em>, <em>Rayleigh-Taylor instability</em>, <em>surfactants</em>, <em>Ostwald ripening</em> and so on. Those phenomena occur in the daily life as well as in industrial problems. The first example described below, is the <em>nuclear glass</em> which is used to confine radioactive wastes. We can also mention the <em>corium</em> in the context of severe accident of nuclear core reactors, <em>microfluidics</em> and <em>flow and transport in porous media</em>. Some of them are purely problems of fluid dynamics (rising bubbles or Rayleigh-Taylor instability). But others require a coupling between Navier-Stokes equations and thermodynamics.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/00_INTRODUCTION/Context_Motivation.html">Observations in nuclear glass</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/00_INTRODUCTION/Context_Motivation.html#thermodynamics">Thermodynamics</a></li>
+</ul>
+</div>
+</div>
+<div class="admonition-mathematical-models-phase-field-theory admonition">
+<p class="admonition-title">Mathematical models: phase-field theory</p>
+<p>To be thermodynamically-consistent and capture the interface between phases, we use the <strong>phase-field theory</strong> (see <a class="reference internal" href="src_doc/05_COURSES/Course_PF/TOC_Phase-Field.html#basic-concepts-phase-field-theory"><span class="std std-ref">Basic concepts of phase-field theory: two-phase</span></a>) to derive the mathematical phase-field models (<span class="math notranslate nohighlight">\(\varphi\)</span>-models).</p>
+<ul class="simple">
+<li><p>For hydrodynamic phenomena of two immiscible fluids such as <em>Rayleigh-Taylor instability</em>, <em>rising bubbles</em>, <em>splashing droplets</em>, <em>capillary wave</em> etc., the interface is captured by the Conservative Allen-Cahn model (or levelset equation) which coupled with incompressible Navier-Stokes equations.</p></li>
+<li><p>For thermodynamic phenomena such as <em>spinodal decomposition</em>, <em>Ostwald ripening</em>, <em>solid-liquid</em> phase change, the mathematical models are derived from the phase-field theory (<span class="math notranslate nohighlight">\(\varphi\)</span>-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation. You will find in this documentation <a class="reference internal" href="src_doc/05_COURSES/Course_PF/TOC_Phase-Field.html#basic-concepts-phase-field-theory"><span class="std std-ref">Basic concepts of phase-field theory: two-phase</span></a>.</p></li>
+</ul>
+</div>
+<div class="admonition-numerical-schemes-lattice-boltzmann-methods admonition">
+<p class="admonition-title">Numerical schemes: Lattice Boltzmann Methods</p>
+<p>The <em>Lattice Boltzmann Equation</em> (LBE) is one discretization (among other) of the continuous Boltzmann equation in the kinetic theory of gases (see  <a class="reference internal" href="src_doc/05_COURSES/Course_LBM/02_Overview_LBM.html#basic-lbm"><span class="std std-ref">Overview of Lattice Boltzmann Methods</span></a>). The Lattice Boltzmann Methods (<strong>LBM</strong>) are a set of numerical methods, based on that LBE, used as solver of Navier-Stokes equations and other conservative Partial Derivative Equations (PDEs). It is an alternative method to classical approaches for CFD such as finite element or finite volume methods. Its main advantage is to simulate simply different versions of Navier-Stokes equations (incompressible and low Mach formulations) and run efficiently on supercomputers. In this documentation, the section <a class="reference internal" href="src_doc/03_LBM_Schemes/TOC_LBM_Schemes.html#lbm-saclay-schemes"><span class="std std-ref">PART III: Lattice Boltzmann schemes in LBM_Saclay</span></a> describes the LB methods which are implemented in LBM_Saclay.</p>
+</div>
+<div class="admonition-c-implementation-and-kokkos-library-for-gpus admonition">
+<p class="admonition-title">C++ implementation and Kokkos library for GPUs</p>
+<p>LBM is a powerful method which is very efficient on Graphics Processing Units (GPUs). LBM_Saclay developers program neither in <code class="docutils literal notranslate"><span class="pre">cuda</span></code> (for Nvidia GPUs) nor <code class="docutils literal notranslate"><span class="pre">opencl</span></code> but in C++ standard language. With a simple modification of <code class="docutils literal notranslate"><span class="pre">cmake</span></code> options, the code can be compiled either on CPU architectures or on GPU devices (see <a class="reference internal" href="src_doc/01_USER_GUIDE/QUICKSTART/quickstart.html#quick-start"><span class="std std-ref">Quick Start with LBM_Saclay</span></a>). The Kokkos library is used for the portability of LBM_Saclay. You will find in <a class="reference internal" href="src_doc/04_PROGRAMMING/Guidelines.html#guidelines"><span class="std std-ref">PART IV: Guidelines for developers</span></a> what you need to implement your own initial conditions or source terms. Tutorials are also under progress for more advanced programmers who wish to develop new kernels with new <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> functions.</p>
+</div>
+<div class="admonition-multi-phase-and-multi-component-simulations-with-lbm-saclay admonition">
+<p class="admonition-title">Multi-Phase and Multi-Component simulations with LBM_Saclay</p>
+<p>LBM_Saclay can simulate Multi-Phase and Multi-Component (<strong>MPMC</strong>) flows such as <em>binary demixing</em>, <em>buyoancy and coalescence of bubbles</em>, <em>Rayleigh-Taylor instability</em>, <em>liquid-gas phase change</em>, etc. A quick look of those phenomena is presented on <a class="reference internal" href="#target-fig-approach"><span class="std std-numref">Fig. 7</span></a>. Other examples are given in each subsection of <a class="reference internal" href="src_doc/02_MODELS/models.html#math-models"><span class="std std-ref">PART II: Mathematical models in LBM_Saclay</span></a> which describe the PDEs of each model and their closure relationships. The phase-field models that are implemented in LBM_Saclay, are based on different forms of Cahn-Hilliard and Allen-Cahn equations which are modified and adapted to problems to simulate e.g. <em>crystal growth</em>, <em>dissolution of porous media</em>, <em>liquid-vapor phase change</em>, etc.</p>
+<figure class="align-center" id="the-lpn-logo">
+<span id="target-fig-approach"></span><a class="reference internal image-reference" href="_images/Overview_Approach.png"><img alt="The Li-Pro.Net logo." src="_images/Overview_Approach.png" style="width: 800.0px; height: 400.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Examples of two-phase flows simulated with LBM</span><a class="headerlink" href="#the-lpn-logo" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<div class="admonition-lbm-saclay-workforce admonition">
+<p class="admonition-title">LBM_Saclay workforce</p>
+<figure class="align-default">
+<a class="align-left reference internal image-reference" href="_images/Logo-Workforce_LBM_Saclay.png"><img alt="_images/Logo-Workforce_LBM_Saclay.png" class="align-left" src="_images/Logo-Workforce_LBM_Saclay.png" style="width: 120.0px; height: 120.0px;" />
+</a>
+</figure>
+<p>Many CEA people have contributed to the development and validation of LBM_Saclay: P. Kestener, W. Verdier, T. Boutin, E. Stavropoulos-Vasilakis, H. de Gieter, C. Méjanès, T. Duez, H. Keraudren, C. Elharti, S. Dupuy, C. Bardet, S. Cappe, A. Genty, A. Laurens, A. Cartalade.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/00_INTRODUCTION/TEAM/Team_Presentation.html">Team presentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/00_INTRODUCTION/TEAM/List-Of-Publications.html">STMF Publications with LBM</a></li>
+</ul>
+</div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">Content of this documentation</p>
+<figure class="align-default">
+<a class="align-left reference internal image-reference" href="_images/Logo_LBM_Saclay_DOC.png"><img alt="_images/Logo_LBM_Saclay_DOC.png" class="align-left" src="_images/Logo_LBM_Saclay_DOC.png" style="width: 150.0px; height: 150.0px;" />
+</a>
+</figure>
+<p>The purpose of this documentation is to establish the link between parameters of input datafiles with mathematical models and numerical schemes. After a short description of <a class="reference internal" href="src_doc/01_USER_GUIDE/TOC_User-Guide.html#parti"><span class="std std-ref">PART I: User’s guide</span></a>, the two-phase and multi-phase models are detailed in <a class="reference internal" href="src_doc/02_MODELS/models.html#math-models"><span class="std std-ref">PART II: Mathematical models in LBM_Saclay</span></a>. Next, the numerical schemes of those models are described in <a class="reference internal" href="src_doc/03_LBM_Schemes/TOC_LBM_Schemes.html#lbm-saclay-schemes"><span class="std std-ref">PART III: Lattice Boltzmann schemes in LBM_Saclay</span></a>. The following section, <a class="reference internal" href="src_doc/04_PROGRAMMING/Guidelines.html#guidelines"><span class="std std-ref">PART IV: Guidelines for developers</span></a>, is aimed at scientists who wish to implement their own models or add new equations. Finally, the last part <a class="reference internal" href="src_doc/05_COURSES/TOC_Courses.html#part-v-course-reminders"><span class="std std-ref">PART V: course reminders</span></a> contains introductions on <em>basic fluid dynamics</em>, <em>lattice Boltzmann methods</em> and <em>phase-field theory</em>.</p>
+<p><strong>Contribute to this documentation</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/00_INTRODUCTION/contribute.html">Contribution guidelines</a></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="part-i-user-s-guide">
+<h2><strong>PART I: User’s guide</strong><a class="headerlink" href="#part-i-user-s-guide" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/01_USER_GUIDE/TOC_User-Guide.html">PART I: User’s guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/01_USER_GUIDE/QUICKSTART/quickstart.html">Quick Start with LBM_Saclay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/01_USER_GUIDE/SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html">First simulations on ORCUS: example with GPU partition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/01_USER_GUIDE/RUN_TRAINING_LBM/runtraininglbm.html">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/01_USER_GUIDE/INPUTFILE/inputfile.html">Description of LBM_Saclay input file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/01_USER_GUIDE/SET_OWN_PARAMETERS/Methodology.html">Methodology to set your own parameters in input file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/01_USER_GUIDE/QUICKSTART/Compil_GPU_MPI_Topaze.html">First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="part-ii-mathematical-models">
+<h2><strong>PART II: Mathematical models</strong><a class="headerlink" href="#part-ii-mathematical-models" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/02_MODELS/models.html">PART II: Mathematical models in LBM_Saclay</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/02_MODELS/models.html#two-phase-models">Two-phase models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/02_MODELS/models.html#fluid-fluid-interface">Fluid-Fluid interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/02_MODELS/models.html#fluid-solid-interface">Fluid-Solid interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/02_MODELS/models.html#multi-phase-models">Multi-phase models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/02_MODELS/models.html#fluid-fluid-solid-interfaces">Fluid-Fluid-Solid interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/02_MODELS/models.html#fluid-fluid-fluid-interfaces">Fluid-Fluid-Fluid interfaces</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="part-iii-lattice-boltzmann-schemes">
+<h2><strong>PART III: Lattice Boltzmann schemes</strong><a class="headerlink" href="#part-iii-lattice-boltzmann-schemes" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/03_LBM_Schemes/TOC_LBM_Schemes.html">PART III: Lattice Boltzmann schemes in LBM_Saclay</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/03_LBM_Schemes/TOC_LBM_Schemes.html#basic-lattice-boltzmann-methods">Basic Lattice Boltzmann Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/03_LBM_Schemes/A_Basic-LBM/01_Lattices-Streaming_LBMSaclay.html">Lattices and streaming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/03_LBM_Schemes/A_Basic-LBM/02_Collision-Operators_LBMSaclay.html">Collisions operators in LBM_Saclay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_LBMSaclay.html">Equilibrium distribution functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/03_LBM_Schemes/A_Basic-LBM/04_Forces-LBMSaclay.html">Force and source terms in LBM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/03_LBM_Schemes/TOC_LBM_Schemes.html#specific-schemes">Specific schemes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/03_LBM_Schemes/B_Specific-Schemes/LBM_for_NSK.html">LBM for Navier-Stokes/Korteweg model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/03_LBM_Schemes/C_Other/Additional_Gradients.html">Gradients and Laplacian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/03_LBM_Schemes/C_Other/Boundary_Conditions.html">Boundary conditions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="part-iv-guidelines-for-developers">
+<h2><strong>PART IV: Guidelines for developers</strong><a class="headerlink" href="#part-iv-guidelines-for-developers" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/04_PROGRAMMING/Guidelines.html">PART IV: Guidelines for developers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/04_PROGRAMMING/Guidelines.html#follow-your-developments-with-git">Follow your developments with git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/04_PROGRAMMING/Guidelines.html#modifications-inside-a-kernel">Modifications inside a <code class="docutils literal notranslate"><span class="pre">Kernel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/04_PROGRAMMING/Guidelines.html#add-a-new-kernel">Add a new kernel</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="part-v-reminders-of-fundamental-concepts">
+<h2><strong>PART V: Reminders of fundamental concepts</strong><a class="headerlink" href="#part-v-reminders-of-fundamental-concepts" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src_doc/05_COURSES/TOC_Courses.html">PART V: course reminders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/05_COURSES/Course_Fluid_Dyn/TOC_Fluid-Dyn.html">Fluid dynamics &amp; Thermodynamics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_Fluid_Dyn/01_Navier-Stokes.html">Navier-Stokes equations for single-phase flows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_Fluid_Dyn/02_Energy-Equation.html">Energy balance equation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_Fluid_Dyn/03_Least_Action_Principle.html">Principe de moindre action</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/05_COURSES/Course_Intro-Two-Phase/TOC_Two-Phase_Intro.html">Introduction of two-phase flows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_Intro-Two-Phase/01_Intro_Two-Phase.html">Scales and approaches (to be written)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_Intro-Two-Phase/02_Local-NS.html">Local and instantaneous Navier-Stokes equations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_Intro-Two-Phase/03_Interface-Tracking.html">Overview of interface-tracking methods with one-fluid formulation (to be completed)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_Intro-Two-Phase/04_Analytical-Solutions_Two-Phase.html">Analytical solutions for two-phase</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/05_COURSES/Course_LBM/TOC_LBM_Course.html">Basic concepts of Lattice Boltzmann Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_LBM/01_Fluid_Dyn_Models.html">Summary of basic models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_LBM/02_Overview_LBM.html">Overview of Lattice Boltzmann Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_LBM/03_Equilibrium-Distribution-Function_Course.html">Equilibrium distribution functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_LBM/04_Variable_Change.html">Variable change in LBE for source term</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_LBM/05_Chapman-Enskog.html">Chapman-Enskog expansion for Navier-Stokes equations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src_doc/05_COURSES/Course_PF/TOC_Phase-Field.html">Basic concepts of phase-field theory: two-phase</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_PF/01_Fundamentals_PF.html">Fundamentals of phase-field theory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_PF/02_CH_CAC_Models.html">Time-evolution: Cahn-Hilliard and Allen-Cahn models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html">Model of incompressible Navier-Stokes with interface-capturing equation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_PF/04_NavierStokes_Korteweg.html">Isothermal Navier-Stokes/Korteweg model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src_doc/05_COURSES/Course_PF/05_Thermodynamic_Of_PhaseTransition.html">Thermodynamics of phase transition (to be written)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Welcome to LBM_Saclay’s documentation</a><ul>
+<li><a class="reference internal" href="#introduction"><strong>Introduction</strong></a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#part-i-user-s-guide"><strong>PART I: User’s guide</strong></a></li>
+<li><a class="reference internal" href="#part-ii-mathematical-models"><strong>PART II: Mathematical models</strong></a></li>
+<li><a class="reference internal" href="#part-iii-lattice-boltzmann-schemes"><strong>PART III: Lattice Boltzmann schemes</strong></a></li>
+<li><a class="reference internal" href="#part-iv-guidelines-for-developers"><strong>PART IV: Guidelines for developers</strong></a></li>
+<li><a class="reference internal" href="#part-v-reminders-of-fundamental-concepts"><strong>PART V: Reminders of fundamental concepts</strong></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="src_doc/00_INTRODUCTION/Simulation_with_LBM.html"
+                          title="next chapter">Videos gallery of simulations with LBM</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="src_doc/00_INTRODUCTION/Simulation_with_LBM.html" title="Videos gallery of simulations with LBM"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to LBM_Saclay’s documentation</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

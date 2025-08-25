@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Compilation mono-CPU (desktop): training session &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025" href="Compil_GPU_MPI_Orcus.html" />
+    <link rel="prev" title="Quick Start with LBM_Saclay" href="quickstart.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Compil_GPU_MPI_Orcus.html" title="ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick Start with LBM_Saclay"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" accesskey="U">Quick Start with LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Compilation mono-CPU (desktop): training session</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="compilation-mono-cpu-desktop-training-session">
+<h1>Compilation mono-CPU (desktop): training session<a class="headerlink" href="#compilation-mono-cpu-desktop-training-session" title="Link to this heading"></a></h1>
+<p>Test performed on computer with ubuntu 22 (4th October, 2024) for kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code></p>
+<div class="error admonition">
+<p class="admonition-title">For training session</p>
+<p>Go to <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev</span></code> and make a directory for compilation</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="err">$</span><span class="w"> </span><span class="n">cd</span><span class="w"> </span><span class="no">LBM_Saclay_Rech</span><span class="o">-</span><span class="no">Dev</span>
+<span class="err">$</span><span class="w"> </span><span class="n">mkdir</span><span class="w"> </span><span class="n">build_openmp</span>
+<span class="err">$</span><span class="w"> </span><span class="n">cd</span><span class="w"> </span><span class="n">build_openmp</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Create your <code class="docutils literal notranslate"><span class="pre">makefile</span></code></p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="err">$</span><span class="w"> </span><span class="n">cmake</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ENABLE_OPENMP</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DUSE_HDF5</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DPROBLEM</span><span class="o">=</span><span class="no">NSAC_Comp</span><span class="w"> </span><span class="o">..</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Compilation</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="err">$</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="o">-</span><span class="n">j</span><span class="w"> </span><span class="mi">22</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The binary <code class="docutils literal notranslate"><span class="pre">LBM_saclay</span></code> is created in folder <code class="docutils literal notranslate"><span class="pre">build_openmp/src</span></code></p>
+</div>
+<div class="important admonition">
+<p class="admonition-title">If problem with HDF5 library (on ubuntu 22)</p>
+<p>In file bashrc the following modules are loaded</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="err">$</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="nn">avail</span><span class="w"> </span><span class="no">HDF5</span>
+<span class="err">$</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="nn">unload</span><span class="w"> </span><span class="n">hdf5</span><span class="o">/</span><span class="n">intel</span><span class="o">-</span><span class="n">compilers_2023</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="n">_openmpi_4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">3</span>
+<span class="err">$</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">hdf5</span><span class="o">/</span><span class="n">gcc_13</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="n">_openmpi_4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">3</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="compilation-mono-gpu-desktop">
+<h1>Compilation mono-GPU (desktop)<a class="headerlink" href="#compilation-mono-gpu-desktop" title="Link to this heading"></a></h1>
+<p>Test performed on “manwe” (server) and “is247845” (desktop) both on ubuntu 22.04 (September 2024). In what follows, the procedure is presented only on manwe because it is identical for is247845. For yor own desktop</p>
+<ol class="arabic">
+<li><p>Check that cuda-toolkit is installed on the computer</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Check file <code class="docutils literal notranslate"><span class="pre">/proc/driver/nvidia/version</span></code> exists</p></li>
+<li><p>Check folder <code class="docutils literal notranslate"><span class="pre">/usr/local/cuda</span></code> exists</p></li>
+<li><p>Check compiler <code class="docutils literal notranslate"><span class="pre">nvcc</span></code> (<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">which</span> <span class="pre">nvcc</span></code>)</p></li>
+<li><p>Put in <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code>: <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">PATH=/usr/local/cuda-12.6/bin${PATH:+:${PATH}}</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>If not</p>
+<blockquote>
+<div><p>Ask installation <a class="reference external" href="https://codev-tuleap.intra.cea.fr/plugins/tracker/?tracker=3602">https://codev-tuleap.intra.cea.fr/plugins/tracker/?tracker=3602</a>
+If root: can be downloaded from <a class="reference external" href="https://developer.nvidia.com/cuda-downloads">https://developer.nvidia.com/cuda-downloads</a></p>
+</div></blockquote>
+</li>
+</ol>
+<section id="connexion-on-manwe">
+<h2>Connexion on manwe<a class="headerlink" href="#connexion-on-manwe" title="Link to this heading"></a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ac165432@is247529:~$<span class="w"> </span>ssh<span class="w"> </span>-XY<span class="w"> </span>manwe
+</pre></div>
+</div>
+<p>returns after password</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ac165432@manwe:~$
+</pre></div>
+</div>
+<p>To get information on graphic card, the command</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>nvidia-smi
+</pre></div>
+</div>
+<p>returns</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Wed</span><span class="w"> </span><span class="no">Nov</span><span class="w"> </span><span class="mi">27</span><span class="w"> </span><span class="mi">16</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">26</span><span class="w"> </span><span class="mi">2024</span>
+<span class="o">+-----------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="no">NVIDIA</span><span class="o">-</span><span class="no">SMI</span><span class="w"> </span><span class="mi">560</span><span class="o">.</span><span class="mi">35</span><span class="o">.</span><span class="mo">03</span><span class="w">              </span><span class="no">Driver</span><span class="w"> </span><span class="ss">Version</span><span class="p">:</span><span class="w"> </span><span class="mi">560</span><span class="o">.</span><span class="mi">35</span><span class="o">.</span><span class="mo">03</span><span class="w">      </span><span class="no">CUDA</span><span class="w"> </span><span class="ss">Version</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="o">.</span><span class="mi">6</span><span class="w">     </span><span class="o">|</span>
+<span class="o">|-----------------------------------------+------------------------+----------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="no">GPU</span><span class="w">  </span><span class="no">Name</span><span class="w">                 </span><span class="no">Persistence</span><span class="o">-</span><span class="n">M</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">Bus</span><span class="o">-</span><span class="no">Id</span><span class="w">          </span><span class="no">Disp</span><span class="o">.</span><span class="n">A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">Volatile</span><span class="w"> </span><span class="no">Uncorr</span><span class="o">.</span><span class="w"> </span><span class="no">ECC</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="no">Fan</span><span class="w">  </span><span class="no">Temp</span><span class="w">   </span><span class="no">Perf</span><span class="w">          </span><span class="ss">Pwr</span><span class="p">:</span><span class="no">Usage</span><span class="o">/</span><span class="no">Cap</span><span class="w"> </span><span class="o">|</span><span class="w">           </span><span class="no">Memory</span><span class="o">-</span><span class="no">Usage</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="no">GPU</span><span class="o">-</span><span class="no">Util</span><span class="w">  </span><span class="no">Compute</span><span class="w"> </span><span class="n">M</span><span class="o">.</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w">                                         </span><span class="o">|</span><span class="w">                        </span><span class="o">|</span><span class="w">               </span><span class="no">MIG</span><span class="w"> </span><span class="n">M</span><span class="o">.</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|=========================================+========================+======================|</span>
+<span class="o">|</span><span class="w">   </span><span class="mi">0</span><span class="w">  </span><span class="no">NVIDIA</span><span class="w"> </span><span class="no">RTX</span><span class="w"> </span><span class="no">A6000</span><span class="w">               </span><span class="no">On</span><span class="w">  </span><span class="o">|</span><span class="w">   </span><span class="mo">00000000</span><span class="p">:</span><span class="mi">3</span><span class="ss">B</span><span class="p">:</span><span class="mo">00</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="no">Off</span><span class="w"> </span><span class="o">|</span><span class="w">                  </span><span class="no">Off</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w"> </span><span class="mi">30</span><span class="o">%</span><span class="w">   </span><span class="mi">31</span><span class="n">C</span><span class="w">    </span><span class="no">P8</span><span class="w">             </span><span class="mi">17</span><span class="n">W</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">300</span><span class="n">W</span><span class="w"> </span><span class="o">|</span><span class="w">      </span><span class="mi">11</span><span class="no">MiB</span><span class="w"> </span><span class="o">/</span><span class="w">  </span><span class="mi">49140</span><span class="no">MiB</span><span class="w"> </span><span class="o">|</span><span class="w">      </span><span class="mi">0</span><span class="o">%</span><span class="w">      </span><span class="no">Default</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w">                                         </span><span class="o">|</span><span class="w">                        </span><span class="o">|</span><span class="w">                  </span><span class="n">N</span><span class="o">/</span><span class="n">A</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+-----------------------------------------+------------------------+----------------------+</span>
+
+<span class="o">+-----------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="ss">Processes</span><span class="p">:</span><span class="w">                                                                              </span><span class="o">|</span>
+<span class="o">|</span><span class="w">  </span><span class="no">GPU</span><span class="w">   </span><span class="no">GI</span><span class="w">   </span><span class="no">CI</span><span class="w">        </span><span class="no">PID</span><span class="w">   </span><span class="no">Type</span><span class="w">   </span><span class="no">Process</span><span class="w"> </span><span class="nb">name</span><span class="w">                              </span><span class="no">GPU</span><span class="w"> </span><span class="no">Memory</span><span class="w"> </span><span class="o">|</span>
+<span class="o">|</span><span class="w">        </span><span class="no">ID</span><span class="w">   </span><span class="no">ID</span><span class="w">                                                               </span><span class="no">Usage</span><span class="w">      </span><span class="o">|</span>
+<span class="o">|=========================================================================================|</span>
+<span class="o">|</span><span class="w">    </span><span class="mi">0</span><span class="w">   </span><span class="n">N</span><span class="o">/</span><span class="n">A</span><span class="w">  </span><span class="n">N</span><span class="o">/</span><span class="n">A</span><span class="w">      </span><span class="mi">2757</span><span class="w">      </span><span class="n">G</span><span class="w">   </span><span class="sr">/usr/</span><span class="n">lib</span><span class="o">/</span><span class="n">xorg</span><span class="o">/</span><span class="no">Xorg</span><span class="w">                              </span><span class="mi">4</span><span class="no">MiB</span><span class="w"> </span><span class="o">|</span>
+<span class="o">+-----------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<p>meaning that one GPU <code class="docutils literal notranslate"><span class="pre">NVIDIA</span> <span class="pre">RTX</span> <span class="pre">A6000</span></code> is available on the server. The memory available is 49.14Go.</p>
+</section>
+<section id="cmake-and-compilation-of-lbm-saclay">
+<h2><code class="docutils literal notranslate"><span class="pre">cmake</span></code> and compilation of LBM_Saclay<a class="headerlink" href="#cmake-and-compilation-of-lbm-saclay" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">makefile</span></code> is created with command <code class="docutils literal notranslate"><span class="pre">cmake</span></code> with flags <code class="docutils literal notranslate"><span class="pre">openmp</span></code>, <code class="docutils literal notranslate"><span class="pre">cuda</span></code> and <code class="docutils literal notranslate"><span class="pre">HDF5</span></code>. First create a folder <code class="docutils literal notranslate"><span class="pre">build_cuda</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_saclay
+$<span class="w"> </span>mkdir<span class="w"> </span>build_cuda
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build_cuda
+</pre></div>
+</div>
+<p>Set environment variables (set the appropriate path)</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>gcc
+$<span class="w"> </span><span class="nv">LBMSACLAY_TOP_DIR</span><span class="o">=</span>PATH_to/LBM_saclay
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span><span class="si">${</span><span class="nv">LBMSACLAY_TOP_DIR</span><span class="si">}</span>/external/kokkos/bin/nvcc_wrapper
+</pre></div>
+</div>
+<p>Create the <code class="docutils literal notranslate"><span class="pre">makefile</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cmake<span class="w"> </span>-DKokkos_ENABLE_OPENMP<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ENABLE_CUDA<span class="o">=</span>ON<span class="w"> </span>-DKokkos_ENABLE_CUDA_LAMBDA<span class="o">=</span>ON<span class="w"> </span>-DUSE_HDF5<span class="o">=</span>ON<span class="w"> </span>-DPROBLEM<span class="o">=</span>NSAC_Comp<span class="w"> </span>..
+</pre></div>
+</div>
+<p>Compilation:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Compilation mono-CPU (desktop): training session</a></li>
+<li><a class="reference internal" href="#compilation-mono-gpu-desktop">Compilation mono-GPU (desktop)</a><ul>
+<li><a class="reference internal" href="#connexion-on-manwe">Connexion on manwe</a></li>
+<li><a class="reference internal" href="#cmake-and-compilation-of-lbm-saclay"><code class="docutils literal notranslate"><span class="pre">cmake</span></code> and compilation of LBM_Saclay</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="quickstart.html"
+                          title="previous chapter">Quick Start with LBM_Saclay</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Compil_GPU_MPI_Orcus.html"
+                          title="next chapter">ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/QUICKSTART/Compil_MonoGPU.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Compil_GPU_MPI_Orcus.html" title="ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated July 8th, 2025"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick Start with LBM_Saclay"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" >Quick Start with LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Compilation mono-CPU (desktop): training session</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

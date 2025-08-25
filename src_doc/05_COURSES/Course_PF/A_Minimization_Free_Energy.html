@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Annexe A : minimisation d’une fonctionnelle d’énergie libre &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Appendix B: solutions of one-dimensional Euler-Lagrange" href="B_Calculation_TanhSolution.html" />
+    <link rel="prev" title="Fundamentals of phase-field theory" href="01_Fundamentals_PF.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="B_Calculation_TanhSolution.html" title="Appendix B: solutions of one-dimensional Euler-Lagrange"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="01_Fundamentals_PF.html" title="Fundamentals of phase-field theory"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" >Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="01_Fundamentals_PF.html" accesskey="U">Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Annexe A : minimisation d’une fonctionnelle d’énergie libre</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="annexe-a-minimisation-d-une-fonctionnelle-d-energie-libre">
+<span id="minimization-free-energy"></span><h1>Annexe A : minimisation d’une fonctionnelle d’énergie libre<a class="headerlink" href="#annexe-a-minimisation-d-une-fonctionnelle-d-energie-libre" title="Link to this heading"></a></h1>
+<p>On considère une fonction <span class="math notranslate nohighlight">\(\phi(x,y,z):=\phi(\boldsymbol{x})\)</span> qu’on appelle « indicatrice de phase » qui est une fonction de la position <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>. On s’inspire de l’action <span class="math notranslate nohighlight">\(\mathscr{S}[q]\)</span> et du « principe de moindre action » pour introduire une « fonctionnelle d’énergie libre » <span class="math notranslate nohighlight">\(\mathscr{F}[\phi]\)</span> qui est définie par l’intégrale sur le volume d’une « densité d’énergie libre <span class="math notranslate nohighlight">\(\mathcal{F}(\phi(\boldsymbol{x}),\boldsymbol{\nabla}\phi)\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-0">
+<span class="eqno">(454)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-0" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \mathscr{F}[\phi] &amp; = &amp; \int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\mathcal{F}(\phi,\underbrace{\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi}_{\equiv\boldsymbol{\nabla}\phi})\underbrace{dxdydz}_{\equiv dV}\\
+   &amp; = &amp; \int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV
+\end{eqnarray}\end{split}\]</div>
+<p>où V est un volume. On établit l’équation d’Euler-Lagrange en 1D puis en 3D.</p>
+<section id="euler-lagrange-1d-fonctions-phi-x-et-d-phi-dx">
+<h2>Euler-Lagrange 1D : fonctions <span class="math notranslate nohighlight">\(\phi(x)\)</span> et <span class="math notranslate nohighlight">\(d\phi/dx\)</span><a class="headerlink" href="#euler-lagrange-1d-fonctions-phi-x-et-d-phi-dx" title="Link to this heading"></a></h2>
+<p>En 1D la fonctionnelle <span class="math notranslate nohighlight">\(\mathcal{F}(\phi(x),\phi^{\prime}(x))\)</span> décrit la « densité d’énergie libre » du système et <span class="math notranslate nohighlight">\(\phi^{\prime}(x)\equiv d\phi/dx\)</span>. L’énergie libre totale du système s’écrit (intégration en espace) :</p>
+<div class="math notranslate nohighlight" id="equation-eq-energielibre-f">
+<span class="eqno">(455)<a class="headerlink" href="#equation-eq-energielibre-f" title="Link to this equation"></a></span>\[\mathscr{F}[\phi]=\int_{x_{1}}^{x_{2}}\mathcal{F}(\phi,\phi^{\prime})dx\]</div>
+<p>En appliquant l’opérateur <span class="math notranslate nohighlight">\(\delta\)</span> à l’Eq. <a class="reference internal" href="#equation-eq-energielibre-f">(455)</a>, on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-1">
+<span class="eqno">(456)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-1" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \delta\mathscr{F} &amp; = &amp; \int_{x_{1}}^{x_{2}}\delta\mathcal{F}(\phi,\phi^{\prime})dx\\
+        &amp; = &amp; \int_{x_{1}}^{x_{2}}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial\phi^{\prime}}\delta\phi^{\prime}\right]dx
+\end{eqnarray}\end{split}\]</div>
+<p>Puis en intégrant par parties (avec <span class="math notranslate nohighlight">\(\delta\phi(x_{1})=\delta\phi(x_{2})=0\)</span>) le second terme on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-2">
+<span class="eqno">(457)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-2" title="Link to this equation"></a></span>\[\delta\mathscr{F}=\int_{x_{1}}^{x_{2}}\left[\frac{\partial\mathcal{F}}{\partial\phi}-\frac{d}{dx}\left(\frac{\partial\mathcal{F}}{\partial\phi^{\prime}}\right)\right]\delta\phi dx=0\]</div>
+<p>Finalement, comme la condition du premier ordre <span class="math notranslate nohighlight">\(\delta\mathscr{F}=0\)</span> doit être vraie quelle que soit la variation <span class="math notranslate nohighlight">\(\delta\phi\)</span>, on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-3">
+<span class="eqno">(458)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-3" title="Link to this equation"></a></span>\[\boxed{\frac{\partial\mathcal{F}}{\partial\phi}-\frac{d}{dx}\left(\frac{\partial\mathcal{F}}{\partial\phi^{\prime}}\right)=0}\]</div>
+<p>qui est l’équation d’Euler-Lagrange en 1D pour une fonctionnelle <span class="math notranslate nohighlight">\(\mathcal{F}(\phi,\,\phi^{\prime})\)</span> donnée où <span class="math notranslate nohighlight">\(\phi\)</span> est une fonction de la position <span class="math notranslate nohighlight">\(x\)</span>. Il s’agit d’une équation similaire à celle à temps où la dérivée par rapport au temps <span class="math notranslate nohighlight">\(d/dt\)</span> est remplacée par une dérivée par rapport à la position <span class="math notranslate nohighlight">\(d/dx\)</span>.</p>
+</section>
+<section id="euler-lagrange-3d-fonctions-phi-boldsymbol-x-et-boldsymbol-nabla-phi">
+<h2>Euler-Lagrange 3D : fonctions <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x})\)</span> et <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\phi\)</span><a class="headerlink" href="#euler-lagrange-3d-fonctions-phi-boldsymbol-x-et-boldsymbol-nabla-phi" title="Link to this heading"></a></h2>
+<p>On considère maintenant une fonction à trois variables indépendantes <span class="math notranslate nohighlight">\(\phi(x,y,z)\equiv\phi(\boldsymbol{x})\)</span> et une densité d’énergie libre qui est fonction de <span class="math notranslate nohighlight">\(\phi\)</span>, et de ses trois dérivées <span class="math notranslate nohighlight">\(\partial_{x}\phi\)</span>, <span class="math notranslate nohighlight">\(\partial_{y}\phi`\)</span> et <span class="math notranslate nohighlight">\(\partial_{z}\phi\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-4">
+<span class="eqno">(459)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-4" title="Link to this equation"></a></span>\[\mathcal{F}(\phi,\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi):=\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)\]</div>
+<p>En généralisant en 3D, la densité d’énergie libre est une fonction de <span class="math notranslate nohighlight">\(\phi\)</span> et de son gradient <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\phi\)</span>. L’Eq. ([eq:EnergieLibre_F]) s’écrit :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-5">
+<span class="eqno">(460)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-5" title="Link to this equation"></a></span>\[\mathscr{F}[\phi]=\int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\mathcal{F}(\phi,\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi)dxdydz\]</div>
+<p>En appliquant l’opérateur <span class="math notranslate nohighlight">\(\delta\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-6">
+<span class="eqno">(461)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-6" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \delta\mathscr{F}[\phi]   &amp; = &amp; \int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\delta\mathcal{F}(\phi,\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi)dxdydz\\
+        &amp; = &amp; \int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\Biggl[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial(\partial_{x}\phi)}\delta(\partial_{x}\phi)+\frac{\partial\mathcal{F}}{\partial(\partial_{y}\phi)}\delta(\partial_{y}\phi)+\frac{\partial\mathcal{F}}{\partial(\partial_{z}\phi)}\delta(\partial_{z}\phi)\Biggr]dxdydz\\
+        &amp; = &amp; \int_{V}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\sum_{\alpha=x,y,z}\frac{\partial\mathcal{F}}{\partial(\partial_{\alpha}\phi)}\delta(\partial_{\alpha}\phi)\right]dV
+\end{eqnarray}\end{split}\]</div>
+<p>Pour le 2nd terme, on utilise la convention de sommation d’Einstein pour les indices répétés (on supprime le signe somme) et on commute les opérateurs <span class="math notranslate nohighlight">\(\delta\)</span> et <span class="math notranslate nohighlight">\(\partial_{\alpha}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-7">
+<span class="eqno">(462)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-7" title="Link to this equation"></a></span>\[\delta\mathscr{F}[\phi]=\int_{V}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial(\partial_{\alpha}\phi)}\partial_{\alpha}(\delta\phi)\right]dV\]</div>
+<p>On intègre par parties le second terme et on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-8">
+<span class="eqno">(463)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-8" title="Link to this equation"></a></span>\[\delta\mathscr{F}[\phi]=\int_{V}\left[\frac{\partial\mathcal{F}}{\partial\phi}-\partial_{\alpha}\left(\frac{\partial\mathcal{F}}{\partial(\partial_{\alpha}\phi)}\right)\right]\delta\phi dV\]</div>
+<p>expression dans laquelle on reconnait l’opérateur divergence. Finalement d’Euler-Lagrange correspondante est :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-a-minimization-free-energy-9">
+<span class="eqno">(464)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-a-minimization-free-energy-9" title="Link to this equation"></a></span>\[\boxed{\frac{\partial\mathcal{F}}{\partial\phi}-\boldsymbol{\nabla}\cdot\left(\frac{\partial\mathcal{F}}{\partial(\boldsymbol{\nabla}\phi)}\right)=0}\]</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Annexe A : minimisation d’une fonctionnelle d’énergie libre</a><ul>
+<li><a class="reference internal" href="#euler-lagrange-1d-fonctions-phi-x-et-d-phi-dx">Euler-Lagrange 1D : fonctions <span class="math notranslate nohighlight">\(\phi(x)\)</span> et <span class="math notranslate nohighlight">\(d\phi/dx\)</span></a></li>
+<li><a class="reference internal" href="#euler-lagrange-3d-fonctions-phi-boldsymbol-x-et-boldsymbol-nabla-phi">Euler-Lagrange 3D : fonctions <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x})\)</span> et <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\phi\)</span></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="01_Fundamentals_PF.html"
+                          title="previous chapter">Fundamentals of phase-field theory</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="B_Calculation_TanhSolution.html"
+                          title="next chapter">Appendix B: solutions of one-dimensional Euler-Lagrange</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_PF/A_Minimization_Free_Energy.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="B_Calculation_TanhSolution.html" title="Appendix B: solutions of one-dimensional Euler-Lagrange"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="01_Fundamentals_PF.html" title="Fundamentals of phase-field theory"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" >Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="01_Fundamentals_PF.html" >Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Annexe A : minimisation d’une fonctionnelle d’énergie libre</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

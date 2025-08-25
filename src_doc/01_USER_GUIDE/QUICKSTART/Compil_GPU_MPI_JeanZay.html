@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024 &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Get information on Graphic card for Kokkos" href="Compil_GetInfo_GPU.html" />
+    <link rel="prev" title="First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024" href="Compil_GPU_MPI_Topaze.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Compil_GetInfo_GPU.html" title="Get information on Graphic card for Kokkos"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Compil_GPU_MPI_Topaze.html" title="First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" >Quick Start with LBM_Saclay</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="Compil_Multi_GPU.html" accesskey="U">Compilation Multi-GPU (supercomputers)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="jean-zay-cnrs-idris-doc-updated-november-28th-2024">
+<h1>Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024<a class="headerlink" href="#jean-zay-cnrs-idris-doc-updated-november-28th-2024" title="Link to this heading"></a></h1>
+<div class="important admonition">
+<p class="admonition-title">Documentation</p>
+<p>The documentation of supercomputer is available on <a class="reference external" href="http://www.idris.fr/jean-zay/">http://www.idris.fr/jean-zay/</a></p>
+</div>
+<p>On Jean-Zay, several GPU partitions are available: the first one is equipped with V100, the second one is equipped with A100 and the third one with H100 (see <a class="reference external" href="http://www.idris.fr/jean-zay/gpu/jean-zay-gpu-exec_partition_slurm.html">http://www.idris.fr/jean-zay/gpu/jean-zay-gpu-exec_partition_slurm.html</a>).</p>
+<p>Here we give an example for compiling and running a job on partition <code class="docutils literal notranslate"><span class="pre">v100</span></code> equipped with 4 GPU V100 per node. For <code class="docutils literal notranslate"><span class="pre">cmake</span></code> the flag <code class="docutils literal notranslate"><span class="pre">-DKokkos_ARCH_VOLTA70=ON</span></code> will be used for V100. The test is also performed with the problem <code class="docutils literal notranslate"><span class="pre">NSAC_Comp_3phases3D</span></code>.</p>
+<section id="connexion-on-jean-zay">
+<h2>Connexion on Jean-Zay<a class="headerlink" href="#connexion-on-jean-zay" title="Link to this heading"></a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ac165432@is247529:~$<span class="w"> </span>ssh<span class="w"> </span>-XC<span class="w"> </span>loginname@jean-zay.idris.fr
+</pre></div>
+</div>
+<p>returns after password</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>***********************************************************************
+*<span class="w"> </span>Ceci<span class="w"> </span>est<span class="w"> </span>un<span class="w"> </span>serveur<span class="w"> </span>de<span class="w"> </span>calcul<span class="w"> </span>de<span class="w"> </span>l<span class="w"> </span>IDRIS.<span class="w"> </span>Tout<span class="w"> </span>acces<span class="w"> </span>au<span class="w"> </span>systeme<span class="w">     </span>*
+*<span class="w"> </span>doit<span class="w"> </span>etre<span class="w"> </span>specifiquement<span class="w"> </span>autorise<span class="w"> </span>par<span class="w"> </span>l<span class="w"> </span>IDRIS.<span class="w"> </span>Si<span class="w"> </span>vous<span class="w"> </span>tentez<span class="w"> </span>de<span class="w">    </span>*
+*<span class="w"> </span>de<span class="w"> </span>continuer<span class="w"> </span>a<span class="w"> </span>acceder<span class="w"> </span>cette<span class="w"> </span>machine<span class="w"> </span>alors<span class="w"> </span>que<span class="w"> </span>vous<span class="w"> </span>n<span class="w"> </span>y<span class="w"> </span>etes<span class="w"> </span>pas<span class="w">    </span>*
+*<span class="w"> </span>autorise,<span class="w"> </span>vous<span class="w"> </span>vous<span class="w"> </span>exposez<span class="w"> </span>a<span class="w"> </span>des<span class="w"> </span>poursuites<span class="w"> </span>judiciaires.<span class="w">           </span>*
+*<span class="w">                               </span>---<span class="w">                                   </span>*
+*<span class="w"> </span>This<span class="w"> </span>is<span class="w"> </span>an<span class="w"> </span>IDRIS<span class="w"> </span>compute<span class="w"> </span>node.<span class="w">  </span>Each<span class="w"> </span>access<span class="w"> </span>to<span class="w"> </span>this<span class="w"> </span>system<span class="w"> </span>must<span class="w"> </span>be<span class="w">  </span>*
+*<span class="w"> </span>properly<span class="w"> </span>authorized<span class="w"> </span>by<span class="w"> </span>IDRIS.<span class="w"> </span>If<span class="w"> </span>you<span class="w"> </span>go<span class="w"> </span>on<span class="w"> </span>accessing<span class="w"> </span>this<span class="w"> </span>machine<span class="w">   </span>*
+*<span class="w"> </span>without<span class="w"> </span>authorization,<span class="w"> </span><span class="k">then</span><span class="w"> </span>you<span class="w"> </span>are<span class="w"> </span>liable<span class="w"> </span>to<span class="w"> </span>prosecution.<span class="w">          </span>*
+***********************************************************************
+*<span class="w">                                                                     </span>*
+*<span class="w"> </span>Orsay<span class="w">      </span>CNRS<span class="w"> </span>/<span class="w"> </span>IDRIS<span class="w"> </span>-<span class="w"> </span>Frontale<span class="w">  </span>-<span class="w">  </span>jean-zay.idris.fr<span class="w">   </span>France<span class="w">   </span>*
+*<span class="w">                                                                     </span>*
+***********************************************************************
+loginname@jean-zay1:~$
+</pre></div>
+</div>
+</section>
+<section id="available-disks">
+<h2>Available disks<a class="headerlink" href="#available-disks" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">HOME</span></code> only for configuration files</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>loginname@jean-zay1:~$<span class="w"> </span><span class="nb">pwd</span>
+/linkhome/rech/genpuc01/loginname
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">WORK</span></code> for source files of LBM_Saclay, compilation and binary</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>loginname@jean-zay1:~$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$WORK</span>
+loginname@jean-zay1:/lustre/fswork/projects/rech/aih/loginname$
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SCRATCH</span></code> for running and output files (<code class="docutils literal notranslate"><span class="pre">.vti</span></code> and <code class="docutils literal notranslate"><span class="pre">.h5</span></code>)</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>loginname@jean-zay1:~$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$SCRATCH</span>
+ubt36ea@jean-zay1:/lustre/fsn1/projects/rech/aih/loginname$
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">STORE</span></code> for saving output files</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>loginname@jean-zay1:~$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$STORE</span>
+loginname@jean-zay1:/lustre/fsstor/projects/rech/aih/loginname
+</pre></div>
+</div>
+</section>
+<section id="modules-to-load-last-test-august-2023">
+<h2>Modules to load (last test August 2023)<a class="headerlink" href="#modules-to-load-last-test-august-2023" title="Link to this heading"></a></h2>
+<p>It can be useful to put those lines inside a file <code class="docutils literal notranslate"><span class="pre">modules_compil_v100_mpi</span></code>:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">module</span><span class="w"> </span><span class="nn">purge</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">cmake</span><span class="o">/</span><span class="mi">3</span><span class="o">.</span><span class="mi">18</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">gcc</span><span class="o">/</span><span class="mi">8</span><span class="o">.</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">cuda</span><span class="o">/</span><span class="mi">12</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+<span class="c1">#module load intel-compilers/19.1.3</span>
+<span class="c1">#module load nvidia-compilers/23.1</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">openmpi</span><span class="o">/</span><span class="mi">4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">5</span><span class="o">-</span><span class="n">cuda</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">hdf5</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">12</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">mpi</span><span class="o">-</span><span class="n">cuda</span>
+</pre></div>
+</div>
+<p>Next, load all modules with the command</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>modules_compil_v100_mpi
+</pre></div>
+</div>
+</section>
+<section id="cmake-and-compilation">
+<h2>cmake and compilation<a class="headerlink" href="#cmake-and-compilation" title="Link to this heading"></a></h2>
+<p>Write inside a new file (e.g. <code class="docutils literal notranslate"><span class="pre">cmake_v100_mpi.scr</span></code>) the following commands</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#build_cuda_mpi</span>
+<span class="n">export</span><span class="w"> </span><span class="no">OMPI_CXX</span><span class="o">=</span><span class="sr">/gpfswork/</span><span class="n">rech</span><span class="o">/</span><span class="n">aih</span><span class="o">/</span><span class="n">loginname</span><span class="o">/</span><span class="no">PATH_TO_LBM_Saclay</span><span class="o">/</span><span class="n">external</span><span class="o">/</span><span class="n">kokkos</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">nvcc_wrapper</span>
+<span class="n">export</span><span class="w"> </span><span class="no">CXX</span><span class="o">=</span><span class="sr">/gpfslocalsup/s</span><span class="n">pack_soft</span><span class="o">/</span><span class="n">openmpi</span><span class="o">/</span><span class="mi">4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">5</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="mi">8</span><span class="o">.</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">hjw556pajrrm3khundk6jqtvfwviedeu</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">mpicxx</span>
+<span class="n">cmake</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ENABLE_OPENMP</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ENABLE_CUDA</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ENABLE_CUDA_LAMBDA</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ARCH_VOLTA70</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DKokkos_ENABLE_HWLOC</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DUSE_HDF5</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DUSE_MPI</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DUSE_MPI_CUDA_AWARE_ENFORCED</span><span class="o">=</span><span class="no">ON</span><span class="w"> </span><span class="o">-</span><span class="no">DPROBLEM</span><span class="o">=</span><span class="no">NSAC_Comp_3phases3D</span><span class="w"> </span><span class="o">..</span>
+</pre></div>
+</div>
+<p>Remark: in 2023, it was necessary to put the two <code class="docutils literal notranslate"><span class="pre">export</span></code> commands before <code class="docutils literal notranslate"><span class="pre">cmake</span></code>. Maybe those two lines are not any more necessary (see Tests on Topaze).</p>
+<p>Here the options <code class="docutils literal notranslate"><span class="pre">-DUSE_MPI=ON</span></code>, <code class="docutils literal notranslate"><span class="pre">-DUSE_MPI_CUDA_AWARE_ENFORCED=ON</span></code> are used for <code class="docutils literal notranslate"><span class="pre">MPI</span></code>. For outputs with <code class="docutils literal notranslate"><span class="pre">HDF5</span></code> format the option <code class="docutils literal notranslate"><span class="pre">-DUSE_HDF5=ON</span></code> is turned on. After a <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">u+x</span> <span class="pre">cmake_v100_mpi.scr</span></code> command, you can run the script to create the <code class="docutils literal notranslate"><span class="pre">makefile</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>build_cuda_mpi
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build_cuda_mpi
+$<span class="w"> </span>cmake_v100_mpi.scr
+</pre></div>
+</div>
+<p>Finally compile</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+</section>
+<section id="submit-a-job-and-run-last-test-2023">
+<h2>Submit a job and run (last test 2023)<a class="headerlink" href="#submit-a-job-and-run-last-test-2023" title="Link to this heading"></a></h2>
+<p>Examples of script slurm can be found on <a class="reference external" href="http://www.idris.fr/jean-zay/gpu/jean-zay-gpu-exec_multi_mpi_batch.html">http://www.idris.fr/jean-zay/gpu/jean-zay-gpu-exec_multi_mpi_batch.html</a>. The example of script below is for parition v100 with 16 MPI processes.</p>
+<p>Write a script to submit your job, e.g. with name <code class="docutils literal notranslate"><span class="pre">016-GPU.slurm</span></code>:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --job-name=RT3P_vD    # nom du job</span>
+<span class="c1">##SBATCH --partition=gpu_p2          # de-commente pour la partition gpu_p2</span>
+<span class="c1">#SBATCH --account=aih@v100</span>
+<span class="c1">#SBATCH -C v100-16g</span>
+<span class="c1">#SBATCH --qos=qos_gpu-t3</span>
+<span class="c1">#SBATCH --ntasks=16                  # nombre total de tache MPI</span>
+<span class="c1">#SBATCH --ntasks-per-node=4          # nombre de tache MPI par noeud (= nombre de GPU par noeud)</span>
+<span class="c1">#SBATCH --gres=gpu:4                 # nombre de GPU par noeud (max 8 avec gpu_p2)</span>
+<span class="c1">#SBATCH --cpus-per-task=10           # nombre de coeurs CPU par tache (un quart du noeud ici)</span>
+<span class="c1">##SBATCH --cpus-per-task=3           # nombre de coeurs CPU par tache (pour gpu_p2 : 1/8 du noeud)</span>
+<span class="c1"># /!\ Attention, &quot;multithread&quot; fait reference a l&#39;hyperthreading dans la terminologie Slurm</span>
+<span class="c1">#SBATCH --hint=nomultithread         # hyperthreading desactive</span>
+<span class="c1">#SBATCH --time=20:00:00               # temps d&#39;execution maximum demande (HH:MM:SS)</span>
+<span class="c1">#SBATCH --output=Job_cuda_mpi_%j.o # nom du fichier de sortie</span>
+<span class="c1">#SBATCH --error=Job_cuda_mpi_%j.e  # nom du fichier d&#39;erreur (ici commun avec la sortie)</span>
+
+<span class="c1"># nettoyage des modules charges en interactif et herites par defaut</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">purge</span>
+
+<span class="c1"># chargement des modules</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">cuda</span><span class="o">/</span><span class="mi">10</span><span class="o">.</span><span class="mi">2</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">gcc</span><span class="o">/</span><span class="mi">8</span><span class="o">.</span><span class="mi">5</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">load</span><span class="w"> </span><span class="n">openmpi</span><span class="o">/</span><span class="mi">4</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">-</span><span class="n">cuda</span>
+<span class="c1">###module load hdf5/1.12.0-mpi-cuda</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">list</span>
+
+<span class="c1"># echo des commandes lancees</span>
+<span class="n">set</span><span class="w"> </span><span class="o">-</span><span class="n">x</span>
+
+<span class="c1"># execution du code</span>
+<span class="n">srun</span><span class="w"> </span><span class="sr">/gpfswork/</span><span class="n">rech</span><span class="o">/</span><span class="n">aih</span><span class="o">/</span><span class="n">loginname</span><span class="o">/</span><span class="no">PATH_TO_LBM_saclay</span><span class="o">/</span><span class="n">build_cuda_mpi_3D</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="no">LBM_saclay</span><span class="w"> </span><span class="vg">$@</span><span class="w"> </span><span class="o">--</span><span class="n">kokkos</span><span class="o">-</span><span class="n">num</span><span class="o">-</span><span class="n">devices</span><span class="o">=</span><span class="mi">16</span>
+</pre></div>
+</div>
+<p>The job will run on 16 MPI processes (<code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--ntasks=16</span></code>) on GPU partition V100 (<code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">-C</span> <span class="pre">v100-16g</span></code>). To run the job write the following command</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span><span class="m">016</span>-GPU.slurm<span class="w"> </span>parameter.ini
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">parameter.ini</span></code> is the input file for LBM_Saclay with the appropriate domain decomposition.</p>
+</section>
+<section id="visualization-with-jean-zay">
+<h2>Visualization with Jean-Zay<a class="headerlink" href="#visualization-with-jean-zay" title="Link to this heading"></a></h2>
+<p>See</p>
+<p><a class="reference external" href="http://www.idris.fr/jean-zay/pre-post/jean-zay-outils-visu-noeuds.html">http://www.idris.fr/jean-zay/pre-post/jean-zay-outils-visu-noeuds.html</a></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024</a><ul>
+<li><a class="reference internal" href="#connexion-on-jean-zay">Connexion on Jean-Zay</a></li>
+<li><a class="reference internal" href="#available-disks">Available disks</a></li>
+<li><a class="reference internal" href="#modules-to-load-last-test-august-2023">Modules to load (last test August 2023)</a></li>
+<li><a class="reference internal" href="#cmake-and-compilation">cmake and compilation</a></li>
+<li><a class="reference internal" href="#submit-a-job-and-run-last-test-2023">Submit a job and run (last test 2023)</a></li>
+<li><a class="reference internal" href="#visualization-with-jean-zay">Visualization with Jean-Zay</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Compil_GPU_MPI_Topaze.html"
+                          title="previous chapter">First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Compil_GetInfo_GPU.html"
+                          title="next chapter">Get information on Graphic card for Kokkos</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/01_USER_GUIDE/QUICKSTART/Compil_GPU_MPI_JeanZay.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Compil_GetInfo_GPU.html" title="Get information on Graphic card for Kokkos"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Compil_GPU_MPI_Topaze.html" title="First simulations on Topaze (CEA-CCRT) - doc updated Nov 27th, 2024"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" >Quick Start with LBM_Saclay</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="Compil_Multi_GPU.html" >Compilation Multi-GPU (supercomputers)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Appendix C: calculation of surface tension &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Time-evolution: Cahn-Hilliard and Allen-Cahn models" href="02_CH_CAC_Models.html" />
+    <link rel="prev" title="Appendix B: solutions of one-dimensional Euler-Lagrange" href="B_Calculation_TanhSolution.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="02_CH_CAC_Models.html" title="Time-evolution: Cahn-Hilliard and Allen-Cahn models"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="B_Calculation_TanhSolution.html" title="Appendix B: solutions of one-dimensional Euler-Lagrange"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" >Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="01_Fundamentals_PF.html" accesskey="U">Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Appendix C: calculation of surface tension</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="appendix-c-calculation-of-surface-tension">
+<span id="calculation-surface-tension"></span><h1>Appendix C: calculation of surface tension<a class="headerlink" href="#appendix-c-calculation-of-surface-tension" title="Link to this heading"></a></h1>
+<p>On montre dans cette annexe que la tension de surface <span class="math notranslate nohighlight">\(\sigma\)</span> est de la forme <span class="math notranslate nohighlight">\(\sigma=I\sqrt{2\zeta H}\)</span> où <span class="math notranslate nohighlight">\(I\)</span> est une intégrale de la racine carrée du double-puits. Dans cette annexe, <span class="math notranslate nohighlight">\(I\)</span> est calculé pour trois formes typiques de double-puits usuellement rencontrées dans la littérature : <span class="math notranslate nohighlight">\(_{1}(\phi)=\phi^{2}(1-\phi)^{2}\)</span> qui possède des minima en <span class="math notranslate nohighlight">\(\phi=0\)</span> et <span class="math notranslate nohighlight">\(\phi=1\)</span>; puis <span class="math notranslate nohighlight">\(g_{2}(\phi)=(\phi-\phi_{l})^{2}(\phi-\phi_{g})^{2}\)</span> qui possède des minima en <span class="math notranslate nohighlight">\(\phi=\phi_{g}\)</span> et <span class="math notranslate nohighlight">\(\phi=\phi_{l}\)</span> et enfin on calculera <span class="math notranslate nohighlight">\(I\)</span> pour <span class="math notranslate nohighlight">\(g_{3}(\phi)=(\phi-\phi^{\star})^{2}(\phi+\phi^{\star})^{2}\)</span> qui possède des minima en <span class="math notranslate nohighlight">\(\phi=\pm\phi^{\star}\)</span>.</p>
+<section id="calcul-de-la-tension-de-surface">
+<h2>Calcul de la tension de surface<a class="headerlink" href="#calcul-de-la-tension-de-surface" title="Link to this heading"></a></h2>
+<p>On part de la définition de la tension de surface en 1D :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-0">
+<span class="eqno">(481)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-0" title="Link to this equation"></a></span>\[\sigma=\int_{-\infty}^{+\infty}\left[ Hg(\phi^{eq})+\frac{\zeta}{2}\left(\frac{d\phi^{eq}}{dx}\right)^{2}\right]dx\]</div>
+<p>où l’indice supérieur <span class="math notranslate nohighlight">\(^{eq}\)</span> signifie qu’il s’agit de la solution d’équilibre (solution fondamentale Eq. <a class="reference internal" href="01_Fundamentals_PF.html#equation-hyperbolic-tangent-solution-course">(439)</a>). Dans la suite on le supprime  pour alléger les notations. En utilisant la relation Eq. <a class="reference internal" href="B_Calculation_TanhSolution.html#equation-equality-for-surface-tension">(468)</a>, on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-1">
+<span class="eqno">(482)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-1" title="Link to this equation"></a></span>\[\sigma=\int_{-\infty}^{+\infty}2Hg(\phi)dx=\int_{-\infty}^{+\infty}\zeta \left(\frac{d\phi}{dx}\right)^{2}dx\]</div>
+<p>On effectue le changement de variable en transformant l’intégrale en <span class="math notranslate nohighlight">\(x\)</span> en intégrale en <span class="math notranslate nohighlight">\(\phi\)</span> en utilisant la relation Eq. <a class="reference internal" href="B_Calculation_TanhSolution.html#equation-eq-chgt-variable">(469)</a> :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-2">
+<span class="eqno">(483)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-2" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \sigma &amp; = &amp; \int_{\phi^{min}}^{\phi^{max}}\frac{2Hg(\phi)}{\sqrt{2Hg(\phi)/\zeta}}d\phi\\
+        &amp; = &amp; \int_{\phi^{min}}^{\phi^{max}}\sqrt{2\zeta Hg(\phi)}d\phi\\
+        &amp; = &amp; \sqrt{2\zeta H}\int_{\phi^{min}}^{\phi^{max}}\sqrt{g(\phi)}d\phi
+\end{eqnarray}\end{split}\]</div>
+<p>Les bornes de l’intégrale en <span class="math notranslate nohighlight">\(\phi\)</span> dépendent du choix de la fonction de double-puits. En toute généralité, sans faire aucune hypothèse sur la forme de la fonction <span class="math notranslate nohighlight">\(g(\phi)\)</span>, la tension de surface s’écrit :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-3">
+<span class="eqno">(484)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-3" title="Link to this equation"></a></span>\[\sigma=I\sqrt{2\zeta H}\]</div>
+<p>avec</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-4">
+<span class="eqno">(485)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-4" title="Link to this equation"></a></span>\[I=\int_{\phi^{min}}^{\phi^{max}}\sqrt{g(\phi)}d\phi\]</div>
+<p>où les bornes <span class="math notranslate nohighlight">\(\phi^{min}\)</span> et <span class="math notranslate nohighlight">\(\phi^{max}\)</span> de l’intégrale <span class="math notranslate nohighlight">\(I\)</span> dépendent du choix de la fonction <span class="math notranslate nohighlight">\(g(\phi)\)</span>. Dans les sections suivantes, on calcule ces intégrales <span class="math notranslate nohighlight">\(I\)</span> pour plusieurs formes typiques de <span class="math notranslate nohighlight">\(g(\phi)\)</span>.</p>
+</section>
+<section id="cas-g-1-phi-phi-2-1-phi-2">
+<h2>Cas <span class="math notranslate nohighlight">\(g_{1}(\phi)=\phi^{2}(1-\phi)^{2}\)</span><a class="headerlink" href="#cas-g-1-phi-phi-2-1-phi-2" title="Link to this heading"></a></h2>
+<p>Dans le cas où <span class="math notranslate nohighlight">\(g(\phi)=\phi^{2}(1-\phi)^{2}\)</span>, les bornes de l’intégrale sont <span class="math notranslate nohighlight">\(\phi^{min}=0\)</span> et <span class="math notranslate nohighlight">\(\phi^{max}=1\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-5">
+<span class="eqno">(486)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-5" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \sigma &amp; = &amp; \sqrt{2\zeta H}\int_{0}^{1}\sqrt{g_{1}(\phi)}d\phi\\
+   &amp; = &amp; \sqrt{2\zeta H}\int_{0}^{1}\phi(1-\phi)d\phi
+\end{eqnarray}\end{split}\]</div>
+<p>L’intégration est directe et vaut <span class="math notranslate nohighlight">\(\int_{0}^{1}\phi(1-\phi)d\phi=1/6\)</span>. Finalement</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-6">
+<span class="eqno">(487)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-6" title="Link to this equation"></a></span>\[\boxed{\sigma=\frac{1}{6}\sqrt{2\zeta H}}\]</div>
+<p><strong>Cas particulier où</strong> <span class="math notranslate nohighlight">\(g(\phi)=8\phi^{2}(1-\phi)^{2}=8g_{1}(\phi)\)</span></p>
+<p>Dans un cas particulier où on mulitiplie cette fonction double-puits par un coefficient constant, par exemple <span class="math notranslate nohighlight">\(k=8\)</span>, on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-7">
+<span class="eqno">(488)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-7" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \sigma &amp;  = &amp; \sqrt{2\zeta H}\int_{0}^{1}\sqrt{g(\phi)}d\phi\\
+   &amp; = &amp; \sqrt{2\zeta H}\int_{0}^{1}\sqrt{8g_{1}(\phi)}d\phi\\
+        &amp; = &amp; \sqrt{2\zeta H\times8}\int_{0}^{1}\phi(1-\phi)d\phi\\
+   &amp; = &amp; \frac{2}{3}\sqrt{\zeta H}
+\end{eqnarray}\end{split}\]</div>
+</section>
+<section id="cas-g-2-phi-phi-l-phi-2-phi-phi-g-2">
+<h2>Cas <span class="math notranslate nohighlight">\(g_{2}(\phi)=(\phi_{l}-\phi)^{2}(\phi-\phi_{g})^{2}\)</span><a class="headerlink" href="#cas-g-2-phi-phi-l-phi-2-phi-phi-g-2" title="Link to this heading"></a></h2>
+<p>Pour certains problèmes de changement de phase liquide/gaz, le double-puits prend la forme <span class="math notranslate nohighlight">\(g_{2}(\phi)=(\phi_{l}-\phi)^{2}(\phi-\phi_{g})^{2}\)</span> en supposant que <span class="math notranslate nohighlight">\(\phi_{g}&lt;\phi&lt;\phi_{l}\)</span>. On fera attention en prenant la racine de cette fonction à bien respecter l’ordre <span class="math notranslate nohighlight">\(\phi_{l}-\phi\)</span> et <span class="math notranslate nohighlight">\(\phi-\phi_{g}\)</span> car les différences doivent rester positives (car <span class="math notranslate nohighlight">\(\phi_{g}&lt;\phi&lt;\phi_{l}\)</span>). Dans ce cas les bornes de l’intégrale varient de <span class="math notranslate nohighlight">\(\phi^{min}=\phi_{g}\)</span> à <span class="math notranslate nohighlight">\(\phi^{max}=\phi_{l}\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-8">
+<span class="eqno">(489)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-8" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \sigma &amp;  = &amp; \sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}\sqrt{g_{2}(\phi)}d\phi\\
+        &amp; = &amp; \sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}(\phi_{l}-\phi)(\phi-\phi_{g})d\phi
+\end{eqnarray}\end{split}\]</div>
+<p>Pour le calcul de l’intégrale, on peut utiliser <span class="math notranslate nohighlight">\(\texttt{wxmaxima}\)</span>, et on trouve <span class="math notranslate nohighlight">\(\int_{\phi_{g}}^{\phi_{l}}(\phi_{l}-\phi)(\phi-\phi_{g})d\phi=(\phi_{l}-\phi_{g})^{3}/6\)</span>. Finalement, on obtient</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-9">
+<span class="eqno">(490)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-9" title="Link to this equation"></a></span>\[\boxed{\sigma=\frac{(\phi_{l}-\phi_{g})^{3}}{6}\sqrt{2\zeta H}}\]</div>
+</section>
+<section id="cas-g-3-phi-phi-star-phi-2-phi-phi-star-2">
+<h2>Cas <span class="math notranslate nohighlight">\(g_{3}(\phi)=(\phi^{\star}-\phi)^{2}(\phi+\phi^{\star})^{2}\)</span><a class="headerlink" href="#cas-g-3-phi-phi-star-phi-2-phi-phi-star-2" title="Link to this heading"></a></h2>
+<p>Une autre fonction double-puits typique est <span class="math notranslate nohighlight">\(g_{3}(\phi)=(\phi^{\star}-\phi)^{2}(\phi+\phi^{\star})^{2}\)</span> qui possède ses deux minima en <span class="math notranslate nohighlight">\(-\phi^{\star}\)</span> à <span class="math notranslate nohighlight">\(+\phi^{\star}\)</span>. Le choix <span class="math notranslate nohighlight">\(\phi^{\star}=1\)</span> est souvent utilisé en solidification et croissance cristalline. Il s’agit d’un cas particulier du cas précédent en posant <span class="math notranslate nohighlight">\(\phi_{l}=\phi^{\star}\)</span> et <span class="math notranslate nohighlight">\(\phi_{g}=-\phi^{\star}\)</span>. Avec ces changements on peut directement déduire que le coefficient devant la racine carrée vaut <span class="math notranslate nohighlight">\((2\phi^{\star})^{3}/6=4\phi^{\star3}/3\)</span>.
+On le vérifie en calculant <span class="math notranslate nohighlight">\(\sigma\)</span> en repartant de la relation générale. Dans ce cas les bornes de l’intégrale varient de <span class="math notranslate nohighlight">\(\phi^{min}=-\phi^{\star}\)</span> à <span class="math notranslate nohighlight">\(\phi^{max}=+\phi^{\star}\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-10">
+<span class="eqno">(491)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-10" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \sigma &amp;  = &amp; \int_{-\phi^{\star}}^{+\phi^{\star}}\frac{2Hg_{3}(\phi)}{\sqrt{2Hg_{3}(\phi)/\zeta}}d\phi\\
+        &amp; = &amp; \sqrt{2\zeta H}\int_{-\phi^{\star}}^{+\phi^{\star}}(\phi^{\star}-\phi)(\phi+\phi^{\star})d\phi
+\end{eqnarray}\end{split}\]</div>
+<p>En utilisant <span class="math notranslate nohighlight">\(\texttt{wxmaxima}\)</span> on trouve bien que l’intégrale vaut <span class="math notranslate nohighlight">\(\int_{-\phi^{\star}}^{+\phi^{\star}}(\phi-\phi^{\star})(\phi+\phi^{\star})d\phi=4\phi^{\star3}/3\)</span>. Finalement on obtient :</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-11">
+<span class="eqno">(492)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-c-calculation-surfacetension-11" title="Link to this equation"></a></span>\[\sigma=\frac{4\phi^{\star3}}{3}\sqrt{2\zeta H}\]</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Appendix C: calculation of surface tension</a><ul>
+<li><a class="reference internal" href="#calcul-de-la-tension-de-surface">Calcul de la tension de surface</a></li>
+<li><a class="reference internal" href="#cas-g-1-phi-phi-2-1-phi-2">Cas <span class="math notranslate nohighlight">\(g_{1}(\phi)=\phi^{2}(1-\phi)^{2}\)</span></a></li>
+<li><a class="reference internal" href="#cas-g-2-phi-phi-l-phi-2-phi-phi-g-2">Cas <span class="math notranslate nohighlight">\(g_{2}(\phi)=(\phi_{l}-\phi)^{2}(\phi-\phi_{g})^{2}\)</span></a></li>
+<li><a class="reference internal" href="#cas-g-3-phi-phi-star-phi-2-phi-phi-star-2">Cas <span class="math notranslate nohighlight">\(g_{3}(\phi)=(\phi^{\star}-\phi)^{2}(\phi+\phi^{\star})^{2}\)</span></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="B_Calculation_TanhSolution.html"
+                          title="previous chapter">Appendix B: solutions of one-dimensional Euler-Lagrange</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="02_CH_CAC_Models.html"
+                          title="next chapter">Time-evolution: Cahn-Hilliard and Allen-Cahn models</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_PF/C_Calculation_SurfaceTension.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="02_CH_CAC_Models.html" title="Time-evolution: Cahn-Hilliard and Allen-Cahn models"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="B_Calculation_TanhSolution.html" title="Appendix B: solutions of one-dimensional Euler-Lagrange"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Phase-Field.html" >Basic concepts of phase-field theory: two-phase</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="01_Fundamentals_PF.html" >Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Appendix C: calculation of surface tension</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

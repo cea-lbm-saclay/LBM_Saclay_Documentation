@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Collisions operators in LBM_Saclay &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Equilibrium distribution functions" href="03_Equilibrium-Functions_LBMSaclay.html" />
+    <link rel="prev" title="Lattices and streaming" href="01_Lattices-Streaming_LBMSaclay.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="03_Equilibrium-Functions_LBMSaclay.html" title="Equilibrium distribution functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="01_Lattices-Streaming_LBMSaclay.html" title="Lattices and streaming"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" accesskey="U">PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Collisions operators in LBM_Saclay</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="collisions-operators-in-lbm-saclay">
+<span id="collision-op"></span><h1>Collisions operators in LBM_Saclay<a class="headerlink" href="#collisions-operators-in-lbm-saclay" title="Link to this heading"></a></h1>
+<p>The collision operators are defined as C++ structures in the source file <code class="docutils literal notranslate"><span class="pre">src/kernels/Collision_operators.h</span></code>. The most popular are implemented in LBM_Saclay: BGK, TRT, MRT and Central Moment (CM).</p>
+<section id="batnaghar-gross-krook-bgk-operator">
+<h2>Batnaghar-Gross-Krook (BGK) operator<a class="headerlink" href="#batnaghar-gross-krook-bgk-operator" title="Link to this heading"></a></h2>
+<p>In LBM_Saclay, that collision operator is performed in <code class="docutils literal notranslate"><span class="pre">BGKCollider</span></code> and writes</p>
+<div class="math notranslate nohighlight" id="equation-coll-bgk">
+<span class="eqno">(149)<a class="headerlink" href="#equation-coll-bgk" title="Link to this equation"></a></span>\[\Omega_{i}^{BGK}(f_{i},f_{i}^{eq})=-\frac{1}{\tau}\left[f_{i}-f_{i}^{eq}\right]\]</div>
+<p>That collision operator requires four inputs:</p>
+<div class="admonition-bgkcollider admonition">
+<p class="admonition-title">BGKCollider</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f_i\)</span>: distribution function for current time <span class="math notranslate nohighlight">\(t\)</span> and position contained in <code class="docutils literal notranslate"><span class="pre">f</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(f_i^{eq}\)</span>: equilibrium distribution function for current time <span class="math notranslate nohighlight">\(t\)</span> and position contained in <code class="docutils literal notranslate"><span class="pre">feq</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau\)</span>: relaxation rate contained in <code class="docutils literal notranslate"><span class="pre">tau</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{S}_i\)</span> is the force or source term contained in <code class="docutils literal notranslate"><span class="pre">S0</span></code>.</p></li>
+</ul>
+<p><strong>Output</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f_i^{\star}=f_i+\Omega_i^{BGK}+\mathcal{S}_i\)</span>: post-collision distribution function</p></li>
+</ul>
+</div>
+<div class="important admonition">
+<p class="admonition-title">BGK in LBM_Saclay</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">int</span><span class="w"> </span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;</span><span class="w"> </span><span class="n">struct</span><span class="w"> </span><span class="no">BGKCollider</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="kp">public</span><span class="p">:</span>
+<span class="w">   </span><span class="n">using</span><span class="w"> </span><span class="no">FState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">typename</span><span class="w"> </span><span class="no">Kokkos</span><span class="o">::</span><span class="nb">Array</span><span class="o">&lt;</span><span class="n">real_t</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">   </span><span class="no">FState</span><span class="w"> </span><span class="n">f</span><span class="p">;</span>
+<span class="w">   </span><span class="no">FState</span><span class="w"> </span><span class="n">feq</span><span class="p">;</span>
+<span class="w">   </span><span class="no">FState</span><span class="w"> </span><span class="no">S0</span><span class="p">;</span>
+<span class="w">   </span><span class="sr">//</span><span class="o">~</span><span class="w"> </span><span class="no">FState</span><span class="w"> </span><span class="no">S1</span><span class="p">;</span>
+<span class="w">   </span><span class="n">real_t</span><span class="w"> </span><span class="n">tau</span><span class="p">;</span>
+<span class="w">   </span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="w">   </span><span class="no">BGKCollider</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">LBMLattice</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lattice</span><span class="p">){};</span>
+
+<span class="w">   </span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="w">      </span><span class="n">real_t</span><span class="w"> </span><span class="n">collide</span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">tau</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">);</span>
+<span class="w">   </span><span class="p">};</span>
+
+<span class="w">   </span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="w">      </span><span class="n">real_t</span><span class="w"> </span><span class="n">get_feq</span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="two-relaxation-times-trt-operator">
+<h2>Two-Relaxation-Times (TRT) operator<a class="headerlink" href="#two-relaxation-times-trt-operator" title="Link to this heading"></a></h2>
+<p>The TRT collision operator is performed in <code class="docutils literal notranslate"><span class="pre">TRTCollider</span></code> and writes</p>
+<div class="math notranslate nohighlight" id="equation-lbe-trt">
+<span class="eqno">(150)<a class="headerlink" href="#equation-lbe-trt" title="Link to this equation"></a></span>\[\Omega_{i}^{TRT}(f_{i},f_{i}^{eq})=-\frac{1}{\tau^{+}}\left[f_{i}^{+}-f_{i}^{eq+}\right]-\frac{1}{\tau^{-}}\left[f_{i}^{-}-f_{i}^{eq-}\right]\]</div>
+<p>where the symmetric parts of <span class="math notranslate nohighlight">\(f_{i}\)</span> and <span class="math notranslate nohighlight">\(f_{i}^{eq}\)</span> are defined by</p>
+<div class="math notranslate nohighlight" id="equation-sym-part">
+<span class="eqno">(151)<a class="headerlink" href="#equation-sym-part" title="Link to this equation"></a></span>\[f_{i}^{+}=\frac{f_{i}+f_{\overline{i}}}{2}\qquad\text{and}\qquad f_{i}^{eq+}=\frac{f_{i}^{eq}+f_{\overline{i}}^{eq}}{2}\]</div>
+<p>and the anti-symmetric parts by</p>
+<div class="math notranslate nohighlight" id="equation-antisym-part">
+<span class="eqno">(152)<a class="headerlink" href="#equation-antisym-part" title="Link to this equation"></a></span>\[f_{i}^{-}=\frac{f_{i}-f_{\overline{i}}}{2}\qquad\text{and}\qquad f_{i}^{eq-}=\frac{f_{i}^{eq}-f_{\overline{i}}^{eq}}{2}\]</div>
+<p>In Eqs. <a class="reference internal" href="#equation-sym-part">(151)</a> and <a class="reference internal" href="#equation-antisym-part">(152)</a>, the bar notation means the opposite directions <span class="math notranslate nohighlight">\(\boldsymbol{c}_{\overline{i}}=-\boldsymbol{c}_{i}\)</span>. Example on the standard D2Q9 lattice <span class="math notranslate nohighlight">\(\boldsymbol{c}_{\overline{1}}=-\boldsymbol{c}_{1}=\boldsymbol{c}_{3}\)</span> . The TRT collision operator considers the collision stage with two relaxation parameters <span class="math notranslate nohighlight">\(\tau^{+}\)</span> and <span class="math notranslate nohighlight">\(\tau^{-}\)</span> acting respectively on the symmetric part and the anti-symmetric part. When the equilibrium distribution function is defined such as the Navier-Stokes equations are recovered, the kinematic viscosity is related to the parameter <span class="math notranslate nohighlight">\(\tau^{-}\)</span> by:</p>
+<div class="math notranslate nohighlight" id="equation-nu-trt">
+<span class="eqno">(153)<a class="headerlink" href="#equation-nu-trt" title="Link to this equation"></a></span>\[\nu=c_{s}^{2}\left(\tau^{-}-\frac{1}{2}\right)\delta t\]</div>
+<p>and <span class="math notranslate nohighlight">\(\tau^{+}\)</span> is a free paramater to tune to improve accuracy and stability. In practice, the parameter <span class="math notranslate nohighlight">\(\Lambda\)</span> is often used for that purpose:</p>
+<div class="math notranslate nohighlight" id="equation-lamgda-trt">
+<span class="eqno">(154)<a class="headerlink" href="#equation-lamgda-trt" title="Link to this equation"></a></span>\[\Lambda=\left(\tau^{+}-\frac{1}{2}\right)\left(\tau^{-}-\frac{1}{2}\right)\]</div>
+<p>That collision operator requires five inputs:</p>
+<div class="admonition-trtcollider admonition">
+<p class="admonition-title">TRTCollider</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f_i\)</span>: distribution function for current time <span class="math notranslate nohighlight">\(t\)</span> and position contained in <code class="docutils literal notranslate"><span class="pre">f</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(f_i^{eq}\)</span>: equilibrium distribution function for current time <span class="math notranslate nohighlight">\(t\)</span> and position contained in <code class="docutils literal notranslate"><span class="pre">feq</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau^{+}\)</span>: symmetric relaxation rate contained in <code class="docutils literal notranslate"><span class="pre">tauS</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau^{-}\)</span>: anti-symmetric relaxation rate contained in <code class="docutils literal notranslate"><span class="pre">tauA</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{S}_i\)</span> is the force or source term contained in <code class="docutils literal notranslate"><span class="pre">S0</span></code>.</p></li>
+</ul>
+<p><strong>Output</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f_i^{\star}=f_i+\Omega_i^{TRT}+\mathcal{S}_i\)</span>: post-collision distribution function</p></li>
+</ul>
+</div>
+<p>The C++ structure TRTCollider is shown below:</p>
+<div class="important admonition">
+<p class="admonition-title">TRT in LBM_Saclay</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">int</span><span class="w"> </span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;</span><span class="w"> </span><span class="n">struct</span><span class="w"> </span><span class="no">TRTCollider</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">using</span><span class="w"> </span><span class="no">FState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">typename</span><span class="w"> </span><span class="no">Kokkos</span><span class="o">::</span><span class="nb">Array</span><span class="o">&lt;</span><span class="n">real_t</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">   </span><span class="n">using</span><span class="w"> </span><span class="no">LBM_speeds_opposite</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="n">typename</span><span class="w"> </span><span class="no">LBMBaseFunctor</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;::</span><span class="no">LBM_speeds_opposite</span><span class="p">;</span>
+<span class="w">   </span><span class="no">LBM_speeds_opposite</span><span class="w"> </span><span class="no">Ebar</span><span class="p">;</span>
+
+<span class="w">   </span><span class="no">FState</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">feq</span><span class="p">;</span>
+
+<span class="w">   </span><span class="n">real_t</span><span class="w"> </span><span class="n">tauS</span><span class="p">,</span><span class="w"> </span><span class="n">tauA</span><span class="p">;</span>
+
+<span class="w">   </span><span class="no">FState</span><span class="w"> </span><span class="no">S0</span><span class="p">;</span>
+
+<span class="w">   </span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="w">   </span><span class="n">void</span><span class="w"> </span><span class="n">setTau</span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="no">TRT_tauMethod</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">tauA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tau</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">   </span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="w">   </span><span class="no">TRTCollider</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">LBMLattice</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lattice</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="no">Ebar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lattice</span><span class="o">.</span><span class="n">Ebar</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+<span class="w">      </span><span class="sr">//</span><span class="o">~</span><span class="w"> </span><span class="no">FState</span><span class="w"> </span><span class="no">S1</span><span class="p">;</span>
+<span class="w">   </span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="w">   </span><span class="n">real_t</span><span class="w"> </span><span class="n">collide</span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">const</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">ipopb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Ebar</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">;</span>
+<span class="w">      </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">fi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">;</span>
+<span class="w">      </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">fib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">[</span><span class="n">ipopb</span><span class="o">]</span><span class="p">;</span>
+<span class="w">      </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">feqi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">;</span>
+<span class="w">      </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">feqib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feq</span><span class="o">[</span><span class="n">ipopb</span><span class="o">]</span><span class="p">;</span>
+<span class="w">      </span><span class="sr">//</span><span class="o">~</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">pS</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">*</span><span class="p">((</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]+</span><span class="n">f</span><span class="o">[</span><span class="n">ipopb</span><span class="o">]</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]+</span><span class="n">feq</span><span class="o">[</span><span class="n">ipopb</span><span class="o">]</span><span class="p">));</span>
+<span class="w">      </span><span class="sr">//</span><span class="o">~</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">pA</span><span class="o">=</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">*</span><span class="p">((</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]-</span><span class="n">f</span><span class="o">[</span><span class="n">ipopb</span><span class="o">]</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]-</span><span class="n">feq</span><span class="o">[</span><span class="n">ipopb</span><span class="o">]</span><span class="p">));</span>
+
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(((</span><span class="n">fi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fib</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">feqi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">feqib</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">tauS</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                              </span><span class="p">((</span><span class="n">fi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fib</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">feqi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">feqib</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">tauA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
+
+<span class="w">   </span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="w">   </span><span class="n">real_t</span><span class="w"> </span><span class="n">get_feq</span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="multiple-relaxation-times-mrt-operator">
+<h2>Multiple-Relaxation-Times (MRT) operator<a class="headerlink" href="#multiple-relaxation-times-mrt-operator" title="Link to this heading"></a></h2>
+<p><strong>LBE with vector notations</strong></p>
+<p>If we consider the space of distribution functions of dimension <span class="math notranslate nohighlight">\(N_{pop}+1\)</span>, the vector notations can be used:</p>
+<div class="math notranslate nohighlight" id="equation-vector-notations">
+<span class="eqno">(155)<a class="headerlink" href="#equation-vector-notations" title="Link to this equation"></a></span>\[\begin{split}\boldsymbol{f}(\boldsymbol{x},t)=\left(\begin{array}{c}
+f_{0}(\boldsymbol{x},t)\\
+f_{1}(\boldsymbol{x},t)\\
+\vdots\\
+f_{N_{pop}}(\boldsymbol{x},t)
+\end{array}\right),\quad\boldsymbol{f}^{eq}(\boldsymbol{x},t)=\left(\begin{array}{c}
+f_{0}^{eq}(\boldsymbol{x},t)\\
+f_{1}^{eq}(\boldsymbol{x},t)\\
+\vdots\\
+f_{N_{pop}}^{eq}(\boldsymbol{x},t)
+\end{array}\right),\quad\boldsymbol{\mathcal{F}}(\boldsymbol{x},t)=\left(\begin{array}{c}
+\mathcal{F}_{0}(\boldsymbol{x},t)\\
+\mathcal{F}_{1}(\boldsymbol{x},t)\\
+\vdots\\
+\mathcal{F}_{N_{pop}}(\boldsymbol{x},t)
+\end{array}\right)\end{split}\]</div>
+<p>and the LBE writes</p>
+<div class="math notranslate nohighlight" id="equation-lbe-mrt">
+<span class="eqno">(156)<a class="headerlink" href="#equation-lbe-mrt" title="Link to this equation"></a></span>\[\boldsymbol{f}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=\boldsymbol{f}(\boldsymbol{x},t)+\boldsymbol{\Omega}^{MRT}(\boldsymbol{f}(\boldsymbol{x},t),\boldsymbol{f}^{eq}(\boldsymbol{x},t))+\boldsymbol{\mathcal{F}}\delta t\]</div>
+<p><strong>MRT collision operator</strong></p>
+<p>The MRT collision operator considers the relaxation in the space of moments instead of the space of distribution functions. For that purpose a matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> is used:</p>
+<div class="math notranslate nohighlight" id="equation-mrt-coll-op">
+<span class="eqno">(157)<a class="headerlink" href="#equation-mrt-coll-op" title="Link to this equation"></a></span>\[\boldsymbol{\Omega}^{MRT}=-\boldsymbol{M}^{-1}\boldsymbol{S}(\boldsymbol{x})\boldsymbol{M}\left[\boldsymbol{f}(\boldsymbol{x},t)-\boldsymbol{f}^{eq}(\boldsymbol{x},t)\right]\]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> represents a change of basis from “space of distribution functions” to <span class="math notranslate nohighlight">\(\rightarrow\)</span> “space of moments”</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{S}\)</span> contains the relaxation coefficients</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{S}\)</span> are two invertible matrices of dim <span class="math notranslate nohighlight">\((N_{pop}+1)\times(N_{pop}+1)\)</span></p></li>
+</ul>
+<p><strong>Relaxation in space of moments</strong></p>
+<p>Eq. <a class="reference internal" href="#equation-mrt-coll-op">(157)</a> means that a change of basis is first done:</p>
+<div class="math notranslate nohighlight" id="equation-f-to-m">
+<span class="eqno">(158)<a class="headerlink" href="#equation-f-to-m" title="Link to this equation"></a></span>\[\boldsymbol{M}(\boldsymbol{f}-\boldsymbol{f}^{eq})=\boldsymbol{m}-\boldsymbol{m}^{eq}\]</div>
+<p>Next, in the space of moments, the relaxation occurs by applying the matrix <span class="math notranslate nohighlight">\(\boldsymbol{S}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-relaxation-moments">
+<span class="eqno">(159)<a class="headerlink" href="#equation-relaxation-moments" title="Link to this equation"></a></span>\[\boldsymbol{m}^{\star}=\boldsymbol{S}(\boldsymbol{m}-\boldsymbol{m}^{eq})\]</div>
+<p>Finally, we go back in the space of distribution functions by applying <span class="math notranslate nohighlight">\(\boldsymbol{M}^{-1}\)</span></p>
+<div class="math notranslate nohighlight" id="equation-m-to-f">
+<span class="eqno">(160)<a class="headerlink" href="#equation-m-to-f" title="Link to this equation"></a></span>\[\boldsymbol{f}^{\star}=\boldsymbol{M}^{-1}\boldsymbol{m}^{\star}\]</div>
+<p><strong>Example for lattice D2Q9</strong></p>
+<p>To construct the matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span>, two main procedures exist (see <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>): Gram-Schmidt and Hermite. In LBM_Saclay, the first one is applied. One example is given with the D2Q9 lattice where the nine moving vectors are defined by <span class="math notranslate nohighlight">\(\boldsymbol{e}_i\)</span> (for <span class="math notranslate nohighlight">\(i=0,...,8\)</span>):</p>
+<div class="math notranslate nohighlight" id="equation-def-basis-vectors">
+<span class="eqno">(161)<a class="headerlink" href="#equation-def-basis-vectors" title="Link to this equation"></a></span>\[\begin{split}\begin{array}{cccccccccc}
+ {\color{gray}\boldsymbol{e}_{0}} &amp; {\color{gray}\boldsymbol{e}_{1}} &amp; {\color{gray}\boldsymbol{e}_{2}} &amp; {\color{gray}\boldsymbol{e}_{3}} &amp; {\color{gray}\boldsymbol{e}_{4}} &amp; {\color{gray}\boldsymbol{e}_{5}} &amp; {\color{gray}\boldsymbol{e}_{6}} &amp; {\color{gray}\boldsymbol{e}_{7}} &amp; {\color{gray}\boldsymbol{e}_{8}}\\
+ \left(\begin{array}{c}
+ 0\\
+ 0
+ \end{array}\right) &amp; \left(\begin{array}{c}
+ 1\\
+ 0
+ \end{array}\right) &amp; \left(\begin{array}{c}
+ 0\\
+ 1
+ \end{array}\right) &amp; \left(\begin{array}{c}
+ -1\\
+ 0
+ \end{array}\right) &amp; \left(\begin{array}{c}
+ 0\\
+ -1
+ \end{array}\right) &amp; \left(\begin{array}{c}
+ 1\\
+ 1
+ \end{array}\right) &amp; \left(\begin{array}{c}
+ -1\\
+ 1
+ \end{array}\right) &amp; \left(\begin{array}{c}
+ -1\\
+ -1
+ \end{array}\right) &amp; \left(\begin{array}{c}
+ 1\\
+ -1
+ \end{array}\right) &amp; \begin{array}{c}
+ \leftarrow\boldsymbol{v}_{j_{x}}\\
+ \leftarrow\boldsymbol{v}_{j_{y}}
+ \end{array}
+ \end{array}\end{split}\]</div>
+<p>In vector notations, the moment of order 0 (density)  can be obtained by</p>
+<div class="math notranslate nohighlight" id="equation-def-m0">
+<span class="eqno">(162)<a class="headerlink" href="#equation-def-m0" title="Link to this equation"></a></span>\[\rho=\sum_{i}f_{i}=\boldsymbol{v}_{\rho}\cdot\boldsymbol{f}\]</div>
+<p>where the vector <span class="math notranslate nohighlight">\(\boldsymbol{v}_{\rho}\)</span> must be defined by <span class="math notranslate nohighlight">\(\boldsymbol{v}_{\rho}=(1,1,1,1,1,1,1,1,1)\)</span>. The moment of order 1 (impulsion) can be obtained by</p>
+<div class="math notranslate nohighlight" id="equation-def-m1-comp1">
+<span class="eqno">(163)<a class="headerlink" href="#equation-def-m1-comp1" title="Link to this equation"></a></span>\[\rho u_{x}=\sum_{i}f_{i}c_{ix}=\boldsymbol{v}_{j_{x}}\cdot\boldsymbol{f}\]</div>
+<div class="math notranslate nohighlight" id="equation-def-m1-comp2">
+<span class="eqno">(164)<a class="headerlink" href="#equation-def-m1-comp2" title="Link to this equation"></a></span>\[\rho u_{y}=\sum_{i}f_{i}c_{iy}=\boldsymbol{v}_{j_{y}}\cdot\boldsymbol{f}\]</div>
+<p>where the vector <span class="math notranslate nohighlight">\(\boldsymbol{v}_{j_{x}}=(0,1,0,-1,0,1,-1,-1,1)\)</span> is defined by the first line of the lattice D2Q9 and <span class="math notranslate nohighlight">\(\boldsymbol{v}_{j_{y}}=(0,0,1,0,-1,1,1,-1,-1)\)</span> is the second line. To obtain the matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> of dimension <span class="math notranslate nohighlight">\(9\times9\)</span>, six supplementary orthogonal vectors must be defined. After application of the Gram-Schmidt procedure, the matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> is</p>
+<div class="math notranslate nohighlight" id="equation-def-matrix-m">
+<span class="eqno">(178)<a class="headerlink" href="#equation-def-matrix-m" title="Link to this equation"></a></span>\[\begin{split}\boldsymbol{M}=\left(\begin{array}{c}
+\boldsymbol{v}_{\rho}\\
+\boldsymbol{v}_{e}\\
+\boldsymbol{v}_{\epsilon}\\
+\boldsymbol{v}_{j_{x}}\\
+\boldsymbol{v}_{q_{x}}\\
+\boldsymbol{v}_{j_{y}}\\
+\boldsymbol{v}_{q_{y}}\\
+\boldsymbol{v}_{p_{xx}}\\
+\boldsymbol{v}_{p_{xy}}
+\end{array}\right)=\left(\begin{array}{ccccccccc}
+1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1\\
+-4 &amp; -1 &amp; -1 &amp; -1 &amp; -1 &amp; 2 &amp; 2 &amp; 2 &amp; 2\\
+4 &amp; -2 &amp; -2 &amp; -2 &amp; -2 &amp; 1 &amp; 1 &amp; 1 &amp; 1\\
+0 &amp; 1 &amp; 0 &amp; -1 &amp; 0 &amp; 1 &amp; -1 &amp; -1 &amp; 1\\
+0 &amp; -2 &amp; 0 &amp; 2 &amp; 0 &amp; 1 &amp; -1 &amp; -1 &amp; 1\\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; -1 &amp; 1 &amp; 1 &amp; -1 &amp; -1\\
+0 &amp; 0 &amp; -2 &amp; 0 &amp; 2 &amp; 1 &amp; 1 &amp; -1 &amp; -1\\
+0 &amp; 1 &amp; -1 &amp; 1 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; -1 &amp; 1 &amp; -1
+\end{array}\right)\end{split}\]</div>
+<p>and its inverse is:</p>
+<div class="math notranslate nohighlight" id="equation-def-matrix-minv">
+<span class="eqno">(166)<a class="headerlink" href="#equation-def-matrix-minv" title="Link to this equation"></a></span>\[\begin{split}\boldsymbol{M}^{-1}=\left(\begin{array}{ccccccccc}
+\frac{1}{9} &amp; -\frac{1}{9} &amp; \frac{1}{9} &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+\frac{1}{9} &amp; -\frac{1}{36} &amp; -\frac{1}{18} &amp; \frac{1}{6} &amp; -\frac{1}{6} &amp; 0 &amp; 0 &amp; \frac{1}{4} &amp; 0\\
+\frac{1}{9} &amp; -\frac{1}{36} &amp; -\frac{1}{18} &amp; 0 &amp; 0 &amp; \frac{1}{6} &amp; -\frac{1}{6} &amp; -\frac{1}{4} &amp; 0\\
+\frac{1}{9} &amp; -\frac{1}{36} &amp; -\frac{1}{18} &amp; -\frac{1}{6} &amp; \frac{1}{6} &amp; 0 &amp; 0 &amp; \frac{1}{4} &amp; 0\\
+\frac{1}{9} &amp; -\frac{1}{36} &amp; -\frac{1}{18} &amp; 0 &amp; 0 &amp; -\frac{1}{6} &amp; \frac{1}{6} &amp; -\frac{1}{4} &amp; 0\\
+\frac{1}{9} &amp; \frac{1}{18} &amp; \frac{1}{36} &amp; \frac{1}{6} &amp; \frac{1}{12} &amp; \frac{1}{6} &amp; \frac{1}{12} &amp; 0 &amp; \frac{1}{4}\\
+\frac{1}{9} &amp; \frac{1}{18} &amp; \frac{1}{36} &amp; -\frac{1}{6} &amp; -\frac{1}{12} &amp; \frac{1}{6} &amp; \frac{1}{12} &amp; 0 &amp; -\frac{1}{4}\\
+\frac{1}{9} &amp; \frac{1}{18} &amp; \frac{1}{36} &amp; -\frac{1}{6} &amp; -\frac{1}{12} &amp; -\frac{1}{6} &amp; -\frac{1}{12} &amp; 0 &amp; \frac{1}{4}\\
+\frac{1}{9} &amp; \frac{1}{18} &amp; \frac{1}{36} &amp; \frac{1}{6} &amp; \frac{1}{12} &amp; -\frac{1}{6} &amp; -\frac{1}{12} &amp; 0 &amp; -\frac{1}{4}
+\end{array}\right)\end{split}\]</div>
+<p>For that definition of matrix <span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span>, we see that vector <span class="math notranslate nohighlight">\(\boldsymbol{v}_{\rho}\)</span> is the first line of the matrix, <span class="math notranslate nohighlight">\(\boldsymbol{v}_{j_{x}}\)</span> is the fourth line and <span class="math notranslate nohighlight">\(\boldsymbol{v}_{j_{y}}\)</span> is the sixth line. The corresponding moment vector is:</p>
+<div class="math notranslate nohighlight" id="equation-def-moment-m">
+<span class="eqno">(167)<a class="headerlink" href="#equation-def-moment-m" title="Link to this equation"></a></span>\[\boldsymbol{m}=(\rho,m_{1},m_{2},\rho u_{x},m_{4},\rho u_{y},m_{7},m_{8})^T\]</div>
+<p>One advantage of the Gram-Schmidt procedure is that the matrix <span class="math notranslate nohighlight">\(\boldsymbol{S}\)</span> is diagonal:</p>
+<div class="math notranslate nohighlight" id="equation-def-matrix-s">
+<span class="eqno">(168)<a class="headerlink" href="#equation-def-matrix-s" title="Link to this equation"></a></span>\[\boldsymbol{S}=\text{diag}(0,\omega_{e},\omega_{\epsilon},0,\omega_{q},0,\omega_{q},\omega_{\nu},\omega_{\nu})\]</div>
+<div class="admonition-mrtcollider admonition">
+<p class="admonition-title">MRTCollider</p>
+<p><strong>Inputs</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f_i\)</span>: distribution function for current time <span class="math notranslate nohighlight">\(t\)</span> and position contained in <code class="docutils literal notranslate"><span class="pre">f</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(f_i^{eq}\)</span>: equilibrium distribution function for current time <span class="math notranslate nohighlight">\(t\)</span> and position contained in <code class="docutils literal notranslate"><span class="pre">feq</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau\)</span>: relaxation rate contained in <code class="docutils literal notranslate"><span class="pre">tau</span></code> and involved in matrix <span class="math notranslate nohighlight">\(\boldsymbol{S}\)</span> below.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{S}_i\)</span> is the force or source term contained in <code class="docutils literal notranslate"><span class="pre">S0</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M}\)</span> is the matrix contained in <code class="docutils literal notranslate"><span class="pre">M</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{M}^{-1}\)</span> is the inverse matrix contained in <code class="docutils literal notranslate"><span class="pre">Minv</span></code>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{S}\)</span> is the diagonal matrix contained in <code class="docutils literal notranslate"><span class="pre">S</span></code>.</p></li>
+</ul>
+<p><strong>Output</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{f}^{\star}=\boldsymbol{f}+\boldsymbol{\Omega}^{MRT}+\boldsymbol{\mathcal{S}}\)</span>: post-collision distribution function</p></li>
+</ul>
+</div>
+</section>
+<section id="central-moments-collision-operator">
+<h2>Central moments collision operator<a class="headerlink" href="#central-moments-collision-operator" title="Link to this heading"></a></h2>
+<p>In LBM_Saclay, the “central moment” collision operator is tested in <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> kernel. In that kernel the equilibrium distribution function is formulated with a dimensionless pressure and the first-order moment is the velocity (and not the impulsion). The central moment method is inspired from reference <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
+<section id="general-definition-of-moments">
+<h3>General definition of moments<a class="headerlink" href="#general-definition-of-moments" title="Link to this heading"></a></h3>
+<p>The general definition of 2D central moment is</p>
+<div class="math notranslate nohighlight" id="equation-def-continuous-moments">
+<span class="eqno">(169)<a class="headerlink" href="#equation-def-continuous-moments" title="Link to this equation"></a></span>\[M_{\alpha\beta}=\iint c_{x}^{\alpha}c_{y}^{\beta}f(\boldsymbol{x},t,\boldsymbol{c})dc_{x}dc_{y}\]</div>
+<p>and discrete moments in velocity space:</p>
+<div class="math notranslate nohighlight" id="equation-def-discrete-moments">
+<span class="eqno">(170)<a class="headerlink" href="#equation-def-discrete-moments" title="Link to this equation"></a></span>\[m_{\alpha\beta}=\underset{i}{\sum}c_{ix}^{\alpha}c_{iy}^{\beta}f_{i}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are two positive integers. Eq. <a class="reference internal" href="#equation-def-discrete-moments">(170)</a> means for</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha=0\)</span> and <span class="math notranslate nohighlight">\(\beta=0\)</span>:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-def-m-00">
+<span class="eqno">(171)<a class="headerlink" href="#equation-def-m-00" title="Link to this equation"></a></span>\[m_{00}=\underset{i}{\sum}c_{ix}^{0}c_{iy}^{0}f_{i}=\underset{i}{\sum}f_{i}=\rho\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha=1\)</span> and <span class="math notranslate nohighlight">\(\beta=0\)</span>:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-def-m-10">
+<span class="eqno">(172)<a class="headerlink" href="#equation-def-m-10" title="Link to this equation"></a></span>\[m_{10}=\underset{i}{\sum}c_{ix}^{1}c_{iy}^{0}f_{i}=\underset{i}{\sum}f_{i}c_{ix}=\rho u_{x}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha=0\)</span> and <span class="math notranslate nohighlight">\(\beta=1\)</span>:</p></li>
+</ul>
+<div class="math notranslate nohighlight" id="equation-def-m-01">
+<span class="eqno">(173)<a class="headerlink" href="#equation-def-m-01" title="Link to this equation"></a></span>\[m_{10}=\underset{i}{\sum}c_{ix}^{0}c_{iy}^{1}f_{i}=\underset{i}{\sum}f_{i}c_{iy}=\rho u_{y}\]</div>
+<p>and so on. As done in MRT collision operator, the vector of moments can be obtained with a transformation matrix <span class="math notranslate nohighlight">\(\mathbb{M}\)</span> from space of distribution functions to space of moments. The matrix <span class="math notranslate nohighlight">\(\mathbb{M}\)</span> is defined below.</p>
+</section>
+<section id="definition-of-central-moments">
+<h3>Definition of central moments<a class="headerlink" href="#definition-of-central-moments" title="Link to this heading"></a></h3>
+<p>The central moment definition is an extension of moment Eq. <a class="reference internal" href="#equation-def-continuous-moments">(169)</a> with macroscopic velocity components <span class="math notranslate nohighlight">\(u_x\)</span> and <span class="math notranslate nohighlight">\(u_y\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-def-continuous-central-moment">
+<span class="eqno">(174)<a class="headerlink" href="#equation-def-continuous-central-moment" title="Link to this equation"></a></span>\[K_{\alpha\beta}=\iint(c_{x}-u_{x})^{\alpha}(c_{y}-u_{y})^{\beta}f(\boldsymbol{x},t,\boldsymbol{c})dc_{x}dc_{y}\]</div>
+<p>and its discrete version writes:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-0">
+<span class="eqno">(175)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-0" title="Link to this equation"></a></span>\[\kappa_{\alpha\beta}=\underset{i}{\sum}(c_{ix}-u_x)^{\alpha}(c_{iy}-u_y)^{\beta}f_{i}\]</div>
+<p>The central moment collision operator adds a new matrix of transformation <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> which contains the supplementary shift with velocity components <span class="math notranslate nohighlight">\(u_x\)</span> and <span class="math notranslate nohighlight">\(u_y\)</span>. The matrix <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> is defined below.</p>
+</section>
+<section id="collision-in-space-of-central-moments">
+<h3>Collision in space of central moments<a class="headerlink" href="#collision-in-space-of-central-moments" title="Link to this heading"></a></h3>
+<p><strong>Collision stage</strong></p>
+<p>The collision stage is performed in the space of central moments which writes:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-1">
+<span class="eqno">(176)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-1" title="Link to this equation"></a></span>\[\boldsymbol{\kappa}^{\star}=\boldsymbol{\kappa}-\mathbb{S}\left(\boldsymbol{\kappa}-\boldsymbol{\kappa}^{eq}\right)+\left(\mathbb{I}-\frac{1}{2}\mathbb{S}\right)\tilde{\boldsymbol{F}}\]</div>
+<p>The central moment <span class="math notranslate nohighlight">\(\boldsymbol{\kappa}\)</span> is obtained from distribution function <span class="math notranslate nohighlight">\(\boldsymbol{f}\)</span> by applying successive matrix transformations:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-2">
+<span class="eqno">(177)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-2" title="Link to this equation"></a></span>\[\begin{split}\begin{eqnarray}
+   \boldsymbol{\kappa} &amp; = &amp; \mathbb{M}_{p}\mathbb{N}\mathbb{M}\boldsymbol{f}\\
+   &amp; = &amp; \left[\kappa_{00},\kappa_{01},\kappa_{10},\kappa_{20}+\kappa_{02},\kappa_{20}-\kappa_{02},\kappa_{11},\kappa_{21},\kappa_{12},\kappa_{22}\right]^{T}
+\end{eqnarray}\end{split}\]</div>
+<p>where the matrices <span class="math notranslate nohighlight">\(\mathbb{M}\)</span> and <span class="math notranslate nohighlight">\(\mathbb{M}_p\)</span> are defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-matrix-m">
+<span class="eqno">(178)<a class="headerlink" href="#equation-def-matrix-m" title="Link to this equation"></a></span>\[\begin{split}\mathbb{M}=\left[\begin{array}{ccccccccc}
+   1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1\\
+   0 &amp; 1 &amp; 0 &amp; -1 &amp; 0 &amp; 1 &amp; -1 &amp; -1 &amp; 1\\
+   0 &amp; 0 &amp; 1 &amp; 0 &amp; -1 &amp; 1 &amp; 1 &amp; -1 &amp; -1\\
+   0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1\\
+   0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1\\
+   0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; -1 &amp; 1 &amp; -1\\
+   0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; -1 &amp; -1\\
+   0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; -1 &amp; -1 &amp; 1\\
+   0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1
+\end{array}\right],
+\qquad
+\mathbb{M}_{p}=\left[\begin{array}{ccccccccc}
+   1 &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0}\\
+   {\color{gray}0} &amp; 1 &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0}\\
+   {\color{gray}0} &amp; {\color{gray}0} &amp; 1 &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0}\\
+   {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; 1 &amp; 1 &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0}\\
+   {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; 1 &amp; -1 &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0}\\
+   {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; 1 &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0}\\
+   {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; 1 &amp; {\color{gray}0} &amp; {\color{gray}0}\\
+   {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; 1 &amp; {\color{gray}0}\\
+   {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; {\color{gray}0} &amp; 1
+\end{array}\right]\end{split}\]</div>
+<p>The matrix <span class="math notranslate nohighlight">\(\mathbb{N}:=\mathbb{N}(u_x,u_y)\)</span> depends on components of velocity <span class="math notranslate nohighlight">\(u_x\)</span> and <span class="math notranslate nohighlight">\(u_y\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-def-matrix-n">
+<span class="eqno">(179)<a class="headerlink" href="#equation-def-matrix-n" title="Link to this equation"></a></span>\[\begin{split}\mathbb{N}=\left[\begin{array}{ccccccccc}
+   1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   -u_{x} &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   -u_{y} &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   u_{x}^{2} &amp; -2u_{x} &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   u_{y}^{2} &amp; 0 &amp; -2u_{y} &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   u_{x}u_{y} &amp; -u_{y} &amp; -u_{x} &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+   -u_{x}^{2}u_{y} &amp; 2u_{x}u_{y} &amp; u_{x}^{2} &amp; -u_{y} &amp; 0 &amp; -2u_{x} &amp; 1 &amp; 0 &amp; 0\\
+   -u_{y}^{2}u_{x} &amp; u_{y}^{2} &amp; 2u_{x}u_{y} &amp; 0 &amp; -u_{x} &amp; -2u_{y} &amp; 0 &amp; 1 &amp; 0\\
+   u_{x}^{2}u_{y}^{2} &amp; -2u_{x}u_{y}^{2} &amp; -2u_{y}u_{x}^{2} &amp; u_{y}^{2} &amp; u_{x}^{2} &amp; 4u_{x}u_{y} &amp; -2u_{y} &amp; -2u_{x} &amp; 1
+\end{array}\right]\end{split}\]</div>
+<div class="important admonition">
+<p class="admonition-title">Matrix <span class="math notranslate nohighlight">\(\mathbb{T}\)</span> in LBM_Saclay</p>
+<p>In LBM_Saclay, matrices <span class="math notranslate nohighlight">\(\mathbb{M}\)</span>, <span class="math notranslate nohighlight">\(\mathbb{N}\)</span> and <span class="math notranslate nohighlight">\(\mathbb{M}_{p}\)</span> are not explicitely defined. Only the result of their product <span class="math notranslate nohighlight">\(\mathbb{T}=\mathbb{M}_{p}\mathbb{N}\mathbb{M}\)</span> is written in <code class="docutils literal notranslate"><span class="pre">Collision_operators.h</span></code>. All matrices are written inside a python script <code class="docutils literal notranslate"><span class="pre">CMLBM_Sympy.py</span></code> which performs the product  and generates the C++ code. The output <span class="math notranslate nohighlight">\(\mathbb{T}\)</span> is “copy-paste” in function <code class="docutils literal notranslate"><span class="pre">Matrix</span> <span class="pre">get_T(real_t</span> <span class="pre">u,</span> <span class="pre">real_t</span> <span class="pre">v)</span></code> of <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">CMCollider</span></code>.</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="w">   </span><span class="no">Matrix</span><span class="w"> </span><span class="n">get_T</span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">constexpr</span><span class="p">(</span><span class="n">npop</span><span class="o">==</span><span class="no">NPOP_D2Q9</span><span class="p">){</span>
+<span class="w">      </span><span class="o">...</span>
+<span class="w">   </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Collision matrix</strong> <span class="math notranslate nohighlight">\(\mathbb{S}\)</span></p>
+<p>The collision matrix <span class="math notranslate nohighlight">\(\mathbb{S}\)</span> is diagonal and contains the relaxation rates:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-3">
+<span class="eqno">(180)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-3" title="Link to this equation"></a></span>\[\mathbb{S}=diag\left(s_{0},s_{1},s_{1},s_{b},s_{\nu},s_{\nu},s_{3},s_{3},s_{4}\right)\]</div>
+<p>The collision frequencies <span class="math notranslate nohighlight">\(s_{0}\)</span> and <span class="math notranslate nohighlight">\(s_{1}\)</span> are fixed equal to 1 to ensure conservation of corresponding moments. The following two frequencies <span class="math notranslate nohighlight">\(s_{b}\)</span> and <span class="math notranslate nohighlight">\(s_{\nu}\)</span> are related to bulk and kinematic viscosities by:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-4">
+<span class="eqno">(181)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-4" title="Link to this equation"></a></span>\[\begin{eqnarray}
+   s_{\nu}=&amp;\frac{1}{\frac{1}{2}+\frac{\nu}{c_{s}^{2}\delta t}}\qquad\qquad&amp;s_{b}=&amp;\frac{1}{\frac{1}{2}+\frac{\zeta}{c_{s}^{2}\delta t}}
+\end{eqnarray}\]</div>
+<p>Finally <span class="math notranslate nohighlight">\(s_{3}\)</span> and <span class="math notranslate nohighlight">\(s_{4}\)</span> are tunable relaxation frequencies. Let us mention that here, the matrix <span class="math notranslate nohighlight">\(\mathbb{S}\)</span> is diagonal compared to Eq. (16) of the reference. This is because we used a supplementary matrix <span class="math notranslate nohighlight">\(\mathbb{M}_p\)</span> defined above to use a diagonal matrix in collision stage.</p>
+<div class="important admonition">
+<p class="admonition-title">Matrix <span class="math notranslate nohighlight">\(\mathbb{S}\)</span> in LBM_Saclay</p>
+<p>In LBM_Saclay, the diagonal matrix <span class="math notranslate nohighlight">\(\mathbb{S}\)</span> is written in file <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="sr">//</span><span class="w"> </span><span class="no">Remplissage</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">matrice</span><span class="w"> </span><span class="n">S</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">tauMatrixNS</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">){</span>
+<span class="w">      </span><span class="n">collider</span><span class="o">.</span><span class="n">S</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">tauMatrixNS</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span>
+<span class="w">   </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">collider</span><span class="o">.</span><span class="n">S</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tauInv</span><span class="p">;</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="equilibrium-and-force-in-central-moments-framework">
+<h3>Equilibrium and force in central moments framework<a class="headerlink" href="#equilibrium-and-force-in-central-moments-framework" title="Link to this heading"></a></h3>
+<p>In central moment framework, the equilibrium central moment <span class="math notranslate nohighlight">\(\boldsymbol{\kappa}^{eq}\)</span> and the force term are respectively defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-equilibrium-central-moment">
+<span class="eqno">(182)<a class="headerlink" href="#equation-def-equilibrium-central-moment" title="Link to this equation"></a></span>\[\begin{split}\boldsymbol{\kappa}^{eq}=\begin{bmatrix}m_{00}\\
+(1-m_{00})u_x\\
+(1-m_{00})u_y\\
+(m_{00}-1)(u_x^{2}+c_{s}^{2})+c_{s}^{2}\\
+(m_{00}-1)(u_y^{2}+c_{s}^{2})+c_{s}^{2}\\
+(m_{00}-1)u_x u_y\\
+(1-m_{00})u_y(c_{s}^{2}+u_x)\\
+(1-m_{00})u_x(c_{s}^{2}+u_y)\\
+(m_{00}-1)(u_x^{2}u_y^{2}+c_{s}^{2}(u_x^{2}+u_y^{2})+c_{s}^{4})+c_{s}^{4}
+\end{bmatrix}\qquad\text{and}\qquad\tilde{\boldsymbol{F}}=\begin{bmatrix}0\\
+F_{x}/\rho\\
+F_{y}/\rho\\
+0\\
+0\\
+0\\
+c_{s}^{2}F_{y}/\rho\\
+c_{s}^{2}F_{x}/\rho\\
+0
+\end{bmatrix}\end{split}\]</div>
+<div class="important admonition">
+<p class="admonition-title"><span class="math notranslate nohighlight">\(\boldsymbol{\kappa}^{eq}\)</span> and <span class="math notranslate nohighlight">\(\tilde{\boldsymbol{F}}\)</span> in LBM_Saclay</p>
+<p>In LBM_Salcay, all components of equilibrium central moment <span class="math notranslate nohighlight">\(\boldsymbol{\kappa}^{eq}\)</span> are written in <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="sr">//</span><span class="w"> </span><span class="no">Equilibrium</span><span class="w"> </span><span class="n">moment</span>
+<span class="n">collider</span><span class="o">.</span><span class="n">CMeq</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m00</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">CMeq</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">m00</span><span class="p">)</span><span class="o">*</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">CMeq</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">m00</span><span class="p">)</span><span class="o">*</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">CMeq</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m00</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">cs2</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">cs2</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">CMeq</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m00</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">));</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">CMeq</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m00</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]*</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">CMeq</span><span class="o">[</span><span class="mi">6</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">m00</span><span class="p">)</span><span class="o">*</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]*</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="p">)</span><span class="o">+</span><span class="n">cs2</span><span class="p">);</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">CMeq</span><span class="o">[</span><span class="mi">7</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">m00</span><span class="p">)</span><span class="o">*</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]*</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">)</span><span class="o">+</span><span class="n">cs2</span><span class="p">);</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">CMeq</span><span class="o">[</span><span class="mi">8</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m00</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]*</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">)</span><span class="o">+</span><span class="n">cs2</span><span class="o">*</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="p">)</span><span class="o">+</span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">))</span><span class="o">+</span><span class="n">cs2</span><span class="o">*</span><span class="n">cs2</span><span class="p">)</span><span class="o">+</span><span class="n">cs2</span><span class="o">*</span><span class="n">cs2</span><span class="p">;</span>
+
+<span class="o">...</span>
+
+<span class="sr">//</span><span class="w"> </span><span class="no">Forcing</span><span class="w"> </span><span class="n">term</span>
+<span class="n">collider</span><span class="o">.</span><span class="n">Ft</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">Ft</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IX</span><span class="o">]*</span><span class="n">rhoinv</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">Ft</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IY</span><span class="o">]*</span><span class="n">rhoinv</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">Ft</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">Ft</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">Ft</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">Ft</span><span class="o">[</span><span class="mi">6</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cs2</span><span class="o">*</span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IY</span><span class="o">]*</span><span class="n">rhoinv</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">Ft</span><span class="o">[</span><span class="mi">7</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cs2</span><span class="o">*</span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IX</span><span class="o">]*</span><span class="n">rhoinv</span><span class="p">;</span>
+<span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">Ft</span><span class="o">[</span><span class="mi">8</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="streaming">
+<h3>Streaming<a class="headerlink" href="#streaming" title="Link to this heading"></a></h3>
+<p>The streaming stage is performed, as usual, in space of distribution functions. After collision, the central moment <span class="math notranslate nohighlight">\(\boldsymbol{\kappa}^{\star}\)</span> is transformed back by</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-5">
+<span class="eqno">(183)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-5" title="Link to this equation"></a></span>\[\boldsymbol{f}^{\star}(\boldsymbol{x},t)=\mathbb{M}^{-1}\mathbb{N}^{-1}\mathbb{M}^{-1}_{p}\boldsymbol{\kappa}^{\star}(\boldsymbol{x},t)\]</div>
+<p>where the matrices are defined by</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-6">
+<span class="eqno">(184)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-6" title="Link to this equation"></a></span>\[\begin{split}\mathbb{M}^{-1}&amp;=&amp;\begin{bmatrix}1 &amp; 0 &amp; 0 &amp; -1 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 1\\
+   0 &amp; \frac{1}{2} &amp; 0 &amp; \frac{1}{2} &amp; 0 &amp; 0 &amp; 0 &amp; -\frac{1}{2} &amp; -\frac{1}{2}\\
+   0 &amp; 0 &amp; \frac{1}{2} &amp; 0 &amp; \frac{1}{2} &amp; 0 &amp; -\frac{1}{2} &amp; 0 &amp; -\frac{1}{2}\\
+   0 &amp; -\frac{1}{2} &amp; 0 &amp; \frac{1}{2} &amp; 0 &amp; 0 &amp; 0 &amp; \frac{1}{2} &amp; -\frac{1}{2}\\
+   0 &amp; 0 &amp; -\frac{1}{2} &amp; 0 &amp; \frac{1}{2} &amp; 0 &amp; \frac{1}{2} &amp; 0 &amp; -\frac{1}{2}\\
+   0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; \frac{1}{4} &amp; \frac{1}{4} &amp; \frac{1}{4} &amp; \frac{1}{4}\\
+   0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -\frac{1}{4} &amp; \frac{1}{4} &amp; -\frac{1}{4} &amp; \frac{1}{4}\\
+   0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; \frac{1}{4} &amp; -\frac{1}{4} &amp; -\frac{1}{4} &amp; \frac{1}{4}\\
+   0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -\frac{1}{4} &amp; -\frac{1}{4} &amp; \frac{1}{4} &amp; \frac{1}{4}
+\end{bmatrix}\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-7">
+<span class="eqno">(185)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-7" title="Link to this equation"></a></span>\[\begin{split}\mathbb{M}_{p}^{-1}&amp;=&amp;diag\left(1,1,1,\begin{bmatrix}\frac{1}{2} &amp; \frac{1}{2}\\
+   \frac{1}{2} &amp; -\frac{1}{2}
+\end{bmatrix},1,1,1,1\right)\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-8">
+<span class="eqno">(186)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-8" title="Link to this equation"></a></span>\[\begin{split}\mathbb{N}^{-1}&amp;=&amp;\begin{bmatrix}1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   u &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   v &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   u^{2} &amp; 2u &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   v^{2} &amp; 0 &amp; 2v &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+   uv &amp; v &amp; u &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0\\
+   u^{2}v &amp; 2uv &amp; u^{2} &amp; v &amp; 0 &amp; 2u &amp; 1 &amp; 0 &amp; 0\\
+   v^{2}u &amp; v^{2} &amp; 2uv &amp; 0 &amp; u &amp; 2v &amp; 0 &amp; 1 &amp; 0\\
+   u^{2}v^{2} &amp; 2uv^{2} &amp; 2vu^{2} &amp; v^{2} &amp; u^{2} &amp; 4uv &amp; 2v &amp; 2u &amp; 1
+\end{bmatrix}\end{split}\]</div>
+<p>and the standard streaming stage can be applied:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-9">
+<span class="eqno">(187)<a class="headerlink" href="#equation-src-doc-03-lbm-schemes-a-basic-lbm-02-collision-operators-lbmsaclay-9" title="Link to this equation"></a></span>\[\boldsymbol{f}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=\boldsymbol{f}^{\star}(\boldsymbol{x},t)\]</div>
+<div class="important admonition">
+<p class="admonition-title">Matrix <span class="math notranslate nohighlight">\(\mathbb{T}^{-1}\)</span> in LBM_Saclay</p>
+<p>Once again, in LBM_Saclay, matrices <span class="math notranslate nohighlight">\(\mathbb{M}^{-1}\)</span>, <span class="math notranslate nohighlight">\(\mathbb{N}^{-1}\)</span> and <span class="math notranslate nohighlight">\(\mathbb{M}_{p}^{-1}\)</span> are not explicitely defined. Only the result of their product <span class="math notranslate nohighlight">\(\mathbb{T}^{-1}=\mathbb{M}^{-1}\mathbb{N}^{-1}\mathbb{M}^{-1}_{p}\)</span> is written in <code class="docutils literal notranslate"><span class="pre">Collision_operators.h</span></code>. All inverse matrices are written inside the same python script <code class="docutils literal notranslate"><span class="pre">CMLBM_Sympy.py</span></code> which performs the product and generates the C++ code. The output <span class="math notranslate nohighlight">\(\mathbb{T}^{-1}\)</span> is “copy-paste” in function <code class="docutils literal notranslate"><span class="pre">Matrix</span> <span class="pre">get_Tinv(real_t</span> <span class="pre">u,</span> <span class="pre">real_t</span> <span class="pre">v)</span></code> of <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">CMCollider</span></code>.</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="w">   </span><span class="no">Matrix</span><span class="w"> </span><span class="n">get_Tinv</span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">constexpr</span><span class="p">(</span><span class="n">npop</span><span class="o">==</span><span class="no">NPOP_D2Q9</span><span class="p">){</span>
+<span class="w">      </span><span class="o">...</span>
+<span class="w">   </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva. E.M. Viggen, The Lattice Boltzmann Method – Principles and Practice. Spinger, 2017. See <code class="file docutils literal notranslate"><span class="pre">BIBLIO/Kruger_etal_Book_LBM_2017.pdf</span></code></p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Gruszczyński G., T. Mitchell, C. Leonardi, Ł. Łaniewski-Wołłk, T. Barber, A cascaded phase-field lattice Boltzmann model for the simulation of incompressible, immiscible fluids with high density contrast. Computers &amp; Mathematics with Applications, Volume 79, Issue 4, 15 February 2020, pages 1049-1071.  <a class="reference external" href="https://doi.org/10.1016/j.camwa.2019.08.018">https://doi.org/10.1016/j.camwa.2019.08.018</a></p>
+</aside>
+</aside>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Collisions operators in LBM_Saclay</a><ul>
+<li><a class="reference internal" href="#batnaghar-gross-krook-bgk-operator">Batnaghar-Gross-Krook (BGK) operator</a></li>
+<li><a class="reference internal" href="#two-relaxation-times-trt-operator">Two-Relaxation-Times (TRT) operator</a></li>
+<li><a class="reference internal" href="#multiple-relaxation-times-mrt-operator">Multiple-Relaxation-Times (MRT) operator</a></li>
+<li><a class="reference internal" href="#central-moments-collision-operator">Central moments collision operator</a><ul>
+<li><a class="reference internal" href="#general-definition-of-moments">General definition of moments</a></li>
+<li><a class="reference internal" href="#definition-of-central-moments">Definition of central moments</a></li>
+<li><a class="reference internal" href="#collision-in-space-of-central-moments">Collision in space of central moments</a></li>
+<li><a class="reference internal" href="#equilibrium-and-force-in-central-moments-framework">Equilibrium and force in central moments framework</a></li>
+<li><a class="reference internal" href="#streaming">Streaming</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="01_Lattices-Streaming_LBMSaclay.html"
+                          title="previous chapter">Lattices and streaming</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="03_Equilibrium-Functions_LBMSaclay.html"
+                          title="next chapter">Equilibrium distribution functions</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/03_LBM_Schemes/A_Basic-LBM/02_Collision-Operators_LBMSaclay.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="03_Equilibrium-Functions_LBMSaclay.html" title="Equilibrium distribution functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="01_Lattices-Streaming_LBMSaclay.html" title="Lattices and streaming"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" >PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Collisions operators in LBM_Saclay</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

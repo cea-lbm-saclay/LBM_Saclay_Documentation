@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Videos gallery of simulations with LBM &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Observations in nuclear glass" href="Context_Motivation.html" />
+    <link rel="prev" title="Welcome to LBM_Saclay’s documentation" href="../../index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Context_Motivation.html" title="Observations in nuclear glass"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../../index.html" title="Welcome to LBM_Saclay’s documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Videos gallery of simulations with LBM</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="videos-gallery"></span><section id="videos-gallery-of-simulations-with-lbm">
+<h1>Videos gallery of simulations with LBM<a class="headerlink" href="#videos-gallery-of-simulations-with-lbm" title="Link to this heading"></a></h1>
+<p>We present here an overview of problems that can be simulated with the lattice Boltzmann method. First of all, many mathematical models which are implemented in LBM_Saclay involve the Navier-Stokes equations coupled with an interface-capturing equation. The models are derived from the phase-field theory and a great diversity of two-phase flows, with or without phase change can be simulated.</p>
+<section id="two-immiscible-fluids">
+<h2>Two immiscible fluids<a class="headerlink" href="#two-immiscible-fluids" title="Link to this heading"></a></h2>
+<p>Several examples of two-phase simulations are presented in the folder <strong>run_training_lbm</strong>. A non-exhaustive list is given below:</p>
+<ul class="simple">
+<li><p>Rayleigh-Taylor instability</p></li>
+<li><p>Capillary wave</p></li>
+<li><p>Taylor bubble</p></li>
+<li><p>Rising and splashing droplets</p></li>
+<li><p>etc.</p></li>
+</ul>
+<p><strong>Model of Navier-Stokes/Conservative Allen-Cahn (or levelset)</strong></p>
+<p>The first video is the classical Rayleigh-Taylor instability between two liquid phases. The density ratio is small (3). The denser fluid is above and the lighter one is below. The mesh of computational domain is composed of 900x900x512 cells. The simulation has run 24h on 144 GPUs of supercomputer Topaze A100 (CCRT).</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid3D_RT-2modes_900x900x512_Crop.webm" width="650" height="480"> </video><p>Video: simulation of Rayleigh-Taylor instability on mesh 900x900x512</p>
+</div>
+<p>That second simulation is the classical test case of Taylor bubble inside a channel. The density ratio is 830 between both fluids. The initial condition is a cylinder for the gas phase.</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid3D_Taylor-Bubble_vC_Bo20.webm" width="800" height="620"> </video><p>Video: simulation of a rising Taylor bubble in a parallelepiped channel</p>
+</div>
+<p><strong>Model of Navier-Stokes/Cahn-Hilliard</strong></p>
+<p>An alternative popular model for simulating immiscible two-phase flows, is the model coupling the Navier-Stokes equations with the Cahn-Hilliard one.</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid3D_Buoyancy.webm" width="800" height="620"> </video><p>Video: simulation of two rising bubbles inside a channel with NS/CH model</p>
+</div>
+</section>
+<section id="two-phase-flows-with-phase-change">
+<h2>Two-phase flows with phase change<a class="headerlink" href="#two-phase-flows-with-phase-change" title="Link to this heading"></a></h2>
+<p>When the phase change occurs between one liquid phase and one gas phase, the mass balance equation has to be modified to take into account the density variation. The temperature equation is solved and coupled to the phase-field equation. The mathematical model of such a model is described in reference <span id="id1">[]</span></p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid_FilmBoiling.webm" width="600" height="500"> </video><p>Video: simulation of film boiling. The gas phase (green) is heated at bottom boundary.</p>
+</div>
+</section>
+<section id="two-phase-flows-interacting-with-a-solid-phase">
+<h2>Two-phase flows interacting with a solid phase<a class="headerlink" href="#two-phase-flows-interacting-with-a-solid-phase" title="Link to this heading"></a></h2>
+<p>In most of LBM simulations, when a single-phase or two-phase flow interacts with the solid, the Bounce-Back (BB) method is applied i.e. the solid is considered as a boundary condition. Even though the BB is applied for domain boundaries, when the solid is deifned inside the bulk domain, it is considered as a new phase with its phase index <span class="math notranslate nohighlight">\(\psi\)</span> (see <a class="reference internal" href="../02_MODELS/03_Fluid_Fluid_Solid/Model_NSAC_Comp_Solid.html#math-nsac-comp-solid"><span class="std std-ref">Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase</span></a>). With that approach, simulations of non-wetting (left) and wetting (right) droplets over a surface can be simulated.</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid_Contact-Angle_Wetting_Surface.webm" width="800" height="500"> </video><p>Video: simulation of non-wetting (left) and wetting (right) surface</p>
+</div>
+<p>Another application of that model is the leak of a static (left) and moving (right) container. In the video below, the red color represents the solid phase, the blue color is the gas phase and orange is the liquid phase. The densuty ratio corresponds to the ratio between water and air (830 at 20°C).</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid_Container-Hole_Move-noMove.webm" width="800" height="450"> </video><p>Video: simulation of container leak in static (left) and moving (right) condition</p>
+</div>
+</section>
+<section id="three-phase-flows">
+<h2>Three-phase flows<a class="headerlink" href="#three-phase-flows" title="Link to this heading"></a></h2>
+<p>One <a class="reference internal" href="../02_MODELS/04_Fluid_Fluid_Fluid/NS_2AC_Comp.html#math-ns2ac-comp"><span class="std std-ref">Model of fluid flow for three immiscible phases</span></a> is implemented in LBM_Saclay. The model requires several input parameters. In the simulation below, three immiscible fluids are initialized. A comparison is performed on the dynamic by varying the surface tension between the green phase and the magenta phase. The magenta one, above, is the lighter one whereas the two other have a density ratio of three. The surface tension between the green one and the magenta one increases from left to right.</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid3D_RT_Compare_vB-vC-vD_Publi.webm" width="780" height="460"> </video><p>Video: simulation of surface tension effect for three immiscible fluids</p>
+</div>
+</section>
+<section id="solid-liquid-phase-change">
+<h2>Solid-Liquid phase change<a class="headerlink" href="#solid-liquid-phase-change" title="Link to this heading"></a></h2>
+<p>Several models of solid/liquid phase change are also implemented in LBM_Saclay. Here we present two examples: the first one for dissolution of porous media and the second one for crystal growth.</p>
+<p><strong>Dissolution of porous media</strong></p>
+<p>One <a class="reference internal" href="../02_MODELS/02_Fluid_Solid/Model_Dissolution.html#math-dissolution"><span class="std std-ref">Model of dissolution</span></a> is implemented in LBM_Saclay. All details of the math model and numerical schemes can be found in reference <span id="id2">[]</span>. In video below in an example of dissolution of solid phase because when the initial composition reaches its thermo equilibrium.</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid_Dissolution_CT.webm" width="800" height="500"> </video><p>Video: dissolution of porous medium</p>
+</div>
+<p><strong>Crystal growth</strong></p>
+<p>A well-known application of phase-field models is simulation of solidification and crystal growth. A basic <a class="reference internal" href="../02_MODELS/02_Fluid_Solid/Model_CrystalGrowth.html#math-crystal"><span class="std std-ref">Model of crystal growth</span></a> can be found on that link. ll details of the math model and numerical schemes can be found in reference <span id="id3">[]</span>. In the simulations below, we can see how the crystal grows without (left) and with (right) fluid flows.</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid3D_Crystal_100.webm" width="480" height="380"> </video><video controls src="../../_static/Vid3D_Crystal-Flow.webm" width="480" height="380"> </video><p>Videos: simulations of crystal growth without (left) and with (right) fluid flows</p>
+</div>
+</section>
+<section id="demixing">
+<h2>Demixing<a class="headerlink" href="#demixing" title="Link to this heading"></a></h2>
+<p>One of the most advantage of the Cahn-Hilliard model is to simulate the spinodal and the nucleation-growth regimes.</p>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid_SpinodalDecomp.webm" width="470" height="470"> </video><video controls src="../../_static/Vid_M3_Tps50000.webm" width="470" height="470"> </video><p>Videos: demixing in spinodal regime with Cahn-Hilliard model</p>
+</div>
+<div class="sphinx-features docutils container">
+<video controls src="../../_static/Vid_Nucleation.webm" width="470" height="470"> </video><video controls src="../../_static/Vid_Separation.webm" width="470" height="470"> </video><p>Videos: nucleation and growth (left) and phase separation (right)</p>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Videos gallery of simulations with LBM</a><ul>
+<li><a class="reference internal" href="#two-immiscible-fluids">Two immiscible fluids</a></li>
+<li><a class="reference internal" href="#two-phase-flows-with-phase-change">Two-phase flows with phase change</a></li>
+<li><a class="reference internal" href="#two-phase-flows-interacting-with-a-solid-phase">Two-phase flows interacting with a solid phase</a></li>
+<li><a class="reference internal" href="#three-phase-flows">Three-phase flows</a></li>
+<li><a class="reference internal" href="#solid-liquid-phase-change">Solid-Liquid phase change</a></li>
+<li><a class="reference internal" href="#demixing">Demixing</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../index.html"
+                          title="previous chapter">Welcome to LBM_Saclay’s documentation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Context_Motivation.html"
+                          title="next chapter">Observations in nuclear glass</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/src_doc/00_INTRODUCTION/Simulation_with_LBM.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Context_Motivation.html" title="Observations in nuclear glass"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../../index.html" title="Welcome to LBM_Saclay’s documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Videos gallery of simulations with LBM</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

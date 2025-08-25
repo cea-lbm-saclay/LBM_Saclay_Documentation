@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview of interface-tracking methods with one-fluid formulation (to be completed) &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=94b27872" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Analytical solutions for two-phase" href="04_Analytical-Solutions_Two-Phase.html" />
+    <link rel="prev" title="Local and instantaneous Navier-Stokes equations" href="02_Local-NS.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="04_Analytical-Solutions_Two-Phase.html" title="Analytical solutions for two-phase"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="02_Local-NS.html" title="Local and instantaneous Navier-Stokes equations"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Two-Phase_Intro.html" accesskey="U">Introduction of two-phase flows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Overview of interface-tracking methods with one-fluid formulation (to be completed)</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="overview-of-interface-tracking-methods-with-one-fluid-formulation-to-be-completed">
+<span id="overview-interface-capturing"></span><h1>Overview of interface-tracking methods with one-fluid formulation (to be completed)<a class="headerlink" href="#overview-of-interface-tracking-methods-with-one-fluid-formulation-to-be-completed" title="Link to this heading"></a></h1>
+<p>In that section we introduce interface-tracking and interface-caputring methods to simulate two-phase flows. Those methods are summarized in <a class="reference internal" href="#fig-overview-twophase-approaches"><span class="std std-numref">Fig. 36</span></a>. Those in orange boxes are introduced below and those in blue boxes are in central part of this course. The <strong>phase-field</strong> theory is described  in <a class="reference internal" href="../Course_PF/TOC_Phase-Field.html#basic-concepts-phase-field-theory"><span class="std std-ref">Basic concepts of phase-field theory: two-phase</span></a> and the <strong>Lattice Boltzmann Methods</strong> are described in <a class="reference internal" href="../Course_LBM/TOC_LBM_Course.html#toc-basic-lbm"><span class="std std-ref">Basic concepts of Lattice Boltzmann Methods</span></a> and <a class="reference internal" href="../../03_LBM_Schemes/TOC_LBM_Schemes.html#lbm-saclay-schemes"><span class="std std-ref">PART III: Lattice Boltzmann schemes in LBM_Saclay</span></a>.</p>
+<figure class="align-center" id="id7">
+<span id="fig-overview-twophase-approaches"></span><a class="reference internal image-reference" href="../../../_images/Overview_TwoPhase_Approaches.png"><img alt="../../../_images/Overview_TwoPhase_Approaches.png" src="../../../_images/Overview_TwoPhase_Approaches.png" style="width: 600.0px; height: 450.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 36 </span><span class="caption-text">Overview of two-phase approaches based one one-fluid model.  The methods in orange boxes are introduced below whereas methods of blue boxes are in central part of this course. The image is inspired and adapted from reference <a class="footnote-reference brackets" href="#id4" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>In order to run numerical simulations of two-phase flows, we need to set a specific <strong>formulation</strong> of fundamental equations (mass and impulsion balances) suited for two-phase flows. Two main families exist: the one-fluid formulation and the two-fluid formulation i.e. they are respectively based either on one-set or on two-set of Navier-Stokes equations. Here we detail only those based on <strong>one-fluid formulation</strong>, i.e. a single set of Navier-Stokes equations. Next a <strong>numerical methods</strong> must be chosen to solve the PDE with a computer. Several methods exist: the most popular ones are Finite Volumes (VF), Finite Elements (FE), Finite Differences (FD) or a combination of them. Other methods are based on the method of <em>Smoothed Particles Hydrodynamics</em> or <em>Lattice Boltzmann Methods</em>.</p>
+<p>In one-fluid formulation, the single set of Navier-Stokes equations must be completed with a supplementary numerical ingredient to follow the interface between both fluids. Several methods exist and they are gathered in two main approaches are <strong>Interface-Tracking</strong> and <em>Interface-Capuring</em> approaches. In the first one, the interface is a surface which is followed by <strong>markers</strong>. The interface surface is meshed at each time-step and it is called the <em>Lagrangian mesh</em>. The most popular method of that first approach is the <strong>Front-Tracking</strong> method which is introduced below.</p>
+<p>In <strong>interface-capturing</strong> method, a new scalar field defined over the whole computational domain is introduced and its evolution in time and space obeys to a new PDE. For <strong>Volume of Fluid</strong> (VOF) method the scalar field is the volume (of phase) fraction of one of two fluids and the PDE is a standard advection equation of that quantity. That method is reminded below. In <strong>Level-Set</strong> (LS) method, the new field is the <em>levelset</em> function and its evolution follows a transport equation, which is either fully advective or advective-diffusive according to the versions of LS method.</p>
+<p>Finally, the <strong>Phase-Field theory</strong> is a thermodynamic theory of capillarity and interface. The main idea is to derive mathematical models which minimizes a thermodynamic potential. The applications range from two-phase flows to solidification and crystal growth. The models implemented in <strong>LBM_Saclay</strong> derive from that theory. It is the central part of this course and detailed in <a class="reference internal" href="../Course_PF/TOC_Phase-Field.html#basic-concepts-phase-field-theory"><span class="std std-ref">Basic concepts of phase-field theory: two-phase</span></a>. The scalar field is the <em>phase-field</em> and the PDE is an advective-diffusive transport equation.</p>
+<p>In the rest of this section we present a summary of following methods: Front-Tracking, Volume of Fluids, Level-Set, and Phase-Field. We assume for simplicity that no phase change occurs at interface.</p>
+<section id="interface-tracking">
+<h2>Interface-Tracking<a class="headerlink" href="#interface-tracking" title="Link to this heading"></a></h2>
+<section id="front-tracking-to-be-completed">
+<h3>Front-Tracking (to be completed)<a class="headerlink" href="#front-tracking-to-be-completed" title="Link to this heading"></a></h3>
+<p>This section is a summary of reference <a class="footnote-reference brackets" href="#id5" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> and <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. That method in a one-fluid approach and considers the Navier-Stokes equations for two incompressible fluids. The mass balance writes:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<p>whereas the impulsion balance equation is formulated in conservative form:</p>
+<div class="math notranslate nohighlight" id="equation-eq-qdm-front-tracking-twophase-course">
+<span class="eqno">(316)<a class="headerlink" href="#equation-eq-qdm-front-tracking-twophase-course" title="Link to this equation"></a></span>\[\frac{\partial(\rho\boldsymbol{u})}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\eta\left[\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right]+\rho\boldsymbol{g}+\underbrace{\sigma\kappa\boldsymbol{n}\delta(\boldsymbol{x}-\boldsymbol{x}^{f})}_{\text{Surface tension force}}\]</div>
+<p>In Eq. <a class="reference internal" href="#equation-eq-qdm-front-tracking-twophase-course">(316)</a>, <span class="math notranslate nohighlight">\(\boldsymbol{g}\)</span> is the gravity, <span class="math notranslate nohighlight">\(p_{h}\)</span> the hydrodynamic pressure and <span class="math notranslate nohighlight">\(\eta\)</span> the dynamic viscosity. The last term represents the force of surface tension at the interface where <span class="math notranslate nohighlight">\(\sigma\)</span> is the surface tension, <span class="math notranslate nohighlight">\(\kappa\)</span> is the curvature,
+<span class="math notranslate nohighlight">\(\boldsymbol{n}\)</span> is the normal vector at the interface separating the two fluids. <span class="math notranslate nohighlight">\(\delta(\boldsymbol{x}-\boldsymbol{x}^{f})\)</span> is a delta function that is zero everywhere except at the interface where <span class="math notranslate nohighlight">\(\boldsymbol{x}=\boldsymbol{x}^{f}\)</span>.</p>
+<p>The main idea of FT method consists in introducing a new computational element, the interface grid (a lagrangian mesh) that explicitly marks the position of the interface. An indicator function <span class="math notranslate nohighlight">\(I(\boldsymbol{x})\)</span> can be constructed from the known position of the interface. That indicator function <span class="math notranslate nohighlight">\(I(\boldsymbol{x})\)</span> is 1 inside the bubble and 0 in the outer fluid. It is used to interpolate the density and viscosity of each phase:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+   \rho(\boldsymbol{x}) &amp; =\rho_{1}+(\rho_{2}-\rho_{1})I(\boldsymbol{x})\\
+   \eta(\boldsymbol{x}) &amp; =\eta_{1}+(\eta_{2}-\eta_{1})I(\boldsymbol{x})
+\end{aligned}\end{split}\]</div>
+<p>To avoid introducing disturbances of length scale equal to the mesh by having the properties jump abruptly from one grid point to the next, the interface is not kept completely sharp but given a small thickness of the order of the mesh size.</p>
+<p><strong>Markers and Lagrangian mesh</strong></p>
+<figure class="align-center" id="fig-eulerian-lagrangian-mesh">
+<a class="reference internal image-reference" href="../../../_images/Eulerian-Lagrangian_Mesh.png"><img alt="../../../_images/Eulerian-Lagrangian_Mesh.png" src="../../../_images/Eulerian-Lagrangian_Mesh.png" style="width: 600.0px; height: 300.0px;" />
+</a>
+</figure>
+<p><strong>Approximation of</strong> <span class="math notranslate nohighlight">\(\delta\)</span> <strong>function for surface tension force</strong></p>
+<p><strong>Front-Tracking in TrioCFD CEA code</strong></p>
+<p>That method is implemented in <strong>TrioCFD</strong> CEA code.</p>
+</section>
+</section>
+<section id="interface-capturing">
+<h2>Interface-Capturing<a class="headerlink" href="#interface-capturing" title="Link to this heading"></a></h2>
+<section id="volume-of-fluid-vof">
+<span id="volume-of-fluid-two-phase"></span><h3>Volume of Fluid (VoF)<a class="headerlink" href="#volume-of-fluid-vof" title="Link to this heading"></a></h3>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-qdm-vof-interfacetracking-course">
+<span class="eqno">(317)<a class="headerlink" href="#equation-qdm-vof-interfacetracking-course" title="Link to this equation"></a></span>\[\rho(\alpha)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\eta(\alpha)\left[\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right]+\rho(\alpha)\boldsymbol{g}+\underbrace{\boldsymbol{f}^{\sigma}}_{\text{Surface tension force}}\]</div>
+<p>The surface tension force is the last term of Eq. <a class="reference internal" href="#equation-qdm-vof-interfacetracking-course">(317)</a>. The interface is tracked implicitly by the void fraction <span class="math notranslate nohighlight">\(\alpha\)</span> captured by a levelset (or phase-field) function <span class="math notranslate nohighlight">\(\phi\)</span> which obeys to the PDE:</p>
+<div class="math notranslate nohighlight" id="equation-vof-interfacetracking-course">
+<span class="eqno">(318)<a class="headerlink" href="#equation-vof-interfacetracking-course" title="Link to this equation"></a></span>\[\frac{\partial\alpha}{\partial t}+\boldsymbol{u}\cdot\boldsymbol{\nabla}\alpha=0\]</div>
+</section>
+<section id="level-set-to-be-completed">
+<span id="levelset-two-phase"></span><h3>Level-Set (to be completed)<a class="headerlink" href="#level-set-to-be-completed" title="Link to this heading"></a></h3>
+</section>
+<section id="phase-field-theory">
+<h3>Phase-field theory<a class="headerlink" href="#phase-field-theory" title="Link to this heading"></a></h3>
+<p><strong>Incompressible Navier-Stokes and LevelSet equation (or Conservative Allen-Cahn)</strong></p>
+<p>For two immiscible fluids without phase change, the Conservative Allen-Cahn model derived from the phase-field theory is similar to one version of the LevelSet equation (see <a class="reference internal" href="../Course_PF/03_NavierStokes_with_PhaseField.html#model-ins-with-phasefield-course"><span class="std std-ref">Model of incompressible Navier-Stokes with interface-capturing equation</span></a> for derivation):</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-qdm-levelset-interfacetracking-course">
+<span class="eqno">(319)<a class="headerlink" href="#equation-qdm-levelset-interfacetracking-course" title="Link to this equation"></a></span>\[\rho(\phi)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\eta(\phi)\left[\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right]+\rho(\phi)\boldsymbol{g}+\underbrace{\mu_{\phi}\boldsymbol{\nabla}\phi}_{\text{Surface tension force}}\]</div>
+<p>The surface tension force is the last term of Eq. <a class="reference internal" href="#equation-qdm-levelset-interfacetracking-course">(319)</a>. Its equivalence with last term of Eq. <a class="reference internal" href="#equation-eq-qdm-front-tracking-twophase-course">(316)</a> is presented in <a class="reference internal" href="../Course_PF/03_NavierStokes_with_PhaseField.html#model-ins-with-phasefield-course"><span class="std std-ref">Model of incompressible Navier-Stokes with interface-capturing equation</span></a> (Eq. <a class="reference internal" href="../Course_PF/03_NavierStokes_with_PhaseField.html#equation-proof-equiv-surface-tension-nsac">(538)</a>). The interface is captured by a levelset (or phase-field) function <span class="math notranslate nohighlight">\(\phi\)</span> which obeys to the PDE:</p>
+<div class="math notranslate nohighlight" id="equation-cac-interfacetracking-course">
+<span class="eqno">(320)<a class="headerlink" href="#equation-cac-interfacetracking-course" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left\{ M_{\phi}\left[\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right]\right\}\]</div>
+<p>where <span class="math notranslate nohighlight">\(W\)</span> is the interface width, <span class="math notranslate nohighlight">\(M_{\phi}\)</span> is its mobility and <span class="math notranslate nohighlight">\(\boldsymbol{n}_{\phi}\)</span> is the normal vector of the interface defined by <span class="math notranslate nohighlight">\(\boldsymbol{n}_{\phi}=\boldsymbol{\nabla}\phi/|\boldsymbol{\nabla}\phi|\)</span>. Another phase-field equation is widely applied in the literature: the Cahn-Hilliard equation. Both models are derived in <a class="reference internal" href="../Course_PF/02_CH_CAC_Models.html#ch-cac-models"><span class="std std-ref">Time-evolution: Cahn-Hilliard and Allen-Cahn models</span></a>.</p>
+<p><strong>Navier-Stokes/Korteweg model</strong></p>
+<p>The mathematical model is based on the low Mach formulation of the Navier-Stokes equations (see <a class="reference internal" href="../Course_PF/04_NavierStokes_Korteweg.html#model-nsk-course"><span class="std std-ref">Isothermal Navier-Stokes/Korteweg model</span></a> for derivation). The mass balance writes</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial\rho}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0\]</div>
+<p>The impulsion balance equation makes appear the pressure tensor</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial(\rho\boldsymbol{u})}{\partial t}+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}+\boldsymbol{\nabla}\cdot\left[\eta\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{P}}}\)</span> is the pressure tensor which is defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-pressure-tensor-nsk-course">
+<span class="eqno">(321)<a class="headerlink" href="#equation-def-pressure-tensor-nsk-course" title="Link to this equation"></a></span>\[\overline{\overline{\boldsymbol{P}}}=\left[p^{eos}(\rho,T)-\kappa\rho\boldsymbol{\nabla}^{2}\rho-\frac{1}{2}\kappa\bigl|\boldsymbol{\nabla}\rho\bigr|^{2}\right]\overline{\overline{\boldsymbol{I}}}+\kappa\boldsymbol{\nabla}\rho\otimes\boldsymbol{\nabla}\rho\]</div>
+<p>Several Equation of State (EoS) exist relating the thermodynamic pressure <span class="math notranslate nohighlight">\(p^{eos}(\rho,T)\)</span> to density <span class="math notranslate nohighlight">\(\rho\)</span> and temperature <span class="math notranslate nohighlight">\(T\)</span>. We recall here the most famous one, the van der Waals EoS:</p>
+<div class="math notranslate nohighlight" id="equation-def-pressuretensor-kortewegtensor-twophase-course">
+<span class="eqno">(322)<a class="headerlink" href="#equation-def-pressuretensor-kortewegtensor-twophase-course" title="Link to this equation"></a></span>\[\overline{\overline{\boldsymbol{P}}}=-p^{eos}\overline{\overline{\boldsymbol{I}}}+\overline{\overline{\boldsymbol{\varsigma}}}\]</div>
+<p>where The thermodynamic pressure which responsible for the phase separation of both fluids writes:</p>
+<div class="math notranslate nohighlight">
+\[p^{eos}_{vdW}(\rho,T)=\frac{\rho RT}{1-b\rho}-a\rho^2\]</div>
+<p>and <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{\varsigma}}}\)</span> is the Korteweg’s tensor defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-korteweg-tensor">
+<span class="eqno">(323)<a class="headerlink" href="#equation-def-korteweg-tensor" title="Link to this equation"></a></span>\[\overline{\overline{\boldsymbol{\varsigma}}}=\left[ \rho\kappa\boldsymbol{\nabla}^2\rho+\frac{\kappa}{2}(\boldsymbol{\nabla}\rho)^2 \right]\overline{\overline{\boldsymbol{I}}}-\kappa \boldsymbol{\nabla}\rho \otimes \boldsymbol{\nabla}\rho\]</div>
+<p>which is responsible for the surface tension between both fluids.</p>
+</section>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading"></a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Mohan A. and G. Tomar, Volume of Fluid Method: A Brief Review. J. Indian Inst. Sci., VOL 104:1, pages 229–248, 2024. <a class="reference external" href="https://link.springer.com/article/10.1007/s41745-024-00424-w">https://link.springer.com/article/10.1007/s41745-024-00424-w</a></p>
+</aside>
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Unverdi S.O., G. Tryggvason, A Front-Tracking Method for Viscous, Incompressible, Multi-fluid Flows. <em>Journal of Computational Physics</em>, 100, 25-37, 1992. <a class="reference external" href="https://doi.org/10.1016/0021-9991(92)90307-K">https://doi.org/10.1016/0021-9991(92)90307-K</a></p>
+</aside>
+<aside class="footnote brackets" id="id6" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Tryggvason G., B. Bunner, A. Esmaeeli, D. Juric, N. Al-Rawahi, W. Tauber, J. Han, S. Nas, Y.-J. Jan, A Front-Tracking Method for the Computations of Multiphase Flow. <em>Journal of Computational Physics</em>, Volume 169, Issue 2, Pages 708-759, 20 May 2001. <a class="reference external" href="https://doi.org/10.1006/jcph.2001.6726">https://doi.org/10.1006/jcph.2001.6726</a></p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Overview of interface-tracking methods with one-fluid formulation (to be completed)</a><ul>
+<li><a class="reference internal" href="#interface-tracking">Interface-Tracking</a><ul>
+<li><a class="reference internal" href="#front-tracking-to-be-completed">Front-Tracking (to be completed)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#interface-capturing">Interface-Capturing</a><ul>
+<li><a class="reference internal" href="#volume-of-fluid-vof">Volume of Fluid (VoF)</a></li>
+<li><a class="reference internal" href="#level-set-to-be-completed">Level-Set (to be completed)</a></li>
+<li><a class="reference internal" href="#phase-field-theory">Phase-field theory</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="02_Local-NS.html"
+                          title="previous chapter">Local and instantaneous Navier-Stokes equations</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="04_Analytical-Solutions_Two-Phase.html"
+                          title="next chapter">Analytical solutions for two-phase</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/src_doc/05_COURSES/Course_Intro-Two-Phase/03_Interface-Tracking.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="04_Analytical-Solutions_Two-Phase.html" title="Analytical solutions for two-phase"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="02_Local-NS.html" title="Local and instantaneous Navier-Stokes equations"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_Courses.html" >PART V: course reminders</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="TOC_Two-Phase_Intro.html" >Introduction of two-phase flows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Overview of interface-tracking methods with one-fluid formulation (to be completed)</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>
