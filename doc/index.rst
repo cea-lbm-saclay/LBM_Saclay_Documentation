@@ -42,51 +42,58 @@ Welcome to LBM_Saclay's documentation
 **Introduction**
 ****************
 
-.. admonition:: Context and motivations
+.. tab-set::
 
-   Two-phase flows, and more generally Multi-Phase and Multi-Component flows (MPMC), are involved in many physical phenomena such as *spinodal decomposition*, *nucleation and growth*, *coalescence and breakup* of droplets, *rising bubbles* & *falling droplets*, *Marangoni flows*, *Rayleigh-Taylor instability*, *surfactants*, *Ostwald ripening* and so on. Those phenomena occur in the daily life as well as in industrial problems. The first example described below, is the *nuclear glass* which is used to confine radioactive wastes. We can also mention the *corium* in the context of severe accident of nuclear core reactors, *microfluidics* and *flow and transport in porous media*. Some of them are purely problems of fluid dynamics (rising bubbles or Rayleigh-Taylor instability). But others require a coupling between Navier-Stokes equations and thermodynamics.
+   .. tab-item:: Context and motivations
 
-   .. toctree::
-      :maxdepth: 1
+      .. admonition:: Context and motivations
 
-      src_doc/00_INTRODUCTION/Context_Motivation.rst
+         Two-phase flows, and more generally Multi-Phase and Multi-Component flows (MPMC), are involved in many physical phenomena such as *spinodal decomposition*, *nucleation and growth*, *coalescence and breakup* of droplets, *rising bubbles* & *falling droplets*, *Marangoni flows*, *Rayleigh-Taylor instability*, *surfactants*, *Ostwald ripening* and so on. Those phenomena occur in the daily life as well as in industrial problems. The first example described below, is the *nuclear glass* which is used to confine radioactive wastes. We can also mention the *corium* in the context of severe accident of nuclear core reactors, *microfluidics* and *flow and transport in porous media*. Some of them are purely problems of fluid dynamics (rising bubbles or Rayleigh-Taylor instability). But others require a coupling between Navier-Stokes equations and thermodynamics.
 
-.. admonition:: Mathematical models: phase-field theory
+         .. toctree::
+            :maxdepth: 1
+
+            src_doc/00_INTRODUCTION/Context_Motivation.rst
+
+   .. tab-item:: Mathematical models
+
+      .. admonition:: Mathematical models: phase-field theory
    
-   To be thermodynamically-consistent and capture the interface between phases, we use the **phase-field theory** (see :ref:`Basic-Concepts-Phase-Field-Theory`) to derive the mathematical phase-field models (:math:`\varphi`-models).
+         To be thermodynamically-consistent and capture the interface between phases, we use the **phase-field theory** (see :ref:`Basic-Concepts-Phase-Field-Theory`) to derive the mathematical phase-field models (:math:`\varphi`-models).
 
-   - For hydrodynamic phenomena of two immiscible fluids such as *Rayleigh-Taylor instability*, *rising bubbles*, *splashing droplets*, *capillary wave* etc., the interface is captured by the Conservative Allen-Cahn model (or levelset equation) which coupled with incompressible Navier-Stokes equations.
+         - For hydrodynamic phenomena of two immiscible fluids such as *Rayleigh-Taylor instability*, *rising bubbles*, *splashing droplets*, *capillary wave* etc., the interface is captured by the Conservative Allen-Cahn model (or levelset equation) which coupled with incompressible Navier-Stokes equations.
    
-   - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation. You will find in this documentation :ref:`Basic-Concepts-Phase-Field-Theory`.
+         - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation. You will find in this documentation :ref:`Basic-Concepts-Phase-Field-Theory`.
 
-   .. only:: titania
+         .. only:: titania
    
-      - A complete presentation can be found in :download:`CEA INSTN Course of two-phase flows with phase-field models <file:///home/lbm-saclay/PRESENTATIONS-LBM/COURSE-TRAINING/2025_Cartalade_COURS-INSTN_CFD-DIPHASIQUE_PARTIE1C_16et17juin2025_MAP.pdf>`. In this course, basic of thermodynamics, free energy functional, derivation of constitutive laws, and all proofs of equivalence between potential form and conservative forms of surface tension force, etc.
+            - A complete presentation can be found in :download:`CEA INSTN Course of two-phase flows with phase-field models <file:///home/lbm-saclay/PRESENTATIONS-LBM/COURSE-TRAINING/2025_Cartalade_COURS-INSTN_CFD-DIPHASIQUE_PARTIE1C_16et17juin2025_MAP.pdf>`. In this course, basic of thermodynamics, free energy functional, derivation of constitutive laws, and all proofs of equivalence between potential form and conservative forms of surface tension force, etc.
 
-.. admonition:: Numerical schemes: Lattice Boltzmann Methods
+   .. tab-item:: Numerical schemes
 
-   The *Lattice Boltzmann Equation* (LBE) is one discretization (among other) of the continuous Boltzmann equation in the kinetic theory of gases (see  :ref:`Basic-LBM`). The Lattice Boltzmann Methods (**LBM**) are a set of numerical methods, based on that LBE, used as solver of Navier-Stokes equations and other conservative Partial Derivative Equations (PDEs). It is an alternative method to classical approaches for CFD such as finite element or finite volume methods. Its main advantage is to simulate simply different versions of Navier-Stokes equations (incompressible and low Mach formulations) and run efficiently on supercomputers. In this documentation, the section :ref:`LBM-Saclay-Schemes` describes the LB methods which are implemented in LBM_Saclay.
+      .. admonition:: Numerical schemes: Lattice Boltzmann Methods and C++ implementation
 
-.. admonition:: C++ implementation and Kokkos library for GPUs
+         The *Lattice Boltzmann Equation* (LBE) is one discretization (among other) of the continuous Boltzmann equation in the kinetic theory of gases (see  :ref:`Basic-LBM`). The Lattice Boltzmann Methods (**LBM**) are a set of numerical methods, based on that LBE, used as solver of Navier-Stokes equations and other conservative Partial Derivative Equations (PDEs). It is an alternative method to classical approaches for CFD such as finite element or finite volume methods. Its main advantage is to simulate simply different versions of Navier-Stokes equations (incompressible and low Mach formulations) and run efficiently on supercomputers. In this documentation, the section :ref:`LBM-Saclay-Schemes` describes the LB methods which are implemented in LBM_Saclay.
+         LBM is a powerful method which is very efficient on Graphics Processing Units (GPUs). LBM_Saclay developers program neither in ``cuda`` (for Nvidia GPUs) nor ``opencl`` but in C++ standard language. With a simple modification of ``cmake`` options, the code can be compiled either on CPU architectures or on GPU devices (see :ref:`Quick-Start`). The Kokkos library is used for the portability of LBM_Saclay. You will find in :ref:`Guidelines` what you need to implement your own initial conditions or source terms. Tutorials are also under progress for more advanced programmers who wish to develop new kernels with new ``setup_collider`` functions.
 
-   LBM is a powerful method which is very efficient on Graphics Processing Units (GPUs). LBM_Saclay developers program neither in ``cuda`` (for Nvidia GPUs) nor ``opencl`` but in C++ standard language. With a simple modification of ``cmake`` options, the code can be compiled either on CPU architectures or on GPU devices (see :ref:`Quick-Start`). The Kokkos library is used for the portability of LBM_Saclay. You will find in :ref:`Guidelines` what you need to implement your own initial conditions or source terms. Tutorials are also under progress for more advanced programmers who wish to develop new kernels with new ``setup_collider`` functions.
+   .. tab-item:: Simulations
 
-.. admonition:: Multi-Phase and Multi-Component simulations with LBM_Saclay
+      .. admonition:: Simulations: Multi-Phase and Multi-Component flows
 
-   LBM_Saclay can simulate Multi-Phase and Multi-Component (**MPMC**) flows such as *binary demixing*, *buyoancy and coalescence of bubbles*, *Rayleigh-Taylor instability*, *liquid-gas phase change*, etc. A quick look of those phenomena is presented on :numref:`target-Fig-Approach`. Other examples are given in each subsection of :ref:`Math-Models` which describe the PDEs of each model and their closure relationships. The phase-field models that are implemented in LBM_Saclay, are based on different forms of Cahn-Hilliard and Allen-Cahn equations which are modified and adapted to problems to simulate e.g. *crystal growth*, *dissolution of porous media*, *liquid-vapor phase change*, etc.
+         LBM_Saclay can simulate Multi-Phase and Multi-Component (**MPMC**) flows such as *binary demixing*, *buyoancy and coalescence of bubbles*, *Rayleigh-Taylor instability*, *liquid-gas phase change*, etc. A quick look of those phenomena is presented on :numref:`target-Fig-Approach`. Other examples are given in each subsection of :ref:`Math-Models` which describe the PDEs of each model and their closure relationships. The phase-field models that are implemented in LBM_Saclay, are based on different forms of Cahn-Hilliard and Allen-Cahn equations which are modified and adapted to problems to simulate e.g. *crystal growth*, *dissolution of porous media*, *liquid-vapor phase change*, etc.
       
-   .. _target-Fig-Approach:
+.. _target-Fig-Approach:
    
-   .. figure:: ./src_doc/FIGS/Overview_Approach.png
-      :name: the-lpn-logo
-      :alt: The Li-Pro.Net logo.
-      :figclass: align-center
-      :align: center
-      :height: 400
-      :width: 800
-      :scale: 100 %
+.. figure:: ./src_doc/FIGS/Overview_Approach.png
+   :name: the-lpn-logo
+   :alt: The Li-Pro.Net logo.
+   :figclass: align-center
+   :align: center
+   :height: 400
+   :width: 800
+   :scale: 100 %
       
-      Examples of two-phase flows simulated with LBM
+   Examples of two-phase flows simulated with LBM
 
 .. admonition:: LBM_Saclay workforce
 
@@ -104,6 +111,9 @@ Welcome to LBM_Saclay's documentation
       src_doc/00_INTRODUCTION/TEAM/Team_Presentation.rst
       src_doc/00_INTRODUCTION/TEAM/List-Of-Publications.rst
 
+*****************
+**Documentation**
+*****************
       
 .. admonition:: Content of this documentation
    :class: error

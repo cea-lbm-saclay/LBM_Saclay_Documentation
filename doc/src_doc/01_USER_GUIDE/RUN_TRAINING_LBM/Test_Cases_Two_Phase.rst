@@ -101,58 +101,63 @@ Rayleigh-Taylor instability: verification of small density ratio (:math:`\rho_H/
 
 The second validation is a comparison with the Rayleigh-Taylor instability of the literature. For that test case, several dimensionless numbers are commonly used. First, the characteristic velocity is defined by (Eq. :eq:`U_RT`) where :math:`g` is the gravity and :math:`L` is the domain width. Once that characteristic velocity is defined, it is used in dimensionless numbers of fluid flows such as Reynolds (Eq. :eq:`Re_RT`) and capillary numbers. (Eq. :eq:`Ca_RT`) The Atwood number (Eq. :eq:`At_RT`) is also used in simulations and Peclet number for phase-field equation (Eq. :eq:`Pe_RT`)
 
-.. container:: sphinx-features
+.. grid:: 3
+   :gutter: 4
+   :margin: 0
 
-   .. admonition:: Characteristic velocity 
+   .. grid-item::
+      :columns: 3
+
+      .. admonition:: Characteristic velocity 
       
-      .. math::
-         :label: U_RT
+         .. math::
+            :label: U_RT
          
-         U=\sqrt{gL}
+            U=\sqrt{gL}
 
-   .. math::
-
-      \hspace{3mm}
-
-   .. admonition:: Reynolds number 
+   .. grid-item::
+      :columns: 3
+   
+      .. admonition:: Reynolds number 
       
-      .. math::
-         :label: Re_RT
+         .. math::
+            :label: Re_RT
 
-         \text{Re}=\frac{L\sqrt{gL}}{\nu}
+            \text{Re}=\frac{L\sqrt{gL}}{\nu}
 
-   .. math::
-
-      \hspace{3mm}
-
-   .. admonition:: Atwood number 
+   .. grid-item::
+      :columns: 3
+   
+      .. admonition:: Atwood number 
       
-      .. math::
-         :label: At_RT
+         .. math::
+            :label: At_RT
 
-         \text{At}=\frac{\rho_{h}-\rho_{l}}{\rho_{h}+\rho_{l}}
+            \text{At}=\frac{\rho_{h}-\rho_{l}}{\rho_{h}+\rho_{l}}
 
-   .. math::
+.. grid:: 3
+   :gutter: 4
+   :margin: 0
 
-      \hspace{3mm}
+   .. grid-item::
+      :columns: 3
 
-   .. admonition:: Capilary number 
+      .. admonition:: Capilary number 
       
-      .. math::
-         :label: Ca_RT
+         .. math::
+            :label: Ca_RT
 
-         \text{Ca}=\frac{\eta\sqrt{gL}}{\sigma}
+            \text{Ca}=\frac{\eta\sqrt{gL}}{\sigma}
 
-   .. math::
+   .. grid-item::
+      :columns: 3
 
-      \hspace{3mm}
-
-   .. admonition:: Peclet number 
+      .. admonition:: Peclet number 
       
-      .. math::
-         :label: Pe_RT
+         .. math::
+            :label: Pe_RT
          
-         \text{Pe}=\frac{L\sqrt{gL}}{M_{\phi}}
+            \text{Pe}=\frac{L\sqrt{gL}}{M_{\phi}}
 
 Input parameters inside the ``.ini`` file of LBM_Saclay correspond to those calculated in the python script ``Pre-Pro_InputParam_Rayleigh-Taylor.py``.
 
@@ -178,7 +183,7 @@ Input parameters inside the ``.ini`` file of LBM_Saclay correspond to those calc
    1. Open all ``.vti`` files and select ``phi``
    2. ``Ctrl space`` and ``Cell Data to Point Data`` and ``Apply``
    3. Clic on ``contour`` and select field ``phi`` with value ``0.5`` and ``Apply``
-   4. ``File`` --> ``Save Data``, select ``Contours`` and file name``: ``data``
+   4. ``File`` --> ``Save Data``, select ``Contours`` and file name: ``data``
    5. Clic on ``Write Time Steps`` and ``Write Time Steps Separately`` and ``OK``
 
    For every time-step, the value of phase-field :math:`\phi=0.5` will be written in an output file ``data_I`` where ``I`` is an integer.
@@ -188,13 +193,15 @@ Next in your terminal
 .. admonition:: For training session: python script
    :class: error
 
-   Both files ``RT2D_Bubble_Ref_Fakhari_PRE2017.dat`` & ``RT2D_Spike_Ref_Fakhari_PRE2017.dat`` contain :math:`t^{\star}` and :math:`y` positions of bubble point (1st file) and spike (2nd file). They have been digitalized from Fig 6 of reference [1]_.
+   Both files ``RT2D_Bubble_Ref_Fakhari_PRE2017.dat`` & ``RT2D_Spike_Ref_Fakhari_PRE2017.dat`` contain :math:`t^{\star}` and :math:`y` positions of bubble point (1st file) and spike (2nd file). They have been digitalized from Fig 6 of reference [1]_. All files ``data.csv`` must be set in a new folder ``Contours``:
 
-    .. code-block:: shell
+      .. code-block:: shell
 
-       $ python Post-Pro_Rayleigh-Taylor2D_CompareFakhari.py
+         $ mkdir Contours
+         $ mv data_* Contours/.
+         $ python Post-Pro_Rayleigh-Taylor2D_CompareFakhari.py
 
-   After running python script you should find :numref:`target-Fig-RT2D-Evol`.
+   After running the python script you should find :numref:`target-Fig-RT2D-Evol`.
 
 **Results**
 
@@ -202,9 +209,8 @@ The initial condition is presented on :numref:`target-Fig-RT2D-Init` and the evo
 
 .. container:: sphinx-features
 
-   .. _target-Fig-RT2D-Init:
-
    .. figure:: ../../../src_doc/FIGS/01_FIGS_VALIDATIONS/Init_Rayleigh-Taylor.png
+      :name: target-Fig-RT2D-Init
       :height: 600
       :width: 400
       :scale: 60
@@ -212,9 +218,8 @@ The initial condition is presented on :numref:`target-Fig-RT2D-Init` and the evo
 
       Initial condition for Rayleigh-Taylor test case
 
-   .. _target-Fig-RT2D-Evol:
-
    .. figure:: ../../../src_doc/FIGS/01_FIGS_VALIDATIONS/Valid_RT2D.png
+      :name: target-Fig-RT2D-Evol
       :height: 600
       :width: 800
       :scale: 60
@@ -581,3 +586,6 @@ Bibliography
 .. [1] Fakhari et al, PHYSICAL REVIEW E 96, 053301 (2017). doi https://journals.aps.org/pre/abstract/10.1103/PhysRevE.96.053301
 
 .. [2] Dinesh Kumar E., S.A. Sannasiraj, V. Sundar, Phase field lattice Boltzmann model for air-water two phase flows, Physics of Fluids 31, 072103 (2019). doi https://doi.org/10.1063/1.5100215
+
+
+.. sectionauthor:: Alain Cartalade

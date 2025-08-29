@@ -125,5 +125,33 @@ For ORCUS, follow the instructions:
 
    ../01_USER_GUIDE/QUICKSTART/Compil_GPU_MPI_Orcus.rst
 
+For project admin
+-----------------
+
+**Merge branch dev/firstname.name**
+
+   .. admonition:: Merge one branch in master
+      :class: hint
+
+      Stay on branch master and merge the branch you want:
+
+         .. code-block:: shell
+
+            $ git merge origin/dev/aurelien.laurens
+            $ git add *
+            $ git commit -m "Merge branche dev/aurelien.laurens"
+            $ git push
+
+**Cancel your last commit**
+
+   .. admonition:: Merge one branch in master
+      :class: hint
+
+         .. code-block:: shell
+
+            $ git status
+            $ git reset --hard HEAD~1
+            $ git push --force
+
 .. sectionauthor:: Alain Cartalade
    

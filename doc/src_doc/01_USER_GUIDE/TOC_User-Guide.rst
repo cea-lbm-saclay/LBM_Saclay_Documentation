@@ -33,4 +33,9 @@ PART I: User's guide
    
    ./QUICKSTART/Compil_GPU_MPI_Topaze.rst
 
+.. only:: titania
 
+   .. toctree::
+      :maxdepth: 2
+   
+      ./PRESENTATION_BEAMER-LYX/Beamer-with-Lyx-CEA-Template.rst
