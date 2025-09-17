@@ -24,11 +24,11 @@ Quick Start with LBM_Saclay
 .. admonition:: For training session: LBM_Saclay's documentation
    :class: error
 
-   Open a terminal, copy the file ``bashrc-lbm`` from directory ``/tmpformation/LBM_Saclay/CONFIG`` in your ``/home`` and source it:
+   Open a terminal, copy the file ``bashrc-lbm-training`` from directory ``/tmpformation/LBM_Saclay/Bin-Training`` in your ``/home`` and source it:
 
       .. code-block:: shell
 
-         $ cp /tmpformation/LBM_Saclay/CONFIG/bashrc-lbm ~/.bashrc
+         $ cp /tmpformation/LBM_Saclay/Bin-Training/bashrc-lbm-training ~/.bashrc
          $ source ~/.bashrc
 
    Open the documentation

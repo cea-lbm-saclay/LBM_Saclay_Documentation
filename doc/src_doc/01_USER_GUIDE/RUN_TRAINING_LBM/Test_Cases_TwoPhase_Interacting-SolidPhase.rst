@@ -138,6 +138,35 @@ Moving container with hole
 
    The simulation ran 1956.470 seconds (~32min36sec) on partition gpuq_h100 of Orcus to achieve 1.000.001 time-steps.
 
+      .. list-table:: Benchmark (performed September 3rd, 2025)
+         :stub-columns: 1
+         :header-rows: 1
+
+         * - Computer
+           - Architecture
+           - Model
+           - Time of simulation
+         * - manwe
+           - CPU
+           - Intel(R) Xeon(R) Gold 6230R CPU @ 2.10GHz
+           - 52202 s (~870min)
+         * - manwe
+           - GPU
+           - RTX A6000
+           - 12086 s (~201min26s)
+         * - Orcus
+           - GPU
+           - V100
+           - 5967 s (~99min27s)
+         * - Orcus
+           - GPU
+           - A100
+           - 5085 s (~84min45s) ?
+         * - Orcus
+           - GPU
+           - H100
+           - 1882 s (~31min22s)
+
 .. admonition:: For LBM training session: post-processing with paraview 5.11
    :class: error
 
