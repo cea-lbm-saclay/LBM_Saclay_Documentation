@@ -3,129 +3,191 @@
 Quick Start with LBM_Saclay
 ===========================
 
-.. only:: titania
 
-   .. admonition:: Shared directories for DM2S/STMF users
-      :class: important
 
-      TITANIA: two main LBM directories exist
+1. LBM_Saclay's environment & documentation
+-------------------------------------------
+
+.. tab-set::
+
+   .. tab-item:: For DM2S/STMF users
+
+      .. only:: titania
+
+         .. admonition:: Shared directories for DM2S/STMF users
+            :class: important
+
+            TITANIA: two main LBM directories exist
    
-         - ``/tmpformation/LBM_Saclay``: free access. You will find the ``html`` version of that documentation; the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
+            - ``/tmpformation/LBM_Saclay``: free access. You will find the ``html`` version of that documentation; the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
 
-         - ``/home/lbm-saclay``: shared directory for R&D contributors of LBM_Saclay. Send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr`` to get access.
+            - ``/home/lbm-saclay``: shared directory for R&D contributors of LBM_Saclay. Send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr`` to get access.
 
-      ORCUS: one shared directory exists
+            ORCUS: one shared directory exists
 
-         - ``/tmpformation/LBM_Saclay``: free access. Several versions of LBM_Saclay are already compiled on GPU partitions of ORCUS. You can go directly to :ref:`Simulations-GPU`.
+            - ``/tmpformation/LBM_Saclay``: free access. Several versions of LBM_Saclay are already compiled on GPU partitions of ORCUS. You can go directly to :ref:`Simulations-GPU`.
 
-1. Open LBM_Saclay's documentation
-----------------------------------
+      .. admonition:: For training session: LBM_Saclay's documentation
+         :class: error
 
-.. admonition:: For training session: LBM_Saclay's documentation
-   :class: error
+         Open a terminal, and execute the command below for LBM_Saclay's environment:
 
-   Open a terminal, copy the file ``bashrc-lbm-training`` from directory ``/tmpformation/LBM_Saclay/Bin-Training`` in your ``/home`` and source it:
+            .. code-block:: shell
 
-      .. code-block:: shell
+               $ /tmpformation/LBM_Saclay/Bin-Training/lbm-env.sh
 
-         $ cp /tmpformation/LBM_Saclay/Bin-Training/bashrc-lbm-training ~/.bashrc
-         $ source ~/.bashrc
+         The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also creates a directory ``Training-LBM`` on your local disk ``/volatile/formation/`` and copies the folder of test cases ``run_training_lbm`` inside ``/volatile/formation/Training-LBM``.
 
-   Open the documentation
+         Open the documentation
 
-      .. code-block:: shell
+            .. code-block:: shell
 
-         $ lbm-saclay-doc&
+               $ lbm-doc.sh &
 
-   ``lbm-saclay-doc`` is an alias of command ``google-chrome /tmpformation/LBM_Saclay/LBM_Saclay_Doc/_build/html/index.html``
+         ``lbm-doc.sh`` is an alias of command ``google-chrome /tmpformation/LBM_Saclay/LBM_Saclay_Doc/_build/html/index.html``
    
+   .. tab-item:: For other users
 
-2. Create your ``Training-LBM`` directory
------------------------------------------
+      To be completed
 
-.. admonition:: For training session: create a new directory on ``volatile``
-   :class: error
 
-   Go to your local disk ``/volatile/formation/``:
-
-    .. code-block:: shell
-
-       $ cd /volatile/formation/
-
-   Make your own directory ``Training-LBM``:
-
-    .. code-block:: shell
-
-       $ mkdir Training-LBM
-       $ cd Training-LBM
-
-3. Get the source files of LBM_Saclay
+2. Get the source files of LBM_Saclay
 -------------------------------------
 
-A. From git repository (recommended)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. tab-set::
 
-**Get access to the git repository**
+   .. tab-item:: From git repository (recommended)
 
-.. admonition:: Get access to the git repository
+      **Get access to the git repository on** ``codev-tuleap.cea.fr``
+
+      .. admonition:: Get access to the git repository
    
-   LBM_Saclay is on the git repository [1]_. To get an access to codev-tuleap, open an **AD EXTRA** account by sending a message on [2]_. For scientists of other institutes (CNRS, INRIA, University, etc.) open an **AD partner** account by sending an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr``. Once you got the account, change your password on [3]_.
+         LBM_Saclay is on the git repository [1]_. To get an access to codev-tuleap, open an **AD EXTRA** account by sending a message on [2]_. For scientists of other institutes (CNRS, INRIA, University, etc.) open an **AD partner** account by sending an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr``. Once you got the account, change your password on [3]_.
 
-      .. [1] https://codev-tuleap.cea.fr/plugins/git/lbmsaclay
-      .. [2] https://post.intra.cea.fr/sp
-      .. [3] https://gestion-ad.intra.cea.fr:9443/
+            .. [1] https://codev-tuleap.cea.fr/plugins/git/lbmsaclay
+            .. [2] https://post.intra.cea.fr/sp
+            .. [3] https://gestion-ad.intra.cea.fr:9443/
 
-**Download LBM_Saclay**
+      **Download LBM_Saclay**
 
-.. admonition:: Download LBM_Saclay
+      .. admonition:: Download LBM_Saclay
 
-   To download either the **Training** version or the **Rech-Dev** version, open a terminal (or Konsole) and copy-paste one of two commands below.
+         To download either the **Training** version or the **Rech-Dev** version, open a terminal (or Konsole) and copy-paste one of two commands below:
 
-   e.g. for ``LBM_Saclay_Training`` version
+         e.g. for ``LBM_Saclay_Rech-Dev`` version:
 
-      .. code-block:: shell
+            .. code-block:: shell
 
-         $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
+               $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Rech-Dev.git
 
-   e.g. for ``LBM_Saclay_Rech-Dev`` version:
+         e.g. for ``LBM_Saclay_Training`` version
 
-      .. code-block:: shell
+            .. code-block:: shell
 
-         $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Rech-Dev.git
-
-B. From folder ``tmpformation`` for training session
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. admonition:: For training session
-   :class: important
-
-   Copy file ``LBM_Saclay_Rech-Dev.tar``
-
-    .. code-block:: shell
-
-       $ cp /tmpformation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar .
-
-   untar your file
-
-    .. code-block:: shell
-
-       $ tar -xvf LBM_Saclay_Rech-Dev.tar
+               $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
 
 
-4. Compilation
+   .. tab-item:: From folder ``tmpformation`` for training session
+
+      .. admonition:: For training session
+         :class: important
+
+         Copy file ``LBM_Saclay_Rech-Dev.tar``
+
+          .. code-block:: shell
+
+             $ cp /tmpformation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar .
+
+         untar your file
+
+          .. code-block:: shell
+
+             $ tar -xvf LBM_Saclay_Rech-Dev.tar
+
+
+3. Compilation
 --------------
 
-You can run your first simulations on CPUs of your personal desktop. However, it is highly recommended to run LBM_Saclay on one (or better on several) graphic cards. You will find on the links below tutorials for compiling on single-CPU, single-GPU, and multi-GPU.
+You can run your first simulations on CPUs of your personal desktop. However, it is highly recommended to run LBM_Saclay on one (or better on several) graphic cards (GPUs). You will find the procedure for compiling on single-CPU, single-GPU, and multi-GPU.
 
-.. toctree::
-   :maxdepth: 1
+.. tab-set::
 
-   ./Compil_MonoGPU.rst
-   ./Compil_GPU_MPI_Orcus.rst
-   ./Compil_Multi_GPU.rst
-   ./Compil_GetInfo_GPU.rst
+   .. tab-item:: With script ``configure_build.sh``
 
-5. Run your first test case on your local CPU
+      .. admonition:: Makefile
+
+         - For openmp  (``omp``) on CPU
+
+          .. code-block:: shell
+
+             ./compilation/local/omp/configure_build.sh
+         
+         - For cuda on GPU H100 of ORCUS
+
+          .. code-block:: shell
+
+             ./compilation/orcus/cuda_h100/configure_build.sh
+
+          For GPU A100 and V100, modify only ``cuda_h100`` by ``cuda_a100`` (A100) or ``cuda_v100`` (V100)
+
+         - For cuda on A6000 of MANWE
+
+          .. code-block:: shell
+
+             ./compilation/manwe/cuda_a6000/configure_build.sh
+
+
+      will return:
+
+       .. code-block:: shell
+
+          The following problems are currently implemented:
+          0  AC
+          1  Advection-Diffusion
+          2  Crystal_growth_Younsi
+          3  GPMixt
+          4  GPMixtNS
+          5  GPMixtTernary
+          6  GPMuTernary
+          7  MPwSLphC
+          8  NS
+          9  NS_3phases_1comp_phase_change
+          10 NSAC_Comp
+          11 NSAC_Comp_3phases
+          12 NSAC_Comp_3phases3D
+          13 NSAC_coupling
+          14 NSAC_Fakhari
+          15 NSAC_Surfactant
+          Choose which problems to include by indicating a list of space or comma separated numbers, eg '0 1' or '0,1'.
+          Write 'all' to include all problems.
+          Problem numbers:
+
+      .. admonition:: Compilation
+
+         Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set:
+
+          .. code-block:: shell
+
+             $ cd LBM_Saclay_Rech-Dev/build_cuda_a6000/build_NSAC_Comp
+
+         Compile:
+
+          .. code-block:: shell
+
+             $ make -j 22
+
+   
+   .. tab-item:: Detailed procedure
+
+      .. toctree::
+         :maxdepth: 1
+
+         ./Compil_MonoGPU.rst
+         ./Compil_GPU_MPI_Orcus.rst
+         ./Compil_Multi_GPU.rst
+         ./Compil_GetInfo_GPU.rst
+
+4. Run your first test case on your local CPU
 ---------------------------------------------
 
 It is recommended to start with a test case of folder ``run_training_lbm`` and execute on local disk ``/volatile``. For example:
@@ -133,14 +195,7 @@ It is recommended to start with a test case of folder ``run_training_lbm`` and e
 .. admonition:: For training session: local computer
    :class: error
 
-   Copy folder ``run_training_lbm`` on your local disk:
-
-      .. code-block:: shell
-
-         $ cd /volatile/formation/Training-LBM/
-         $ cp -r /tmpformation/LBM_Saclay/run_training_lbm .
-
-   Go to one test case, e.g. ``TestCase02_Poiseuille_Water``
+   Go to one test case of ``run_training_lbm``, e.g. ``TestCase02_Poiseuille_Water``:
 
       .. code-block:: shell
 
@@ -152,7 +207,7 @@ It is recommended to start with a test case of folder ``run_training_lbm`` and e
 
        $ /volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase02_Poiseuille_Water.ini
 
-6. Post-processing with Paraview
+5. Post-processing with Paraview
 --------------------------------
 
 The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``/tmpformation/LBM_Saclay``. In paraview, open the ``.vti`` files. For post-processing the ``.h5`` (HDF5) files open the ``.xml`` file and clic on ``XDMF Reader``.
@@ -174,7 +229,7 @@ The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``
    
    and follow tutorials presented in :ref:`Run_Training-LBM`.
 
-7. Help and Support
+6. Help and Support
 -------------------
 
 On weblink [4]_ open a ``NEW ID_LBM`` and explain your problem.
