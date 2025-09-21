@@ -3,8 +3,6 @@
 Quick Start with LBM_Saclay
 ===========================
 
-
-
 1. LBM_Saclay's environment & documentation
 -------------------------------------------
 
@@ -110,82 +108,85 @@ Quick Start with LBM_Saclay
 
 You can run your first simulations on CPUs of your personal desktop. However, it is highly recommended to run LBM_Saclay on one (or better on several) graphic cards (GPUs). You will find the procedure for compiling on single-CPU, single-GPU, and multi-GPU.
 
-.. tab-set::
+.. dropdown::
+   :icon: comment
 
-   .. tab-item:: With script ``configure_build.sh``
+   .. tab-set::
 
-      .. admonition:: Makefile
+      .. tab-item:: With script ``configure_build.sh``
 
-         - For openmp  (``omp``) on CPU
+         .. admonition:: Makefile
 
-          .. code-block:: shell
+            - For openmp  (``omp``) on CPU
 
-             ./compilation/local/omp/configure_build.sh
+             .. code-block:: shell
+
+                ./compilation/local/omp/configure_build.sh
          
-         - For cuda on GPU H100 of ORCUS
+            - For cuda on GPU H100 of ORCUS
+
+             .. code-block:: shell
+
+                ./compilation/orcus/cuda_h100/configure_build.sh
+
+             For GPU A100 and V100, modify only ``cuda_h100`` by ``cuda_a100`` (A100) or ``cuda_v100`` (V100)
+
+            - For cuda on A6000 of MANWE
+
+             .. code-block:: shell
+
+                ./compilation/manwe/cuda_a6000/configure_build.sh
+
+
+         will return:
 
           .. code-block:: shell
 
-             ./compilation/orcus/cuda_h100/configure_build.sh
+             The following problems are currently implemented:
+             0  AC
+             1  Advection-Diffusion
+             2  Crystal_growth_Younsi
+             3  GPMixt
+             4  GPMixtNS
+             5  GPMixtTernary
+             6  GPMuTernary
+             7  MPwSLphC
+             8  NS
+             9  NS_3phases_1comp_phase_change
+             10 NSAC_Comp
+             11 NSAC_Comp_3phases
+             12 NSAC_Comp_3phases3D
+             13 NSAC_coupling
+             14 NSAC_Fakhari
+             15 NSAC_Surfactant
+             Choose which problems to include by indicating a list of space or comma separated numbers, eg '0 1' or '0,1'.
+             Write 'all' to include all problems.
+             Problem numbers:
 
-          For GPU A100 and V100, modify only ``cuda_h100`` by ``cuda_a100`` (A100) or ``cuda_v100`` (V100)
+         .. admonition:: Compilation
 
-         - For cuda on A6000 of MANWE
+            Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set:
 
-          .. code-block:: shell
+             .. code-block:: shell
 
-             ./compilation/manwe/cuda_a6000/configure_build.sh
+                $ cd LBM_Saclay_Rech-Dev/build_cuda_a6000/build_NSAC_Comp
 
+            Compile:
 
-      will return:
+             .. code-block:: shell
 
-       .. code-block:: shell
-
-          The following problems are currently implemented:
-          0  AC
-          1  Advection-Diffusion
-          2  Crystal_growth_Younsi
-          3  GPMixt
-          4  GPMixtNS
-          5  GPMixtTernary
-          6  GPMuTernary
-          7  MPwSLphC
-          8  NS
-          9  NS_3phases_1comp_phase_change
-          10 NSAC_Comp
-          11 NSAC_Comp_3phases
-          12 NSAC_Comp_3phases3D
-          13 NSAC_coupling
-          14 NSAC_Fakhari
-          15 NSAC_Surfactant
-          Choose which problems to include by indicating a list of space or comma separated numbers, eg '0 1' or '0,1'.
-          Write 'all' to include all problems.
-          Problem numbers:
-
-      .. admonition:: Compilation
-
-         Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set:
-
-          .. code-block:: shell
-
-             $ cd LBM_Saclay_Rech-Dev/build_cuda_a6000/build_NSAC_Comp
-
-         Compile:
-
-          .. code-block:: shell
-
-             $ make -j 22
+                $ make -j 22
 
    
-   .. tab-item:: Detailed procedure
+      .. tab-item:: Sections for detailed procedure
 
-      .. toctree::
-         :maxdepth: 1
+         .. toctree::
+            :maxdepth: 1
 
-         ./Compil_MonoGPU.rst
-         ./Compil_GPU_MPI_Orcus.rst
-         ./Compil_Multi_GPU.rst
-         ./Compil_GetInfo_GPU.rst
+            ./Compil_MonoGPU.rst
+            ./Compil_GPU_MPI_Orcus.rst
+            ./Compil_Multi_GPU.rst
+            ./Compil_GetInfo_GPU.rst
 
 4. Run your first test case on your local CPU
 ---------------------------------------------

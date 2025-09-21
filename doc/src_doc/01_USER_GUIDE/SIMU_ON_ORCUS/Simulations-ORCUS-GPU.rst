@@ -10,198 +10,221 @@ For compilation, a tutorial is given on :ref:`ORCUS-DM2S` for partition ``gpuq_h
 Connexion and disks on ORCUS
 ----------------------------
 
-.. admonition:: For training session: connexion on ORCUS
-   :class: error
+.. tab-set::
+
+   .. tab-item:: Connexion
+
+      .. admonition:: For training session: connexion on ORCUS
+         :class: error
+
+            .. code-block:: shell
+
+               loginname@is247529:~$ ssh -XC orcusloginamd2
+
+      returns
 
       .. code-block:: shell
 
-         loginname@is247529:~$ ssh -XC orcusloginamd2
+         Bienvenue sur le cluster
 
-returns
-
-   .. code-block:: shell
-
-      Bienvenue sur le cluster
-
-                ____  _____   _____ _    _  _____
-               / __ \|  __ \ / ____| |  | |/ ____|
-              | |  | | |__) | |    | |  | | (___
-              | |  | |  _  /| |    | |  | |\___ \
-              | |__| | | \ \| |____| |__| |____) |
-               \____/|_|  \_\\_____|\____/|_____/
+                   ____  _____   _____ _    _  _____
+                  / __ \|  __ \ / ____| |  | |/ ____|
+                 | |  | | |__) | |    | |  | | (___
+                 | |  | |  _  /| |    | |  | |\___ \
+                 | |__| | | \ \| |____| |__| |____) |
+                  \____/|_|  \_\\_____|\____/|_____/
 
 
-      Support :      https://codev-tuleap.intra.cea.fr/projects/InfoSc
-      Doc :          evince /product/documentations/users/user_manual.pdf
-      Guide ACL :    vim +"set syntax=markdown" /product/documentations/users/README_ACL.md
+         Support :      https://codev-tuleap.intra.cea.fr/projects/InfoSc
+         Doc :          evince /product/documentations/users/user_manual.pdf
+         Guide ACL :    vim +"set syntax=markdown" /product/documentations/users/README_ACL.md
 
-                   Frontale ROCKY Linux 9
+                      Frontale ROCKY Linux 9
 
-      Last login: Wed Nov 27 09:10:54 2024 from 132.166.148.113
-      loginname@orcusloginamd2:~$
+         Last login: Wed Nov 27 09:10:54 2024 from 132.166.148.113
+         loginname@orcusloginamd2:~$
 
-.. admonition:: Disks on ORCUS
+      .. admonition:: For training session: if first connexion on Orcus
+         :class: error
 
-   Several disks are available
+         Copy folder ``run_training_lbm`` in your directory (content on :ref:`Run_Training-LBM`):
 
-   - ``HOME``: configuration files, source files of LBM_Saclay, compilation and binary
+            .. code-block:: shell
 
-      .. code-block:: shell
+               $ cp -r /tmpformation/LBM_Saclay/LBM_Saclay_Rech-Dev/run_training_lbm .
+   
 
-         $ cd ~
+   .. tab-item:: Disks on ORCUS
 
-   - ``SCRATCH`` for running and output files (``.vti`` and ``.h5``)
+      .. admonition:: Disks on ORCUS
 
-      .. code-block:: shell
+         Several disks are available
 
-         $ cd $SCRATCH
+         - ``HOME``: configuration files, source files of LBM_Saclay, compilation and binary
 
-   - ``/tmpformation/LBM_Saclay``: shared directory for compiled versions of LBM_Saclay and slurm scripts
+            .. code-block:: shell
 
-      .. code-block:: shell
+               $ cd ~
 
-         $ cd /tmpformation/LBM_Saclay
+         - ``SCRATCH`` for running and output files (``.vti`` and ``.h5``)
 
-Get information about ORCUS
----------------------------
+            .. code-block:: shell
 
-.. admonition:: Check the number of nodes
-   :class: hint
+               $ cd $SCRATCH
 
-   Check the number of nodes (for CPU and GPU partitions):
+         - ``/tmpformation/LBM_Saclay``: shared directory for compiled versions of LBM_Saclay and slurm scripts
 
-      .. code-block:: shell
+            .. code-block:: shell
 
-         loginname@orcusloginamd2:~$ sinfo
+               $ cd /tmpformation/LBM_Saclay
 
-returns (only GPU partitions)
+   .. tab-item:: Get information
 
-   .. code-block:: ruby
+      **Get information about ORCUS**
 
-      PARTITION NODES      STATE CPUS SOCKETS CORES MEMORY NODELIST
+      .. admonition:: Check the number of nodes
+         :class: hint
 
-      gpuq_v100     2       idle   32       2    16 376000 orcus-n[3001-3002]
-      gpuq_a100     1      mixed   32       2    16 485000 orcus-n3201
-      gpuq_a100     1       idle   32       2    16 485000 orcus-n3202
-      gpuq_h100     1       idle   72       2    36 990000 orcus-n3401
+         Check the number of nodes (for CPU and GPU partitions):
 
-meaning that five GPU partitions are available on Orcus:
- - 2 nodes of one GPU V100 (2 GPUs V100)
- - 2 nodes of one GPU A100 (2 GPUs A100)
- - 1 node of four GPUs H100. The partition ``gpuq_h100`` contains 4 GPUs H100.
+            .. code-block:: shell
 
-.. admonition:: To check the number of graphic cards on that node
-   :class: hint
+               loginname@orcusloginamd2:~$ sinfo
 
-   You can make a reservation in interactive mode with:
+      returns (only GPU partitions)
 
-      .. code-block:: shell
+         .. code-block:: ruby
 
-         loginname@orcusloginamd2:~$ srun -p gpuq_h100 -n 1 --gres=gpu:1 --pty bash -i
+            PARTITION NODES      STATE CPUS SOCKETS CORES MEMORY NODELIST
 
-   If the node is free, you will be able to connect and open a terminal. The command
+            gpuq_v100     2       idle   32       2    16 376000 orcus-n[3001-3002]
+            gpuq_a100     1      mixed   32       2    16 485000 orcus-n3201
+            gpuq_a100     1       idle   32       2    16 485000 orcus-n3202
+            gpuq_h100     1       idle   72       2    36 990000 orcus-n3401
 
-      .. code-block:: shell
+      meaning that five GPU partitions are available on Orcus:
+       - 2 nodes of one GPU V100 (2 GPUs V100)
+       - 2 nodes of one GPU A100 (2 GPUs A100)
+       - 1 node of four GPUs H100. The partition ``gpuq_h100`` contains 4 GPUs H100.
 
-         loginname@orcus-n3401:~$ nvidia-smi
+      .. admonition:: To check the number of graphic cards on that node
+         :class: hint
 
-returns
+         You can make a reservation in interactive mode with:
 
-   .. code-block:: ruby
+            .. code-block:: shell
 
-      Tue Nov 26 10:17:49 2024       
-      +-----------------------------------------------------------------------------------------+
-      | NVIDIA-SMI 555.42.02              Driver Version: 555.42.02      CUDA Version: 12.5     |
-      |-----------------------------------------+------------------------+----------------------+
-      | GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
-      | Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
-      |                                         |                        |               MIG M. |
-      |=========================================+========================+======================|
-      |   0  NVIDIA H100 80GB HBM3          On  |   00000000:4E:00.0 Off |                    0 |
-      | N/A   39C    P0             73W /  700W |       1MiB /  81559MiB |      0%      Default |
-      |                                         |                        |             Disabled |
-      +-----------------------------------------+------------------------+----------------------+
-      |   1  NVIDIA H100 80GB HBM3          On  |   00000000:5F:00.0 Off |                    0 |
-      | N/A   37C    P0             70W /  700W |       1MiB /  81559MiB |      0%      Default |
-      |                                         |                        |             Disabled |
-      +-----------------------------------------+------------------------+----------------------+
-      |   2  NVIDIA H100 80GB HBM3          On  |   00000000:CB:00.0 Off |                    0 |
-      | N/A   38C    P0             71W /  700W |       1MiB /  81559MiB |      0%      Default |
-      |                                         |                        |             Disabled |
-      +-----------------------------------------+------------------------+----------------------+
-      |   3  NVIDIA H100 80GB HBM3          On  |   00000000:DB:00.0 Off |                    0 |
-      | N/A   38C    P0             72W /  700W |       1MiB /  81559MiB |      0%      Default |
-      |                                         |                        |             Disabled |
-      +-----------------------------------------+------------------------+----------------------+
+               loginname@orcusloginamd2:~$ srun -p gpuq_h100 -n 1 --gres=gpu:1 --pty bash -i
 
-      +-----------------------------------------------------------------------------------------+
-      | Processes:                                                                              |
-      |  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
-      |        ID   ID                                                               Usage      |
-      |=========================================================================================|
-      |  No running processes found                                                             |
-      +-----------------------------------------------------------------------------------------+
+         If the node is free, you will be able to connect and open a terminal. The command
 
-We can check that four ``NVIDIA H100 80GB HBM3`` are available.
+            .. code-block:: shell
+
+               loginname@orcus-n3401:~$ nvidia-smi
+
+      returns
+
+         .. code-block:: ruby
+
+            Tue Nov 26 10:17:49 2024       
+            +-----------------------------------------------------------------------------------------+
+            | NVIDIA-SMI 555.42.02              Driver Version: 555.42.02      CUDA Version: 12.5     |
+            |-----------------------------------------+------------------------+----------------------+
+            | GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+            | Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+            |                                         |                        |               MIG M. |
+            |=========================================+========================+======================|
+            |   0  NVIDIA H100 80GB HBM3          On  |   00000000:4E:00.0 Off |                    0 |
+            | N/A   39C    P0             73W /  700W |       1MiB /  81559MiB |      0%      Default |
+            |                                         |                        |             Disabled |
+            +-----------------------------------------+------------------------+----------------------+
+            |   1  NVIDIA H100 80GB HBM3          On  |   00000000:5F:00.0 Off |                    0 |
+            | N/A   37C    P0             70W /  700W |       1MiB /  81559MiB |      0%      Default |
+            |                                         |                        |             Disabled |
+            +-----------------------------------------+------------------------+----------------------+
+            |   2  NVIDIA H100 80GB HBM3          On  |   00000000:CB:00.0 Off |                    0 |
+            | N/A   38C    P0             71W /  700W |       1MiB /  81559MiB |      0%      Default |
+            |                                         |                        |             Disabled |
+            +-----------------------------------------+------------------------+----------------------+
+            |   3  NVIDIA H100 80GB HBM3          On  |   00000000:DB:00.0 Off |                    0 |
+            | N/A   38C    P0             72W /  700W |       1MiB /  81559MiB |      0%      Default |
+            |                                         |                        |             Disabled |
+            +-----------------------------------------+------------------------+----------------------+
+
+            +-----------------------------------------------------------------------------------------+
+            | Processes:                                                                              |
+            |  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+            |        ID   ID                                                               Usage      |
+            |=========================================================================================|
+            |  No running processes found                                                             |
+            +-----------------------------------------------------------------------------------------+
+
+      We can check that four ``NVIDIA H100 80GB HBM3`` are available.
 
 Submit your job with slurm script
 ---------------------------------
 
-.. admonition:: For LBM training session
-   :class: important
+.. tab-set::
 
-   Three slurm scripts are available in folder ``/tmpformation/LBM_Saclay/`` to submit one job on Orcus.
+   .. tab-item:: Submit your job
 
-      - ``JOB_H100_GPU.slurm`` to submit one job on gpuq_h100
-      - ``JOB_A100_GPU.slurm`` to submit one job on gpuq_a100
-      - ``JOB_V100_GPU.slurm`` to submit one job on gpuq_v100
+      .. admonition:: For LBM training session
+         :class: important
 
-.. admonition:: For training session: run on ORCUS
-   :class: error
+         Three slurm scripts are available in folder ``/tmpformation/LBM_Saclay/`` to submit one job on Orcus.
 
-   **Submit a job and run**
+            - ``JOB_H100_GPU.slurm`` to submit one job on gpuq_h100
+            - ``JOB_A100_GPU.slurm`` to submit one job on gpuq_a100
+            - ``JOB_V100_GPU.slurm`` to submit one job on gpuq_v100
 
-   Copy folder ``run_training_lbm`` in your directory (content on :ref:`Run_Training-LBM`):
+      .. admonition:: For training session: run on ORCUS
+         :class: error
 
-      .. code-block:: shell
+         **Submit a job and run**
 
-         $ cp -r /tmpformation/LBM_Saclay/LBM_Saclay_Rech-Dev/run_training_lbm .
+         In your ``home on ORCUS``, Go to one test case folder (e.g. ``TestCase05_Spinodal-Decomposition2D``):
 
-   Go to one test case folder (e.g. ``TestCase05_Spinodal-Decomposition2D``):
+            .. code-block:: shell
 
-      .. code-block:: shell
+               $ cd ~/run_training_lbm/TestCase05_Spinodal-Decomposition2D
 
-         $ cd run_training_lbm/TestCase05_Spinodal-Decomposition2D
+         Submit your test case on one partition: gpuq_h100, gpuq_a100 or gpuq_v100. For example for gpuq_h100:
 
-   Submit your test case on one partition: gpuq_h100, gpuq_a100 or gpuq_v100. For example for gpuq_h100:
+            .. code-block:: shell
 
-      .. code-block:: shell
+               $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase05_Spinodal-Decomposition_CH.ini
 
-         $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase05_Spinodal-Decomposition_CH.ini
+   .. tab-item:: Check your submission
 
-.. admonition:: For training session: check your submission
-   :class: hint
+      .. admonition:: For training session: check your submission
+         :class: hint
 
-   Check that your job is running: the following command
+         Check that your job is running: the following command
 
-      .. code-block:: shell
+            .. code-block:: shell
 
-         $ squeue -u S-SAC-DM2S-train1
+               $ squeue --me
 
-   returns
+            You can alternatively write, where ``1`` must be replaced by your own login number:
 
-      .. code-block:: ruby
+            .. code-block:: shell
 
-         JOBID   PARTITION       QOS PRIORITY         NAME     USER ST       TIME          START_TIME   TIME_LIMIT CPUS    NODES NODELIST(REASON)
-         533013   gpuq_h100     1jour 0.000000        myjob ac165432  R       0:01 2025-02-16T11:32:25     12:00:00 18          1 orcus-n3401
+               $ squeue -u S-SAC-DM2S-train1
 
-   To stop your job
+         returns
 
-      .. code-block:: shell
+            .. code-block:: ruby
 
-         $ scancel 533013
+               JOBID   PARTITION       QOS PRIORITY         NAME     USER ST       TIME          START_TIME   TIME_LIMIT CPUS    NODES NODELIST(REASON)
+               533013   gpuq_h100     1jour 0.000000        myjob ac165432  R       0:01 2025-02-16T11:32:25     12:00:00 18          1 orcus-n3401
+
+         To stop your job
+
+            .. code-block:: shell
+
+               $ scancel 533013
    
-   where 533013 corresponds to your JOBID 
+         where 533013 corresponds to your JOBID 
 
 
 Transfer your output files on your local computer
