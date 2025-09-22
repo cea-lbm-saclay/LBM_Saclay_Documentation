@@ -49,8 +49,6 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
                 $ /volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase07_Double_Poiseuille_MRT.ini
 
-            For post-processing with paraview see :ref:`Post-Pro-Paraview12`
-
          Once the simulation is complete, in paraview12:
 
          .. admonition:: For training session: commands in paraview

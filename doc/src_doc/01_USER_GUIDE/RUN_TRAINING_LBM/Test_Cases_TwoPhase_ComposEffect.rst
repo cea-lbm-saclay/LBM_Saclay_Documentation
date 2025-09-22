@@ -8,6 +8,12 @@ Run "Two-phase with fluid flows with composition effect"
 Surfactant
 ----------
 
+.. admonition:: Warning
+   :class: warning
+
+   The test cases of folder ``run_training_lbm/TestCase15_Surfactant`` run with problem ``NSAC_Surfactant``. LBM_Saclay must be compiled with that kernel for running the test cases described below. The mathematical model is described on :ref:`Math-NSAC-Surfactant`.
+
+
 .. tab-set::
 
    .. tab-item:: Validation with analytical solution

@@ -58,13 +58,16 @@ Quick Start with LBM_Saclay
 
       **Get access to the git repository on** ``codev-tuleap.cea.fr``
 
-      .. admonition:: Get access to the git repository
-   
-         LBM_Saclay is on the git repository [1]_. To get an access to codev-tuleap, open an **AD EXTRA** account by sending a message on [2]_. For scientists of other institutes (CNRS, INRIA, University, etc.) open an **AD partner** account by sending an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr``. Once you got the account, change your password on [3]_.
+      .. dropdown::
+         :icon: comment
 
-            .. [1] https://codev-tuleap.cea.fr/plugins/git/lbmsaclay
-            .. [2] https://post.intra.cea.fr/sp
-            .. [3] https://gestion-ad.intra.cea.fr:9443/
+         .. admonition:: Get access to the git repository
+   
+            LBM_Saclay is on the git repository [1]_. To get an access to codev-tuleap, open an **AD EXTRA** account by sending a message on [2]_. For scientists of other institutes (CNRS, INRIA, University, etc.) open an **AD partner** account by sending an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr``. Once you got the account, change your password on [3]_.
+
+               .. [1] https://codev-tuleap.cea.fr/plugins/git/lbmsaclay
+               .. [2] https://post.intra.cea.fr/sp
+               .. [3] https://gestion-ad.intra.cea.fr:9443/
 
       **Download LBM_Saclay**
 

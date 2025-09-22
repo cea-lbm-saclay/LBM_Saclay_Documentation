@@ -1,34 +1,125 @@
-.. raw:: html
-
-    <style> .red {color:red} </style>
-
-.. role:: red
-
-.. raw:: html
-
-    <style> .blue {color:blue} </style>
-
-.. role:: blue
-
-.. raw:: html
-
-    <style> .green {color:green} </style>
-
-.. role:: green
-
 Team presentation
 =================
 
 .. admonition:: LBM_Saclay team
    
-   The LBM_Saclay team is composed of applied mathematicians, physicists and computer scientists of the french Atomic Energy and Alternative Energy Commission. The laboratory LMSF.
+     The LBM_Saclay code is developped at LDEL laboratory of the french Atomic Energy and Alternative Energy Commission. The LBM_Saclay team is composed of applied mathematicians, physicists and computer scientists.
 
 **LBM_Saclay workforce over the years**
 
-.. toctree::
-   :maxdepth: 1
+.. grid:: 2
+   :gutter: 4
+   :margin: 3 3 0 5
 
-   ./Team_2024.rst
-   ./Team_2023.rst
-   ./Team_2022.rst
+   .. grid-item-card:: 2025
+
+      .. list-table:: 
+         :align: center
+         :header-rows: 1
+
+         * - Name
+           - Position
+         * - Clément BARDET
+           - PhD
+         * - Téo BOUTIN
+           - Research Engineer
+         * - Simon CAPPE
+           - Intern
+         * - Alain CARTALADE
+           - Senior Researcher
+         * - Pierre CHAVASSE-FRÉTAZ
+           - Intern
+         * - Alain GENTY
+           - Senior Researcher
+         * - Pierre KESTENER
+           - Senior Researcher
+         * - Hoel KERAUDREN
+           - PhD
+         * - Aurelien LAURENS
+           - Engineer
+         * - Capucine MÉJANÈS
+           - PhD
+
+   .. grid-item-card:: 2024
+
+      .. list-table:: 
+         :align: center
+         :header-rows: 1
+
+         * - Name
+           - Position
+         * - Clément BARDET
+           - Intern
+         * - Téo BOUTIN
+           - PhD
+         * - Simon CAPPE
+           - Intern
+         * - Alain CARTALADE
+           - Senior Researcher
+         * - Sacha DUPUY
+           - Intern
+         * - Alain GENTY
+           - Senior Researcher
+         * - Pierre KESTENER
+           - Senior Researcher
+         * - Hoel KERAUDREN
+           - PhD
+         * - Capucine MÉJANÈS
+           - PhD
+
+.. grid:: 2
+   :gutter: 4
+   :margin: 3 3 0 5
+
+   .. grid-item-card:: 2023
+
+      .. list-table:: 
+         :align: center
+         :header-rows: 1
+
+         * - Name
+           - Position
+         * - Téo BOUTIN
+           - PhD
+         * - Alain CARTALADE
+           - Senior Researcher
+         * - Théo DUEZ
+           - Intern
+         * - Chaïma ELHARTI
+           - Intern
+         * - Alain GENTY
+           - Senior Researcher
+         * - Pierre KESTENER
+           - Senior Researcher
+         * - Hoel KERAUDREN
+           - PhD
+         * - Capucine MÉJANÈS
+           - PhD
+
+   .. grid-item-card:: 2022
+
+      .. list-table:: 
+         :align: center
+         :header-rows: 1
+
+         * - Name
+           - Position
+         * - Téo BOUTIN
+           - PhD
+         * - Alain CARTALADE
+           - Senior Researcher
+         * - Hugo de GIETER
+           - Intern
+         * - Alain GENTY
+           - Senior Researcher
+         * - Pierre KESTENER
+           - Senior Researcher
+         * - Capucine MÉJANÈS
+           - PhD
+         * - Evangelos STAVROPOULOS-VASILAKIS
+           - Post-doc
+         * - Werner VERDIER
+           - PhD
+
+
 

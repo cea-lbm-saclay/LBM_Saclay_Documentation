@@ -37,7 +37,7 @@ STMF Publications with LBM
    .. admonition:: Ternary Two-phase
 
       [P9]_ [P11]_ [T2]_ [T3]_ |br|
-      [R9]_ [R11]_ [R12]_
+      [R9]_ [R11]_ [R12]_ [T4]_
 
    :math:`\hspace{3mm}`
 
@@ -137,7 +137,9 @@ List of PhD thesis and HDR
 
 .. [T2] Verdier W., Phase-field modelling and simulations of phase separation in the two-phase nuclear glass Na :math:`_2` O–SiO :math:`_2` –MoO :math:`_3`. Thèse de doctorat CEA/Institut Polytechnique de Paris. **2022**.
 
-.. [T3] Boutin T., Simulation à l’échelle mésoscopique des gels d’altération des verres nucléaires. Thèse de doctorat CEA/Université Paris-Saclay. **2025**.
+.. [T3] Boutin T., Simulation à l’échelle mésoscopique des gels d’altération des verres nucléaires. Thèse de doctorat CEA/Université Paris-Saclay (ED SMEMaG). https://theses.hal.science/tel-05147983v1. **2025**.
+
+.. [T4] Méjanès C., Modélisation et simulation de la séparation de phase dans les verres nucléaires sous influence de la variation de densité. Thèse de doctorat CEA/Université Paris-Saclay (ED SMEMaG). **2025**.
 
 
 List of CEA Technical Reports
