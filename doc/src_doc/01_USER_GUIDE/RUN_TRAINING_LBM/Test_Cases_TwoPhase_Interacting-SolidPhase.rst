@@ -129,16 +129,16 @@ Moving container with hole
 .. admonition:: For LBM training session: run LBM_Saclay on Orcus
    :class: error
 
-   Go to either folder  ``TestCase19_Static-Container-Hole`` or ``TestCase20_Moving-Container-Hole`` and run LBM_Saclay on Orcus.
+   Go to either folder  ``TestCase20_Static-Container-Hole`` or ``TestCase21_Moving-Container-Hole`` and run LBM_Saclay on Orcus.
 
     .. code-block:: shell
 
-       $ cd TestCase20_Moving-Container-Hole
+       $ cd TestCase21_Moving-Container-Hole
        $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase20_Moving-Container-Hole.ini
 
-   The simulation ran 1956.470 seconds (~32min36sec) on partition gpuq_h100 of Orcus to achieve 1.000.001 time-steps.
+   To achieve 1.000.001 time-steps, the simulation times on different architectures are indicated in table below where MCUPS means *Million Cell Updates Per Seconds*.
 
-      .. list-table:: Benchmark (performed September 3rd, 2025)
+      .. list-table:: Benchmark on DM2S computers (performed September 3rd, 2025)
          :stub-columns: 1
          :header-rows: 1
 
@@ -146,26 +146,38 @@ Moving container with hole
            - Architecture
            - Model
            - Time of simulation
+           - MCUPS
+           - Bandwidth (Gb/s)
          * - manwe
-           - CPU
-           - Intel(R) Xeon(R) Gold 6230R CPU @ 2.10GHz
+           - CPU Intel
+           - Xeon Gold 6230R 2.10GHz
            - 52202 s (~870min)
+           - ?
+           - ?
          * - manwe
-           - GPU
+           - GPU nvidia
            - RTX A6000
            - 12086 s (~201min26s)
+           - ?
+           - ?
          * - Orcus
-           - GPU
+           - GPU nvidia
            - V100
-           - 5967 s (~99min27s)
+           - 5966 s (~99min26)
+           - 544.55
+           - 379.01
          * - Orcus
-           - GPU
+           - GPU nvidia
            - A100
-           - 5085 s (~84min45s) ?
+           - 3122 s (~52min02s)
+           - 1054.69
+           - 734.06
          * - Orcus
-           - GPU
+           - GPU nvidia
            - H100
-           - 1882 s (~31min22s)
+           - 1879 s (~31min19s)
+           - 1796.28
+           - 1250.21
 
 .. admonition:: For LBM training session: post-processing with paraview 5.11
    :class: error
@@ -186,3 +198,5 @@ Moving container with hole
    .. raw:: html
    
       <video controls src="../../../_static/Vid_Container-Hole_Move-noMove.webm" width="650" height="420"> </video>
+
+.. sectionauthor:: Alain Cartalade

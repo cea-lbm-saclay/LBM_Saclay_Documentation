@@ -1,8 +1,8 @@
-.. _Videos-Gallery:
-
 .. |br| raw:: html
 
    <br />
+
+.. _Videos-Gallery:
 
 Videos gallery of simulations with LBM
 ======================================

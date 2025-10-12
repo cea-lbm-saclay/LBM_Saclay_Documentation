@@ -112,7 +112,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
             .. grid-item::
                :columns: 3
 
-               .. admonition:: Characteristic velocity 
+               .. admonition:: Characteristic velocity
       
                   .. math::
                      :label: U_RT
@@ -618,6 +618,44 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
             Make a video of your simulation with paraview.
 
+      .. dropdown:: 3D Taylor bubble
+         :icon: comment
+
+         The mesh is composed of 128x128x1536 cells (i.e. ~ 25.166 Mcells). Go to folder and run
+
+          .. code-block:: shell
+
+             $ cd TestCase22_Taylor-Bubble3D
+             $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_4MPI.slurm Taylor-Bubble3D_4MPI.ini
+
+
+         .. list-table:: Benchmark on several computers
+            :stub-columns: 1
+            :header-rows: 1
+
+            * - Computer
+              - Architecture
+              - Model
+              - Nb MPI
+              - Time of simulation
+              - MCUPS
+              - Bandwidth (Gb/s)
+            * - Orcus
+              - GPU nvidia
+              - H100
+              - 2
+              - 41319 s (~11h28min39s)
+              - 447.89
+              - 505.22
+            * - Orcus
+              - GPU nvidia
+              - H100
+              - 4
+              - 23021 s (~6h23min41s)
+              - 820.26
+              - 925.26
+
+
 Bibliography
 ------------
 
@@ -627,3 +665,4 @@ Bibliography
 
 
 .. sectionauthor:: Alain Cartalade
+   

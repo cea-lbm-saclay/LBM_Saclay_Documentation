@@ -23,20 +23,16 @@ Welcome to LBM_Saclay's documentation
       :width: 280
       :scale: 40
    
-   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at **CEA/Saclay** and its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on https://codev-tuleap.cea.fr/projects/LBMSaclay. For that purpose, follow the instructions on :ref:`Quick-Start`.
+   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at **CEA/Saclay** and its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on :bdg-link-success:`codev-tuleap.cea <https://codev-tuleap.cea.fr/projects/LBMSaclay>`. For that purpose, follow the instructions on :bdg-ref-primary:`Quick-Start`.
 
 .. admonition:: Videos gallery
    :class: important
       
    The combination of phase-field models with LBM and GPU is a very efficient approach for simulating multi-phase and multi-component flows. To illustrate what can be simulated, several videos are presented in different parts of this documentation. An overview can be found on
       
-   .. toctree::
-      :maxdepth: 1
-
-      src_doc/00_INTRODUCTION/Simulation_with_LBM.rst
-      
-   - 2D simulations with LBM_Saclay are presented in :ref:`TwoP-Training-LBM`.
-   - Applications of :ref:`Math-Models` are illustrated with videos.
+   - :bdg-ref-primary:`Videos-Gallery`
+   - 2D simulations with LBM_Saclay are presented in :bdg-ref-primary:`TwoP-Training-LBM`.
+   - Applications of :bdg-ref-primary:`Math-Models` are illustrated with videos.
 
 ****************
 **Introduction**
@@ -59,28 +55,28 @@ Welcome to LBM_Saclay's documentation
 
       .. admonition:: Mathematical models: phase-field theory
    
-         To be thermodynamically-consistent and capture the interface between phases, we use the **phase-field theory** (see :ref:`Basic-Concepts-Phase-Field-Theory`) to derive the mathematical phase-field models (:math:`\varphi`-models).
+         To be thermodynamically-consistent and capture the interface between phases, we use the **phase-field theory** (see :bdg-ref-primary:`Basic-Concepts-Phase-Field-Theory`) to derive the mathematical phase-field models (:math:`\varphi`-models).
 
          - For hydrodynamic phenomena of two immiscible fluids such as *Rayleigh-Taylor instability*, *rising bubbles*, *splashing droplets*, *capillary wave* etc., the interface is captured by the Conservative Allen-Cahn model (or levelset equation) which coupled with incompressible Navier-Stokes equations.
    
-         - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation. You will find in this documentation :ref:`Basic-Concepts-Phase-Field-Theory`.
+         - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation. You will find in this documentation :bdg-ref-primary:`Basic-Concepts-Phase-Field-Theory`.
 
          .. only:: titania
    
-            - A complete presentation can be found in :download:`CEA INSTN Course of two-phase flows with phase-field models <file:///home/lbm-saclay/PRESENTATIONS-LBM/COURSE-TRAINING/2025_Cartalade_COURS-INSTN_CFD-DIPHASIQUE_PARTIE1C_16et17juin2025_MAP.pdf>`. In this course, basic of thermodynamics, free energy functional, derivation of constitutive laws, and all proofs of equivalence between potential form and conservative forms of surface tension force, etc.
+            - A complete presentation can be found in :bdg-link-warning:`CEA INSTN Course of two-phase flows with phase-field models <file:///home/lbm-saclay/PRESENTATIONS-LBM/COURSE-TRAINING/2025_Cartalade_COURS-INSTN_CFD-DIPHASIQUE_PARTIE1C_16et17juin2025_MAP.pdf>`. In this course, basic of thermodynamics, free energy functional, derivation of constitutive laws, and all proofs of equivalence between potential form and conservative forms of surface tension force, etc.
 
    .. tab-item:: Numerical schemes
 
       .. admonition:: Numerical schemes: Lattice Boltzmann Methods and C++ implementation
 
-         The *Lattice Boltzmann Equation* (LBE) is one discretization (among other) of the continuous Boltzmann equation in the kinetic theory of gases (see  :ref:`Basic-LBM`). The Lattice Boltzmann Methods (**LBM**) are a set of numerical methods, based on that LBE, used as solver of Navier-Stokes equations and other conservative Partial Derivative Equations (PDEs). It is an alternative method to classical approaches for CFD such as finite element or finite volume methods. Its main advantage is to simulate simply different versions of Navier-Stokes equations (incompressible and low Mach formulations) and run efficiently on supercomputers. In this documentation, the section :ref:`LBM-Saclay-Schemes` describes the LB methods which are implemented in LBM_Saclay.
-         LBM is a powerful method which is very efficient on Graphics Processing Units (GPUs). LBM_Saclay developers program neither in ``cuda`` (for Nvidia GPUs) nor ``opencl`` but in C++ standard language. With a simple modification of ``cmake`` options, the code can be compiled either on CPU architectures or on GPU devices (see :ref:`Quick-Start`). The Kokkos library is used for the portability of LBM_Saclay. You will find in :ref:`Guidelines` what you need to implement your own initial conditions or source terms. Tutorials are also under progress for more advanced programmers who wish to develop new kernels with new ``setup_collider`` functions.
+         The *Lattice Boltzmann Equation* (LBE) is one discretization (among other) of the continuous Boltzmann equation in the kinetic theory of gases (see :bdg-ref-primary:`Basic-LBM`). The Lattice Boltzmann Methods (**LBM**) are a set of numerical methods, based on that LBE, used as solver of Navier-Stokes equations and other conservative Partial Derivative Equations (PDEs). It is an alternative method to classical approaches for CFD such as finite element or finite volume methods. Its main advantage is to simulate simply different versions of Navier-Stokes equations (incompressible and low Mach formulations) and run efficiently on supercomputers. In this documentation, the section :bdg-ref-primary:`LBM-Saclay-Schemes` describes the LB methods which are implemented in LBM_Saclay.
+         LBM is a powerful method which is very efficient on Graphics Processing Units (GPUs). LBM_Saclay developers program neither in ``cuda`` (for Nvidia GPUs) nor ``opencl`` but in C++ standard language. With a simple modification of ``cmake`` options, the code can be compiled either on CPU architectures or on GPU devices (see :bdg-ref-primary:`Quick-Start`). The Kokkos library is used for the portability of LBM_Saclay. You will find in :bdg-ref-primary:`Guidelines` what you need to implement your own initial conditions or source terms. Tutorials are also under progress for more advanced programmers who wish to develop new kernels with new ``setup_collider`` functions.
 
    .. tab-item:: Simulations
 
       .. admonition:: Simulations: Multi-Phase and Multi-Component flows
 
-         LBM_Saclay can simulate Multi-Phase and Multi-Component (**MPMC**) flows such as *binary demixing*, *buyoancy and coalescence of bubbles*, *Rayleigh-Taylor instability*, *liquid-gas phase change*, etc. A quick look of those phenomena is presented on :numref:`target-Fig-Approach`. Other examples are given in each subsection of :ref:`Math-Models` which describe the PDEs of each model and their closure relationships. The phase-field models that are implemented in LBM_Saclay, are based on different forms of Cahn-Hilliard and Allen-Cahn equations which are modified and adapted to problems to simulate e.g. *crystal growth*, *dissolution of porous media*, *liquid-vapor phase change*, etc.
+         LBM_Saclay can simulate Multi-Phase and Multi-Component (**MPMC**) flows such as *binary demixing*, *buyoancy and coalescence of bubbles*, *Rayleigh-Taylor instability*, *liquid-gas phase change*, etc. A quick look of those phenomena is presented on :numref:`target-Fig-Approach`. Other examples are given in each subsection of :bdg-ref-primary:`Math-Models` which describe the PDEs of each model and their closure relationships. The phase-field models that are implemented in LBM_Saclay, are based on different forms of Cahn-Hilliard and Allen-Cahn equations which are modified and adapted to problems to simulate e.g. *crystal growth*, *dissolution of porous media*, *liquid-vapor phase change*, etc.
       
 .. _target-Fig-Approach:
    
