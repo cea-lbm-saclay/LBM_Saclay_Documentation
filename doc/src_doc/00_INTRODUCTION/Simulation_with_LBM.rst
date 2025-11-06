@@ -39,7 +39,7 @@ That second simulation is the classical test case of Taylor bubble inside a chan
 
    .. raw:: html
 
-      <video controls src="../../_static/Vid3D_Taylor-Bubble_vC_Bo20.webm" width="800" height="620"> </video>
+      <video controls src="../../_static/Vid3D_Taylor-Bubble_4MPI-Orcus.webm" width="800" height="620"> </video>
 
    Video: simulation of a rising Taylor bubble in a parallelepiped channel
 
