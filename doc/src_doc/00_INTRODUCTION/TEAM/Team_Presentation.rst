@@ -3,9 +3,10 @@ Team presentation
 
 .. admonition:: LBM_Saclay team
    
-     The LBM_Saclay code is developped at LDEL laboratory of the french Atomic Energy and Alternative Energy Commission. The LBM_Saclay team is composed of applied mathematicians, physicists and computer scientists.
+     The LBM_Saclay code is developped at LDEL laboratory of the french Atomic Energy and Alternative Energies Commission. The LBM_Saclay team is composed of applied mathematicians, physicists and computer scientists.
 
-**LBM_Saclay workforce over the years**
+LBM_Saclay workforce over the years
+-----------------------------------
 
 .. grid:: 2
    :gutter: 4
@@ -122,4 +123,10 @@ Team presentation
            - PhD
 
 
+Photos
+------
 
+.. toctree::
+   :maxdepth: 1
+
+   ./Photos.rst
