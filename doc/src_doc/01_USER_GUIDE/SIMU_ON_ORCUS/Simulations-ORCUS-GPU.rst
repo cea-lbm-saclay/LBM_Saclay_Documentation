@@ -17,6 +17,8 @@ Connexion and disks on ORCUS
       .. admonition:: For training session: connexion on ORCUS
          :class: error
 
+         Inside your new terminal connect to ORCUS:
+
             .. code-block:: shell
 
                loginname@is247529:~$ ssh -XC orcusloginamd2
@@ -44,10 +46,16 @@ Connexion and disks on ORCUS
          Last login: Wed Nov 27 09:10:54 2024 from 132.166.148.113
          loginname@orcusloginamd2:~$
 
-      .. admonition:: For training session: if first connexion on Orcus
+      .. admonition:: For training session: if FIRST connexion on ORCUS
          :class: error
 
-         Copy folder ``run_training_lbm`` in your directory (content on :ref:`Run_Training-LBM`):
+         Copy and rename the bashrc file
+
+            .. code-block:: shell
+
+               $ cp /tmpformation/LBM_Saclay/Bin-Training/bashrc-lbm-training ~/.bashrc
+
+         Copy the folder ``run_training_lbm`` in your directory (content on :ref:`Run_Training-LBM`):
 
             .. code-block:: shell
 
@@ -182,17 +190,17 @@ Submit your job with slurm script
 
          **Submit a job and run**
 
-         In your ``home on ORCUS``, Go to one test case folder (e.g. ``TestCase05_Spinodal-Decomposition2D``):
+         In your ``home on ORCUS``, Go to one test case folder (e.g. ``TestCase08_Rayleigh-Taylor2D``):
 
             .. code-block:: shell
 
-               $ cd ~/run_training_lbm/TestCase05_Spinodal-Decomposition2D
+               $ cd ~/run_training_lbm/TestCase08_Rayleigh-Taylor2D
 
          Submit your test case on one partition: gpuq_h100, gpuq_a100 or gpuq_v100. For example for gpuq_h100:
 
             .. code-block:: shell
 
-               $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase05_Spinodal-Decomposition_CH.ini
+               $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase_Rayleigh-Taylor_Spike-Bubble.ini
 
    .. tab-item:: Check your submission
 
@@ -230,7 +238,7 @@ Submit your job with slurm script
 Transfer your output files on your local computer
 -------------------------------------------------
 
-.. admonition:: For training session: from your local desktop
+.. admonition:: For training session: LOCAL DESKTOP
    :class: error
 
    Once the job is complete, create a directory on your local computer
@@ -244,13 +252,15 @@ Transfer your output files on your local computer
 
       .. code-block:: shell
 
-         $ scp -r S-SAC-DM2S-train1@orcusloginamd2:~/run_training_lbm/TestCase05_Spinodal-Decomposition2D .
+         $ scp -r S-SAC-DM2S-train1@orcusloginamd2:~/run_training_lbm/TestCase08_Rayleigh-Taylor2D .
 
    Post-process with paraview
 
       .. code-block:: shell
 
          $ paraview11&
+
+   For post-processing with paraview, follow the instructions on :ref:`TwoP-Training-LBM`.
 
 .. sectionauthor:: Alain Cartalade
    

@@ -28,21 +28,25 @@ Quick Start with LBM_Saclay
       .. admonition:: For training session: LBM_Saclay's documentation
          :class: error
 
-         Open a terminal, and execute the command below for LBM_Saclay's environment:
+         1. Open a terminal, and execute the command below for LBM_Saclay's environment:
 
             .. code-block:: shell
 
                $ source /tmp_formation/LBM_Saclay/Bin-Training/lbm-env.sh
 
-         The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also creates a directory ``Training-LBM`` on your local disk ``/volatile/formation/`` and copies the folder of test cases ``run_training_lbm`` inside ``/volatile/formation/Training-LBM``.
+          The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also creates a directory ``Training-LBM`` on your local disk ``/volatile/formation/`` and copies the folder of test cases ``run_training_lbm`` inside ``/volatile/formation/Training-LBM``.
 
-         Open the documentation
+         2. Open the LBM_Saclay's documentation
 
             .. code-block:: shell
 
                $ lbm-doc.sh &
 
-         ``lbm-doc.sh`` is an alias of command ``google-chrome /tmpformation/LBM_Saclay/LBM_Saclay_Doc/_build/html/index.html``
+          ``lbm-doc.sh`` is an alias of command ``google-chrome /tmpformation/LBM_Saclay/LBM_Saclay_Doc/_build/html/index.html``
+
+         3. Open a new terminal with ``Ctrl Shift T``
+
+         4. Go to :ref:`Simulations-GPU`
    
    .. tab-item:: For other users
 
@@ -208,7 +212,7 @@ You can run your first simulations on CPUs of your personal desktop. However, it
 It is recommended to start with a test case of folder ``run_training_lbm`` and execute on local disk ``/volatile``. For example:
 
 .. admonition:: For training session: local computer
-   :class: error
+   :class: important
 
    Go to one test case of ``run_training_lbm``, e.g. ``TestCase02_Poiseuille_Water``:
 
@@ -228,7 +232,7 @@ It is recommended to start with a test case of folder ``run_training_lbm`` and e
 The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``/tmpformation/LBM_Saclay``. In paraview, open the ``.vti`` files. For post-processing the ``.h5`` (HDF5) files open the ``.xml`` file and clic on ``XDMF Reader``.
 
 .. admonition:: For training session: post-processing with paraview
-   :class: error
+   :class: important
 
    For post-processing ``.xmf`` and ``.h5`` files for videos use paraview11
 
