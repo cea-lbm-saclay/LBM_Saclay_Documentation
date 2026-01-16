@@ -233,7 +233,14 @@ Transfer your output files on your local computer
 .. admonition:: For training session: from your local desktop
    :class: error
 
-   Once the job is complete, transfer the output files on your local computer:
+   Once the job is complete, create a directory on your local computer
+   
+      .. code-block:: shell
+
+         $ mkdir Post-Processing
+         $ cd Post-Processing/
+
+   Transfer your output files on your local computer:
 
       .. code-block:: shell
 

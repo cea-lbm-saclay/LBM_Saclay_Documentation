@@ -8,7 +8,7 @@ Test performed on computer with ubuntu 22 (4th October, 2024) for kernel ``NSAC_
 
     Go to ``LBM_Saclay_Rech-Dev`` and make a directory for compilation
 
-     .. code-block:: ruby
+     .. code-block:: shell
 
         $ cd LBM_Saclay_Rech-Dev
         $ mkdir build_openmp
@@ -16,13 +16,13 @@ Test performed on computer with ubuntu 22 (4th October, 2024) for kernel ``NSAC_
 
     Create your ``makefile``
 
-     .. code-block:: ruby
+     .. code-block:: shell
 
         $ cmake -DKokkos_ENABLE_OPENMP=ON -DUSE_HDF5=ON -DPROBLEM=NSAC_Comp ..
 
     Compilation
 
-     .. code-block:: ruby
+     .. code-block:: shell
 
         $ make -j 22
 
@@ -33,7 +33,7 @@ Test performed on computer with ubuntu 22 (4th October, 2024) for kernel ``NSAC_
 
    In file bashrc the following modules are loaded
 
-    .. code-block:: ruby
+    .. code-block:: shell
 
         $ module avail HDF5
         $ module unload hdf5/intel-compilers_2023.2.1_openmpi_4.1.6/1.14.3

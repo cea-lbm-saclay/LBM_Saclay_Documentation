@@ -17,13 +17,13 @@ Quick Start with LBM_Saclay
 
             TITANIA: two main LBM directories exist
    
-            - ``/tmpformation/LBM_Saclay``: free access. You will find the ``html`` version of that documentation; the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
+            - ``/tmp_formation/LBM_Saclay``: free access. You will find the ``html`` version of that documentation; the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
 
             - ``/home/lbm-saclay``: shared directory for R&D contributors of LBM_Saclay. Send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr`` to get access.
 
             ORCUS: one shared directory exists
 
-            - ``/tmpformation/LBM_Saclay``: free access. Several versions of LBM_Saclay are already compiled on GPU partitions of ORCUS. You can go directly to :ref:`Simulations-GPU`.
+            - ``/tmp_formation/LBM_Saclay``: free access. Several versions of LBM_Saclay are already compiled on GPU partitions of ORCUS. You can go directly to :ref:`Simulations-GPU`.
 
       .. admonition:: For training session: LBM_Saclay's documentation
          :class: error
@@ -32,7 +32,7 @@ Quick Start with LBM_Saclay
 
             .. code-block:: shell
 
-               $ /tmpformation/LBM_Saclay/Bin-Training/lbm-env.sh
+               $ source /tmp_formation/LBM_Saclay/Bin-Training/lbm-env.sh
 
          The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also creates a directory ``Training-LBM`` on your local disk ``/volatile/formation/`` and copies the folder of test cases ``run_training_lbm`` inside ``/volatile/formation/Training-LBM``.
 
@@ -180,7 +180,18 @@ You can run your first simulations on CPUs of your personal desktop. However, it
 
                 $ make -j 22
 
-   
+            For compilation errors, it is useful to write the exits inside an output file e.g. ``compil.log``:
+
+             .. code-block:: shell
+
+                $ make -j 22 2>&1 | tee compil.log
+
+            or alternatively ``compil2.log``
+
+             .. code-block:: shell
+
+                $ make VERBOSE=1 2>&1 | tee compil2.log
+
       .. tab-item:: Sections for detailed procedure
 
          .. toctree::
