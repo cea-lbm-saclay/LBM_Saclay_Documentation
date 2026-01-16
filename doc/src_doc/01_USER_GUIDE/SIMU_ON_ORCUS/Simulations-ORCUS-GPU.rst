@@ -200,7 +200,7 @@ Submit your job with slurm script
 
             .. code-block:: shell
 
-               $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase_Rayleigh-Taylor_Spike-Bubble.ini
+               $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase_Rayleigh-Taylor_Spike-Bubble.ini
 
    .. tab-item:: Check your submission
 
