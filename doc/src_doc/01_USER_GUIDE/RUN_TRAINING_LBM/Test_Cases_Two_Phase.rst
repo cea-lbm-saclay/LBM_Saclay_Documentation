@@ -217,7 +217,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
             1. Open all ``.vti`` files and select ``phi``
             2. ``Ctrl space`` and ``Cell Data to Point Data`` and ``Apply``
             3. Clic on ``contour`` and select field ``phi`` with value ``0.5`` and ``Apply``
-            4. ``File`` --> ``Save Data``, choose ``.cvs`` format andcreate a new folder ``Contours``. Select it and write the file name: ``data``
+            4. ``File`` --> ``Save Data``, choose ``.cvs`` format and create a new folder ``Contours``. Select it and write the file name: ``data``
             5. Clic on ``Write Time Steps`` and ``Write Time Steps Separately`` and ``OK``
 
             For every time-step, the value of phase-field :math:`\phi=0.5` will be written in an output file ``data_I`` where ``I`` is an integer.
@@ -231,8 +231,6 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
                .. code-block:: shell
 
-                  $ mkdir Contours
-                  $ mv data_* Contours/.
                   $ python Post-Pro_Rayleigh-Taylor2D_CompareFakhari.py
 
             After running the python script you should find :numref:`target-Fig-RT2D-Evol`.
