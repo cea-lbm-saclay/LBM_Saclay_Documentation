@@ -8,17 +8,17 @@ The mathematical model is described in :ref:`Math-NSAC-Comp-Solid`.
 Hydrophobic surface
 -------------------
 
-Folder ``TestCase17_Hydrophobic-Solid`` contains four test cases for simulations of surface tension sensitivity :math:`\sigma`.
+Folder ``TestCase17_Wetting-Surface_Inclined`` contains four test cases for simulations of surface tension sensitivity :math:`\sigma`.
 
 .. admonition:: For LBM training session: run LBM_Saclay on Orcus
    :class: error
 
-   Go to folder ``TestCase17_Hydrophobic-Solid/Sensib_Sigma1s_val1`` for :math:`\sigma_1=10^{-5}` and run
+   Go to folder ``TestCase17_Wetting-Surface_Inclined/Sensib_Sigma1s_val1`` for :math:`\sigma_1=10^{-5}` and run
 
     .. code-block:: shell
 
-       $ cd TestCase17_Hydrophobic-Solid/Sensib_Sigma1s_val1
-       $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase_Hydrophobic-Surface_val1.ini
+       $ cd TestCase17_Wetting-Surface_Inclined/Sensib_Sigma1s_val1
+       $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm  TestCase_Hydrophobic-Surface_val1.ini
 
    The simulation ran 394.865 seconds (~6min35sec) on partition gpuq_h100 of Orcus to achieve 200.001 time-steps.
 
@@ -64,12 +64,12 @@ Container with splashing droplet
 .. admonition:: For LBM training session: run LBM_Saclay on Orcus
    :class: error
 
-   Go to folder  ``TestCase18_Container-Splash`` and run LBM_Saclay on Orcus.
+   Go to folder  ``TestCase19_Container-Splash`` and run LBM_Saclay on Orcus.
 
     .. code-block:: shell
 
-       $ cd TestCase18_Container-Splash
-       $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase18_Container-Splash.ini
+       $ cd TestCase19_Container-Splash
+       $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm  TestCase18_Container-Splash.ini
 
    The simulation ran 966.784 seconds (~16min07sec) on partition gpuq_h100 of Orcus to achieve 300.001 time-steps.
 
@@ -100,12 +100,12 @@ Static container with hole
 .. admonition:: For LBM training session: run LBM_Saclay on Orcus
    :class: error
 
-   Go to either folder  ``TestCase19_Static-Container-Hole`` or ``TestCase20_Moving-Container-Hole`` and run LBM_Saclay on Orcus.
+   Go to either folder  ``TestCase20_Static-Container-Hole`` or ``TestCase20_Moving-Container-Hole`` and run LBM_Saclay on Orcus.
 
     .. code-block:: shell
 
-       $ cd TestCase19_Static-Container-Hole
-       $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase19_Static-Container-Hole.ini
+       $ cd TestCase20_Static-Container-Hole
+       $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase19_Static-Container-Hole.ini
 
    The simulation ran 489.607 seconds (~8min10sec) on partition gpuq_h100 of Orcus to achieve 260.001 time-steps.
 
@@ -129,12 +129,12 @@ Moving container with hole
 .. admonition:: For LBM training session: run LBM_Saclay on Orcus
    :class: error
 
-   Go to either folder  ``TestCase20_Static-Container-Hole`` or ``TestCase21_Moving-Container-Hole`` and run LBM_Saclay on Orcus.
+   Go to ``TestCase21_Moving-Container-Hole`` and run LBM_Saclay on Orcus:
 
     .. code-block:: shell
 
        $ cd TestCase21_Moving-Container-Hole
-       $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase20_Moving-Container-Hole.ini
+       $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase20_Moving-Container-Hole.ini
 
    To achieve 1.000.001 time-steps, the simulation times on different architectures are indicated in table below where MCUPS means *Million Cell Updates Per Seconds*.
 
