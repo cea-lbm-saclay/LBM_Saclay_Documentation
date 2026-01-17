@@ -442,16 +442,16 @@ The first three test cases for two-phase with fluid flows compare the numerical 
          :icon: comment
          :open:
 
-         Folder ``TestCase10_Rayleigh-Plateau2D`` contains four test cases for simulations of surface tension sensitivity :math:`\sigma`.
+         The folder ``TestCase10_Falling-Droplet2D`` contains four test cases for simulations of surface tension sensitivity :math:`\sigma`.
 
          .. admonition:: For LBM training session: run LBM_Saclay on Orcus
             :class: error
 
-            Go to folder ``TestCase10_Rayleigh-Plateau2D/Sigma1`` for :math:`\sigma_1=10^{-5}` and run
+            Go to folder ``TestCase10_Falling-Droplet2D/Sigma1`` for :math:`\sigma_1=10^{-5}` and run
 
              .. code-block:: shell
 
-                $ cd TestCase10_Rayleigh-Plateau2D/Sigma1
+                $ cd TestCase10_Falling-Droplet2D/Sigma1
                 $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase10_Rayleigh-Plateau_Sigma1.ini
 
             The simulation ran 277.977 seconds (~4min38sec) on partition gpuq_h100 of Orcus to achieve 500.001 time-steps.
