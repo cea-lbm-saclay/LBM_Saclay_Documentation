@@ -405,7 +405,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
              .. code-block:: shell
 
                 $ cd TestCase11_Rising-Bubble2D/CASE-A2
-                $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase11_Rising-Bubble_BoMo-A2.ini
+                $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase11_Rising-Bubble_BoMo-A2.ini
 
             The simulation ran 263.901 seconds (~4min24sec) on partition gpuq_h100 of Orcus to achieve 320.001 time-steps. Simulation of ``CASE-A5`` took 802.215 seconds (~13min37sec) on same partition to achieve 1.000.001 time-steps.
 
@@ -452,7 +452,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
              .. code-block:: shell
 
                 $ cd TestCase10_Rayleigh-Plateau2D/Sigma1
-                $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase10_Rayleigh-Plateau_Sigma1.ini
+                $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase10_Rayleigh-Plateau_Sigma1.ini
 
             The simulation ran 277.977 seconds (~4min38sec) on partition gpuq_h100 of Orcus to achieve 500.001 time-steps.
 
@@ -517,7 +517,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
              .. code-block:: shell
 
                $ cd TestCase12_Taylor-Bubble2D/Bo-Mo_Case5
-               $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase11_Taylor-Bubble_BoMo-Cas5.ini
+               $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase11_Taylor-Bubble_BoMo-Cas5.ini
 
             The simulation ran 597.596 seconds (~10 min) on partition gpuq_h100 of Orcus to achieve 800.001 time-steps.
 
@@ -556,7 +556,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
              .. code-block:: shell
 
                 $ cd TestCase13_Splashing-Droplet2D/Splash_Re2000-We8000
-                $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase13_SplashingDroplet_Re2000-We8000_H15_1024x220.ini
+                $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase13_SplashingDroplet_Re2000-We8000_H15_1024x220.ini
 
             The simulation ran 70.609 seconds on partition gpuq_h100 of Orcus to achieve 100.001 time-steps.
 
@@ -598,7 +598,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
              .. code-block:: shell
 
                 $ cd TestCase14_Dam-Break2D
-                $ sbatch /tmpformation/LBM_Saclay/JOB_H100_GPU.slurm TestCase14_Dam-Break.ini
+                $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase14_Dam-Break.ini
 
             The simulation ran 385.795 seconds (~6min26sec) on partition gpuq_h100 of Orcus to achieve 500.001 time-steps.
 
