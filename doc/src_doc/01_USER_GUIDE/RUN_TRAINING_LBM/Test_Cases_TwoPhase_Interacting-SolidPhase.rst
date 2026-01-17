@@ -18,7 +18,7 @@ Folder ``TestCase17_Wetting-Surface_Inclined`` contains four test cases for simu
     .. code-block:: shell
 
        $ cd TestCase17_Wetting-Surface_Inclined/Sensib_Sigma1s_val1
-       $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm  TestCase_Hydrophobic-Surface_val1.ini
+       $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase_Hydrophobic-Surface_val1.ini
 
    The simulation ran 394.865 seconds (~6min35sec) on partition gpuq_h100 of Orcus to achieve 200.001 time-steps.
 
@@ -69,7 +69,7 @@ Container with splashing droplet
     .. code-block:: shell
 
        $ cd TestCase19_Container-Splash
-       $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm  TestCase18_Container-Splash.ini
+       $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase18_Container-Splash.ini
 
    The simulation ran 966.784 seconds (~16min07sec) on partition gpuq_h100 of Orcus to achieve 300.001 time-steps.
 
