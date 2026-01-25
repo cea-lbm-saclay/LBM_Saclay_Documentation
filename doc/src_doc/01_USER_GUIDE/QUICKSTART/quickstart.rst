@@ -192,6 +192,9 @@ You can run your first simulations on CPUs of your personal desktop. However, it
 
                 $ make -j 22
 
+         .. admonition:: Compilation
+            :class: important
+
             For compilation errors, it is useful to write the exits inside an output file e.g. ``compil.log``:
 
              .. code-block:: shell
