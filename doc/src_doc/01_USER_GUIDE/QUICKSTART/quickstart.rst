@@ -42,7 +42,7 @@ Quick Start with LBM_Saclay
 
                $ lbm-doc.sh &
 
-          ``lbm-doc.sh`` is an alias of command ``google-chrome /tmpformation/LBM_Saclay/LBM_Saclay_Doc/_build/html/index.html``
+          ``lbm-doc.sh`` is an alias of command ``google-chrome https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``
 
          3. Open a new terminal with ``Ctrl Shift T``
 
@@ -92,22 +92,28 @@ Quick Start with LBM_Saclay
                $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
 
 
-   .. tab-item:: From folder ``tmpformation`` for training session
+   .. tab-item:: From folder ``tmp_formation`` for training session
 
       .. admonition:: For training session
-         :class: important
+         :class: error
 
          Copy file ``LBM_Saclay_Rech-Dev.tar``
 
           .. code-block:: shell
 
-             $ cp /tmpformation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar .
+             $ cp /tmp_formation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar .
 
          untar your file
 
           .. code-block:: shell
 
              $ tar -xvf LBM_Saclay_Rech-Dev.tar
+
+         Go to LBM_Saclay folder
+
+          .. code-block:: shell
+
+             $ cd LBM_Saclay_Rech-Dev.
 
 
 3. Compilation
@@ -122,13 +128,16 @@ You can run your first simulations on CPUs of your personal desktop. However, it
 
       .. tab-item:: With script ``configure_build.sh``
 
-         .. admonition:: Makefile
+         .. admonition:: Makefile on CPU of local computer
+            :class: error
 
             - For openmp  (``omp``) on CPU
 
              .. code-block:: shell
 
                 ./compilation/local/omp/configure_build.sh
+
+         .. admonition:: Makefile on GPU
          
             - For cuda on GPU H100 of ORCUS
 
@@ -171,12 +180,13 @@ You can run your first simulations on CPUs of your personal desktop. However, it
              Problem numbers:
 
          .. admonition:: Compilation
+            :class: error
 
-            Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set:
+            Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
 
              .. code-block:: shell
 
-                $ cd LBM_Saclay_Rech-Dev/build_cuda_a6000/build_NSAC_Comp
+                $ cd LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp
 
             Compile:
 
@@ -229,7 +239,7 @@ It is recommended to start with a test case of folder ``run_training_lbm`` and e
 5. Post-processing with Paraview
 --------------------------------
 
-The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``/tmpformation/LBM_Saclay``. In paraview, open the ``.vti`` files. For post-processing the ``.h5`` (HDF5) files open the ``.xml`` file and clic on ``XDMF Reader``.
+The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``/tmp_formation/LBM_Saclay``. In paraview, open the ``.vti`` files. For post-processing the ``.h5`` (HDF5) files open the ``.xml`` file and clic on ``XDMF Reader``.
 
 .. admonition:: For training session: post-processing with paraview
    :class: important

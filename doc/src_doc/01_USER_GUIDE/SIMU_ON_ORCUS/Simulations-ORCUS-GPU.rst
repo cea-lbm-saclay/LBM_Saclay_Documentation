@@ -21,7 +21,7 @@ Connexion and disks on ORCUS
 
             .. code-block:: shell
 
-               loginname@is247529:~$ ssh -XC orcusloginamd2
+               $ ssh -XC orcusloginamd2
 
       returns
 
