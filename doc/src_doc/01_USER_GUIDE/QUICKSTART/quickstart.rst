@@ -44,9 +44,7 @@ Quick Start with LBM_Saclay
 
           ``lbm-doc.sh`` is an alias of command ``google-chrome https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``
 
-         3. Open a new terminal with ``Ctrl Shift T``
-
-         4. Go to :ref:`Simulations-GPU`
+         For Sorbonne University students go to :ref:`Simulations-GPU`
    
    .. tab-item:: For other users
 
@@ -57,6 +55,30 @@ Quick Start with LBM_Saclay
 -------------------------------------
 
 .. tab-set::
+
+   .. tab-item:: From folder ``tmp_formation`` for training session
+
+      .. admonition:: For training session
+         :class: error
+
+         Copy file ``LBM_Saclay_Rech-Dev.tar``
+
+          .. code-block:: shell
+
+             $ cp /tmp_formation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar .
+
+         untar your file
+
+          .. code-block:: shell
+
+             $ tar -xvf LBM_Saclay_Rech-Dev.tar
+
+         Go to LBM_Saclay folder
+
+          .. code-block:: shell
+
+             $ cd LBM_Saclay_Rech-Dev.
+
 
    .. tab-item:: From git repository (recommended)
 
@@ -90,30 +112,6 @@ Quick Start with LBM_Saclay
             .. code-block:: shell
 
                $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
-
-
-   .. tab-item:: From folder ``tmp_formation`` for training session
-
-      .. admonition:: For training session
-         :class: error
-
-         Copy file ``LBM_Saclay_Rech-Dev.tar``
-
-          .. code-block:: shell
-
-             $ cp /tmp_formation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar .
-
-         untar your file
-
-          .. code-block:: shell
-
-             $ tar -xvf LBM_Saclay_Rech-Dev.tar
-
-         Go to LBM_Saclay folder
-
-          .. code-block:: shell
-
-             $ cd LBM_Saclay_Rech-Dev.
 
 
 3. Compilation
