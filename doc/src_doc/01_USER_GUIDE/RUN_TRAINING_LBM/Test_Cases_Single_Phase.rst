@@ -3,6 +3,61 @@
 Run "Single phase test cases"
 -----------------------------
 
+Poiseuille flow
+^^^^^^^^^^^^^^^
+
+Once the simulation is complete (78.891 seconds on CPU of is154726 for 250.000 time-steps), follow the instructions below
+
+In paraview12
+
+.. admonition:: For training session: commands in paraview
+   :class: error
+
+   1. Open ``TestCase02_Poiseuille_Water_FINAL.vti`` file and ``Apply``
+   2. ``Ctrl space`` + ``Cell Data to Point Data`` and ``Apply``
+   3. ``Ctrl space`` + ``Plot Over Line``
+   4. Select ``Sample At Segment Centers`` Clic on ``Y axis`` and ``Apply`` --> new graph with profile
+   5. ``File`` --> ``Save Data``, ``file name``: ``Poiseuille_Water.csv`` and ``OK``
+
+Next in your terminal
+
+.. admonition:: For training session: python script
+   :class: error
+
+    .. code-block:: shell
+
+       $ python Post-Pro_Poiseuille_CompareAnaly.py
+
+   If the computation has run on GPU use 
+
+       $ python Post-Pro_Poiseuille_CompareAnaly_GPU.py
+
+    .. code-block:: shell
+
+   In input file ``TestCase01_Poiseuille_Water.ini`` test successively ``nStepmax=250000`` and ``nStepmax=500000``. The python script shoult plot :numref:`target-Fig-SinglePoiseuille`.
+
+.. admonition:: For training session: if problem with plot
+   :class: important
+   
+   Check in ``Poiseuille_Water.csv`` file that the column numbers of ``"vx"`` and ``"Points:1"`` match with numbers set in ``Post-Pro_Poiseuille_Water_CompareAnaly.py`` file:
+
+   .. code-block:: ruby
+
+      if row[0]!= 'laplaphi':
+            x_star = np.append(x_star, float(row[32]))
+            u_star = np.append(u_star, float(row[10]))
+
+
+.. _target-Fig-SinglePoiseuille:
+
+.. figure:: ../../../src_doc/FIGS/01_FIGS_VALIDATIONS/Poiseuille_Water.png
+   :height: 400
+   :width: 500
+   :scale: 100
+   :align: center
+   
+   Validation with Poiseuille analytical solution.
+   
 Lid driven cavity flow
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -69,53 +124,4 @@ The streamlines inside the cavity are presented on :numref:`target-Fig-Stream-Ca
    :align: center
    
    Streamlines
-   
-Poiseuille flow
-^^^^^^^^^^^^^^^
-
-Once the simulation is complete (78.891 seconds on CPU of is154726 for 250.000 time-steps), follow the instructions below
-
-In paraview12
-
-.. admonition:: For training session: commands in paraview
-   :class: error
-
-   1. Open ``TestCase02_Poiseuille_Water_FINAL.vti`` file and ``Apply``
-   2. ``Ctrl space`` + ``Cell Data to Point Data`` and ``Apply``
-   3. ``Ctrl space`` + ``Plot Over Line``
-   4. Select ``Sample At Segment Centers`` Clic on ``Y axis`` and ``Apply`` --> new graph with profile
-   5. ``File`` --> ``Save Data``, ``file name``: ``Poiseuille_Water.csv`` and ``OK``
-
-Next in your terminal
-
-.. admonition:: For training session: python script
-   :class: error
-
-    .. code-block:: shell
-
-       $ python Post-Pro_Poiseuille_CompareAnaly.py
-
-   In input file ``TestCase02_Poiseuille_Water.ini`` test successively ``nStepmax=250000`` and ``nStepmax=500000``. The python script shoult plot :numref:`target-Fig-SinglePoiseuille`.
-
-.. admonition:: For training session: if problem with plot
-   :class: important
-   
-   Check in ``Poiseuille_Water.csv`` file that the column numbers of ``"vx"`` and ``"Points:1"`` match with numbers set in ``Post-Pro_Poiseuille_Water_CompareAnaly.py`` file:
-
-   .. code-block:: ruby
-
-      if row[0]!= 'laplaphi':
-            x_star = np.append(x_star, float(row[32]))
-            u_star = np.append(u_star, float(row[10]))
-
-
-.. _target-Fig-SinglePoiseuille:
-
-.. figure:: ../../../src_doc/FIGS/01_FIGS_VALIDATIONS/Poiseuille_Water.png
-   :height: 400
-   :width: 500
-   :scale: 100
-   :align: center
-   
-   Validation with Poiseuille analytical solution.
    
