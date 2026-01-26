@@ -124,7 +124,7 @@ You can run your first simulations on CPUs of your personal desktop. However, it
 
     .. code-block:: shell
 
-       $ cd LBM_Saclay_Rech-Dev .
+       $ cd LBM_Saclay_Rech-Dev
 
     and execute the ``configure_build.sh`` script to create the ``makefile``
 
