@@ -32,7 +32,7 @@ Quick Start with LBM_Saclay
 
             .. code-block:: shell
 
-               $ source /tmp_formation/LBM_Saclay/Bin-Training/lbm-env.sh
+               $ source /tmp_formation/LBM_Saclay/lbm-env.sh
 
           The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also creates a directory ``Training-LBM`` on your local disk ``/volatile/formation/`` and copies the folder of test cases ``run_training_lbm`` inside ``/volatile/formation/Training-LBM``.
 
