@@ -120,17 +120,17 @@ You can run your first simulations on CPUs of your personal desktop. However, it
 
    - For openmp  (``omp``) on CPU
 
-      Go to LBM_Saclay folder
+    Go to ``LBM_Saclay`` folder
 
-      .. code-block:: shell
+    .. code-block:: shell
 
-         $ cd LBM_Saclay_Rech-Dev .
+       $ cd LBM_Saclay_Rech-Dev .
 
-      and execute the ``configure_build.sh`` script to create the ``makefile``
+    and execute the ``configure_build.sh`` script to create the ``makefile``
 
-      .. code-block:: shell
+    .. code-block:: shell
 
-         $ ./compilation/local/omp/configure_build.sh
+       $ ./compilation/local/omp/configure_build.sh
 
 will return:
 
@@ -161,6 +161,10 @@ will return:
    :class: error
 
    Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
+
+    .. code-block:: shell
+
+       Problem numbers: 10
 
     .. code-block:: shell
 
