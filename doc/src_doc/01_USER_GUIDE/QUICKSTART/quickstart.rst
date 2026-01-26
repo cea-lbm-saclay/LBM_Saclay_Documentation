@@ -34,7 +34,7 @@ Quick Start with LBM_Saclay
 
                $ source /tmp_formation/LBM_Saclay/lbm-env.sh
 
-          The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also creates a directory ``Training-LBM`` on your local disk ``/volatile/formation/`` and copies the folder of test cases ``run_training_lbm`` inside ``/volatile/formation/Training-LBM``.
+          The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also copies the source files of LBM_Saclay and the folder of test cases ``run_training_lbm`` inside your ``/home/train``.
 
          2. Open the LBM_Saclay's documentation
 
@@ -59,7 +59,7 @@ Quick Start with LBM_Saclay
    .. tab-item:: From folder ``tmp_formation`` for training session
 
       .. admonition:: For training session
-         :class: error
+         :class: important
 
          Copy file ``LBM_Saclay_Rech-Dev.tar``
 
@@ -73,11 +73,7 @@ Quick Start with LBM_Saclay
 
              $ tar -xvf LBM_Saclay_Rech-Dev.tar
 
-         Go to LBM_Saclay folder
-
-          .. code-block:: shell
-
-             $ cd LBM_Saclay_Rech-Dev.
+         
 
 
    .. tab-item:: From git repository (recommended)
@@ -131,9 +127,17 @@ You can run your first simulations on CPUs of your personal desktop. However, it
 
             - For openmp  (``omp``) on CPU
 
-             .. code-block:: shell
+              Go to LBM_Saclay folder
 
-                ./compilation/local/omp/configure_build.sh
+               .. code-block:: shell
+
+                  $ cd LBM_Saclay_Rech-Dev .
+
+              and execute the configure script to crreate the ``makefile``
+
+               .. code-block:: shell
+
+                  $ ./compilation/local/omp/configure_build.sh
 
          .. admonition:: Makefile on GPU
          
