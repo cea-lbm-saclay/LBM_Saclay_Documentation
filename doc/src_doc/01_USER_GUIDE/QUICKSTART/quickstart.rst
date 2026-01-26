@@ -160,11 +160,13 @@ will return:
 .. admonition:: Compilation
    :class: error
 
-   Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
+   Write ``10`` for ``NSAC_Comp`` kernel
 
     .. code-block:: shell
 
        Problem numbers: 10
+
+   Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
 
     .. code-block:: shell
 
@@ -231,19 +233,19 @@ will return:
 It is recommended to start with a test case of folder ``run_training_lbm`` and execute on local disk ``/volatile``. For example:
 
 .. admonition:: For training session: local computer
-   :class: important
+   :class: error
 
-   Go to one test case of ``run_training_lbm``, e.g. ``TestCase02_Poiseuille_Water``:
+   Go to one test case of ``run_training_lbm``, e.g. ``TestCase01_Poiseuille_Water``:
 
       .. code-block:: shell
 
-         $ cd /volatile/formation/Training-LBM/run_training_lbm/TestCase02_Poiseuille_Water
+         $ cd ~/run_training_lbm/TestCase01_Poiseuille_Water
 
    Run LBM_saclay with the input file ``name.ini``
 
     .. code-block:: shell
 
-       $ /volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase02_Poiseuille_Water.ini
+       $ ~/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase01_Poiseuille_Water.ini
 
 5. Post-processing with Paraview
 --------------------------------
