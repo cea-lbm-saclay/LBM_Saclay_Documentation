@@ -115,29 +115,69 @@ Quick Start with LBM_Saclay
 
 You can run your first simulations on CPUs of your personal desktop. However, it is highly recommended to run LBM_Saclay on one (or better on several) graphic cards (GPUs). You will find the procedure for compiling on single-CPU, single-GPU, and multi-GPU.
 
+.. admonition:: Makefile on CPU of local computer
+   :class: error
+
+   - For openmp  (``omp``) on CPU
+
+      Go to LBM_Saclay folder
+
+      .. code-block:: shell
+
+         $ cd LBM_Saclay_Rech-Dev .
+
+      and execute the ``configure_build.sh`` script to create the ``makefile``
+
+      .. code-block:: shell
+
+         $ ./compilation/local/omp/configure_build.sh
+
+will return:
+
+.. code-block:: shell
+
+   The following problems are currently implemented:
+   0  AC
+   1  Advection-Diffusion
+   2  Crystal_growth_Younsi
+   3  GPMixt
+   4  GPMixtNS
+   5  GPMixtTernary
+   6  GPMuTernary
+   7  MPwSLphC
+   8  NS
+   9  NS_3phases_1comp_phase_change
+   10 NSAC_Comp
+   11 NSAC_Comp_3phases
+   12 NSAC_Comp_3phases3D
+   13 NSAC_coupling
+   14 NSAC_Fakhari
+   15 NSAC_Surfactant
+   Choose which problems to include by indicating a list of space or comma separated numbers, eg '0 1' or '0,1'.
+   Write 'all' to include all problems.
+   Problem numbers:
+
+.. admonition:: Compilation
+   :class: error
+
+   Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
+
+    .. code-block:: shell
+
+       $ cd LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp
+
+   Compile:
+
+    .. code-block:: shell
+
+       $ make -j 22
+
 .. dropdown::
    :icon: comment
-
+   
    .. tab-set::
 
       .. tab-item:: With script ``configure_build.sh``
-
-         .. admonition:: Makefile on CPU of local computer
-            :class: error
-
-            - For openmp  (``omp``) on CPU
-
-              Go to LBM_Saclay folder
-
-               .. code-block:: shell
-
-                  $ cd LBM_Saclay_Rech-Dev .
-
-              and execute the configure script to crreate the ``makefile``
-
-               .. code-block:: shell
-
-                  $ ./compilation/local/omp/configure_build.sh
 
          .. admonition:: Makefile on GPU
          
@@ -156,47 +196,7 @@ You can run your first simulations on CPUs of your personal desktop. However, it
                 ./compilation/manwe/cuda_a6000/configure_build.sh
 
 
-         will return:
-
-          .. code-block:: shell
-
-             The following problems are currently implemented:
-             0  AC
-             1  Advection-Diffusion
-             2  Crystal_growth_Younsi
-             3  GPMixt
-             4  GPMixtNS
-             5  GPMixtTernary
-             6  GPMuTernary
-             7  MPwSLphC
-             8  NS
-             9  NS_3phases_1comp_phase_change
-             10 NSAC_Comp
-             11 NSAC_Comp_3phases
-             12 NSAC_Comp_3phases3D
-             13 NSAC_coupling
-             14 NSAC_Fakhari
-             15 NSAC_Surfactant
-             Choose which problems to include by indicating a list of space or comma separated numbers, eg '0 1' or '0,1'.
-             Write 'all' to include all problems.
-             Problem numbers:
-
-         .. admonition:: Compilation
-            :class: error
-
-            Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
-
-             .. code-block:: shell
-
-                $ cd LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp
-
-            Compile:
-
-             .. code-block:: shell
-
-                $ make -j 22
-
-         .. admonition:: Compilation
+         .. admonition:: Compilation errors
             :class: important
 
             For compilation errors, it is useful to write the exits inside an output file e.g. ``compil.log``:
