@@ -245,7 +245,7 @@ It is recommended to start with a test case of folder ``run_training_lbm`` and e
 
     .. code-block:: shell
 
-       $ ~/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase01_Poiseuille_Water.ini
+       $ ~/LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp/src/LBM_saclay TestCase01_Poiseuille_Water.ini
 
 5. Post-processing with Paraview
 --------------------------------
