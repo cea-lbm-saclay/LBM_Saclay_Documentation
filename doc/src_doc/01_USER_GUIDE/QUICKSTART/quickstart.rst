@@ -46,7 +46,7 @@ Quick Start with LBM_Saclay
 
          3. Either a. or b./c.
 
-          a. For SMEMaG LBM training go to the red box of "Compilation" section below
+          a. For SMEMaG LBM training go to the red box of :ref:`Compilation-CPU-SMEMaG`
           b. For Sorbonne University students go to :ref:`Simulations-GPU`
           c. For INSTN "Two-phase" training go to :ref:`Simulations-GPU`
    
@@ -113,6 +113,7 @@ Quick Start with LBM_Saclay
 
                $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
 
+.. _Compilation-CPU-SMEMaG:
 
 3. Compilation
 --------------
