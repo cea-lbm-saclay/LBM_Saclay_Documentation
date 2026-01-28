@@ -44,10 +44,11 @@ Quick Start with LBM_Saclay
 
           ``lbm-doc.sh`` is an alias of command ``google-chrome https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``
 
-         3. Either a. or b.
+         3. Either a. or b./c.
 
           a. For SMEMaG LBM training go to the red box of "Compilation" section below
           b. For Sorbonne University students go to :ref:`Simulations-GPU`
+          c. For INSTN "Two-phase" training go to :ref:`Simulations-GPU`
    
    .. tab-item:: For other users
 
