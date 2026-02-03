@@ -21,7 +21,7 @@ Connexion and disks on ORCUS
 
             .. code-block:: shell
 
-               $ ssh -XC orcusloginint1
+               $ ssh -XC orcusloginint2
 
       returns
 
