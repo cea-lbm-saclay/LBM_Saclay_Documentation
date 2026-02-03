@@ -49,12 +49,13 @@ Connexion and disks on ORCUS
       .. admonition:: For training session: if FIRST connexion on ORCUS
          :class: error
 
-         Copy and rename the bashrc file
+         Copy and rename the ``bashrc`` file and source it
 
             .. code-block:: shell
 
                $ cp /tmpformation/LBM_Saclay/Bin-Training/bashrc-lbm-training ~/.bashrc
-
+               $ source ~/.bashrc
+         
          Copy the folder ``run_training_lbm`` in your directory (content on :ref:`Run_Training-LBM`):
 
             .. code-block:: shell
