@@ -18,7 +18,7 @@ That free energy is defined by integral over volume of a free energy density :ma
    :label:
 
    \mathscr{F}[\phi] = \int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\mathcal{F}(\phi,\underbrace{\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi}_{\equiv\boldsymbol{\nabla}\phi})\underbrace{dxdydz}_{\equiv dV}\\
-      & = \int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV
+   &=\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV
    
 where :math:`V` is the volume. More generally, the free energy density :math:`\mathcal{F}` could be considerd as a function of :math:`\phi`, :math:`\boldsymbol{\nabla}\phi` and :math:`\boldsymbol{\nabla}^2\phi`: :math:`\mathcal{F}(\phi,\boldsymbol{\nabla}\phi,\boldsymbol{\nabla}^{2}\phi)`. After arguments of free energy invariance with symmetry of translation and rotation, the Taylor expansion yields (see [1]_ for details):
 
@@ -183,10 +183,8 @@ The surface tension :math:`\sigma` is the excess of free energy for that equilib
 .. math::
    :label: Def_Surface_Tension_PF_Course
 
-   \begin{eqnarray}
    \sigma=\mathscr{F}[\phi^{eq}] & = & \int_{-\infty}^{+\infty} \mathcal{F}(\phi^{eq},\frac{d\phi^{eq}}{dx})dx\\
-   & = & \int_{-\infty}^{+\infty}\left[ Hg(\phi^{eq})+\frac{\zeta}{2}\left(\frac{d\phi^{eq}}{dx}\right)^{2}\right]dx\\
-   \end{eqnarray}
+   &=\int_{-\infty}^{+\infty}\left[ Hg(\phi^{eq})+\frac{\zeta}{2}\left(\frac{d\phi^{eq}}{dx}\right)^{2}\right]dx\\
 
 That integral can calculated analytically (see details in :ref:`Calculation-Surface-Tension`):
 
