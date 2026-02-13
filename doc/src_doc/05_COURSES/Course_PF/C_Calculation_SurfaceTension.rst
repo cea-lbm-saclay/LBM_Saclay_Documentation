@@ -69,9 +69,7 @@ Dans un cas particulier où on mulitiplie cette fonction double-puits par un coe
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \sigma &=\sqrt{2\zeta H}\int_{0}^{1}\sqrt{g(\phi)}d\phi\\&=\sqrt{2\zeta H}\int_{0}^{1}\sqrt{8g_{1}(\phi)}d\phi\\&=\sqrt{2\zeta H\times8}\int_{0}^{1}\phi(1-\phi)d\phi\\&=\frac{2}{3}\sqrt{\zeta H}
-   \end{eqnarray}
+   \sigma &=\sqrt{2\zeta H}\int_{0}^{1}\sqrt{g(\phi)}d\phi\\&=\sqrt{2\zeta H}\int_{0}^{1}\sqrt{8g_{1}(\phi)}d\phi\\&=\sqrt{2\zeta H\times8}\int_{0}^{1}\phi(1-\phi)d\phi\\&=\frac{2}{3}\sqrt{\zeta H}
 
 Cas :math:`g_{2}(\phi)=(\phi_{l}-\phi)^{2}(\phi-\phi_{g})^{2}`
 -----------------------------------------------------------------------------
@@ -81,8 +79,7 @@ Pour certains problèmes de changement de phase liquide/gaz, le double-puits pre
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \sigma &=\sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}\sqrt{g_{2}(\phi)}d\phi\\&=\sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}(\phi_{l}-\phi)(\phi-\phi_{g})d\phi
+   \sigma &=\sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}\sqrt{g_{2}(\phi)}d\phi\\&=\sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}(\phi_{l}-\phi)(\phi-\phi_{g})d\phi
 
 Pour le calcul de l'intégrale, on peut utiliser :math:`\texttt{wxmaxima}`, et on trouve :math:`\int_{\phi_{g}}^{\phi_{l}}(\phi_{l}-\phi)(\phi-\phi_{g})d\phi=(\phi_{l}-\phi_{g})^{3}/6`. Finalement, on obtient
 

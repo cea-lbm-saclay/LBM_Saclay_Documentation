@@ -35,11 +35,7 @@ With the definition of free energy Eq. :eq:`Free_Energy`:
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \frac{\partial \mathscr{F}}{\partial t} & = & \frac{\partial}{\partial t}\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV\\
-      & = & \int_{V} \left[\frac{\delta \mathcal{F}}{\delta \phi}\frac{\partial \phi}{\partial t} \right]dV\\
-      & = & \int_V \frac{\delta \mathcal{F}}{\delta \phi}(-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{diff}(\boldsymbol{x},t))
-   \end{eqnarray}
+   \frac{\partial \mathscr{F}}{\partial t} &=\frac{\partial}{\partial t}\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV\\&=\int_{V} \left[\frac{\delta \mathcal{F}}{\delta \phi}\frac{\partial \phi}{\partial t} \right]dV\\&=\int_V \frac{\delta \mathcal{F}}{\delta \phi}(-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{diff}(\boldsymbol{x},t))
 
 where the chain rule was applied for the second line and the conservation equation Eq. :eq:`Conservation_Cahn-Hilliard_Course` for the third line. The simplest choice to define the flux is to consider it proportional to the gradient of :math:`\delta \mathcal{F}/\delta \phi`:
 
@@ -53,11 +49,7 @@ because:
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \frac{\partial\mathscr{F}}{\partial t}	& = & \int_{V}\frac{\delta\mathcal{F}}{\delta\phi}(-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{diff})dV\\
-	   & = & \int_{V}\frac{\delta\mathcal{F}}{\delta\phi}\left[\boldsymbol{\nabla}\cdot\mathcal{M}_{\phi}\boldsymbol{\nabla}\left(\frac{\delta\mathcal{F}}{\delta\phi}\right)\right]dV\\
-	   & = & \mathcal{M}_{\phi}\int_{V}\frac{\delta\mathcal{F}}{\delta\phi}\left[\boldsymbol{\nabla}^{2}\left(\frac{\delta\mathcal{F}}{\delta\phi}\right)\right]dV
-   \end{eqnarray}
+   \frac{\partial\mathscr{F}}{\partial t}	&=\int_{V}\frac{\delta\mathcal{F}}{\delta\phi}(-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{diff})dV\\&=\int_{V}\frac{\delta\mathcal{F}}{\delta\phi}\left[\boldsymbol{\nabla}\cdot\mathcal{M}_{\phi}\boldsymbol{\nabla}\left(\frac{\delta\mathcal{F}}{\delta\phi}\right)\right]dV\\&=\mathcal{M}_{\phi}\int_{V}\frac{\delta\mathcal{F}}{\delta\phi}\left[\boldsymbol{\nabla}^{2}\left(\frac{\delta\mathcal{F}}{\delta\phi}\right)\right]dV
 
 After an integration by parts
 
@@ -154,11 +146,7 @@ With the definition of free energy Eq. :eq:`Free_Energy`:
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \frac{\partial \mathscr{F}}{\partial t} & = & \frac{\partial}{\partial t}\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV\\
-      & = & \int_{V} \left[\frac{\delta \mathcal{F}}{\delta \phi}\frac{\partial \phi}{\partial t} \right]dV\\
-      & = & \int_V \frac{\delta \mathcal{F}}{\delta \phi}SdV
-   \end{eqnarray}
+   \frac{\partial \mathscr{F}}{\partial t} &=\frac{\partial}{\partial t}\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV\\&=\int_{V} \left[\frac{\delta \mathcal{F}}{\delta \phi}\frac{\partial \phi}{\partial t} \right]dV\\&=\int_V \frac{\delta \mathcal{F}}{\delta \phi}SdV
 
 where the chain rule was applied for the second line and the non-conservation equation Eq. :eq:`Non-Conservation-AC_Course` for the third line. The simplest choice to define the source term is to consider it proportional to :math:`\delta \mathcal{F}/\delta \phi`:
 
@@ -230,12 +218,7 @@ where :math:`\boldsymbol{u}` is the velocity fluid calculated by the Navier-Stok
 .. math::
    :label: Diff_Flux_Equilibrium_Course
 
-   \begin{eqnarray}
-      \boldsymbol{j}_{diff}^{eq} & = & -M_{\phi}\boldsymbol{\nabla}\phi^{eq}\\
-      & = & -M_{\phi}\boldsymbol{\nabla}\left[\frac{1}{2}\left(1+\text{tanh}\left(\frac{2s}{W}\right)\right)\right]\\
-      & = & -M_{\phi}\boldsymbol{n}_{\phi}\frac{\partial}{\partial s}\left[\frac{1}{2}\left(1+\text{tanh}\left(\frac{2s}{W}\right)\right)\right]\\
-      & = & -M_{\phi}\frac{4}{W}\phi^{eq}(1-\phi^{eq})\boldsymbol{n}_{\phi}
-   \end{eqnarray}
+   \boldsymbol{j}_{diff}^{eq} &=-M_{\phi}\boldsymbol{\nabla}\phi^{eq}\\&=-M_{\phi}\boldsymbol{\nabla}\left[\frac{1}{2}\left(1+\text{tanh}\left(\frac{2s}{W}\right)\right)\right]\\&=-M_{\phi}\boldsymbol{n}_{\phi}\frac{\partial}{\partial s}\left[\frac{1}{2}\left(1+\text{tanh}\left(\frac{2s}{W}\right)\right)\right]\\&=-M_{\phi}\frac{4}{W}\phi^{eq}(1-\phi^{eq})\boldsymbol{n}_{\phi}
 
 where :math:`s` is the normal coordinate at the interface and :math:`\boldsymbol{n}_{\phi}` is the normal vector of interface defined by :math:`\boldsymbol{n}_{\phi}=\boldsymbol{\nabla}\phi/|\boldsymbol{\nabla}\phi|`. Finally the counter term flux :math:`\boldsymbol{j}_{CT}` is defined such as it cancels at equilibrium the diffusive flux, i.e. it must be equal and opposite to :math:`\boldsymbol{j}_{diff}^{eq}`:
 
@@ -263,11 +246,7 @@ Another way to derive the CAC model is to start from Allen-Cahn equation :eq:`Al
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \frac{\partial\phi}{\partial t}& = & -\mathscr{M}_{\phi}[2H\phi(1-\phi)(1-2\phi)-\zeta\boldsymbol{\nabla}^{2}\phi]\\
-      & = & -\mathscr{M}_{\phi}\zeta[2\frac{H}{\zeta}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi]\\
-      & = & -\mathscr{M}_{\phi}\zeta[\frac{16}{W^2}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi]
-   \end{eqnarray}
+   \frac{\partial\phi}{\partial t}&=-\mathscr{M}_{\phi}[2H\phi(1-\phi)(1-2\phi)-\zeta\boldsymbol{\nabla}^{2}\phi]\\&=-\mathscr{M}_{\phi}\zeta[2\frac{H}{\zeta}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi]\\&=-\mathscr{M}_{\phi}\zeta[\frac{16}{W^2}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi]
 
 where :math:`\zeta` is put in factor for the second line and the equivalence :math:`H/\zeta=8/W^2` has been used (see ration of Eqs. :eq:`Def_H_Course` and :eq:`Def_zeta_Course` in :ref:`Free-Energy-Double-Wells`) for the third line. The product :math:`\mathscr{M}_{\phi}\zeta` is homogeneous to a diffusivity coefficient because :math:`[\mathscr{M}_{\phi}]=[\text{L}]^3/[\text{E}].[\text{T}]` and :math:`[\zeta]=[\text{E}]/[\text{L}]`. So, we define a new coefficient :math:`M_{\phi}=\mathscr{M}_{\phi}\zeta` wich is homogeneous to :math:`[M_{\phi}]=[\text{L}]/[\text{T}]`.
 
@@ -281,13 +260,7 @@ The term inside the bracket is interpreted as a movement of interface due to the
 .. math::
    :label: Equiv_Derivative_Curvature
 
-   \begin{eqnarray}
-      \kappa\left|\boldsymbol{\nabla}\phi\right| & = & (\boldsymbol{\nabla}\cdot\boldsymbol{n})\left|\boldsymbol{\nabla}\phi\right|\\
-      & = & \boldsymbol{\nabla}\cdot(\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{n})-\boldsymbol{n}\cdot\boldsymbol{\nabla}\left|\boldsymbol{\nabla}\phi\right|\\
-      & = & \boldsymbol{\nabla}\cdot\left(\cancel{\left|\boldsymbol{\nabla}\phi\right|}\frac{\boldsymbol{\nabla}\phi}{\cancel{\left|\boldsymbol{\nabla}\phi\right|}}\right)-\boldsymbol{n}\cdot\boldsymbol{\nabla}\left|\boldsymbol{\nabla}\phi\right|\\
-      & = & \boldsymbol{\nabla}^{2}\phi-\frac{16}{W^{2}}\phi(1-\phi)(1-2\phi)
-   \end{eqnarray}
-
+   \kappa\left|\boldsymbol{\nabla}\phi\right| &=(\boldsymbol{\nabla}\cdot\boldsymbol{n})\left|\boldsymbol{\nabla}\phi\right|\\&=\boldsymbol{\nabla}\cdot(\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{n})-\boldsymbol{n}\cdot\boldsymbol{\nabla}\left|\boldsymbol{\nabla}\phi\right|\\&=\boldsymbol{\nabla}\cdot\left(\cancel{\left|\boldsymbol{\nabla}\phi\right|}\frac{\boldsymbol{\nabla}\phi}{\cancel{\left|\boldsymbol{\nabla}\phi\right|}}\right)-\boldsymbol{n}\cdot\boldsymbol{\nabla}\left|\boldsymbol{\nabla}\phi\right|\\&=\boldsymbol{\nabla}^{2}\phi-\frac{16}{W^{2}}\phi(1-\phi)(1-2\phi)
 
 At this stage, in order to cancel curvature-driven motion of interface, an additional term, the counter term :math:`-M_{\phi}\kappa|\boldsymbol{\nabla}\phi|` is added in the right-hand side of that equation:
 
@@ -297,10 +270,7 @@ At this stage, in order to cancel curvature-driven motion of interface, an addit
 
 .. math::
 
-   \begin{eqnarray}
-      \frac{\partial\phi}{\partial t} & = & M_{\phi}\Bigl[\boldsymbol{\nabla}^{2}\phi-\boldsymbol{n}_{\phi}\cdot\boldsymbol{\nabla}\left|\boldsymbol{\nabla}\phi\right|-\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{\nabla}\cdot\boldsymbol{n}_{\phi}\Bigr]\\
-      & = & M_{\phi}\Bigl[\boldsymbol{\nabla}^{2}\phi-\boldsymbol{\nabla}\cdot(\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{n}_{\phi})\Bigr]
-   \end{eqnarray}
+   \frac{\partial\phi}{\partial t} &=M_{\phi}\Bigl[\boldsymbol{\nabla}^{2}\phi-\boldsymbol{n}_{\phi}\cdot\boldsymbol{\nabla}\left|\boldsymbol{\nabla}\phi\right|-\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{\nabla}\cdot\boldsymbol{n}_{\phi}\Bigr]\\&=M_{\phi}\Bigl[\boldsymbol{\nabla}^{2}\phi-\boldsymbol{\nabla}\cdot(\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{n}_{\phi})\Bigr]
 
 where, for the second line we used Eq. :eq:`Grad_Kernel_Function_Scal_n` for the second term inside the brackets and Eq. :eq:`Def_Curvature_Course` for curvature :math:`\kappa`. For the third line the last two terms are gathered inside the divergence operator. Finally by using the kernel function we obtain the same Conservative Allen-Cahn model:
 
