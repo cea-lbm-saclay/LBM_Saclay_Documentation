@@ -37,10 +37,7 @@ A mass balance for each local density yields
 .. math::
    :label: Mass_Balance_TwoPhase_Course
 
-   \begin{eqnarray}
-      \frac{\partial\varrho_{A}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{A}\boldsymbol{u}+\rho_{A}\boldsymbol{j}_{A})& = & -\dot{m}'''\\
-      \frac{\partial\varrho_{B}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{B}\boldsymbol{u}+\rho_{B}\boldsymbol{j}_{B})& = & +\dot{m}'''
-   \end{eqnarray}
+   \frac{\partial\varrho_{A}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{A}\boldsymbol{u}+\rho_{A}\boldsymbol{j}_{A})&=-\dot{m}'''\\\frac{\partial\varrho_{B}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{B}\boldsymbol{u}+\rho_{B}\boldsymbol{j}_{B})&=+\dot{m}'''
 
 where :math:`\varrho_{B}\boldsymbol{u}` and :math:`\varrho_{A}\boldsymbol{u}` are two advective fluxes and :math:`\rho_{A}\boldsymbol{j}_{A}` and :math:`\rho_{B}\boldsymbol{j}_{B}` are two diffusive fluxes. Here we assume that :math:`\boldsymbol{j}_{A}` and :math:`\boldsymbol{j}_{B}` are equal and opposite:
 
@@ -56,10 +53,7 @@ Expressed with :math:`\phi`, those two equations write
 .. math::
    :label: Eqs_phi
 
-   \begin{eqnarray}
-      \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi+\boldsymbol{j})& = & +\frac{\dot{m}'''}{\rho_{B}}\\
-      \frac{\partial(1-\phi)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}(1-\phi)-\boldsymbol{j}) & = & -\frac{\dot{m}'''}{\rho_{A}}
-   \end{eqnarray}
+   \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi+\boldsymbol{j}) &=+\frac{\dot{m}'''}{\rho_{B}}\\\frac{\partial(1-\phi)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}(1-\phi)-\boldsymbol{j}) &=-\frac{\dot{m}'''}{\rho_{A}}
 
 By summing those two equations, we obtain:
 
@@ -85,10 +79,7 @@ For flux :math:`\boldsymbol{j}`, two hypotheses are used.
 .. math::
    :label: Cahn_Hilliard_Flux
 
-   \begin{eqnarray}
-      \boldsymbol{j} & = & -\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}\\
-      & = & -M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]
-   \end{eqnarray}
+      \boldsymbol{j} &=-\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}\\&=-M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]
 
 and Eq. :eq:`Eqs_phi` becomes the CH model:
 
@@ -119,10 +110,7 @@ The model of two-phase flows is simply composed of incompressible Navier-Stokes 
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \boldsymbol{\nabla}\cdot\boldsymbol{u} & = & 0\\
-      \varrho(\phi)\underbrace{\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]}_{\text{Acceleration}}& = & \underbrace{-\boldsymbol{\nabla}p_{h}}_{\text{Pressure force}}+\underbrace{\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\vartheta(\phi)(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})\right]}_{\text{Viscous force}}+\underbrace{\mu_{\phi}\boldsymbol{\nabla}\phi}_{\text{Capillary force }\boldsymbol{F}_{c}}+\underbrace{\varrho(\phi)\boldsymbol{g}}_{\text{Buoyancy}}
-   \end{eqnarray}
+   \boldsymbol{\nabla}\cdot\boldsymbol{u} &=0\\\varrho(\phi)\underbrace{\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]}_{\text{Acceleration}} &=\underbrace{-\boldsymbol{\nabla}p_{h}}_{\text{Pressure force}}+\underbrace{\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\vartheta(\phi)(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})\right]}_{\text{Viscous force}}+\underbrace{\mu_{\phi}\boldsymbol{\nabla}\phi}_{\text{Capillary force }\boldsymbol{F}_{c}}+\underbrace{\varrho(\phi)\boldsymbol{g}}_{\text{Buoyancy}}
 
 where :math:`\boldsymbol{u}` is the mean velocity, :math:`p_h` is the hydrodynamic pressure, :math:`\boldsymbol{g}` is the gravity. The local properties of fluids are noted :math:`\varrho(\phi)` for density and :math:`\vartheta(\phi)` for kinematic viscosity. Their expressions will will summarized below. The physical dimensions of each term must be :math:`[\text{F}]/[\text{L}]^3` where :math:`[\text{F}]` is used for force: :math:`[\text{F}]=[\text{M.L}]/[\text{T}]^2`. For example for the buoyancy force term
 
@@ -143,13 +131,7 @@ That term is homogeneous to an inverse of length: :math:`[\delta_d]=1/[\text{L}]
 .. math::
    :label: Proof-Equiv-Surface-Tension_NSAC
 
-   \begin{eqnarray}
-      \boldsymbol{F}_{c} & = & \mu_{\phi}\boldsymbol{\nabla}\phi\\
-      & = & \Bigl[4H\phi(\phi-1)(\phi-1/2)-\zeta\boldsymbol{\nabla}^{2}\phi\Bigr]\boldsymbol{\nabla}\phi\\
-      & = & -\frac{3}{2}W\sigma\Bigl[\Delta\phi-\frac{16}{W^{2}}\phi(1-\phi)(1-2\phi)\Bigr]\boldsymbol{\nabla}\phi\\
-      & = & -\frac{3}{2}W\sigma\kappa\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{\nabla}\phi\\
-      & = & -\delta_{d}\sigma\kappa\boldsymbol{n}
-   \end{eqnarray}
+   \boldsymbol{F}_{c} &=\mu_{\phi}\boldsymbol{\nabla}\phi\\&=\Bigl[4H\phi(\phi-1)(\phi-1/2)-\zeta\boldsymbol{\nabla}^{2}\phi\Bigr]\boldsymbol{\nabla}\phi\\&=-\frac{3}{2}W\sigma\Bigl[\Delta\phi-\frac{16}{W^{2}}\phi(1-\phi)(1-2\phi)\Bigr]\boldsymbol{\nabla}\phi\\&=-\frac{3}{2}W\sigma\kappa\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{\nabla}\phi\\&=-\delta_{d}\sigma\kappa\boldsymbol{n}
 
 where we have used
 

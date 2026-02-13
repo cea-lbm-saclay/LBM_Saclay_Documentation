@@ -115,10 +115,7 @@ The critical point corresponds to the presence of an inflexion point on the curv
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \frac{\partial P}{\partial V} & = & 0\\
-      \frac{\partial^2 P}{\partial V^2} & = & 0
-   \end{eqnarray}
+   \frac{\partial P}{\partial V} &=0\\\frac{\partial^2 P}{\partial V^2} &=0
 
 The application of those two conditions to the van der Waals EoS, yields a critical point which is defined by:
 
@@ -165,11 +162,7 @@ The **non-local pressure** :math:`\mathcal{P}(\rho,\boldsymbol{\nabla}\rho)` is 
 .. math::
    :label: Nonlocal_Pressure_NSK_Course
 
-   \begin{eqnarray}
-      \mathcal{P}(\rho,\boldsymbol{\nabla}\rho) & = & \rho \frac{\delta \mathcal{F}(\rho,\boldsymbol{\nabla}\rho)}{\delta \rho}-\mathcal{F}(\rho,\boldsymbol{\nabla}\rho)\\
-      & = & \rho \left[ \frac{\partial \mathcal{W}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right] - \mathcal{W}(\rho) - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}\\
-      & = & p^{eos}(\rho) - \kappa\rho \boldsymbol{\nabla}^2\rho - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}
-   \end{eqnarray}
+      \mathcal{P}(\rho,\boldsymbol{\nabla}\rho) &=\rho \frac{\delta \mathcal{F}(\rho,\boldsymbol{\nabla}\rho)}{\delta \rho}-\mathcal{F}(\rho,\boldsymbol{\nabla}\rho)\\&=\rho \left[ \frac{\partial \mathcal{W}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right] - \mathcal{W}(\rho) - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}\\&=p^{eos}(\rho) - \kappa\rho \boldsymbol{\nabla}^2\rho - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}
 
 where the Euler-Lagrange equation is used in the brackets (see :ref:`Free-Energy-Double-Wells`) for the second line and :eq:`Def_Thermo_Pressure` for the third line. Now we see the consequence on pressure of adding a gradient energy term in the free energy density: the pressure is not any more equal to the eos pressure, it is modified by two non-local terms (i.e. depending on :math:`\boldsymbol{\nabla}\rho`), both depending on the capillary coefficient :math:`\kappa`. The gradient energy term is responsible for the surface tension, the diffuse interface and the modification of pressure which becomes non-local.
 
@@ -178,10 +171,7 @@ In :ref:`Free-Energy-Double-Wells`, we have seen that :math:`\delta \mathcal{F}/
 .. math::
    :label: Non_Local_Chemical_Potential_NSK_Course
 
-   \begin{eqnarray}
-      \mu_{\rho}^{vdW} & = & \left[ \frac{\partial \mathcal{W}^{vdW}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right]\\
-      & = & RT\left[\ln\left(\frac{\rho}{1-b\rho}\right)+\frac{1}{1-b\rho}\right]-2a\rho-\kappa\boldsymbol{\nabla}^{2}\rho
-   \end{eqnarray}
+      \mu_{\rho}^{vdW} &=\left[ \frac{\partial \mathcal{W}^{vdW}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right]\\&=RT\left[\ln\left(\frac{\rho}{1-b\rho}\right)+\frac{1}{1-b\rho}\right]-2a\rho-\kappa\boldsymbol{\nabla}^{2}\rho
 
 Let us emphasize that the non-local terms in Eqs. :eq:`Nonlocal_Pressure_NSK_Course` and :eq:`Non_Local_Chemical_Potential_NSK_Course` have an impact only at the interface between both fluids or in the vicinity of the interface because in the bulk phases, the densities are constant of values :math:`\rho_l` and :math:`\rho_g`, and consequently their gradients are zero.
 
@@ -218,10 +208,7 @@ The van der Waals EoS indicates how the pressure varies as a function of density
 .. math::
    :label:
 
-   \begin{eqnarray}
-      p^{eos}(\rho_l) & = & p^{eos}(\rho_g)\\
-      \mu^{(0)}(\rho_l) & = & \mu^{(0)}(\rho_g)
-   \end{eqnarray}
+      p^{eos}(\rho_l) &=p^{eos}(\rho_g)\\\mu^{(0)}(\rho_l) &=\mu^{(0)}(\rho_g)
 
 With the definition of thermodynamic pressure Eq. :eq:`Def_Thermo_Pressure`, it is straightforward to obtain
 
