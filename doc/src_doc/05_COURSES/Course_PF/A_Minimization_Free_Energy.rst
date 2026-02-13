@@ -8,10 +8,7 @@ On considère une fonction :math:`\phi(x,y,z):=\phi(\boldsymbol{x})` qu'on appel
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \mathscr{F}[\phi] & = & \int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\mathcal{F}(\phi,\underbrace{\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi}_{\equiv\boldsymbol{\nabla}\phi})\underbrace{dxdydz}_{\equiv dV}\\
-      & = & \int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV
-   \end{eqnarray}
+   \mathscr{F}[\phi] &=\int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\mathcal{F}(\phi,\underbrace{\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi}_{\equiv\boldsymbol{\nabla}\phi})\underbrace{dxdydz}_{\equiv dV}\\&=\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV
    
 où V est un volume. On établit l'équation d'Euler-Lagrange en 1D puis en 3D.
 
@@ -30,10 +27,7 @@ En appliquant l'opérateur :math:`\delta` à l'Eq. :eq:`eq:EnergieLibre_F`, on o
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \delta\mathscr{F}	& = & \int_{x_{1}}^{x_{2}}\delta\mathcal{F}(\phi,\phi^{\prime})dx\\
-	   & = & \int_{x_{1}}^{x_{2}}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial\phi^{\prime}}\delta\phi^{\prime}\right]dx
-   \end{eqnarray}
+   \delta\mathscr{F}	&=\int_{x_{1}}^{x_{2}}\delta\mathcal{F}(\phi,\phi^{\prime})dx\\&=\int_{x_{1}}^{x_{2}}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial\phi^{\prime}}\delta\phi^{\prime}\right]dx
 
 Puis en intégrant par parties (avec :math:`\delta\phi(x_{1})=\delta\phi(x_{2})=0`) le second terme on obtient :
 
@@ -73,11 +67,7 @@ En appliquant l'opérateur :math:`\delta`:
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \delta\mathscr{F}[\phi]	& = & \int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\delta\mathcal{F}(\phi,\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi)dxdydz\\
-	   & = & \int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\Biggl[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial(\partial_{x}\phi)}\delta(\partial_{x}\phi)+\frac{\partial\mathcal{F}}{\partial(\partial_{y}\phi)}\delta(\partial_{y}\phi)+\frac{\partial\mathcal{F}}{\partial(\partial_{z}\phi)}\delta(\partial_{z}\phi)\Biggr]dxdydz\\
-	   & = & \int_{V}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\sum_{\alpha=x,y,z}\frac{\partial\mathcal{F}}{\partial(\partial_{\alpha}\phi)}\delta(\partial_{\alpha}\phi)\right]dV
-   \end{eqnarray}   
+   \delta\mathscr{F}[\phi]	&=\int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\delta\mathcal{F}(\phi,\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi)dxdydz\\&=\int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\Biggl[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial(\partial_{x}\phi)}\delta(\partial_{x}\phi)+\frac{\partial\mathcal{F}}{\partial(\partial_{y}\phi)}\delta(\partial_{y}\phi)+\frac{\partial\mathcal{F}}{\partial(\partial_{z}\phi)}\delta(\partial_{z}\phi)\Biggr]dxdydz\\&=\int_{V}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\sum_{\alpha=x,y,z}\frac{\partial\mathcal{F}}{\partial(\partial_{\alpha}\phi)}\delta(\partial_{\alpha}\phi)\right]dV
    
 Pour le 2nd terme, on utilise la convention de sommation d'Einstein pour les indices répétés (on supprime le signe somme) et on commute les opérateurs :math:`\delta` et :math:`\partial_{\alpha}`:
 

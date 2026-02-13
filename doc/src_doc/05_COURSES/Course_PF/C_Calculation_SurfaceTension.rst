@@ -27,11 +27,7 @@ On effectue le changement de variable en transformant l'intégrale en :math:`x` 
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \sigma & = & \int_{\phi^{min}}^{\phi^{max}}\frac{2Hg(\phi)}{\sqrt{2Hg(\phi)/\zeta}}d\phi\\
-	   & = & \int_{\phi^{min}}^{\phi^{max}}\sqrt{2\zeta Hg(\phi)}d\phi\\
-	   & = & \sqrt{2\zeta H}\int_{\phi^{min}}^{\phi^{max}}\sqrt{g(\phi)}d\phi
-   \end{eqnarray}
+   \sigma &=\int_{\phi^{min}}^{\phi^{max}}\frac{2Hg(\phi)}{\sqrt{2Hg(\phi)/\zeta}}d\phi\\&=\int_{\phi^{min}}^{\phi^{max}}\sqrt{2\zeta Hg(\phi)}d\phi\\&=\sqrt{2\zeta H}\int_{\phi^{min}}^{\phi^{max}}\sqrt{g(\phi)}d\phi
 
 Les bornes de l'intégrale en :math:`\phi` dépendent du choix de la fonction de double-puits. En toute généralité, sans faire aucune hypothèse sur la forme de la fonction :math:`g(\phi)`, la tension de surface s'écrit :
 
@@ -57,10 +53,7 @@ Dans le cas où :math:`g(\phi)=\phi^{2}(1-\phi)^{2}`, les bornes de l'intégrale
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \sigma & = & \sqrt{2\zeta H}\int_{0}^{1}\sqrt{g_{1}(\phi)}d\phi\\
-      & = & \sqrt{2\zeta H}\int_{0}^{1}\phi(1-\phi)d\phi
-   \end{eqnarray}
+   \sigma &=\sqrt{2\zeta H}\int_{0}^{1}\sqrt{g_{1}(\phi)}d\phi\\&=\sqrt{2\zeta H}\int_{0}^{1}\phi(1-\phi)d\phi
 
 L'intégration est directe et vaut :math:`\int_{0}^{1}\phi(1-\phi)d\phi=1/6`. Finalement
 
@@ -77,10 +70,7 @@ Dans un cas particulier où on mulitiplie cette fonction double-puits par un coe
    :label:
 
    \begin{eqnarray}
-      \sigma &	= & \sqrt{2\zeta H}\int_{0}^{1}\sqrt{g(\phi)}d\phi\\
-      & = & \sqrt{2\zeta H}\int_{0}^{1}\sqrt{8g_{1}(\phi)}d\phi\\
-	   & = & \sqrt{2\zeta H\times8}\int_{0}^{1}\phi(1-\phi)d\phi\\
-      & = & \frac{2}{3}\sqrt{\zeta H}
+      \sigma &=\sqrt{2\zeta H}\int_{0}^{1}\sqrt{g(\phi)}d\phi\\&=\sqrt{2\zeta H}\int_{0}^{1}\sqrt{8g_{1}(\phi)}d\phi\\&=\sqrt{2\zeta H\times8}\int_{0}^{1}\phi(1-\phi)d\phi\\&=\frac{2}{3}\sqrt{\zeta H}
    \end{eqnarray}
 
 Cas :math:`g_{2}(\phi)=(\phi_{l}-\phi)^{2}(\phi-\phi_{g})^{2}`
@@ -92,9 +82,7 @@ Pour certains problèmes de changement de phase liquide/gaz, le double-puits pre
    :label:
 
    \begin{eqnarray}
-      \sigma &	= & \sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}\sqrt{g_{2}(\phi)}d\phi\\
-	   & = & \sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}(\phi_{l}-\phi)(\phi-\phi_{g})d\phi
-   \end{eqnarray}
+      \sigma &=\sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}\sqrt{g_{2}(\phi)}d\phi\\&=\sqrt{2\zeta H}\int_{\phi_{g}}^{\phi_{l}}(\phi_{l}-\phi)(\phi-\phi_{g})d\phi
 
 Pour le calcul de l'intégrale, on peut utiliser :math:`\texttt{wxmaxima}`, et on trouve :math:`\int_{\phi_{g}}^{\phi_{l}}(\phi_{l}-\phi)(\phi-\phi_{g})d\phi=(\phi_{l}-\phi_{g})^{3}/6`. Finalement, on obtient
 
@@ -112,10 +100,7 @@ On le vérifie en calculant :math:`\sigma` en repartant de la relation général
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \sigma &	= & \int_{-\phi^{\star}}^{+\phi^{\star}}\frac{2Hg_{3}(\phi)}{\sqrt{2Hg_{3}(\phi)/\zeta}}d\phi\\
-	   & = & \sqrt{2\zeta H}\int_{-\phi^{\star}}^{+\phi^{\star}}(\phi^{\star}-\phi)(\phi+\phi^{\star})d\phi
-   \end{eqnarray}
+   \sigma &=\int_{-\phi^{\star}}^{+\phi^{\star}}\frac{2Hg_{3}(\phi)}{\sqrt{2Hg_{3}(\phi)/\zeta}}d\phi\\&=\sqrt{2\zeta H}\int_{-\phi^{\star}}^{+\phi^{\star}}(\phi^{\star}-\phi)(\phi+\phi^{\star})d\phi
    
 En utilisant :math:`\texttt{wxmaxima}` on trouve bien que l'intégrale vaut :math:`\int_{-\phi^{\star}}^{+\phi^{\star}}(\phi-\phi^{\star})(\phi+\phi^{\star})d\phi=4\phi^{\star3}/3`. Finalement on obtient :
 
