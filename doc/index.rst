@@ -99,7 +99,7 @@ Welcome to LBM_Saclay's documentation
       :width: 300
       :scale: 40
 
-   Many CEA collaborators have contributed to the development and validation of LBM_Saclay: P. Kestener, W. Verdier, T. Boutin, E. Stavropoulos-Vasilakis, H. de Gieter, C. Méjanès, T. Duez, H. Keraudren, C. Elharti, S. Dupuy, C. Bardet, S. Cappe, A. Genty, A. Laurens, P. Chavasse-Frétaz, A. Cartalade.
+   Many CEA collaborators have contributed to the development and validation of LBM_Saclay: P. Kestener, W. Verdier, T. Boutin, E. Stavropoulos-Vasilakis, H. de Gieter, C. Méjanès, T. Duez, H. Keraudren, C. Elharti, S. Dupuy, C. Bardet, S. Cappe, A. Genty, A. Laurens, P. Chavasse-Frétaz, Y. Janson, B. Peiffert, C. Renard, A. Cartalade.
 
    - :bdg-ref-primary:`TeamPresentation`
    - :bdg-ref-primary:`List-Of-Publications-with-LBM`
