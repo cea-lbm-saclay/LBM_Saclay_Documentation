@@ -46,7 +46,11 @@ En appliquant l'opérateur :math:`\delta` à :math:`\mathcal{L}(q(t),\dot{q(t)})
 .. math::
    :label:
 
-   \delta\mathcal{L}	&=\mathcal{L}\left(\overline{q}(t),\,\dot{\overline{q}}(t)\right)-\mathcal{L}\left(q(t),\dot{q}(t)\right)\\&=\mathcal{L}\left(q(t)+\delta q(t),\,\dot{q}(t)+\delta\dot{q}(t)\right)-\mathcal{L}\left(q(t),\,\dot{q}(t)\right)\\&=\frac{\partial\mathcal{L}}{\partial q}\delta q+\frac{\partial\mathcal{L}}{\partial\dot{q}}\delta\dot{q}+\mathcal{O}(\delta^{2})
+   \begin{eqnarray}
+      \delta\mathcal{L}	& = & \mathcal{L}\left(\overline{q}(t),\,\dot{\overline{q}}(t)\right)-\mathcal{L}\left(q(t),\dot{q}(t)\right)\\
+	   & = & \mathcal{L}\left(q(t)+\delta q(t),\,\dot{q}(t)+\delta\dot{q}(t)\right)-\mathcal{L}\left(q(t),\,\dot{q}(t)\right)\\
+	   & = & \frac{\partial\mathcal{L}}{\partial q}\delta q+\frac{\partial\mathcal{L}}{\partial\dot{q}}\delta\dot{q}+\mathcal{O}(\delta^{2})
+   \end{eqnarray}
 
 Équations d'Euler-Lagrange
 --------------------------
@@ -56,7 +60,10 @@ Avec ces définitions, en appliquant l'opérateur \delta à l'équation Eq. ([eq
 .. math::
    :label:
 
-   \delta\mathscr{S}	&=\int_{t_{1}}^{t_{2}}\delta\mathcal{L}(q(t),\,\dot{q}(t))dt\\&=\int_{t_{1}}^{t_{2}}\left[\frac{\partial\mathcal{L}}{\partial q}\delta q+\frac{\partial\mathcal{L}}{\partial\dot{q}}\delta\dot{q}\right]dt
+   \begin{eqnarray}
+      \delta\mathscr{S}	& = & \int_{t_{1}}^{t_{2}}\delta\mathcal{L}(q(t),\,\dot{q}(t))dt\\
+	   & = & \int_{t_{1}}^{t_{2}}\left[\frac{\partial\mathcal{L}}{\partial q}\delta q+\frac{\partial\mathcal{L}}{\partial\dot{q}}\delta\dot{q}\right]dt
+   \end{eqnarray}
 
 On intègre par partie le second terme de l'Eq. ([eq:Variation_Action-2]) :
 
@@ -142,7 +149,11 @@ L'énergie cinétique est :
 .. math::
    :label:
 
-   \mathcal{K}(\dot{x},\dot{y},\dot{z})&=\frac{1}{2}m|v|^{2}\\&=\frac{1}{2}m\left(\sqrt{\dot{x}^{2}+\dot{y}^{2}+\dot{z}^{2}}\right)^{2}\\&=\frac{1}{2}m\left(\dot{x}^{2}+\dot{y}^{2}+\dot{z}^{2}\right)
+   \begin{eqnarray}
+      \mathcal{K}(\dot{x},\dot{y},\dot{z})& = & \frac{1}{2}m|v|^{2}\\
+      & = & \frac{1}{2}m\left(\sqrt{\dot{x}^{2}+\dot{y}^{2}+\dot{z}^{2}}\right)^{2}\\
+	   & = & \frac{1}{2}m\left(\dot{x}^{2}+\dot{y}^{2}+\dot{z}^{2}\right)
+   \end{eqnarray}
 
 Dans ce cas, on a trois couples de fonctions dépendantes :math:`(q_{i},\dot{q}_{i})` pour :math:`i=1,2,3` : :math:`(x,\,\dot{x}), (y,\,\dot{y}), (z,\,\dot{z})`, et par conséquent trois équations d'Euler-Lagrange : :math:`m\ddot{x}=-\partial_{x}\mathcal{V}(\boldsymbol{x}),\,  m\ddot{y}=-\partial_{y}\mathcal{V}(\boldsymbol{x}),\, m\ddot{z}=-\partial_{z}\mathcal{V}(\boldsymbol{x})` i.e. en posant :math:`\boldsymbol{F}=-\boldsymbol{\nabla}\mathcal{V}(\boldsymbol{x})` et :math:`\boldsymbol{a}=(\ddot{x},\,\ddot{y},\,\ddot{z})^{T}`:
 

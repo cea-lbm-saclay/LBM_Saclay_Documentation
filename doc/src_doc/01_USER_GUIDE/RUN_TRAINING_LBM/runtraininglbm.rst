@@ -219,6 +219,7 @@ Types of files in ``run_training_lbm``
 
 .. dropdown:: ...
    :icon: comment
+   :open:
 
    The folder ``run_training_lbm`` contains several classical test cases of two-phase flows. They are all based on the :ref:`Math-NSAC-Comp`, but they differ by the use of different initial conditions, boundary conditions and values of parameters. The parameter values of those test cases are representative of various dimensionless numbers (Re, Bo, Mo, At, etc.) and for some of them, comparisons are performed with analytical solutions or well-known benchmarks.
 
