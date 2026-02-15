@@ -131,46 +131,61 @@ Welcome to LBM_Saclay's documentation
 **PART I: User's guide**
 ************************
 
-.. toctree::
-   :maxdepth: 2
+.. admonition:: User's guide
+   :class: hint
+
+   .. toctree::
+      :maxdepth: 2
    
-   src_doc/01_USER_GUIDE/TOC_User-Guide.rst
+      src_doc/01_USER_GUIDE/TOC_User-Guide.rst
 
 ********************************
 **PART II: Mathematical models**
 ********************************
 
-.. toctree::
-   :maxdepth: 3
+.. admonition:: Mathematical models
+   :class: hint
+
+   .. toctree::
+      :maxdepth: 3
    
-   src_doc/02_MODELS/models.rst
+      src_doc/02_MODELS/models.rst
 
 ***************************************
 **PART III: Lattice Boltzmann schemes**
 ***************************************
 
-.. toctree::
-   :maxdepth: 3
+.. admonition:: Lattice Boltzmann schemes
+   :class: hint
+
+   .. toctree::
+      :maxdepth: 3
    
-   src_doc/03_LBM_Schemes/TOC_LBM_Schemes.rst
+      src_doc/03_LBM_Schemes/TOC_LBM_Schemes.rst
 
 **************************************
 **PART IV: Guidelines for developers**
 **************************************
 
-.. toctree::
-   :maxdepth: 2
+.. admonition:: Guidelines for developers
+   :class: hint
+
+   .. toctree::
+      :maxdepth: 2
    
-   src_doc/04_PROGRAMMING/Guidelines.rst
+      src_doc/04_PROGRAMMING/Guidelines.rst
 
 *********************************************
 **PART V: Reminders of fundamental concepts**
 *********************************************
 
-.. toctree::
-   :maxdepth: 3
+.. admonition:: Reminders of fundamental concepts
+   :class: hint
+
+   .. toctree::
+      :maxdepth: 3
    
-   src_doc/05_COURSES/TOC_Courses.rst
+      src_doc/05_COURSES/TOC_Courses.rst
 
 
 .. sectionauthor:: Alain Cartalade
