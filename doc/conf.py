@@ -20,7 +20,7 @@ sys.setrecursionlimit(1500)
 # -- Project information -----------------------------------------------------
 
 project = 'LBM_Saclay'
-copyright = '2025, LBM_Saclay Workforce'
+copyright = '2026, LBM_Saclay Workforce'
 author = 'LBM_Saclay Workforce'
 
 # The full version, including alpha/beta/rc tags
