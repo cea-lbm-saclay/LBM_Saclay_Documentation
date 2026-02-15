@@ -23,7 +23,7 @@ Welcome to LBM_Saclay's documentation
       :width: 280
       :scale: 40
    
-   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at **CEA/Saclay** and its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on :bdg-link-success:`codev-tuleap.cea <https://codev-tuleap.cea.fr/projects/LBMSaclay>`. For that purpose, follow the instructions on :bdg-ref-primary:`Quick-Start`.
+   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at **CEA/Saclay** and its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on :bdg-link-success:`Codev-Tuleap repository <https://codev-tuleap.cea.fr/projects/lbmsaclay/>`. For that purpose, follow the instructions on :bdg-ref-primary:`Quick-Start`.
 
 .. admonition:: Videos gallery
    :class: important
@@ -59,7 +59,7 @@ Welcome to LBM_Saclay's documentation
 
          - For hydrodynamic phenomena of two immiscible fluids such as *Rayleigh-Taylor instability*, *rising bubbles*, *splashing droplets*, *capillary wave* etc., the interface is captured by the Conservative Allen-Cahn model (or levelset equation) which coupled with incompressible Navier-Stokes equations.
    
-         - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation. You will find in this documentation :bdg-ref-primary:`Basic-Concepts-Phase-Field-Theory`.
+         - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation.
 
          .. only:: titania
    
@@ -85,8 +85,8 @@ Welcome to LBM_Saclay's documentation
    :alt: The Li-Pro.Net logo.
    :figclass: align-center
    :align: center
-   :height: 400
-   :width: 800
+   :height: 450
+   :width: 900
    :scale: 100 %
       
    Examples of two-phase flows simulated with LBM
@@ -101,11 +101,9 @@ Welcome to LBM_Saclay's documentation
 
    Many CEA collaborators have contributed to the development and validation of LBM_Saclay: P. Kestener, W. Verdier, T. Boutin, E. Stavropoulos-Vasilakis, H. de Gieter, C. Méjanès, T. Duez, H. Keraudren, C. Elharti, S. Dupuy, C. Bardet, S. Cappe, A. Genty, A. Laurens, P. Chavasse-Frétaz, A. Cartalade.
 
-   .. toctree::
-      :maxdepth: 1
+   - :bdg-ref-primary:`TeamPresentation`
+   - :bdg-ref-primary:`List-Of-Publications-with-LBM`
 
-      src_doc/00_INTRODUCTION/TEAM/Team_Presentation.rst
-      src_doc/00_INTRODUCTION/TEAM/List-Of-Publications.rst
 
 *****************
 **Documentation**
@@ -120,7 +118,7 @@ Welcome to LBM_Saclay's documentation
       :width: 300
       :scale: 50
    
-   The purpose of this documentation is to establish the link between parameters of input datafiles with mathematical models and numerical schemes. After a short description of :ref:`PARTI`, the two-phase and multi-phase models are detailed in :ref:`Math-Models`. Next, the numerical schemes of those models are described in :ref:`LBM-Saclay-Schemes`. The following section, :ref:`Guidelines`, is aimed at scientists who wish to implement their own models or add new equations. Finally, the last part :ref:`PART-V-Course-Reminders` contains introductions on *basic fluid dynamics*, *lattice Boltzmann methods* and *phase-field theory*.
+   The purpose of this documentation is to establish the link between parameters of input datafiles with mathematical models and numerical schemes. After a short description of :bdg-ref-primary:`PARTI`, the two-phase and multi-phase models are detailed in :bdg-ref-primary:`Math-Models`. Next, the numerical schemes of those models are described in :bdg-ref-primary:`LBM-Saclay-Schemes`. The following section, :bdg-ref-primary:`Guidelines`, is aimed at scientists who wish to implement their own models or add new equations. Finally, the last part :bdg-ref-primary:`PART-V-Course-Reminders` contains introductions on *basic fluid dynamics*, *lattice Boltzmann methods* and *phase-field theory*.
    
    **Contribute to this documentation**
    

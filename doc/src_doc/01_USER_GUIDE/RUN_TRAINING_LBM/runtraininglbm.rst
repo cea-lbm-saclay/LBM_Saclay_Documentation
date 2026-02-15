@@ -6,18 +6,42 @@ Practice of two-phase flows with test cases of ``run_training_lbm``
 Overview of test cases
 ----------------------
 
-This section presents an overview of folder ``run_training_lbm`` to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of SMEMaG doctoral school (https://adum.fr/script/formations.pl?mod=3622094&site=l). Most of them appear in publications to validate new LBM numerical schemes or new two-phase models. The folder ``run_training_lbm`` is available in three versions of LBM_Saclay: "V1.0", "Training" and "Rech-Dev".
+This section presents an overview of folder ``run_training_lbm`` to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of 1) SMEMaG doctoral school :bdg-link-success:`An introduction of Lattice Boltzmann Methods <https://adum.fr/script/catalogue.pl?mod=3701390&site=psaclay>` and 2) Master of Sciences Sorbonne University :bdg-link-success:`Two-phase Thermohydraulics: modeling and numerical simulation <https://su-mecanique.github.io/master-mecanique/page/um5mee32/>`. Most of them appear in publications to validate new LBM numerical schemes or new two-phase models. The folder ``run_training_lbm`` is available in three versions of LBM_Saclay: "V1.0", "Training" and "Rech-Dev".
 
 .. admonition:: Tutorials for running and post-processing test cases of ``run_training_lbm``
    :class: hint
 
    Several examples of ``.ini`` files are contained in directory ``run_training_lbm``. They run with the kernel ``NSAC_Comp`` which implements the :ref:`Math-NSAC-Comp`. Those input datafiles use several options or different values to help users for making their own test case. Tutorials for running and post-processing results of each physical problems can be found below:
+   
+   .. grid:: 2
+      :gutter: 4
+      :margin: 3 3 0 5
 
-      - :ref:`Single-Training-LBM`
-      - :ref:`TwoP-withoutFF`
-      - :ref:`TwoP-Training-LBM`
-      - :ref:`TwoP-Compos-Training-LBM`
-      - :ref:`TwoP-Solid-Training-LBM`
+      .. grid-item-card:: Single-phase and two-phase without fluid flow
+         :columns: 5
+
+         .. button-ref:: Single-Training-LBM
+            :color: primary
+            :shadow:
+
+         .. button-ref:: TwoP-withoutFF
+            :color: primary
+            :shadow:
+
+      .. grid-item-card:: Two-phase flows
+         :columns: 7
+
+         .. button-ref:: TwoP-Training-LBM
+            :color: primary
+            :shadow:
+
+         .. button-ref:: TwoP-Compos-Training-LBM
+            :color: primary
+            :shadow:
+      
+         .. button-ref:: TwoP-Solid-Training-LBM
+            :color: primary
+            :shadow:
 
    It is supposed that you run the test cases on ORCUS (see :ref:`Simulations-GPU`). Once the job is complete, the output files must be downloaded and post-processed with paraview on your local computer.
 
@@ -40,11 +64,6 @@ List of test cases in ``run_training_lbm``
 
    The two-phase model can easily degenerate to single-phase flows. This is the reason why the first two test cases compare LBM_Saclay results with well-known solutions of "lid-driven cavity flows" and "Poiseuille flows".
 
-   .. toctree::
-      :maxdepth: 1
-
-      ./Test_Cases_Single_Phase.rst
-
    .. container:: sphinx-features
 
       .. table:: Single-phase test cases
@@ -61,12 +80,14 @@ List of test cases in ``run_training_lbm``
          | TestCase02_Poiseuille_Water                | Navier-Stokes                    | Analytical solution                  |
          +--------------------------------------------+----------------------------------+--------------------------------------+
 
+   .. div:: sd-text-center
+
+      .. button-ref:: Single-Training-LBM
+         :color: primary
+         :shadow:
+
+
 .. dropdown:: Two-phase test cases without fluid flow
-
-   .. toctree::
-      :maxdepth: 1
-
-      ./Test_Cases_Two_Phase_Without-Flows.rst
 
    .. container:: sphinx-features
 
@@ -88,12 +109,13 @@ List of test cases in ``run_training_lbm``
          | TestCase06_Stefan-Problem                  | Phase-field/Composition          | Analytical solution                  |
          +--------------------------------------------+----------------------------------+--------------------------------------+
 
+   .. div:: sd-text-center
+   
+      .. button-ref:: TwoP-withoutFF
+         :color: primary
+         :shadow:
+
 .. dropdown:: Two-phase test cases with fluid flow
-
-   .. toctree::
-      :maxdepth: 1
-
-      ./Test_Cases_Two_Phase.rst
 
    .. container:: sphinx-features
 
@@ -123,12 +145,13 @@ List of test cases in ``run_training_lbm``
          | TestCase14_Dam-Break2D                     | Navier-Stokes/Phase-field        | --                                   |
          +--------------------------------------------+----------------------------------+--------------------------------------+
 
+   .. div:: sd-text-center
+
+      .. button-ref:: TwoP-Training-LBM
+         :color: primary
+         :shadow:
+
 .. dropdown:: Two-phase with fluid flow & composition effect
-
-   .. toctree::
-      :maxdepth: 1
-
-      ./Test_Cases_TwoPhase_ComposEffect.rst
 
    .. container:: sphinx-features
 
@@ -153,12 +176,13 @@ List of test cases in ``run_training_lbm``
          | Rising_Bubble                        | Navier-Stokes/Phase-field/Composition  | --                                   |
          +--------------------------------------+----------------------------------------+--------------------------------------+
 
+   .. div:: sd-text-center
+
+      .. button-ref:: TwoP-Compos-Training-LBM
+         :color: primary
+         :shadow:
+
 .. dropdown:: Two-phase interacting with a solid phase
-
-   .. toctree::
-      :maxdepth: 1
-
-      ./Test_Cases_TwoPhase_Interacting-SolidPhase.rst
 
    .. container:: sphinx-features
 
@@ -183,6 +207,12 @@ List of test cases in ``run_training_lbm``
          +--------------------------------------------+----------------------------------+--------------------------------------+
          | TestCase20_Moving-Container-Hole           | Navier-Stokes/Phase-fields       | --                                   |
          +--------------------------------------------+----------------------------------+--------------------------------------+
+
+   .. div:: sd-text-center
+
+      .. button-ref:: TwoP-Solid-Training-LBM
+         :color: primary
+         :shadow:
 
 Types of files in ``run_training_lbm``
 --------------------------------------
