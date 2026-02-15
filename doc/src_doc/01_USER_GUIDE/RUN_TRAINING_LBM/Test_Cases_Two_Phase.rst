@@ -545,6 +545,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
       .. dropdown:: Splashing droplet
          :icon: comment
+         :open:
 
          Folder ``TestCase13_Splashing-Droplet2D`` contains one test cases for simulations of splashing droplet. This is an example of using Re and We dimensionless numbers.
 
@@ -587,6 +588,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
       .. dropdown:: Dam break
          :icon: comment
+         :open:
 
          Folder ``TestCase14_Dam-Break2D`` contains four test cases for simulations of surface tension sensitivity :math:`\sigma`.
 
@@ -618,6 +620,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
       .. dropdown:: 3D Taylor bubble
          :icon: comment
+         :open:
 
          The mesh is composed of 128x128x1536 cells (i.e. ~ 25.166 Mcells). Go to folder and run
 
