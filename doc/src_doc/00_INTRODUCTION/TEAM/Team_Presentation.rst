@@ -1,3 +1,5 @@
+.. _TeamPresentation:
+
 Team presentation
 =================
 
@@ -12,6 +14,39 @@ LBM_Saclay workforce over the years
    :gutter: 4
    :margin: 3 3 0 5
 
+   .. grid-item-card:: 2026
+
+      .. list-table:: 
+         :align: center
+         :header-rows: 1
+
+         * - Name
+           - Position
+         * - Clément BARDET
+           - PhD INRIA
+         * - Téo BOUTIN
+           - Research Engineer
+         * - Alain CARTALADE
+           - Senior Researcher
+         * - Pierre CHAVASSE-FRÉTAZ
+           - Intern
+         * - Alain GENTY
+           - Senior Researcher
+         * - Yann JANSON
+           - PhD
+         * - Pierre KESTENER
+           - Senior Researcher
+         * - Hoel KERAUDREN
+           - PhD
+         * - Aurelien LAURENS
+           - Engineer
+         * - Capucine MÉJANÈS
+           - Research Engineer
+         * - Benjamin PEIFFERT
+           - Intern
+         * - Clotilde RENARD
+           - Intern
+
    .. grid-item-card:: 2025
 
       .. list-table:: 
@@ -21,11 +56,9 @@ LBM_Saclay workforce over the years
          * - Name
            - Position
          * - Clément BARDET
-           - PhD
+           - PhD INRIA
          * - Téo BOUTIN
            - Research Engineer
-         * - Simon CAPPE
-           - Intern
          * - Alain CARTALADE
            - Senior Researcher
          * - Pierre CHAVASSE-FRÉTAZ
@@ -40,6 +73,10 @@ LBM_Saclay workforce over the years
            - Engineer
          * - Capucine MÉJANÈS
            - PhD
+
+.. grid:: 2
+   :gutter: 4
+   :margin: 3 3 0 5
 
    .. grid-item-card:: 2024
 
@@ -57,8 +94,6 @@ LBM_Saclay workforce over the years
            - Intern
          * - Alain CARTALADE
            - Senior Researcher
-         * - Sacha DUPUY
-           - Intern
          * - Alain GENTY
            - Senior Researcher
          * - Pierre KESTENER
@@ -67,10 +102,6 @@ LBM_Saclay workforce over the years
            - PhD
          * - Capucine MÉJANÈS
            - PhD
-
-.. grid:: 2
-   :gutter: 4
-   :margin: 3 3 0 5
 
    .. grid-item-card:: 2023
 
@@ -84,7 +115,7 @@ LBM_Saclay workforce over the years
            - PhD
          * - Alain CARTALADE
            - Senior Researcher
-         * - Théo DUEZ
+         * - Sacha DUPUY
            - Intern
          * - Chaïma ELHARTI
            - Intern
@@ -93,9 +124,13 @@ LBM_Saclay workforce over the years
          * - Pierre KESTENER
            - Senior Researcher
          * - Hoel KERAUDREN
-           - PhD
+           - Intern/PhD
          * - Capucine MÉJANÈS
            - PhD
+
+.. grid:: 2
+   :gutter: 4
+   :margin: 3 3 0 5
 
    .. grid-item-card:: 2022
 
@@ -109,6 +144,8 @@ LBM_Saclay workforce over the years
            - PhD
          * - Alain CARTALADE
            - Senior Researcher
+         * - Théo DUEZ
+           - Intern
          * - Hugo de GIETER
            - Intern
          * - Alain GENTY
@@ -117,6 +154,31 @@ LBM_Saclay workforce over the years
            - Senior Researcher
          * - Capucine MÉJANÈS
            - PhD
+         * - Evangelos STAVROPOULOS-VASILAKIS
+           - Post-doc
+         * - Werner VERDIER
+           - PhD
+
+   .. grid-item-card:: 2021
+
+      .. list-table:: 
+         :align: center
+         :header-rows: 1
+
+         * - Name
+           - Position
+         * - Téo BOUTIN
+           - Intern
+         * - Wissam BOUYMEDJ
+           - Intern
+         * - Alain CARTALADE
+           - Senior Researcher
+         * - Alain GENTY
+           - Senior Researcher
+         * - Pierre KESTENER
+           - Senior Researcher
+         * - Pauline RICHARD
+           - Intern
          * - Evangelos STAVROPOULOS-VASILAKIS
            - Post-doc
          * - Werner VERDIER
