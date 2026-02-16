@@ -63,7 +63,7 @@ Fluid-Fluid-Fluid interfaces
 Fluid-Fluid-Solid interfaces
 ****************************
 
-.. admonition:: Fliid-Fluid-Solid interfaces
+.. admonition:: Fluid-Fluid-Solid interfaces
 
    .. toctree::
       :maxdepth: 1

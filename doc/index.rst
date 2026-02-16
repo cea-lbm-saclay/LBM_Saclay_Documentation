@@ -7,9 +7,9 @@
 
    <br />
 
-######################################
-Welcome to LBM_Saclay's documentation
-######################################
+###########################################################
+Welcome to LBM_Saclay's documentation (last update |today|)
+###########################################################
 
 .. .. cssclass:: sphinx-tagline
 

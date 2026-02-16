@@ -3,8 +3,6 @@
 Model of Navier-Stokes/Korteweg (NSK)
 =====================================
 
-The Navier-Stokes/Korteweg model (NSK) is a popular alternative model for simulating two-phase flows without introducing a phase-field :math:`\phi`. That model is a low Mach formulation of the Navier-Stokes equations, where :math:`\rho` plays the role of phase index. The two-phase behavior is obtained by an appropriate choice of the Equation of State (EoS).
-
 Mathematical model of van der Waals fluids
 ------------------------------------------
 

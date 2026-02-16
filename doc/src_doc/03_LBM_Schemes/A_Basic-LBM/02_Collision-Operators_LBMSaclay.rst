@@ -682,12 +682,10 @@ and the standard streaming stage can be applied:
          }
 
 
-
-Bibliography
-------------
+References
+----------
    
-.. [1] Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva. E.M. Viggen, The Lattice Boltzmann Method -- Principles and Practice. Spinger, 2017. See :file:`BIBLIO/Kruger_etal_Book_LBM_2017.pdf`
-
+.. [1] Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva. E.M. Viggen, The Lattice Boltzmann Method -- Principles and Practice. Spinger, 2017. For STMF see :file:`BIBLIO/Kruger_etal_Book_LBM_2017.pdf`
 
 .. [2] Gruszczyński G., T. Mitchell, C. Leonardi, Ł. Łaniewski-Wołłk, T. Barber, A cascaded phase-field lattice Boltzmann model for the simulation of incompressible, immiscible fluids with high density contrast. Computers & Mathematics with Applications, Volume 79, Issue 4, 15 February 2020, pages 1049-1071.  https://doi.org/10.1016/j.camwa.2019.08.018
 
