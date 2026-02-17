@@ -12,7 +12,7 @@ In this section, we focus on the **dynamics**, i.e. the time-evolution of the ph
 Cahn-Hilliard (CH) model for conservative order parameter
 ---------------------------------------------------------
 
-The Cahn-Hilliard equation is a very popular model which is capable of simulating spinodal decomposition, coalescence of droplets, and so on. That model is derived for an order parameter which is conserved over the whole computational domain. The phase-field :math:`\phi(\boldsymbol{x},t)` plays two roles: it tracks the interface and indicates the local value of composition. This is the reason why in the literature, the Cahn-Hilliard equation is alternatively formulated in :math:`c(\boldsymbol{x},t)`. Here for consistency, we present the equation with the main variable :math:`\phi`.
+The Cahn-Hilliard equation :footcite:p:`Cahn-Hilliard_JCP1958` is a very popular model which is capable of simulating spinodal decomposition, coalescence of droplets, and so on. That model is derived for an order parameter which is conserved over the whole computational domain. The phase-field :math:`\phi(\boldsymbol{x},t)` plays two roles: it tracks the interface and indicates the local value of composition. This is the reason why in the literature, the Cahn-Hilliard equation is alternatively formulated in :math:`c(\boldsymbol{x},t)`. Here for consistency, we present the equation with the main variable :math:`\phi`.
 
 The Cahn-Hilliard model is simply an equation of conservation (mass balance):
 
@@ -241,7 +241,7 @@ where :math:`s` is the normal coordinate at the interface and :math:`\boldsymbol
 
 **Interpretation of Counter Term**
 
-Another way to derive the CAC model is to start from Allen-Cahn equation :eq:`Allen_Cahn_Course` with :eq:`Chem_Pot_AC_Course`
+Another way to derive the CAC model :footcite:p:`Chiu-Lin_JCP2011` is to start from Allen-Cahn equation :eq:`Allen_Cahn_Course` with :eq:`Chem_Pot_AC_Course`
 
 .. math::
    :label:
@@ -278,6 +278,11 @@ where, for the second line we used Eq. :eq:`Grad_Kernel_Function_Scal_n` for the
    :label: CAC_2nd_Method_Course
 
    \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right]
+
+References
+----------
+
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
    

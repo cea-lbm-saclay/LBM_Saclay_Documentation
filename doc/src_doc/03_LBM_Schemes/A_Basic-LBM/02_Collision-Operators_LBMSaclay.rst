@@ -365,8 +365,8 @@ One advantage of the Gram-Schmidt procedure is that the matrix :math:`\boldsymbo
 
    - :math:`\boldsymbol{f}^{\star}=\boldsymbol{f}+\boldsymbol{\Omega}^{MRT}+\boldsymbol{\mathcal{S}}`: post-collision distribution function
 
-Central moments collision operator
-----------------------------------
+Central Moments (CM) collision operator
+---------------------------------------
 
 In LBM_Saclay, the "central moment" collision operator is tested in ``NSAC_Comp`` kernel. In that kernel the equilibrium distribution function is formulated with a dimensionless pressure and the first-order moment is the velocity (and not the impulsion). The central moment method is inspired from reference :footcite:p:`GRUSZCZYNSKI_CAMWA2020`.
 

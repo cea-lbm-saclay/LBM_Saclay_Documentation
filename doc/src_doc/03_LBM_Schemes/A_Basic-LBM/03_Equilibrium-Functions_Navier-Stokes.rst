@@ -17,11 +17,12 @@ One of the most attractive aspect of LBM, is to use the same evolution Eq. :eq:`
    
    The equilibrium distribution functions are problem dependent. They are defined for each kernel in the ``LBMScheme_Kernel_Name.h`` file of folder ``src/kernels``. For example for kernel ``NSAC_Comp``, the equilibrium distribution functions for all PDEs are written in ``LBMScheme_NS_AC_Comp.h`` file.
 
-
-For low Mach Navier-Stokes (NS), the EqDF are presented in :bdg-ref-primary:`Overview-LBM`. Here are presented some modifications for simulating incompressible single-phase and two-phase flows. First we remind the target macroscopic PDEs we want to simulate:
+For low Mach Navier-Stokes (NS), the EqDF are presented in :bdg-ref-primary:`Overview-LBM`. Here are presented some modifications for simulating incompressible single-phase and two-phase flows. 
 
 .. admonition:: Target macroscopic PDEs
-   :class: important
+   :class: note
+
+   First we remind the target macroscopic PDEs we want to simulate:
 
    .. math::
       :label: Mass_Balance_Ref
@@ -127,7 +128,7 @@ Version 1 for variable density
       \varrho(\phi)\boldsymbol{u}(\boldsymbol{x},t)=\frac{1}{c_{s}^{2}}\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
 
 .. admonition:: Version 1: equivalent macroscopic PDE
-   :class: important
+   :class: error
    
    Once the Chapman-Enskog expansion is performed, the macroscopic equations which recovered are with that EqDF are:
 
@@ -158,7 +159,6 @@ By expanding the divergence term, the mass balance Eq. :eq:`Mass_Balance_V1` can
    \frac{\partial p_{h}}{\partial t}+\varrho(\phi)c_{s}^{2}\boldsymbol{\nabla}\cdot\boldsymbol{u}=-\boldsymbol{u}\cdot\boldsymbol{\nabla}(\varrho(\phi)c_{s}^{2})
 
 .. admonition:: Version 1: source term to add
-   :class: error
    
    The mass balance recovered by the Chapman-Ensokg procedure Eq. :eq:`Mass_Balance_V1` slighty differs from the classic artificial mass balance equation because the density is a function of position :math:`\varrho(\phi)`. To correct that, it is needed to add a source term:
    
@@ -201,7 +201,7 @@ Version 2 for variable density
       \boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
 
 .. admonition:: Version 2: equivalent macroscopic PDE
-   :class: important
+   :class: error
    
    Once the Chapman-Enskog expansion is performed, the macroscopic equations which recovered are with that EqDF are:
 
@@ -232,9 +232,8 @@ The pressure term must be corrrected with a new force term :math:`\boldsymbol{F}
 The second term of the right-hand side corresponds to the viscous term of Eq. :eq:`Impulsion_Balance_V2`. A supplementary force :math:`\boldsymbol{F}_v` has to be added to match Eq. :eq:`Impulsion_Balance_Ref`.
 
 .. admonition:: Version 2: forces to add
-   :class: error
    
-   To match :eq:`Impulsion_Balance_V2` to Eq. :eq:`Impulsion_Balance_Ref`, two force terms must be added in the microscopic forcing term of LBE. The first one is the pressure force pressure force :math:`\boldsymbol{F}_p` defined by
+   To match :eq:`Impulsion_Balance_V2` to Eq. :eq:`Impulsion_Balance_Ref`, two force terms must be added in the microscopic forcing term of LBE (e.g. see :footcite:p:`Fakhari_etal_PRE2017`). The first one is the pressure force pressure force :math:`\boldsymbol{F}_p` defined by
    
    .. math::
       :label: Force_Pressure
