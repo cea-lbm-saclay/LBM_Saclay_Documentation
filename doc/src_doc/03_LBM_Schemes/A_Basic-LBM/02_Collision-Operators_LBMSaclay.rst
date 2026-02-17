@@ -448,10 +448,7 @@ The central moment :math:`\boldsymbol{\kappa}` is obtained from distribution fun
 .. math::
    :label:
 
-   \begin{eqnarray}
-      \boldsymbol{\kappa} & = & \mathbb{M}_{p}\mathbb{N}\mathbb{M}\boldsymbol{f}\\
-      & = & \left[\kappa_{00},\kappa_{01},\kappa_{10},\kappa_{20}+\kappa_{02},\kappa_{20}-\kappa_{02},\kappa_{11},\kappa_{21},\kappa_{12},\kappa_{22}\right]^{T}
-   \end{eqnarray}
+   \boldsymbol{\kappa} &=\mathbb{M}_{p}\mathbb{N}\mathbb{M}\boldsymbol{f}\\&=\left[\kappa_{00},\kappa_{01},\kappa_{10},\kappa_{20}+\kappa_{02},\kappa_{20}-\kappa_{02},\kappa_{11},\kappa_{21},\kappa_{12},\kappa_{22}\right]^{T}
 
 where the matrices :math:`\mathbb{M}` and :math:`\mathbb{M}_p` are defined by
 
