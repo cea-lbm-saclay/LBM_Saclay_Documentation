@@ -53,7 +53,7 @@ Standard :math:`f_i^{eq}` for single-phase incompressible NS
 
 .. admonition:: :math:`f_i^{eq}` for single-phase iNS
 
-   For simulating incompressible NS equations for single-phase flows, the EqDF writes [Zou_etal]_ & [He-Luo]_:
+   For simulating incompressible NS equations for single-phase flows, the EqDF writes :footcite:p:`Zou_etal_Incompressible_JSP1995` & :footcite:p:`He-Luo_Incompressible_JSP1997`:
 
    .. math::
       :label: Feq_Incompr_V0
@@ -174,7 +174,7 @@ Version 2 for variable density
 
 .. admonition:: Version 2 for variable density
 
-   That version is implemented in the kernel ``NSAC_Comp``. The pressure that is used in the equilibrium distribution function is a dimensionless pressure defined by:
+   That version is implemented in the kernel ``NSAC_Comp``. The pressure that is used in the equilibrium distribution function is a dimensionless pressure defined by :footcite:p:`Zu-He_PRE2013`:
 
    .. math::
       :label: Def_p_Star
@@ -251,10 +251,7 @@ The second term of the right-hand side corresponds to the viscous term of Eq. :e
 References
 ----------
 
-.. [Zou_etal]  Zou Q. *et al.*, An Improved Incompressible Lattice Boltzmann Model for Time-Independent Flows, Journal of Statistical Physics, Vol. 81, Nos. 1/2, pp. 35-48, 1995, :bdg-link-success:`doi <https://doi.org/10.1007/BF02179966>`
-
-.. [He-Luo] X. He and L-S Luo, Lattice Boltzmann Model for the Incompressible Navier-Stokes Equation, Journal of Statistical Physics, Vol. 88, Nos. 3/4, 1997, :bdg-link-success:`doi <https://doi.org/10.1023/B:JOSS.0000015179.12689.e4>`
-
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
    

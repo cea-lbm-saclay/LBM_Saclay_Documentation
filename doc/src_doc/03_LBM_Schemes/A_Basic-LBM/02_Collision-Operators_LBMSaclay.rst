@@ -231,7 +231,7 @@ Finally, we go back in the space of distribution functions by applying :math:`\b
    
 **Example for lattice D2Q9**
 
-To construct the matrix :math:`\boldsymbol{M}`, two main procedures exist (see [1]_): Gram-Schmidt and Hermite. In LBM_Saclay, the first one is applied. One example is given with the D2Q9 lattice where the nine moving vectors are defined by :math:`\boldsymbol{e}_i` (for :math:`i=0,...,8`):
+To construct the matrix :math:`\boldsymbol{M}`, two main procedures exist (see :footcite:p:`BookLBM2017`): Gram-Schmidt and Hermite. In LBM_Saclay, the first one is applied. One example is given with the D2Q9 lattice where the nine moving vectors are defined by :math:`\boldsymbol{e}_i` (for :math:`i=0,...,8`):
 
 .. math::
    :label: Def_Basis_Vectors
@@ -368,7 +368,7 @@ One advantage of the Gram-Schmidt procedure is that the matrix :math:`\boldsymbo
 Central moments collision operator
 ----------------------------------
 
-In LBM_Saclay, the "central moment" collision operator is tested in ``NSAC_Comp`` kernel. In that kernel the equilibrium distribution function is formulated with a dimensionless pressure and the first-order moment is the velocity (and not the impulsion). The central moment method is inspired from reference [2]_.
+In LBM_Saclay, the "central moment" collision operator is tested in ``NSAC_Comp`` kernel. In that kernel the equilibrium distribution function is formulated with a dimensionless pressure and the first-order moment is the velocity (and not the impulsion). The central moment method is inspired from reference :footcite:p:`GRUSZCZYNSKI_CAMWA2020`.
 
 General definition of moments
 """""""""""""""""""""""""""""
@@ -684,10 +684,8 @@ and the standard streaming stage can be applied:
 
 References
 ----------
-   
-.. [1] Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva. E.M. Viggen, The Lattice Boltzmann Method -- Principles and Practice. Spinger, 2017. For STMF see :file:`BIBLIO/Kruger_etal_Book_LBM_2017.pdf`
 
-.. [2] Gruszczyński G., T. Mitchell, C. Leonardi, Ł. Łaniewski-Wołłk, T. Barber, A cascaded phase-field lattice Boltzmann model for the simulation of incompressible, immiscible fluids with high density contrast. Computers & Mathematics with Applications, Volume 79, Issue 4, 15 February 2020, pages 1049-1071.  https://doi.org/10.1016/j.camwa.2019.08.018
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
    

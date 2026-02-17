@@ -8,7 +8,7 @@ Lattice Boltzmann Methods for Navier-Stokes/Korteweg model
 
    The target macroscopic PDEs are fully described in :bdg-ref-primary:`Model_NSK`.
 
-Since the historical method of "Shan-Chen" [Shan-Chen]_ many methods have been published to simulate those equations. An important family of methods is called **Pseudo-potential methods**. See a review e.g. in [Li_etal]_. We present here, one of them implemented in LBM_Saclay, called the Kupershtokh's forcing term [Kupershtokh]_. Next, we present an alternative method, more intuitive which discretizes the potential form of the tensor pressure. Finally we present a scheme, based on a modification of the equilibrium distribution function and called "Well-Balanced LBM" [Guo]_.
+Since the historical method of "Shan-Chen" :footcite:p:`Shan-Chen_PRE1993` & :footcite:p:`Shan-Chen_PRE1994` many methods have been published to simulate those equations. An important family of methods is called **Pseudo-potential methods**. See a review e.g. in :footcite:p:`Li_etal_ProgECS2016`. We present here, one of them implemented in LBM_Saclay, called the Kupershtokh's forcing term :footcite:p:`KUPERSHTOKH20113537`. Next, we present an alternative method, more intuitive which discretizes the potential form of the tensor pressure. Finally we present a scheme, based on a modification of the equilibrium distribution function and called "Well-Balanced LBM" :footcite:p:`Guo_WellBalanced_PoF2021`.
 
 .. admonition:: Standard LBM with a forcing term
    :class: note
@@ -139,13 +139,7 @@ Well-balanced LBM
 References
 ----------
 
-.. [Shan-Chen] Shan, X. and Chen, H., Lattice Boltzmann model for simulating flows with multiple phases and components, Phys. Rev. E, 47(3), 1815--1819, 1993, :bdg-link-success:`doi <https://doi.org/10.1103/PhysRevE.47.1815>`
-
-.. [Li_etal] Li Q. *et al.*, Lattice Boltzmann methods for multiphase flow and phase-change heat transfer, Progress in Energy and Combustion Science 52 (2016) 62–105, :bdg-link-success:`doi <http://dx.doi.org/10.1016/j.pecs.2015.10.001>`
-
-.. [Kupershtokh] A lattice Boltzmann equation method for real fluids with the equation of state known in tabular form only in regions of liquid and vapor phases, Computers and Mathematics with Applications 61 (2011) 3537–3548, :bdg-link-success:`doi <https://doi.org/10.1016/j.camwa.2010.06.032>`
-
-.. [Guo] Guo Z., Well-balanced lattice Boltzmann model for two-phase systems, Physics of Fluids 33, 031709 (2021), :bdg-link-success:`doi <https://doi.org/10.1063/5.0041446>`
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
    
