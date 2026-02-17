@@ -108,6 +108,7 @@ For coupling with fluid flow of velocity :math:`\boldsymbol{u}`, the advective f
 
 .. math::
    :label: Adv_CH_Model_Course
+
    \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\mathcal{M}_{\phi}\boldsymbol{\nabla}^{2}\mu_{\phi}
 
 .. admonition:: Summary: Advective Cahn-Hilliard model for conserved order parameter
@@ -183,7 +184,7 @@ and :math:`\mathscr{M}_{\phi}` is a positive coefficient of proportionality. As 
 .. admonition:: Important
    :class: Important
 
-   The Allen-Cahn equation has a physical meaning only if it is coupled to a heat PDE (Eq. on :math:`T`) or a composition PDE (Eq. on :math:`c`) because the temperature (or composition) is responsible for the phase change, and consequently the displacement of interface. For those problems, the free energy must depend on that new variable (:math:`T` or :math:`c`) :math:`\mathscr{F}[\phi,T]`. A new free energy density must also be added in the definition of the free energy functional to take into account that coupling between :math:`\phi` and :math:`T` (or :math:`c`). That coupling makes appear a source term in Eq. :eq:`Allen_Cahn_Course`. Examples of derivation of such phase-field models are presented in :ref:`Phase-Field-Phase-Change`.
+   The Allen-Cahn equation has a physical meaning only if it is coupled to a heat PDE (Eq. on :math:`T`) or a composition PDE (Eq. on :math:`c`) because the temperature (or composition) is responsible for the phase change, and consequently the displacement of interface. For those problems, the free energy must depend on that new variable (:math:`T` or :math:`c`) :math:`\mathscr{F}[\phi,T]`. A new free energy density must also be added in the definition of the free energy functional to take into account that coupling between :math:`\phi` and :math:`T` (or :math:`c`). That coupling makes appear a source term in Eq. :eq:`Allen_Cahn_Course`.
 
 .. _CAC-Model:
 
