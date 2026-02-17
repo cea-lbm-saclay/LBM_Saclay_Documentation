@@ -49,7 +49,7 @@ extensions = [
     'sphinxcontrib.bibtex'
 ]
 bibtex_default_style = 'plain'
-bibtex_bibfiles = ['./src_doc/BIBLIO/Biblio_LBM.bib','./src_doc/BIBLIO/Biblio_PhaseField.bib','./src_doc/BIBLIO/LBM_CEA.bib']
+bibtex_bibfiles = ['./src_doc/BIBLIO/Biblio_LBM.bib','./src_doc/BIBLIO/Biblio_PhaseField.bib','./src_doc/BIBLIO/Biblio_CEA.bib']
 
 htmlhelp_basename = 'LBM_Saclay Documentation'
 

@@ -110,7 +110,7 @@ Well-balanced LBM
 
       f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]+\left(1-\frac{1}{2\tau}\right)\delta t{\color{blue}\mathcal{F}_{i}(\boldsymbol{x},t)}
 
-   But, in order to avoid parasitic currents arising from the finite difference discretization of :math:`\boldsymbol{\nabla}\rho c_{s}^{2}` in the previous scheme (STD), a new equilibrium distribution function is defined [Guo]_:
+   But, in order to avoid parasitic currents arising from the finite difference discretization of :math:`\boldsymbol{\nabla}\rho c_{s}^{2}` in the previous scheme (STD), a new equilibrium distribution function is defined :footcite:p:`Guo_WellBalanced_PoF2021`:
 
    .. math::
       :label: Feq_WellBalanced

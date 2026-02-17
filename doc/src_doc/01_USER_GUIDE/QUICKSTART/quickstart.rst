@@ -115,70 +115,74 @@ Quick Start with LBM_Saclay
 
 You can run your first simulations on CPUs of your personal desktop. However, it is highly recommended to run LBM_Saclay on one (or better on several) graphic cards (GPUs). You will find the procedure for compiling on single-CPU, single-GPU, and multi-GPU.
 
-.. admonition:: Makefile on CPU of local computer
-   :class: error
+.. dropdown:: Compilation on CPU with openmp
+   :icon: comment
+   :open:
 
-   - For openmp  (``omp``) on CPU
+   .. admonition:: Makefile on CPU of local computer
+      :class: error
 
-    Go to ``LBM_Saclay`` folder
+      - For openmp  (``omp``) on CPU
 
-    .. code-block:: shell
+       Go to ``LBM_Saclay`` folder
 
-       $ cd LBM_Saclay_Rech-Dev
+       .. code-block:: shell
 
-    and execute the ``configure_build.sh`` script to create the ``makefile``
+          $ cd LBM_Saclay_Rech-Dev
 
-    .. code-block:: shell
+       and execute the ``configure_build.sh`` script to create the ``makefile``
 
-       $ ./compilation/local/omp/configure_build.sh
+       .. code-block:: shell
 
-will return:
+          $ ./compilation/local/omp/configure_build.sh
 
-.. code-block:: shell
+   will return:
 
-   The following problems are currently implemented:
-   0  AC
-   1  Advection-Diffusion
-   2  Crystal_growth_Younsi
-   3  GPMixt
-   4  GPMixtNS
-   5  GPMixtTernary
-   6  GPMuTernary
-   7  MPwSLphC
-   8  NS
-   9  NS_3phases_1comp_phase_change
-   10 NSAC_Comp
-   11 NSAC_Comp_3phases
-   12 NSAC_Comp_3phases3D
-   13 NSAC_coupling
-   14 NSAC_Fakhari
-   15 NSAC_Surfactant
-   Choose which problems to include by indicating a list of space or comma separated numbers, eg '0 1' or '0,1'.
-   Write 'all' to include all problems.
-   Problem numbers:
+   .. code-block:: shell
 
-.. admonition:: Compilation
-   :class: error
+      The following problems are currently implemented:
+      0  AC
+      1  Advection-Diffusion
+      2  Crystal_growth_Younsi
+      3  GPMixt
+      4  GPMixtNS
+      5  GPMixtTernary
+      6  GPMuTernary
+      7  MPwSLphC
+      8  NS
+      9  NS_3phases_1comp_phase_change
+      10 NSAC_Comp
+      11 NSAC_Comp_3phases
+      12 NSAC_Comp_3phases3D
+      13 NSAC_coupling
+      14 NSAC_Fakhari
+      15 NSAC_Surfactant
+      Choose which problems to include by indicating a list of space or comma separated numbers, eg '0 1' or '0,1'.
+      Write 'all' to include all problems.
+      Problem numbers:
 
-   Write ``10`` for ``NSAC_Comp`` kernel
+   .. admonition:: Compilation
+      :class: error
 
-    .. code-block:: shell
+      Write ``10`` for ``NSAC_Comp`` kernel
 
-       Problem numbers: 10
+       .. code-block:: shell
 
-   Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
+          Problem numbers: 10
 
-    .. code-block:: shell
+      Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
 
-       $ cd LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp
+       .. code-block:: shell
 
-   Compile:
+          $ cd LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp
 
-    .. code-block:: shell
+      Compile:
 
-       $ make -j 22
+       .. code-block:: shell
 
-.. dropdown::
+          $ make -j 22
+
+.. dropdown:: Compilation on GPU
    :icon: comment
    
    .. tab-set::

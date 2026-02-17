@@ -9,16 +9,16 @@ Introduction
 .. admonition:: Basic model
    :class: warning
 
-   That model is one of the most popular model of two-phase flows with interface-capturing. It is composed of incompressible Navier-Stokes (``NS``) equations coupled with the Conservative Allen-Cahn (``CAC``) equation (or levelset equation). That model is applied for simulating many classical problems such as "rising bubbles", splashing droplets", "Rayleigh-Taylor instability", etc. In LBM_Saclay, that model is implemented in the kernel ``NSAC_Comp`` where ``_Comp`` means Composition equation. The kernel ``NSAC_Comp`` is extensively used for two-phase test cases which are contained in the folder ``run_training_lbm``. The test cases of this folder are used in a training session of LBM with the Training version of LBM_Saclay.
-
-   - :ref:`Run_Training-LBM` with that model can be performed with ``.ini`` input files of folder ``run_training_lbm``.
+   The model of incompressible Navier-Stokes (``NS``) coupled with the Conservative Allen-Cahn (``CAC``) equation (or conservative levelset equation) is one of the most popular model of two-phase flows with interface-capturing. The origin of the Conservative Allen-Cahn equation is the derivation of the counter term (see :footcite:p:`Folch_etal_CounterTerm_PRE1999_PhysRevE.60.1724`). One first derivation of NS/CAC model is presented in :footcite:p:`Biben-Misbah_PRE2003_PhysRevE.67.031908`. Here present the version inspired by reference :footcite:p:`Chiu-Lin_JCP2011`.
+   
+   That model is applied for simulating many classical problems such as "rising bubbles", splashing droplets", "Rayleigh-Taylor instability", etc. In LBM_Saclay, that model is implemented in the kernel ``NSAC_Comp`` where ``_Comp`` means Composition equation. The kernel ``NSAC_Comp`` is extensively used for two-phase test cases which are contained in the folder ``run_training_lbm``. The test cases of this folder are used in a training session of LBM_Saclay (see :bdg-ref-primary:`Run_Training-LBM`).
 
 That model is a basis for other models which are developed in other kernels e.g. two-phase flows with surfactant, two-phase flows with phase change, two-phase flows interacting with a solid phase and three immiscible fluids:
 
-- :ref:`Math-NSAC-Surfactant`
-- :ref:`Math-NSAC-PhaseChange`
-- :ref:`Math-NSAC-Comp-Solid`
-- :ref:`Math-NS2AC-Comp`
+- :bdg-ref-primary:`Math-NSAC-Surfactant`
+- :bdg-ref-primary:`Math-NSAC-PhaseChange`
+- :bdg-ref-primary:`Math-NSAC-Comp-Solid`
+- :bdg-ref-primary:`Math-NS2AC-Comp`
 
 Mathematical model of incompressible two-phase flows
 ----------------------------------------------------
@@ -364,7 +364,7 @@ List of input parameters in ``.ini`` file
 Validation with analytical solution of Prosperetti
 --------------------------------------------------
 
-That analytical solution has been implemented in sage math (see ref [2]_)
+That analytical solution has been derived in :footcite:p:`Prosperetti_PoF1981` and implemented in sage math (see ref :footcite:p:`Hoel_Stage2023`)
 
 .. tab-set::
 
@@ -453,9 +453,7 @@ As already mentioned, many test cases using that math model can be found in the 
 Bibliography
 ------------
 
-.. [1] Andrea Prosperetti. Motion of two superposed viscous fluids. The Physics of Fluids, 24(7):1217–1223, 07 1981. URL: https://doi.org/10.1063/1.863522.
-
-.. [2] Hoel Keraudren. Pseudo-potential method for multiphase flows using Lattice Boltzmann Methods (Simulation of Navier-Stokes-Korteweg equations). Technical Report CEA, 2023.
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
    
