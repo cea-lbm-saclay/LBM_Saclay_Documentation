@@ -75,7 +75,7 @@ Get the source files of LBM_Saclay's documentation
 
             sys.path.insert(0, os.path.abspath('~/.venvs/sphinx/lib/python3.12/site-packages'))
 
-.. admonition:: Generate the html pages
+.. admonition:: Generate the html pages on your local computer
 
     The main file is ``index.rst`` in the directory ``LBM_Saclay_Documentation/doc``. All other source files (``.rst`` files) of LBM_Saclay documentation are the in directory ``LBM_Saclay_Documentation/doc/src_doc/``.
 
@@ -128,7 +128,7 @@ Write your documentation
 
             $ ffmpeg -i "videoname.avi" -c:v libvpx -b:v 2000k -pix_fmt yuva420p -auto-alt-ref 0 "videoname.webm"
     
-    and put them in folder ``LBM_Saclay_Doc/_static/``
+    and put them in folder ``LBM_Saclay_Documentation/doc/_static/``
 
 
 Push your improvements

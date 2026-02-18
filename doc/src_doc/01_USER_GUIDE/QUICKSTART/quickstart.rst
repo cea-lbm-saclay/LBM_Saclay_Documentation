@@ -8,22 +8,7 @@ Quick Start with LBM_Saclay
 
 .. tab-set::
 
-   .. tab-item:: For DM2S/STMF users
-
-      .. only:: titania
-
-         .. admonition:: Shared directories for DM2S/STMF users
-            :class: important
-
-            TITANIA: two main LBM directories exist
-   
-            - ``/tmp_formation/LBM_Saclay``: free access. You will find the ``html`` version of that documentation; the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
-
-            - ``/home/lbm-saclay``: shared directory for R&D contributors of LBM_Saclay. Send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr`` to get access.
-
-            ORCUS: one shared directory exists
-
-            - ``/tmp_formation/LBM_Saclay``: free access. Several versions of LBM_Saclay are already compiled on GPU partitions of ORCUS. You can go directly to :ref:`Simulations-GPU`.
+   .. tab-item:: For LBM Training session
 
       .. admonition:: For training session: LBM_Saclay's documentation
          :class: error
@@ -46,14 +31,30 @@ Quick Start with LBM_Saclay
 
          3. Either a. or b./c.
 
-          a. For SMEMaG LBM training go to the red box of :ref:`Compilation-CPU-SMEMaG`
-          b. For Sorbonne University students go to :ref:`Simulations-GPU`
-          c. For INSTN "Two-phase" training go to :ref:`Simulations-GPU`
+          a. For SMEMaG LBM training go to the red box of :bdg-ref-primary:`Compilation-CPU-SMEMaG`
+          b. For Sorbonne University students go to :bdg-ref-primary:`Simulations-GPU`
+          c. For INSTN "Two-phase" training go to :bdg-ref-primary:`Simulations-GPU`
    
+   .. tab-item:: For DM2S/STMF users
+      
+      .. admonition:: Shared directories for DM2S/STMF users
+         :class: important
+
+         **TITANIA/OBERON**: two main LBM directories exist
+   
+            - ``/tmp_formation/LBM_Saclay``: free access. You will find the ``html`` version of that documentation; the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
+
+            - ``/home/lbm-saclay``: shared directory for R&D contributors of LBM_Saclay. Send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr`` to get access.
+
+         **ORCUS**: one shared directory exists
+
+            - ``/tmpformation/LBM_Saclay``: free access. One version of LBM_Saclay (kernel ``NSAC_Comp``) is compiled for several graphic cards available on ORCUS (V100, A100 and H100). 
+
+            - First simulations of ORCUS: you can go directly to :bdg-ref-primary:`Simulations-GPU` and follow the instructions.
+
    .. tab-item:: For other users
 
       To be completed
-
 
 2. Get the source files of LBM_Saclay
 -------------------------------------
@@ -84,11 +85,13 @@ Quick Start with LBM_Saclay
 
       .. admonition:: Get access to the git repository
    
-         LBM_Saclay is on the git repository [1]_. To get an access to codev-tuleap, open an **AD partner** account by sending a message on [2]_. For scientists of other institutes (CNRS, INRIA, University, etc.) send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr``. Once you got the account, change your password on [3]_.
+         - The last version of LBM_Saclay is available on the git repository :bdg-link-success:`codev-tuleap.cea.fr <https://codev-tuleap.cea.fr/plugins/git/lbmsaclay>`.
+         
+         - To get an access to ``codev-tuleap``, open an **AD partner** account by sending a message on :bdg-link-success:`https://post.intra.cea.fr/sp`.
+         
+         - For scientists of other institutes (CNRS, INRIA, University, etc.) send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr``. Once you got the account, change your password on :bdg-link-success:`https://gestion-ad.intra.cea.fr:9443/`.
 
-            .. [1] https://codev-tuleap.cea.fr/plugins/git/lbmsaclay
-            .. [2] https://post.intra.cea.fr/sp
-            .. [3] https://gestion-ad.intra.cea.fr:9443/
+         - Help and support: on weblink :bdg-link-success:`Trackers > Suivi des I.D. LBM <https://codev-tuleap.cea.fr/plugins/tracker/?tracker=1870>` open a ``NEW ID_LBM`` and explain your problem.
 
       **Download LBM_Saclay**
 
@@ -272,12 +275,5 @@ The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``
        $ paraview12&
    
    and follow tutorials presented in :ref:`Run_Training-LBM`.
-
-6. Help and Support
--------------------
-
-On weblink [4]_ open a ``NEW ID_LBM`` and explain your problem.
-
-.. [4] https://codev-tuleap.cea.fr/plugins/tracker/?tracker=1870
 
 .. sectionauthor:: Alain Cartalade
