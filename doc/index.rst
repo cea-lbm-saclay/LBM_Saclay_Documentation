@@ -23,9 +23,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       :width: 280
       :scale: 40
    
-   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at STMF/LDEL laboratory from **CEA/Saclay**. Its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing).
-   
-   You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on :bdg-link-success-line:`Codev-Tuleap repository <https://codev-tuleap.cea.fr/projects/lbmsaclay/>`. For that purpose, follow the instructions on :bdg-ref-primary-line:`Quick-Start`.
+   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at STMF/LDEL laboratory from **CEA/Saclay**. Its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on :bdg-link-success-line:`Codev-Tuleap repository <https://codev-tuleap.cea.fr/projects/lbmsaclay/>`. For that purpose, follow the instructions on :bdg-ref-primary-line:`Quick-Start`.
 
 .. admonition:: Video gallery
    :class: important
@@ -165,8 +163,8 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 
    Many CEA collaborators have contributed to the development and validation of LBM_Saclay: P. Kestener, W. Verdier, T. Boutin, E. Stavropoulos-Vasilakis, H. de Gieter, C. Méjanès, T. Duez, H. Keraudren, C. Elharti, S. Dupuy, C. Bardet, S. Cappe, A. Genty, A. Laurens, P. Chavasse-Frétaz, Y. Janson, B. Peiffert, C. Renard, A. Cartalade.
 
-   - :bdg-ref-primary:`TeamPresentation`
-   - :bdg-ref-primary:`List-Of-Publications-with-LBM`
+   - :bdg-ref-primary-line:`TeamPresentation`
+   - :bdg-ref-primary-line:`List-Of-Publications-with-LBM`
 
 
 *****************
@@ -182,7 +180,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       :width: 300
       :scale: 50
    
-   The purpose of this documentation is to establish the link between parameters of input datafiles with mathematical models and numerical schemes. After a short description of :bdg-ref-primary:`PARTI`, the two-phase and multi-phase models are detailed in :bdg-ref-primary:`Math-Models`. Next, the numerical schemes of those models are described in :bdg-ref-primary:`LBM-Saclay-Schemes`. The following section, :bdg-ref-primary:`Guidelines`, is aimed at scientists who wish to implement their own models or add new equations. Finally, the last part :bdg-ref-primary:`PART-V-Course-Reminders` contains introductions on *basic fluid dynamics*, *lattice Boltzmann methods* and *phase-field theory*.
+   The purpose of this documentation is to establish the link between parameters of input datafiles with mathematical models and numerical schemes. After a short description of :bdg-ref-primary-line:`PARTI`, the two-phase and multi-phase models are detailed in :bdg-ref-primary-line:`Math-Models`. Next, the numerical schemes of those models are described in :bdg-ref-primary-line:`LBM-Saclay-Schemes`. The following section, :bdg-ref-primary-line:`Guidelines`, is aimed at scientists who wish to implement their own models or add new equations. Finally, the last part :bdg-ref-primary-line:`PART-V-Course-Reminders` contains introductions on *basic fluid dynamics*, *lattice Boltzmann methods* and *phase-field theory*.
    
    **Contribute to this documentation**
    

@@ -1,6 +1,6 @@
 .. _Quick-Start:
 
-Quick Start with LBM_Saclay
+Quick Start with LBM_Saclay 
 ===========================
 
 1. LBM_Saclay's environment & documentation
@@ -31,9 +31,9 @@ Quick Start with LBM_Saclay
 
          3. Either a. or b./c.
 
-          a. For SMEMaG LBM training go to the red box of :bdg-ref-primary:`Compilation-CPU-SMEMaG`
-          b. For Sorbonne University students go to :bdg-ref-primary:`Simulations-GPU`
-          c. For INSTN "Two-phase" training go to :bdg-ref-primary:`Simulations-GPU`
+          a. For SMEMaG LBM training go to the red box of :bdg-ref-primary-line:`Compilation-CPU-SMEMaG`
+          b. For Sorbonne University students go to :bdg-ref-primary-line:`Simulations-GPU`
+          c. For INSTN "Two-phase" training go to :bdg-ref-primary-line:`Simulations-GPU`
    
    .. tab-item:: For DM2S/STMF users
       

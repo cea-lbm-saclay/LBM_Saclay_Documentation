@@ -43,7 +43,6 @@ Fluid-Solid interface
       :maxdepth: 1
    
       ./02_Fluid_Solid/Model_Dissolution.rst
-      ./02_Fluid_Solid/Model_CrystalGrowth.rst
       ./02_Fluid_Solid/Model_Maturation_Gel.rst
 
 
