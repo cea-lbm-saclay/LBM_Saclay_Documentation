@@ -94,38 +94,38 @@ International journals
 
 **Lattice Boltzmann Methods**
 
-.. [P1] Genty A. and V. Pot. Numerical simulation of 3D liquid-gas distribution in porous media by a two-phase lattice Boltzmann method. Transport in Porous Media, 96: 271-294, **2013**. :bdg-link-success:`https://doi.org/10.1007/s11242-012-0087-9`
+.. [P1] Genty A. and V. Pot. Numerical simulation of 3D liquid-gas distribution in porous media by a two-phase lattice Boltzmann method. Transport in Porous Media, 96: 271-294, **2013**. :bdg-link-success-line:`https://doi.org/10.1007/s11242-012-0087-9`
 
-.. [P2] Genty A. and V. Pot. Numerical Calculation of Effective Diffusion in Unsaturated Porous Media by the TRT Lattice Boltzmann Method. Transport in Porous Media, 105(2): 391-410, **2014**. :bdg-link-success:`https://doi.org/10.1007/s11242-014-0374-8`
+.. [P2] Genty A. and V. Pot. Numerical Calculation of Effective Diffusion in Unsaturated Porous Media by the TRT Lattice Boltzmann Method. Transport in Porous Media, 105(2): 391-410, **2014**. :bdg-link-success-line:`https://doi.org/10.1007/s11242-014-0374-8`
 
-.. [P3] Pot V., S. PETH, O. MONGA, L.E. VOGEL, A. Genty, P. GARNIER, L. VIEUBLE-GONOD, M. OGURRECK, F. BECKMANN and P.C. BAVEYE. Three-dimensional distribution of water and air in soil pores: Comparison of two-phase two relaxation-times lattice-Boltzmann and morphological model outputs with synchrotron X-ray computed tomography data. Advances in Water Resources, 84: 87-102, **2015**. :bdg-link-success:`https://doi.org/10.1016/j.advwatres.2015.08.006`
+.. [P3] Pot V., S. PETH, O. MONGA, L.E. VOGEL, A. Genty, P. GARNIER, L. VIEUBLE-GONOD, M. OGURRECK, F. BECKMANN and P.C. BAVEYE. Three-dimensional distribution of water and air in soil pores: Comparison of two-phase two relaxation-times lattice-Boltzmann and morphological model outputs with synchrotron X-ray computed tomography data. Advances in Water Resources, 84: 87-102, **2015**. :bdg-link-success-line:`https://doi.org/10.1016/j.advwatres.2015.08.006`
 
-.. [P4] Cartalade A., Younsi A., M. Plapp, Lattice Boltzmann simulations of 3D crystal growth: Numerical schemes for a phase-field model with anti-trapping current. Computers & Mathematics with Applications, 71 (9), pp. 1784–1798, **2016**. :bdg-link-success:`https://doi.org/10.1016/j.camwa.2016.02.029`
+.. [P4] Cartalade A., Younsi A., M. Plapp, Lattice Boltzmann simulations of 3D crystal growth: Numerical schemes for a phase-field model with anti-trapping current. Computers & Mathematics with Applications, 71 (9), pp. 1784–1798, **2016**. :bdg-link-success-line:`https://doi.org/10.1016/j.camwa.2016.02.029`
 
-.. [P5] Younsi A. and A. Cartalade, On anisotropy function in crystal growth simulations using Lattice Boltzmann equation. Journal of Computational Physics, 325, pp. 1–21, **2016**. :bdg-link-success:`http://dx.doi.org/10.1016/j.jcp.2016.08.014`
+.. [P5] Younsi A. and A. Cartalade, On anisotropy function in crystal growth simulations using Lattice Boltzmann equation. Journal of Computational Physics, 325, pp. 1–21, **2016**. :bdg-link-success-line:`http://dx.doi.org/10.1016/j.jcp.2016.08.014`
 
-.. [P6] Genty A., S. GUEDDANI and M. DYMITROWSKA. Computation of Saturation Dependence of Effective Diffusion Coefficient in Unsaturated Argillite Micro-fracture by Lattice Boltzmann Method. Transport in Porous Media, 117(1): 149-168, **2017**. :bdg-link-success:`https://doi.org/10.1007/s11242-017-0826-z`
+.. [P6] Genty A., S. GUEDDANI and M. DYMITROWSKA. Computation of Saturation Dependence of Effective Diffusion Coefficient in Unsaturated Argillite Micro-fracture by Lattice Boltzmann Method. Transport in Porous Media, 117(1): 149-168, **2017**. :bdg-link-success-line:`https://doi.org/10.1007/s11242-017-0826-z`
 
-.. [P7] BEN HADJ HASSINE S., M. DYMITROWSKA, V. Pot and A. Genty. Gas Migration in Highly Water-Saturated Opalinus Clay Microfractures Using a Two-Phase TRT LBM. Transport in Porous Media, 116(3): 975-1003, **2017**. :bdg-link-success:`https://doi.org/10.1007/s11242-016-0809-5`
+.. [P7] BEN HADJ HASSINE S., M. DYMITROWSKA, V. Pot and A. Genty. Gas Migration in Highly Water-Saturated Opalinus Clay Microfractures Using a Two-Phase TRT LBM. Transport in Porous Media, 116(3): 975-1003, **2017**. :bdg-link-success-line:`https://doi.org/10.1007/s11242-016-0809-5`
 
-.. [P8] Cartalade A., A. Younsi and M.-C. Néel, Multiple-Relaxation-Time Lattice Boltzmann scheme for fractional advection-diffusion equation. Computer Physics Communications, 234, pp. 40–54,  **2019**. :bdg-link-success:`https://doi.org/10.1016/j.cpc.2018.08.005`
+.. [P8] Cartalade A., A. Younsi and M.-C. Néel, Multiple-Relaxation-Time Lattice Boltzmann scheme for fractional advection-diffusion equation. Computer Physics Communications, 234, pp. 40–54,  **2019**. :bdg-link-success-line:`https://doi.org/10.1016/j.cpc.2018.08.005`
 
-.. [P9] Verdier W., P. Kestener, A. Cartalade, Performance portability of lattice Boltzmann methods for two-phase flows with phase change, Computer Methods in Applied Mechanics and Engineering, 370, 113266, **2020**. :bdg-link-success:`https://doi.org/10.1016/j.cma.2020.113266`
+.. [P9] Verdier W., P. Kestener, A. Cartalade, Performance portability of lattice Boltzmann methods for two-phase flows with phase change, Computer Methods in Applied Mechanics and Engineering, 370, 113266, **2020**. :bdg-link-success-line:`https://doi.org/10.1016/j.cma.2020.113266`
 
-.. [P10] Boutin T., Verdier W., A. Cartalade, Grand-Potential-based phase-field model of dissolution/precipitation: lattice Boltzmann simulations of counter term effect on porous medium, Computational Materials Science, 207, 111261, **2022**. :bdg-link-success:`https://doi.org/10.1016/j.commatsci.2022.111261`
+.. [P10] Boutin T., Verdier W., A. Cartalade, Grand-Potential-based phase-field model of dissolution/precipitation: lattice Boltzmann simulations of counter term effect on porous medium, Computational Materials Science, 207, 111261, **2022**. :bdg-link-success-line:`https://doi.org/10.1016/j.commatsci.2022.111261`
 
-.. [P11] Verdier W., A. Cartalade, M. Plapp, Grand-Potential phase field simulations of droplet growth and sedimentation in a two-phase ternary fluid, Modelling and Simulation in Materials Science and Engineering, 32, 065028, **2024**. :bdg-link-success:`https://doi.org/10.1088/1361-651X/ad627e`
+.. [P11] Verdier W., A. Cartalade, M. Plapp, Grand-Potential phase field simulations of droplet growth and sedimentation in a two-phase ternary fluid, Modelling and Simulation in Materials Science and Engineering, 32, 065028, **2024**. :bdg-link-success-line:`https://doi.org/10.1088/1361-651X/ad627e`
 
 **Lattice Gas Automaton (LGA)**
 
-.. [P12] Pot V. and A. Genty. Dispersion dependence on retardation in a real fracture geometry using lattice-gas cellular automaton. Advances in Water Resources, 30: 273-283, **2007**. :bdg-link-success:`https://doi.org/10.1016/j.advwatres.2005.08.011`
+.. [P12] Pot V. and A. Genty. Dispersion dependence on retardation in a real fracture geometry using lattice-gas cellular automaton. Advances in Water Resources, 30: 273-283, **2007**. :bdg-link-success-line:`https://doi.org/10.1016/j.advwatres.2005.08.011`
 
-.. [P13] Pot V. and A. Genty. Sorbing and non-sorbing solute migration in rough fractures with a multi-species LGA model: Dispersion dependence on retardation and roughness. Transport in Porous Media, 59(2): 175-196, **2005**. :bdg-link-success:`https://doi.org/10.1007/s11242-004-1175-2`
+.. [P13] Pot V. and A. Genty. Sorbing and non-sorbing solute migration in rough fractures with a multi-species LGA model: Dispersion dependence on retardation and roughness. Transport in Porous Media, 59(2): 175-196, **2005**. :bdg-link-success-line:`https://doi.org/10.1007/s11242-004-1175-2`
 
 Peer-reviewed proceeding
 ------------------------
 
-.. [p1] Younsi A., A. Cartalade, M. Quintard, Lattice Boltzmann Simulations for Anisotropic Crystal Growth of a Binary Mixture. Proceeding of The 15th International Heat Transfer Conference (IHTC-15), 9 pages, 10-15 Aug. Kyoto, paper 9797, ISBN: 978-1-56700-421-2. **2014**. :bdg-link-success:`http://dx.doi.org/10.1615/IHTC15.cpm.009797`
+.. [p1] Younsi A., A. Cartalade, M. Quintard, Lattice Boltzmann Simulations for Anisotropic Crystal Growth of a Binary Mixture. Proceeding of The 15th International Heat Transfer Conference (IHTC-15), 9 pages, 10-15 Aug. Kyoto, paper 9797, ISBN: 978-1-56700-421-2. **2014**. :bdg-link-success-line:`http://dx.doi.org/10.1615/IHTC15.cpm.009797`
 
 
 List of PhD thesis and HDR
@@ -133,11 +133,11 @@ List of PhD thesis and HDR
 
 .. [T1] Younsi A., Simulations des effets des écoulements sur la croissance cristalline d'un mélange binaire. Approche par méthode de Boltzmann sur réseau. Thèse de doctorat CEA/Institut Polytechnique de Paris. **2015**.
 
-.. [H1] Cartalade A., Modèles à champ de phase et équations fractionnaires simulés par méthode de Boltzmann sur réseaux. Mémoire d’Habilitation à Diriger des Recherches (HDR) en Physique, Université Paris-Sud. 95 pages. **2019**. :bdg-link-success:`http://dx.doi.org/10.13140/RG.2.2.10705.07529`
+.. [H1] Cartalade A., Modèles à champ de phase et équations fractionnaires simulés par méthode de Boltzmann sur réseaux. Mémoire d’Habilitation à Diriger des Recherches (HDR) en Physique, Université Paris-Sud. 95 pages. **2019**. :bdg-link-success-line:`http://dx.doi.org/10.13140/RG.2.2.10705.07529`
 
 .. [T2] Verdier W., Phase-field modelling and simulations of phase separation in the two-phase nuclear glass Na :math:`_2` O–SiO :math:`_2` –MoO :math:`_3`. Thèse de doctorat CEA/Institut Polytechnique de Paris. **2022**.
 
-.. [T3] Boutin T., Simulation à l’échelle mésoscopique des gels d’altération des verres nucléaires. Thèse de doctorat CEA/Université Paris-Saclay (ED SMEMaG). **2025**. :bdg-link-success:`https://theses.hal.science/tel-05147983v1`
+.. [T3] Boutin T., Simulation à l’échelle mésoscopique des gels d’altération des verres nucléaires. Thèse de doctorat CEA/Université Paris-Saclay (ED SMEMaG). **2025**. :bdg-link-success-line:`https://theses.hal.science/tel-05147983v1`
 
 .. [T4] Méjanès C., Modélisation et simulation de la séparation de phase dans les verres nucléaires sous influence de la variation de densité. Thèse de doctorat CEA/Université Paris-Saclay (ED SMEMaG). **2025**.
 
