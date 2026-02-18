@@ -13,20 +13,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
          :icon: comment
          :open:
 
-         Comparison of LBM_Saclay with analytical solution:
-
-         .. math::
-            :label: Analy-DP
-
-            u_{x}(y)=\begin{cases}
-                  \frac{Gh^{2}}{2\eta_{A}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{A}}{\eta_{A}+\eta_{B}}\right] & \mbox{if }0\leq y\leq h\\
-                  \frac{Gh^{2}}{2\eta_{B}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{B}}{\eta_{A}+\eta_{B}}\right] & \mbox{if }-h\leq y\leq0
-               \end{cases}
-
-         .. math::
-            :label: Coeff_G
-
-            G=\frac{u_{c}}{h^{2}}(\eta_{A}+\eta_{B})\,\,\mbox{and}\,\,u_{c}=5\times10^{-5}
+         Comparison of LBM_Saclay with :bdg-ref-primary:`Analytical-Solution-Double-Poiseuille`
 
          .. admonition:: For LBM training session
             :class: error
@@ -103,7 +90,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
          :icon: comment
          :open:
 
-         The second validation is a comparison with the Rayleigh-Taylor instability of the literature. For that test case, several dimensionless numbers are commonly used. First, the characteristic velocity is defined by (Eq. :eq:`U_RT`) where :math:`g` is the gravity and :math:`L` is the domain width. Once that characteristic velocity is defined, it is used in dimensionless numbers of fluid flows such as Reynolds (Eq. :eq:`Re_RT`) and capillary numbers. (Eq. :eq:`Ca_RT`) The Atwood number (Eq. :eq:`At_RT`) is also used in simulations and Peclet number for phase-field equation (Eq. :eq:`Pe_RT`)
+         The second validation is a comparison with the Rayleigh-Taylor instability of the literature. For that test case, several dimensionless numbers are commonly used. First, the characteristic velocity is defined by :math:`U_c` where :math:`g` is the gravity and :math:`L` is the domain width. Once that characteristic velocity is defined, it is used in dimensionless numbers of fluid flows such as Reynolds and capillary numbers. The Atwood number is also used in simulations and Peclet number for phase-field equation.
 
          .. grid:: 3
             :gutter: 4
@@ -115,7 +102,6 @@ The first three test cases for two-phase with fluid flows compare the numerical 
                .. admonition:: Characteristic velocity
       
                   .. math::
-                     :label: U_RT
          
                      U=\sqrt{gL}
 
@@ -125,7 +111,6 @@ The first three test cases for two-phase with fluid flows compare the numerical 
                .. admonition:: Reynolds number 
       
                   .. math::
-                     :label: Re_RT
 
                      \text{Re}=\frac{L\sqrt{gL}}{\nu}
 
@@ -135,7 +120,6 @@ The first three test cases for two-phase with fluid flows compare the numerical 
                .. admonition:: Atwood number 
       
                   .. math::
-                     :label: At_RT
 
                      \text{At}=\frac{\rho_{h}-\rho_{l}}{\rho_{h}+\rho_{l}}
 
@@ -149,7 +133,6 @@ The first three test cases for two-phase with fluid flows compare the numerical 
                .. admonition:: Capilary number 
       
                   .. math::
-                     :label: Ca_RT
 
                      \text{Ca}=\frac{\eta\sqrt{gL}}{\sigma}
 
@@ -159,7 +142,6 @@ The first three test cases for two-phase with fluid flows compare the numerical 
                .. admonition:: Peclet number 
       
                   .. math::
-                     :label: Pe_RT
          
                      \text{Pe}=\frac{L\sqrt{gL}}{M_{\phi}}
 
@@ -227,7 +209,8 @@ The first three test cases for two-phase with fluid flows compare the numerical 
          .. admonition:: For training session: python script
             :class: error
 
-            Both files ``RT2D_Bubble_Ref_Fakhari_PRE2017.dat`` & ``RT2D_Spike_Ref_Fakhari_PRE2017.dat`` contain :math:`t^{\star}` and :math:`y` positions of bubble point (1st file) and spike (2nd file). They have been digitalized from Fig 6 of reference [1]_. All files ``data.csv`` must be set in a new folder ``Contours``:
+            Both files ``RT2D_Bubble_Ref_Fakhari_PRE2017.dat`` & ``RT2D_Spike_Ref_Fakhari_PRE2017.dat`` contain :math:`t^{\star}` and :math:`y` positions of bubble point (1st file) and spike (2nd file). They have been digitalized from Fig 6 of reference    
+            :footcite:p:`Fakhari_etal_PRE2017`. All files ``data.csv`` must be set in a new folder ``Contours``:
 
                .. code-block:: shell
 
@@ -270,7 +253,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
          :icon: comment
          :open:
 
-         The *Capillary wave* is a test case with an analytical solution of Prosperetti :ref:`Analytical-Solution-Capillary-Wave-Prosperetti`.
+         The *Capillary wave* is a test case with an analytical solution of Prosperetti :bdg-ref-primary:`Analytical-Solution-Capillary-Wave-Prosperetti`.
 
          .. admonition:: For LBM training session: mesh 256x512
             :class: error
@@ -366,13 +349,18 @@ The first three test cases for two-phase with fluid flows compare the numerical 
    
                Validation for :math:`\nu_1` on mesh size 400x800.
 
+      **Bibliography**
+
+      .. footbilbiography::
+
+
    .. tab-item:: Simulations of bubbles and droplets
 
       .. dropdown:: Rising bubble
          :icon: comment
          :open:
 
-         Folder ``TestCase11_Rising-Bubble2D`` contains two test cases for simulations of rising bubble with different Bond and Morton numbers: ``CASE-A2`` and ``CASE-A5``. The choice of dimensionless numbers is inspired from reference [2]_. For ``CASE-A2`` :math:`\text{Bo}=32.2` and :math:`\text{Mo}=8.2\times10^{-4}` and for ``CASE-A5`` :math:`\text{Bo}=339` and :math:`\text{Mo}=43.1`.
+         Folder ``TestCase11_Rising-Bubble2D`` contains two test cases for simulations of rising bubble with different Bond and Morton numbers: ``CASE-A2`` and ``CASE-A5``. The choice of dimensionless numbers is inspired from reference :footcite:p:`Kumar_etal_PoF2019`. For ``CASE-A2`` :math:`\text{Bo}=32.2` and :math:`\text{Mo}=8.2\times10^{-4}` and for ``CASE-A5`` :math:`\text{Bo}=339` and :math:`\text{Mo}=43.1`.
 
          .. admonition:: For LBM training session: pre-processing with python scripts
             :class: hint
@@ -657,12 +645,6 @@ The first three test cases for two-phase with fluid flows compare the numerical 
               - 925.26
 
 
-Bibliography
-------------
-
-.. [1] Fakhari et al, PHYSICAL REVIEW E 96, 053301 (2017). doi https://journals.aps.org/pre/abstract/10.1103/PhysRevE.96.053301
-
-.. [2] Dinesh Kumar E., S.A. Sannasiraj, V. Sundar, Phase field lattice Boltzmann model for air-water two phase flows, Physics of Fluids 31, 072103 (2019). doi https://doi.org/10.1063/1.5100215
 
 
 .. sectionauthor:: Alain Cartalade

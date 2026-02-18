@@ -23,16 +23,79 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       :width: 280
       :scale: 40
    
-   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at STMF/LDEL laboratory from **CEA/Saclay**. Its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on :bdg-link-success:`Codev-Tuleap repository <https://codev-tuleap.cea.fr/projects/lbmsaclay/>`. For that purpose, follow the instructions on :bdg-ref-primary:`Quick-Start`.
+   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at STMF/LDEL laboratory from **CEA/Saclay**. Its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing).
 
-.. admonition:: Video gallery
-   :class: important
-      
-   The combination of phase-field models with LBM and GPU is a very efficient approach for simulating multi-phase and multi-component flows. To illustrate what can be simulated, several videos are presented in different parts of this documentation. An overview can be found on
-      
-   - :bdg-ref-primary:`Videos-Gallery`
-   - 2D simulations with LBM_Saclay are presented in :bdg-ref-primary:`TwoP-Training-LBM`.
-   - Applications of :bdg-ref-primary:`Math-Models` are illustrated with videos.
+   The combination of phase-field models with LBM and GPU is a very efficient approach for simulating multi-phase and multi-component flows. To illustrate what can be simulated, several videos are presented in different parts of this documentation. An overview can be found on :bdg-ref-primary-line:`Videos-Gallery`.
+   
+   You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models.
+   
+   The code is open source and can be downloaded on :bdg-link-success-line:`Codev-Tuleap repository <https://codev-tuleap.cea.fr/projects/lbmsaclay/>`. For that purpose, follow the instructions on :bdg-ref-primary-line:`Quick-Start`.
+
+   
+
+   .. grid:: 2
+      :gutter: 4
+      :margin: 3 3 0 5
+
+      .. grid-item-card:: For vistors
+         :columns: 4
+
+         .. button-ref:: Videos-Gallery
+            :color: primary
+            :shadow:
+
+            Video gallery
+
+         .. button-ref:: Math-Models
+            :color: primary
+            :shadow:
+
+            Mathematical models
+
+      .. grid-item-card:: For users
+         :columns: 4
+
+         .. button-ref:: Quick-Start
+            :color: primary
+            :shadow:
+
+            Quick start
+
+         .. button-ref:: Run_Training-LBM
+            :color: primary
+            :shadow:
+
+            Practice of two-phase flows
+
+         .. button-ref:: Set-Own-Parameters
+            :color: primary
+            :shadow:
+
+            Set your own parameters
+
+      .. grid-item-card:: For developers
+         :columns: 4
+
+         .. button-link:: https://codev-tuleap.cea.fr/projects/lbmsaclay/
+            :color: success
+            :shadow:
+
+            codev-tuleap repository
+            
+         .. button-ref:: LBM-Saclay-Schemes
+            :color: primary
+            :shadow:
+
+            Lattice Boltzmann schemes
+
+         .. button-ref:: Guidelines
+            :color: primary
+            :shadow:
+
+            Guidelines for developers
+
+         
+
 
 ****************
 **Introduction**

@@ -21,23 +21,30 @@ The difference between the pressure inside the droplet :math:`P_{in}` and the pr
 
 where :math:`\sigma` is the surface tension and :math:`R` is the droplet radius.
 
+.. _Analytical-Solution-Double-Poiseuille:
+
 Analytical solution of double-Poiseuille flow
 ---------------------------------------------
 
 .. math::
-   :label: 
+   :label: Analy-DP
 
    u_{x}(y)=\begin{cases}
-      \frac{Gh^{2}}{2\eta_{A}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{A}}{\eta_{A}+\eta_{B}}\right] & \mbox{if }0\leq y\leq h\\
-      \frac{Gh^{2}}{2\eta_{B}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{B}}{\eta_{A}+\eta_{B}}\right] & \mbox{if }-h\leq y\leq0
-   \end{cases}
+         \frac{Gh^{2}}{2\eta_{A}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{A}}{\eta_{A}+\eta_{B}}\right] & \mbox{if }0\leq y\leq h\\
+         \frac{Gh^{2}}{2\eta_{B}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{B}}{\eta_{A}+\eta_{B}}\right] & \mbox{if }-h\leq y\leq0
+      \end{cases}
+
+.. math::
+   :label: Coeff_G
+
+   G=\frac{u_{c}}{h^{2}}(\eta_{A}+\eta_{B})\,\,\mbox{and}\,\,u_{c}=5\times10^{-5}
 
 .. _Analytical-Solution-Capillary-Wave-Prosperetti:
 
 Analytical solution of Prosperetti for capillary wave
 -----------------------------------------------------
 
-The example of such a study is given by the test case of capillary wave. For that test case, an analytical solution exists [2]_. The objective is to study the influence of mesh on the solution accuracy. The amplitude is
+The example of such a study is given by the test case of capillary wave. For that test case, an analytical solution exists :footcite:p:`Prosperetti_PoF1981`. The objective is to study the influence of mesh on the solution accuracy. The amplitude is
 
 .. math::
    :label: Sol_Prosperetti
@@ -72,3 +79,6 @@ and
 
    Z_{1}=(z_{2}-z_{1})(z_{3}-z_{1})(z_{4}-z_{1})
 
+.. footbibliography::
+
+.. sectionauthor:: Alain Cartalade

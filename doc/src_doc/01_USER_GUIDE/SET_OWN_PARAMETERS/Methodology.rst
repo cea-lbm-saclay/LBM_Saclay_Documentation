@@ -1,3 +1,5 @@
+.. _Set-Own-Parameters:
+
 Methodology to set your own parameters in input file
 ====================================================
 

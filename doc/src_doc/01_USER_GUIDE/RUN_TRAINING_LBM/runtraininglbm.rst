@@ -3,15 +3,17 @@
 Practice of two-phase flows with test cases of ``run_training_lbm``
 ===================================================================
 
+This section presents an overview of folder ``run_training_lbm`` to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of 1) SMEMaG doctoral school :bdg-link-success:`ADUM <https://adum.fr/script/catalogue.pl?mod=3701390&site=psaclay>` and 2) Master of Sciences Sorbonne University :bdg-link-success:`SSU <https://su-mecanique.github.io/master-mecanique/page/um5mee32/>`. Most of them appear in publications to validate new LBM numerical schemes or new two-phase models.
+
 Overview of test cases
 ----------------------
 
-This section presents an overview of folder ``run_training_lbm`` to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of 1) SMEMaG doctoral school :bdg-link-success:`An introduction of Lattice Boltzmann Methods <https://adum.fr/script/catalogue.pl?mod=3701390&site=psaclay>` and 2) Master of Sciences Sorbonne University :bdg-link-success:`Two-phase Thermohydraulics: modeling and numerical simulation <https://su-mecanique.github.io/master-mecanique/page/um5mee32/>`. Most of them appear in publications to validate new LBM numerical schemes or new two-phase models. The folder ``run_training_lbm`` is available in three versions of LBM_Saclay: "V1.0", "Training" and "Rech-Dev".
+Several examples of ``.ini`` files are contained in directory ``run_training_lbm``. They run with the kernel ``NSAC_Comp`` which implements the :bdg-ref-primary-line:`Math-NSAC-Comp`. Those input datafiles use several options or different values to help users for making their own test case.
 
-.. admonition:: Tutorials for running and post-processing test cases of ``run_training_lbm``
+.. admonition:: Quick links for various physical problems
    :class: hint
 
-   Several examples of ``.ini`` files are contained in directory ``run_training_lbm``. They run with the kernel ``NSAC_Comp`` which implements the :ref:`Math-NSAC-Comp`. Those input datafiles use several options or different values to help users for making their own test case. Tutorials for running and post-processing results of each physical problems can be found below:
+   Guidelines for running and post-processing results of each physical problems can be found on the links below.
    
    .. grid:: 2
       :gutter: 4
@@ -43,9 +45,7 @@ This section presents an overview of folder ``run_training_lbm`` to start practi
             :color: primary
             :shadow:
 
-   It is supposed that you run the test cases on ORCUS (see :ref:`Simulations-GPU`). Once the job is complete, the output files must be downloaded and post-processed with paraview on your local computer.
-
-Few examples of single-phase and two-phase flows are presented in :numref:`target-Fig-Overview`. A detailed description of parameter values is presented in [1]_.
+It is supposed that you run the test cases on ORCUS (see :bdg-ref-primary-line:`Simulations-GPU`). Once the job is complete, the output files must be downloaded and post-processed with paraview on your local computer. Few examples of single-phase and two-phase flows are presented in :numref:`target-Fig-Overview`. A detailed description of parameter values is presented in [1]_.
 
 .. _target-Fig-Overview:
 

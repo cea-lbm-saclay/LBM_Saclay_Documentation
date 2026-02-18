@@ -7,7 +7,13 @@
 Video gallery of simulations with LBM
 =====================================
 
-We present here an overview of problems that can be simulated with the lattice Boltzmann method. First of all, many mathematical models which are implemented in LBM_Saclay involve the Navier-Stokes equations coupled with an interface-capturing equation. The models are derived from the phase-field theory and a great diversity of two-phase flows, with or without phase change can be simulated. 
+.. admonition:: Video gallery
+   :class: important
+      
+   We present here an overview of problems that can be simulated with the lattice Boltzmann method. First of all, many mathematical models which are implemented in LBM_Saclay involve the Navier-Stokes equations coupled with an interface-capturing equation. The models are derived from the phase-field theory and a great diversity of two-phase flows can be simulated with or without phase change. Other videos can be found inside this documentation. For example
+      
+   - 2D simulations with LBM_Saclay are presented in :bdg-ref-primary:`TwoP-Training-LBM`.
+   - Applications of :bdg-ref-primary:`Math-Models` are illustrated with videos.
 
 Two immiscible fluids
 ---------------------

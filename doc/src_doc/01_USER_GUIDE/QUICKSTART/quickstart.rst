@@ -42,7 +42,7 @@ Quick Start with LBM_Saclay
 
          **TITANIA/OBERON**: two main LBM directories exist
    
-            - ``/tmp_formation/LBM_Saclay``: free access. You will find the ``html`` version of that documentation; the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
+            - ``/tmp_formation/LBM_Saclay``: free access. You will find the folder ``run_training_lbm`` which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.
 
             - ``/home/lbm-saclay``: shared directory for R&D contributors of LBM_Saclay. Send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr`` to get access.
 
@@ -50,7 +50,7 @@ Quick Start with LBM_Saclay
 
             - ``/tmpformation/LBM_Saclay``: free access. One version of LBM_Saclay (kernel ``NSAC_Comp``) is compiled for several graphic cards available on ORCUS (V100, A100 and H100). 
 
-            - First simulations of ORCUS: you can go directly to :bdg-ref-primary:`Simulations-GPU` and follow the instructions.
+            - First simulations on ORCUS: you can go directly to :bdg-ref-primary-line:`Simulations-GPU` and follow the instructions.
 
    .. tab-item:: For other users
 
@@ -79,7 +79,7 @@ Quick Start with LBM_Saclay
              $ tar -xvf LBM_Saclay_Rech-Dev.tar
 
 
-   .. tab-item:: From git repository (recommended)
+   .. tab-item:: From codev-tuleap repository (recommended)
 
       **Get access to the git repository on** ``codev-tuleap.cea.fr``
 
