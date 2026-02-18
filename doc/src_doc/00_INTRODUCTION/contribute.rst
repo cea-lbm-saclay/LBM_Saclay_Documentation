@@ -1,5 +1,5 @@
-Contribution guidelines
-***********************
+Contribution guidelines for this documentation
+**********************************************
 
 Install Sphinx on your computer
 -------------------------------
@@ -134,7 +134,7 @@ Write your documentation
 Push your improvements
 ----------------------
 
-If your modifications are brought on the GitHub version, don't forget to create a new branch and push your addings.
+If your modifications are brought on the GitHub version, don't forget to create a new branch and push your addings (see :bdg-ref-primary:`Git-Commands`).
 
 .. sectionauthor:: Alain Cartalade
     

@@ -1,3 +1,5 @@
+.. _Git-Commands:
+
 Before programming: create a new branch from master
 ---------------------------------------------------
 
