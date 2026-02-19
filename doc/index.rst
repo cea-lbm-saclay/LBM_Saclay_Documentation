@@ -30,7 +30,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       
    The combination of phase-field models with LBM and GPU is a very efficient approach for simulating multi-phase and multi-component flows. To illustrate what can be simulated, several videos are presented in different parts of this documentation. An overview can be found on :bdg-ref-primary-line:`Videos-Gallery`. 2D simulations with LBM_Saclay are presented in :bdg-ref-primary-line:`TwoP-Training-LBM`. Applications of :bdg-ref-primary-line:`Math-Models` are illustrated with videos.
 
-.. admonition:: Quick links
+.. admonition:: Direct access
 
    .. grid:: 2
       :gutter: 4
