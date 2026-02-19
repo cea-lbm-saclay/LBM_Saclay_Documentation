@@ -21,7 +21,7 @@ Introduction
          ./Test_Cases_TwoPhase_ComposEffect.rst
          ./Test_Cases_TwoPhase_Interacting-SolidPhase.rst
 
-.. admonition:: Links
+.. admonition:: Direct access
 
    Guidelines for running and post-processing results of each physical problems can be found on the links below.
    
