@@ -61,24 +61,6 @@ Quick Start with LBM_Saclay
 
 .. tab-set::
 
-   .. tab-item:: From folder ``tmp_formation`` for training session
-
-      .. admonition:: For training session
-         :class: important
-
-         Copy file ``LBM_Saclay_Rech-Dev.tar``
-
-          .. code-block:: shell
-
-             $ cp /tmp_formation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar .
-
-         untar your file
-
-          .. code-block:: shell
-
-             $ tar -xvf LBM_Saclay_Rech-Dev.tar
-
-
    .. tab-item:: From codev-tuleap repository (recommended)
 
       **Get access to the git repository on** ``codev-tuleap.cea.fr``
@@ -110,6 +92,26 @@ Quick Start with LBM_Saclay
             .. code-block:: shell
 
                $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
+
+   .. tab-item:: From folder ``/tmp_formation``
+
+      .. admonition:: For training session
+         :class: important
+
+         Copy file ``LBM_Saclay_Rech-Dev.tar``
+
+          .. code-block:: shell
+
+             $ cp /tmp_formation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar .
+
+         untar your file
+
+          .. code-block:: shell
+
+             $ tar -xvf LBM_Saclay_Rech-Dev.tar
+
+         :octicon:`alert-fill;2em;sd-text-info` The tar archive does not contain the latest version of LBM_Saclay.
+
 
 .. _Compilation-CPU-SMEMaG:
 
@@ -237,7 +239,7 @@ You can run your first simulations on CPUs of your personal desktop. However, it
 4. Run your first test case on your local CPU
 ---------------------------------------------
 
-It is recommended to start with a test case of folder ``run_training_lbm`` and execute on local disk ``/volatile``. For example:
+It is recommended to start with a test case of folder ``run_training_lbm`` (see list of test cases on :bdg-ref-primary-line:`Run_Training-LBM`) and execute on your local computer. For example:
 
 .. admonition:: For training session: local computer
    :class: error
@@ -256,6 +258,17 @@ It is recommended to start with a test case of folder ``run_training_lbm`` and e
 
 5. Post-processing with Paraview
 --------------------------------
+
+.. admonition:: For training session
+   :class: error
+
+   For post-processing ``TestCase01_Poiseuille_Water``, open ``paraview12``
+
+    .. code-block:: shell
+    
+       $ paraview12&
+   
+   and follow the instructions in :bdg-ref-primary-line:`Single-Training-LBM`
 
 The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``/tmp_formation/LBM_Saclay``. In paraview, open the ``.vti`` files. For post-processing the ``.h5`` (HDF5) files open the ``.xml`` file and clic on ``XDMF Reader``.
 

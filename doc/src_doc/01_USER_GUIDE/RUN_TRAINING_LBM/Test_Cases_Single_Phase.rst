@@ -13,7 +13,7 @@ In paraview12
 .. admonition:: For training session: commands in paraview
    :class: error
 
-   1. Open ``TestCase02_Poiseuille_Water_FINAL.vti`` file and ``Apply``
+   1. Open ``TestCase01_Poiseuille_Water_FINAL.vti`` file and ``Apply``
    2. ``Ctrl space`` + ``Cell Data to Point Data`` and ``Apply``
    3. ``Ctrl space`` + ``Plot Over Line``
    4. Select ``Sample At Segment Centers`` Clic on ``Y axis`` and ``Apply`` --> new graph with profile
@@ -30,9 +30,10 @@ Next in your terminal
 
    If the computation has run on GPU use 
 
+    .. code-block:: shell
+
        $ python Post-Pro_Poiseuille_CompareAnaly_GPU.py
 
-    .. code-block:: shell
 
    In input file ``TestCase01_Poiseuille_Water.ini`` test successively ``nStepmax=250000`` and ``nStepmax=500000``. The python script shoult plot :numref:`target-Fig-SinglePoiseuille`.
 
