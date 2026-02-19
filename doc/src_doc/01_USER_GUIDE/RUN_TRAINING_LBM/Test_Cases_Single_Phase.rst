@@ -6,9 +6,24 @@ Run "Single phase test cases"
 Poiseuille flow
 ^^^^^^^^^^^^^^^
 
+.. admonition:: For training session: local computer
+   :class: note
+
+   Go to one test case of ``run_training_lbm``, e.g. ``TestCase01_Poiseuille_Water``:
+
+      .. code-block:: shell
+
+         $ cd ~/run_training_lbm/TestCase01_Poiseuille_Water
+
+   Run LBM_saclay with the input file ``name.ini``
+
+    .. code-block:: shell
+
+       $ ~/LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp/src/LBM_saclay TestCase01_Poiseuille_Water.ini
+
 Once the simulation is complete (78.891 seconds on CPU of is154726 for 250.000 time-steps), follow the instructions below
 
-In paraview12
+**In paraview12**
 
 .. admonition:: For training session: commands in paraview
    :class: error
@@ -18,6 +33,8 @@ In paraview12
    3. ``Ctrl space`` + ``Plot Over Line``
    4. Select ``Sample At Segment Centers`` Clic on ``Y axis`` and ``Apply`` --> new graph with profile
    5. ``File`` --> ``Save Data``, ``file name``: ``Poiseuille_Water.csv`` and ``OK``
+
+**Run python script**
 
 Next in your terminal
 

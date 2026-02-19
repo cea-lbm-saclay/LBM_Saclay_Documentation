@@ -19,7 +19,7 @@ That free energy is defined by integral over volume of a free energy density :ma
 
    \mathscr{F}[\phi] &=\int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\mathcal{F}(\phi,\underbrace{\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi}_{\equiv\boldsymbol{\nabla}\phi})\underbrace{dxdydz}_{\equiv dV}\\&=\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV
    
-where :math:`V` is the volume. More generally, the free energy density :math:`\mathcal{F}` could be considerd as a function of :math:`\phi`, :math:`\boldsymbol{\nabla}\phi` and :math:`\boldsymbol{\nabla}^2\phi`: :math:`\mathcal{F}(\phi,\boldsymbol{\nabla}\phi,\boldsymbol{\nabla}^{2}\phi)`. After arguments of free energy invariance with symmetry of translation and rotation, the Taylor expansion yields (see [1]_ for details):
+where :math:`V` is the volume. More generally, the free energy density :math:`\mathcal{F}` could be considerd as a function of :math:`\phi`, :math:`\boldsymbol{\nabla}\phi` and :math:`\boldsymbol{\nabla}^2\phi`: :math:`\mathcal{F}(\phi,\boldsymbol{\nabla}\phi,\boldsymbol{\nabla}^{2}\phi)`. After arguments of free energy invariance with symmetry of translation and rotation, the Taylor expansion yields (see :footcite:p:`Cahn-Hilliard_JCP1958` for details):
 
 .. math::
    :label:
@@ -88,14 +88,14 @@ By using the same arguments of :ref:`Least-Action`, we derive now the Euler-Lagr
 Taking the variation of that functional, i.e. by applying the operator :math:`\delta` (see details in :ref:`Minimization-Free-Energy`), the free energy must be stationary at equilibrium i.e.:
 
 .. math::
-   :label: Variational_Free_Energy
+   :label:
 
    \delta\mathscr{F}[\phi]=\int_{V}\Bigl[\frac{\partial\mathcal{F}}{\partial\phi}-\underbrace{\partial_{\alpha}\left(\frac{\partial\mathcal{F}}{\partial(\partial_{\alpha}\phi)}\right)}_{\text{Einstein convention}}\Bigr]\delta\phi dV=0
 
 where the Einstein's convention is used for repeated indices. That equation writes:
 
 .. math::
-   :label: Variational_Free_Energy
+   :label:
 
    \frac{\delta\mathscr{F}[\phi]}{\delta\phi}=\int_{V}\left\{\frac{\partial\mathcal{F}}{\partial\phi}-\boldsymbol{\nabla}\cdot\left[\frac{\partial\mathcal{F}}{\partial(\boldsymbol{\nabla}\phi)}\right]\right\} dV=0
 
@@ -387,7 +387,7 @@ The choice of double-well :math:`g_1,g_2,g_3` has an impact on the fundamental s
    .. _Tab-Surf-Tension:
 
    .. table:: Surface tension :math:`\sigma=I\sqrt{2\zeta H}` where :math:`I` is defined below
-      :name: Tab-Sol-W
+      :name: Tab-Sol-Sigma
       :widths: 35, 35, 30
       :class: longtable
       :align: center
@@ -454,10 +454,10 @@ Several useful relationships derive from the fundamental hyperbolic tangent solu
 
    which is proportional to the derivative of double-well.
 
-Bibliography
-------------
+References
+----------
 
-.. [1] J.W. Cahn and J.E. Hilliard, Free Energy of a Non-uniform System. I. Interfacial Free Energy. The journal of chemical physics, 28, (2), 1958.
+.. footbibliography::
 
 Appendices
 ----------

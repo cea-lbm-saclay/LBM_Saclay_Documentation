@@ -3,15 +3,22 @@
 Practice of two-phase flows with test cases of ``run_training_lbm``
 ===================================================================
 
-This section presents an overview of folder ``run_training_lbm`` to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of 1) SMEMaG doctoral school :bdg-link-success-line:`ADUM <https://adum.fr/script/catalogue.pl?mod=3701390&site=psaclay>` and 2) Master of Sciences Sorbonne University :bdg-link-success-line:`SSU <https://su-mecanique.github.io/master-mecanique/page/um5mee32/>`. Most of them appear in publications to validate new LBM numerical schemes or new two-phase models.
+.. admonition:: Introduction
 
-Overview of test cases
-----------------------
+   This section presents an overview of folder ``run_training_lbm`` to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of 1) SMEMaG doctoral school :bdg-link-success-line:`ADUM <https://adum.fr/script/catalogue.pl?mod=3701390&site=psaclay>` and 2) Master of Sciences Sorbonne University :bdg-link-success-line:`SSU <https://su-mecanique.github.io/master-mecanique/page/um5mee32/>`. Most of them appear in publications to validate new LBM numerical schemes or new two-phase models. Several examples of ``.ini`` files are contained in directory ``run_training_lbm``. They run with the kernel ``NSAC_Comp`` which implements the :bdg-ref-primary-line:`Math-NSAC-Comp`. Those input datafiles use several options or different values to help users for making their own test case. It is supposed that you run the test cases on ORCUS (see :bdg-ref-primary-line:`Simulations-GPU`). Once the job is complete, the output files must be downloaded and post-processed with paraview on your local computer. Few examples of single-phase and two-phase flows are presented in :numref:`target-Fig-Overview`. A detailed description of parameter values is presented in [1]_.
 
-Several examples of ``.ini`` files are contained in directory ``run_training_lbm``. They run with the kernel ``NSAC_Comp`` which implements the :bdg-ref-primary-line:`Math-NSAC-Comp`. Those input datafiles use several options or different values to help users for making their own test case.
+   .. dropdown:: Table of content
 
-.. admonition:: Quick links for various physical problems
-   :class: hint
+      .. toctree::
+         :maxdepth: 2
+   
+         ./Test_Cases_Single_Phase.rst
+         ./Test_Cases_Two_Phase_Without-Flows.rst
+         ./Test_Cases_Two_Phase.rst
+         ./Test_Cases_TwoPhase_ComposEffect.rst
+         ./Test_Cases_TwoPhase_Interacting-SolidPhase.rst
+
+.. admonition:: Links
 
    Guidelines for running and post-processing results of each physical problems can be found on the links below.
    
@@ -45,8 +52,6 @@ Several examples of ``.ini`` files are contained in directory ``run_training_lbm
             :color: primary
             :shadow:
 
-It is supposed that you run the test cases on ORCUS (see :bdg-ref-primary-line:`Simulations-GPU`). Once the job is complete, the output files must be downloaded and post-processed with paraview on your local computer. Few examples of single-phase and two-phase flows are presented in :numref:`target-Fig-Overview`. A detailed description of parameter values is presented in [1]_.
-
 .. _target-Fig-Overview:
 
 .. figure:: ../../FIGS/Overview_NSAC_Comp.png
@@ -57,15 +62,17 @@ It is supposed that you run the test cases on ORCUS (see :bdg-ref-primary-line:`
    
    Overview of two-phase simulations contained in folder ``run_training_lbm``
 
+
 List of test cases in ``run_training_lbm``
 ------------------------------------------
 
 .. dropdown:: Single phase test cases
+   :open:
 
    The two-phase model can easily degenerate to single-phase flows. This is the reason why the first two test cases compare LBM_Saclay results with well-known solutions of "lid-driven cavity flows" and "Poiseuille flows".
 
-   .. container:: sphinx-features
-
+   .. div:: sd-text-center
+      
       .. table:: Single-phase test cases
          :name: SinglePhase
          :widths: 35,35,30
@@ -88,6 +95,7 @@ List of test cases in ``run_training_lbm``
 
 
 .. dropdown:: Two-phase test cases without fluid flow
+   :open:
 
    .. container:: sphinx-features
 
@@ -116,6 +124,7 @@ List of test cases in ``run_training_lbm``
          :shadow:
 
 .. dropdown:: Two-phase test cases with fluid flow
+   :open:
 
    .. container:: sphinx-features
 
@@ -152,6 +161,7 @@ List of test cases in ``run_training_lbm``
          :shadow:
 
 .. dropdown:: Two-phase with fluid flow & composition effect
+   :open:
 
    .. container:: sphinx-features
 
@@ -183,6 +193,7 @@ List of test cases in ``run_training_lbm``
          :shadow:
 
 .. dropdown:: Two-phase interacting with a solid phase
+   :open:
 
    .. container:: sphinx-features
 
@@ -219,7 +230,6 @@ Types of files in ``run_training_lbm``
 
 .. dropdown:: ...
    :icon: comment
-   :open:
 
    The folder ``run_training_lbm`` contains several classical test cases of two-phase flows. They are all based on the :ref:`Math-NSAC-Comp`, but they differ by the use of different initial conditions, boundary conditions and values of parameters. The parameter values of those test cases are representative of various dimensionless numbers (Re, Bo, Mo, At, etc.) and for some of them, comparisons are performed with analytical solutions or well-known benchmarks.
 

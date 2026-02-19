@@ -1,3 +1,5 @@
+.. _Contribute-Documentation:
+
 Contribution guidelines for this documentation
 **********************************************
 

@@ -12,7 +12,7 @@ Description of LBM_Saclay input file
 The parameters of input file are gathered in **sections**, their names must be put in brackets.
 
 List of section names: ``[section name]``
-----------------------------------------
+-----------------------------------------
 
 We distinguish **Generic sections** for input parameters relative to execution (``[run]``), mesh, mpi processes, mathematical problem to simulate and outputs. The **Problem-dependent sections** contain input paramaters depending on the mathematical model to be solved. Finally, several other sections can be turn on for specific models in **Optional sections**.
 

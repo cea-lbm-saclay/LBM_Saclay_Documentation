@@ -1,8 +1,6 @@
 Jean-Zay (CNRS-IDRIS) - doc updated November 28th, 2024
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
-
 .. admonition:: Documentation
    :class: important
 
@@ -123,7 +121,7 @@ Finally compile
    $ make -j 22
 
 Submit a job and run (last test 2023)
-""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""
 
 Examples of script slurm can be found on http://www.idris.fr/jean-zay/gpu/jean-zay-gpu-exec_multi_mpi_batch.html. The example of script below is for parition v100 with 16 MPI processes.
 

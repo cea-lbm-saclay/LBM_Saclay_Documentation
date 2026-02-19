@@ -199,7 +199,8 @@ Multi-GPU: compilation and run on multi-H100 with MPI (updated July 8th, 2025)
             .. code-block:: shell
 
                $ cmake -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON -DKokkos_ENABLE_CUDA_LAMBDA=ON -DKokkos_ARCH_HOPPER90=ON -DUSE_MPI=ON -DUSE_MPI_CUDA_AWARE_ENFORCED=ON -DKokkos_ENABLE_HWLOC=ON -DUSE_HDF5=ON -DPROBLEM=NSAC_Comp -DCMAKE_SKIP_RPATH=ON -DCMAKE_BUILD_WITH_INSTALL_RPATH=OFF -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE ..
-         $ make -j 22
+               
+               $ make -j 22
 
       In the second one, use command ``make install``
 

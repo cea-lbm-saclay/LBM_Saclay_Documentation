@@ -67,13 +67,13 @@ Quick Start with LBM_Saclay
 
       .. admonition:: Get access to the git repository
    
-         - The last version of LBM_Saclay is available on the git repository :bdg-link-success:`codev-tuleap.cea.fr <https://codev-tuleap.cea.fr/plugins/git/lbmsaclay>`.
+         - The last version of LBM_Saclay is available on the git repository :bdg-link-success-line:`codev-tuleap.cea.fr <https://codev-tuleap.cea.fr/plugins/git/lbmsaclay>`.
          
-         - To get an access to ``codev-tuleap``, open an **AD partner** account by sending a message on :bdg-link-success:`https://post.intra.cea.fr/sp`.
+         - To get an access to ``codev-tuleap``, open an **AD partner** account by sending a message on :bdg-link-success-line:`https://post.intra.cea.fr/sp`.
          
-         - For scientists of other institutes (CNRS, INRIA, University, etc.) send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr``. Once you got the account, change your password on :bdg-link-success:`https://gestion-ad.intra.cea.fr:9443/`.
+         - For scientists of other institutes (CNRS, INRIA, University, etc.) send an email to ``alain.cartalade at cea.fr`` or ``teo.boutin at cea.fr``. Once you got the account, change your password on :bdg-link-success-line:`https://gestion-ad.intra.cea.fr:9443/`.
 
-         - Help and support: on weblink :bdg-link-success:`Trackers > Suivi des I.D. LBM <https://codev-tuleap.cea.fr/plugins/tracker/?tracker=1870>` open a ``NEW ID_LBM`` and explain your problem.
+         - Help and support: on weblink :bdg-link-success-line:`Trackers > Suivi des I.D. LBM <https://codev-tuleap.cea.fr/plugins/tracker/?tracker=1870>` open a ``NEW ID_LBM`` and explain your problem.
 
       **Download LBM_Saclay**
 
@@ -120,121 +120,120 @@ Quick Start with LBM_Saclay
 
 You can run your first simulations on CPUs of your personal desktop. However, it is highly recommended to run LBM_Saclay on one (or better on several) graphic cards (GPUs). You will find the procedure for compiling on single-CPU, single-GPU, and multi-GPU.
 
-.. dropdown:: Compilation on CPU with openmp
-   :icon: comment
-   :open:
+.. tab-set::
 
-   .. admonition:: Makefile on CPU of local computer
-      :class: error
+   .. tab-item:: Compilation on CPU with openmp
 
-      - For openmp  (``omp``) on CPU
+      .. admonition:: Makefile on CPU of local computer
+         :class: error
 
-       Go to ``LBM_Saclay`` folder
+         - For openmp  (``omp``) on CPU
 
-       .. code-block:: shell
+          Go to ``LBM_Saclay`` folder
 
-          $ cd LBM_Saclay_Rech-Dev
+          .. code-block:: shell
 
-       and execute the ``configure_build.sh`` script to create the ``makefile``
+             $ cd LBM_Saclay_Rech-Dev
 
-       .. code-block:: shell
+          and execute the ``configure_build.sh`` script to create the ``makefile``
 
-          $ ./compilation/local/omp/configure_build.sh
+          .. code-block:: shell
 
-   will return:
+             $ ./compilation/local/omp/configure_build.sh
 
-   .. code-block:: shell
+      will return:
 
-      The following problems are currently implemented:
-      0  AC
-      1  Advection-Diffusion
-      2  Crystal_growth_Younsi
-      3  GPMixt
-      4  GPMixtNS
-      5  GPMixtTernary
-      6  GPMuTernary
-      7  MPwSLphC
-      8  NS
-      9  NS_3phases_1comp_phase_change
-      10 NSAC_Comp
-      11 NSAC_Comp_3phases
-      12 NSAC_Comp_3phases3D
-      13 NSAC_coupling
-      14 NSAC_Fakhari
-      15 NSAC_Surfactant
-      Choose which problems to include by indicating a list of space or comma separated numbers, eg '0 1' or '0,1'.
-      Write 'all' to include all problems.
-      Problem numbers:
+      .. code-block:: shell
 
-   .. admonition:: Compilation
-      :class: error
+         The following problems are currently implemented:
+         0  AC
+         1  Advection-Diffusion
+         2  Crystal_growth_Younsi
+         3  GPMixt
+         4  GPMixtNS
+         5  GPMixtTernary
+         6  GPMuTernary
+         7  MPwSLphC
+         8  NS
+         9  NS_3phases_1comp_phase_change
+         10 NSAC_Comp
+         11 NSAC_Comp_3phases
+         12 NSAC_Comp_3phases3D
+         13 NSAC_coupling
+         14 NSAC_Fakhari
+         15 NSAC_Surfactant
+         Choose which problems to include by indicating a list of space or comma separated numbers, eg '0 1' or '0,1'.
+         Write 'all' to include all problems.
+         Problem numbers:
 
-      Write ``10`` for ``NSAC_Comp`` kernel
+      .. admonition:: Compilation
+         :class: error
 
-       .. code-block:: shell
+         Write ``10`` for ``NSAC_Comp`` kernel
 
-          Problem numbers: 10
+          .. code-block:: shell
 
-      Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
+             Problem numbers: 10
 
-       .. code-block:: shell
+          Go to the directory that is indicated by the green link, e.g., if number ``10`` has been set for GPU:
 
-          $ cd LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp
+          .. code-block:: shell
 
-      Compile:
+             $ cd LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp
 
-       .. code-block:: shell
+          Compile:
 
-          $ make -j 22
+          .. code-block:: shell
 
-.. dropdown:: Compilation on GPU
-   :icon: comment
+             $ make -j 22
+
+   .. tab-item:: Compilation on GPU
    
-   .. tab-set::
+      .. tab-set::
 
-      .. tab-item:: With script ``configure_build.sh``
+         .. tab-item:: With script ``configure_build.sh``
 
-         .. admonition:: Makefile on GPU
+            .. admonition:: Makefile on GPU
          
-            - For cuda on GPU H100 of ORCUS
+               - For cuda on GPU H100 of ORCUS
 
-             .. code-block:: shell
+                .. code-block:: shell
 
-                ./compilation/orcus/cuda_h100/configure_build.sh
+                   ./compilation/orcus/cuda_h100/configure_build.sh
 
-             For GPU A100 and V100, modify only ``cuda_h100`` by ``cuda_a100`` (A100) or ``cuda_v100`` (V100)
+               For GPU A100 and V100, modify only ``cuda_h100`` by ``cuda_a100`` (A100) or ``cuda_v100`` (V100)
 
-            - For cuda on A6000 of MANWE
+               - For cuda on A6000 of MANWE
 
-             .. code-block:: shell
+                .. code-block:: shell
 
-                ./compilation/manwe/cuda_a6000/configure_build.sh
+                   ./compilation/manwe/cuda_a6000/configure_build.sh
 
 
-         .. admonition:: Compilation errors
-            :class: important
+            .. admonition:: Compilation errors
+               :class: important
 
-            For compilation errors, it is useful to write the exits inside an output file e.g. ``compil.log``:
+               For compilation errors, it is useful to write the exits inside an output file e.g. ``compil.log``:
 
-             .. code-block:: shell
+                .. code-block:: shell
 
-                $ make -j 22 2>&1 | tee compil.log
+                   $ make -j 22 2>&1 | tee compil.log
 
-            or alternatively ``compil2.log``
+               or alternatively ``compil2.log``
 
-             .. code-block:: shell
+                .. code-block:: shell
 
-                $ make VERBOSE=1 2>&1 | tee compil2.log
+                   $ make VERBOSE=1 2>&1 | tee compil2.log
 
-      .. tab-item:: Sections for detailed procedure
+         .. tab-item:: Sections for detailed procedure
 
-         .. toctree::
-            :maxdepth: 1
+            .. toctree::
+               :maxdepth: 1
 
-            ./Compil_MonoGPU.rst
-            ./Compil_GPU_MPI_Orcus.rst
-            ./Compil_Multi_GPU.rst
-            ./Compil_GetInfo_GPU.rst
+               ./Compil_MonoGPU.rst
+               ./Compil_GPU_MPI_Orcus.rst
+               ./Compil_Multi_GPU.rst
+               ./Compil_GetInfo_GPU.rst
 
 4. Run your first test case on your local CPU
 ---------------------------------------------

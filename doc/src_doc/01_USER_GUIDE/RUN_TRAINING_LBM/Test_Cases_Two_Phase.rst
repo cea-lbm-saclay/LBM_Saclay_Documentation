@@ -26,7 +26,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
              .. code-block:: shell
 
-                $ /volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase07_Double_Poiseuille_BGK.ini
+                $ ~/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase07_Double_Poiseuille_BGK.ini
 
             The simulation ran 583.956 seconds on CPU of is154726 against 100.055 on partition gpuq_h100 of Orcus to achieve 300.001 time-steps.
 
@@ -34,7 +34,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
              .. code-block:: shell
 
-                $ /volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase07_Double_Poiseuille_MRT.ini
+                $ ~/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase07_Double_Poiseuille_MRT.ini
 
          Once the simulation is complete, in paraview12:
 
@@ -159,7 +159,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
              .. code-block:: shell
 
-                $ /volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase08_Rayleigh-Taylor_Spike-Bubble.ini
+                $ ~/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase08_Rayleigh-Taylor_Spike-Bubble.ini
 
          The simulation ran 587.993 seconds on CPU of is154726 against 28.233 seconds on gpuq_h100 on Orcus to achieve 52.000 time-steps.
 
@@ -263,7 +263,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
              .. code-block:: shell
 
                 $ cd run_training_lbm/TestCase09_Capillary-Wave2D/Mesh_256x512_nu0
-                $ /volatile/formation/Training-LBM/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase09_Capillary-Wave_Prosperetti_Cas1_nu0.ini
+                $ ~/LBM_Saclay_Rech-Dev/build_openmp/src/LBM_saclay TestCase09_Capillary-Wave_Prosperetti_Cas1_nu0.ini
 
             The simulation ran 46 min on GPU A6000 of MANWE to achieve 1.600.001 time-steps. The same simulation ran 797.855 seconds (~ 13min18s) on partition gpuq_h100 of Orcus.
 
@@ -348,10 +348,6 @@ The first three test cases for two-phase with fluid flows compare the numerical 
                :align: center
    
                Validation for :math:`\nu_1` on mesh size 400x800.
-
-      **Bibliography**
-
-      .. footbilbiography::
 
 
    .. tab-item:: Simulations of bubbles and droplets
@@ -645,7 +641,9 @@ The first three test cases for two-phase with fluid flows compare the numerical 
               - 925.26
 
 
+**Bibliography**
 
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
    
