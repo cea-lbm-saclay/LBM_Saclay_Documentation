@@ -12,8 +12,8 @@ Video gallery of simulations with LBM
       
    We present here an overview of problems that can be simulated with the lattice Boltzmann method. First of all, many mathematical models which are implemented in LBM_Saclay involve the Navier-Stokes equations coupled with an interface-capturing equation. The models are derived from the phase-field theory and a great diversity of two-phase flows can be simulated with or without phase change. Other videos can be found inside this documentation. For example
       
-   - 2D simulations with LBM_Saclay are presented in :bdg-ref-primary:`TwoP-Training-LBM`.
-   - Applications of :bdg-ref-primary:`Math-Models` are illustrated with videos.
+   - 2D simulations with LBM_Saclay are presented in :bdg-ref-primary-line:`TwoP-Training-LBM`.
+   - Applications of :bdg-ref-primary-line:`Math-Models` are illustrated with videos.
 
 Two immiscible fluids
 ---------------------
@@ -64,7 +64,7 @@ An alternative popular model for simulating immiscible two-phase flows, is the m
 Two-phase flows with phase change
 ---------------------------------
 
-When the phase change occurs between one liquid phase and one gas phase, the mass balance equation has to be modified to take into account the density variation. The temperature equation is solved and coupled to the phase-field equation. The mathematical model of such a model is described in reference :cite:p:`verdier_kestener_cartalade_2020`
+When the phase change occurs between one liquid phase and one gas phase, the mass balance equation has to be modified to take into account the density variation. The temperature equation is solved and coupled to the phase-field equation. The mathematical model of such a model is described in reference :footcite:p:`Verdier_etal_CMAME2020`
 
 .. container:: sphinx-features
 
@@ -117,7 +117,7 @@ Several models of solid/liquid phase change are also implemented in LBM_Saclay. 
 
 **Dissolution of porous media**
 
-One :ref:`Math-Dissolution` is implemented in LBM_Saclay. All details of the math model and numerical schemes can be found in reference :cite:p:`boutin_verdier_cartalade_2022`. In video below in an example of dissolution of solid phase because when the initial composition reaches its thermo equilibrium.
+One :ref:`Math-Dissolution` is implemented in LBM_Saclay. All details of the math model and numerical schemes can be found in reference :footcite:p:`Boutin_etal_CMS2022`. In video below in an example of dissolution of solid phase because when the initial composition reaches its thermo equilibrium.
 
 .. container:: sphinx-features
 
@@ -129,7 +129,7 @@ One :ref:`Math-Dissolution` is implemented in LBM_Saclay. All details of the mat
    
 **Crystal growth**
 
-A well-known application of phase-field models is simulation of solidification and crystal growth. A basic :ref:`Math-Crystal` can be found on that link. ll details of the math model and numerical schemes can be found in reference :cite:p:`cartalade_younsi_plapp_2016`. In the simulations below, we can see how the crystal grows without (left) and with (right) fluid flows. 
+A well-known application of phase-field models is simulation of solidification and crystal growth. A basic :ref:`Math-Crystal` can be found on that link. ll details of the math model and numerical schemes can be found in reference :footcite:p:`Cartalade_Younsi_Plapp_CAMWA2016`. In the simulations below, we can see how the crystal grows without (left) and with (right) fluid flows. 
 
 .. container:: sphinx-features
 
@@ -171,5 +171,8 @@ One of the most advantage of the Cahn-Hilliard model is to simulate the spinodal
       <video controls src="../../_static/Vid_Separation.webm" width="470" height="470"> </video>
 
    Videos: nucleation and growth (left) and phase separation (right)
+
+
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade

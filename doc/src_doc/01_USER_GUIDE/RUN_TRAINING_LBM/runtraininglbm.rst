@@ -8,7 +8,7 @@ Introduction
 
 .. admonition:: Introduction
 
-   This section presents an overview of folder ``run_training_lbm`` to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of 1) SMEMaG doctoral school :bdg-link-success-line:`ADUM <https://adum.fr/script/catalogue.pl?mod=3701390&site=psaclay>` and 2) Master of Sciences Sorbonne University :bdg-link-success-line:`SSU <https://su-mecanique.github.io/master-mecanique/page/um5mee32/>`. Most of them appear in publications to validate new LBM numerical schemes or new two-phase models. Several examples of ``.ini`` files are contained in directory ``run_training_lbm``. They run with the kernel ``NSAC_Comp`` which implements the :bdg-ref-primary-line:`Math-NSAC-Comp`. Those input datafiles use several options or different values to help users for making their own test case. It is supposed that you run the test cases on ORCUS (see :bdg-ref-primary-line:`Simulations-GPU`). Once the job is complete, the output files must be downloaded and post-processed with paraview on your local computer. Few examples of single-phase and two-phase flows are presented in :numref:`target-Fig-Overview`. A detailed description of parameter values is presented in [1]_.
+   This section presents an overview of folder ``run_training_lbm`` to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of 1) SMEMaG doctoral school :bdg-link-success-line:`ADUM <https://adum.fr/script/catalogue.pl?mod=3701390&site=psaclay>` and 2) Master of Sciences Sorbonne University :bdg-link-success-line:`SSU <https://su-mecanique.github.io/master-mecanique/page/um5mee32/>`. Most of them appear in publications to validate new LBM numerical schemes or new two-phase models. Several examples of ``.ini`` files are contained in directory ``run_training_lbm``. They run with the kernel ``NSAC_Comp`` which implements the :bdg-ref-primary-line:`Math-NSAC-Comp`. Those input datafiles use several options or different values to help users for making their own test case. It is supposed that you run the test cases on ORCUS (see :bdg-ref-primary-line:`Simulations-GPU`). Once the job is complete, the output files must be downloaded and post-processed with paraview on your local computer. Few examples of single-phase and two-phase flows are presented in :numref:`target-Fig-Overview`.
 
    .. dropdown:: Table of content
 
@@ -22,8 +22,6 @@ Introduction
          ./Test_Cases_TwoPhase_Interacting-SolidPhase.rst
 
 .. admonition:: Direct access
-
-   Guidelines for running and post-processing results of each physical problems can be found on the links below.
    
    .. grid:: 2
       :gutter: 4
@@ -69,164 +67,171 @@ Introduction
 List of test cases in ``run_training_lbm``
 ------------------------------------------
 
-.. dropdown:: Single phase test cases
-   :open:
+.. tab-set::
 
-   The two-phase model can easily degenerate to single-phase flows. This is the reason why the first two test cases compare LBM_Saclay results with well-known solutions of "lid-driven cavity flows" and "Poiseuille flows".
+   .. tab-item:: Single phase
 
-   .. div:: sd-text-center
+      .. dropdown:: Single phase test cases
+         :open:
+
+         The two-phase model can easily degenerate to single-phase flows. This is the reason why the first two test cases compare LBM_Saclay results with well-known solutions of "lid-driven cavity flows" and "Poiseuille flows".
+
+         .. div:: sd-text-center
       
-      .. table:: Single-phase test cases
-         :name: SinglePhase
-         :widths: 35,35,30
-         :align: center
-         :width: 80%
+            .. table:: Single-phase test cases
+               :name: SinglePhase
+               :widths: 35,35,30
+               :align: center
+               :width: 80%
 
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | **Name of test case**                      | **Equations**                    | **Comparisons**                      |
-         +============================================+==================================+======================================+
-         | TestCase01_LidDrivenCavityFlow             | Navier-Stokes                    | Benchmark with literature            |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase02_Poiseuille_Water                | Navier-Stokes                    | Analytical solution                  |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | **Name of test case**                      | **Equations**                    | **Comparisons**                      |
+               +============================================+==================================+======================================+
+               | TestCase01_LidDrivenCavityFlow             | Navier-Stokes                    | Benchmark with literature            |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase02_Poiseuille_Water                | Navier-Stokes                    | Analytical solution                  |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
 
-   .. div:: sd-text-center
+         .. div:: sd-text-center
 
-      .. button-ref:: Single-Training-LBM
-         :color: secondary
-         :shadow:
+            .. button-ref:: Single-Training-LBM
+               :color: secondary
+               :shadow:
 
+   .. tab-item:: Two-phase without fluid flow
 
-.. dropdown:: Two-phase test cases without fluid flow
-   :open:
+      .. dropdown:: Two-phase test cases without fluid flow
+         :open:
 
-   .. container:: sphinx-features
+         .. container:: sphinx-features
 
-      .. table:: List of test cases of Two-phase without fluid flows
-         :name: TwoPhase-withoutFlows
-         :widths: 35,30,35
-         :align: center
-         :width: 80%
+            .. table:: List of test cases of Two-phase without fluid flows
+               :name: TwoPhase-withoutFlows
+               :widths: 35,30,35
+               :align: center
+               :width: 80%
 
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | **Name of test case**                      | **Equations**                    | **Comparisons**                      |
-         +============================================+==================================+======================================+
-         | TestCase03_Zalesak-Disk2D                  | Phase-field                      | Initial condition                    |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase04_Deformation-Vortex2D            | Phase-field                      | Benchmark Cahn-Hilliard & Allen-Cahn |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase05_Spinodal-Decomposition2D        | Phase-field                      | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase06_Stefan-Problem                  | Phase-field/Composition          | Analytical solution                  |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | **Name of test case**                      | **Equations**                    | **Comparisons**                      |
+               +============================================+==================================+======================================+
+               | TestCase03_Zalesak-Disk2D                  | Phase-field                      | Initial condition                    |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase04_Deformation-Vortex2D            | Phase-field                      | Benchmark Cahn-Hilliard & Allen-Cahn |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase05_Spinodal-Decomposition2D        | Phase-field                      | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase06_Stefan-Problem                  | Phase-field/Composition          | Analytical solution                  |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
 
-   .. div:: sd-text-center
+         .. div:: sd-text-center
    
-      .. button-ref:: TwoP-withoutFF
-         :color: primary
-         :shadow:
+            .. button-ref:: TwoP-withoutFF
+               :color: primary
+               :shadow:
 
-.. dropdown:: Two-phase test cases with fluid flow
-   :open:
+   .. tab-item:: Two-phase with fluid flow
 
-   .. container:: sphinx-features
+      .. dropdown:: Two-phase test cases with fluid flow
+         :open:
 
-      .. table:: List of test cases of Two-phase with fluid flows
-         :name: TwoPhase-withFlows
-         :widths: 35,40,25
-         :align: center
-         :width: 80%
+         .. container:: sphinx-features
 
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | **Name of test case**                      | **Equations**                    | **Comparisons**                      |
-         +============================================+==================================+======================================+
-         | TestCase07_Double-Poiseuille               | Navier-Stokes/Phase-field        | Analytical solution                  |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase08_Rayleigh-Taylor2D               | Navier-Stokes/Phase-field        | Benchmark with literature            |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase09_Capillary-Wave2D                | Navier-Stokes/Phase-field        | Analytical solution                  |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase10_Falling-Droplet2D               | Navier-Stokes/Phase-field        | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase11_Rising-Bubble2D                 | Navier-Stokes/Phase-field        | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase12_Taylor-Bubble2D                 | Navier-Stokes/Phase-field        | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase13_Splashing-Droplet2D             | Navier-Stokes/Phase-field        | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase14_Dam-Break2D                     | Navier-Stokes/Phase-field        | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
+            .. table:: List of test cases of Two-phase with fluid flows
+               :name: TwoPhase-withFlows
+               :widths: 35,40,25
+               :align: center
+               :width: 80%
 
-   .. div:: sd-text-center
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | **Name of test case**                      | **Equations**                    | **Comparisons**                      |
+               +============================================+==================================+======================================+
+               | TestCase07_Double-Poiseuille               | Navier-Stokes/Phase-field        | Analytical solution                  |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase08_Rayleigh-Taylor2D               | Navier-Stokes/Phase-field        | Benchmark with literature            |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase09_Capillary-Wave2D                | Navier-Stokes/Phase-field        | Analytical solution                  |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase10_Falling-Droplet2D               | Navier-Stokes/Phase-field        | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase11_Rising-Bubble2D                 | Navier-Stokes/Phase-field        | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase12_Taylor-Bubble2D                 | Navier-Stokes/Phase-field        | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase13_Splashing-Droplet2D             | Navier-Stokes/Phase-field        | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase14_Dam-Break2D                     | Navier-Stokes/Phase-field        | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
 
-      .. button-ref:: TwoP-Training-LBM
-         :color: primary
-         :shadow:
+         .. div:: sd-text-center
 
-.. dropdown:: Two-phase with fluid flow & composition effect
-   :open:
+            .. button-ref:: TwoP-Training-LBM
+               :color: primary
+               :shadow:
 
-   .. container:: sphinx-features
+      .. dropdown:: Two-phase with fluid flow & composition effect
+         :open:
 
-      .. table:: Test cases inside folder ``TestCase15_Surfactant``
-         :name: TestCase-Surfactant
-         :widths: 35,40,25
-         :class: longtable
-         :align: center
-         :width: 80%
+         .. container:: sphinx-features
 
-         +--------------------------------------+----------------------------------------+--------------------------------------+
-         | **Name of test case**                | **Equations**                          | **Comparisons**                      |
-         +======================================+========================================+======================================+
-         | Analytical_Profile1                  | Navier-Stokes/Phase-field/Composition  | Analytical solution                  |
-         +--------------------------------------+----------------------------------------+--------------------------------------+
-         | Analytical_Profile2                  | Navier-Stokes/Phase-field/Composition  | Analytical solution                  |
-         +--------------------------------------+----------------------------------------+--------------------------------------+
-         | Coalescence                          | Navier-Stokes/Phase-field/Composition  | --                                   |
-         +--------------------------------------+----------------------------------------+--------------------------------------+
-         | Falling-Droplet                      | Navier-Stokes/Phase-field/Composition  | --                                   |
-         +--------------------------------------+----------------------------------------+--------------------------------------+
-         | Rising_Bubble                        | Navier-Stokes/Phase-field/Composition  | --                                   |
-         +--------------------------------------+----------------------------------------+--------------------------------------+
+            .. table:: Test cases inside folder ``TestCase15_Surfactant``
+               :name: TestCase-Surfactant
+               :widths: 35,40,25
+               :class: longtable
+               :align: center
+               :width: 80%
 
-   .. div:: sd-text-center
+               +--------------------------------------+----------------------------------------+--------------------------------------+
+               | **Name of test case**                | **Equations**                          | **Comparisons**                      |
+               +======================================+========================================+======================================+
+               | Analytical_Profile1                  | Navier-Stokes/Phase-field/Composition  | Analytical solution                  |
+               +--------------------------------------+----------------------------------------+--------------------------------------+
+               | Analytical_Profile2                  | Navier-Stokes/Phase-field/Composition  | Analytical solution                  |
+               +--------------------------------------+----------------------------------------+--------------------------------------+
+               | Coalescence                          | Navier-Stokes/Phase-field/Composition  | --                                   |
+               +--------------------------------------+----------------------------------------+--------------------------------------+
+               | Falling-Droplet                      | Navier-Stokes/Phase-field/Composition  | --                                   |
+               +--------------------------------------+----------------------------------------+--------------------------------------+
+               | Rising_Bubble                        | Navier-Stokes/Phase-field/Composition  | --                                   |
+               +--------------------------------------+----------------------------------------+--------------------------------------+
 
-      .. button-ref:: TwoP-Compos-Training-LBM
-         :color: primary
-         :shadow:
+         .. div:: sd-text-center
 
-.. dropdown:: Two-phase interacting with a solid phase
-   :open:
+            .. button-ref:: TwoP-Compos-Training-LBM
+               :color: primary
+               :shadow:
 
-   .. container:: sphinx-features
+      .. dropdown:: Two-phase interacting with a solid phase
+         :open:
 
-      .. table:: List of test cases of Two-phase interacting with a solid phase
-         :name: TwoPhase-Solid
-         :widths: 35,40,25
-         :align: center
-         :width: 80%
+         .. container:: sphinx-features
 
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | **Name of test case**                      | **Equations**                    | **Comparisons**                      |
-         +============================================+==================================+======================================+
-         | TestCase16_Contact-Angle                   | Navier-Stokes/Phase-fields       | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase17a_Hydrophobic-Solid              | Navier-Stokes/Phase-fields       | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase17b_Vertical-Wall                  | Navier-Stokes/Phase-fields       | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase18_Container-Splash                | Navier-Stokes/Phase-fields       | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase19_Static-Container-Hole           | Navier-Stokes/Phase-fields       | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
-         | TestCase20_Moving-Container-Hole           | Navier-Stokes/Phase-fields       | --                                   |
-         +--------------------------------------------+----------------------------------+--------------------------------------+
+            .. table:: List of test cases of Two-phase interacting with a solid phase
+               :name: TwoPhase-Solid
+               :widths: 35,40,25
+               :align: center
+               :width: 80%
 
-   .. div:: sd-text-center
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | **Name of test case**                      | **Equations**                    | **Comparisons**                      |
+               +============================================+==================================+======================================+
+               | TestCase16_Contact-Angle                   | Navier-Stokes/Phase-fields       | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase17a_Hydrophobic-Solid              | Navier-Stokes/Phase-fields       | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase17b_Vertical-Wall                  | Navier-Stokes/Phase-fields       | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase18_Container-Splash                | Navier-Stokes/Phase-fields       | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase19_Static-Container-Hole           | Navier-Stokes/Phase-fields       | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
+               | TestCase20_Moving-Container-Hole           | Navier-Stokes/Phase-fields       | --                                   |
+               +--------------------------------------------+----------------------------------+--------------------------------------+
 
-      .. button-ref:: TwoP-Solid-Training-LBM
-         :color: primary
-         :shadow:
+         .. div:: sd-text-center
+
+            .. button-ref:: TwoP-Solid-Training-LBM
+               :color: primary
+               :shadow:
 
 Types of files in ``run_training_lbm``
 --------------------------------------
@@ -342,11 +347,6 @@ Most of input values in the ``.ini`` files correspond to dimensionless parameter
             +----------------------+---------------------------+----------------------------+------------------+
             | **Dyn viscos ratio** | :math:`\eta_{l}/\eta_{a}` | **4236**                   | --               |
             +----------------------+---------------------------+----------------------------+------------------+
-
-Bibliography
-------------
-
-.. [1] LBM_Saclay team. Lattice Boltzmann Methods – Part II: practice with LBM_Saclay. Single-phase and two-phase flows. Presentation CEA STMF/LDEL, 200 slides, 2025.
 
 .. sectionauthor:: Alain Cartalade
    

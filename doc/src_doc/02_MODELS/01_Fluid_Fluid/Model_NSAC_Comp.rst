@@ -11,14 +11,14 @@ Introduction
 
    The model of incompressible Navier-Stokes (``NS``) coupled with the Conservative Allen-Cahn (``CAC``) equation (or conservative levelset equation) is one of the most popular model of two-phase flows with interface-capturing. The origin of the Conservative Allen-Cahn equation is the derivation of the counter term (see :footcite:p:`Folch_etal_CounterTerm_PRE1999_PhysRevE.60.1724`). One first derivation of NS/CAC model is presented in :footcite:p:`Biben-Misbah_PRE2003_PhysRevE.67.031908`. Here present the version inspired by reference :footcite:p:`Chiu-Lin_JCP2011`.
    
-   That model is applied for simulating many classical problems such as "rising bubbles", splashing droplets", "Rayleigh-Taylor instability", etc. In LBM_Saclay, that model is implemented in the kernel ``NSAC_Comp`` where ``_Comp`` means Composition equation. The kernel ``NSAC_Comp`` is extensively used for two-phase test cases which are contained in the folder ``run_training_lbm``. The test cases of this folder are used in a training session of LBM_Saclay (see :bdg-ref-primary:`Run_Training-LBM`).
+   That model is applied for simulating many classical problems such as "rising bubbles", splashing droplets", "Rayleigh-Taylor instability", etc. In LBM_Saclay, that model is implemented in the kernel ``NSAC_Comp`` where ``_Comp`` means Composition equation. The kernel ``NSAC_Comp`` is extensively used for two-phase test cases which are contained in the folder ``run_training_lbm``. The test cases of this folder are used in a training session of LBM_Saclay (see :bdg-ref-primary-line:`Run_Training-LBM`).
 
 That model is a basis for other models which are developed in other kernels e.g. two-phase flows with surfactant, two-phase flows with phase change, two-phase flows interacting with a solid phase and three immiscible fluids:
 
-- :bdg-ref-primary:`Math-NSAC-Surfactant`
-- :bdg-ref-primary:`Math-NSAC-PhaseChange`
-- :bdg-ref-primary:`Math-NSAC-Comp-Solid`
-- :bdg-ref-primary:`Math-NS2AC-Comp`
+- :bdg-ref-primary-line:`Math-NSAC-Surfactant`
+- :bdg-ref-primary-line:`Math-NSAC-PhaseChange`
+- :bdg-ref-primary-line:`Math-NSAC-Comp-Solid`
+- :bdg-ref-primary-line:`Math-NS2AC-Comp`
 
 Mathematical model of incompressible two-phase flows
 ----------------------------------------------------
@@ -450,8 +450,8 @@ As already mentioned, many test cases using that math model can be found in the 
    <video controls src="../../../_static/Vid3D_Taylor-Bubble_vC_Bo20.webm" width="800" height="620"> </video>
 
 
-Bibliography
-------------
+References
+----------
 
 .. footbibliography::
 

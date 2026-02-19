@@ -13,7 +13,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
          :icon: comment
          :open:
 
-         Comparison of LBM_Saclay with :bdg-ref-primary:`Analytical-Solution-Double-Poiseuille`
+         Comparison of LBM_Saclay with :bdg-ref-primary-line:`Analytical-Solution-Double-Poiseuille`
 
          .. admonition:: For LBM training session
             :class: error
@@ -253,7 +253,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
          :icon: comment
          :open:
 
-         The *Capillary wave* is a test case with an analytical solution of Prosperetti :bdg-ref-primary:`Analytical-Solution-Capillary-Wave-Prosperetti`.
+         The *Capillary wave* is a test case with an analytical solution of Prosperetti :bdg-ref-primary-line:`Analytical-Solution-Capillary-Wave-Prosperetti`.
 
          .. admonition:: For LBM training session: mesh 256x512
             :class: error
