@@ -3,6 +3,9 @@
 Practice of two-phase flows with test cases of ``run_training_lbm``
 ===================================================================
 
+Introduction
+------------
+
 .. admonition:: Introduction
 
    This section presents an overview of folder ``run_training_lbm`` to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of 1) SMEMaG doctoral school :bdg-link-success-line:`ADUM <https://adum.fr/script/catalogue.pl?mod=3701390&site=psaclay>` and 2) Master of Sciences Sorbonne University :bdg-link-success-line:`SSU <https://su-mecanique.github.io/master-mecanique/page/um5mee32/>`. Most of them appear in publications to validate new LBM numerical schemes or new two-phase models. Several examples of ``.ini`` files are contained in directory ``run_training_lbm``. They run with the kernel ``NSAC_Comp`` which implements the :bdg-ref-primary-line:`Math-NSAC-Comp`. Those input datafiles use several options or different values to help users for making their own test case. It is supposed that you run the test cases on ORCUS (see :bdg-ref-primary-line:`Simulations-GPU`). Once the job is complete, the output files must be downloaded and post-processed with paraview on your local computer. Few examples of single-phase and two-phase flows are presented in :numref:`target-Fig-Overview`. A detailed description of parameter values is presented in [1]_.
@@ -30,7 +33,7 @@ Practice of two-phase flows with test cases of ``run_training_lbm``
          :columns: 5
 
          .. button-ref:: Single-Training-LBM
-            :color: primary
+            :color: secondary
             :shadow:
 
          .. button-ref:: TwoP-withoutFF
@@ -90,7 +93,7 @@ List of test cases in ``run_training_lbm``
    .. div:: sd-text-center
 
       .. button-ref:: Single-Training-LBM
-         :color: primary
+         :color: secondary
          :shadow:
 
 

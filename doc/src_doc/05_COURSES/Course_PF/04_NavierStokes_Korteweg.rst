@@ -405,7 +405,7 @@ The model of Navier-Stokes/Korteweg is obtained from a low Mach formulation of N
 
 Let us mention that other methods exist to derive the Navier-Stokes/Korteweg models, especially when the coupling with temperature [5]_ or surfactant [6]_ are considered. In those references, the constitutive laws (closures for energy flux, expression of stress tensor, etc.) are derived such that the dissipation (given by the Clausius-Duhem inequality) is positive or null. The main advantage of that approach is to derive models of two-phase flows which are thermodynamicaly-consistent. But that rigorous approach has a cost: the algebraic calculations are expensive and are beyond the scope of that introduction.
 
-.. _Equations-Of-State:
+.. _Equations-Of-State_NSK_Course:
 
 Other equations of state (EoS)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

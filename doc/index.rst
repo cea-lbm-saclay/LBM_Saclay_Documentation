@@ -104,7 +104,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 ****************
 **Introduction**
 ****************
-
+   
 .. tab-set::
 
    .. tab-item:: Context and motivations
@@ -112,11 +112,6 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       .. admonition:: Context and motivations
 
          Two-phase flows, and more generally Multi-Phase and Multi-Component flows (MPMC), are involved in many physical phenomena such as *spinodal decomposition*, *nucleation and growth*, *coalescence and breakup* of droplets, *rising bubbles* & *falling droplets*, *Marangoni flows*, *Rayleigh-Taylor instability*, *surfactants*, *Ostwald ripening* and so on. Those phenomena occur in the daily life as well as in industrial problems. The first example described below, is the *nuclear glass* which is used to confine radioactive wastes. We can also mention the *corium* in the context of severe accident of nuclear core reactors, *microfluidics* and *flow and transport in porous media*. Some of them are purely problems of fluid dynamics (rising bubbles or Rayleigh-Taylor instability). But others require a coupling between Navier-Stokes equations and thermodynamics.
-
-         .. toctree::
-            :maxdepth: 1
-
-            src_doc/00_INTRODUCTION/Context_Motivation.rst
 
    .. tab-item:: Mathematical models
 
@@ -145,6 +140,22 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 
          LBM_Saclay can simulate Multi-Phase and Multi-Component (**MPMC**) flows such as *binary demixing*, *buyoancy and coalescence of bubbles*, *Rayleigh-Taylor instability*, *liquid-gas phase change*, etc. A quick look of those phenomena is presented on :numref:`target-Fig-Approach`. Other examples are given in each subsection of :bdg-ref-primary-line:`Math-Models` which describe the PDEs of each model and their closure relationships. The phase-field models that are implemented in LBM_Saclay, are based on different forms of Cahn-Hilliard and Allen-Cahn equations which are modified and adapted to problems to simulate e.g. *crystal growth*, *dissolution of porous media*, *liquid-vapor phase change*, etc.
       
+   .. tab-item:: ToC
+
+      .. admonition:: Table of content
+
+         .. dropdown::
+            :icon: comment
+
+            .. toctree::
+               :maxdepth: 1
+
+               src_doc/00_INTRODUCTION/Simulation_with_LBM.rst
+               src_doc/00_INTRODUCTION/Context_Motivation.rst
+               src_doc/00_INTRODUCTION/TEAM/Team_Presentation.rst
+               src_doc/00_INTRODUCTION/TEAM/List-Of-Publications.rst
+
+
 .. _target-Fig-Approach:
    
 .. figure:: ./src_doc/FIGS/Overview_Approach.png

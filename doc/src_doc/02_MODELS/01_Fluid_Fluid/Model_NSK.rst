@@ -3,8 +3,8 @@
 Model of Navier-Stokes/Korteweg (NSK)
 =====================================
 
-Mathematical model of van der Waals fluids
-------------------------------------------
+van der Waals fluids
+--------------------
 
 .. admonition:: Model of Navier-Stokes/Korteweg
    :class: error
@@ -26,14 +26,14 @@ Mathematical model of van der Waals fluids
    where :math:`\overline{\overline{\boldsymbol{P}}}` is the pressure tensor which is defined by
 
    .. math::
-      :label: Def_Pressure_Tensor
+      :label: Def_Pressure_Tensor_NSK
    
       \overline{\overline{\boldsymbol{P}}}=\left[p^{eos}(\rho,T)-\kappa\rho\boldsymbol{\nabla}^{2}\rho-\frac{1}{2}\kappa\bigl|\boldsymbol{\nabla}\rho\bigr|^{2}\right]\overline{\overline{\boldsymbol{I}}}+\kappa\boldsymbol{\nabla}\rho\otimes\boldsymbol{\nabla}\rho
    
-   In Eq. :eq:`Def_Pressure_Tensor` :math:`p^{eos}(\rho,T)` is the thermodynamic pressure defined from the potential by:
+   In Eq. :eq:`Def_Pressure_Tensor_NSK` :math:`p^{eos}(\rho,T)` is the thermodynamic pressure defined from the potential by:
 
    .. math::
-      :label: Thermo_Pressure
+      :label: Thermodynamic_Pressure
    
       p^{eos}(\rho)=\rho\partial_{\rho}\mathcal{W}(\rho)-\mathcal{W}(\rho)
    
@@ -119,16 +119,16 @@ On :numref:`target-Fig-EOS_vdWaals-PV` the pressure is presented as a function o
 
 Two other popular EoS exist in the literature. We only mention them here. They could be tested in the future in LBM_Saclay.
 
-Redlich-Kwong (RK)
-""""""""""""""""""
+Redlich-Kwong (RK) eos
+""""""""""""""""""""""
 
 .. math::
    :label: Redlich_Kwong_EoS
 
    p_{RK}^{eos}(\rho,T)&=\frac{\rho RT}{1-b\rho}-\frac{a\alpha(T)\rho^{2}}{1+b\rho}\\\alpha(T)&=1/\sqrt{T}\\\text{Soave modif }\alpha(T)&=[1+(\alpha_{1}+\alpha_{2}\omega-\alpha_{3}\omega^{2})(1-\sqrt{T/T_{c}})]^{2}\\\text{coeff}&\alpha_{1}=0.480,\quad\alpha_{2}=1.574,\quad\alpha_{3}=0.176
 
-Peng-Robinson (PR)
-""""""""""""""""""
+Peng-Robinson (PR) eos
+""""""""""""""""""""""
 
 .. math::
    :label: Peng_Robinson_EoS
@@ -136,11 +136,10 @@ Peng-Robinson (PR)
    p_{PR}^{eos}(\rho,T)&=\frac{\rho RT}{1-b\rho}-\frac{a\alpha(T)\rho^{2}}{1+2b\rho-b^{2}\rho^{2}}\\\alpha(T)&=[1+(\alpha_{1}+\alpha_{2}\omega+\alpha_{3}\omega^{2})(1-\sqrt{T/T_{c}})]^{2}\\\text{coeff}&\alpha_{1}=0.37464,\quad\alpha_{2}=1.54226,\quad\alpha_{3}=0.26992
 
 
+Alternative forms of tensor pressure
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Equivalence of tensor pressure
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-In most of numerical methods that implement the NSK model, the pressure tensor Eq. :eq:`Def_Pressure_Tensor` is not directly discretized because there exist two equivalent algebraic forms which are easier to implement. The first one is the potential form and the second involves the chemical potential.
+In most of numerical methods that implement the NSK model, the pressure tensor Eq. :eq:`Def_Pressure_Tensor_NSK` is not directly discretized because there exist two equivalent algebraic forms which are easier to implement. The first one is the potential form and the second involves the chemical potential.
 
 
 .. admonition:: First form: potential form
