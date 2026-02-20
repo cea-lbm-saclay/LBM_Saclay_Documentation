@@ -242,7 +242,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
    
                Evolution of spike and bubble point. Benchmark with literature.
    
-         .. container:: sphinx-features
+         .. div:: sd-text-center
 
             .. raw:: html
    
@@ -416,7 +416,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
              - ``CASE-A4``: :math:`\text{Bo}=115` and :math:`\text{Mo}=4.63\times10^{-3}`
 
 
-         .. container:: sphinx-features
+         .. div:: sd-text-center
 
             .. raw:: html
 
@@ -459,7 +459,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
             Run three simulations with :math:`\sigma=3\times10^{-5}`, :math:`\sigma=5\times10^{-5}` and :math:`\sigma=6\times10^{-5}` to study the influence of surface tension on falling droplet. You should obtain results presented in video below.
 
-         .. container:: sphinx-features
+         .. div:: sd-text-center
 
             .. raw:: html
 
@@ -521,7 +521,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
 
             Keep Bo=100 and run three other simulations with :math:`Mo=10^{-2},Mo=10^{-4},Mo=10^{-5}`, and :math:`Mo=10^{-6}`. After post-processing with paraview11 (load ``State_Vid_Taylor-Bubble_Compare_5Mo_PV511.pvsm`` file) you should obtain the video below.
 
-         .. container:: sphinx-features
+         .. div:: sd-text-center
 
             .. raw:: html
 
@@ -559,7 +559,7 @@ The first three test cases for two-phase with fluid flows compare the numerical 
              1. open ``TestCase13_Splash_Re2000-We8000.xmf``, select ``XDMF Reader`` and clic on green button ``Apply``.
              2. Select field ``phi`` and visualize it for several times.
 
-         .. container:: sphinx-features
+         .. div:: sd-text-center
 
             .. raw:: html
 

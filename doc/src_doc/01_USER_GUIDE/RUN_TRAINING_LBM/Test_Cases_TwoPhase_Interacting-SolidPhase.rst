@@ -41,7 +41,7 @@ Folder ``TestCase17_Wetting-Surface_Inclined`` contains four test cases for simu
 
    Run three simulations with ``.ini`` file of folders ``Sensib_Sigma2s_val1`` and ``Sensib_Sigma2s_val2`` and ``Sensib_Sigma2s_val3`` to study the influence of :math:`\sigma_{2s}` on wetting. You should obtain results presented in video below.
 
-.. container:: sphinx-features
+.. div:: sd-text-center
 
    .. raw:: html
    
@@ -52,7 +52,7 @@ Vertical walls
 
 Same test case than previous one but with vertical walls.
 
-.. container:: sphinx-features
+.. div:: sd-text-center
 
    .. raw:: html
    
@@ -87,7 +87,7 @@ Container with splashing droplet
     1. open ``TestCase18_Container-Splash.xmf``, select ``XDMF Reader`` and clic on green button ``Apply``.
     2. Select field ``rho`` and visualize it for several times.
 
-.. container:: sphinx-features
+.. div:: sd-text-center
 
    .. raw:: html
    
@@ -193,7 +193,7 @@ Moving container with hole
     1. open ``TestCase20_Moving-Container-Hole.xmf``, select ``XDMF Reader`` and clic on green button ``Apply``.
     2. Select field ``rho`` and visualize it for several times.
 
-.. container:: sphinx-features
+.. div:: sd-text-center
 
    .. raw:: html
    

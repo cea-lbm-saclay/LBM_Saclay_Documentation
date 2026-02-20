@@ -163,7 +163,7 @@ Examples of simulations with that model
 
 **Double-Serpentine**
 
-.. container:: sphinx-features
+.. div:: sd-text-center
 
    .. raw:: html
 
@@ -171,7 +171,7 @@ Examples of simulations with that model
 
 **Spreading lenses**
 
-.. container:: sphinx-features
+.. div:: sd-text-center
 
    .. raw:: html
 
@@ -180,7 +180,7 @@ Examples of simulations with that model
 
 **Spinodal decomposition of three immiscible fluids**
 
-.. container:: sphinx-features
+.. div:: sd-text-center
 
    .. raw:: html
 
@@ -192,7 +192,7 @@ Examples of simulations with that model
 
 **Rayleigh-Taylor and splash of three immiscible fluids**
 
-.. container:: sphinx-features
+.. div:: sd-text-center
 
    .. raw:: html
 

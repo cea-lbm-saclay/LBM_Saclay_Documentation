@@ -169,7 +169,7 @@ Surfactant
 
          Compare without surfactant ``TestCaseCoalescenceNoSurf.ini``. The simulation ran 40.485 seconds on partition gpuq_h100 of Orcus to achieve 50.001 time-steps. After post-processing with paraview, you should obtain the video below.
 
-      .. container:: sphinx-features
+      .. div:: sd-text-center
 
          .. raw:: html
    
@@ -200,7 +200,7 @@ Surfactant
 
          In paraview: open file ``TestCase10_Rayleigh-PlateauSurf.xmf``,  select ``XDMF Reader`` file and ``OK``.
 
-      .. container:: sphinx-features
+      .. div:: sd-text-center
 
          .. raw:: html
    
@@ -208,7 +208,7 @@ Surfactant
 
       **Other examples**
 
-      .. container:: sphinx-features
+      .. div:: sd-text-center
 
          .. raw:: html
    
