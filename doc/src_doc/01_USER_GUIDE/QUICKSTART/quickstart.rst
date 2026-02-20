@@ -67,7 +67,7 @@ Quick Start with LBM_Saclay
 
       .. admonition:: Get access to the git repository
    
-         - The last version of LBM_Saclay is available on the git repository :bdg-link-success-line:`codev-tuleap.cea.fr <https://codev-tuleap.cea.fr/plugins/git/lbmsaclay>`.
+         - The lastest version of LBM_Saclay is available on the git repository :bdg-link-success-line:`codev-tuleap.cea.fr <https://codev-tuleap.cea.fr/plugins/git/lbmsaclay>`.
          
          - To get an access to ``codev-tuleap``, open an **AD partner** account by sending a message on :bdg-link-success-line:`https://post.intra.cea.fr/sp`.
          

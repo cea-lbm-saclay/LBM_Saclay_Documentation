@@ -641,7 +641,8 @@ The first three test cases for two-phase with fluid flows compare the numerical 
               - 925.26
 
 
-**Bibliography**
+References
+----------
 
 .. footbibliography::
 

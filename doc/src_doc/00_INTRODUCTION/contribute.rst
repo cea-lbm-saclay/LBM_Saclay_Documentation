@@ -104,10 +104,10 @@ Write your documentation
 
     The main file is ``index.rst`` in the folder ``LBM_Saclay_Documentation/doc``. All other ``.rst`` files are contained in ``src_doc``. Edit them, add new ``.rst`` files, compile and visualize your modifications (``make html``).
 
-    - Sphinx doc see: https://www.sphinx-doc.org/en/master/usage/index.html
-    - Math with Sphinx see: https://sphinx-rtd-trial.readthedocs.io/en/latest/ext/math.html
-    - BibTeX with Sphinx https://pypi.org/project/sphinxcontrib-bibtex/
-    - Sphinx desing: https://sphinx-design.readthedocs.io/en/latest/index.html
+    - To write your  ``.rst`` files see :bdg-link-success-line:`Sphinx doc <https://www.sphinx-doc.org/en/master/usage/index.html>`
+    - To write equations with Sphinx see :bdg-link-success-line:`Math with Sphinx <https://sphinx-rtd-trial.readthedocs.io/en/latest/ext/math.html>`
+    - For references see :bdg-link-success-line:`BibTeX with Sphinx <https://pypi.org/project/sphinxcontrib-bibtex/>`
+    - For badges, buttons and icons, see :bdg-link-success-line:`Sphinx design <https://sphinx-design.readthedocs.io/en/latest/index.html>`
 
     **Write your** ``.tex`` **files**
 
