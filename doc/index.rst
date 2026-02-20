@@ -30,7 +30,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 .. admonition:: Video gallery
    :class: important
       
-   The combination of phase-field models with LBM and GPU is a very efficient approach for simulating multi-phase and multi-component flows. To illustrate what can be simulated, several videos are presented in different parts of this documentation. An overview can be found on :bdg-ref-primary-line:`Videos-Gallery`. 2D simulations with LBM_Saclay are presented in :bdg-ref-primary-line:`TwoP-Training-LBM`. Applications of :bdg-ref-primary-line:`Math-Models` are illustrated with videos.
+   The combination of *phase-field models* with *LBM* and *GPU* is a very efficient approach for simulating multi-phase and multi-component flows. To illustrate what can be simulated, several videos are presented in different parts of this documentation. An overview can be found on :bdg-ref-primary-line:`Videos-Gallery`. 2D simulations with LBM_Saclay are presented in :bdg-ref-primary-line:`TwoP-Training-LBM`. Applications of :bdg-ref-primary-line:`Math-Models` are illustrated with videos.
 
 .. admonition:: Direct access
 
@@ -121,13 +121,13 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    
          To be thermodynamically-consistent and capture the interface between phases, we use the **phase-field theory** (see :bdg-ref-primary-line:`Basic-Concepts-Phase-Field-Theory`) to derive the mathematical phase-field models (:math:`\varphi`-models).
 
-         - For hydrodynamic phenomena of two immiscible fluids such as *Rayleigh-Taylor instability*, *rising bubbles*, *splashing droplets*, *capillary wave* etc., the interface is captured by the Conservative Allen-Cahn model (or levelset equation) which coupled with incompressible Navier-Stokes equations.
+         - For hydrodynamic phenomena of two immiscible fluids such as *Rayleigh-Taylor instability*, *rising bubbles*, *splashing droplets*, *capillary wave* etc., the interface is captured by the Conservative Allen-Cahn model (or *conservative levelset equation*) which is coupled with the incompressible Navier-Stokes equations.
    
-         - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation.
+         - For thermodynamic phenomena such as *spinodal decomposition*, *Ostwald ripening*, *solid-liquid* phase change, the mathematical models are derived from the phase-field theory (:math:`\varphi`-theory). Those models can be coupled with hydrodynamic equations in their incompressible formulation, or low Mach formulation (see :bdg-ref-primary-line:`Model_NSK_Course`).
 
          .. only:: titania
    
-            - A complete presentation can be found in :bdg-link-warning-line:`CEA INSTN Course of two-phase flows with phase-field models <file:///home/lbm-saclay/PRESENTATIONS-LBM/COURSE-TRAINING/2025_Cartalade_COURS-INSTN_CFD-DIPHASIQUE_PARTIE1C_16et17juin2025_MAP.pdf>`. In this course, basic of thermodynamics, free energy functional, derivation of constitutive laws, and all proofs of equivalence between potential form and conservative forms of surface tension force, etc.
+            - A complete presentation can be found in :bdg-link-warning-line:`CEA INSTN Course of two-phase flows with phase-field models <file:///home/lbm-saclay/PDF/COURS-SORBONNE_UM5MEE32_CFD-DIPHASIQUE_PARTIE2_CARTALADE.pdf>`. In this course, basic of thermodynamics, free energy functional, derivation of constitutive laws, and all proofs of equivalence between potential form and conservative forms of surface tension force, etc.
 
    .. tab-item:: Lattice Boltzmann Methods
 
