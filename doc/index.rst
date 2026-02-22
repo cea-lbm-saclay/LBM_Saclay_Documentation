@@ -32,7 +32,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       
    The combination of *phase-field models* with *LBM* and *GPU* is a very efficient approach for simulating multi-phase and multi-component flows. To illustrate what can be simulated, several videos are presented in different parts of this documentation. An overview can be found on :bdg-ref-primary-line:`Videos-Gallery`. 2D simulations with LBM_Saclay are presented in :bdg-ref-primary-line:`TwoP-Training-LBM`. Applications of :bdg-ref-primary-line:`Math-Models` are illustrated with videos.
 
-.. admonition:: Direct access
+.. admonition:: Links for direct access
 
    .. grid:: 2
       :gutter: 4
@@ -146,8 +146,9 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 
       .. admonition:: Table of content
 
-         .. dropdown::
+         .. dropdown:: Table of Content of this introduction
             :icon: comment
+            :open:
 
             .. toctree::
                :maxdepth: 1
@@ -156,6 +157,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
                src_doc/00_INTRODUCTION/Context_Motivation.rst
                src_doc/00_INTRODUCTION/TEAM/Team_Presentation.rst
                src_doc/00_INTRODUCTION/TEAM/List-Of-Publications.rst
+               src_doc/00_INTRODUCTION/contribute.rst
 
 
 .. _target-Fig-Approach:
@@ -202,10 +204,8 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    
    **Contribute to this documentation**
    
-   .. toctree::
-      :maxdepth: 1
-   
-      src_doc/00_INTRODUCTION/contribute.rst
+   You will find here :bdg-ref-primary-line:`Contribute-Documentation` all you need to correct and add new sections of this documentation.
+
    
 ************************
 **PART I: User's guide**

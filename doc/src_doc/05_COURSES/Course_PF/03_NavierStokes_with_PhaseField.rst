@@ -3,107 +3,217 @@
 Model of incompressible Navier-Stokes with interface-capturing equation
 =======================================================================
 
-Bulk and local densities
-------------------------
+Mass balance & interface equation
+---------------------------------
 
-We consider two fluids :math:`A` and :math:`B` of constant densities :math:`\rho_A` and :math:`\rho_B` and constant viscosities :math:`\nu_A` and :math:`\nu_B`. Those properties are called *bulk densities* and *bulk viscosities*. We introduce a phase index :math:`\phi(\boldsymbol{x},t)` of value 0 in the first phase :math:`A` and +1 in the second phase :math:`B`. With the phase-field :math:`\phi(\boldsymbol{x},t)` we can define local densities depending on position and time :math:`\varrho_A(\boldsymbol{x},t)` and :math:`\varrho_B(\boldsymbol{x},t)` by:
+**Bulk and local densities**
+
+   We consider two fluids :math:`A` and :math:`B` of constant densities :math:`\rho_A` and :math:`\rho_B` and constant viscosities :math:`\nu_A` and :math:`\nu_B`. Those properties are called *bulk densities* and *bulk viscosities*. We introduce a phase index :math:`\phi(\boldsymbol{x},t)` of value 0 in the first phase :math:`A` and +1 in the second phase :math:`B`. With the phase-field :math:`\phi(\boldsymbol{x},t)` we can define local densities depending on position and time :math:`\varrho_A(\boldsymbol{x},t)` and :math:`\varrho_B(\boldsymbol{x},t)` by:
+
+   .. math::
+      :label: Local_Density_A
+
+      \varrho_{A}(\boldsymbol{x},t)=\rho_{A}(1-\phi(\boldsymbol{x},t))
+
+   and 
+
+   .. math::
+      :label: Local_Density_B
+
+      \varrho_{B}(\boldsymbol{x},t)=\rho_{B}\phi(\boldsymbol{x},t)
+
+   The total local density is
+
+   .. math::
+      :label: Local_Density_Total
+
+      \varrho(\boldsymbol{x},t)=\rho_{B}\phi(\boldsymbol{x},\,t)+\rho_{A}(1-\phi(\boldsymbol{x},t))
+
+   With that definition, if :math:`\phi(\boldsymbol{x},t)=0`, then :math:`\varrho(\boldsymbol{x},t)=\rho_A` and if :math:`\phi(\boldsymbol{x},t)=1`, then :math:`\varrho(\boldsymbol{x},t)=\rho_B`.
+
+**Mass balance and interface equation**
+
+   A mass balance for each local density yields
+
+   .. math::
+      :label: Mass_Balance_TwoPhase_Course
+
+      \frac{\partial\varrho_{A}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{A}\boldsymbol{u}+\rho_{A}\boldsymbol{j}_{A})&=-\dot{m}'''\\\frac{\partial\varrho_{B}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{B}\boldsymbol{u}+\rho_{B}\boldsymbol{j}_{B})&=+\dot{m}'''
+
+   where :math:`\varrho_{B}\boldsymbol{u}` and :math:`\varrho_{A}\boldsymbol{u}` are two advective fluxes and :math:`\rho_{A}\boldsymbol{j}_{A}` and :math:`\rho_{B}\boldsymbol{j}_{B}` are two diffusive fluxes. Here we assume that :math:`\boldsymbol{j}_{A}` and :math:`\boldsymbol{j}_{B}` are equal and opposite:
+
+   .. math::
+      :label: Fluxes_Assumption
+
+      \boldsymbol{j}_{\phi}=\boldsymbol{j}_{B}=-\boldsymbol{j}_{A}
+
+   On the right-hand side, :math:`\dot{m}'''` is a production source term: if it is added in one equation, then that quantity is substracted from the other equation. The three primes :math:`'''` means that the production is volumic. Its physical dimension is :math:`[\text{M}]/([\text{L}]^3.[\text{T}])`. Its value is non zero when phase change occurs. For two immiscible fluids we can consider that :math:`\dot{m}'''=0`.
+
+   Expressed with :math:`\phi`, those two equations write
+
+   .. math::
+      :label: Eqs_phi
+
+      \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi+\boldsymbol{j}_{\phi}) &=+\frac{\dot{m}'''}{\rho_{B}}\\\frac{\partial(1-\phi)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}(1-\phi)-\boldsymbol{j}_{\phi}) &=-\frac{\dot{m}'''}{\rho_{A}}
+
+   By summing those two equations, we obtain:
+
+   .. math::
+      :label: Mass_Conservation_TwoPhase_with_m_Course
+
+      \boldsymbol{\nabla}\cdot\boldsymbol{u}=\dot{m}'''\left(\frac{1}{\rho_{B}}-\frac{1}{\rho_{A}}\right)
+
+**Incompressible two-phase flows without phase change**
+
+   Without phase change :math:`\dot{m}'''=0` and we retrieve the classical mass balance:
+
+   .. math::
+      :label: Mass_Balance_TwoPhase_Course
+
+      \boldsymbol{\nabla}\cdot\boldsymbol{u}=0
+
+   For interface tracking equation, Eq. :eq:`Eqs_phi` becomes:
+
+   .. math::
+
+      \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{\phi}
+
+   where :math:`\boldsymbol{j}_{\phi}` has to be determined. With material derivative Eq. ([eq:Material-Derivative])
+
+   .. math::
+
+      \frac{\partial\phi}{\partial t}+\boldsymbol{u}\cdot\boldsymbol{\nabla}\phi+\phi\boldsymbol{\nabla}\cdot\boldsymbol{u}&=-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{\phi}\\
+      \frac{d\phi}{dt}+\phi\boldsymbol{\nabla}\cdot\boldsymbol{u}&=-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{\phi}
+
+
+Derivation of constitutive laws
+-------------------------------
+
+.. admonition:: Summary of balance equations
+
+   Finally, we suumarize the three balance equations with the material derivative. First, the mass balance equation writes:
+
+   .. math::
+      :label: Mass-Balance_iNS-PFCourse
+
+      \frac{d\rho_{0}}{dt}=-\rho_{0}\boldsymbol{\nabla}\cdot\boldsymbol{u}
+   
+   The impulsion balance equation is:
+
+   .. math::
+      :label: Impulsion-Balance_iNS-PFCourse
+   
+      \rho_{0}\frac{d\boldsymbol{u}}{dt}=\boldsymbol{\nabla}\cdot{\color{red}\overline{\overline{\boldsymbol{T}}}}
+   
+   where the stress tensor :math:`{\color{red}\overline{\overline{\boldsymbol{T}}}}` has to be determined. At last, the balance of phase-field :math:`\phi` writes:
+
+   .. math::
+      :label: Phi-Balance_iNS-PFCourse
+
+      \frac{d\phi}{dt}+\phi\boldsymbol{\nabla}\cdot\boldsymbol{u}=-\boldsymbol{\nabla}\cdot{\color{red}\boldsymbol{j}_{\phi}}
+
+   where :math:`{\color{red}\boldsymbol{j}_{\phi}}` has also to be determined.
+
+Objectives
+""""""""""
+
+In this section, the total energy :math:`\mathscr{E}_{tot}` is a function of velocity :math:`\boldsymbol{u}`. It is composed of two parts:
 
 .. math::
-   :label: Local_Density_A
+   :label: Total_Energy
 
-   \varrho_{A}(\boldsymbol{x},t)=\rho_{A}(1-\phi(\boldsymbol{x},t))
+   \mathscr{E}_{tot}[\phi,{\color{red}\boldsymbol{u}}]=\int_{V}\biggl[\underbrace{\frac{1}{2}\rho_{0}\bigl|{\color{red}\boldsymbol{u}}\bigr|^{2}}_{\text{kinetic energy}}+\underbrace{\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)}_{\text{potential energy}}\biggr]dV
 
-and 
-
-.. math::
-   :label: Local_Density_B
-
-   \varrho_{B}(\boldsymbol{x},t)=\rho_{B}\phi(\boldsymbol{x},t)
-
-The total local density is
+where :math:`\rho_{0}\bigl|\boldsymbol{u}\bigr|^{2}/2` is the kinetic energy (:math:`\rho_0` is the constant density) and the potential energy is given by the free energy density:
 
 .. math::
-   :label: Local_Density_Total
+   :label: Potential_Energy
 
-   \varrho(\boldsymbol{x},t)=\rho_{B}\phi(\boldsymbol{x},\,t)+\rho_{A}(1-\phi(\boldsymbol{x},t))
+   \mathcal{F}(\phi,\boldsymbol{\nabla}\phi)=f_{dw}(\phi)+\frac{\zeta}{2}\bigl|\boldsymbol{\nabla}\phi\bigr|^{2}
 
-With that definition, if :math:`\phi(\boldsymbol{x},t)=0`, then :math:`\varrho(\boldsymbol{x},t)=\rho_A` and if :math:`\phi(\boldsymbol{x},t)=1`, then :math:`\varrho(\boldsymbol{x},t)=\rho_B`.
+In Eq. :eq:`Potential_Energy`, :math:`f_{dw}(\phi)` is the double-well free energy density, and :math:`\zeta` is the capillary coefficient.
 
-Mass balance
-------------
-
-A mass balance for each local density yields
+The objectice is determine the constitutive laws :math:`\boldsymbol{j}_{\phi}` and :math:`\overline{\overline{\boldsymbol{T}}}` such as
 
 .. math::
-   :label: Mass_Balance_TwoPhase_Course
+   :label: Decrease_Etot
 
-   \frac{\partial\varrho_{A}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{A}\boldsymbol{u}+\rho_{A}\boldsymbol{j}_{A})&=-\dot{m}'''\\\frac{\partial\varrho_{B}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{B}\boldsymbol{u}+\rho_{B}\boldsymbol{j}_{B})&=+\dot{m}'''
+   \frac{d\mathscr{E}_{tot}}{dt}-\int_{V}\underbrace{\lambda\boldsymbol{\nabla}\cdot\boldsymbol{u}}_{\hat{=}\mathscr{L}}\leqslant0
 
-where :math:`\varrho_{B}\boldsymbol{u}` and :math:`\varrho_{A}\boldsymbol{u}` are two advective fluxes and :math:`\rho_{A}\boldsymbol{j}_{A}` and :math:`\rho_{B}\boldsymbol{j}_{B}` are two diffusive fluxes. Here we assume that :math:`\boldsymbol{j}_{A}` and :math:`\boldsymbol{j}_{B}` are equal and opposite:
+where :math:`\lambda` is the lagrange multiplier of constraint :math:`\boldsymbol{\nabla}\cdot\boldsymbol{u}=0`.
 
-.. math::
-   :label: Fluxes_Assumption
+Method
+""""""
 
-   \boldsymbol{j}=\boldsymbol{j}_{B}=-\boldsymbol{j}_{A}
-
-On the right-hand side, :math:`\dot{m}'''` is a production source term: if it is added in one equation, then that quantity is substracted from the other equation. The three primes :math:`'''` means that the production is volumic. Its physical dimension is :math:`[\text{M}]/([\text{L}]^3.[\text{T}])`. Its value is non zero when phase change occurs. For two immiscible fluids we can consider that :math:`\dot{m}'''=0`.
-
-Expressed with :math:`\phi`, those two equations write
+Express
 
 .. math::
-   :label: Eqs_phi
 
-   \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi+\boldsymbol{j}) &=+\frac{\dot{m}'''}{\rho_{B}}\\\frac{\partial(1-\phi)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}(1-\phi)-\boldsymbol{j}) &=-\frac{\dot{m}'''}{\rho_{A}}
+   \frac{d\mathscr{E}_{tot}}{dt}	=\frac{d}{dt}\int_{V}\left[\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)+\frac{1}{2}\rho_{0}\bigl|\boldsymbol{u}\bigr|^{2}\right]dV
 
-By summing those two equations, we obtain:
-
-.. math::
-   :label: Mass_Conservation_TwoPhase_with_m_Course
-
-   \boldsymbol{\nabla}\cdot\boldsymbol{u}=\dot{m}'''\left(\frac{1}{\rho_{B}}-\frac{1}{\rho_{A}}\right)
-
-Incompressible two-phase flows without phase change
----------------------------------------------------
-
-Without phase change :math:`\dot{m}'''=0` and we retrieve the classical mass balance:
+on the form
 
 .. math::
-   :label: Mass_Balance_TwoPhase_Course
 
-   \boldsymbol{\nabla}\cdot\boldsymbol{u}=0
+   \frac{d\mathscr{E}_{tot}}{dt}=-\mathcal{D}(V){\color{gray}+\underbrace{\mathcal{W}(V)+\Phi(\partial V)}_{\text{neglected here}}}\leqslant0
 
-For flux :math:`\boldsymbol{j}`, two hypotheses are used.
+where :math:`\mathcal{D}` is the dissipation with :math:`\mathcal{D}\geqslant0`, :math:`\mathcal{W}` is the work of external forces and :math:`\Phi` is the flux through surface.
 
-- For the first one, the flux is given by the gradient of chemical potential :math:`\mu_{\phi}`:
-
-.. math::
-   :label: Cahn_Hilliard_Flux
-
-      \boldsymbol{j} &=-\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}\\&=-M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]
-
-and Eq. :eq:`Eqs_phi` becomes the CH model:
+For that purpose we use the Reynolds transport theorem:
 
 .. math::
-   :label: Cahn_Hilliard_TwoPhase
+   :label: Reynolds-Transport-Theorem
 
-   \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
+   \frac{d}{dt}\left[\int_{V}\Psi dV\right]\,\hat{=}\,\int_{V}\left[\frac{d\Psi}{dt}+\Psi\boldsymbol{\nabla}\cdot\boldsymbol{u}\right]dV
 
-- For the second one, the flux is chosen as standard diffusive flux :math:`\boldsymbol{j}_{diff}` with counter term flux :math:`\boldsymbol{j}_{CT}` (see :ref:`CAC-Model` for origin and interpretation of counter term):
-
-.. math::
-   :label: Counter_Term_Flux_Course
-
-   \boldsymbol{j}=-M_{\phi}\boldsymbol{\nabla}\phi+\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}
-
-and Eq. :eq:`Eqs_phi` becomes the CAC model:
+Example:
 
 .. math::
-   :label: CAC_TwoPhase
 
-   \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right]
+   \frac{d\mathscr{E}_{tot}}{dt}&=\frac{d}{dt}\int_{V}\left[\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)+\frac{1}{2}\rho_{0}\bigl|\boldsymbol{u}\bigr|^{2}\right]dV\\
+	&=\int_{V}\left\{ \frac{d}{dt}\left[\mathcal{F}+\frac{1}{2}\rho_{0}\bigl|\boldsymbol{u}\bigr|^{2}\right]+\left[\mathcal{F}+\frac{1}{2}\rho_{0}\bigl|\boldsymbol{u}\bigr|^{2}\right]\boldsymbol{\nabla}\cdot\boldsymbol{u}\right\} dV\\
+	&=\int_{V}\biggl\{\left[\frac{d\mathcal{F}}{dt}+\mathcal{F}\boldsymbol{\nabla}\cdot\boldsymbol{u}\right]+\biggl[\cancel{\frac{1}{2}\frac{d\rho_{0}}{dt}\bigl|\boldsymbol{u}\bigr|^{2}}+\frac{1}{2}\rho_{0}\frac{d\bigl|\boldsymbol{u}\bigr|^{2}}{dt}+\cancel{\frac{1}{2}\rho_{0}\bigl|\boldsymbol{u}\bigr|^{2}\boldsymbol{\nabla}\cdot\boldsymbol{u}}\biggr]\biggr\} dV\\
+   &=\int_{V}\biggl\{\underbrace{\left[\frac{d\mathcal{F}}{dt}+\mathcal{F}\boldsymbol{\nabla}\cdot\boldsymbol{u}\right]}_{\hat{=}\mathcal{I}}+\underbrace{\frac{1}{2}\rho_{0}\frac{d\bigl|\boldsymbol{u}\bigr|^{2}}{dt}}_{\hat{=}\mathcal{K}}\biggr\} dV
 
-Model of Navier-Stokes with interface-capturing equation
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+The next stages require to make appear balance equations in :math:`\mathcal{I}` and :math:`\mathcal{K}` and evaluate the differentials :math:`d\mathcal{F}` and :math:`d\bigl|\boldsymbol{u}\bigr|^{2}`.
+
+The details of derivation are presented in :bdg-ref-primary-line:`Constitutive-laws`. They are given by:
+
+.. admonition:: Constitutive laws
+   :class: error:
+
+   .. grid:: 2
+      :gutter: 4
+      :margin: 3 3 0 5
+
+      .. grid-item-card:: Stress tensor :math:`\overline{\overline{\boldsymbol{T}}}`
+         :columns: 6
+
+         .. math::
+
+            \overline{\overline{\boldsymbol{T}}}=-\overline{\overline{\boldsymbol{P}}}+\eta(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})
+
+         with the pressure tensor
+
+         .. math::
+
+            \overline{\overline{\boldsymbol{P}}}=\Bigl[(p_{h}-\mathcal{F})\overline{\overline{\boldsymbol{I}}}+\zeta\boldsymbol{\nabla}\phi\otimes\boldsymbol{\nabla}\phi\Bigr]
+
+      .. grid-item-card:: Flux :math:`\boldsymbol{j}_{\phi}`
+         :columns: 6
+
+         .. math::
+
+            \boldsymbol{j}_{\phi}=-\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}
+
+         where
+
+         .. math::
+
+            \mu_{\phi}=f_{dw}^{\prime}(\phi)-\zeta\boldsymbol{\nabla}^{2}\phi
+
+Model of incompressible Navier-Stokes with interface-capturing equation
+-----------------------------------------------------------------------
 
 The model of two-phase flows is simply composed of incompressible Navier-Stokes equations which hold in both fluids :math:`A` and :math:`B`. An interpolation with :math:`\phi` is performed for local densities and local viscosities, and an additional force term is added in the impulsion balance equation: the capillary force representative of surface tension :math:`\sigma` between both fluids. The model writes:
 
@@ -218,6 +328,14 @@ The phase-field :math:`\phi` follows one of the two phase-field equation. The Co
       :label: CH_Eq_TwoPhase
 
       \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
+
+Appendix
+--------
+
+.. toctree::
+   :maxdepth: 1
+
+   ./D_Constitutive_Laws.rst
 
 References
 ----------
