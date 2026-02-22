@@ -119,7 +119,7 @@ where :math:`\boldsymbol{u}` is the mean velocity, :math:`p_h` is the hydrodynam
 
    [\varrho(\phi)\boldsymbol{g}]=\frac{[\text{M}]}{[\text{L}]^3} \frac{[\text{L}]}{[\text{T}]^2}=\frac{[\text{F}]}{[\text{L}]^3}
 
-The capillary force :math:`\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi` has been formulated in [1]_ and [2]_. That form is equivalent to the surface tension force :math:`-\delta_d \sigma \kappa \boldsymbol{n}` where :math:`\kappa` is the curvature, :math:`\sigma` is the surface tension, :math:`\boldsymbol{n}` is the normal vector at the interface and :math:`\delta_d` is the Kronecker's symbol but expressed in the phase-field framework, i.e. with a diffuse interface:
+The capillary force :math:`\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi` has been formulated in :footcite:p:`Brackbill_etal_JCP1992` and :footcite:p:`Jacqmin_JCP1999`. That form is equivalent to the surface tension force :math:`-\delta_d \sigma \kappa \boldsymbol{n}` where :math:`\kappa` is the curvature, :math:`\sigma` is the surface tension, :math:`\boldsymbol{n}` is the normal vector at the interface and :math:`\delta_d` is the Kronecker's symbol but expressed in the phase-field framework, i.e. with a diffuse interface:
 
 .. math::
    :label:
@@ -219,12 +219,10 @@ The phase-field :math:`\phi` follows one of the two phase-field equation. The Co
 
       \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
 
-Bibliography
-------------
+References
+----------
 
-.. [1] J. Brackbill, D.B. Kothe, C. Zemach, A continuum method for modeling surface tension, Journal of Computational Physics, Volume 100, Issue 2, June 1992, Pages 335-354. 1992. https://doi.org/10.1016/0021-9991(92)90240-Y
-
-.. [2] Jacqmin D., Calculation of Two-Phase Navier–Stokes Flows Using Phase-Field Modeling, Journal of Computational Physics, Volume 155, Issue 1, Pages 96-127, 1999. https://doi.org/10.1006/jcph.1999.6332
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
    

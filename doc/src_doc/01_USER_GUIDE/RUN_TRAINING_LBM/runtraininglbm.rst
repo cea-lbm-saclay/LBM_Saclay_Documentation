@@ -227,120 +227,124 @@ List of test cases in ``run_training_lbm``
                   :color: primary
                   :shadow:
 
-Types of files in ``run_training_lbm``
---------------------------------------
-
-.. dropdown:: ...
-   :icon: comment
-
-   The folder ``run_training_lbm`` contains several classical test cases of two-phase flows. They are all based on the :ref:`Math-NSAC-Comp`, but they differ by the use of different initial conditions, boundary conditions and values of parameters. The parameter values of those test cases are representative of various dimensionless numbers (Re, Bo, Mo, At, etc.) and for some of them, comparisons are performed with analytical solutions or well-known benchmarks.
-
-   **Types of file inside the folder**
-
-   Several types of files appear in the directory ``run_training_lbm``. Besides the ``.ini`` input file of LBM_Saclay, several files are useful for 1) deriving the dimensionless input parameters, 2) post-processing the simulation outputs and 3) describing the test case.
-
-   The test case is described inside a "Readme" file with the suffix ``.txt``. Sometimes a jupyter notebook (extension ``.ipynb``) is present inside the directory. When the test case compares the numerical solution with one solution of reference (benchmark or analytical solution), one or several files with extensions ``.dat`` or ``.csv`` are used in a python script (extension ``.py``) or in the jupyter file. Finally, when the post-processing with paraview requires many commands, a state file for paraview (suffix ``.pvsm``) can be set in the directory. A summary of those files are presented in the Table below.
-
-   .. container:: sphinx-features
-
-      .. table:: Types of files
-         :name: Tab-Types
-         :widths: 15, 35, 35
-         :align: center
-         :width: 70%
-
-         +----------------------+-------------------------------------------+--------------------------------------+
-         | **Extension**        | **Description**                           | **Command**                          |
-         +======================+===========================================+======================================+
-         | ``.ini``             | Input files for LBM_Saclay                | ``LBM_saclay inputfilename.ini``     |
-         +----------------------+-------------------------------------------+--------------------------------------+
-         | ``.py``              | python scripts for Pre- & Post-Processing | ``python name.py``                   |
-         +----------------------+-------------------------------------------+--------------------------------------+
-         | ``.ipynb``           | Jupyter notebook for validation sheets    | ``jupyter notebook name.ipynb``      |
-         +----------------------+-------------------------------------------+--------------------------------------+
-         | ``.pvsm``            | State file for paraview                   | in paraview click “load state”       |
-         +----------------------+-------------------------------------------+--------------------------------------+
-         | ``.txt``             | Readme text file                          | use your favorite editor             |
-         +----------------------+-------------------------------------------+--------------------------------------+
-         | ``.csv`` or ``.dat`` | Ascii datafiles for comparisons           | Used in ``.py`` & ``.ipynb`` scripts |
-         +----------------------+-------------------------------------------+--------------------------------------+
 
 
 Parameters in S.I. units
 ------------------------
 
-Most of input values in the ``.ini`` files correspond to dimensionless parameters of water-air or oil-air two-phase systems. Their parameters in SI units are presented in Tables :ref:`Tab-Water-Air` and :ref:`Tab-OilveOil-Air` below.
+.. admonition:: Parameters in S.I. units
 
-.. tab-set::
+   Most of input values in the ``.ini`` files correspond to dimensionless parameters of water-air or oil-air two-phase systems. Their parameters in SI units are presented in Tables :ref:`Tab-Water-Air` and :ref:`Tab-OilveOil-Air` below.
 
-   .. tab-item:: Water – Air properties
+   .. tab-set::
 
-      .. container:: sphinx-features
+      .. tab-item:: Water – Air properties
 
-         .. table:: Water – Air properties
-            :name: Tab-Water-Air
-            :widths: 20, 15, 15, 10
-            :class: longtable
-            :align: center
-            :width: 70%
+         .. container:: sphinx-features
+
+            .. table:: Water – Air properties
+               :name: Tab-Water-Air
+               :widths: 20, 15, 15, 10
+               :class: longtable
+               :align: center
+               :width: 70%
    
-            +----------------------+---------------------------+----------------------------+------------------+
-            | **Name**             | **Symbol**                | **Value**                  | **Dimension**    |
-            +======================+===========================+============================+==================+
-            | Water density        | :math:`\rho_{l}`          | :math:`998.29`             | kg/m :math:`^{3}`|
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Kinematic viscosity  | :math:`\nu_{l}`           | :math:`1.003\times10^{-6}` | m :math:`^{2}`/s |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Air density          | :math:`\rho_{a}`          | :math:`1.204`              | kg/m :math:`^{3}`|
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Kinematic viscosity  | :math:`\nu_{a}`           | :math:`1.56\times10^{-5}`  | m :math:`^{2}`/s |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Surface tension      | :math:`\sigma`            | :math:`7.28\times10^{-2}`  | N/m              |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Gravity              | :math:`g`                 | :math:`9.81`               | m/s :math:`^{2}` |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Dynamic viscos water | :math:`\eta_{l}`          | :math:`10^{-3}`            | Pa.s             |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Dynamic viscos air   | :math:`\eta_{a}`          | :math:`1.878\times10^{-5}` | Pa.s             |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | **Density ratio**    | :math:`\rho_{l}/\rho_{a}` | **829.14**                 | --               |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | **Dyn viscos ratio** | :math:`\eta_{l}/\eta_{a}` | **53.33**                  | --               |
-            +----------------------+---------------------------+----------------------------+------------------+
+               +----------------------+---------------------------+----------------------------+------------------+
+               | **Name**             | **Symbol**                | **Value**                  | **Dimension**    |
+               +======================+===========================+============================+==================+
+               | Water density        | :math:`\rho_{l}`          | :math:`998.29`             | kg/m :math:`^{3}`|
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Kinematic viscosity  | :math:`\nu_{l}`           | :math:`1.003\times10^{-6}` | m :math:`^{2}`/s |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Air density          | :math:`\rho_{a}`          | :math:`1.204`              | kg/m :math:`^{3}`|
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Kinematic viscosity  | :math:`\nu_{a}`           | :math:`1.56\times10^{-5}`  | m :math:`^{2}`/s |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Surface tension      | :math:`\sigma`            | :math:`7.28\times10^{-2}`  | N/m              |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Gravity              | :math:`g`                 | :math:`9.81`               | m/s :math:`^{2}` |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Dynamic viscos water | :math:`\eta_{l}`          | :math:`10^{-3}`            | Pa.s             |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Dynamic viscos air   | :math:`\eta_{a}`          | :math:`1.878\times10^{-5}` | Pa.s             |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | **Density ratio**    | :math:`\rho_{l}/\rho_{a}` | **829.14**                 | --               |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | **Dyn viscos ratio** | :math:`\eta_{l}/\eta_{a}` | **53.33**                  | --               |
+               +----------------------+---------------------------+----------------------------+------------------+
 
-   .. tab-item:: Olive oil – Air properties
+      .. tab-item:: Olive oil – Air properties
 
-      .. container:: sphinx-features
+         .. container:: sphinx-features
 
-         .. table:: Olive oil – Air properties
-            :name: Tab-OilveOil-Air
-            :widths: 20, 15, 15, 10
-            :align: center
-            :width: 70%
+            .. table:: Olive oil – Air properties
+               :name: Tab-OilveOil-Air
+               :widths: 20, 15, 15, 10
+               :align: center
+               :width: 70%
    
-            +----------------------+---------------------------+----------------------------+------------------+
-            | **Name**             | **Symbol**                | **Value**                  | **Dimension**    |
-            +======================+===========================+============================+==================+
-            | Oil density          | :math:`\rho_{l}`          | :math:`911.4`              | kg/m :math:`^{3}`|
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Kinematic viscosity  | :math:`\nu_{l}`           | :math:`9.216\times10^{-5}` | m :math:`^{2}`/s |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Air density          | :math:`\rho_{a}`          | :math:`1.225`              | kg/m :math:`^{3}`|
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Kinematic viscosity  | :math:`\nu_{a}`           | :math:`1.618\times10^{-5}` | m :math:`^{2}`/s |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Surface tension      | :math:`\sigma`            | :math:`0.032`              | N/m              |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Gravity              | :math:`g`                 | :math:`9.81`               | m/s :math:`^{2}` |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Dynamic viscos oil   | :math:`\eta_{l}`          | :math:`0.08399988`         | Pa.s             |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | Dynamic viscos air   | :math:`\eta_{a}`          | :math:`1.983\times10^{-5}` | Pa.s             |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | **Density ratio**    | :math:`\rho_{l}/\rho_{a}` | **744**                    | --               |
-            +----------------------+---------------------------+----------------------------+------------------+
-            | **Dyn viscos ratio** | :math:`\eta_{l}/\eta_{a}` | **4236**                   | --               |
-            +----------------------+---------------------------+----------------------------+------------------+
+               +----------------------+---------------------------+----------------------------+------------------+
+               | **Name**             | **Symbol**                | **Value**                  | **Dimension**    |
+               +======================+===========================+============================+==================+
+               | Oil density          | :math:`\rho_{l}`          | :math:`911.4`              | kg/m :math:`^{3}`|
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Kinematic viscosity  | :math:`\nu_{l}`           | :math:`9.216\times10^{-5}` | m :math:`^{2}`/s |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Air density          | :math:`\rho_{a}`          | :math:`1.225`              | kg/m :math:`^{3}`|
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Kinematic viscosity  | :math:`\nu_{a}`           | :math:`1.618\times10^{-5}` | m :math:`^{2}`/s |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Surface tension      | :math:`\sigma`            | :math:`0.032`              | N/m              |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Gravity              | :math:`g`                 | :math:`9.81`               | m/s :math:`^{2}` |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Dynamic viscos oil   | :math:`\eta_{l}`          | :math:`0.08399988`         | Pa.s             |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | Dynamic viscos air   | :math:`\eta_{a}`          | :math:`1.983\times10^{-5}` | Pa.s             |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | **Density ratio**    | :math:`\rho_{l}/\rho_{a}` | **744**                    | --               |
+               +----------------------+---------------------------+----------------------------+------------------+
+               | **Dyn viscos ratio** | :math:`\eta_{l}/\eta_{a}` | **4236**                   | --               |
+               +----------------------+---------------------------+----------------------------+------------------+
+
+Types of files in ``run_training_lbm``
+--------------------------------------
+
+.. admonition:: Types of files
+   :class: note
+
+   .. dropdown::
+      :icon: comment
+
+      The folder ``run_training_lbm`` contains several classical test cases of two-phase flows. They are all based on the :ref:`Math-NSAC-Comp`, but they differ by the use of different initial conditions, boundary conditions and values of parameters. The parameter values of those test cases are representative of various dimensionless numbers (Re, Bo, Mo, At, etc.) and for some of them, comparisons are performed with analytical solutions or well-known benchmarks.
+
+      **Types of file inside the folder**
+
+      Several types of files appear in the directory ``run_training_lbm``. Besides the ``.ini`` input file of LBM_Saclay, several files are useful for 1) deriving the dimensionless input parameters, 2) post-processing the simulation outputs and 3) describing the test case.
+
+      The test case is described inside a "Readme" file with the suffix ``.txt``. Sometimes a jupyter notebook (extension ``.ipynb``) is present inside the directory. When the test case compares the numerical solution with one solution of reference (benchmark or analytical solution), one or several files with extensions ``.dat`` or ``.csv`` are used in a python script (extension ``.py``) or in the jupyter file. Finally, when the post-processing with paraview requires many commands, a state file for paraview (suffix ``.pvsm``) can be set in the directory. A summary of those files are presented in the Table below.
+
+         .. table:: Types of files
+            :name: Tab-Types
+            :widths: 15, 35, 35
+            :width: 70%
+
+            +----------------------+-------------------------------------------+--------------------------------------+
+            | **Extension**        | **Description**                           | **Command**                          |
+            +======================+===========================================+======================================+
+            | ``.ini``             | Input files for LBM_Saclay                | ``LBM_saclay inputfilename.ini``     |
+            +----------------------+-------------------------------------------+--------------------------------------+
+            | ``.py``              | python scripts for Pre- & Post-Processing | ``python name.py``                   |
+            +----------------------+-------------------------------------------+--------------------------------------+
+            | ``.ipynb``           | Jupyter notebook for validation sheets    | ``jupyter notebook name.ipynb``      |
+            +----------------------+-------------------------------------------+--------------------------------------+
+            | ``.pvsm``            | State file for paraview                   | in paraview click “load state”       |
+            +----------------------+-------------------------------------------+--------------------------------------+
+            | ``.txt``             | Readme text file                          | use your favorite editor             |
+            +----------------------+-------------------------------------------+--------------------------------------+
+            | ``.csv`` or ``.dat`` | Ascii datafiles for comparisons           | Used in ``.py`` & ``.ipynb`` scripts |
+            +----------------------+-------------------------------------------+--------------------------------------+
+
 
 .. sectionauthor:: Alain Cartalade
    
