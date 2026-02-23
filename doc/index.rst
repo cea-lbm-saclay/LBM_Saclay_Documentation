@@ -235,7 +235,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 **PART III: Lattice Boltzmann schemes**
 ***************************************
 
-.. admonition:: Lattice Boltzmann schemes
+.. admonition:: Lattice Boltzmann schemes in LBM_Saclay
    :class: caution
 
    .. toctree::
