@@ -3,11 +3,39 @@
 Basic concepts of Lattice Boltzmann Methods
 ===========================================
 
-.. toctree::
-   :maxdepth: 2
+.. admonition:: Main PDEs
 
-   ./01_Fluid_Dyn_Models.rst
-   ./02_Overview_LBM.rst
-   ./03_Equilibrium-Distribution-Function_Course.rst
-   ./04_Variable_Change.rst
-   ./05_Chapman-Enskog.rst
+   .. toctree::
+      :maxdepth: 2
+
+      ./01_Fluid_Dyn_Models.rst
+
+.. admonition:: Overview of LBM
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./02_Overview_LBM.rst
+
+.. admonition:: Equilibrium distribution functions
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./03_Equilibrium-Distribution-Function_Course.rst
+      ../../03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_Navier-Stokes.rst
+      ../../03_LBM_Schemes/A_Basic-LBM/04_Equilibrium-Functions_Transport-Equations.rst
+
+.. admonition:: Variable change for source and force terms
+   
+   .. toctree::
+      :maxdepth: 2
+
+      ./04_Variable_Change.rst
+
+.. admonition:: Chapman-Enskog expansion
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./05_Chapman-Enskog.rst
