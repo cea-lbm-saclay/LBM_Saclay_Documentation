@@ -188,10 +188,10 @@ Example:
 
 The next stages require to make appear balance equations in :math:`\mathcal{I}` and :math:`\mathcal{K}` and evaluate the differentials :math:`d\mathcal{F}` and :math:`d\bigl|\boldsymbol{u}\bigr|^{2}`.
 
-The details of derivation are presented in :bdg-ref-primary-line:`Constitutive-laws`. Finally the constitutive laws which satisfy the condition :math:`\frac{d\mathscr{E}_{tot}}{dt}=-\mathcal{D}(V)\leqslant0` can be chose such as:
+The details of derivation are presented in :bdg-ref-primary-line:`Constitutive-laws`. Finally the constitutive laws which satisfy the condition :math:`\frac{d\mathscr{E}_{tot}}{dt}=-\mathcal{D}(V)\leqslant0` can be chosen such as:
 
 .. admonition:: Constitutive laws
-   :class: error:
+   :class: error
 
    .. grid:: 2
       :gutter: 4
@@ -382,8 +382,8 @@ Summary
 
       \boldsymbol{n}_{\phi}=\frac{\boldsymbol{\nabla}\phi}{|\boldsymbol{\nabla}\phi|}
 
-Appendix
---------
+Appendix: details for deriving constitutive laws
+------------------------------------------------
 
 .. toctree::
    :maxdepth: 1

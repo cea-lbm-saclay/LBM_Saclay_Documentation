@@ -1,6 +1,6 @@
 .. _Constitutive-laws:
 
-Derivation details of consitutive laws
+Details for deriving constitutive laws
 ======================================
 
 Differentials
@@ -228,4 +228,3 @@ Derivation
 
 
 .. sectionauthor:: Alain Cartalade
-   

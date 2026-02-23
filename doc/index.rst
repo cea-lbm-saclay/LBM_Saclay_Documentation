@@ -25,7 +25,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       :width: 280
       :scale: 40
    
-   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at STMF/LDEL laboratory from **CEA/Saclay**. Its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on :bdg-link-success-line:`Codev-Tuleap repository <https://codev-tuleap.cea.fr/projects/lbmsaclay/>`. For that purpose, follow the instructions on :bdg-ref-primary-line:`Quick-Start`.
+   LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at STMF/LDEL laboratory from **CEA/Saclay**. Its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on :bdg-link-success-line:`Codev-Tuleap repository <https://codev-tuleap.cea.fr/projects/lbmsaclay/>`. For that purpose, follow the instructions on :bdg-ref-primary-line:`Get access to the git repository <Get-Access-Repository>`.
 
 .. admonition:: Video gallery
    :class: important
@@ -212,7 +212,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 ************************
 
 .. admonition:: User's guide
-   :class: hint
+   :class: caution
 
    .. toctree::
       :maxdepth: 2
@@ -224,7 +224,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 ********************************
 
 .. admonition:: Mathematical models
-   :class: hint
+   :class: caution
 
    .. toctree::
       :maxdepth: 3
@@ -236,7 +236,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 ***************************************
 
 .. admonition:: Lattice Boltzmann schemes
-   :class: hint
+   :class: caution
 
    .. toctree::
       :maxdepth: 3
@@ -248,7 +248,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 **************************************
 
 .. admonition:: Guidelines for developers
-   :class: hint
+   :class: caution
 
    .. toctree::
       :maxdepth: 2
@@ -260,7 +260,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 *********************************************
 
 .. admonition:: Reminders of fundamental concepts
-   :class: hint
+   :class: caution
 
    .. toctree::
       :maxdepth: 3
