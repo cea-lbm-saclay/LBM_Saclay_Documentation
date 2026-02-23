@@ -268,5 +268,16 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       src_doc/05_COURSES/TOC_Courses.rst
 
 
+.. admonition:: Appendices
+   :class: note
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./src_doc/05_COURSES/Course_Fluid_Dyn/TOC_Fluid-Dyn.rst
+      ./src_doc/05_COURSES/Course_Intro-Two-Phase/TOC_Two-Phase_Intro.rst
+   
+
+
 .. sectionauthor:: Alain Cartalade
    

@@ -3,10 +3,17 @@
 PART V: course reminders
 ========================
 
-.. toctree::
-   :maxdepth: 2
+.. admonition:: Phase-field theory
 
-   ./Course_Fluid_Dyn/TOC_Fluid-Dyn.rst
-   ./Course_Intro-Two-Phase/TOC_Two-Phase_Intro.rst
-   ./Course_LBM/TOC_LBM_Course.rst
-   ./Course_PF/TOC_Phase-Field.rst
+   .. toctree::
+      :maxdepth: 2
+
+      ./Course_PF/TOC_Phase-Field.rst
+
+.. admonition:: Lattice Boltzmann Methods
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./Course_LBM/TOC_LBM_Course.rst
+

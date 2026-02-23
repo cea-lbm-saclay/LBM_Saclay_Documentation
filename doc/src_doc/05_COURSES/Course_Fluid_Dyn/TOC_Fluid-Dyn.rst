@@ -8,5 +8,4 @@ Fluid dynamics & Thermodynamics
    
    ./01_Navier-Stokes.rst
    ./02_Energy-Equation.rst
-   ./03_Least_Action_Principle.rst
 

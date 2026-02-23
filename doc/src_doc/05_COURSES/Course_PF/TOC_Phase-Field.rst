@@ -3,11 +3,38 @@
 Basic concepts of phase-field theory: two-phase
 ===============================================
 
-.. toctree::
-   :maxdepth: 2
+.. admonition:: Fundamentals of phase-field theory
 
-   ./01_Fundamentals_PF.rst
-   ./02_CH_CAC_Models.rst
-   ./03_NavierStokes_with_PhaseField.rst
-   ./04_NavierStokes_Korteweg.rst
-   ./05_Thermodynamic_Of_PhaseTransition.rst
+   .. toctree::
+      :maxdepth: 2
+
+      ./00_Least_Action_Principle.rst
+      ./01_Fundamentals_PF.rst
+
+.. admonition:: Dynamics: time-evolution
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./02_CH_CAC_Models.rst
+
+.. admonition:: Coupling with incompressible Navier-Stokes
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./03_NavierStokes_with_PhaseField.rst
+
+.. admonition:: Navier-Stokes/Korteweg model
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./04_NavierStokes_Korteweg.rst
+
+.. admonition:: Thermodynamics of phase transition
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./05_Thermodynamic_Of_PhaseTransition.rst
