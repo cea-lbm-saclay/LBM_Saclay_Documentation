@@ -9,18 +9,18 @@ Differentials
 The term :math:`\mathcal{I}` is the differential of free energy density :math:`\mathcal{F}`:
 
 .. math::
-   :label:
+   :label: Differential-dF
 
    d\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)=\frac{\partial\mathcal{F}}{\partial\phi}d\phi+\underbrace{\frac{\partial\mathcal{F}}{\partial(\boldsymbol{\nabla}\phi)}}_{\hat{=}\boldsymbol{\mathcal{F}}}\cdot d(\boldsymbol{\nabla}\phi)
 
-Divide by dt:
+where we note :math:`\boldsymbol{\mathcal{F}}\hat{=}\partial\mathcal{F}/\partial(\boldsymbol{\nabla}\phi)`. For :math:`\mathcal{F}` defined by Eq. :eq:`Potential_Energy`, :math:`\boldsymbol{\mathcal{F}}=\zeta\boldsymbol{\nabla}\phi`. For more generality we keep using the notation :math:`\boldsymbol{\mathcal{F}}` in the rest of this section. After division of Eq. :eq:`Differential-dF` by dt, we obtain:
 
 .. math::
    :label:
 
-   \frac{d\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)}{dt}=\frac{\partial\mathcal{F}}{\partial\phi}\underbrace{\frac{d\phi}{dt}}_{\text{Eq. }(\ref{eq:Balance_phi_Incompr})}+\boldsymbol{\mathcal{F}}\cdot\underbrace{\frac{d(\boldsymbol{\nabla}\phi)}{dt}}_{\text{re-write}}
+   \frac{d\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)}{dt}=\frac{\partial\mathcal{F}}{\partial\phi}{\frac{d\phi}{dt}}+\boldsymbol{\mathcal{F}}\cdot\underbrace{\frac{d(\boldsymbol{\nabla}\phi)}{dt}}_{\text{re-write}}
 
-Replace :math:`d\phi/dt` by Eq. :eq:`Phi-Balance_iNS-PFCourse` and re-write :math:`d(\boldsymbol{\nabla}\rho)/dt`
+Replace :math:`d\phi/dt` by Eq. :eq:`Phi-Balance-iNS-PFCourse`  and re-write :math:`d(\boldsymbol{\nabla}\rho)/dt`
 
 
 Term :math:`\mathcal{K}` kinetic energy: use impulsion balance Eq. :eq:`Impulsion-Balance_iNS-PFCourse`
@@ -225,3 +225,7 @@ Derivation
       • External force :math:`\rho\boldsymbol{g}` could have been considered and set in :math:`\mathcal{W}(V)`
 
       • If the integrals of surface are not neglected they must be considered in :math:`\Phi(\partial V)`
+
+
+.. sectionauthor:: Alain Cartalade
+   

@@ -1,7 +1,7 @@
 .. _Model_iNS_with_PhaseField_Course:
 
-Model of incompressible Navier-Stokes with interface-capturing equation
-=======================================================================
+Derivation of incompressible Navier-Stokes with interface-capturing equation model
+==================================================================================
 
 Mass balance & interface equation
 ---------------------------------
@@ -78,7 +78,14 @@ Mass balance & interface equation
 
       \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{\phi}
 
-   where :math:`\boldsymbol{j}_{\phi}` has to be determined. With material derivative Eq. ([eq:Material-Derivative])
+   where :math:`\boldsymbol{j}_{\phi}` has to be determined. With the material derivative:
+
+   .. math::
+      :label: Material-Derivative
+
+      \frac{d}{dt}\,\hat{=}\,\frac{\partial}{\partial t}+\boldsymbol{u}\cdot\boldsymbol{\nabla}
+
+   the interface-tracking equation writes:
 
    .. math::
 
@@ -91,7 +98,7 @@ Derivation of constitutive laws
 
 .. admonition:: Summary of balance equations
 
-   Finally, we suumarize the three balance equations with the material derivative. First, the mass balance equation writes:
+   Finally, we summarize the three balance equations with the material derivative. First, the mass balance equation writes:
 
    .. math::
       :label: Mass-Balance_iNS-PFCourse
@@ -108,39 +115,41 @@ Derivation of constitutive laws
    where the stress tensor :math:`{\color{red}\overline{\overline{\boldsymbol{T}}}}` has to be determined. At last, the balance of phase-field :math:`\phi` writes:
 
    .. math::
-      :label: Phi-Balance_iNS-PFCourse
+      :label: Phi-Balance-iNS-PFCourse
 
       \frac{d\phi}{dt}+\phi\boldsymbol{\nabla}\cdot\boldsymbol{u}=-\boldsymbol{\nabla}\cdot{\color{red}\boldsymbol{j}_{\phi}}
 
    where :math:`{\color{red}\boldsymbol{j}_{\phi}}` has also to be determined.
 
-Objectives
-""""""""""
+Objective
+"""""""""
 
-In this section, the total energy :math:`\mathscr{E}_{tot}` is a function of velocity :math:`\boldsymbol{u}`. It is composed of two parts:
+.. admonition:: Objective
+   
+   In Section :bdg-ref-primary-line:`CH-CAC-Models` the diffusive flux :math:`\boldsymbol{j}_{diff}` has been derived such as :math:`\partial\mathscr{F}[\phi]/\partial t < 0`. Here we consider the total energy :math:`\mathscr{E}_{tot}` which is a functional depending on two functions: the phase-field :math:`\phi` and the velocity :math:`\boldsymbol{u}`. It is composed of two parts:
 
-.. math::
-   :label: Total_Energy
+   .. math::
+      :label: Total_Energy
 
-   \mathscr{E}_{tot}[\phi,{\color{red}\boldsymbol{u}}]=\int_{V}\biggl[\underbrace{\frac{1}{2}\rho_{0}\bigl|{\color{red}\boldsymbol{u}}\bigr|^{2}}_{\text{kinetic energy}}+\underbrace{\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)}_{\text{potential energy}}\biggr]dV
+      \mathscr{E}_{tot}[\phi,{\color{red}\boldsymbol{u}}]=\int_{V}\biggl[\underbrace{\frac{1}{2}\rho_{0}\bigl|{\color{red}\boldsymbol{u}}\bigr|^{2}}_{\text{kinetic energy}}+\underbrace{\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)}_{\text{potential energy}}\biggr]dV
 
-where :math:`\rho_{0}\bigl|\boldsymbol{u}\bigr|^{2}/2` is the kinetic energy (:math:`\rho_0` is the constant density) and the potential energy is given by the free energy density:
+   where :math:`\rho_{0}\bigl|\boldsymbol{u}\bigr|^{2}/2` is the kinetic energy (:math:`\rho_0` is the constant density) and the potential energy is given by the free energy density:
 
-.. math::
-   :label: Potential_Energy
+   .. math::
+      :label: Potential_Energy
 
-   \mathcal{F}(\phi,\boldsymbol{\nabla}\phi)=f_{dw}(\phi)+\frac{\zeta}{2}\bigl|\boldsymbol{\nabla}\phi\bigr|^{2}
+      \mathcal{F}(\phi,\boldsymbol{\nabla}\phi)=f_{dw}(\phi)+\frac{\zeta}{2}\bigl|\boldsymbol{\nabla}\phi\bigr|^{2}
 
-In Eq. :eq:`Potential_Energy`, :math:`f_{dw}(\phi)` is the double-well free energy density, and :math:`\zeta` is the capillary coefficient.
+   In Eq. :eq:`Potential_Energy`, :math:`f_{dw}(\phi)` is the double-well free energy density, and :math:`\zeta` is the capillary coefficient.
 
-The objectice is determine the constitutive laws :math:`\boldsymbol{j}_{\phi}` and :math:`\overline{\overline{\boldsymbol{T}}}` such as
+   The objectice is determine the constitutive laws for the stress tensor :math:`\overline{\overline{\boldsymbol{T}}}` in Eq. :eq:`Impulsion-Balance_iNS-PFCourse` and the flux :math:`\boldsymbol{j}_{\phi}` in Eq. :eq:`Phi-Balance-iNS-PFCourse` such as
 
-.. math::
-   :label: Decrease_Etot
+   .. math::
+      :label: Decrease_Etot
 
-   \frac{d\mathscr{E}_{tot}}{dt}-\int_{V}\underbrace{\lambda\boldsymbol{\nabla}\cdot\boldsymbol{u}}_{\hat{=}\mathscr{L}}\leqslant0
+      \frac{d\mathscr{E}_{tot}}{dt}-\int_{V}\underbrace{\lambda\boldsymbol{\nabla}\cdot\boldsymbol{u}}_{\hat{=}\mathscr{L}}\leqslant0
 
-where :math:`\lambda` is the lagrange multiplier of constraint :math:`\boldsymbol{\nabla}\cdot\boldsymbol{u}=0`.
+   where :math:`\lambda` is the lagrange multiplier of constraint :math:`\boldsymbol{\nabla}\cdot\boldsymbol{u}=0`.
 
 Method
 """"""
@@ -148,12 +157,14 @@ Method
 Express
 
 .. math::
+   :label: dEtot_dt
 
    \frac{d\mathscr{E}_{tot}}{dt}	=\frac{d}{dt}\int_{V}\left[\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)+\frac{1}{2}\rho_{0}\bigl|\boldsymbol{u}\bigr|^{2}\right]dV
 
 on the form
 
 .. math::
+   :label: DEtot_dt_Dissipation
 
    \frac{d\mathscr{E}_{tot}}{dt}=-\mathcal{D}(V){\color{gray}+\underbrace{\mathcal{W}(V)+\Phi(\partial V)}_{\text{neglected here}}}\leqslant0
 
@@ -177,7 +188,7 @@ Example:
 
 The next stages require to make appear balance equations in :math:`\mathcal{I}` and :math:`\mathcal{K}` and evaluate the differentials :math:`d\mathcal{F}` and :math:`d\bigl|\boldsymbol{u}\bigr|^{2}`.
 
-The details of derivation are presented in :bdg-ref-primary-line:`Constitutive-laws`. They are given by:
+The details of derivation are presented in :bdg-ref-primary-line:`Constitutive-laws`. Finally the constitutive laws which satisfy the condition :math:`\frac{d\mathscr{E}_{tot}}{dt}=-\mathcal{D}(V)\leqslant0` can be chose such as:
 
 .. admonition:: Constitutive laws
    :class: error:
@@ -190,12 +201,14 @@ The details of derivation are presented in :bdg-ref-primary-line:`Constitutive-l
          :columns: 6
 
          .. math::
+            :label: Def-Stress-Tensor-iNS
 
             \overline{\overline{\boldsymbol{T}}}=-\overline{\overline{\boldsymbol{P}}}+\eta(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})
 
-         with the pressure tensor
+         with the pressure tensor is defined by
 
          .. math::
+            :label: Def-Pressure-Tensor-iNS
 
             \overline{\overline{\boldsymbol{P}}}=\Bigl[(p_{h}-\mathcal{F})\overline{\overline{\boldsymbol{I}}}+\zeta\boldsymbol{\nabla}\phi\otimes\boldsymbol{\nabla}\phi\Bigr]
 
@@ -203,17 +216,53 @@ The details of derivation are presented in :bdg-ref-primary-line:`Constitutive-l
          :columns: 6
 
          .. math::
+            :label: Def-Flux-iNS
 
             \boldsymbol{j}_{\phi}=-\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}
 
-         where
+         where the chemical potential is defined by
 
          .. math::
+            :label: Def-ChemPot-iNS
 
             \mu_{\phi}=f_{dw}^{\prime}(\phi)-\zeta\boldsymbol{\nabla}^{2}\phi
 
+   By replacing :eq:`Def-Stress-Tensor-iNS` in Eq. :eq:`Impulsion-Balance_iNS-PFCourse` we obtain two terms in the right-hand side: :math:`-\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}` and :math:`\boldsymbol{\nabla}\cdot\eta(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})`. The first one can be written with its potential form:
+
+   .. grid:: 3
+      :gutter: 4
+      :margin: 3 3 0 5
+
+      .. grid-item::
+         :columns: 3
+
+      .. grid-item-card:: Potential form of pressure tensor
+         :columns: 6
+
+         .. math::
+            :label: Potential-Form-Pressure-Tensor-iNS
+
+            -\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}=-\boldsymbol{\nabla}p_{h}+\mu_{\phi}\boldsymbol{\nabla}\phi
+
+      .. grid-item::
+         :columns: 3
+
+   The interpretation of term :math:`\mu_{\phi}\boldsymbol{\nabla}\phi` is the capillary force :math:`\boldsymbol{F}_{c}` (see proof below), and :math:`p_h` is the hydrodynamic pressure ensuring the continuity equation.
+
+
+Proof of Eq. :eq:`Potential-Form-Pressure-Tensor-iNS`:
+
+.. math::
+
+   -\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{P}}}&=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\mathcal{F}-\zeta\boldsymbol{\nabla}\cdot(\boldsymbol{\nabla}\phi\otimes\boldsymbol{\nabla}\phi)\\&=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\Bigl[f_{dw}+\frac{\zeta}{2}\bigl|\boldsymbol{\nabla}\phi\bigr|^{2}\Bigr]-\zeta\boldsymbol{\nabla}\cdot(\boldsymbol{\nabla}\phi\otimes\boldsymbol{\nabla}\phi)\\&=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}f_{dw}+\cancel{\frac{\zeta}{2}\boldsymbol{\nabla}(\bigl|\boldsymbol{\nabla}\phi\bigr|^{2})}-\cancel{\frac{\zeta}{2}\boldsymbol{\nabla}(\bigl|\boldsymbol{\nabla}\phi\bigr|^{2})}-\zeta(\boldsymbol{\nabla}^{2}\phi)\boldsymbol{\nabla}\phi\\&=-\boldsymbol{\nabla}p_{h}+\Bigl[\underbrace{f_{dw}^{\prime}-\zeta(\boldsymbol{\nabla}^{2}\phi)}_{\equiv\mu_{\phi}}\Bigr]\boldsymbol{\nabla}\phi
+
+
+
 Model of incompressible Navier-Stokes with interface-capturing equation
 -----------------------------------------------------------------------
+
+Incompressible Navier-Stokes with capillary force term
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 The model of two-phase flows is simply composed of incompressible Navier-Stokes equations which hold in both fluids :math:`A` and :math:`B`. An interpolation with :math:`\phi` is performed for local densities and local viscosities, and an additional force term is added in the impulsion balance equation: the capillary force representative of surface tension :math:`\sigma` between both fluids. The model writes:
 
@@ -228,6 +277,9 @@ where :math:`\boldsymbol{u}` is the mean velocity, :math:`p_h` is the hydrodynam
    :label: Physical_Dim_grhog
 
    [\varrho(\phi)\boldsymbol{g}]=\frac{[\text{M}]}{[\text{L}]^3} \frac{[\text{L}]}{[\text{T}]^2}=\frac{[\text{F}]}{[\text{L}]^3}
+
+Interpretation of term :math:`\mu_{\phi}\boldsymbol{\nabla}\phi`
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 The capillary force :math:`\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi` has been formulated in :footcite:p:`Brackbill_etal_JCP1992` and :footcite:p:`Jacqmin_JCP1999`. That form is equivalent to the surface tension force :math:`-\delta_d \sigma \kappa \boldsymbol{n}` where :math:`\kappa` is the curvature, :math:`\sigma` is the surface tension, :math:`\boldsymbol{n}` is the normal vector at the interface and :math:`\delta_d` is the Kronecker's symbol but expressed in the phase-field framework, i.e. with a diffuse interface:
 
@@ -264,8 +316,11 @@ When expressed by its potential form:
 
    [\mu_{\phi}\boldsymbol{\nabla}\phi]=\frac{\text{E}}{[\text{L}]^3}\times \frac{1}{[\text{L}]}=\frac{[\text{F.L}]}{[\text{L}]^3}\times \frac{1}{[\text{L}]}=\frac{[\text{F}]}{[\text{L}]^3}
 
+Summary
+"""""""
+
 .. admonition:: Two-phase incompressible Navier-Stokes
-   :class: hint
+   :class: error
 
    The two-phase flows model is composed of incompressible Navier-Stokes equations. The first one is the mass balance equation
 
@@ -302,10 +357,18 @@ When expressed by its potential form:
 
       \mu_{\phi}=\frac{3}{2}\sigma W\left[\frac{16}{W^2}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi\right]
 
-The phase-field :math:`\phi` follows one of the two phase-field equation. The Conservative Allen-Cahn equation writes
 
-.. admonition:: Interface-capturing model 1: Conservative Allen-Cahn equation
-   :class: hint
+.. admonition:: Interface-capturing model 1: Cahn-Hilliard equation
+   :class: error
+
+   Once the diffusive flux :eq:`Def-Flux-iNS` is replaced in Eq. :eq:`Phi-Balance-iNS-PFCourse`, the advective Cahn-Hilliard equation is obtained:
+
+   .. math::
+      :label: CH_Eq_TwoPhase
+
+      \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
+
+   That model can advantageously be replaced by the Conservative Allen-Cahn equation for immiscible two fluid flows:
 
    .. math::
       :label: CAC_Eq_TwoPhase
@@ -318,16 +381,6 @@ The phase-field :math:`\phi` follows one of the two phase-field equation. The Co
       :label: TwoPhase_Def_n
 
       \boldsymbol{n}_{\phi}=\frac{\boldsymbol{\nabla}\phi}{|\boldsymbol{\nabla}\phi|}
-
-.. admonition:: Interface-capturing model 2: Cahn-Hilliard equation
-   :class: hint
-
-   Whereas the Cahn-Hilliard equation writes
-
-   .. math::
-      :label: CH_Eq_TwoPhase
-
-      \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
 
 Appendix
 --------
