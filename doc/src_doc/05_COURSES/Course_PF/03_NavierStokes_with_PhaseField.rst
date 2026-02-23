@@ -361,14 +361,14 @@ Summary
 .. admonition:: Interface-capturing model 1: Cahn-Hilliard equation
    :class: error
 
-   Once the diffusive flux :eq:`Def-Flux-iNS` is replaced in Eq. :eq:`Phi-Balance-iNS-PFCourse`, the advective Cahn-Hilliard equation is obtained:
+   Once the diffusive flux :eq:`Def-Flux-iNS` is replaced in Eq. :eq:`Phi-Balance-iNS-PFCourse`, the advective Cahn-Hilliard equation (Eq. :eq:`Adv_CH_Model_Course_Summary`) is obtained:
 
    .. math::
       :label: CH_Eq_TwoPhase
 
-      \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
+      \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
 
-   That model can advantageously be replaced by the Conservative Allen-Cahn equation for immiscible two fluid flows:
+   That model can advantageously be replaced by the Conservative Allen-Cahn equation (Eq. :eq:`CAC_Course`) for immiscible two fluid flows:
 
    .. math::
       :label: CAC_Eq_TwoPhase
