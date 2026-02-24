@@ -38,10 +38,3 @@ Basic concepts of phase-field theory: two-phase
       :maxdepth: 2
 
       ./05_Contact_Angle.rst
-
-.. admonition:: Thermodynamics of phase transition
-
-   .. toctree::
-      :maxdepth: 2
-
-      ./06_Thermodynamic_Of_PhaseTransition.rst

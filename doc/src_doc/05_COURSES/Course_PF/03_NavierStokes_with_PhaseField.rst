@@ -281,40 +281,57 @@ where :math:`\boldsymbol{u}` is the mean velocity, :math:`p_h` is the hydrodynam
 Interpretation of term :math:`\mu_{\phi}\boldsymbol{\nabla}\phi`
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-The capillary force :math:`\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi` has been formulated in :footcite:p:`Brackbill_etal_JCP1992` and :footcite:p:`Jacqmin_JCP1999`. That form is equivalent to the surface tension force :math:`-\delta_d \sigma \kappa \boldsymbol{n}` where :math:`\kappa` is the curvature, :math:`\sigma` is the surface tension, :math:`\boldsymbol{n}` is the normal vector at the interface and :math:`\delta_d` is the Kronecker's symbol but expressed in the phase-field framework, i.e. with a diffuse interface:
+.. admonition:: Interpretation of term :math:`\mu_{\phi}\boldsymbol{\nabla}\phi`
 
-.. math::
-   :label:
+   The capillary force :math:`\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi` has been formulated in :footcite:p:`Brackbill_etal_JCP1992` and :footcite:p:`Jacqmin_JCP1999`. That form is equivalent to the surface tension force :math:`-\delta_d \sigma \kappa \boldsymbol{n}_{\phi}` where :math:`\kappa` is the curvature, :math:`\sigma` is the surface tension, :math:`\boldsymbol{n}_{\phi}` is the normal vector at the interface and :math:`\delta_d` is the Kronecker's symbol but expressed in the phase-field framework, i.e. with a diffuse interface:
 
-   \delta_{d}=\frac{3}{2}W\left|\boldsymbol{\nabla}\phi\right|^{2}
+   .. math::
+      :label:
 
-That term is homogeneous to an inverse of length: :math:`[\delta_d]=1/[\text{L}]`. We can prove that
+      \boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi=-\delta_{d}\sigma\kappa\boldsymbol{n}_{\phi}\hspace{1cm}\text{with}\hspace{1cm}\delta_{d}=\frac{3}{2}W\left|\boldsymbol{\nabla}\phi\right|^{2}
 
-.. math::
-   :label: Proof-Equiv-Surface-Tension_NSAC
+   That term is homogeneous to an inverse of length: :math:`[\delta_d]=1/[\text{L}]`. We can check that the capillary force is homogeneous to a volumic force:
 
-   \boldsymbol{F}_{c} &=\mu_{\phi}\boldsymbol{\nabla}\phi\\&=\Bigl[4H\phi(\phi-1)(\phi-1/2)-\zeta\boldsymbol{\nabla}^{2}\phi\Bigr]\boldsymbol{\nabla}\phi\\&=-\frac{3}{2}W\sigma\Bigl[\Delta\phi-\frac{16}{W^{2}}\phi(1-\phi)(1-2\phi)\Bigr]\boldsymbol{\nabla}\phi\\&=-\frac{3}{2}W\sigma\kappa\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{\nabla}\phi\\&=-\delta_{d}\sigma\kappa\boldsymbol{n}
+   .. math::
+      :label: Check_PhysDim_Fc
 
-where we have used
+      [\delta_{d}\sigma\kappa\boldsymbol{n}_{\phi}]=\frac{1}{[\text{L}]}\times \frac{[\text{F}]}{[\text{L}]}\times \frac{1}{[\text{L}]}=\frac{[\text{F}]}{[\text{L}]^3}
 
-- Eq. :eq:`Chemical_Potential_Course` for :math:`\mu_{\phi}` in the second line.
-- Replace :math:`H` and :math:`\zeta` by :math:`H=12\sigma/W` and :math:`\zeta=(3/2)W\sigma` in the third line.
-- Eq. :eq:`Equiv_Derivative_Curvature` for :math:`\kappa\left|\boldsymbol{\nabla}\phi\right|` in the fourth line.
-- Multiply and divide by :math:`\left|\boldsymbol{\nabla}\phi\right|` to make appear :math:`\boldsymbol{n}` in the last line.
+   When expressed by its potential form:
 
-We can check that the capillary force is homogeneous to a volumic force:
+   .. math::
+      :label: 
 
-.. math::
-   :label: Check_PhysDim_Fc
+      [\mu_{\phi}\boldsymbol{\nabla}\phi]=\frac{\text{E}}{[\text{L}]^3}\times \frac{1}{[\text{L}]}=\frac{[\text{F.L}]}{[\text{L}]^3}\times \frac{1}{[\text{L}]}=\frac{[\text{F}]}{[\text{L}]^3}
 
-   [\delta_{d}\sigma\kappa\boldsymbol{n}]=\frac{1}{[\text{L}]}\times \frac{[\text{F}]}{[\text{L}]}\times \frac{1}{[\text{L}]}=\frac{[\text{F}]}{[\text{L}]^3}
 
-When expressed by its potential form:
+**Proof**
 
-.. math::
-   :label: 
+.. grid:: 2
+   :gutter: 4
+   :margin: 3 3 0 5
 
-   [\mu_{\phi}\boldsymbol{\nabla}\phi]=\frac{\text{E}}{[\text{L}]^3}\times \frac{1}{[\text{L}]}=\frac{[\text{F.L}]}{[\text{L}]^3}\times \frac{1}{[\text{L}]}=\frac{[\text{F}]}{[\text{L}]^3}
+   .. grid-item::
+      :columns: 5
+
+      .. math::
+
+         \boldsymbol{F}_{c} &=\mu_{\phi}\boldsymbol{\nabla}\phi\\
+         &=\Bigl[4H\phi(\phi-1)(\phi-1/2)-\zeta\boldsymbol{\nabla}^{2}\phi\Bigr]\boldsymbol{\nabla}\phi\\
+         &=-\frac{3}{2}W\sigma\Bigl[\Delta\phi-\frac{16}{W^{2}}\phi(1-\phi)(1-2\phi)\Bigr]\boldsymbol{\nabla}\phi\\
+         &=-\frac{3}{2}W\sigma\kappa\left|\boldsymbol{\nabla}\phi\right|\boldsymbol{\nabla}\phi\\
+         &=-\delta_{d}\sigma\kappa\boldsymbol{n}
+
+   .. grid-item::
+      :columns: 7
+
+      Where we have used
+
+      - Eq. :eq:`Chemical_Potential_Course` for :math:`\mu_{\phi}` in the second line.
+      - Replace :math:`H` and :math:`\zeta` by :math:`H=12\sigma/W` and :math:`\zeta=(3/2)W\sigma` in the third line.
+      - Eq. :eq:`Equiv_Derivative_Curvature` for :math:`\kappa\left|\boldsymbol{\nabla}\phi\right|` in the fourth line.
+      - Multiply and divide by :math:`\left|\boldsymbol{\nabla}\phi\right|` to make appear :math:`\boldsymbol{n}` in the last line.
+
 
 Summary
 """""""

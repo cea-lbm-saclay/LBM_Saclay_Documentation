@@ -75,6 +75,34 @@ In the rest of this page, we will derive the (thermodynamic) equilibrium propert
 
 - The physical dimension of :math:`(\boldsymbol{\nabla}\phi)^{2}` is :math:`[\text{L}]^{-2}`. To match with a dimension of energy density, the physical dimension of :math:`\zeta` must be :math:`[\text{E}]/[\text{L}]`.
 
+**Inflection points and concave parts**
+
+The inflection points are points delimiting the concave and the convex parts of the double-well. They are defined by :math:`\phi^{infl}` such as
+
+.. math::
+   :label: Def-Inflection-Points
+
+   \boxed{\left.\frac{\partial^{2}f_{dw}(\phi)}{\partial\phi^{2}}\right|_{\phi=\phi^{infl}}\equiv f_{dw}^{\prime\prime}(\phi^{infl})=0}
+
+
+For example, for f_{dw}(\phi)=g_{1}(\phi):
+
+.. math::
+
+   f_{dw}^{\prime\prime}(\phi)=2(6\phi^{2}-6\phi+1)
+
+The first inflection point is :math:`\phi_{1}^{infl}=0.2113248654051871` and the second one is :math:`\phi_{2}^{infl}=0.788675134594813`. The convex part is such as :math:`f_{dw}^{\prime\prime}(\phi)>0` when :math:`\phi<\phi_{1}^{infl}` and :math:`\phi_{2}^{infl}<\phi`. The convex part is such as  :math:`f_{dw}^{\prime\prime}(\phi)<0` when :math:`\phi_{1}^{infl}<\phi<\phi_{2}^{infl}`. The concave and convex parts as well as the inflection points are presented on Fig. :numref:`DP-Inflection`
+
+.. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_Inflexion.png
+   :name: DP-Inflection
+   :figclass: align-center
+   :align: center
+   :height: 270
+   :width: 400
+   :scale: 100 %
+      
+   Inflexion points
+
 Euler-Lagrange equation and chemical potential
 ----------------------------------------------
 
@@ -404,6 +432,7 @@ The choice of double-well :math:`g_1,g_2,g_3` has an impact on the fundamental s
       +--------------------------------------------------------------------+-----------------------------------------+-------------------------------------+
       | :math:`g_{3}(\phi)=(\phi^{\star}-\phi)^{2}(\phi+\phi^{\star})^{2}` | :math:`-\phi^{\star}<\phi<\phi^{\star}` | :math:`I=4\phi^{\star3}/3`          |
       +--------------------------------------------------------------------+-----------------------------------------+-------------------------------------+
+
 
 Properties of equilibrium solutions
 -----------------------------------
