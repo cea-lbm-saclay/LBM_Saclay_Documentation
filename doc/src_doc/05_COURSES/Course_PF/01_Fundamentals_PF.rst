@@ -454,11 +454,6 @@ Several useful relationships derive from the fundamental hyperbolic tangent solu
 
    which is proportional to the derivative of double-well.
 
-References
-----------
-
-.. footbibliography::
-
 Appendices
 ----------
 
@@ -468,5 +463,10 @@ Appendices
    ./A_Minimization_Free_Energy.rst
    ./B_Calculation_TanhSolution.rst
    ./C_Calculation_SurfaceTension.rst
+
+References
+----------
+
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade

@@ -32,9 +32,16 @@ Basic concepts of phase-field theory: two-phase
 
       ./04_NavierStokes_Korteweg.rst
 
+.. admonition:: Contact angle
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./05_Contact_Angle.rst
+
 .. admonition:: Thermodynamics of phase transition
 
    .. toctree::
       :maxdepth: 2
 
-      ./05_Thermodynamic_Of_PhaseTransition.rst
+      ./06_Thermodynamic_Of_PhaseTransition.rst

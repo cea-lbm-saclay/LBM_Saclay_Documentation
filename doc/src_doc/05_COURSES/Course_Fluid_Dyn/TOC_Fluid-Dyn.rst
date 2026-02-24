@@ -5,7 +5,8 @@ Fluid dynamics & Thermodynamics
 
 .. toctree::
    :maxdepth: 2
-   
+
    ./01_Navier-Stokes.rst
    ./02_Energy-Equation.rst
-
+   ./03_Fluid_Dyn_Models_Summary.rst
+   

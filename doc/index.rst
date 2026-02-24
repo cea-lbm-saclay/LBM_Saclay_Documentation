@@ -278,6 +278,5 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       ./src_doc/05_COURSES/Course_Intro-Two-Phase/TOC_Two-Phase_Intro.rst
    
 
-
 .. sectionauthor:: Alain Cartalade
    
