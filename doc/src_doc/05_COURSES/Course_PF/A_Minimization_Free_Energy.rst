@@ -1,89 +1,90 @@
 .. _Minimization-Free-Energy:
 
-Annexe A : minimisation d'une fonctionnelle d'énergie libre
-===========================================================
+Appendix A : minimization of free energy functional
+===================================================
 
-On considère une fonction :math:`\phi(x,y,z):=\phi(\boldsymbol{x})` qu'on appelle « indicatrice de phase » qui est une fonction de la position :math:`\boldsymbol{x}`. On s'inspire de l'action :math:`\mathscr{S}[q]` et du « principe de moindre action » pour introduire une « fonctionnelle d'énergie libre » :math:`\mathscr{F}[\phi]` qui est définie par l'intégrale sur le volume d'une « densité d'énergie libre :math:`\mathcal{F}(\phi(\boldsymbol{x}),\boldsymbol{\nabla}\phi)` :
+We consider one function :math:`\phi(x,y,z):=\phi(\boldsymbol{x})` called a phase index, which is a function of position :math:`\boldsymbol{x}`. The following section is inspired of the action :math:`\mathscr{S}[q]` and the « least action principle » to introduce a « free energy functional » :math:`\mathscr{F}[\phi]`. That functional is defined by the integral over the volume of a « free energy density » :math:`\mathcal{F}(\phi(\boldsymbol{x}),\boldsymbol{\nabla}\phi)`:
 
 .. math::
    :label:
 
    \mathscr{F}[\phi] &=\int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\mathcal{F}(\phi,\underbrace{\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi}_{\equiv\boldsymbol{\nabla}\phi})\underbrace{dxdydz}_{\equiv dV}\\&=\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV
    
-où V est un volume. On établit l'équation d'Euler-Lagrange en 1D puis en 3D.
+where :math:`V` is the volume. The Euler-Lagrange equation is derived in 1D and next in 3D.
 
-Euler-Lagrange 1D : fonctions :math:`\phi(x)` et :math:`d\phi/dx`
+Euler-Lagrange 1D : functions :math:`\phi(x)` and :math:`d\phi/dx`
 -----------------------------------------------------------------
 
-En 1D la fonctionnelle :math:`\mathcal{F}(\phi(x),\phi^{\prime}(x))` décrit la « densité d'énergie libre » du système et :math:`\phi^{\prime}(x)\equiv d\phi/dx`. L'énergie libre totale du système s'écrit (intégration en espace) :
+In 1D, the functional :math:`\mathcal{F}(\phi(x),\phi^{\prime}(x))` is the « free energy density » of the system and :math:`\phi^{\prime}(x)\equiv d\phi/dx`. The total free energy of the system writes (space integration):
 
 .. math::
    :label: eq:EnergieLibre_F
 
    \mathscr{F}[\phi]=\int_{x_{1}}^{x_{2}}\mathcal{F}(\phi,\phi^{\prime})dx
    
-En appliquant l'opérateur :math:`\delta` à l'Eq. :eq:`eq:EnergieLibre_F`, on obtient :
+By applying the :math:`\delta`-operator to Eq. :eq:`eq:EnergieLibre_F`, we obtain:
 
 .. math::
    :label:
 
    \delta\mathscr{F}	&=\int_{x_{1}}^{x_{2}}\delta\mathcal{F}(\phi,\phi^{\prime})dx\\&=\int_{x_{1}}^{x_{2}}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial\phi^{\prime}}\delta\phi^{\prime}\right]dx
 
-Puis en intégrant par parties (avec :math:`\delta\phi(x_{1})=\delta\phi(x_{2})=0`) le second terme on obtient :
+After integration by parts of the second term (with :math:`\delta\phi(x_{1})=\delta\phi(x_{2})=0`) we obtain:
 
 .. math::
    :label:
 
    \delta\mathscr{F}=\int_{x_{1}}^{x_{2}}\left[\frac{\partial\mathcal{F}}{\partial\phi}-\frac{d}{dx}\left(\frac{\partial\mathcal{F}}{\partial\phi^{\prime}}\right)\right]\delta\phi dx=0
 
-Finalement, comme la condition du premier ordre :math:`\delta\mathscr{F}=0` doit être vraie quelle que soit la variation :math:`\delta\phi`, on obtient :
+Finally, as the first order condition :math:`\delta\mathscr{F}=0` must be true whatever the variation :math:`\delta\phi`, we obtain:
 
 .. math::
    :label:
 
    \boxed{\frac{\partial\mathcal{F}}{\partial\phi}-\frac{d}{dx}\left(\frac{\partial\mathcal{F}}{\partial\phi^{\prime}}\right)=0}
 
-qui est l'équation d'Euler-Lagrange en 1D pour une fonctionnelle :math:`\mathcal{F}(\phi,\,\phi^{\prime})` donnée où :math:`\phi` est une fonction de la position :math:`x`. Il s'agit d'une équation similaire à celle à temps où la dérivée par rapport au temps :math:`d/dt` est remplacée par une dérivée par rapport à la position :math:`d/dx`.
+which is the 1D Euler-Lagrange equation for a given functional :math:`\mathcal{F}(\phi,\,\phi^{\prime})` where :math:`\phi` is a function of position :math:`x`. This is a similar equation to the one obtained with the action. The time derivative :math:`d/dt` is replaced by a spatial derivative :math:`d/dx`.
 
-Euler-Lagrange 3D : fonctions :math:`\phi(\boldsymbol{x})` et :math:`\boldsymbol{\nabla}\phi`
----------------------------------------------------------------------------------------------
+Euler-Lagrange 3D : functions :math:`\phi(\boldsymbol{x})` and :math:`\boldsymbol{\nabla}\phi`
+----------------------------------------------------------------------------------------------
 
-On considère maintenant une fonction à trois variables indépendantes :math:`\phi(x,y,z)\equiv\phi(\boldsymbol{x})` et une densité d'énergie libre qui est fonction de :math:`\phi`, et de ses trois dérivées :math:`\partial_{x}\phi`, :math:`\partial_{y}\phi`` et :math:`\partial_{z}\phi` :
+We consider now a function depending on three independent variables :math:`\phi(x,y,z)\equiv\phi(\boldsymbol{x})` and one free energy density which is a function of :math:`\phi`, and its three derivatives :math:`\partial_{x}\phi`, :math:`\partial_{y}\phi`` and :math:`\partial_{z}\phi`:
 
 .. math::
    :label:
 
    \mathcal{F}(\phi,\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi):=\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)
    
-En généralisant en 3D, la densité d'énergie libre est une fonction de :math:`\phi` et de son gradient :math:`\boldsymbol{\nabla}\phi`. L'Eq. ([eq:EnergieLibre_F]) s'écrit :
+The 3D, free energy density is a function of :math:`\phi` and its gradient :math:`\boldsymbol{\nabla}\phi`. Eq. ([eq:EnergieLibre_F]) writes:
 
 .. math::
    :label:
 
    \mathscr{F}[\phi]=\int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\mathcal{F}(\phi,\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi)dxdydz
    
-En appliquant l'opérateur :math:`\delta`:
+By applying the :math:`\delta` operator:
 
 .. math::
    :label:
 
    \delta\mathscr{F}[\phi]	&=\int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\delta\mathcal{F}(\phi,\partial_{x}\phi,\partial_{y}\phi,\partial_{z}\phi)dxdydz\\&=\int_{x_{1}}^{x_{2}}\int_{y_{1}}^{y_{2}}\int_{z_{1}}^{z_{2}}\Biggl[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial(\partial_{x}\phi)}\delta(\partial_{x}\phi)+\frac{\partial\mathcal{F}}{\partial(\partial_{y}\phi)}\delta(\partial_{y}\phi)+\frac{\partial\mathcal{F}}{\partial(\partial_{z}\phi)}\delta(\partial_{z}\phi)\Biggr]dxdydz\\&=\int_{V}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\sum_{\alpha=x,y,z}\frac{\partial\mathcal{F}}{\partial(\partial_{\alpha}\phi)}\delta(\partial_{\alpha}\phi)\right]dV
    
-Pour le 2nd terme, on utilise la convention de sommation d'Einstein pour les indices répétés (on supprime le signe somme) et on commute les opérateurs :math:`\delta` et :math:`\partial_{\alpha}`:
+For the second term we use the Einstein summation convention for repeated indices (the summation sign is canceled) and the operators :math:`\delta` and :math:`\partial_{\alpha}` are commuted:
 
 .. math::
    :label:
 
-   \delta\mathscr{F}[\phi]=\int_{V}\left[\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi+\frac{\partial\mathcal{F}}{\partial(\partial_{\alpha}\phi)}\partial_{\alpha}(\delta\phi)\right]dV
+   \delta\mathscr{F}&=\int_{V}\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi dV+\underbrace{\int_{V}\frac{\partial\mathcal{F}}{\partial(\boldsymbol{\nabla}\phi)}\boldsymbol{\nabla}(\delta\phi)dV}_{\text{integration by parts}}\\
+   &=\int_{V}\frac{\partial\mathcal{F}}{\partial\phi}\delta\phi dV+\underbrace{\cancel{\int_{\partial V}\boldsymbol{\mathcal{F}}\cdot\hat{\boldsymbol{n}}\delta\phi d(\partial V)}}_{\text{hyp: }\boldsymbol{\mathcal{F}}\cdot\hat{\boldsymbol{n}}=0\text{ on }\partial V}-\int_{V}\boldsymbol{\nabla}\cdot\left[\frac{\partial\mathcal{F}}{\partial(\boldsymbol{\nabla}\phi)}\right]\delta\phi dV
    
-On intègre par parties le second terme et on obtient :
+The second term in the right-hand side, involving :math:`\hat{\boldsymbol{n}}` the normal vector at the boundary, has been negected:
 
 .. math::
    :label:
 
    \delta\mathscr{F}[\phi]=\int_{V}\left[\frac{\partial\mathcal{F}}{\partial\phi}-\partial_{\alpha}\left(\frac{\partial\mathcal{F}}{\partial(\partial_{\alpha}\phi)}\right)\right]\delta\phi dV
    
-expression dans laquelle on reconnait l'opérateur divergence. Finalement d'Euler-Lagrange correspondante est :
+We recognize the divergence operator. Finally the Euler-Lagrange equation is:
 
 .. math::
    :label:

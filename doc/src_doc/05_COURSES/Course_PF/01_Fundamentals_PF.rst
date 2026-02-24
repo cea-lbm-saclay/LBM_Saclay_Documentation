@@ -67,7 +67,7 @@ cancels for :math:`\phi=0` and :math:`\phi=+1`. Such a double-well is presented 
       
    Illustrations of double-well :math:`f_{dw}(\phi)`
 
-In the rest of this page, we will derive the (thermodynamic) equilibrium properties of that functional. More particularly, we will derive its fundamental solution. All results at equilibrium will be derived for :math:`g_1(\phi)`. Results with other form of double-well are summarized in :ref:`Alternative-Double-Wells`.
+In the rest of this page, we will derive the (thermodynamic) equilibrium properties of that functional. More particularly, we will derive its fundamental solution. All results at equilibrium will be derived for :math:`g_1(\phi)`. Results with other form of double-well are summarized in :bdg-ref-primary:`Alternative-Double-Wells`.
 
 **Remark on physical dimensions of** :math:`H` **and** :math:`\zeta`
 
@@ -78,14 +78,14 @@ In the rest of this page, we will derive the (thermodynamic) equilibrium propert
 Euler-Lagrange equation and chemical potential
 ----------------------------------------------
 
-By using the same arguments of :ref:`Least-Action`, we derive now the Euler-Lagrange equation for which the free energy functional :math:`\mathscr{F}` is stationary. Here the action :math:`\mathscr{S}` is replaced by the free energy :math:`\mathscr{F}`, and the Langragian :math:`\mathcal{L}` is replaced by the free energy density :math:`\mathcal{F}`. That functional has two independent variables, the phase-field :math:`\phi(\boldsymbol{x})` and its gradient :math:`\boldsymbol{\nabla}\phi(\boldsymbol{x})` (compared to :math:`q(t)` and :math:`\dot{q}(t)`) where the independent variable is the position :math:`\boldsymbol{x}` (resp. :math:`t`).
+By using the same arguments of :bdg-ref-primary:`Least-Action`, we derive now the Euler-Lagrange equation for which the free energy functional :math:`\mathscr{F}` is stationary. Here the action :math:`\mathscr{S}` is replaced by the free energy :math:`\mathscr{F}`, and the Langragian :math:`\mathcal{L}` is replaced by the free energy density :math:`\mathcal{F}`. That functional has two independent variables, the phase-field :math:`\phi(\boldsymbol{x})` and its gradient :math:`\boldsymbol{\nabla}\phi(\boldsymbol{x})` (compared to :math:`q(t)` and :math:`\dot{q}(t)`) where the independent variable is the position :math:`\boldsymbol{x}` (resp. :math:`t`).
 
 .. math::
    :label: Free_Energy
 
    \mathscr{F}[\phi]=\int_{V}\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)dV
 
-Taking the variation of that functional, i.e. by applying the operator :math:`\delta` (see details in :ref:`Minimization-Free-Energy`), the free energy must be stationary at equilibrium i.e.:
+Taking the variation of that functional, i.e. by applying the operator :math:`\delta` (see details in :bdg-ref-primary:`Minimization-Free-Energy`), the free energy must be stationary at equilibrium i.e.:
 
 .. math::
    :label:
@@ -105,6 +105,8 @@ The Euler-Lagrange equation writes:
    :label: Euler_Lagrange
 
    \frac{\partial\mathcal{F}}{\partial\phi}-\boldsymbol{\nabla}\cdot\left[\frac{\partial\mathcal{F}}{\partial(\boldsymbol{\nabla}\phi)}\right]=0
+
+For the derivation of that equation, after integration by parts, the surface integral has been neglected. If a special condition has to be considered, in particular conatct angles, see :bdg-ref-primary:`Contact-Angle`.
 
 The left-hand side of Eq. :eq:`Euler_Lagrange` is often noted :math:`\delta \mathcal{F}/\delta \phi` which is the variational derivative of :math:`\mathcal{F}` with respect to :math:`\phi` and named the "chemical potential" :math:`\mu_{\phi}`:
 
@@ -163,7 +165,7 @@ A multiplication by :math:`d\phi/dx` and gather terms inside :math:`d/dx` yields
 
    \frac{d\phi}{dx}=\sqrt{2\frac{H}{\zeta}}\phi(1-\phi)
 
-which can be solved (see details in :ref:`Calculation-Tanh-Solution`):
+which can be solved (see details in :bdg-ref-primary:`Calculation-Tanh-Solution`):
 
 .. math::
    :label: Hyperbolic-Tan-Solution_PF-Course
@@ -184,7 +186,7 @@ The surface tension :math:`\sigma` is the excess of free energy for that equilib
 
    \sigma &=\mathscr{F}[\phi^{eq}]\\&=\int_{-\infty}^{+\infty} \mathcal{F}(\phi^{eq},\frac{d\phi^{eq}}{dx})dx\\&=\int_{-\infty}^{+\infty}\left[ Hg(\phi^{eq})+\frac{\zeta}{2}\left(\frac{d\phi^{eq}}{dx}\right)^{2}\right]dx
 
-That integral can calculated analytically (see details in :ref:`Calculation-Surface-Tension`):
+That integral can calculated analytically (see details in :bdg-ref-primary:`Calculation-Surface-Tension`):
 
 .. math::
    :label: Surface_Tension_Course_PF
