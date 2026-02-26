@@ -3,13 +3,6 @@
 Thermodynamics of phase transition (to be completed)
 ====================================================
 
-.. admonition:: Common tangent construction
-
-   .. toctree::
-      :maxdepth: 2
-
-      ./Common_Tangent.rst
-
 .. admonition:: Models of solid/liquid phase change
 
    .. toctree::

@@ -433,6 +433,50 @@ The choice of double-well :math:`g_1,g_2,g_3` has an impact on the fundamental s
       | :math:`g_{3}(\phi)=(\phi^{\star}-\phi)^{2}(\phi+\phi^{\star})^{2}` | :math:`-\phi^{\star}<\phi<\phi^{\star}` | :math:`I=4\phi^{\star3}/3`          |
       +--------------------------------------------------------------------+-----------------------------------------+-------------------------------------+
 
+.. _Common_Tangent:
+
+Common tangent for a flat interface
+-----------------------------------
+
+.. admonition:: Common tangent construction for a flat interface
+
+   Equilibrium conditions
+
+   .. math::
+      :label: Equilib_mu_Flat
+
+      \mu_{0}^{eq}(\phi_{0})=\mu_{1}^{eq}(\phi_{1})=\mu^{eq}
+
+   .. math::
+      :label: Equilib_p_Flat
+
+      p_{0}(\phi_{0})=p_{1}(\phi_{1})
+
+   With its defition :math:`p_{\pi}=\mu_{\pi}\phi_{\pi}-f_{dw}(\phi_{\pi})` where :math:`\pi` is a phase index :math:`\pi=0,1`, Eq. :eq:`Equilib_p_Flat` writes
+
+   .. math::
+
+      \phi_{0}\mu_{0}^{eq}-f_{dw}(\phi_{0})=\phi_{1}\mu_{1}^{eq}-f_{dw}(\phi_{1})
+
+   With the first equilibrium condition Eq. :eq:`Equilib_mu_Flat` for :math:`\mu_{0}^{eq}(\phi_{0})` and :math:`\mu_{1}^{eq}(\phi_{1})` we obtain:
+
+   .. math::
+      :label: Mu-Common-Tangent
+
+      \boxed{\mu^{eq}=\frac{f_{dw}(\phi_{1})-f_{dw}(\phi_{0})}{\phi_{1}-\phi_{0}}}
+
+   The graphical interpretation of Eq. :eq:`Mu-Common-Tangent` is that, at equilibrium, :math:`\mu^{eq}` is the common tangent of :math:`f_{dw}(\phi)` at equilibrium for a flat interface (see Fig. :numref:`Fig-Common-Tangent`).
+
+.. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_CommonTangent.png
+   :name: Fig-Common-Tangent
+   :figclass: align-center
+   :align: center
+   :height: 630
+   :width: 920
+   :scale: 50%
+
+   Common tangent of double-well :math:`f_{dw}`
+
 
 Properties of equilibrium solutions
 -----------------------------------
