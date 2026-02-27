@@ -1,3 +1,7 @@
+.. |br| raw:: html
+
+   <br />
+
 .. _Solid-Liquid-Phase-Change:
 
 Model of solidification and crystal growth
@@ -129,7 +133,7 @@ We consider at the melting temperature :math:`T_m`, the coexistence of a chemica
 Derivation of phase-field model
 -------------------------------
 
-The derivation of the phase-field model of solidification is inspired from :footcite:p:`Plapp_CISM2012`
+The derivation of the phase-field model of solidification is inspired from :footcite:p:`Plapp_CISM2012`. For derivation of crystal growth model see :footcite:p:`Karma-Rappel_PRE1996` and :footcite:p:`Karma-Rappel_PRE1998`.
 
 Free energy density :math:`\mathscr{F}`
 """""""""""""""""""""""""""""""""""""""
@@ -137,14 +141,14 @@ Free energy density :math:`\mathscr{F}`
 The Stefan's problem is a "sharp interface" modelling. Here, an equivalent diffuse interface is derived. We introduce a phase-field :math:`\psi=\pm1`: :math:`\psi=-1` in the solid phase and :math:`\psi=+1` in the liquid phase.
 
 .. figure:: ../../FIGS/04_FIGS_COURSES/Solidification-psi.png
-         :name: Fig-Solidification-Pheno
-         :figclass: align-center
-         :align: center
-         :height: 430
-         :width: 920
-         :scale: 40 %
+      :name: Fig-Solidification-Pheno
+      :figclass: align-center
+      :align: center
+      :height: 430
+      :width: 920
+      :scale: 40 %
 
-         Solidification
+      Solidification
 
 The free energy density is now the functional of two functions :math:`\psi` and :math:`T` 
 
@@ -459,24 +463,23 @@ Dependence of properties with normal vector :math:`\boldsymbol{n}\equiv\boldsymb
          
          W(\boldsymbol{n})=W_{0}{\color{red}a_{s}(\boldsymbol{n})}
 
-where the anisotropy function :math:`a_{s}(\boldsymbol{n})` depends on the shape of crystal we want to simulate. The simplest one is the equiaxe crystal of main directions [100]
+where the anisotropy function :math:`a_{s}(\boldsymbol{n})` depends on the shape of crystal we want to simulate. Two anisotropy functions are presented below for main growing directions [100] and [110].
 
 .. grid:: 2
    :gutter: 4
    :margin: 3 3 0 5
 
-   .. grid-item-card:: Definition of :math:`a_s(\boldsymbol{n})`
-      :columns: 6
+   .. grid-item-card:: Definition of :math:`a_s(\boldsymbol{n})` for [100] directions
+      :columns: 5
 
       .. math::
          :label: Def-as_n
 
          {\color{red}a_{s}(\boldsymbol{n})}=1+\epsilon_{s}\left[4(n_{x}^{4}+n_{y}^{4}+n_{z}^{4})-3\right]
 
-      where :math:`\epsilon` is a positive parameter.
+      where :math:`\epsilon_s` is a positive parameter.
 
-   .. grid-item::
-      :columns: 6
+      |br|
 
       .. figure:: ../../FIGS/04_FIGS_COURSES/As_SumQ.png
          :name: Fig-Anisotropy-Function
@@ -486,7 +489,27 @@ where the anisotropy function :math:`a_{s}(\boldsymbol{n})` depends on the shape
          :width: 920
          :scale: 20 %
       
-         Representation of anisotropy function :math:`a_s(\boldsymbol{n})`
+         Representation of Eq. :eq:`Def-as_n`
+
+   .. grid-item-card:: Definition of :math:`a_s(\boldsymbol{n})` for [110] directions
+      :columns: 7
+
+      .. math::
+         :label: Def-as_n_110
+
+         a_{s}(\boldsymbol{n})=1+\epsilon_{s}\left(\sum_{\alpha}n_{\alpha}^{4}-\frac{3}{5}\right)+\delta\left(3\sum_{\alpha}n_{\alpha}^{4}+66n_{x}^{2}n_{y}^{2}n_{z}^{2}-\frac{17}{7}\right)
+
+      where :math:`\epsilon_s` and :math:`\delta` are positive parameters.
+
+      .. figure:: ../../FIGS/04_FIGS_COURSES/As_Eps2_Fois_SumQ_Plus_66S.png
+         :name: Fig-Anisotropy-Function
+         :figclass: align-center
+         :align: center
+         :height: 720
+         :width: 920
+         :scale: 20 %
+      
+         Representation of Eq. :eq:`Def-as_n_110`
 
 
 .. admonition:: Phase-field model of crystal growth

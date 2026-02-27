@@ -5,8 +5,8 @@ Model of Navier-Stokes/Allen-Cahn/Composition interacting with a solid phase
 
 The previous :ref:`Math-NSAC-Comp` is extended here to interact with a solid phase which is described by a new function noted :math:`\psi`. In the input file, the problem name ``NSAC_Comp`` remains unchanged. The new function is taken into account through new sections and options in the input file.
 
-Mathematical model
-------------------
+Mathematical model for two-pĥase interacting with a solid
+---------------------------------------------------------
 
 As already said, in this model we introduce of a new field :math:`\psi\equiv\psi(\boldsymbol{x},t)` for solid phase. :math:`\phi` is the phase-field of the first fluid phase, whereas :math:`\varphi` is the phase-field of the second fluid phase. In that model :math:`\psi` is defined by its initial condition and evolves with a PDE, :math:`\phi` is defined by its initial condition and evolves with a PDE and :math:`\varphi` is obtained by the closure relationship:
 
@@ -77,8 +77,8 @@ As already said, in this model we introduce of a new field :math:`\psi\equiv\psi
    Let us mention that the composition equation remains unchanged in that version of model. Integration of :math:`\psi`: in that equation could be done in future work.
 
 
-Force terms
-^^^^^^^^^^^
+Force terms for two-phase interacting with a solid
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. admonition:: Force terms
    :class: caution
@@ -102,7 +102,7 @@ Force terms
          The gravity force is defined by
 
          .. math::
-            :label: Force_Gravity
+            :label: Force_Gravity_Solid
    
             \boldsymbol{F}_{g}=\varrho(\boldsymbol{\phi})\boldsymbol{g}
 
@@ -116,7 +116,7 @@ Force terms
       .. grid-item-card:: Capillary force
    
          .. math::
-            :label: Force_Capillary
+            :label: Force_Capillary_Solid
    
             \boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi+\mu_{\varphi}\boldsymbol{\nabla}\varphi+\mu_{\psi}\boldsymbol{\nabla}\psi
    
@@ -137,14 +137,14 @@ Closure relationships
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. math::
-   :label: Density_Total
+   :label: Density_Total_Solid
    
    \varrho=\phi\rho_1+\varphi\rho_2+\psi\rho_{s}
 
 where :math:`\rho_1` is the bulk density of first fluid phase, :math:`\rho_2` is the bulk density of second fluid phase, and :math:`\rho_s` is the solid density. The total viscosity :math:`\eta` is interpolated only with bulk properties of fluid phases:
 
 .. math::
-   :label: Viscosity_Total
+   :label: Viscosity_Total_Solid
    
    \frac{1}{\eta}=\frac{\phi}{\eta_1}+\frac{(1-\phi)}{\eta_2}
    
@@ -195,7 +195,7 @@ List of input parameters in ``.ini`` file
    
 **Section** ``[contact_angle]``
 
-   In ``.ini`` file, this section is necessary for calculating the three surface tension forces. By default, only the capillary forcce between both fluid phases is computed. If ``contact_angle=1``, then the two last forces of Eq. :eq:`Force_Capillary` are also computed.
+   In ``.ini`` file, this section is necessary for calculating the three surface tension forces. By default, only the capillary forcce between both fluid phases is computed. If ``contact_angle=1``, then the two last forces of Eq. :eq:`Force_Capillary_Solid` are also computed.
    
    - ``contact_angle=1``
    

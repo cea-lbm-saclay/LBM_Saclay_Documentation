@@ -72,7 +72,7 @@ Several forces are defined in ``NSAC_Comp`` kernel.
 The total force :math:`\boldsymbol{F}_{tot}` in Eq. :eq:`Impulsion_Balance_PhaseChange` is defined by
 
 .. math::
-   :label: Force_Total
+   :label: Force_Total_PhaseChange
    
    \boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}
    
@@ -86,14 +86,14 @@ where :math:`\boldsymbol{F}_{c}` is the capillary force, :math:`\boldsymbol{F}_{
       The capillary force :math:`\boldsymbol{F}_{c}` is defined by
 
       .. math::
-         :label: Force_Capillary
+         :label: Force_Capillary_PhaseChange
    
          \boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi
 
       where the chemical potential :math:`\mu_{\phi}` is defined by
 
       .. math::
-         :label: pot_chem_phi
+         :label: pot_chem_phi_PhaseChange
    
          \mu_{\phi}=\frac{3}{2}\sigma\left[\frac{16}{W}\phi(1-\phi)(1-2\phi)-W\boldsymbol{\nabla}^{2}\phi\right]
 
@@ -107,7 +107,7 @@ where :math:`\boldsymbol{F}_{c}` is the capillary force, :math:`\boldsymbol{F}_{
       The gravity force :math:`\boldsymbol{F}_{g}` is defined by
 
       .. math::
-         :label: Force_Gravity
+         :label: Force_Gravity_PhaseChange
    
          \boldsymbol{F}_{g}=\varrho(\phi,c)\boldsymbol{g}
 

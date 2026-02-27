@@ -14,7 +14,7 @@ In that section we introduce interface-tracking and interface-caputring methods 
    :width: 600
    :scale: 100 %
 
-   Overview of two-phase approaches based one one-fluid model.  The methods in orange boxes are introduced below whereas methods of blue boxes are in central part of this course. The image is inspired and adapted from reference [1]_.
+   Overview of two-phase approaches based one one-fluid model.  The methods in orange boxes are introduced below whereas methods of blue boxes are in central part of this course. The image is inspired and adapted from reference :footcite:p:`Mohan2024`.
 
 In order to run numerical simulations of two-phase flows, we need to set a specific **formulation** of fundamental equations (mass and impulsion balances) suited for two-phase flows. Two main families exist: the one-fluid formulation and the two-fluid formulation i.e. they are respectively based either on one-set or on two-set of Navier-Stokes equations. Here we detail only those based on **one-fluid formulation**, i.e. a single set of Navier-Stokes equations. Next a **numerical methods** must be chosen to solve the PDE with a computer. Several methods exist: the most popular ones are Finite Volumes (VF), Finite Elements (FE), Finite Differences (FD) or a combination of them. Other methods are based on the method of *Smoothed Particles Hydrodynamics* or *Lattice Boltzmann Methods*.
 
@@ -32,7 +32,7 @@ Interface-Tracking
 Front-Tracking (to be completed)
 """"""""""""""""""""""""""""""""
 
-This section is a summary of reference [2]_ and [3]_. That method in a one-fluid approach and considers the Navier-Stokes equations for two incompressible fluids. The mass balance writes:
+This section is a summary of reference :footcite:p:`Unverdi-Tryggvason_JCP1992` and :footcite:p:`Tryggvason_etal_JCP2001`. That method in a one-fluid approach and considers the Navier-Stokes equations for two incompressible fluids. The mass balance writes:
 
 .. math::
    
@@ -121,7 +121,7 @@ For two immiscible fluids without phase change, the Conservative Allen-Cahn mode
    
    \rho(\phi)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\eta(\phi)\left[\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right]+\rho(\phi)\boldsymbol{g}+\underbrace{\mu_{\phi}\boldsymbol{\nabla}\phi}_{\text{Surface tension force}}
 
-The surface tension force is the last term of Eq. :eq:`QDM-LevelSet_InterfaceTracking-Course`. Its equivalence with last term of Eq. :eq:`eq:QDM_Front-Tracking_TwoPhase-Course` is presented in :ref:`Model_iNS_with_PhaseField_Course` (Eq. :eq:`Proof-Equiv-Surface-Tension_NSAC`). The interface is captured by a levelset (or phase-field) function :math:`\phi` which obeys to the PDE: 
+The surface tension force is the last term of Eq. :eq:`QDM-LevelSet_InterfaceTracking-Course`. Its equivalence with last term of Eq. :eq:`eq:QDM_Front-Tracking_TwoPhase-Course` is presented in :bdg-ref-primary:`Model_iNS_with_PhaseField_Course` (Eq. :eq:`Proof-Equiv-Surface-Tension_NSAC`). The interface is captured by a levelset (or phase-field) function :math:`\phi` which obeys to the PDE: 
 
 .. math::
    :label: CAC_InterfaceTracking-Course
@@ -147,7 +147,7 @@ The impulsion balance equation makes appear the pressure tensor
 where :math:`\overline{\overline{\boldsymbol{P}}}` is the pressure tensor which is defined by
 
 .. math::
-   :label: Def_Pressure_Tensor_NSK_Course
+   :label:
    
    \overline{\overline{\boldsymbol{P}}}=\left[p^{eos}(\rho,T)-\kappa\rho\boldsymbol{\nabla}^{2}\rho-\frac{1}{2}\kappa\bigl|\boldsymbol{\nabla}\rho\bigr|^{2}\right]\overline{\overline{\boldsymbol{I}}}+\kappa\boldsymbol{\nabla}\rho\otimes\boldsymbol{\nabla}\rho
 
@@ -167,19 +167,13 @@ where The thermodynamic pressure which responsible for the phase separation of b
 and :math:`\overline{\overline{\boldsymbol{\varsigma}}}` is the Korteweg's tensor defined by 
 
 .. math::
-   :label: Def_Korteweg_Tensor
+   :label:
 
    \overline{\overline{\boldsymbol{\varsigma}}}=\left[ \rho\kappa\boldsymbol{\nabla}^2\rho+\frac{\kappa}{2}(\boldsymbol{\nabla}\rho)^2 \right]\overline{\overline{\boldsymbol{I}}}-\kappa \boldsymbol{\nabla}\rho \otimes \boldsymbol{\nabla}\rho
 
 which is responsible for the surface tension between both fluids.
 
 
-Bibliography
-------------
+.. footbibliography::
 
-.. [1] Mohan A. and G. Tomar, Volume of Fluid Method: A Brief Review. J. Indian Inst. Sci., VOL 104:1, pages 229–248, 2024. https://link.springer.com/article/10.1007/s41745-024-00424-w
-
-.. [2] Unverdi S.O., G. Tryggvason, A Front-Tracking Method for Viscous, Incompressible, Multi-fluid Flows. *Journal of Computational Physics*, 100, 25-37, 1992. https://doi.org/10.1016/0021-9991(92)90307-K
-
-.. [3] Tryggvason G., B. Bunner, A. Esmaeeli, D. Juric, N. Al-Rawahi, W. Tauber, J. Han, S. Nas, Y.-J. Jan, A Front-Tracking Method for the Computations of Multiphase Flow. *Journal of Computational Physics*, Volume 169, Issue 2, Pages 708-759, 20 May 2001. https://doi.org/10.1006/jcph.2001.6726
-
+.. sectionauthor:: Alain Cartalade

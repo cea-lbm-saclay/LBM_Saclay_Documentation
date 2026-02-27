@@ -3,8 +3,8 @@
 Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition
 ================================================================
 
-Introduction
-------------
+Introduction of kernel ``NSAC_Comp``
+------------------------------------
 
 .. admonition:: Basic model
    :class: warning
@@ -44,7 +44,7 @@ The mathematical model is composed of incompressible Navier-Stokes equations cou
    The impulsion balance equation writes:
 
    .. math::
-      :label: Impulsion_Balance
+      :label: Impulsion_Balance_CAC-Model
    
       \varrho(\phi,c)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\eta(\phi)\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\boldsymbol{F}_{tot}
 
@@ -88,10 +88,10 @@ The mathematical model is composed of incompressible Navier-Stokes equations cou
 
             .. grid-item-card:: Total force
 
-               The total force :math:`\boldsymbol{F}_{tot}` in Eq. :eq:`Impulsion_Balance` is defined by
+               The total force :math:`\boldsymbol{F}_{tot}` in Eq. :eq:`Impulsion_Balance_CAC-Model` is defined by
 
                .. math::
-                  :label: Force_Total
+                  :label: Force_Total_CAC-Model
    
                   \boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}+\boldsymbol{F}_{M}
 
@@ -102,7 +102,7 @@ The mathematical model is composed of incompressible Navier-Stokes equations cou
                The gravity force :math:`\boldsymbol{F}_{g}` is defined by
 
                .. math::
-                  :label: Force_Gravity
+                  :label: Force_Gravity_CAC-Model
    
                   \boldsymbol{F}_{g}=\varrho(\phi,c)\boldsymbol{g}
 
@@ -118,7 +118,7 @@ The mathematical model is composed of incompressible Navier-Stokes equations cou
                The capillary force :math:`\boldsymbol{F}_{c}` is defined by
 
                .. math::
-                  :label: Force_Capillary
+                  :label: Force_Capillary_CAC-Model
    
                   \boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi
 
@@ -136,7 +136,7 @@ The mathematical model is composed of incompressible Navier-Stokes equations cou
                The Marangoni force :math:`\boldsymbol{F}_{M}` is a surfacic gradient of :math:`\sigma(c)` defined by 
 
                .. math::
-                  :label: Force_Marangoni
+                  :label: Force_Marangoni_CAC-Model
    
                   \boldsymbol{F}_{M}=\frac{3W}{2}\left[\boldsymbol{\nabla}\sigma|\boldsymbol{\nabla}\phi|^{2}-\boldsymbol{\nabla}\phi(\boldsymbol{\nabla}\phi\cdot\boldsymbol{\nabla}\sigma)\right]
 
@@ -150,9 +150,6 @@ The mathematical model is composed of incompressible Navier-Stokes equations cou
    
                   \frac{d\sigma}{dc}=\sigma_{c}<0
 
-         .. grid:: 1
-
-            .. div:: sd-text-center
 
       .. admonition:: Source term of Eq. :eq:`CAC_Equation`
          :class: caution

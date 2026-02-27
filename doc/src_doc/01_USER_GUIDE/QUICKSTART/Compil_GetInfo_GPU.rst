@@ -36,7 +36,7 @@ Get information on Graphic card for Kokkos
    .. container:: sphinx-features
 
       .. table:: Example of web page
-         :name: Tab-NameGPU
+         :name: Tab-NameGPU-Ampere
          :widths: 35, 15, 15, 35
          :align: center
          :width: 70%

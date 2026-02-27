@@ -348,7 +348,7 @@ where :math:`c_b` is the initial bulk composition which is assumed identical in 
    c^{analytical}(x)=\frac{c_{b}^{0}}{c_{b}^{1}+exp\left\{ \beta\phi(1-\phi)\left[\frac{8\epsilon}{W^{2}}\phi(1-\phi)+\frac{k}{2}\right]\textcolor{red}{-2\beta\gamma\phi}\right\} }
 
 
-.. _target-Fig-Surfactant-C-Analytical:
+.. _target-Fig-Surfactant-C-Analytical-Asym:
    
    .. figure:: ../../FIGS/01_FIGS_VALIDATIONS/Surfactant-DeltaC-Analytical.png
       :figclass: align-center
@@ -364,8 +364,8 @@ where :math:`c_b` is the initial bulk composition which is assumed identical in 
 
    Those analytical solutions can be run in folders ``Analytical_Profile1`` and ``Analytical_Profile2`` of directory ``TestCase19_Surfactant``. The post-processing used version 5.12 of paraview.
 
-Examples of simulations with that model
----------------------------------------
+Examples of simulations with ``NSAC_Surfactant``
+------------------------------------------------
 
 **Rising bubble and falling droplet**
 

@@ -109,6 +109,7 @@ Next in your terminal
     .. code-block:: shell
 
        $ python Post-Pro_Lid_Driven_Cavity_Flow_Profile_Ux_y_Re1000.py
+
 Benchmark on cavity flow with Ghia et al (1982)
 
 .. container:: sphinx-features

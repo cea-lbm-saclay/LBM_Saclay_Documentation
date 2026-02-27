@@ -453,7 +453,7 @@ The central moment :math:`\boldsymbol{\kappa}` is obtained from distribution fun
 where the matrices :math:`\mathbb{M}` and :math:`\mathbb{M}_p` are defined by
 
 .. math::
-   :label: Def_Matrix_M
+   :label: Def_Matrix_M_CM
 
    \mathbb{M}=\left[\begin{array}{ccccccccc}
       1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\

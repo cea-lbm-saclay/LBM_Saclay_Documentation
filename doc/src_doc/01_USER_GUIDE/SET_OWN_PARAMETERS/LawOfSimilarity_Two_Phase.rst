@@ -1,7 +1,7 @@
 .. _Similarity-Two-Phases:
 
 Law of similarity: practice on Rayleigh-Taylor instability
------------------------------------------
+----------------------------------------------------------
 
 The Rayleigh-Taylor test case can be found in folder
 

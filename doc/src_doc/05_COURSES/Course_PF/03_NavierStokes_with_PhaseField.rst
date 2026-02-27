@@ -278,6 +278,8 @@ where :math:`\boldsymbol{u}` is the mean velocity, :math:`p_h` is the hydrodynam
 
    [\varrho(\phi)\boldsymbol{g}]=\frac{[\text{M}]}{[\text{L}]^3} \frac{[\text{L}]}{[\text{T}]^2}=\frac{[\text{F}]}{[\text{L}]^3}
 
+.. _Interpretation_mu_grad_phi:
+
 Interpretation of term :math:`\mu_{\phi}\boldsymbol{\nabla}\phi`
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -286,7 +288,7 @@ Interpretation of term :math:`\mu_{\phi}\boldsymbol{\nabla}\phi`
    The capillary force :math:`\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi` has been formulated in :footcite:p:`Brackbill_etal_JCP1992` and :footcite:p:`Jacqmin_JCP1999`. That form is equivalent to the surface tension force :math:`-\delta_d \sigma \kappa \boldsymbol{n}_{\phi}` where :math:`\kappa` is the curvature, :math:`\sigma` is the surface tension, :math:`\boldsymbol{n}_{\phi}` is the normal vector at the interface and :math:`\delta_d` is the Kronecker's symbol but expressed in the phase-field framework, i.e. with a diffuse interface:
 
    .. math::
-      :label:
+      :label: Proof-Equiv-Surface-Tension_NSAC
 
       \boldsymbol{F}_{c}=\mu_{\phi}\boldsymbol{\nabla}\phi=-\delta_{d}\sigma\kappa\boldsymbol{n}_{\phi}\hspace{1cm}\text{with}\hspace{1cm}\delta_{d}=\frac{3}{2}W\left|\boldsymbol{\nabla}\phi\right|^{2}
 

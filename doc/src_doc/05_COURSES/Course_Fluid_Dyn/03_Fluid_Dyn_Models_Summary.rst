@@ -19,12 +19,12 @@ Low Mach Navier-Stokes
 ^^^^^^^^^^^^^^^^^^^^^^
 
 .. math::
-   :label: Mass_Balance
+   :label: Mass_Balance_Fluid_Dyn
 
    \partial_{t}\rho+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0
 
 .. math::
-   :label: Impulsion_Balance
+   :label: Impulsion_Balance_Fluid_Dyn
    
    \partial_{t}(\rho\boldsymbol{u})+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}p+\boldsymbol{\nabla}\cdot\left[\eta(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})+\left(\eta_{B}-\frac{2}{3}\eta\right)(\boldsymbol{\nabla}\cdot\boldsymbol{u})\boldsymbol{I}\right]+\boldsymbol{F}
 
@@ -42,13 +42,13 @@ Incompressible Navier-Stokes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. math::
-   :label: Incompr_MB
+   :label: Incompr_MB_Fluid_Dyn
    
    \boldsymbol{\nabla}\cdot\boldsymbol{u}=0
 
 
 .. math::
-   :label: Incompr_NS
+   :label: Incompr_NS_Fluid_Dyn
 
    \rho_{0}\left[\partial_{t}\boldsymbol{u}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\rho_{0}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\boldsymbol{F}
 
@@ -61,21 +61,21 @@ Advection-Diffusion equations
 **Levelset or phase-field equations**
 
 .. math::
-   :label: PF_Eq
+   :label: PF_Eq_Fluid_Dyn
 
    \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}\right)\right]
 
 where the unknown is the phase-field :math:`\phi\equiv\phi(\boldsymbol{x},t)` and the inputs are the fluid velocity :math:`\boldsymbol{u}` and two parameters: the interface mobility :math:`M_{\phi}` and the interface width :math:`W`. The unit normal vector of interface is defined by
 
 .. math::
-   :label: Def_Normal
+   :label: Def_Normal_Fluid_Dyn
    
    \boldsymbol{n}\equiv\boldsymbol{n}(\boldsymbol{x},t)=\frac{\boldsymbol{\nabla}\phi}{\bigl|\boldsymbol{\nabla}\phi\bigr|}
 
 **Advection-Diffusion Equation (ADE)**
 
 .. math::
-   :label: ADE
+   :label: ADE_Fluid_Dyn
 
    C_{p}\frac{\partial T}{\partial t}+\boldsymbol{\nabla}\cdot(T\boldsymbol{u})=\boldsymbol{\nabla}\cdot(\kappa\boldsymbol{\nabla}T)+\mathscr{S}_{T}
 

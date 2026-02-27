@@ -74,7 +74,7 @@ The mathematical model of dissolution is derived in :footcite:p:`Boutin_etal_CMS
    where :math:`c` is the composition, :math:`D_l` is the diffusion coefficient in the liquid phase. The flux is given by the gradient of chemical potential. It is related to the composition by:
 
    .. math::
-      :label: Chemical_Potential
+      :label: Chemical_Potential_Dissolution
 
       \overline{\mu}=\overline{\mu}^{eq}+c(\phi,\,\overline{\mu})-\left[c_{l}^{eq}\phi+c_{s}^{eq}\left(1-\phi\right)\right]
 

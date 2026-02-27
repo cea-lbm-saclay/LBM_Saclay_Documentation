@@ -19,8 +19,9 @@ STMF Publications with LBM
 
    .. admonition:: LBM for crystal growth
 
-      [P4]_ [P5]_ [p1]_ [T1]_ |br|
-      [R4]_ [R5]_ [R6]_ [R7]_
+      [P4]_ [P5]_ [T1]_ [proc1]_ |br|
+      [R4]_ [R5]_ [R6]_ [R7]_ |br|
+      
 
    |br|
       
@@ -125,7 +126,7 @@ International journals
 Peer-reviewed proceeding
 ------------------------
 
-.. [p1] Younsi A., A. Cartalade, M. Quintard, Lattice Boltzmann Simulations for Anisotropic Crystal Growth of a Binary Mixture. Proceeding of The 15th International Heat Transfer Conference (IHTC-15), 9 pages, 10-15 Aug. Kyoto, paper 9797, ISBN: 978-1-56700-421-2. **2014**. :bdg-link-success-line:`http://dx.doi.org/10.1615/IHTC15.cpm.009797`
+.. [proc1] Younsi A., A. Cartalade, M. Quintard, Lattice Boltzmann Simulations for Anisotropic Crystal Growth of a Binary Mixture. Proceeding of The 15th International Heat Transfer Conference (IHTC-15), 9 pages, 10-15 Aug. Kyoto, paper 9797, ISBN: 978-1-56700-421-2. **2014**. :bdg-link-success-line:`http://dx.doi.org/10.1615/IHTC15.cpm.009797`
 
 
 List of PhD thesis and HDR
