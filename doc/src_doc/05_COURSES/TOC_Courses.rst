@@ -17,9 +17,9 @@ PART V: course reminders
 
       ./Course_PF/TOC_Phase-Field.rst
 
-.. admonition:: Thermodynamics of phase transition
+.. admonition:: Phase-field models for phase transition
 
    .. toctree::
       :maxdepth: 2
       
-      ./Thermo-PhaseTransition/Thermodynamic_Of_PhaseTransition.rst
+      ./Thermo-PhaseTransition/TOC_PhaseField_For_PhaseTransition.rst

@@ -25,16 +25,9 @@ Basic concepts of phase-field theory: two-phase
 
       ./03_NavierStokes_with_PhaseField.rst
 
-.. admonition:: Navier-Stokes/Korteweg model
-
-   .. toctree::
-      :maxdepth: 2
-
-      ./04_NavierStokes_Korteweg.rst
-
 .. admonition:: Contact angle
 
    .. toctree::
       :maxdepth: 2
 
-      ./05_Contact_Angle.rst
+      ./04_Contact_Angle.rst

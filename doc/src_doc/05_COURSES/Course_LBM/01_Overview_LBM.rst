@@ -3,7 +3,7 @@
 Overview of Lattice Boltzmann Methods
 =====================================
 
-This part is a quick introduction to the Lattice Boltzmann Method.  More details on the origin and the theoretical aspects of the method can be found in reference [1]_.
+This part is a quick introduction to the Lattice Boltzmann Method.  More details on the origin and the theoretical aspects of the method can be found in reference :footcite:p:`BookLBM2017`.
 
 More details of numerical methods that are implemented in LBM_Saclay will be found in the pages below.
 
@@ -37,7 +37,7 @@ where :math:`\lambda` is the collision time. Eq. :eq:`Boltzmann_Eq`, computes th
 
 Those macroscopic quantities are called the moments of the distribution function :math:`f(\boldsymbol{x},\boldsymbol{c},t)`.
 
-For more details on the origin of the Boltzmann equation and the physical interpretation of distribution function see reference [2]_.
+For more details on the origin of the Boltzmann equation and the physical interpretation of distribution function see reference :footcite:p:`Bird_1994`.
 
 Discretization of velocity space
 --------------------------------
@@ -279,12 +279,7 @@ The algorithm is extremely simple and it can be summarized into three main stage
 Chapman-Enskog expansion
 ------------------------
 
-The link between the discrete Boltzmann equation with the macroscopic Navier-Stokes equations is performed with a mathematical procedure of asymptotic expansions called the Chapman-Enskog expansion. Details of those expansions can be founds in the link below.
-
-.. toctree::
-   :maxdepth: 1
-
-   ./05_Chapman-Enskog.rst
+The link between the discrete Boltzmann equation with the macroscopic Navier-Stokes equations is performed with a mathematical procedure of asymptotic expansions called the Chapman-Enskog expansion. Details of those expansions can be founds in :bdg-ref-primary:`Chapman-Enskog-Expansions`.
 
 The starting point is the algorithm Eq. :eq:`LBE` -- :eq:`Update_Moment_O1`. Once the Chapman-Enskog expansion is performed, the procedure recovers the following macroscopic equations:
 
@@ -311,13 +306,11 @@ Variable change in LBE with a source term
 .. toctree::
    :maxdepth: 1
 
-   ./04_Variable_Change.rst
+   ./03_Variable_Change.rst
 
-Bibliography
-------------
+References
+----------
 
-.. [1] Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva, E. Viggen, The Lattice Boltzmann Method: Principles and Practice, Graduate Texts in Physics, Springer, 2016.
-
-.. [2] Bird G.A., Molecular Gas Dynamics and the Direct Simulation of Gas Flows, Oxford Engineering Science Series, 1994.
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
