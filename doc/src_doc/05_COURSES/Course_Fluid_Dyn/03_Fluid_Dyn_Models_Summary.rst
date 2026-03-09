@@ -15,8 +15,8 @@ water.
 
 In the rest of this section, two popular models of Navier-Stokes equations are detailed for :math:`Ma\ll1`. The first one is the “low Mach model” and the second one is the incompressible model.
 
-Low Mach Navier-Stokes
-^^^^^^^^^^^^^^^^^^^^^^
+Isothermal compressible Navier-Stokes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. math::
    :label: Mass_Balance_Fluid_Dyn
