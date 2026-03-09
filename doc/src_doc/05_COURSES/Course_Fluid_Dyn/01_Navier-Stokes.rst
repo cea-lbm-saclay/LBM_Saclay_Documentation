@@ -250,10 +250,8 @@ For chapman-Enskog expansions, the algebraic calculations are performed with ind
 .. math::
    :label:
 
-   \begin{eqnarray}
-   \partial_{\alpha}(\rho u_{\alpha}) & := & \partial_{x}(\rho u_{x})+\partial_{y}(\rho u_{y})+\partial_{z}(\rho u_{z})\\
-   & := & \boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})
-   \end{eqnarray}
+   \partial_{\alpha}(\rho u_{\alpha}) &:=\partial_{x}(\rho u_{x})+\partial_{y}(\rho u_{y})+\partial_{z}(\rho u_{z})\\
+   &:=\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})
 
 .. math::
    :label: Mass-Balance-Eq-Index_NS-Course
