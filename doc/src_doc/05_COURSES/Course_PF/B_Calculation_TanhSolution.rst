@@ -6,7 +6,7 @@ Appendix B: solutions of one-dimensional Euler-Lagrange
 In this appendix we detail the main stages to obtain the solution of:
 
 .. math::
-   :label: Euler_Lagrange_1D
+   :label: Euler_Lagrange_1D_Appendix
 
    \zeta\frac{d^{2}\phi}{dx^{2}}-H\frac{dg(\phi)}{d\phi}=0
 
@@ -15,7 +15,7 @@ We demonstrate that the solution has a hyperbolic tangent profile for several ch
 Equivalent form of 1D Euler-Lagrange
 ------------------------------------
 
-First, we multiply Eq. :eq:`Euler_Lagrange_1D` by :math:`d\phi/dx`:
+First, we multiply Eq. :eq:`Euler_Lagrange_1D_Appendix` by :math:`d\phi/dx`:
 
 .. math::
    :label:

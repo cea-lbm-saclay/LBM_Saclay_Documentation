@@ -172,8 +172,8 @@ Those results will be used in calculations of following section.
 
 When we seek to simulate a specific macroscopic PDE, we need to establish the equilibrium distribution function :math:`f_{i}^{(0)}` and the number of moving directions, such as the moments of order zero and one :math:`f_{i}^{(0)}` are equal to conserved macroscopic quantities.
 
-Chapman-Enskog expansion
-------------------------
+Details of Chapman-Enskog expansion
+-----------------------------------
 
 First part: Taylor's expansion and scale separation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

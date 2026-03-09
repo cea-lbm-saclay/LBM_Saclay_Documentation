@@ -3,33 +3,23 @@
 Phase-field models for phase transition
 =======================================
 
-.. admonition:: Models of solid/liquid phase change
+.. admonition:: Models of solid/liquid phase change without fluid flow
 
    .. toctree::
       :maxdepth: 2
 
       ./01_Phase_Change_Models.rst
-
-.. admonition:: Navier-Stokes/Korteweg model
-
-   .. toctree::
-      :maxdepth: 2
-
-      ./02_NavierStokes_Korteweg.rst
-
-.. admonition:: Mass transfer through interfaces
-
-   .. toctree::
-      :maxdepth: 2
-
+      ./02_Dissolution.rst
       ./03_Mass_Transfer.rst
+      
 
-.. admonition:: Incompressible Liquid-Gas phase change
+.. admonition:: Liquid/gas phase change with fluid flows
 
    .. toctree::
       :maxdepth: 2
 
-      ./04_Liquid_Gas_Phase_Change.rst
+      ./04_NavierStokes_Korteweg.rst
+      ./05_Liquid_Gas_Phase_Change.rst
 
 
 

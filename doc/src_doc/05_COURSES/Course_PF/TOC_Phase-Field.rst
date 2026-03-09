@@ -25,9 +25,17 @@ Basic concepts of phase-field theory: two-phase
 
       ./03_NavierStokes_with_PhaseField.rst
 
-.. admonition:: Contact angle
+.. admonition:: Contact angle and Marangoni force
 
    .. toctree::
       :maxdepth: 2
 
-      ./04_Contact_Angle.rst
+      ./04_Marangoni_and_Contact_Angle.rst
+
+.. admonition:: Two-phase with surfactant
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./05_Two_Phase_With_Surfactant.rst
+

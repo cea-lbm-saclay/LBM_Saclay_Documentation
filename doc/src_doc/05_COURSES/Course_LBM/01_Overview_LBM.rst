@@ -15,9 +15,9 @@ Continuous Boltzmann equation
 At mesoscopic level, a collection of particles can be described by a distribution function of particles :math:`f(\boldsymbol{x},\boldsymbol{c},t)` which is a function of position :math:`\boldsymbol{x}`, microscopic speeds :math:`\boldsymbol{c}` and time :math:`t`. Its evolution in time and space obeys to the continuous Boltzmann equation:
 
 .. math::
-   :label: Boltzmann_Eq
+   :label: Boltzmann-Eq
    
-   \frac{\partial f}{\partial t}+\boldsymbol{c}\cdot\boldsymbol{\nabla}f+\boldsymbol{F}\cdot\boldsymbol{\nabla}_{\boldsymbol{c}}f=\Omega(f,f^{eq})\label{eq:Boltzmann_Eq}
+   \frac{\partial f}{\partial t}+\boldsymbol{c}\cdot\boldsymbol{\nabla}f+\boldsymbol{F}\cdot\boldsymbol{\nabla}_{\boldsymbol{c}}f=\Omega(f,f^{eq})
 
 which is a transport equation where :math:`\boldsymbol{F}` is the external force and :math:`\Omega(f,f^{eq})` is the collision operator that relaxes the distribution function :math:`f` toward an equilibrium :math:`f^{eq}`. For the classical Batnaghar-Gross-Krook (**BGK**) approximation, that collision operator simply writes:
 
@@ -26,7 +26,7 @@ which is a transport equation where :math:`\boldsymbol{F}` is the external force
    
     \Omega(f,f^{eq})\sim-\frac{1}{\lambda}\left[f-f^{eq}\right]
 
-where :math:`\lambda` is the collision time. Eq. :eq:`Boltzmann_Eq`, computes the evolution of the distribution function :math:`f` in space and time. The macrosopic quantities such as the density :math:`\rho`, impulsion :math:`\rho\boldsymbol{u}` and energy :math:`\rho\varepsilon` can be derived from that distribution function by integration over the velocity space:
+where :math:`\lambda` is the collision time. Eq. :eq:`Boltzmann-Eq`, computes the evolution of the distribution function :math:`f` in space and time. The macrosopic quantities such as the density :math:`\rho`, impulsion :math:`\rho\boldsymbol{u}` and energy :math:`\rho\varepsilon` can be derived from that distribution function by integration over the velocity space:
 
 .. math::
 
@@ -42,7 +42,7 @@ For more details on the origin of the Boltzmann equation and the physical interp
 Discretization of velocity space
 --------------------------------
 
-Eq. :eq:`Boltzmann_Eq` must be discretized for :math:`\boldsymbol{x}`, :math:`\boldsymbol{c}` and :math:`t`. After discretization of the velocity space with a finite number of speeds, :math:`\boldsymbol{c}` becomes :math:`\boldsymbol{c}_i` where :math:`i` is the index of velocity varying between :math:`0` and the total number of speeds :math:`N`. The discrete distribution function :math:`f(\boldsymbol{x},\boldsymbol{c}_i,t)` is noted :math:`f_i(\boldsymbol{x},t)`.
+Eq. :eq:`Boltzmann-Eq` must be discretized for :math:`\boldsymbol{x}`, :math:`\boldsymbol{c}` and :math:`t`. After discretization of the velocity space with a finite number of speeds, :math:`\boldsymbol{c}` becomes :math:`\boldsymbol{c}_i` where :math:`i` is the index of velocity varying between :math:`0` and the total number of speeds :math:`N`. The discrete distribution function :math:`f(\boldsymbol{x},\boldsymbol{c}_i,t)` is noted :math:`f_i(\boldsymbol{x},t)`.
 
 **Discrete velocity space**
 
@@ -175,7 +175,7 @@ Lattice Boltzmann Equation (LBE)
 Once the Boltzmann equation is discretized in space and time the following Lattice Boltzmann Equation (**LBE**) is obtained:
 
 .. math::
-   :label: LBE
+   :label: LBE-Overview
    
    f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]
 
@@ -229,7 +229,7 @@ Explicit algorithm
 
 The algorithm is extremely simple and it can be summarized into three main stages:
 
-#. Collision: :math:`f_{i}(\boldsymbol{x},t)\rightarrow f_{i}^{\star}(\boldsymbol{x},t)` (right-hand side of Eq. :eq:`LBE`)
+#. Collision: :math:`f_{i}(\boldsymbol{x},t)\rightarrow f_{i}^{\star}(\boldsymbol{x},t)` (right-hand side of Eq. :eq:`LBE-Overview`)
 
 #. Streaming: :math:`f_{i}^{\star}(\boldsymbol{x},t)\rightarrow f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)` (left-hand side)
 

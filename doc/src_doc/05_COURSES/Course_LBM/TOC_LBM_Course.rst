@@ -3,8 +3,6 @@
 Basic concepts of Lattice Boltzmann Methods
 ===========================================
 
-.. admonition:: Main PDEs
-
 .. admonition:: Overview of LBM
 
    .. toctree::

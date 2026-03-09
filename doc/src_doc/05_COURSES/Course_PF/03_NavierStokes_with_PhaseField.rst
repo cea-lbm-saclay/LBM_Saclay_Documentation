@@ -36,9 +36,14 @@ Mass balance & interface equation
    A mass balance for each local density yields
 
    .. math::
-      :label: Mass_Balance_TwoPhase_Course
+      :label: Mass_Balance_rhoA
 
-      \frac{\partial\varrho_{A}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{A}\boldsymbol{u}+\rho_{A}\boldsymbol{j}_{A})&=-\dot{m}'''\\\frac{\partial\varrho_{B}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{B}\boldsymbol{u}+\rho_{B}\boldsymbol{j}_{B})&=+\dot{m}'''
+      \frac{\partial\varrho_{A}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{A}\boldsymbol{u}+\rho_{A}\boldsymbol{j}_{A})=-\dot{m}'''
+      
+   .. math::
+      :label: Mass_Balance_rhoB
+
+      \frac{\partial\varrho_{B}}{\partial t}+\boldsymbol{\nabla}\cdot(\varrho_{B}\boldsymbol{u}+\rho_{B}\boldsymbol{j}_{B})=+\dot{m}'''
 
    where :math:`\varrho_{B}\boldsymbol{u}` and :math:`\varrho_{A}\boldsymbol{u}` are two advective fluxes and :math:`\rho_{A}\boldsymbol{j}_{A}` and :math:`\rho_{B}\boldsymbol{j}_{B}` are two diffusive fluxes. Here we assume that :math:`\boldsymbol{j}_{A}` and :math:`\boldsymbol{j}_{B}` are equal and opposite:
 

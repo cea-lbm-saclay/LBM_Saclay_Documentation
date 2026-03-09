@@ -10,7 +10,7 @@ PART V: course reminders
 
       ./Course_LBM/TOC_LBM_Course.rst
 
-.. admonition:: Phase-field theory
+.. admonition:: Basic concepts of phase-field theory
 
    .. toctree::
       :maxdepth: 2

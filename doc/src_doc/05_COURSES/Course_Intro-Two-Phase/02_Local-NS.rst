@@ -6,7 +6,7 @@ Local and instantaneous Navier-Stokes equations
 Two-fluid formulation without phase-change
 ------------------------------------------
 
-That section is a summary of [1]_ (section 3.2 page 205). We consider a control volume :numref:`Fig-Volume-Control` with two fluids of index 1 and 2 seprated by one interface. The volume of each fluid is :math:`V_k` with :math:`k=1,2`, the surrounding surface is noted :math:`A_k` and the surface of separation is :math:`A_i` where the index :math:`i` means *interface*.
+That section is a summary of :footcite:p:`Delhaye_2008` (section 3.2 page 205). We consider a control volume :numref:`Fig-Volume-Control` with two fluids of index 1 and 2 seprated by one interface. The volume of each fluid is :math:`V_k` with :math:`k=1,2`, the surrounding surface is noted :math:`A_k` and the surface of separation is :math:`A_i` where the index :math:`i` means *interface*.
 
 .. _Fig-Volume-Control:
    
@@ -118,10 +118,10 @@ One-fluid formulation for incompressible fluids
 In one-fluid formulation, there are only one mean velocity :math:`\boldsymbol{u}` and one mean pressure for two fluids of bulk densities :math:`\rho_1` and :math:`\rho_2` and dynamic viscosity :math:`\eta_1` and :math:`\eta_2`. We must introduce a new numerical quantity to track the interface and respect the jump conditions.
 
 
-Bibliography
-------------
+References
+----------
 
-.. [1] Delhaye J.M., Thermohydraulique des réacteurs, Collection Génie Atomique, INSTN, EDP Sciences, 2008.
+.. footbibliography::
 
-.. [2] Andrea Prosperetti. Motion of two superposed viscous fluids. The Physics of Fluids, 24(7):1217–1223, 07 1981. URL: https://doi.org/10.1063/1.863522.
+.. sectionauthor:: Alain Cartalade
 
