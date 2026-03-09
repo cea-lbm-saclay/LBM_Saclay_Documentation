@@ -251,26 +251,26 @@ The algorithm is extremely simple and it can be summarized into three main stage
    Finally, once the lattice is defined, the Navier-Stokes solver using the lattice Boltzmann method consists in a succession of collision and streaming:
 
    .. math::
-      :label: LBE_Overview
+      :label: LBE-Overview-Algo
    
       f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]
 
    where the equilibrium distribution function is defined by
 
    .. math::
-      :label: Feq_NS-Overview-LBM
+      :label: Feq-NS-Overview-LBM-Algo
    
       f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\rho\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right]
 
    Once those two stages are performed, the density and impulsion are updated with the relationships:
 
    .. math::
-      :label: Update_Moment_O0
+      :label: Update-Moment-O0-Algo
    
       \rho(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)
    
    .. math::
-      :label: Update_Moment_O1
+      :label: Update-Moment-O1-Algo
    
       \rho(\boldsymbol{x},t)\boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}
 
@@ -281,7 +281,7 @@ Chapman-Enskog expansion
 
 The link between the discrete Boltzmann equation with the macroscopic Navier-Stokes equations is performed with a mathematical procedure of asymptotic expansions called the Chapman-Enskog expansion. Details of those expansions can be founds in :bdg-ref-primary:`Chapman-Enskog-Expansions`.
 
-The starting point is the algorithm Eq. :eq:`LBE` -- :eq:`Update_Moment_O1`. Once the Chapman-Enskog expansion is performed, the procedure recovers the following macroscopic equations:
+The starting point is the algorithm Eq. :eq:`LBE-Overview-Algo` -- :eq:`Update-Moment-O1-Algo`. Once the Chapman-Enskog expansion is performed, the procedure recovers the following macroscopic equations:
 
 .. admonition:: Equivalent macroscopic PDE with the condition :math:`\bigl|\boldsymbol{u}\bigr|\ll c_{s}`
    :class: error
