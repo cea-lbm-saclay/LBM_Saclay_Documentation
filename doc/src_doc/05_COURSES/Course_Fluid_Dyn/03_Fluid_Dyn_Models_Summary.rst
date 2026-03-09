@@ -19,19 +19,19 @@ Isothermal compressible Navier-Stokes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. math::
-   :label: Mass_Balance_Fluid_Dyn
+   :label: Mass-Balance-Fluid-Dyn
 
    \partial_{t}\rho+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u})=0
 
 .. math::
-   :label: Impulsion_Balance_Fluid_Dyn
+   :label: Impulsion-Balance-Fluid-Dyn
    
    \partial_{t}(\rho\boldsymbol{u})+\boldsymbol{\nabla}\cdot(\rho\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}p+\boldsymbol{\nabla}\cdot\left[\eta(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})+\left(\eta_{B}-\frac{2}{3}\eta\right)(\boldsymbol{\nabla}\cdot\boldsymbol{u})\boldsymbol{I}\right]+\boldsymbol{F}
 
 where :math:`\rho\equiv\rho(\boldsymbol{x},t)` is the fluid density, :math:`\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)` is the
 fluid velocity, :math:`p\equiv p(\boldsymbol{x},t)` is the pressure, :math:`\eta=\rho\nu` is the dynamic viscosity and :math:`\nu` is the
 kinematic viscosity, :math:`\eta_{B}` is the bulk viscosity and :math:`\boldsymbol{I}` is the identity tensor. In Eq.
-:eq:`Impulsion_Balance`, :math:`\boldsymbol{F}` is the force term and for isothermal fluid, the system is closed by the Equation of State
+:eq:`Impulsion-Balance-Fluid-Dyn`, :math:`\boldsymbol{F}` is the force term and for isothermal fluid, the system is closed by the Equation of State
 (EoS)
 
 .. math:: p=\rho RT_{0}
@@ -42,13 +42,13 @@ Incompressible Navier-Stokes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. math::
-   :label: Incompr_MB_Fluid_Dyn
+   :label: Incompr-MB-Fluid-Dyn
    
    \boldsymbol{\nabla}\cdot\boldsymbol{u}=0
 
 
 .. math::
-   :label: Incompr_NS_Fluid_Dyn
+   :label: Incompr-NS-Fluid-Dyn
 
    \rho_{0}\left[\partial_{t}\boldsymbol{u}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\rho_{0}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\boldsymbol{F}
 
@@ -89,25 +89,35 @@ Boundary Conditions (BC)
 
 Dirichlet BC
 
-.. math:: \boldsymbol{u}(\boldsymbol{x}_{b},t)=\boldsymbol{U}_{b}(\boldsymbol{x}_{b},t)
+.. math::
+   
+   \boldsymbol{u}(\boldsymbol{x}_{b},t)=\boldsymbol{U}_{b}(\boldsymbol{x}_{b},t)
 
-.. math:: (\boldsymbol{u}-\boldsymbol{U}_{b})\cdot\boldsymbol{n}_{w}=0
+.. math::
+   
+   (\boldsymbol{u}-\boldsymbol{U}_{b})\cdot\boldsymbol{n}_{w}=0
 
-.. math:: (\boldsymbol{u}-\boldsymbol{U}_{b})\cdot\boldsymbol{t}_{w}=0\qquad\text{(no-slip)}
+.. math:: 
+
+   (\boldsymbol{u}-\boldsymbol{U}_{b})\cdot\boldsymbol{t}_{w}=0\qquad\text{(no-slip)}
 
 where :math:`\boldsymbol{n}_{w}` is normal boundary vector and
 :math:`\boldsymbol{t}_{w}` tangential boundary vector (:math:`w`: wall)
 
 Neumann BC
 
-.. math:: \boldsymbol{n}_{w}\cdot\boldsymbol{\sigma}(\boldsymbol{x}_{b},t)=\boldsymbol{T}_{b}(\boldsymbol{x}_{b},t)
+.. math::
+   
+   \boldsymbol{n}_{w}\cdot\boldsymbol{\sigma}(\boldsymbol{x}_{b},t)=\boldsymbol{T}_{b}(\boldsymbol{x}_{b},t)
 
 
 **For ADE**
 
 A generic formulation of bounday conditions for ADE writes:
 
-.. math:: a_{1}\left.\frac{\partial f}{\partial n}\right|_{\boldsymbol{x}_{b},t}+a_{2}f(\boldsymbol{x}_{b},t)=a_{3}
+.. math::
+   
+   a_{1}\left.\frac{\partial f}{\partial n}\right|_{\boldsymbol{x}_{b},t}+a_{2}f(\boldsymbol{x}_{b},t)=a_{3}
 
 where :math:`f` is the differentiable function (here :math:`\phi` or
 :math:`T`), and :math:`a_{1}`, :math:`a_{2}`, :math:`a_{3}` three scalar
