@@ -44,7 +44,7 @@ où :math:`\overline{q}(t)` est une trajectoire arbitraire, :math:`q(t)` la traj
 En appliquant l'opérateur :math:`\delta` à :math:`\mathcal{L}(q(t),\dot{q(t)})` et en effectuant un développement de Taylor pour le premier terme, on obtient :
 
 .. math::
-   :label:
+   :label: 
 
    \delta\mathcal{L} &=\mathcal{L}\left(\overline{q}(t),\,\dot{\overline{q}}(t)\right)-\mathcal{L}\left(q(t),\dot{q}(t)\right)\\
 	& =\mathcal{L}\left(q(t)+\delta q(t),\,\dot{q}(t)+\delta\dot{q}(t)\right)-\mathcal{L}\left(q(t),\,\dot{q}(t)\right)\\
@@ -56,12 +56,12 @@ En appliquant l'opérateur :math:`\delta` à :math:`\mathcal{L}(q(t),\dot{q(t)})
 Avec ces définitions, en appliquant l'opérateur \delta à l'équation Eq. :eq:`Def-Action-LeastAction`, on obtient (on peut montrer que l'opérateur \delta commute avec l'intégrale) :
 
 .. math::
-   :label:
+   :label: Variation-Action-LeastAction
 
    \delta\mathscr{S}	&=\int_{t_{1}}^{t_{2}}\delta\mathcal{L}(q(t),\,\dot{q}(t))dt\\
 	   &=\int_{t_{1}}^{t_{2}}\left[\frac{\partial\mathcal{L}}{\partial q}\delta q+\frac{\partial\mathcal{L}}{\partial\dot{q}}\delta\dot{q}\right]dt
 
-On intègre par partie le second terme de l'Eq. ([eq:Variation_Action-2]) :
+On intègre par partie le second terme de l'Eq. :eq:`Variation-Action-LeastAction` :
 
 .. math::
    :label:
