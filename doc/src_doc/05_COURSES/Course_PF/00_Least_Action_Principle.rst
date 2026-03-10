@@ -11,7 +11,7 @@ Action :math:`\mathscr{S}` et Lagrangien :math:`\mathcal{L}`
 On considère une particule caractérisée par deux fonctions qui dépendent de l'unique variable indépendante :math:`t` (le temps) : la position :math:`q(t)` et la vitesse :math:`\dot{q}(t)\equiv dq(t)/dt`. On définit un Lagrangien :math:`\mathcal{L}`, une fonctionnelle qui dépend de ces deux fonctions :math:`\mathcal{L}(q(t),\,\dot{q}(t))` et son action :math:`\mathscr{S}` qui est définie par l'intégrale en temps du Lagrangien :
 
 .. math::
-   :label: Def_Action
+   :label: Def-Action-LeastAction
 
    \mathscr{S}[q]=\int_{t_{1}}^{t_{2}}\mathcal{L}(q(t),\,\dot{q}(t))dt
 
@@ -53,7 +53,7 @@ En appliquant l'opérateur :math:`\delta` à :math:`\mathcal{L}(q(t),\dot{q(t)})
 Équations d'Euler-Lagrange
 --------------------------
 
-Avec ces définitions, en appliquant l'opérateur \delta à l'équation Eq. ([eq:ActionS-1]), on obtient (on peut montrer que l'opérateur \delta commute avec l'intégrale) :
+Avec ces définitions, en appliquant l'opérateur \delta à l'équation Eq. :eq:`Def-Action-LeastAction`, on obtient (on peut montrer que l'opérateur \delta commute avec l'intégrale) :
 
 .. math::
    :label:
