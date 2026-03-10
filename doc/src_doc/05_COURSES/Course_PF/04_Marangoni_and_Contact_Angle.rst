@@ -9,9 +9,9 @@ Contact angle
 Law of Young-Dupré
 """"""""""""""""""
 
-.. admonition:: Law of Young-Dupré
+When a liquid (phase :math:`L`) and a gas (phase :math:`G`) are in contact with a solid wall, there is an equilibrium angle :math:`\theta^{eq}` corresponding to the equilibrium of three capillary forces :math:`\vec{\sigma}_{Ls}` the capillary force between Liquid and solid, :math:`\vec{\sigma}_{Gs}` the capillary force between Gas and solid, and :math:`\vec{\sigma}_{LG}` the capillary force between Liquid and Gas (see Fig. :numref:`Contact-Angle-Concept`). The contact angle :math:`\theta^{eq}` can be expressed with the three surface tensions by the Young-Dupré law. Its derivation (see :footcite:p:`DeGennes_etal2004`) can be performed with the work :math:`d\mathcal{W}` of a small displacement :math:`dx` (see Fig. :numref:`Young-Dupre-Derivation`):
 
-   When a liquid (phase :math:`L`) and a gas (phase :math:`G`) are in contact with a solid wall, there is an equilibrium angle :math:`\theta^{eq}` corresponding to the equilibrium of three capillary forces :math:`\vec{\sigma}_{Ls}` the capillary force between Liquid and solid, :math:`\vec{\sigma}_{Gs}` the capillary force between Gas and solid, and :math:`\vec{\sigma}_{LG}` the capillary force between Liquid and Gas (see Fig. :numref:`Contact-Angle-Concept`). The contact angle :math:`\theta^{eq}` can be expressed with the three surface tensions by the Young-Dupré law. Its derivation (see :footcite:p:`DeGennes_etal2004`) can be performed with the work :math:`d\mathcal{W}` of a small displacement :math:`dx` (see Fig. :numref:`Young-Dupre-Derivation`):
+.. admonition:: Law of Young-Dupré
 
    .. math::
       :label:
@@ -59,9 +59,7 @@ Law of Young-Dupré
 Boundary condition for diffuse interface
 """"""""""""""""""""""""""""""""""""""""
 
-.. admonition:: Wall free energy
-
-   In the case of phase-field theory, the minimization is now carried out with an additional free energy: the wall free energy :math:`\mathscr{F}+\mathscr{F}_{w}` where
+In the case of phase-field theory, the interface is diffuse (see :numref:`Diffuse-Contact-Angle`) and the minimization is now carried out with an additional free energy: the wall free energy :math:`\mathscr{F}+\mathscr{F}_{w}` where
 
    .. math::
       :label: Free-Energy-Wall
@@ -75,7 +73,11 @@ Boundary condition for diffuse interface
 
       \int_{\partial V}\biggl[\zeta\boldsymbol{\nabla}\phi\cdot\hat{\boldsymbol{n}}+\underbrace{(\sigma_{Gs}-\sigma_{Ls})}_{\text{use Young-Dupré law}}p^{\prime}(\phi)\biggr]d(\partial V)=0
 
-   where :math:`\hat{\boldsymbol{n}}` is the normal vector at the wall boundary. After using the Young-Dupré law, we obtain the boundary condition for the phase-field :math:`\phi` at the solid surface:
+   where :math:`\hat{\boldsymbol{n}}` is the normal vector at the wall boundary. 
+
+.. admonition:: Wall free energy
+
+   After using the Young-Dupré law, we obtain the boundary condition for the phase-field :math:`\phi` at the solid surface:
 
    .. math::
       :label:
@@ -94,8 +96,8 @@ Boundary condition for diffuse interface
 
          Contact angle for diffuse interface
 
-.. _Marangoni-Force:
 
+.. _Marangoni-Force:
 
 Marangoni force
 ---------------
