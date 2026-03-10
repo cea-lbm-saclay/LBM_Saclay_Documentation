@@ -3,7 +3,7 @@
 Chapman-Enskog expansion for Navier-Stokes equations
 ====================================================
 
-We detail here the algebraic calculations of Chapman-Enskog expansion of Lattice Boltzmann Equation for simulating Navier-Stokes (NS) equations. Here, the expansions are inspired from [1]_ (pp 332--336). An introduction of that method can be found in [2]_ (page 106). An alternative method, but equivalent to C-E expansions, is presented in [3]_. Here we assume that the equilibrium distribution function and the lattice are known to focus on derivation and approximation. The intermediate calculations of Chapman-Enskog expansion are rarely detailed in publications except in appendices in few of them which improve the numerical methods. Here we present the classical procedure without force term in NS.
+We detail here the algebraic calculations of Chapman-Enskog expansion of Lattice Boltzmann Equation for simulating Navier-Stokes (NS) equations. Here, the expansions are inspired from :footcite:p:`Chen-Doolen_AnnRevFM1998` (pp 332--336). An introduction of that method can be found in :footcite:p:`BookLBM2017` (page 106). An alternative method, but equivalent to C-E expansions, is presented in :footcite:p:`Dubois_EquivPDE_CAMWA2008`. Here we assume that the equilibrium distribution function and the lattice are known to focus on derivation and approximation. The intermediate calculations of Chapman-Enskog expansion are rarely detailed in publications except in appendices in few of them which improve the numerical methods. Here we present the classical procedure without force term in NS.
 
 Starting point
 --------------
@@ -458,7 +458,7 @@ par :
 
    \nu=c_{s}^{2}\left(\lambda-\frac{1}{2}\right)\frac{\Delta x^{2}}{\Delta t}
 
-Dans l’équation :eq:`Res-Eq2-ChapmanEnskog`, le terme en :math:`\mathcal{O}(u^{3})` est de la forme :math:`-\frac{1}{c_{s}^{2}}\partial_{\beta}\nu\partial_{\gamma}(\rho u_{\alpha}u_{\beta}u_{\gamma})` qui est négligeable pour les faibles nombres de Mach. Lorsque ce dernier devient important, il est nécessaire de corriger la fonction de distribution à l’équilibre pour éliminer/diminuer l’influence de ce terme. On pourra se référer à [4]_ qui analyse plusieurs :math:`f_{i}^{(0)}` ou termes forces en ce sens.
+Dans l’équation :eq:`Res-Eq2-ChapmanEnskog`, le terme en :math:`\mathcal{O}(u^{3})` est de la forme :math:`-\frac{1}{c_{s}^{2}}\partial_{\beta}\nu\partial_{\gamma}(\rho u_{\alpha}u_{\beta}u_{\gamma})` qui est négligeable pour les faibles nombres de Mach. Lorsque ce dernier devient important, il est nécessaire de corriger la fonction de distribution à l’équilibre pour éliminer/diminuer l’influence de ce terme. On pourra se référer à :footcite:p:`BookLBM2015` qui analyse plusieurs :math:`f_{i}^{(0)}` ou termes forces en ce sens.
 
 Démonstration de l’égalité :eq:`Equivalence-Chapman-Enskog`
 -----------------------------------------------------------
@@ -488,11 +488,10 @@ on obtient :
 Les dérivées partielles en temps sont converties en dérivées partielles en espace à l’aide des équations :eq:`M0-Eq-Ordre1-Flow-Chapman-Enskog` pour le premier terme et :eq:`M1-Eq-Ordre1-Flow-Chapman-Enskog` pour les deux derniers :
 
 .. math::
+   :label: Intermediaire-Chapman-Enskog
 
-   \begin{aligned}
-   \partial_{t_{0}}(\rho u_{\alpha}u_{\beta}) & =u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})-u_{\alpha}\left[\partial_{\gamma}^{(1)}(c_{s}^{2}\rho\delta_{\beta\gamma})+\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})\right]-u_{\beta}\left[\partial_{\gamma}^{(1)}(c_{s}^{2}\rho\delta_{\alpha\gamma})+\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})\right]\nonumber \\
-    & =u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})-u_{\alpha}\left[\partial_{\beta}^{(1)}(c_{s}^{2}\rho)+\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})\right]-u_{\beta}\left[\partial_{\alpha}^{(1)}(c_{s}^{2}\rho)+\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})\right]\nonumber \\
-    & =-\left[u_{\alpha}\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})+u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})-u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})\right]-c_{s}^{2}\left[u_{\alpha}\partial_{\beta}^{(1)}\rho+u_{\beta}\partial_{\alpha}^{(1)}\rho\right]\label{eq:Intermediaire}\end{aligned}
+   \partial_{t_{0}}(\rho u_{\alpha}u_{\beta}) &=u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})-u_{\alpha}\left[\partial_{\gamma}^{(1)}(c_{s}^{2}\rho\delta_{\beta\gamma})+\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})\right]-u_{\beta}\left[\partial_{\gamma}^{(1)}(c_{s}^{2}\rho\delta_{\alpha\gamma})+\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})\right]\\
+    &=u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})-u_{\alpha}\left[\partial_{\beta}^{(1)}(c_{s}^{2}\rho)+\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})\right]-u_{\beta}\left[\partial_{\alpha}^{(1)}(c_{s}^{2}\rho)+\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})\right]
 
 Les trois premiers termes contenus dans le premier crochet peuvent être exprimés sous la forme condensée
 :math:`\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})`. Il existe plusieurs façons de la démontrer, on présente dans cette annexe
@@ -536,23 +535,15 @@ Dans l’équation ci-dessus, les trois derniers termes du membre de droite s’
    
    \left[u_{\alpha}\partial_{\gamma}^{(1)}(\rho u_{\beta}u_{\gamma})+u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\gamma})-u_{\alpha}u_{\beta}\partial_{\gamma}^{(1)}(\rho u_{\gamma})\right]=\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})
 
-Finalement en remplaçant ce résultat dans
-(`[eq:Intermediaire] <#eq:Intermediaire>`__), on obtient la relation
-recherchée :
+Finalement en remplaçant ce résultat dans :eq:`Intermediaire-Chapman-Enskog`, on obtient la relation recherchée :
 
 .. math::
    
    \partial_{t_{0}}(\rho u_{\alpha}u_{\beta})=-\partial_{\gamma}^{(1)}(\rho u_{\alpha}u_{\beta}u_{\gamma})-c_{s}^{2}\left[u_{\alpha}\partial_{\beta}^{(1)}\rho+u_{\beta}\partial_{\alpha}^{(1)}\rho\right]
 
-Bibliography
-------------
+References
+----------
 
-.. [1] Chen S., G. Doolen, Lattice boltzmann method for fluid flows, Annual Reviews of Fluid Mechanics 30 (1998), pp. 329–364. https://doi.org/10.1146/annurev.fluid.30.1.329
-
-.. [2] Krüger T., H. Kusumaatmaja, A. Kuzmin, O. Shardt, G. Silva, E. Viggen, The Lattice Boltzmann Method: Principles and Practice, Graduate Texts in Physics, Springer, 2017.
-
-.. [3] Dubois F., Equivalent partial differential equations of a lattice Boltzmann scheme, Computers & Mathematics with Applications 55 (7) (2008) 1441 – 1449, mesoscopic Methods in Engineering and Science. https://doi.org/10.1016/j.camwa.2007.08.003
-
-.. [4] Huang H., M. Sukop, X.-Y. Lu, Multiphase Lattice Boltzmann Methods. Theory and Application, Wiley & Sons, 2015.
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
