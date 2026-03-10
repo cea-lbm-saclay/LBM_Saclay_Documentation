@@ -458,15 +458,7 @@ par :
 
    \nu=c_{s}^{2}\left(\lambda-\frac{1}{2}\right)\frac{\Delta x^{2}}{\Delta t}
 
-Dans l’équation
-:eq:`Res-Eq2-ChapmanEnskog-Chapman-Enskog`, le terme
-en :math:`\mathcal{O}(u^{3})` est de la forme
-:math:`-\frac{1}{c_{s}^{2}}\partial_{\beta}\nu\partial_{\gamma}(\rho u_{\alpha}u_{\beta}u_{\gamma})`
-qui est négligeable pour les faibles nombres de Mach. Lorsque ce dernier
-devient important, il est nécessaire de corriger la fonction de
-distribution à l’équilibre pour éliminer/diminuer l’influence de ce
-terme. On pourra se référer à [4]_ qui analyse
-plusieurs :math:`f_{i}^{(0)}` ou termes forces en ce sens.
+Dans l’équation :eq:`Res-Eq2-ChapmanEnskog`, le terme en :math:`\mathcal{O}(u^{3})` est de la forme :math:`-\frac{1}{c_{s}^{2}}\partial_{\beta}\nu\partial_{\gamma}(\rho u_{\alpha}u_{\beta}u_{\gamma})` qui est négligeable pour les faibles nombres de Mach. Lorsque ce dernier devient important, il est nécessaire de corriger la fonction de distribution à l’équilibre pour éliminer/diminuer l’influence de ce terme. On pourra se référer à [4]_ qui analyse plusieurs :math:`f_{i}^{(0)}` ou termes forces en ce sens.
 
 Démonstration de l’égalité :eq:`Equivalence-Chapman-Enskog`
 -----------------------------------------------------------
