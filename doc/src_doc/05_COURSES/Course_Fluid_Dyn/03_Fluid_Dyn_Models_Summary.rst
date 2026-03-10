@@ -13,7 +13,7 @@ The Mach number is defined by
 where :math:`\boldsymbol{u}\equiv\boldsymbol{u}(\boldsymbol{x},t)` is the fluid velocity and :math:`c_{s}` is the sound speed. At 20°C the sound speed is 344 m/s (1240 km/h) in air and 1500 m/s (5400 km/h) in
 water.
 
-In the rest of this section, two popular models of Navier-Stokes equations are detailed for :math:`Ma\ll1`. The first one is the “low Mach model” and the second one is the incompressible model.
+In the rest of this section, two popular models of Navier-Stokes equations are detailed for :math:`Ma\ll1`. The first one is the “isothermal compressible model” and the second one is the incompressible model.
 
 Isothermal compressible Navier-Stokes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
