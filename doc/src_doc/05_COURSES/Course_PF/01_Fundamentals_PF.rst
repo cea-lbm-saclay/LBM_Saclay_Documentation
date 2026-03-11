@@ -403,7 +403,7 @@ Such a double-well is presented on :numref:`Fig-Double-Well_Alternative2` where 
          :width: 400
          :scale: 100 %
       
-      Alternative double-well :math:`f_{dw}(\phi)=Hg_1(\phi)+H_p p(\phi)`
+         Alternative double-well :math:`f_{dw}(\phi)=Hg_1(\phi)+H_p p(\phi)`
 
 **Impacts on fundamental solution and interface parameters**
 
