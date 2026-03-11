@@ -375,28 +375,33 @@ Such a double-well is presented on :numref:`Fig-Double-Well_Alternative2` where 
    p(1)=1\\
    p^{\prime}(0)=p^{\prime}(1)=0
 
+.. grid:: 2
+   :gutter: 4
+   :margin: 3 3 0 5
 
-.. container:: sphinx-features
-
-   .. _Fig-Double-Well_Alternative1:
+   .. grid-item::
+      :columns: 6
    
-   .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_g2_Phi.png
-      :figclass: align-center
-      :align: center
-      :height: 270
-      :width: 400
-      :scale: 100 %
+      .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_g2_Phi.png
+         :figclass: align-center
+         :name: Fig-Double-Well_Alternative1
+         :align: center
+         :height: 270
+         :width: 400
+         :scale: 100 %
       
-      Alternative double-well :math:`f_{dw}(\phi)=Hg_2(\phi)`
+         Alternative double-well :math:`f_{dw}(\phi)=Hg_2(\phi)`
 
-   .. _Fig-Double-Well_Alternative2:
+   .. grid-item::
+      :columns: 6
    
-   .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_g1-p_Phi.png
-      :figclass: align-center
-      :align: center
-      :height: 270
-      :width: 400
-      :scale: 100 %
+      .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_g1-p_Phi.png
+         :figclass: align-center
+         :name: Fig-Double-Well_Alternative2
+         :align: center
+         :height: 270
+         :width: 400
+         :scale: 100 %
       
       Alternative double-well :math:`f_{dw}(\phi)=Hg_1(\phi)+H_p p(\phi)`
 
