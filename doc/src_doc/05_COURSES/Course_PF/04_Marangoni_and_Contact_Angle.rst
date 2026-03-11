@@ -25,29 +25,36 @@ Law of Young-Dupré
 
       \boxed{\cos(\theta^{eq})=\frac{\sigma_{Gs}-\sigma_{Ls}}{\sigma_{LG}}}
 
-.. container:: sphinx-features
+.. .. container:: sphinx-features
 
-   .. _Fig_ContactAngleConcept:
+.. grid:: 2
+   :gutter: 4
+   :margin: 3 3 0 5
 
-   .. figure:: ../../FIGS/04_FIGS_COURSES/Contact-Angle.png
-      :figclass: align-center
-      :align: center
-      :height: 460
-      :width: 920
-      :scale: 40 %
+   .. grid-item::
+      :columns: 6
 
-      Contact angle
+      .. _Fig_ContactAngleConcept:
 
-   .. _Fig_Young-Dupre-Derivation:
+      .. figure:: ../../FIGS/04_FIGS_COURSES/Contact-Angle.png
+         :figclass: align-center
+         :align: center
+         :height: 460
+         :width: 920
+         :scale: 40 %
 
-   .. figure:: ../../FIGS/04_FIGS_COURSES/Deriving_Young.png
-      :figclass: align-center
-      :align: center
-      :height: 460
-      :width: 920
-      :scale: 40 %
+         Contact angle
 
-      Derivation of Young-Dupré Law
+      .. _Fig_Young-Dupre-Derivation:
+
+      .. figure:: ../../FIGS/04_FIGS_COURSES/Deriving_Young.png
+         :figclass: align-center
+         :align: center
+         :height: 460
+         :width: 920
+         :scale: 40 %
+
+         Derivation of Young-Dupré Law
 
 
 Boundary condition for diffuse interface

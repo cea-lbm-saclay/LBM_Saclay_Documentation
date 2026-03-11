@@ -56,17 +56,6 @@ It is important to notice that in Eq. :eq:`Free_Energy_Density_Simplest`, :math:
 
 cancels for :math:`\phi=0` and :math:`\phi=+1`. Such a double-well is presented in :numref:`Fig-Double-Well` for two values of height :math:`H`.
 
-.. _Fig-Double-Well:
-   
-.. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_g1_Phi.png
-   :figclass: align-center
-   :align: center
-   :height: 200
-   :width: 300
-   :scale: 100 %
-      
-   Illustrations of double-well :math:`f_{dw}(\phi)`
-
 In the rest of this page, we will derive the (thermodynamic) equilibrium properties of that functional. More particularly, we will derive its fundamental solution. All results at equilibrium will be derived for :math:`g_1(\phi)`. Results with other form of double-well are summarized in :bdg-ref-primary:`Alternative-Double-Wells`.
 
 **Remark on physical dimensions of** :math:`H` **and** :math:`\zeta`
@@ -91,17 +80,30 @@ For example, for f_{dw}(\phi)=g_{1}(\phi):
 
    f_{dw}^{\prime\prime}(\phi)=2(6\phi^{2}-6\phi+1)
 
-The first inflection point is :math:`\phi_{1}^{infl}=0.2113248654051871` and the second one is :math:`\phi_{2}^{infl}=0.788675134594813`. The convex part is such as :math:`f_{dw}^{\prime\prime}(\phi)>0` when :math:`\phi<\phi_{1}^{infl}` and :math:`\phi_{2}^{infl}<\phi`. The convex part is such as  :math:`f_{dw}^{\prime\prime}(\phi)<0` when :math:`\phi_{1}^{infl}<\phi<\phi_{2}^{infl}`. The concave and convex parts as well as the inflection points are presented on Fig. :numref:`DP-Inflection`
+The first inflection point is :math:`\phi_{1}^{infl}=0.2113248654051871` and the second one is :math:`\phi_{2}^{infl}=0.788675134594813`. The convex part is such as :math:`f_{dw}^{\prime\prime}(\phi)>0` when :math:`\phi<\phi_{1}^{infl}` and :math:`\phi_{2}^{infl}<\phi`. The convex part is such as  :math:`f_{dw}^{\prime\prime}(\phi)<0` when :math:`\phi_{1}^{infl}<\phi<\phi_{2}^{infl}`. The concave and convex parts as well as the inflection points are presented on Fig. :numref:`Fig_DP-Inflection`
 
-.. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_Inflexion.png
-   :name: DP-Inflection
-   :figclass: align-center
-   :align: center
-   :height: 270
-   :width: 400
-   :scale: 100 %
+.. container:: sphinx-features
+
+   .. _Fig-Double-Well:
+   
+   .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_g1_Phi.png
+      :figclass: align-center
+      :align: center
+      :height: 270
+      :width: 400
+      :scale: 100 %
       
-   Inflection points
+      Illustrations of two double-wells :math:`f_{dw}(\phi)`
+
+   .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_Inflexion.png
+      :name: Fig_DP-Inflection
+      :figclass: align-center
+      :align: center
+      :height: 270
+      :width: 400
+      :scale: 100 %
+      
+      Inflection points
 
 .. _Euler-Langrange-Fundamentals:
 
