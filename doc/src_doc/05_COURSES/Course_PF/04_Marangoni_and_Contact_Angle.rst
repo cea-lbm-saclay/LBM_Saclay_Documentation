@@ -11,6 +11,8 @@ Law of Young-Dupré
 
 .. admonition:: Law of Young-Dupré
 
+   When a liquid (phase :math:`L`) and a gas (phase :math:`G`) are in contact with a solid wall, there is an equilibrium angle :math:`\theta^{eq}` corresponding to the equilibrium of three capillary forces :math:`\vec{\sigma}_{Ls}` the capillary force between Liquid and solid, :math:`\vec{\sigma}_{Gs}` the capillary force between Gas and solid, and :math:`\vec{\sigma}_{LG}` the capillary force between Liquid and Gas (see Fig. :numref:`Fig_ContactAngleConcept`). The contact angle :math:`\theta^{eq}` can be expressed with the three surface tensions by the Young-Dupré law. Its derivation (see :footcite:p:`DeGennes_etal2004`) can be performed with the work :math:`d\mathcal{W}` of a small displacement :math:`dx` (see Fig. :numref:`Fig_Young-Dupre-Derivation`):
+
    .. math::
       :label:
 
@@ -22,8 +24,6 @@ Law of Young-Dupré
       :label:
 
       \boxed{\cos(\theta^{eq})=\frac{\sigma_{Gs}-\sigma_{Ls}}{\sigma_{LG}}}
-
-When a liquid (phase :math:`L`) and a gas (phase :math:`G`) are in contact with a solid wall, there is an equilibrium angle :math:`\theta^{eq}` corresponding to the equilibrium of three capillary forces :math:`\vec{\sigma}_{Ls}` the capillary force between Liquid and solid, :math:`\vec{\sigma}_{Gs}` the capillary force between Gas and solid, and :math:`\vec{\sigma}_{LG}` the capillary force between Liquid and Gas (see Fig. :numref:`Fig_ContactAngleConcept`). The contact angle :math:`\theta^{eq}` can be expressed with the three surface tensions by the Young-Dupré law. Its derivation (see :footcite:p:`DeGennes_etal2004`) can be performed with the work :math:`d\mathcal{W}` of a small displacement :math:`dx` (see Fig. :numref:`Fig_Young-Dupre-Derivation`):
 
 .. container:: sphinx-features
 
@@ -55,7 +55,7 @@ Boundary condition for diffuse interface
 
 .. admonition:: Wall free energy
 
-   In the case of phase-field theory, the interface is diffuse (see :numref:`Diffuse-Contact-Angle`) and the minimization is now carried out with an additional free energy: the wall free energy :math:`\mathscr{F}+\mathscr{F}_{w}` where
+   In the case of phase-field theory, the interface is diffuse (see :numref:`Fig_Diffuse-Contact-Angle`) and the minimization is now carried out with an additional free energy: the wall free energy :math:`\mathscr{F}+\mathscr{F}_{w}` where
 
    .. math::
       :label: Free-Energy-Wall
@@ -78,7 +78,7 @@ Boundary condition for diffuse interface
 
    Remark: if :math:`\theta^{eq}=90{^\circ}` then :math:`\boldsymbol{\nabla}\phi\cdot\hat{\boldsymbol{n}}=0`
 
-.. _Diffuse-Contact-Angle:
+.. _Fig_Diffuse-Contact-Angle:
 
 .. figure:: ../../FIGS/04_FIGS_COURSES/Diffuse_Contact-Angle.png
    :figclass: align-center
