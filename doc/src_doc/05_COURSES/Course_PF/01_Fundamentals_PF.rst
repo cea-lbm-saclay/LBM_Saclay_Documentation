@@ -82,28 +82,37 @@ For example, for f_{dw}(\phi)=g_{1}(\phi):
 
 The first inflection point is :math:`\phi_{1}^{infl}=0.2113248654051871` and the second one is :math:`\phi_{2}^{infl}=0.788675134594813`. The convex part is such as :math:`f_{dw}^{\prime\prime}(\phi)>0` when :math:`\phi<\phi_{1}^{infl}` and :math:`\phi_{2}^{infl}<\phi`. The convex part is such as  :math:`f_{dw}^{\prime\prime}(\phi)<0` when :math:`\phi_{1}^{infl}<\phi<\phi_{2}^{infl}`. The concave and convex parts as well as the inflection points are presented on Fig. :numref:`Fig_DP-Inflection`
 
-.. container:: sphinx-features
+.. .. container:: sphinx-features
 
-   .. _Fig-Double-Well:
-   
-   .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_g1_Phi.png
-      :figclass: align-center
-      :align: center
-      :height: 270
-      :width: 400
-      :scale: 100 %
-      
-      Illustrations of two double-wells :math:`f_{dw}(\phi)`
+.. grid:: 2
+   :gutter: 4
+   :margin: 3 3 0 5
 
-   .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_Inflexion.png
-      :name: Fig_DP-Inflection
-      :figclass: align-center
-      :align: center
-      :height: 270
-      :width: 400
-      :scale: 100 %
+   .. grid-item::
+      :columns: 6
+
+      .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_g1_Phi.png
+         :figclass: align-center
+         :name: Fig-Double-Well
+         :align: center
+         :height: 270
+         :width: 400
+         :scale: 100 %
       
-      Inflection points
+         Illustrations of two double-wells :math:`f_{dw}(\phi)`
+
+   .. grid-item::
+      :columns: 6
+
+      .. figure:: ../../FIGS/04_FIGS_COURSES/Double-Puits_Inflexion.png
+         :name: Fig_DP-Inflection
+         :figclass: align-center
+         :align: center
+         :height: 270
+         :width: 400
+         :scale: 100 %
+      
+         Inflection points
 
 .. _Euler-Langrange-Fundamentals:
 

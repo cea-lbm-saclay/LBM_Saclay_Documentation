@@ -25,7 +25,6 @@ Law of Young-Dupré
 
       \boxed{\cos(\theta^{eq})=\frac{\sigma_{Gs}-\sigma_{Ls}}{\sigma_{LG}}}
 
-.. .. container:: sphinx-features
 
 .. grid:: 2
    :gutter: 4
