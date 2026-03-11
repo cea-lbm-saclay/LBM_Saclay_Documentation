@@ -1,3 +1,5 @@
+.. include:: ../Substitutions.rst
+
 .. _Math-Models:
 
 PART II: Mathematical models in LBM_Saclay
@@ -15,7 +17,7 @@ Fluid-Fluid interface
 
    Two formulations of Fluid-Fluid interface models differ from the hypotheses of Navier-Stokes (NS) equations. In the first one, the two fluids are supposed to be incompressible. The interface is captured with a levelset-type equation called the *Conservative Allen-Cahn* (CAC) equation. In the second one, the two fluid phases are modelled by a low-Mach formulation of the NS equations with an Equation of State (EoS). Such a model is called *Navier-Stokes/Korteweg* model.
 
-   **NS/Conservative Allen-Cahn based models**
+   :mediumbold:`Navier-Stokes/Conservative Allen-Cahn based models`
 
    .. toctree::
       :maxdepth: 1
@@ -24,7 +26,7 @@ Fluid-Fluid interface
       ./01_Fluid_Fluid/Model_NSAC_Surfactant.rst
       ./01_Fluid_Fluid/Model_NSAC_Comp_PhaseChange.rst
 
-   **NS/Korteweg based models**
+   :mediumbold:`Navier-Stokes/Korteweg based models`
 
    .. toctree::
       :maxdepth: 1
