@@ -34,10 +34,9 @@ Law of Young-Dupré
    .. grid-item::
       :columns: 6
 
-      .. _Fig_ContactAngleConcept:
-
       .. figure:: ../../FIGS/04_FIGS_COURSES/Contact-Angle.png
          :figclass: align-center
+         :name: Fig_ContactAngleConcept
          :align: center
          :height: 460
          :width: 920
@@ -47,8 +46,6 @@ Law of Young-Dupré
 
    .. grid-item::
       :columns: 6
-
-      .. .. _Fig_Young-Dupre-Derivation:
 
       .. figure:: ../../FIGS/04_FIGS_COURSES/Deriving_Young.png
          :figclass: align-center
@@ -89,10 +86,9 @@ Boundary condition for diffuse interface
 
    Remark: if :math:`\theta^{eq}=90{^\circ}` then :math:`\boldsymbol{\nabla}\phi\cdot\hat{\boldsymbol{n}}=0`
 
-.. _Fig_Diffuse-Contact-Angle:
-
 .. figure:: ../../FIGS/04_FIGS_COURSES/Diffuse_Contact-Angle.png
    :figclass: align-center
+   :name: Fig_Diffuse-Contact-Angle
    :align: center
    :height: 460
    :width: 920
