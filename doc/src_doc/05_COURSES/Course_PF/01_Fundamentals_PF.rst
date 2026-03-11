@@ -101,7 +101,9 @@ The first inflection point is :math:`\phi_{1}^{infl}=0.2113248654051871` and the
    :width: 400
    :scale: 100 %
       
-   Inflexion points
+   Inflection points
+
+.. _Euler-Langrange-Fundamentals:
 
 Euler-Lagrange equation and chemical potential
 ----------------------------------------------
