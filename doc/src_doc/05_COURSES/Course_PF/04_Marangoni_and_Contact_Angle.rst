@@ -45,10 +45,14 @@ Law of Young-Dupré
 
          Contact angle
 
-      .. _Fig_Young-Dupre-Derivation:
+   .. grid-item::
+      :columns: 6
+
+      .. .. _Fig_Young-Dupre-Derivation:
 
       .. figure:: ../../FIGS/04_FIGS_COURSES/Deriving_Young.png
          :figclass: align-center
+         :name: Fig_Young-Dupre-Derivation
          :align: center
          :height: 460
          :width: 920

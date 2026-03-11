@@ -208,7 +208,7 @@ The van der Waals EoS indicates how the pressure varies as a function of density
 .. math::
    :label:
 
-      p^{eos}(\rho_l) &=p^{eos}(\rho_g)\\\mu^{(0)}(\rho_l) &=\mu^{(0)}(\rho_g)
+   p^{eos}(\rho_l) &=p^{eos}(\rho_g)\\\mu^{(0)}(\rho_l) &=\mu^{(0)}(\rho_g)
 
 With the definition of thermodynamic pressure Eq. :eq:`Def_Thermo_Pressure`, it is straightforward to obtain
 
