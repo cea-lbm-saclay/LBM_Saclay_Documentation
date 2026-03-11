@@ -9,8 +9,6 @@ Contact angle
 Law of Young-Dupré
 """"""""""""""""""
 
-When a liquid (phase :math:`L`) and a gas (phase :math:`G`) are in contact with a solid wall, there is an equilibrium angle :math:`\theta^{eq}` corresponding to the equilibrium of three capillary forces :math:`\vec{\sigma}_{Ls}` the capillary force between Liquid and solid, :math:`\vec{\sigma}_{Gs}` the capillary force between Gas and solid, and :math:`\vec{\sigma}_{LG}` the capillary force between Liquid and Gas (see Fig. :numref:`Contact-Angle-Concept`). The contact angle :math:`\theta^{eq}` can be expressed with the three surface tensions by the Young-Dupré law. Its derivation (see :footcite:p:`DeGennes_etal2004`) can be performed with the work :math:`d\mathcal{W}` of a small displacement :math:`dx` (see Fig. :numref:`Young-Dupre-Derivation`):
-
 .. admonition:: Law of Young-Dupré
 
    .. math::
@@ -25,9 +23,11 @@ When a liquid (phase :math:`L`) and a gas (phase :math:`G`) are in contact with 
 
       \boxed{\cos(\theta^{eq})=\frac{\sigma_{Gs}-\sigma_{Ls}}{\sigma_{LG}}}
 
+When a liquid (phase :math:`L`) and a gas (phase :math:`G`) are in contact with a solid wall, there is an equilibrium angle :math:`\theta^{eq}` corresponding to the equilibrium of three capillary forces :math:`\vec{\sigma}_{Ls}` the capillary force between Liquid and solid, :math:`\vec{\sigma}_{Gs}` the capillary force between Gas and solid, and :math:`\vec{\sigma}_{LG}` the capillary force between Liquid and Gas (see Fig. :numref:`Fig_ContactAngleConcept`). The contact angle :math:`\theta^{eq}` can be expressed with the three surface tensions by the Young-Dupré law. Its derivation (see :footcite:p:`DeGennes_etal2004`) can be performed with the work :math:`d\mathcal{W}` of a small displacement :math:`dx` (see Fig. :numref:`Fig_Young-Dupre-Derivation`):
+
 .. container:: sphinx-features
 
-   .. _Contact-Angle-Concept:
+   .. _Fig_ContactAngleConcept:
 
    .. figure:: ../../FIGS/04_FIGS_COURSES/Contact-Angle.png
       :figclass: align-center
@@ -38,7 +38,7 @@ When a liquid (phase :math:`L`) and a gas (phase :math:`G`) are in contact with 
 
       Contact angle
 
-   .. _Young-Dupre-Derivation:
+   .. _Fig_Young-Dupre-Derivation:
 
    .. figure:: ../../FIGS/04_FIGS_COURSES/Deriving_Young.png
       :figclass: align-center
