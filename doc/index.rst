@@ -255,6 +255,8 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    
       src_doc/04_PROGRAMMING/Guidelines.rst
 
+.. _PART-V-Course-Reminders:
+
 *********************************************
 **PART V: Reminders of fundamental concepts**
 *********************************************
@@ -263,9 +265,19 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    :class: caution
 
    .. toctree::
-      :maxdepth: 3
+      :maxdepth: 2
    
-      src_doc/05_COURSES/TOC_Courses.rst
+      src_doc/05_COURSES/Course_LBM/TOC_LBM_Course.rst
+
+   .. toctree::
+      :maxdepth: 2
+
+      src_doc/05_COURSES/Course_PF/TOC_Phase-Field.rst
+
+   .. toctree::
+      :maxdepth: 2
+
+      src_doc/05_COURSES/Thermo-PhaseTransition/TOC_PhaseField_For_PhaseTransition.rst
 
 
 .. admonition:: Appendices

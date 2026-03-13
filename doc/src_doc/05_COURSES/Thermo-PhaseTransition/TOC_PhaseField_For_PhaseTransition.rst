@@ -1,7 +1,7 @@
 .. _Thermodynamics-Of-Phase-Transition:
 
-Phase-field models for phase transition
-=======================================
+PART V.C. Phase-field models for phase transition
+=================================================
 
 .. admonition:: Models of solid/liquid phase change without fluid flow
 

@@ -1,7 +1,7 @@
 .. _TOC-Basic-LBM:
 
-Basic concepts of Lattice Boltzmann Methods
-===========================================
+PART V.A. Lattice Boltzmann Methods
+===================================
 
 .. admonition:: Overview of LBM
 

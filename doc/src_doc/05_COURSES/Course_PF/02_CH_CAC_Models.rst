@@ -9,8 +9,8 @@ In this section, we focus on the **dynamics**, i.e. the time-evolution of the ph
 
 .. _CH-Model:
 
-Cahn-Hilliard (CH) model for conservative order parameter
----------------------------------------------------------
+Derivation of Cahn-Hilliard (CH) model for conservative order parameter
+-----------------------------------------------------------------------
 
 The Cahn-Hilliard equation :footcite:p:`Cahn-Hilliard_JCP1958` is a very popular model which is capable of simulating spinodal decomposition, coalescence of droplets, and so on. That model is derived for an order parameter which is conserved over the whole computational domain. The phase-field :math:`\phi(\boldsymbol{x},t)` plays two roles: it tracks the interface and indicates the local value of composition. This is the reason why in the literature, the Cahn-Hilliard equation is alternatively formulated in :math:`c(\boldsymbol{x},t)`. Here for consistency, we present the equation with the main variable :math:`\phi`.
 
@@ -184,12 +184,12 @@ and :math:`\mathscr{M}_{\phi}` is a positive coefficient of proportionality. As 
 .. admonition:: Important
    :class: Important
 
-   The Allen-Cahn equation has a physical meaning only if it is coupled to a heat PDE (Eq. on :math:`T`) or a composition PDE (Eq. on :math:`c`) because the temperature (or composition) is responsible for the phase change, and consequently the displacement of interface. For those problems, the free energy must depend on that new variable (:math:`T` or :math:`c`) :math:`\mathscr{F}[\phi,T]`. A new free energy density must also be added in the definition of the free energy functional to take into account that coupling between :math:`\phi` and :math:`T` (or :math:`c`). That coupling makes appear a source term in Eq. :eq:`Allen_Cahn_Course`.
+   The Allen-Cahn equation has a physical meaning only when it is coupled to a heat PDE (Eq. on :math:`T`) or a composition PDE (Eq. on :math:`c`) because the temperature (or composition) is responsible for the phase change, and consequently the displacement of interface. For those problems, the free energy must depend on that new variable (:math:`T` or :math:`c`) :math:`\mathscr{F}[\phi,T]`. A new free energy density must also be added in the definition of the free energy functional to take into account that coupling between :math:`\phi` and :math:`T` (or :math:`c`). That coupling makes appear a source term in Eq. :eq:`Allen_Cahn_Course`. For solid/liquid phase change, see for example :bdg-ref-primary-line:`Solid-Liquid-Phase-Change`
 
-.. _CAC-Model:
+.. _CAC-Model-Course:
 
-Conservative Allen-Cahn (CAC) model
------------------------------------
+Derivation of Conservative Allen-Cahn (CAC) model
+-------------------------------------------------
 
 The advective Cahn-Hilliard model is a very popular model to track an interface for a conserved quantity. However, as already mentioned, it presents two difficulties: the two roles played by the phase-field (interface position and composition) and its fourth-order derivative. In particular, for phase change problems involving composition, the composition must follow its own PDE whereas the interface position must obey to the Allen-Cahn model with a source term.
 

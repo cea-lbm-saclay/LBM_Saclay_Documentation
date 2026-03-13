@@ -348,65 +348,75 @@ Summary
 .. admonition:: Two-phase incompressible Navier-Stokes
    :class: error
 
-   The two-phase flows model is composed of incompressible Navier-Stokes equations. The first one is the mass balance equation
+   :mediumbold:`Mass and impulsion balance equations`
 
-   .. math::
-      :label: TwoPhase_MassBalance
+      The two-phase flows model is composed of incompressible Navier-Stokes equations. The first one is the mass balance equation
 
-      \boldsymbol{\nabla}\cdot\boldsymbol{u}=0
+      .. math::
+         :label: TwoPhase_MassBalance
 
-   The second one is the impulsion balance equation:
+         \boldsymbol{\nabla}\cdot\boldsymbol{u}=0
 
-   .. math::
-      :label: NS_Eqs_TwoPhase
+      The second one is the impulsion balance equation:
 
-      \varrho(\phi)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\vartheta(\phi)\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\mu_{\phi}\boldsymbol{\nabla}\phi+\varrho(\phi)\boldsymbol{g}
+      .. math::
+         :label: NS_Eqs_TwoPhase
 
-   where the local density :math:`\varrho(\phi)` is defined by Eq. :eq:`Local_Density_Total`:
+         \varrho(\phi)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\vartheta(\phi)\left(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T}\right)\right]+\mu_{\phi}\boldsymbol{\nabla}\phi+\varrho(\phi)\boldsymbol{g}
 
-   .. math::
-      :label: Interpolation_Density
+   :mediumbold:`Interpolations for densities  and viscosities`
 
-      \varrho(\boldsymbol{x},t)=\rho_{B}\phi(\boldsymbol{x},\,t)+\rho_{A}(1-\phi(\boldsymbol{x},t))
+      where the local density :math:`\varrho(\phi)` is defined by Eq. :eq:`Local_Density_Total`:
 
-   and the kinematic viscosity :math:`\vartheta(\phi)` is interpolated with the harmonic mean:
+      .. math::
+         :label: Interpolation_Density
 
-   .. math::
-      :label: Interpolation_Viscosity
+         \varrho(\boldsymbol{x},t)=\rho_{B}\phi(\boldsymbol{x},\,t)+\rho_{A}(1-\phi(\boldsymbol{x},t))
 
-      \frac{1}{\vartheta(\phi)}=\frac{\phi}{\nu_{B}}+\frac{1-\phi}{\nu_{A}}
+      and the kinematic viscosity :math:`\vartheta(\phi)` is interpolated with the harmonic mean:
 
-   In capillary force of Eq. :eq:`NS_Eqs_TwoPhase` the chemical potential :math:`\mu_{\phi}` is defined by
+      .. math::
+         :label: Interpolation_Viscosity
 
-   .. math::
-      :label: Chem_Pot_TwoPhase
+         \frac{1}{\vartheta(\phi)}=\frac{\phi}{\nu_{B}}+\frac{1-\phi}{\nu_{A}}
 
-      \mu_{\phi}=\frac{3}{2}\sigma W\left[\frac{16}{W^2}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi\right]
+   :mediumbold:`Chemical potential`
+
+      In capillary force of Eq. :eq:`NS_Eqs_TwoPhase` the chemical potential :math:`\mu_{\phi}` is defined by
+
+      .. math::
+         :label: Chem_Pot_TwoPhase
+
+         \mu_{\phi}=\frac{3}{2}\sigma W\left[\frac{16}{W^2}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi\right]
 
 
-.. admonition:: Interface-capturing model 1: Cahn-Hilliard equation
+.. admonition:: Interface-capturing model
    :class: error
 
-   Once the diffusive flux :eq:`Def-Flux-iNS` is replaced in Eq. :eq:`Phi-Balance-iNS-PFCourse`, the advective Cahn-Hilliard equation (Eq. :eq:`Adv_CH_Model_Course_Summary`) is obtained:
+   :mediumbold:`Model 1: Cahn-Hilliard equation`
 
-   .. math::
-      :label: CH_Eq_TwoPhase
+      Once the diffusive flux :eq:`Def-Flux-iNS` is replaced in Eq. :eq:`Phi-Balance-iNS-PFCourse`, the advective Cahn-Hilliard equation (Eq. :eq:`Adv_CH_Model_Course_Summary`) is obtained:
 
-      \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
+      .. math::
+         :label: CH_Eq_TwoPhase
 
-   That model can advantageously be replaced by the Conservative Allen-Cahn equation (Eq. :eq:`CAC_Course`) for immiscible two fluid flows:
+         \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
 
-   .. math::
-      :label: CAC_Eq_TwoPhase
+   :mediumbold:`Model 2: Conservative Allen-Cahn equation`
 
-      \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right]
+      That model can advantageously be replaced by the Conservative Allen-Cahn equation (see :bdg-ref-primary-line:`CAC-Model-Course` for its derivation) for immiscible two fluid flows:
 
-   where :math:`M_{\phi}` is the mobility coefficient of interface, :math:`W` is the interface width and the unit normal vector :math:`\boldsymbol{n}_{\phi}` is defined by
+      .. math::
+         :label: CAC_Eq_TwoPhase
 
-   .. math::
-      :label: TwoPhase_Def_n
+         \frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right]
 
-      \boldsymbol{n}_{\phi}=\frac{\boldsymbol{\nabla}\phi}{|\boldsymbol{\nabla}\phi|}
+      where :math:`M_{\phi}` is the mobility coefficient of interface, :math:`W` is the interface width and the unit normal vector :math:`\boldsymbol{n}_{\phi}` is defined by
+
+      .. math::
+         :label: TwoPhase_Def_n
+
+         \boldsymbol{n}_{\phi}=\frac{\boldsymbol{\nabla}\phi}{|\boldsymbol{\nabla}\phi|}
 
 Appendix: details for deriving constitutive laws
 ------------------------------------------------

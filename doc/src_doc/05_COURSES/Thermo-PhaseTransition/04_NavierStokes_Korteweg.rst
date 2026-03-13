@@ -3,7 +3,7 @@
 Isothermal Navier-Stokes/Korteweg model
 =======================================
 
-Historically, the thermodynamic theory of capillarity was developed by van der Waals under the hypothesis of a continuous variation of density [1]_. In that sense, this is the very first diffuse interface theory. Next Korteweg has modified the Navier-Stokes equations to take into account the surface tension force through what we call the Korteweg's tensor [2]_. Those equations are known as the Navier-Stokes/Korteweg model (NSK) which is a popular model for simulating two-phase flows. That model is a low Mach formulation of the Navier-Stokes equations, where :math:`\rho` plays the role of phase index. The two-phase behavior is obtained by an appropriate choice of the Equation of State (EoS). The NSK model is an alternative model to the Navier-Stokes/Conservative Allen-Cahn model for two incompressible fluids (see :ref:`Model_iNS_with_PhaseField_Course`).
+Historically, the thermodynamic theory of capillarity was developed by van der Waals under the hypothesis of a continuous variation of density :footcite:p:`vanderWaals1979`, :footcite:p:`Rowlinson1979`. In that sense, this is the very first diffuse interface theory. Next Korteweg has modified the Navier-Stokes equations to take into account the surface tension force through what we call the Korteweg's tensor :footcite:p:`Korteweg1901`. Those equations are known as the Navier-Stokes/Korteweg model (NSK) which is a popular model for simulating two-phase flows. That model is a low Mach formulation of the Navier-Stokes equations, where :math:`\rho` plays the role of phase index. The two-phase behavior is obtained by an appropriate choice of the Equation of State (EoS). The NSK model is an alternative model to the Navier-Stokes/Conservative Allen-Cahn model for two incompressible fluids (see :ref:`Model_iNS_with_PhaseField_Course`).
 
 Free energy functional with :math:`\rho`
 ----------------------------------------
@@ -269,7 +269,7 @@ By solving semi-analytically we obtain the equilibrium densities (or coexistence
 Pressure tensor and Korteweg tensor
 -----------------------------------
 
-For a sake of simplicity of this presentation, here we follow the argument presented in reference [3]_ to derive the tensor pressure and the Korteweg's tensor. As seen in :ref:`Free-Energy-Double-Wells`, when the order parameter is conserved (this is the case for :math:`\rho`), the chemical potential :math:`\mu_{\rho}` can be interpreted as a the Lagrange multiplier associated with the constraint of mass conservation. The integrand of :math:`\mathcal{F}` as well as that of the mass constraint are independent of the spatial coordinates. Consequently, it follows from Noether’s theorem (see [4]_ sections 12-3 p. 555 and 12-7 p. 588) that there is a corresponding conservation law given by
+For a sake of simplicity of this presentation, here we follow the argument presented in reference :footcite:p:`Anderson_etal_Review_AnRevFluiMech1998` to derive the tensor pressure and the Korteweg's tensor. As seen in :ref:`Free-Energy-Double-Wells`, when the order parameter is conserved (this is the case for :math:`\rho`), the chemical potential :math:`\mu_{\rho}` can be interpreted as a the Lagrange multiplier associated with the constraint of mass conservation. The integrand of :math:`\mathcal{F}` as well as that of the mass constraint are independent of the spatial coordinates. Consequently, it follows from Noether’s theorem (see :footcite:p:`Goldstein1981` sections 12-3 p. 555 and 12-7 p. 588) that there is a corresponding conservation law given by
 
 .. math::
    :label: Conservation_Law_From_Noether
@@ -403,7 +403,7 @@ The model of Navier-Stokes/Korteweg is obtained from a low Mach formulation of N
 
    - In Eq. :eq:`Def_Pressure_Tensor_NSK_Course` :math:`p^{eos}(\rho,T)` is the thermodynamic pressure which is related to the density and temperature by one Equation of State. Several ones exist: the van der Waals EoS (Eq. :eq:`EoS_van_der_Waals_NSK_Course`) can be used or others defined in the next section.
 
-Let us mention that other methods exist to derive the Navier-Stokes/Korteweg models, especially when the coupling with temperature [5]_ or surfactant [6]_ are considered. In those references, the constitutive laws (closures for energy flux, expression of stress tensor, etc.) are derived such that the dissipation (given by the Clausius-Duhem inequality) is positive or null. The main advantage of that approach is to derive models of two-phase flows which are thermodynamicaly-consistent. But that rigorous approach has a cost: the algebraic calculations are expensive and are beyond the scope of that introduction.
+Let us mention that other methods exist to derive the Navier-Stokes/Korteweg models, especially when the coupling with temperature :footcite:p:`Liu_etal_CMAME2015` or surfactant :footcite:p:`Bueno-Gomez_JCP2016` are considered. In those references, the constitutive laws (closures for energy flux, expression of stress tensor, etc.) are derived such that the dissipation (given by the Clausius-Duhem inequality) is positive or null. The main advantage of that approach is to derive models of two-phase flows which are thermodynamicaly-consistent. But that rigorous approach has a cost: the algebraic calculations are expensive and are beyond the scope of that introduction.
 
 .. _Equations-Of-State_NSK_Course:
 
@@ -450,20 +450,11 @@ Peng-Robinson (PR)
 
    p_{PR}^{eos}(\rho,T)&=\frac{\rho RT}{1-b\rho}-\frac{a\alpha(T)\rho^{2}}{1+2b\rho-b^{2}\rho^{2}}\\\alpha(T)&=[1+(\alpha_{1}+\alpha_{2}\omega+\alpha_{3}\omega^{2})(1-\sqrt{T/T_{c}})]^{2}\\\text{coeff}&\alpha_{1}=0.37464,\quad\alpha_{2}=1.54226,\quad\alpha_{3}=0.26992
 
-Bibliography
-------------
 
-.. [1] van der Waals J.D., The thermodynamic theory of capillarity under the hypothesis of a continuous variation of density. Translation of "The Thermodynamic Theory of Capillarity" by J.S. Rowlinson. Journal of Statistical Physics, Vol. 20, No. 2, 1979.
+References
+----------
 
-.. [2] Korteweg D.J., Sur la forme que prennent les équations du mouvement des fluides si l'on tient compte des forces capillaires causées par des variations de densités considérables mais continues et sur la théorie de la capillarité dans l'hypothèse d'une variation continue de la densité. Archives Néerlandaises, Série II, Tome VI. 1901.
-
-.. [3] Anderson D.M., G.B. McFadden, A.A. Wheeler, Diffuse-interface methods in fluid mechanics, Annu. Rev. Fluid Mech. 1998. 30:139–65.
-
-.. [4] Goldstein H., Classical mechanics, 2nd Edition, Addison Wesley, 1981.
-
-.. [5] Liu J., C.M. Landis, H. Gomez, T.J.R. Hughes, Liquid–vapor phase transition: Thermomechanical theory, entropy stable numerical formulation, and boiling simulations. Comput. Methods Appl. Mech. Engrg. 297 (2015) 476–553, http://dx.doi.org/10.1016/j.cma.2015.09.007
-
-.. [6] Bueno J., H. Gomez, Liquid-vapor transformations with surfactants. Phase-field model and Isogeometric Analysis. Journal of Computational Physics 321 (2016) 797–818, http://dx.doi.org/10.1016/j.jcp.2016.06.008
+.. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
    

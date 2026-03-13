@@ -1,7 +1,7 @@
 .. _Basic-Concepts-Phase-Field-Theory:
 
-Basic concepts of phase-field theory: two-phase
-===============================================
+PART V.B. Fundamentals of phase-field theory
+============================================
 
 .. admonition:: Fundamentals of phase-field theory
 
