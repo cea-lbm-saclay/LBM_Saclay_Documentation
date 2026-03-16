@@ -17,7 +17,8 @@ Introduction
    
          ./Test_Cases_Single_Phase.rst
          ./Test_Cases_Two_Phase_Without-Flows.rst
-         ./Test_Cases_Two_Phase.rst
+         ./Test_Cases_Two_Phase_PartA.rst
+         ./Test_Cases_Two_Phase_PartB.rst
          ./Test_Cases_TwoPhase_ComposEffect.rst
          ./Test_Cases_TwoPhase_Interacting-SolidPhase.rst
 
@@ -41,7 +42,11 @@ Introduction
       .. grid-item-card:: Two-phase flows
          :columns: 7
 
-         .. button-ref:: TwoP-Training-LBM
+         .. button-ref:: TwoP-Training-LBM-PARTA
+            :color: primary
+            :shadow:
+
+         .. button-ref:: TwoP-Training-LBM-PARTB
             :color: primary
             :shadow:
 
@@ -156,11 +161,24 @@ List of test cases in ``run_training_lbm``
                   | TestCase14_Dam-Break2D                     | Navier-Stokes/Phase-field        | --                                   |
                   +--------------------------------------------+----------------------------------+--------------------------------------+
 
-            .. div:: sd-text-center
+            .. grid:: 2
+               :gutter: 4
+               :margin: 3 3 0 5
 
-               .. button-ref:: TwoP-Training-LBM
-                  :color: primary
-                  :shadow:
+               .. grid-item::
+                  :columns: 6
+
+                  .. button-ref:: TwoP-Training-LBM-PARTA
+                     :color: primary
+                     :shadow:
+
+               .. grid-item::
+                  :columns: 6
+
+                  .. button-ref:: TwoP-Training-LBM-PARTB
+                     :color: primary
+                     :shadow:
+
 
          .. dropdown:: Two-phase with fluid flow & composition effect
             :open:
