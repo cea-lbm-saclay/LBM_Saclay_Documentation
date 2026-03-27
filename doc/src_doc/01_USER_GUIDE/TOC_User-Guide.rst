@@ -3,35 +3,43 @@
 PART I: User's guide
 ====================
 
-.. toctree::
-   :maxdepth: 2
-   
-   ./QUICKSTART/quickstart.rst
+.. admonition:: Quick start and first simulation on one GPU
 
-.. toctree::
-   :maxdepth: 2
+   .. toctree::
+      :maxdepth: 2
    
-   ./SIMU_ON_ORCUS/Simulations-ORCUS-GPU.rst
+      ./QUICKSTART/quickstart.rst
 
-.. toctree::
-   :maxdepth: 2
+   .. toctree::
+      :maxdepth: 2
    
-   ./RUN_TRAINING_LBM/runtraininglbm.rst
+      ./SIMU_ON_ORCUS/Simulations-ORCUS-GPU.rst
 
-.. toctree::
-   :maxdepth: 2
-   
-   ./INPUTFILE/inputfile.rst
+.. admonition:: Practice two-phase flows with LBM_Saclay
 
-.. toctree::
-   :maxdepth: 2
+   .. toctree::
+      :maxdepth: 2
    
-   ./SET_OWN_PARAMETERS/Methodology.rst
+      ./RUN_TRAINING_LBM/runtraininglbm.rst
 
-.. toctree::
-   :maxdepth: 2
+.. admonition:: Set your own parameters in LBM_Saclay input files
+
+   .. toctree::
+      :maxdepth: 2
    
-   ./QUICKSTART/Compil_GPU_MPI_Topaze.rst
+      ./INPUTFILE/inputfile.rst
+
+   .. toctree::
+      :maxdepth: 2
+   
+      ./SET_OWN_PARAMETERS/Methodology.rst
+
+.. admonition:: Compilation and run with MPI
+
+   .. toctree::
+      :maxdepth: 2
+   
+      ./QUICKSTART/Compil_GPU_MPI_Topaze.rst
 
 .. only:: titania
 
