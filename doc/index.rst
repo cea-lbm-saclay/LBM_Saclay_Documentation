@@ -3,9 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |br| raw:: html
-
-   <br />
+.. include:: ./src_doc/Substitutions.rst
 
 .. _main-index:
 
@@ -15,7 +13,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 
 .. .. cssclass:: sphinx-tagline
 
-.. admonition:: LBM_Saclay
+.. admonition:: :mediumbold:`LBM_Saclay`
 
    .. .. container:: sphinx-features
 
@@ -27,12 +25,12 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    
    LBM_Saclay is a Computational Fluid Dynamics (CFD) code based on the **Lattice Boltzmann Methods** (:math:`\mathcal{LBM}`). It is developed and maintained at STMF/LDEL laboratory from **CEA/Saclay**. Its main purpose is to simulate Multi-Phase and Multi-Component flows with interface-capturing models derived from the **phase-field theory**. You can run LBM_Saclay either on your own deskop or on supercomputers equipped with a **multi-GPU** partition (High Performance Computing). You will find in this documentation all you need to compile and run your first simulation either on CPU or on GPU. You will also find details on mathematical models, numerical schemes implemented in the code, and tutorials to develop your own models. The code is open source and can be downloaded on :bdg-link-success-line:`Codev-Tuleap repository <https://codev-tuleap.cea.fr/projects/lbmsaclay/>`. For that purpose, follow the instructions on :bdg-ref-primary-line:`Get access to the git repository <Get-Access-Repository>`.
 
-.. admonition:: Video gallery
+.. admonition:: :mediumbold:`Video gallery`
    :class: important
       
    The combination of *phase-field models* with *LBM* and *GPU* is a very efficient approach for simulating multi-phase and multi-component flows. To illustrate what can be simulated, several videos are presented in different parts of this documentation. An overview can be found on :bdg-ref-primary-line:`Videos-Gallery`. 2D simulations with LBM_Saclay are presented in :bdg-ref-primary-line:`TwoP-Training-LBM-PARTB`. Applications of :bdg-ref-primary-line:`Math-Models` are illustrated with videos.
 
-.. admonition:: Links for direct access
+.. admonition:: :mediumbold:`Links for direct access`
 
    .. grid:: 2
       :gutter: 4
@@ -111,13 +109,13 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 
    .. tab-item:: Context and motivations
 
-      .. admonition:: Context and motivations
+      .. admonition:: :mediumbold:`Context and motivations`
 
          Two-phase flows, and more generally Multi-Phase and Multi-Component flows (MPMC), are involved in many physical phenomena such as *spinodal decomposition*, *nucleation and growth*, *coalescence and breakup* of droplets, *rising bubbles* & *falling droplets*, *Marangoni flows*, *Rayleigh-Taylor instability*, *surfactants*, *Ostwald ripening* and so on. Those phenomena occur in the daily life as well as in industrial problems. The first example described in :bdg-ref-primary-line:`Nuclear-Glass` is the *nuclear glass* which is used to confine radioactive wastes. We can also mention the *corium* in the context of severe accident of nuclear core reactors, *microfluidics* and *flow and transport in porous media*. Some of them are purely problems of fluid dynamics (rising bubbles or Rayleigh-Taylor instability). But others require a coupling between Navier-Stokes equations and thermodynamics.
 
    .. tab-item:: Mathematical models
 
-      .. admonition:: Mathematical models: phase-field theory
+      .. admonition:: :mediumbold:`Mathematical models: phase-field theory`
    
          To be thermodynamically-consistent and capture the interface between phases, we use the **phase-field theory** (see :bdg-ref-primary-line:`Basic-Concepts-Phase-Field-Theory`) to derive the mathematical phase-field models (:math:`\varphi`-models).
 
@@ -131,20 +129,20 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 
    .. tab-item:: Lattice Boltzmann Methods
 
-      .. admonition:: Numerical schemes: Lattice Boltzmann Methods and C++ implementation
+      .. admonition:: :mediumbold:`Numerical schemes: Lattice Boltzmann Methods and C++ implementation`
 
          The *Lattice Boltzmann Equation* (LBE) is one discretization (among other) of the continuous Boltzmann equation in the kinetic theory of gases (see :bdg-ref-primary-line:`Basic-LBM`). The Lattice Boltzmann Methods (**LBM**) are a set of numerical methods, based on that LBE, used as solver of Navier-Stokes equations and other conservative Partial Derivative Equations (PDEs). It is an alternative method to classical approaches for CFD such as finite element or finite volume methods. Its main advantage is to simulate simply different versions of Navier-Stokes equations (incompressible and low Mach formulations) and run efficiently on supercomputers. In this documentation, the section :bdg-ref-primary-line:`LBM-Saclay-Schemes` describes the LB methods which are implemented in LBM_Saclay.
          LBM is a powerful method which is very efficient on Graphics Processing Units (GPUs). LBM_Saclay developers program neither in ``cuda`` (for Nvidia GPUs) nor ``opencl`` but in C++ standard language. With a simple modification of ``cmake`` options, the code can be compiled either on CPU architectures or on GPU devices (see :bdg-ref-primary-line:`Quick-Start`). The Kokkos library is used for the portability of LBM_Saclay. You will find in :bdg-ref-primary-line:`Guidelines` what you need to implement your own initial conditions or source terms. Tutorials are also under progress for more advanced programmers who wish to develop new kernels with new ``setup_collider`` functions.
 
    .. tab-item:: Simulations
 
-      .. admonition:: Simulations: Multi-Phase and Multi-Component flows
+      .. admonition:: :mediumbold:`Simulations: Multi-Phase and Multi-Component flows`
 
          LBM_Saclay can simulate Multi-Phase and Multi-Component (**MPMC**) flows such as *binary demixing*, *buyoancy and coalescence of bubbles*, *Rayleigh-Taylor instability*, *liquid-gas phase change*, etc. A quick look of those phenomena is presented on :numref:`target-Fig-Approach`. Other examples are given in each subsection of :bdg-ref-primary-line:`Math-Models` which describe the PDEs of each model and their closure relationships. The phase-field models that are implemented in LBM_Saclay, are based on different forms of Cahn-Hilliard and Allen-Cahn equations which are modified and adapted to problems to simulate e.g. *crystal growth*, *dissolution of porous media*, *liquid-vapor phase change*, etc.
       
    .. tab-item:: ToC
 
-      .. admonition:: Table of content
+      .. admonition:: :mediumbold:`Table of content`
 
          .. dropdown:: Table of Content of this introduction
             :icon: comment
@@ -173,7 +171,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       
    Examples of two-phase flows simulated with LBM
 
-.. admonition:: LBM_Saclay workforce
+.. admonition:: :mediumbold:`LBM_Saclay workforce`
 
    .. figure:: src_doc/FIGS/Logos_LBM_Saclay/Logo-Workforce_LBM_Saclay.png
       :class: align-left
@@ -191,7 +189,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 **Documentation**
 *****************
       
-.. admonition:: Content of this documentation
+.. admonition:: :mediumbold:`Content of this documentation`
    :class: error
 
    .. figure:: src_doc/FIGS/Logos_LBM_Saclay/Logo_LBM_Saclay_DOC.png
@@ -211,7 +209,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 **PART I: User's guide**
 ************************
 
-.. admonition:: User's guide
+.. admonition:: :mediumbold:`User's guide`
    :class: caution
 
    .. toctree::
@@ -223,7 +221,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 **PART II: Mathematical models**
 ********************************
 
-.. admonition:: Mathematical models in LBM_Saclay
+.. admonition:: :mediumbold:`Mathematical models in LBM_Saclay`
    :class: caution
 
    .. toctree::
@@ -235,7 +233,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 **PART III: Lattice Boltzmann schemes**
 ***************************************
 
-.. admonition:: Lattice Boltzmann schemes in LBM_Saclay
+.. admonition:: :mediumbold:`Lattice Boltzmann schemes in LBM_Saclay`
    :class: caution
 
    .. toctree::
@@ -247,13 +245,13 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 **PART IV: Guidelines for developers**
 **************************************
 
-.. admonition:: Guidelines for developers
+.. admonition:: :mediumbold:`Guidelines for developers`
    :class: caution
 
    .. toctree::
       :maxdepth: 2
    
-      src_doc/04_PROGRAMMING/Guidelines.rst
+      src_doc/04_PROGRAMMING/TOC_Guidelines.rst
 
 .. _PART-V-Course-Reminders:
 
@@ -261,7 +259,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 **PART V: Reminders of fundamental concepts**
 *********************************************
 
-.. admonition:: Reminders of fundamental concepts
+.. admonition:: :mediumbold:`Reminders of fundamental concepts`
    :class: caution
 
    .. toctree::
@@ -280,7 +278,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       src_doc/05_COURSES/Thermo-PhaseTransition/TOC_PhaseField_For_PhaseTransition.rst
 
 
-.. admonition:: Appendices
+.. admonition:: :mediumbold:`Appendices`
    :class: note
 
    .. toctree::

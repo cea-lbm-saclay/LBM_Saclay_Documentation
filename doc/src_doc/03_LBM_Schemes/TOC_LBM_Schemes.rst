@@ -1,3 +1,5 @@
+.. include:: ../Substitutions.rst
+
 .. _LBM-Saclay-Schemes:
 
 PART III: Lattice Boltzmann schemes in LBM_Saclay
@@ -8,7 +10,7 @@ This section focuses on the description of Lattice Boltzmann schemes in LBM_Sacl
 Streaming and collision operators
 ---------------------------------
 
-.. admonition:: Streaming and collision operators
+.. admonition:: :mediumbold:`Streaming and collision operators`
 
    We start with the :ref:`Def-Lattices` and we give precisions on the streaming stage. Next section :ref:`Collision_Op` focuses on four most popular collision operators :math:`\Omega_i^{\iota}(f_{i},f_{i}^{eq})` with :math:`\iota=BGK, TRT, MRT, CM`.
 
@@ -21,7 +23,7 @@ Streaming and collision operators
 Equilibrium distribution functions
 ----------------------------------
 
-.. admonition:: Equilibrium distribution functions
+.. admonition:: :mediumbold:`Equilibrium distribution functions`
 
    In this sections, the equilibrium distribution functions :math:`f_i^{eq}` will be described for incompressible Navier-Stokes equations and for transport equations.
 
@@ -34,7 +36,7 @@ Equilibrium distribution functions
 LBM for Navier-Stokes/Korteweg model
 ------------------------------------
 
-.. admonition:: LBM for Navier-Stokes/Korteweg model
+.. admonition:: :mediumbold:`LBM for Navier-Stokes/Korteweg model`
 
    The Navier-Stokes/Korteweg model (NSK) is a popular alternative model for simulating two-phase flows without introducing a phase-field :math:`\phi`. That model is a low Mach formulation of the Navier-Stokes equations, where :math:`\rho` plays the role of phase index. The two-phase behavior is obtained by an appropriate choice of the Equation of State (EoS).
 
@@ -46,7 +48,7 @@ LBM for Navier-Stokes/Korteweg model
 Forces and Other schemes
 -------------------------
 
-.. admonition:: Forces and other schemes
+.. admonition:: :mediumbold:`Forces and other schemes`
 
    Finally the last term :math:`\mathcal{F}_i` is detailed with discretization of other differential operators (gradients and Laplacian).
 

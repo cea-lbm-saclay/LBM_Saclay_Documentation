@@ -1,9 +1,11 @@
+.. include:: ../Substitutions.rst
+
 .. _PARTI:
 
 PART I: User's guide
 ====================
 
-.. admonition:: Quick start and first simulation on one GPU
+.. admonition:: :mediumbold:`Quick start and first simulation on one GPU`
 
    .. toctree::
       :maxdepth: 2
@@ -15,14 +17,14 @@ PART I: User's guide
    
       ./SIMU_ON_ORCUS/Simulations-ORCUS-GPU.rst
 
-.. admonition:: Practice two-phase flows with LBM_Saclay
+.. admonition:: :mediumbold:`Practice two-phase flows with LBM_Saclay`
 
    .. toctree::
       :maxdepth: 2
    
       ./RUN_TRAINING_LBM/runtraininglbm.rst
 
-.. admonition:: Set your own parameters in LBM_Saclay input files
+.. admonition:: :mediumbold:`Set your own parameters in LBM_Saclay input files`
 
    .. toctree::
       :maxdepth: 2
@@ -34,7 +36,7 @@ PART I: User's guide
    
       ./SET_OWN_PARAMETERS/Methodology.rst
 
-.. admonition:: Compilation and run with MPI
+.. admonition:: :mediumbold:`Compilation and run with MPI`
 
    .. toctree::
       :maxdepth: 2
