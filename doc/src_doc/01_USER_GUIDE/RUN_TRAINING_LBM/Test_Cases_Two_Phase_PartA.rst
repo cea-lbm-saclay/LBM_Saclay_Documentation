@@ -12,7 +12,7 @@ Double-Poiseuille analytical solution
    :icon: comment
    :open:
 
-   Comparison of LBM_Saclay with :bdg-ref-primary-line:`Analytical-Solution-Double-Poiseuille`
+   Comparison of LBM_Saclay with the analytical solution of double-Poiseuille flows Eqs :eq:`Analy-DP` with the coefficient :math:`G` defined by Eq. :eq:`Coeff_G` written in :bdg-ref-primary-line:`Analytical-Solution-Double-Poiseuille`.
 
    .. admonition:: For LBM training session
       :class: error

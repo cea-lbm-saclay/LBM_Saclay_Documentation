@@ -79,6 +79,10 @@ and
 
    Z_{1}=(z_{2}-z_{1})(z_{3}-z_{1})(z_{4}-z_{1})
 
+Coalescence of two equal cylinders
+----------------------------------
+The analytical solution is written in :footcite:`Hooper_JACS1984`.
+
 References
 ----------
 
