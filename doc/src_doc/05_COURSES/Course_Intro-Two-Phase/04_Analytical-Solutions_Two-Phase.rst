@@ -79,6 +79,9 @@ and
 
    Z_{1}=(z_{2}-z_{1})(z_{3}-z_{1})(z_{4}-z_{1})
 
+References
+----------
+
 .. footbibliography::
 
 .. sectionauthor:: Alain Cartalade
