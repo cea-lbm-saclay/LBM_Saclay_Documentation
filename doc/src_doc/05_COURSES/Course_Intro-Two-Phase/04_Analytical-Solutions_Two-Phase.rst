@@ -87,12 +87,12 @@ The analytical solution is written in :footcite:`Hooper_JACS1984`. The contour i
 .. math::
    :label: x_analy_coalescence
 
-   x(\theta)=R_{0}\left[(1-m^{2})(1+m^{2})^{-1/2}(1+2m\cos2\theta+m^{2})^{-1}\right](1+m)\cos\theta
+   x(\theta)=R_{0}\left[(1-m^{2})(1+m^{2})^{-1/2}(1-2m\cos2\theta+m^{2})^{-1}\right](1+m)\cos\theta
 
 .. math::
    :label: y_analy_coalescence
 
-   y(\theta)=R_{0}\left[(1-m^{2})(1+m^{2})^{-1/2}(1\textcolor{red}{-}2m\cos2\theta+m^{2})^{-1}\right](1-m)\sin\theta
+   y(\theta)=R_{0}\left[(1m^{2})(1+m^{2})^{-1/2}(1+2m\cos2\theta+m^{2})^{-1}\right](1-m)\sin\theta
 
 where :math:`R_0` is the radius of both droplets. In Eqs :eq:`x_analy_coalescence` and :eq:`y_analy_coalescence` the parameter :math:`m` can be related to physical properties of surface tension :math:`\sigma`, dynamic viscosity :math:`\eta` and time :math:`t` by
 
