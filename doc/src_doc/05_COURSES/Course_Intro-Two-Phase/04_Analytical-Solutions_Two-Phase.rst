@@ -81,7 +81,34 @@ and
 
 Coalescence of two equal cylinders
 ----------------------------------
-The analytical solution is written in :footcite:`Hooper_JACS1984`.
+
+The analytical solution is written in :footcite:`Hooper_JACS1984`. The contour is given by:
+
+.. math::
+   :label: x_analy_coalescence
+
+   x(\theta)=R_{0}\left[(1-m^{2})(1+m^{2})^{-1/2}(1+2m\cos2\theta+m^{2})^{-1}\right](1+m)\cos\theta
+
+.. math::
+   :label: y_analy_coalescence
+
+   y(\theta)=R_{0}\left[(1-m^{2})(1+m^{2})^{-1/2}(1\textcolor{red}{-}2m\cos2\theta+m^{2})^{-1}\right](1-m)\sin\theta
+
+where :math:`R_0` is the radius of both droplets. In Eqs :eq:`x_analy_coalescence` and :eq:`y_analy_coalescence` the parameter :math:`m` can be related to physical properties of surface tension :math:`\sigma`, dynamic viscosity :math:`\eta` and time :math:`t` by
+
+.. math::
+   :label: time_adim
+
+   \frac{\sigma t}{\eta R_{0}}=\frac{\pi}{4}\int_{m^{2}}^{1}\left[\mu(1+\mu)^{1/2}K(\mu)\right]^{-1}d\mu
+
+where the function :math:`K(\mu)` is defined by
+
+.. math::
+   :label: Def_Kmu
+
+   K(\mu)&=\int_{0}^{1}\left[(1-x^{2})(1-\mu x^{2})\right]^{-1/2}\\
+	&=\int_{0}^{\pi/2}(1-\mu\sin^{2}\theta)^{-1/2}d\theta
+
 
 References
 ----------
