@@ -207,7 +207,7 @@ The **non-local pressure** :math:`\mathcal{P}(\rho,\boldsymbol{\nabla}\rho)` is 
 .. math::
    :label: Nonlocal_Pressure_NSK_Course
 
-      \mathcal{P}(\rho,\boldsymbol{\nabla}\rho) &=\rho \frac{\delta \mathcal{F}(\rho,\boldsymbol{\nabla}\rho)}{\delta \rho}-\mathcal{F}(\rho,\boldsymbol{\nabla}\rho)\\&=\rho \left[ \frac{\partial \mathcal{W}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right] - \mathcal{W}(\rho) - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}\\&=p^{eos}(\rho) - \kappa\rho \boldsymbol{\nabla}^2\rho - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}
+   \mathcal{P}(\rho,\boldsymbol{\nabla}\rho) &=\rho \frac{\delta \mathcal{F}(\rho,\boldsymbol{\nabla}\rho)}{\delta \rho}-\mathcal{F}(\rho,\boldsymbol{\nabla}\rho)\\&=\rho \left[ \frac{\partial \mathcal{W}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right] - \mathcal{W}(\rho) - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}\\&=p^{eos}(\rho) - \kappa\rho \boldsymbol{\nabla}^2\rho - \frac{\kappa}{2}|\boldsymbol{\nabla}\rho|^{2}
 
 where the Euler-Lagrange equation is used in the brackets (see :ref:`Free-Energy-Double-Wells`) for the second line and :eq:`Def_Thermo_Pressure` for the third line. Now we see the consequence on pressure of adding a gradient energy term in the free energy density: the pressure is not any more equal to the eos pressure, it is modified by two non-local terms (i.e. depending on :math:`\boldsymbol{\nabla}\rho`), both depending on the capillary coefficient :math:`\kappa`. The gradient energy term is responsible for the surface tension, the diffuse interface and the modification of pressure which becomes non-local.
 
@@ -216,7 +216,7 @@ In :ref:`Free-Energy-Double-Wells`, we have seen that :math:`\delta \mathcal{F}/
 .. math::
    :label: Non_Local_Chemical_Potential_NSK_Course
 
-      \mu_{\rho}^{vdW} &=\left[ \frac{\partial \mathcal{W}^{vdW}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right]\\&=RT\left[\ln\left(\frac{\rho}{1-b\rho}\right)+\frac{1}{1-b\rho}\right]-2a\rho-\kappa\boldsymbol{\nabla}^{2}\rho
+   \mu_{\rho}^{vdW} &=\left[ \frac{\partial \mathcal{W}^{vdW}(\rho)}{\partial \rho} - \kappa \boldsymbol{\nabla}\cdot \boldsymbol{\nabla}\rho \right]\\&=RT\left[\ln\left(\frac{\rho}{1-b\rho}\right)+\frac{1}{1-b\rho}\right]-2a\rho-\kappa\boldsymbol{\nabla}^{2}\rho
 
 Let us emphasize that the non-local terms in Eqs. :eq:`Nonlocal_Pressure_NSK_Course` and :eq:`Non_Local_Chemical_Potential_NSK_Course` have an impact only at the interface between both fluids or in the vicinity of the interface because in the bulk phases, the densities are constant of values :math:`\rho_l` and :math:`\rho_g`, and consequently their gradients are zero.
 
@@ -287,13 +287,12 @@ the bulk pressure :math:`P_b` and the two equilibrium densities :math:`\rho_g` a
       S_{2} & =P_{b}(V_{g}-V_{l})
    \end{cases}
 
-By solving semi-analytically we obtain the equilibrium densities (or coexistence densities) of bulks :math:`\rho_l` and :math:`\rho_g` for several temperatures as presented in :numref:`Fig-DensityBulk_EoS_vdW_NSK_Course` and :numref:`Fig-VolumeBulk_vdW_Volume_NSK_Course`. For example, on :numref:`Fig-DensityBulk_EoS_vdW_NSK_Course`, at :math:`T=280` two fluids will coexist. The first one density :math:`\rho_g \approx 4` and the second one of density :math:`\rho_l \approx 12`.
+By solving semi-analytically we obtain the equilibrium densities (or coexistence densities) of bulks :math:`\rho_l` and :math:`\rho_g` for several temperatures as presented in :numref:`Fig_DensityBulk-EoS-vdW-NSK-Course` and :numref:`Fig_VolumeBulk-vdW-Volume-NSK-Course`. For example, on :numref:`Fig_DensityBulk-EoS-vdW-NSK-Course`, at :math:`T=280` two fluids will coexist. The first one density :math:`\rho_g \approx 4` and the second one of density :math:`\rho_l \approx 12`.
 
 .. container:: sphinx-features
 
-   .. _Fig-DensityBulk_EoS_vdW_NSK_Course:
-
    .. figure:: ../../FIGS/03_FIGS_THERMO/Construction-Maxwell_EOSvdWaals_rho.png
+      :name: Fig_DensityBulk-EoS-vdW-NSK-Course
       :height: 250
       :width: 350
       :scale: 100
@@ -301,9 +300,8 @@ By solving semi-analytically we obtain the equilibrium densities (or coexistence
 
       Equilibrium densities for vdW eos
 
-   .. _Fig-VolumeBulk_vdW_Volume_NSK_Course:
-
    .. figure:: ../../FIGS/03_FIGS_THERMO/Construction-Maxwell_EOSvdWaals.png
+      :name: Fig_VolumeBulk-vdW-Volume-NSK-Course
       :height: 250
       :width: 350
       :scale: 100
