@@ -186,7 +186,7 @@ where :math:`p_{s}(\psi)` is an interpolation polynomial defined by:
 
    p_{s}(\psi)=\frac{1+p(\psi)}{2}
 
-of minimum and maximum values between 0 and 1 (see Fig. :numref:`Fig-Polynom-ps-psi`). It is defined by :math:`p(\psi)` of minimum and maximum values -1 and +1 (see Fig. :numref:`Fig-Polynom-p-psi`)
+of minimum and maximum values between 0 and 1 (see Fig. :numref:`Fig_Polynom-ps-psi`). It is defined by :math:`p(\psi)` of minimum and maximum values -1 and +1 (see Fig. :numref:`Fig_Polynom-p-psi`)
 
 .. math::
    :label: Polynomial-p
@@ -202,7 +202,7 @@ of minimum and maximum values between 0 and 1 (see Fig. :numref:`Fig-Polynom-ps-
       :columns: 6
 
       .. figure:: ../../FIGS/04_FIGS_COURSES/Interpolation-Function_ps-psi.png
-         :name: Fig-Polynom-ps-psi
+         :name: Fig_Polynom-ps-psi
          :figclass: align-center
          :align: center
          :height: 630
@@ -215,7 +215,7 @@ of minimum and maximum values between 0 and 1 (see Fig. :numref:`Fig-Polynom-ps-
       :columns: 6
 
       .. figure:: ../../FIGS/04_FIGS_COURSES/Interpolation-Function_p-psi.png
-         :name: Fig-Polynom-p-psi
+         :name: Fig_Polynom-p-psi
          :figclass: align-center
          :align: center
          :height: 630
