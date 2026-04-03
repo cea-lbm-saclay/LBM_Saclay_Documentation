@@ -1,9 +1,11 @@
+.. include:: ../../Substitutions.rst
+
 .. _Model_NSK_Course:
 
 Isothermal Navier-Stokes/Korteweg model
 =======================================
 
-Historically, the thermodynamic theory of capillarity was developed by van der Waals under the hypothesis of a continuous variation of density :footcite:p:`vanderWaals1979`, :footcite:p:`Rowlinson1979`. In that sense, this is the very first diffuse interface theory. Next Korteweg has modified the Navier-Stokes equations to take into account the surface tension force through what we call the Korteweg's tensor :footcite:p:`Korteweg1901`. Those equations are known as the Navier-Stokes/Korteweg model (NSK) which is a popular model for simulating two-phase flows. That model is a low Mach formulation of the Navier-Stokes equations, where :math:`\rho` plays the role of phase index. The two-phase behavior is obtained by an appropriate choice of the Equation of State (EoS). The NSK model is an alternative model to the Navier-Stokes/Conservative Allen-Cahn model for two incompressible fluids (see :ref:`Model_iNS_with_PhaseField_Course`).
+Historically, the thermodynamic theory of capillarity was developed by van der Waals under the hypothesis of a continuous variation of density :footcite:p:`vanderWaals1979`, :footcite:p:`Rowlinson1979`. In that sense, this is the very first diffuse interface theory. Next Korteweg has modified the Navier-Stokes equations to take into account the surface tension force through what we call the Korteweg's tensor :footcite:p:`Korteweg1901`. Those equations are known as the Navier-Stokes/Korteweg model (NSK) which is a popular model for simulating two-phase flows. That model is a (quasi-) compressible formulation of the Navier-Stokes equations, where :math:`\rho` plays the role of phase index. The two-phase behavior is obtained by an appropriate choice of the Equation of State (EoS). The NSK model is an alternative model to the Navier-Stokes/Conservative Allen-Cahn model for two incompressible fluids (see :ref:`Model_iNS_with_PhaseField_Course`). It is also known in the literature by the model of "van der Waals fluids".
 
 Free energy functional with :math:`\rho`
 ----------------------------------------
@@ -19,7 +21,7 @@ where :math:`\rho\equiv \rho(\boldsymbol{x},t)` is the fluid density which repla
 
 **Double-well potentiel**
 
-In two-phase flows literature the free energy density :math:`\mathcal{W}(\rho)` can take two different forms. In the first one, it takes a similar form as previously noted :math:`f_{dw}(\phi)`:
+In the literature of two-phase flows, the free energy density :math:`\mathcal{W}(\rho)` can take two different forms. In the first one, it takes a similar form as previously noted :math:`f_{dw}(\phi)`:
 
 .. math::
    :label:
@@ -52,39 +54,84 @@ In the rest of this section, we will focus on another way to define the potentia
 van der Waals equation of state and Maxwell construction
 --------------------------------------------------------
 
-The equation of state for an ideal gas is given by (1 mole):
+.. admonition:: Perfect gas eos
 
-.. math::
-   :label: EoS_Perfect_Gas_NSK_Course
+   We remind the equation of state for an ideal gas is given by:
+
+   .. math::
+      :label: EoS_Perfect_Gas_NSK_Course
    
-    PV=RT
+      p_{pg}V_{pg}=NRT
     
-which is derived from point-like particles whitout interaction. Expressed with density :math:`V=1/\rho` that equation of state takes the expression
+   which is derived from point-like particles whitout interaction. Expressed with density :math:`V=1/\rho` that equation of state takes the expression
 
-.. math::
-   :label: EoS_Perfect_Gas_Density_NSK_Course
+   .. math::
+      :label: EoS_Perfect_Gas_Density_NSK_Course
 
-   p^{eos}_{pg}(\rho,T)=\rho RT
+      p^{eos}_{pg}(\rho,T)=\rho RT
 
-where the subscript :math:`_{pg}` means *perfect gas*. That EoS of perfect gas is monotonous: for one pressure corresponds only a unique density. That relationship is also local in the sense that, at a same point :math:`\boldsymbol{x}`, the pressure :math:`p^{eos}(\boldsymbol{x})` is related to the density :math:`\rho(\boldsymbol{x})` and temperature :math:`T(\boldsymbol{x})`. We will see below that the gradient energy term in Eq. :eq:`Free_Energy_NSK_Course` is responsible for a *non-local pressure* :math:`\mathcal{P}`. 
+   where the subscript :math:`_{pg}` means *perfect gas*. That EoS of perfect gas is monotonous: for one pressure corresponds only a unique density. That relationship is also local in the sense that, at a same point :math:`\boldsymbol{x}`, the pressure :math:`p^{eos}(\boldsymbol{x})` is related to the density :math:`\rho(\boldsymbol{x})` and temperature :math:`T(\boldsymbol{x})`. We will see below that the gradient energy term in Eq. :eq:`Free_Energy_NSK_Course` is responsible for a *non-local pressure* :math:`\mathcal{P}`. 
 
-**van der Waals equation of state**
+Van der Waals modified that assumption. A new equation of state was formulated with short range repulsion (excluded volume) and long range attractions.
 
-Van der Waals modified that assumption. A new equation of state was formulated with short range repulsion (excluded volume) and long range attractions:
+.. admonition:: Derivation of van der Waals equation of state
 
-.. math::
-   :label: EoS_VdW_NSK_Course
+   The van der Waals EoS can be derived by two hypotheses on the internal energy :math:`e_{vdw}` and the volume :math:`V_{vdw}`. 
+
+   **Expression of pressure with internal energy**
+
+      The first one writes:
+
+      .. math::
+         :label: InternalEnergy-vdW
+
+         e_{vdW}=\underbrace{e_{pg}}_{\text{int energy}}-\underbrace{aN\varrho}_{\text{pot. en. of molecular interaction}}
+
+      where the first term is the internal energy of perfect gas and the second term is the potential energy of molecular interation. :math:`a` is the attractive molecular coefficient and :math:`\varrho` is the volumic density of molecules (:math:`\varrho=N/V`). By taking the derivative wrt :math:`V`:
+
+      .. math::
+
+         \underbrace{\frac{\partial e_{vdW}}{\partial V}}_{\equiv-p_{vdW}}=\underbrace{\frac{\partial e_{pg}}{\partial V}}_{\equiv-p_{pg}}+\frac{aN^{2}}{V^{2}}
+
+      The definitions of pressure have been used for :math:`\partial{e}/\partial{V}` and we obtain:
+
+      .. math::
+         :label: Def-Ppg
+
+         p_{pg}=p_{vdW}+\frac{aN^{2}}{V^{2}}
+
+   **Expression of volume with excluded volume**
+
+      The second hypothesis acts on the volume which is the volume of the perfect gas corrected by the excluded volume:
+
+      .. math::
+
+         V=V_{pg}+\underbrace{Nb}_{\text{vol occupied by }N\text{ moles}}
+
+      where the second term is the volume occupied by :math:`N` moles and the coefficient :math:`b` is the excluded volume i.e.
+
+      .. math::
+         :label: Def-Vpg
+
+         V_{pg}=V-Nb
+
+   **van der Waals EoS**
+
+      Finally, by replacing Eqs :eq:`Def-Ppg` and :eq:`Def-Vpg` in Eq. :eq:`EoS_Perfect_Gas_NSK_Course` we obtain:
+
+      .. math::
+         :label: EoS_VdW_NSK_Course
    
-   P(V,T)+\frac{a}{V^2}=\frac{RT}{V-b}
+         P(V,T)+\frac{a}{V^2}=\frac{RT}{V-b}
    
-where :math:`a` represents attractive interactions which modify the pressure and :math:`b` corresponds to the excluded volume occupied by hard sphere atoms. Those interactions can be described by interactomic potential, e.g. Lennard-Jones. Expressed with density, that Equation of State writes:
+      where :math:`a` represents attractive interactions which modify the pressure and :math:`b` corresponds to the excluded volume occupied by hard sphere atoms. Those interactions can be described by interactomic potential, e.g. Lennard-Jones. Expressed with density, that Equation of State writes:
 
-.. math::
-   :label: EoS_VdW_Density_NSK_Course
+      .. math::
+         :label: EoS_VdW_Density_NSK_Course
 
-   p^{eos}_{vdW}(\rho,T)=\frac{\rho RT}{1-b\rho}-a\rho^2
+         p^{eos}_{vdW}(\rho,T)=\frac{\rho RT}{1-b\rho}-a\rho^2
 
-The main advantage of that form of EoS, is that, for certain values of temperature, the EoS is not any more monotonous, and for one pressure corresponds two values of densities. Indeed, on :numref:`Fig-EoS_vdW_Volume_NSK_Course` the pressure is presented as a function of volume :math:`V` whereas on :numref:`Fig-EoS_vdW_Density_NSK_Course` it is presented as a function of density :math:`\rho`. On those figures, one temperature :math:`T_5` (the magenta curve) is above the critical temperature. The curve is monotonous and only one density corresponds to one pressure. For temperature :math:`T_4` (cyan curve) there is an inflexion point corresponding to the critical temperature (zero derivative with respect to \rho). At last, for three next temperatures :math:`T_1,T_2,T_3` (respectively black, red and blue curves), the pressure presents a cubic form enabling the existence of two densities corresponding to one pressure.
+The main advantage of the van der Waals EoS, is that, for certain values of temperature, the EoS is not any more monotonous, and for one pressure corresponds two values of densities. Indeed, on :numref:`Fig-EoS_vdW_Volume_NSK_Course` the pressure is presented as a function of volume :math:`V` whereas on :numref:`Fig-EoS_vdW_Density_NSK_Course` it is presented as a function of density :math:`\rho`. On those figures, one temperature :math:`T_5` (the magenta curve) is above the critical temperature. The curve is monotonous and only one density corresponds to one pressure. For temperature :math:`T_4` (cyan curve) there is an inflexion point corresponding to the critical temperature (zero derivative with respect to \rho). At last, for three next temperatures :math:`T_1,T_2,T_3` (respectively black, red and blue curves), the pressure presents a cubic form enabling the existence of two densities corresponding to one pressure.
 
 .. container:: sphinx-features
 
