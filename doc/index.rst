@@ -259,7 +259,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 **PART V: Reminders of fundamental concepts**
 *********************************************
 
-.. admonition:: :mediumbold:`Reminders of fundamental concepts`
+.. admonition:: :mediumbold:`Lattice Boltzmann Methods`
    :class: caution
 
    .. toctree::
@@ -267,6 +267,9 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    
       src_doc/05_COURSES/Course_LBM/TOC_LBM_Course.rst
 
+.. admonition:: :mediumbold:`Phase-field (or diffuse interface) theory`
+   :class: caution
+   
    .. toctree::
       :maxdepth: 2
 
