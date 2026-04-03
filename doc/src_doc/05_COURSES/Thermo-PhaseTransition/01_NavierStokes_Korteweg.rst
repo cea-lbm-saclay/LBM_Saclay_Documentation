@@ -135,9 +135,8 @@ The main advantage of the van der Waals EoS, is that, for certain values of temp
 
 .. container:: sphinx-features
 
-   .. _Fig-EoS_vdW_Volume_NSK_Course:
-
    .. figure:: ../../FIGS/03_FIGS_THERMO/EOS_vdWaals_P-V.png
+      :name: Fig-EoS_vdW_Volume_NSK_Course
       :height: 250
       :width: 350
       :scale: 100
@@ -145,9 +144,8 @@ The main advantage of the van der Waals EoS, is that, for certain values of temp
 
       Phase diagram :math:`P-V`
 
-   .. _Fig-EoS_vdW_Density_NSK_Course:
-
    .. figure:: ../../FIGS/03_FIGS_THERMO/EOS_vdWaals_P-Rho.png
+      :name: Fig-EoS_vdW_Density_NSK_Course
       :height: 250
       :width: 350
       :scale: 100
