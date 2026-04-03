@@ -1,6 +1,4 @@
-.. |br| raw:: html
-
-   <br />
+.. include:: ../../Substitutions.rst
 
 .. _Solid-Liquid-Phase-Change:
 
@@ -138,60 +136,70 @@ The derivation of the phase-field model of solidification is inspired from :foot
 Free energy density :math:`\mathscr{F}`
 """""""""""""""""""""""""""""""""""""""
 
-The Stefan's problem is a "sharp interface" modelling. Here, an equivalent diffuse interface is derived. We introduce a phase-field :math:`\psi=\pm1`: :math:`\psi=-1` in the solid phase and :math:`\psi=+1` in the liquid phase.
+The Stefan's problem is a "sharp interface" modelling. Here, an equivalent diffuse interface is derived. We introduce a phase-field :math:`\psi(\boldsymbol{x},t)` with :math:`\psi=-1` in the solid phase and :math:`\psi=+1` in the liquid phase. The solid (respectively liquid) is characterized by its specific heat :math:`C_p^s` (resp. :math:`C_p^l`) and thermal conductivity :math:`\Lambda^s` (resp. :math:`\Lambda^s`). The interface is characterized by its normal velocity :math:`v_n`, the unit normal vector :math:`\boldsymbol{n}_{\psi}` and the latent heat :math:`\mathcal{L}`. The solidification problem is presented on Fig. :numref:`Fig_Solidification-Pheno`
 
 .. figure:: ../../FIGS/04_FIGS_COURSES/Solidification-psi.png
-      :name: Fig-Solidification-Pheno
-      :figclass: align-center
-      :align: center
-      :height: 430
-      :width: 920
-      :scale: 40 %
+   :name: Fig_Solidification-Pheno
+   :figclass: align-center
+   :align: center
+   :height: 430
+   :width: 920
+   :scale: 40 %
 
-      Solidification
+   Solidification
 
-The free energy density is now the functional of two functions :math:`\psi` and :math:`T` 
+.. admonition:: Functional of free energy
 
-.. math::
-   :label:
+   **Functional of free energy**
 
-   \mathscr{F}[\psi,{\color{red}T}]=\int\Bigl[\underbrace{\mathcal{F}_{int}(\psi,\boldsymbol{\nabla}\psi)}_{\text{Standard interface free energy}}+\underbrace{{\color{red}f_{bulk}(\psi,T)}}_{\text{Thermodynamic of bulks}}\Bigr]dV
+      The free energy density is now the functional of two functions :math:`\psi` and :math:`T` 
 
-That free energy density contains two contributions: the first one is the interface contribution :math:`\mathcal{F}_{int}(\psi,\boldsymbol{\nabla}\psi)` and the second one the bulk free energy density :math:`f_{bulk}(\psi,T)`. The first one is standard. It is defined by a double-well plus a gradient energy term:
+      .. math::
+         :label:
 
-.. math::
+         \mathscr{F}[\psi,{\color{red}T}]=\int\Bigl[\underbrace{\mathcal{F}_{int}(\psi,\boldsymbol{\nabla}\psi)}_{\text{Standard interface free energy}}+\underbrace{{\color{red}f_{bulk}(\psi,T)}}_{\text{Thermodynamic of bulks}}\Bigr]dV
 
-   \mathcal{F}_{int}(\psi,\boldsymbol{\nabla}\psi)=f_{dw}(\psi)+\frac{\zeta}{2}(\boldsymbol{\nabla}\psi)^{2}
+      That free energy density contains two contributions: the first one is the interface contribution :math:`\mathcal{F}_{int}(\psi,\boldsymbol{\nabla}\psi)` and the second one the bulk free energy density :math:`f_{bulk}(\psi,T)`.
+   
+   **Interface contribution**
 
-where the double-well is defined by
+      The first one is standard and has been widely discussed until now. It is defined by a double-well plus a gradient energy term:
 
-.. math::
+      .. math::
 
-   f_{dw}(\psi)&=Hg_{3}(\psi)\\
-   &=H(\psi-\psi^{\star})^{2}(\psi+\psi^{\star})^{2}
+         \mathcal{F}_{int}(\psi,\boldsymbol{\nabla}\psi)=f_{dw}(\psi)+\frac{\zeta}{2}(\boldsymbol{\nabla}\psi)^{2}
 
-the minima are :math:`\psi^{\star}=\pm1`. With that double-well free energy, the Euler-Lagrange solution and the interface have already been discussed in :bdg-ref-primary:`Alternative-Double-Wells`: the equilibrium solution is :math:`\psi^{eq}(x)=\psi^{\star}\tanh\left(2x/W\right)`, the interface width is :math:`W=\frac{1}{\psi^{\star}}\sqrt{\frac{2\zeta}{H}}` and the surface tension is :math:`\sigma=\frac{4}{3}\sqrt{2\zeta H}`.
+      where the double-well is defined by
 
-The bulk free energy density takes into account the free energy of each phase :math:`{\color{red}f_{s}(T)}` in the solid and :math:`{\color{red}f_{l}(T)}` in the liquid:
+      .. math::
 
-.. math::
-   :label:
+         f_{dw}(\psi)&=Hg_{3}(\psi)\\
+         &=H(\psi-\psi^{\star})^{2}(\psi+\psi^{\star})^{2}
 
-   f_{bulk}(\psi,T)=p_{s}(\psi){\color{red}f_{s}(T)}+\left[1-p_{s}(\psi)\right]{\color{red}f_{l}(T)}
+      the minima are :math:`\psi^{\star}=\pm1`. With that double-well free energy, the Euler-Lagrange solution and the interface have already been discussed in :bdg-ref-primary:`Alternative-Double-Wells`: the equilibrium solution is :math:`\psi^{eq}(x)=\psi^{\star}\tanh\left(2x/W\right)`, the interface width is :math:`W=\frac{1}{\psi^{\star}}\sqrt{\frac{2\zeta}{H}}` and the surface tension is :math:`\sigma=\frac{4}{3}\sqrt{2\zeta H}`.
 
-where :math:`p_{s}(\psi)` is an interpolation polynomial defined by:
+   **Bulk contribution**
 
-.. math::
-   :label: Polynomial-p_s
+      The bulk free energy density takes into account the free energy of each phase :math:`{\color{red}f_{s}(T)}` in the solid and :math:`{\color{red}f_{l}(T)}` in the liquid:
 
-   p_{s}(\psi)=\frac{1+p(\psi)}{2}
+      .. math::
+         :label:
 
-of minimum and maximum values between 0 and 1 (see Fig. :numref:`Fig_Polynom-ps-psi`). It is defined by :math:`p(\psi)` of minimum and maximum values -1 and +1 (see Fig. :numref:`Fig_Polynom-p-psi`)
+         f_{bulk}(\psi,T)=p_{s}(\psi){\color{red}f_{s}(T)}+\left[1-p_{s}(\psi)\right]{\color{red}f_{l}(T)}
 
-.. math::
-   :label: Polynomial-p
+      where :math:`p_{s}(\psi)` is an interpolation polynomial defined by:
 
-   p(\psi)=\frac{15}{8}\left[\psi-\frac{2}{3}\psi^{3}+\frac{\psi^{5}}{5}\right]
+      .. math::
+         :label: Polynomial-p_s
+
+         p_{s}(\psi)=\frac{1+p(\psi)}{2}
+
+      of minimum and maximum values between 0 and 1 (see Fig. :numref:`Fig_Polynom-ps-psi`). It is defined by :math:`p(\psi)` of minimum and maximum values -1 and +1 (see Fig. :numref:`Fig_Polynom-p-psi`)
+
+      .. math::
+         :label: Polynomial-p
+
+         p(\psi)=\frac{15}{8}\left[\psi-\frac{2}{3}\psi^{3}+\frac{\psi^{5}}{5}\right]
 
 
 .. grid:: 2
