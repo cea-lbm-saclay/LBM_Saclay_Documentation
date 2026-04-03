@@ -63,7 +63,7 @@ Thermodynamic Maxwell relations
       :columns: 6
 
       .. math::
-         :label: dT-dv_s
+         :label: dT-dv-s
 
          \left(\frac{\partial T}{\partial v}\right)_{s}=-\left(\frac{\partial P}{\partial s}\right)_{v}
 
@@ -76,7 +76,7 @@ Thermodynamic Maxwell relations
       :columns: 6
 
       .. math::
-         :label: ds-dv_T
+         :label: ds-dv-T
 
          -\left(\frac{\partial s}{\partial v}\right)_{T}=-\left(\frac{\partial P}{\partial T}\right)_{v}
 
@@ -85,14 +85,14 @@ Thermodynamic Maxwell relations
 
          \left(\frac{\partial T}{\partial P}\right)_{s}=-\left(\frac{\partial v}{\partial s}\right)_{P}
 
-Proof of Eq. :eq:`dT-dv_s` with :math:`\mathcal{U}(V,S)`
+Proof of Eq. :eq:`dT-dv-s` with :math:`\mathcal{U}(V,S)`
 
 .. math::
 
    \frac{\partial\mathcal{U}}{\partial V\partial S}=\frac{\partial\mathcal{U}}{\partial S\partial V}&\Longleftrightarrow\frac{\partial}{\partial V}\underbrace{\left(\frac{\partial\mathcal{U}}{\partial S}\right)}_{\equiv T}=\frac{\partial}{\partial S}\underbrace{\left(\frac{\partial\mathcal{U}}{\partial V}\right)}_{\equiv-P}\\
    &\Longleftrightarrow\left(\frac{\partial T}{\partial V}\right)_{S}=-\left(\frac{\partial P}{\partial S}\right)_{V}
 
-Proof of Eq. :eq:`ds-dv_T` with :math:`\mathcal{F}(V,T)`
+Proof of Eq. :eq:`ds-dv-T` with :math:`\mathcal{F}(V,T)`
 
 .. math::
 
