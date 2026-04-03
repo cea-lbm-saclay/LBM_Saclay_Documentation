@@ -131,7 +131,7 @@ Van der Waals modified that assumption. A new equation of state was formulated w
 
          p^{eos}_{vdW}(\rho,T)=\frac{\rho RT}{1-b\rho}-a\rho^2
 
-The main advantage of the van der Waals EoS, is that, for certain values of temperature, the EoS is not any more monotonous, and for one pressure corresponds two values of densities. Indeed, on :numref:`Fig_EoS-vdW-Volume-NSK-Course` the pressure is presented as a function of volume :math:`V` whereas on :numref:`Fig-EoS_vdW_Density_NSK_Course` it is presented as a function of density :math:`\rho`. On those figures, one temperature :math:`T_5` (the magenta curve) is above the critical temperature. The curve is monotonous and only one density corresponds to one pressure. For temperature :math:`T_4` (cyan curve) there is an inflexion point corresponding to the critical temperature (zero derivative with respect to \rho). At last, for three next temperatures :math:`T_1,T_2,T_3` (respectively black, red and blue curves), the pressure presents a cubic form enabling the existence of two densities corresponding to one pressure.
+The main advantage of the van der Waals EoS, is that, for certain values of temperature, the EoS is not any more monotonous, and for one pressure corresponds two values of densities. Indeed, on :numref:`Fig_EoS-vdW-Volume-NSK-Course` the pressure is presented as a function of volume :math:`V` whereas on :numref:`Fig_EoS-vdW-Density-NSK-Course` it is presented as a function of density :math:`\rho`. On those figures, one temperature :math:`T_5` (the magenta curve) is above the critical temperature. The curve is monotonous and only one density corresponds to one pressure. For temperature :math:`T_4` (cyan curve) there is an inflexion point corresponding to the critical temperature (zero derivative with respect to \rho). At last, for three next temperatures :math:`T_1,T_2,T_3` (respectively black, red and blue curves), the pressure presents a cubic form enabling the existence of two densities corresponding to one pressure.
 
 .. container:: sphinx-features
 
@@ -145,7 +145,7 @@ The main advantage of the van der Waals EoS, is that, for certain values of temp
       Phase diagram :math:`P-V`
 
    .. figure:: ../../FIGS/03_FIGS_THERMO/EOS_vdWaals_P-Rho.png
-      :name: Fig-EoS_vdW_Density_NSK_Course
+      :name: Fig_EoS-vdW-Density-NSK-Course
       :height: 250
       :width: 350
       :scale: 100
