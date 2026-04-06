@@ -30,5 +30,9 @@ Lyx and all LaTeX packages must be installed on your computer:
 .. admonition:: Make your presentation
    :class: error
 
-   To make your own presentation, follow the LyX file example ``Template-LyX-Presentation.lyx`` given in the directory ``/home/lbm-saclay/INTERN-START/Template-LyX-Presentation/``
+   1. To make your own presentation, follow the LyX file example ``Template-LyX-Presentation.lyx`` given in the directory ``/home/lbm-saclay/INTERN-START/Template-LyX-Presentation/``
+
+   2. Your figures must be placed in the folder ``FIGS`` and your videos in the folder ``VIDEOS``
+
+   3. The total frame number must be modified in ``beamerouterthemeCEA2023.sty``
 
