@@ -43,7 +43,6 @@ PART I: User's guide
    
       ./QUICKSTART/Compil_GPU_MPI_Topaze.rst
 
-.. only:: titania
 
    .. toctree::
       :maxdepth: 2
