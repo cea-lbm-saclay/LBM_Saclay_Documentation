@@ -36,3 +36,4 @@ Lyx and all LaTeX packages must be installed on your computer:
 
    3. The total frame number must be modified in ``beamerouterthemeCEA2023.sty``
 
+.. sectionauthor:: Alain Cartalade
