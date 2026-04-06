@@ -35,7 +35,7 @@ Quick Start with LBM_Saclay
           b. For Sorbonne University students go to :bdg-ref-primary-line:`Simulations-GPU`
           c. For INSTN "Two-phase" training go to :bdg-ref-primary-line:`Simulations-GPU`
    
-   .. tab-item:: For DM2S/STMF users
+   .. tab-item:: For STMF interns
       
       .. admonition:: Shared directories for DM2S/STMF users
          :class: important
@@ -52,6 +52,28 @@ Quick Start with LBM_Saclay
 
             - First simulations on ORCUS: you can go directly to :bdg-ref-primary-line:`Simulations-GPU` and follow the instructions.
 
+      .. admonition:: Configuration
+         :class: error
+
+         1. Get access to the directory ``/home/lbm-saclay``
+
+         2. Open a terminal, and execute the command below for LBM_Saclay's environment:
+
+          .. code-block:: shell
+
+             $ source /home/lbm-saclay/INTERN-START/CONFIG/configure.sh
+
+          The shell script ``configure.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also copies the ``texmf`` and ``layouts`` for Beamer presentations.
+
+         3. Open the LBM_Saclay's documentation
+
+          .. code-block:: shell
+
+             $ lbm-doc.sh &
+
+          ``lbm-doc.sh`` is an alias of command ``google-chrome https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``
+
+         
    .. tab-item:: For other users
 
       To be completed
