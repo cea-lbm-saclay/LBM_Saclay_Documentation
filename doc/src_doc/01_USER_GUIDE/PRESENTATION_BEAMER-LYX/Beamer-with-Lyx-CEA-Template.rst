@@ -1,15 +1,15 @@
 Beamer presentation with LyX and CEA template
 =============================================
 
-Lyx must be installed on your computer and all LaTeX packages:
+Lyx and all LaTeX packages must be installed on your computer:
 
    .. code-block:: shell
 
+      $ sudo apt install lyx
       $ sudo apt install texlive-full
 
 
-.. admonition:: For training session
-   :class: error
+.. admonition:: Configuration for using CEA Beamer template with LyX
 
    1. Copy in your ``/home/yourlogin`` the folder ``texmf`` contained in the directory ``/home/lbm-saclay/INTERN-START/``:
 
@@ -26,4 +26,9 @@ Lyx must be installed on your computer and all LaTeX packages:
    3. Reconfigure LyX:
 
       In ``Tools`` clic on ``Reconfigure``
+
+.. admonition:: Make your presentation
+   :class: error
+
+   To make your own presentation, follow the LyX file example ``Template-LyX-Presentation.lyx`` given in the directory ``/home/lbm-saclay/INTERN-START/Template-LyX-Presentation/``
 
