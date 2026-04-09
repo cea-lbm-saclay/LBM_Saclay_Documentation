@@ -17,12 +17,13 @@ PART I: User's guide
    
       ./SIMU_ON_ORCUS/Simulations-ORCUS-GPU.rst
 
-.. admonition:: :mediumbold:`Practice two-phase flows with LBM_Saclay`
+.. admonition:: :mediumbold:`Practice two-phase with LBM_Saclay`
 
    .. toctree::
       :maxdepth: 2
    
       ./RUN_TRAINING_LBM/runtraininglbm.rst
+      ./RUN_TRAINING_DISSOLUTION/run_training_dissolution.rst
 
 .. admonition:: :mediumbold:`Set your own parameters in LBM_Saclay input files`
 
