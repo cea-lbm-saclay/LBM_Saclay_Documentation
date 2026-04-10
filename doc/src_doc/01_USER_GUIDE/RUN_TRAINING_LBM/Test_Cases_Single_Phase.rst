@@ -1,3 +1,5 @@
+.. include:: ../../Substitutions.rst
+
 .. _Single-Training-LBM:
 
 Run "Single phase test cases"
@@ -25,21 +27,39 @@ Once the simulation is complete (78.891 seconds on CPU of is154726 for 250.000 t
 
 **In paraview12**
 
-.. admonition:: For training session: commands in paraview
+.. admonition:: For training session: post-processing with paraview
    :class: error
 
-   1. Open ``TestCase01_Poiseuille_Water_FINAL.vti`` file and ``Apply``
-   2. ``Ctrl space`` + ``Cell Data to Point Data`` and ``Apply``
-   3. ``Ctrl space`` + ``Plot Over Line``
-   4. Select ``Sample At Segment Centers`` Clic on ``Y axis`` and ``Apply`` --> new graph with profile
-   5. ``File`` --> ``Save Data``, ``file name``: ``Poiseuille_Water.csv`` and ``OK``
+   Two methods are possible to extract a profile from ``vti`` files with paraview. Both will save :math:`u_x(y)` values at the final time of simulation in a new file called ``Poiseuille_Water.csv``.
+
+   .. tab-set::
+
+      .. tab-item:: Paraview commands
+
+         Open paraview12 and follow the instructions below to create the profile ``Poiseuille_Water.csv``:
+
+          1. Open ``TestCase01_Poiseuille_Water_FINAL.vti`` file and ``Apply``
+          2. ``Ctrl space`` + ``Cell Data to Point Data`` and ``Apply``
+          3. ``Ctrl space`` + ``Plot Over Line``
+          4. Select ``Sample At Segment Centers`` Clic on ``Y axis`` and ``Apply`` --> new graph with profile
+          5. ``File`` --> ``Save Data``, ``file name``: ``Poiseuille_Water.csv`` and ``OK``
+
+      .. tab-item:: Paraview python
+
+         The five previous commands are saved inside a python script ``Extract-Profile_Poiseuille_PV5-12-1.pvpy``. You can use it with ``pvpython``:
+
+         .. code-block:: shell
+
+             $ /tmp_formation/LBM_Saclay/ParaView/ParaView-5.12.1-MPI-Linux-Python3.10-x86_64/bin/pvpython  Extract-Profile_Poiseuille_PV5-12-1.pvpy
+
+         The script will generate automatically the output file ``Poiseuille_Water.csv``
 
 **Run python script**
 
-Next in your terminal
-
 .. admonition:: For training session: python script
    :class: error
+
+   Next in your terminal
 
     .. code-block:: shell
 
@@ -52,7 +72,7 @@ Next in your terminal
        $ python Post-Pro_Poiseuille_CompareAnaly_GPU.py
 
 
-   In input file ``TestCase01_Poiseuille_Water.ini`` test successively ``nStepmax=250000`` and ``nStepmax=500000``. The python script shoult plot :numref:`target-Fig-SinglePoiseuille`.
+   In input file ``TestCase01_Poiseuille_Water.ini`` test successively ``nStepmax=250000`` and ``nStepmax=500000``. The python script must plot :numref:`target-Fig-SinglePoiseuille`.
 
 .. admonition:: For training session: if problem with plot
    :class: important
