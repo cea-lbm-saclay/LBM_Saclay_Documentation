@@ -126,10 +126,10 @@ Next in your terminal
 
        $ python Post-Pro_Compare_Analytical-Solution.py
 
-   You must obtain :numref:`Fig_GPMixt-Compare-Stefan-Problem`
+   You must obtain :numref:`FigGPMixt-Compare-Stefan-Problem`
 
 .. figure:: ../../../src_doc/FIGS/01_FIGS_VALIDATIONS/Compare-Stefan-Problem_GPMixt.png
-   :name: Fig_GPMixt-Compare-Stefan-Problem
+   :name: FigGPMixt-Compare-Stefan-Problem
    :height: 270
    :width: 850
    :scale: 100
@@ -192,10 +192,10 @@ Next in your terminal
 
        $ python Script_plot-Stefan1D_anti-trapping.py
 
-   You must obtain :numref:`Fig_Compare-Stefan-Problem-Ds0-withoutAT`
+   You must obtain :numref:`FigCompare-Stefan-Problem-Ds0-withoutAT`
 
 .. figure:: ../../../src_doc/FIGS/01_FIGS_VALIDATIONS/Stefan1D_Ds0_no-anti-trapping.png
-   :name: Fig_Compare-Stefan-Problem-Ds0-withoutAT
+   :name: FigCompare-Stefan-Problem-Ds0-withoutAT
    :height: 270
    :width: 850
    :scale: 100
@@ -209,10 +209,10 @@ Next in your terminal
 .. admonition:: :mediumbold:`Exercise`
    :class: important
 
-   Start again with LBM_Saclay input file ``Test_1d_Stefan_Ds0_with-anti-trapping.ini`` and compare the composition profile. You must obtain :numref:`Fig_Stefan1D_Ds0_with-anti-trapping.png`
+   Start again with LBM_Saclay input file ``Test_1d_Stefan_Ds0_with-anti-trapping.ini`` and compare the composition profile. You must obtain :numref:`FigStefan1D_Ds0_with-anti-trapping.png`
 
 .. figure:: ../../../src_doc/FIGS/01_FIGS_VALIDATIONS/Stefan1D_Ds0_with-anti-trapping.png
-   :name: Fig_Stefan1D_Ds0_with-anti-trapping.png
+   :name: FigStefan1D_Ds0_with-anti-trapping.png
    :height: 270
    :width: 850
    :scale: 100
