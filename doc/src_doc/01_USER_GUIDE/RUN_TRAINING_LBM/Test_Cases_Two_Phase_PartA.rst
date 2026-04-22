@@ -249,6 +249,28 @@ Rayleigh-Taylor instability
    
          <video controls src="../../../_static/Vid_Rayleigh-Taylor_Instability.webm" width="400" height="550"> </video>
 
+.. admonition:: Exercise
+   :class: important
+
+   In LBM_Saclay input file, modify :math:`\nu^{\star}`, and :math:`M_{\phi}` such as Re=1000 and Pe=100. We will simulate two cases. The first one with a surface tension :math:`\sigma^{\star}` set such as Ca=0.01 and the second one such as Ca=0.1. Run both simulations, make the video and discuss consistency of results with the capillary length :math:`l_c`.
+
+   Method:
+
+   1) use the pre-processing python script to set the parameters
+
+    .. code-block:: shell
+
+       $ python InputParam_Exercise.py
+
+   2) Set the parameters in LBM_Saclay input file and run the simulation
+
+   3) Once the simulations is performed, use ``pvpython`` command (paraview python) with ``Rayleigh-Taylor-Make-Video.pvpy`` (which uses the pvstate file ``State_Vid_Rayleigh-Taylor2D_PV513.pvsm``) to make the video. 
+
+    .. code-block:: shell
+
+       $ /tmp_formation/LBM_Saclay/ParaView/ParaView-5.13.0-MPI-Linux-Python3.10-x86_64/bin/pvpython Rayleigh-Taylor-Make-Video.pvpy
+
+
 Capillary wave: analytical solution of Prosperetti
 --------------------------------------------------
 

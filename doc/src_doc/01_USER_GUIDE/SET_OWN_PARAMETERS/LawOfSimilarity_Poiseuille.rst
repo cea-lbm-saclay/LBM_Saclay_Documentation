@@ -95,7 +95,10 @@ We can derive the time step:
 Second choice of parameters: :math:`L^{\star}` and :math:`\nu^{\star}`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-From the previous set of parameters, one solution to keep the simulation stable is to set :math:`L^{\star}` and :math:`\nu^{\star}` such that :math:`u_{max}^{\star}/10=0.208`. To achieve that, for a given Reynolds number, it is sufficient to multiply by five the dimensionless width :math:`L_{1}^{\star}\times5` and divide by two the kinematic viscosity :math:`\nu_{1}^{\star}/2`.
+.. admonition:: Divide :math:`u_{max}^{\star}` by 10
+   :class: warning
+
+   From the previous set of parameters, one solution to keep the simulation stable is to set :math:`L^{\star}` and :math:`\nu^{\star}` such that :math:`u_{max}^{\star}/10=0.208`. To achieve that, for a given Reynolds number, it is sufficient to multiply by five the dimensionless width :math:`L_{1}^{\star}\times5` and divide by two the kinematic viscosity :math:`\nu_{1}^{\star}/2`.
 
 - :math:`L^{\star}=L_{1}^{\star}\times5=100`, means that the number of nodes is :math:`N_y=100`. We can derive the space-step by:
 
