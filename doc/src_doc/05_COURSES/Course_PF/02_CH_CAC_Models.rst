@@ -119,7 +119,15 @@ For coupling with fluid flow of velocity :math:`\boldsymbol{u}`, the advective f
    .. math::
       :label: Adv_CH_Model_Course_Summary
 
-      \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
+      \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}(\boldsymbol{x},t)  \right]
+
+   with 
+
+   .. math::
+      :label: 
+
+      \mu_{\phi}=\underbrace{2H\phi(1-\phi)(1-2\phi)}_{f_{dw}^{\prime}(\phi)}-\zeta\boldsymbol{\nabla}^{2}\phi
+
 
    The Cahn-Hilliard model is powerful model which is capable of simulating interface phenomena and particularly  *spinodal decomposition*. However, it is a particular model in the sense that the phase-field :math:`\phi` plays two roles: first it tracks the interface and second it gives the local value of compositions. More specifically, the compositions values of bulk phases cannot be freely chosen equal to 0 and 1. They must be equal to :math:`c_0^{eq}` and :math:`c_1^{eq}` where those two values come from the thermodynamic. Another difficulty lays in the bilaplacian and specific numerical methods are needed to tackle that fourth-order derivative.
 

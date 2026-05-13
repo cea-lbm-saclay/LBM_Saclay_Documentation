@@ -387,7 +387,7 @@ Summary
       .. math::
          :label: Chem_Pot_TwoPhase
 
-         \mu_{\phi}=\frac{3}{2}\sigma W\left[\frac{16}{W^2}\phi(1-\phi)(1-2\phi)-\boldsymbol{\nabla}^{2}\phi\right]
+         \mu_{\phi}=\frac{3\sigma}{2W}\left[16\phi(1-\phi)(1-2\phi)-W^2\boldsymbol{\nabla}^{2}\phi\right]
 
 
 .. admonition:: Interface-capturing model
@@ -400,7 +400,9 @@ Summary
       .. math::
          :label: CH_Eq_TwoPhase
 
-         \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left\{M_{\phi}\boldsymbol{\nabla}\left[2\phi(1-\phi)(1-2\phi)-\frac{W^2}{8}\boldsymbol{\nabla}^{2}\phi  \right]\right\}
+         \frac{\partial\phi(\boldsymbol{x},t)}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)=\boldsymbol{\nabla}\cdot\left[\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}(\boldsymbol{x},t)  \right]
+
+      with the chemical potential :math:`\mu_\phi` defined by Eq. :eq:`Chem_Pot_TwoPhase`.
 
    :mediumbold:`Model 2: Conservative Allen-Cahn equation`
 

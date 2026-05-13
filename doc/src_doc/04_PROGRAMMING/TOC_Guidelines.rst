@@ -36,3 +36,14 @@ Add a new kernel
       
       ./Kernel_New.rst
 
+Tutorial for implementing a Cahn-Hilliard kernel
+------------------------------------------------
+
+.. admonition:: :mediumbold:`From Advection-Diffusion Equation to Cahn-Hilliard`
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./Tuto_Cahn-Hilliard.rst
+
+

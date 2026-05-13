@@ -1,9 +1,11 @@
+.. include:: ../Substitutions.rst
+
 .. _Git-Commands:
 
 Before programming: create a new branch from master
 ---------------------------------------------------
 
-**Download one version of LBM_Saclay**
+:mediumbold:`Download one version of LBM_Saclay`
 
 For example here ``LBM_Saclay_Rech-Dev`` version, the command ``git clone``
 
@@ -13,7 +15,7 @@ For example here ``LBM_Saclay_Rech-Dev`` version, the command ``git clone``
 
 
    
-**Check your current branch**
+:mediumbold:`Check your current branch`
 
    .. admonition:: Check your current branch
       :class: hint
@@ -36,7 +38,7 @@ For example here ``LBM_Saclay_Rech-Dev`` version, the command ``git clone``
 
    means that you are currently on the ``master``.
 
-**Create a new branch**
+:mediumbold:`Create a new branch`
 
    .. admonition:: Create a new branch
       :class: hint
@@ -59,7 +61,7 @@ For example here ``LBM_Saclay_Rech-Dev`` version, the command ``git clone``
 
             $ git status
 
-**Move on one existing branch**
+:mediumbold:`Move on one existing branch`
 
    .. admonition:: Move on one existing branch
       :class: hint
@@ -70,7 +72,7 @@ For example here ``LBM_Saclay_Rech-Dev`` version, the command ``git clone``
 
             $ git checkout dev/hoel.keraudren
 
-**Copy and rename one existing branch**
+:mediumbold:`Copy and rename one existing branch`
 
    .. admonition:: Copy one existing branch
       :class: hint
@@ -96,6 +98,18 @@ For example here ``LBM_Saclay_Rech-Dev`` version, the command ``git clone``
             $ git push -u origin dev/alain.cartalade
 
       4. You can start your developments on your branch.
+
+:mediumbold:`Synchronize your branch with master`
+
+   .. admonition:: Synchronize your branch with master
+      :class: hint
+
+         .. code-block:: shell
+
+            $ git fetch
+            $ git merge origin/master
+
+.. _Push-Implementation:
 
 After programming: push your developments
 -----------------------------------------

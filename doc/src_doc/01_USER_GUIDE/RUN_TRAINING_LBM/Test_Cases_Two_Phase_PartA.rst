@@ -88,7 +88,7 @@ Double-Poiseuille analytical solution
 Rayleigh-Taylor instability
 ---------------------------
 
-.. dropdown:: Rayleigh-Taylor instability: verification of small density ratio (:math:`\rho_H/\rho_{\ell}=500`)
+.. dropdown:: Rayleigh-Taylor instability: verification of small density ratio (:math:`\rho_H/\rho_{\ell}=3`)
    :icon: comment
    :open:
 
