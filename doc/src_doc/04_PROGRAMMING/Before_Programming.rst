@@ -120,7 +120,7 @@ Check the modifications on the current branch
 
       $ git status
 
-**Add your comment and push your developments**
+:mediumbold:`Add your comment and push your developments`
 
    .. admonition:: Add, comment and push
       :class: hint
@@ -130,6 +130,12 @@ Check the modifications on the current branch
             $ git add * (or -all)       # add new modifications
             $ git commit -m "comment"   # add new comments related to modifications
             $ git push                  # push modifications on git
+
+      If your new branch ``dev/firstname.name`` does not exist on the git repository, replace ``git push`` by
+
+         .. code-block:: shell
+
+            $ git push -u origin dev/firstname.name
 
 Compilation and run
 -------------------

@@ -10,7 +10,7 @@ Objective of this 1st tutorial
 
 The objective of this tutorial is to implement a kernel to simulate the Cahn-Hilliard equation (Eq. :eq:`CH_Eq_TwoPhase` with chemical potential defined by Eq. :eq:`Chem_Pot_TwoPhase`). The starting point is the kernel ``ADE_for_CH-Tutorial`` which simulates the Advection-Diffusion Equation (ADE) with the lattice Boltzmann method. This tutorial provides all code lines to write in each file for simulating three test cases with the Cahn-Hilliard model: serpentine, spinodal decomposition and nucleation. The verification tests will be carried out with the input files (``.ini``) contained in the folder ``Tutorial_Cahn-Hilliard/`` in ``run_training_lbm``.
 
-It is assumed that you have already downloaded LBM_Saclay_Rech-Dev and you are working on your own branch (see :bdg-ref-primary-line:`Git-Commands`).
+It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you are working on your own branch (see :bdg-ref-primary-line:`Git-Commands`).
 
 1. Create a new kernel
 ----------------------
