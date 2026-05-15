@@ -47,3 +47,13 @@ Tutorial for implementing a Cahn-Hilliard kernel
       ./Tuto_Cahn-Hilliard.rst
 
 
+Tutorial for implementing a kernel for Allen-Cahn coupled with temperature
+--------------------------------------------------------------------------
+
+.. admonition:: :mediumbold:`From Advection-Diffusion Equation to solidification problem`
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./Tuto_Allen-Cahn_Temperature.rst
+

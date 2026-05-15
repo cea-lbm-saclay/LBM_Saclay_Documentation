@@ -221,6 +221,31 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
    .. tab-item:: File ``Models_CH.h``
 
+      .. admonition:: Read and declare Cahn-Hilliard parameters in ``ModelParams``
+      
+         The Cahn-Hillard equation involves three parameters: the surface tension :math:`\sigma`, the interface thickness :math:`W` and the mobility :math:`\mathcal{M}_\phi`.
+
+         - Read and declare Cahn-Hilliard parameters in ``ModelParams``
+
+          .. dropdown:: Solution
+             :icon: comment
+
+             Read parameters in input file:
+
+             .. code-block:: ruby
+                :emphasize-lines: 1,2,3
+
+                mobility = configMap.getFloat("params", "mobility", 1.0);
+                W        = configMap.getFloat("params", "W"       , 1.0);
+                sigma    = configMap.getFloat("params", "sigma"   , 1.0);
+
+             Don't forget to declare them as ``real_t`` at the end of ``ModelParams``
+
+             .. code-block:: ruby
+                :emphasize-lines: 1
+                
+                real_t mobility, W, sigma;
+
       .. admonition:: Add specific functions for Cahn-Hilliard
 
          - Add a new function for derivative of double-well ``g_prime`` defined by the first term inside the bracket of Eq. :eq:`Chem_Pot_TwoPhase`.
@@ -306,32 +331,8 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
                 ``sign`` will take the values ``+1`` or ``-1`` in the input datafile ``.ini`` for initialize ``1`` inside or outside the bubble.
 
-      .. admonition:: Read and declare Cahn-Hilliard parameters in ``ModelParams``
       
-         The Cahn-Hillard equation involves three paramters: the surface tension :math:`\sigma`, the interface thickness :math:`W` and the mobility :math:`\mathcal{M}_\phi`.
-
-         - Read and declare Cahn-Hilliard parameters in ``ModelParams``
-
-          .. dropdown:: Solution
-             :icon: comment
-
-             Read parameters in input file:
-
-             .. code-block:: ruby
-                :emphasize-lines: 1,2,3
-
-                mobility = configMap.getFloat("params", "mobility", 1.0);
-                W        = configMap.getFloat("params", "W"       , 1.0);
-                sigma    = configMap.getFloat("params", "sigma"   , 1.0);
-
-             Don't forget to declare them as ``real_t`` at the end of ``ModelParams``
-
-             .. code-block:: ruby
-                :emphasize-lines: 1
-                
-                real_t mobility, W, sigma;
-
-      .. admonition:: Add condition for initial condition
+      .. admonition:: Add conditions and keywords for several initial conditions
 
          Currently only one condition exits for intial condition:
 
@@ -361,7 +362,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
       .. admonition:: Function ``setup_collider`` with BGK
 
-         The function ``setup_collider`` is written for solving Advection-Diffusion Equation. It must must be modified for solving Cahn-Hilliard equation.
+         The function ``setup_collider`` is written for solving Advection-Diffusion Equation. It must be modified for solving Cahn-Hilliard equation.
 
          - First, the 2nd order moment, is currently :math:`c` 
 
