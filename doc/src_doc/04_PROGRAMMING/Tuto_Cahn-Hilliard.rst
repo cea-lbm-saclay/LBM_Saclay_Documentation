@@ -278,12 +278,12 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
                   return mu;
 	            }
 
-             .. admonition:: Warning
-                :class: error
+             .. admonition:: Remarks
+                :class: important
 
-                - Don't forget to declare ``ILAPLAC`` in ``Index_CH.h``.
-                - The parameters ``sigma`` (surface tension :math:`\sigma`) and ``W`` (interface thickness :math:`W`) must be read and declared inside ``ModelParams`` (top file).
-                - The new function ``g_prime`` must be defined (see below)
+                - ``IC`` & ``ILAPLAC`` have been declared in ``Index_CH.h``.
+                - The parameters ``sigma`` (surface tension :math:`\sigma`) and ``W`` (interface thickness :math:`W`) have been read and declared inside ``ModelParams`` (previous box).
+                - The new function ``g_prime`` has been defined just above
 
 
          - Add a new function ``tauM`` for collision rate using the mobility :math:`\mathcal{M}_\phi` of Cahn-Hilliard equation
@@ -302,15 +302,12 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
                   return (tau);
 	             }
 
-             .. admonition:: Warning
-                :class: error
-
-                Don't forget to read and declare the parameter ``mobility`` in ``ModelParams``.
-
              .. admonition:: Remark
                 :class: important
 
-                You could have used the parameter ``D`` as the mobility coefficient. In that case, that new function is useless. But take care, especially if a future coupling with a transport equation is planned.
+                - The parameter ``mobility`` has been read and declared in ``ModelParams``.
+
+                - You could have used the parameter ``D`` as the mobility coefficient. In that case, that new function is useless. But take care, especially if a future coupling with a transport equation is planned.
 
          - Add the standard hyperbolic tangent function ``phi0`` defined by Eq. :eq:`Hyperbolic_Tangent_Solution_Course` (for initial condition)
 
