@@ -2,8 +2,8 @@
 
 .. _Tuto-Cahn-Hilliard:
 
-Implementation of a Cahn-Hilliard kernel
-========================================
+Implementation of a Cahn-Hilliard model
+=======================================
 
 Objective of this 1st tutorial
 ------------------------------
@@ -130,6 +130,8 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
             $ ../../build_CH/src/LBM_saclay TestCase_Moving-Gaussian_ADE.ini
 
    - Check the solutions with paraview.
+
+.. _Advice-During-Implementation:
 
 2. Modifications inside each file for Cahn-Hilliard
 ---------------------------------------------------

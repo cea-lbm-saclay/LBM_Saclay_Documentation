@@ -87,11 +87,11 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 
             codev-tuleap repository
 
-         .. button-ref:: Guidelines
+         .. button-ref:: Tutorials
             :color: primary
             :shadow:
 
-            Guidelines for developers
+            Tutorials for developers
 
          .. button-ref:: Contribute-Documentation
             :color: primary
@@ -241,9 +241,9 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    
       src_doc/03_LBM_Schemes/TOC_LBM_Schemes.rst
 
-**************************************
-**PART IV: Guidelines for developers**
-**************************************
+**************************************************
+**PART IV: Guidelines for developers & Tutorials**
+**************************************************
 
 .. admonition:: :mediumbold:`Guidelines for developers`
    :class: caution
@@ -253,6 +253,14 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    
       src_doc/04_PROGRAMMING/TOC_Guidelines.rst
 
+.. admonition:: :mediumbold:`Tutorials`
+   :class: caution
+
+   .. toctree::
+      :maxdepth: 2
+   
+      src_doc/04_PROGRAMMING/TOC_Tutorials.rst
+
 .. _PART-V-Course-Reminders:
 
 *********************************************
@@ -260,7 +268,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
 *********************************************
 
 .. admonition:: :mediumbold:`Lattice Boltzmann Methods`
-   :class: caution
+   :class: hint
 
    .. toctree::
       :maxdepth: 2
@@ -268,7 +276,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
       src_doc/05_COURSES/Course_LBM/TOC_LBM_Course.rst
 
 .. admonition:: :mediumbold:`Phase-field (or diffuse interface) theory`
-   :class: caution
+   :class: hint
    
    .. toctree::
       :maxdepth: 2

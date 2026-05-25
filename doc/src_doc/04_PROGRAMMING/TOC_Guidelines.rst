@@ -2,8 +2,8 @@
 
 .. _Guidelines:
 
-PART IV: Guidelines for developers
-==================================
+PART IV.A: Guidelines for developers
+====================================
 
 Follow your developments with git
 ---------------------------------
@@ -35,25 +35,4 @@ Add a new kernel
       :maxdepth: 2
       
       ./Kernel_New.rst
-
-Tutorial for implementing a Cahn-Hilliard kernel
-------------------------------------------------
-
-.. admonition:: :mediumbold:`From Advection-Diffusion Equation to Cahn-Hilliard`
-
-   .. toctree::
-      :maxdepth: 2
-
-      ./Tuto_Cahn-Hilliard.rst
-
-
-Tutorial for implementing a kernel for Allen-Cahn coupled with temperature
---------------------------------------------------------------------------
-
-.. admonition:: :mediumbold:`From Advection-Diffusion Equation to solidification problem`
-
-   .. toctree::
-      :maxdepth: 2
-
-      ./Tuto_Allen-Cahn_Temperature.rst
 

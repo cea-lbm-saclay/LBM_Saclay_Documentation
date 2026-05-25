@@ -102,6 +102,9 @@ pygments_style = 'perldoc'
 numfig = True
 show_authors = True
 
+# Do not show source
+html_show_sourcelink = False
+
 # inside conf.py
 latex_engine = 'xelatex'
 latex_elements = {
