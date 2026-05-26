@@ -315,7 +315,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
                 EquationTag1 tagC;
                 EquationTag2 tagPHI;
 
-         - Add two functions ``setup_collider`` for ``EquationTag2`` with respectively BGK and MRT collisions
+         - Add two empty functions called ``setup_collider`` for ``EquationTag2`` with respectively BGK and MRT collisions
 
           .. dropdown:: Solution
              :icon: comment
@@ -337,7 +337,44 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
 
                 Those two functions are empty (but declared). The first one will be filled below.
 
-             
+
+      .. admonition:: Function ``make_boundary``
+         :class: caution
+
+         The boundary conditions are applied only for Advection-diffusion equation
+
+          .. code-block:: ruby
+
+             // ADE boundary
+             if (Base::params.boundary_types[BOUNDARY_EQUATION_1][faceId] == BC_ANTI_BOUNCE_BACK) {
+               real_t boundary_value = Base::params.boundary_values[BOUNDARY_CONCENTRATION][faceId];
+
+               for (int ipop = 0; ipop < npop; ++ipop)
+                  this->compute_boundary_antibounceback(tagC, faceId, IJK, ipop, boundary_value);
+             }
+             else if (Base::params.boundary_types[BOUNDARY_EQUATION_1][faceId] == BC_ZERO_FLUX) {
+               for (int ipop = 0; ipop < npop; ++ipop)
+                  this->compute_boundary_bounceback(tagC, faceId, IJK, ipop, 0.0);
+             }
+
+         - Add a new block ``if`` - ``else if`` for ``BOUNDARY_EQUATION_2`` and ``tagPHI`` with keywork ``BOUNDARY_PHASE_FIELD``
+
+          .. dropdown:: Solution
+             :icon: comment
+
+             .. code-block:: ruby
+                :emphasize-lines: 1,2,3,4,5,6,7,8,9
+
+                if (Base::params.boundary_types[BOUNDARY_EQUATION_2][faceId] == BC_ANTI_BOUNCE_BACK) {
+                   real_t boundary_value = Base::params.boundary_values[BOUNDARY_PHASE_FIELD][faceId];
+                   for (int ipop = 0; ipop < npop; ++ipop)
+                   this->compute_boundary_antibounceback(tagPHI, faceId, IJK, ipop, boundary_value);
+                }
+                else if (Base::params.boundary_types[BOUNDARY_EQUATION_2][faceId] == BC_ZERO_FLUX) {
+                   for (int ipop = 0; ipop < npop; ++ipop)
+                   this->compute_boundary_bounceback(tagPHI, faceId, IJK, ipop, 0.0);
+                }
+
 
 3. Modifications inside each file for Allen-Cahn/Temperature model
 ------------------------------------------------------------------
@@ -442,10 +479,10 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
 
                   KOKKOS_INLINE_FUNCTION
                   real_t Source_TEMP(EquationTag1 tag, const LBMState& lbmState) const
-                     {
-                        real_t dphidt = lbmState[IDPHIDT];
-                        return -dphidt;
-                     }
+                  {
+                     real_t dphidt = lbmState[IDPHIDT];
+                     return -dphidt;
+                  }
          
          - Modify the name of collision rate function for temperature equation
 
@@ -522,8 +559,8 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
                       real_t temp    = lbmState[ITEMP];
                       real_t tempI   = 0.0;
                       real_t Coeff_A = 10.0/48.0;
-                      real_t S       = - (16.0*mobility/(W0*W0)) * phi * (1.0-phi) * (1-2*phi)
-                                       -((4.0*D)/(Coeff_A*W0*W0))*(tempI-temp)*phi*(1-phi);
+                      real_t S       = - (16.0*mobility/(W*W)) * phi * (1.0-phi) * (1-2*phi)
+                                       -((4.0*D)/(Coeff_A*W*W))*(tempI-temp)*phi*(1-phi);
                       return S;
                    }
 
@@ -563,7 +600,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
 
                    // Hyperbolic tangent for g1 double-well
                    KOKKOS_INLINE_FUNCTION real_t phi0(real_t x) const {
-                      return 0.5*(1.0+tanh(sign * 2.0 * x / W0 ));
+                      return 0.5*(1.0+tanh(sign * 2.0 * x / W ));
                    }
 
 
@@ -580,18 +617,20 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              .. only:: Solutions
 
                 .. code-block:: ruby
-                   :emphasize-lines: 1,2,3
+                   :emphasize-lines: 1,2,3,5
                 
                    mobility = configMap.getFloat("params", "mobility", 1.0);
                    W        = configMap.getFloat("params", "W"       , 1.0);
                    tempI    = configMap.getFloat("params", "tempI"   , 0.0);
+
+                   undercooling = configMap.getFloat("init", "undercooling", 0.0);
 
                 Don't forget to declare them as ``real_t`` at the end of ``ModelParams``
 
                 .. code-block:: ruby
                    :emphasize-lines: 1
                 
-                   real_t mobility, W, tempI;
+                   real_t mobility, W, tempI, undercooling;
 
       .. admonition:: Add condition for initial condition
          :class: caution
@@ -689,7 +728,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              .. only:: Solutions
 
                 .. code-block:: ruby
-                   :emphasize-lines: 4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27
+                   :emphasize-lines: 4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26
                 
                    KOKKOS_INLINE_FUNCTION
                    void setup_collider(EquationTag2 tag, const IVect<dim>& IJK, BGK_Collider& collider) const
@@ -703,7 +742,6 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
                       Base::template setupLBMState2<LBMState, COMPONENT_SIZE>(IJK, lbmState);
                 
                       const real_t M0     = Model.M0_PHI(tagPHI, lbmState);
-                      const RVect<dim> M1 = Model.M1_PHI<dim>(tagPHI, lbmState);
                       const real_t M2     = Model.M2_PHI(tagPHI, lbmState);
                       const real_t phi_S  = Model.Source_PHI(tagPHI, lbmState) ;
                       // compute collision rate
@@ -716,7 +754,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
                       for (int ipop = 1; ipop < npop; ++ipop) {
                          collider.f[ipop]   = this->get_f_val(tagPHI, IJK, ipop);
                          collider.S0[ipop]  = dt * w[ipop] * phi_S ;
-                         collider.feq[ipop] = w[ipop] * (M2 + c_cs2 * Base::compute_scal(ipop, M1));
+                         collider.feq[ipop] = w[ipop] * M2;
                       }
                    }
 
@@ -747,6 +785,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
                       xphi = x - Model.x0;
                       c    = Model.undercooling ;
                    }
+                   real_t phi = Model.phi0(xphi);
 
          - Save in appropriate arrays
 
@@ -803,10 +842,12 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              :open:
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3
+                :emphasize-lines: 3,4,5
 
                 LBMState lbmStatePrev;
                 Base::setupLBMState(IJK, lbmStatePrev);
+                // get time step
+                const real_t dt = this->params.dt;
                 const real_t dphidt = (phi - lbmStatePrev[IPHI])/dt;
         
          - Save in arrays
@@ -819,7 +860,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
                 .. code-block:: ruby
                    :emphasize-lines: 1,4,5
 
-                   this->set_lbm_val(IJK, ITEMP  , temp  );
+                   this->set_lbm_val(IJK, ITEMP  , c     );
                    this->set_lbm_val(IJK, IU     , vx    );
                    this->set_lbm_val(IJK, IV     , vy    );
                    this->set_lbm_val(IJK, IPHI   , phi   );
