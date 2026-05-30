@@ -14,7 +14,7 @@ import os
 import sys
 sys.setrecursionlimit(1500)
 
-# sys.path.insert(0, os.path.abspath('.'))
+# sys.path.insert(0, os.path.abspath('~/.venvs/sphinx/lib/python3.12/site-packages'))
 
 
 # -- Project information -----------------------------------------------------
