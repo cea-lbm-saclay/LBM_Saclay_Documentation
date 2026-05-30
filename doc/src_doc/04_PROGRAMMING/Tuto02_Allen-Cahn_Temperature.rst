@@ -18,6 +18,8 @@ The starting point is the kernel ``ADE_for_AC-Temp_Tutorial`` which simulates (a
 .. admonition:: Mathematical model
    :class: error
 
+   **Partial Derivative Equations**
+
    In this tutorial we will implement a model to simulate a phase change problem composed of two coupled PDEs, a first one for the evolution of dimensionless temperature:
 
    .. math::
@@ -34,6 +36,48 @@ The starting point is the kernel ``ADE_for_AC-Temp_Tutorial`` which simulates (a
 
    where :math:`M_{\phi}` is the mobility parameter, :math:`W` is the interface thickness, :math:`\mathscr{A}=10/48` is known parameter and :math:`\theta_I` the temperature at interface.
 
+   **Boundary and initial conditions**
+   
+   The model will be validated with an analytical solution of the 1D Stefan problem which is obtained for Dirichlet boundary conditions.
+   
+   .. grid:: 2
+      :gutter: 4
+      :margin: 3 3 0 5
+
+      .. grid-item-card:: For temperature equation
+
+         - The boundary conditions for the temperature equation are:
+
+          .. math::
+
+             \theta(0,t)&=&\theta_w\\
+             \theta(L,t)&=&\theta_{\infty}
+
+          where the index :math:`w` means wall and :math:`L` is the domain length.
+          
+         - The initial condition is a constant temperature
+
+          .. math::
+
+             \theta(\boldsymbol{x},0)=\theta_{\infty}
+
+      .. grid-item-card:: For phase-field equation
+
+         - The boundary conditions for the phase-field equation are:
+
+          .. math::
+
+             \phi(0,t)&=&0\\
+             \phi(L,t)&=&1
+
+         - The initial condition is a hyperbolic tangent solution at :math:`x_0=0`
+
+          .. math::
+
+             \phi(\boldsymbol{x},0)=\frac{1}{2}\left[1+\text{tanh}\left(\frac{2(x-x_0)}{W}\right)\right]
+
+
+         
 
 .. admonition:: Objective
    :class: important

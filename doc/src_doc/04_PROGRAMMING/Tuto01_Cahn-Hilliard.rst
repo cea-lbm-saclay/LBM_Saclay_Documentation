@@ -8,7 +8,7 @@ Implementation of a Cahn-Hilliard model
 Objective of this 1st tutorial
 ------------------------------
 
-The objective of this tutorial is to implement a kernel to simulate the Cahn-Hilliard equation (Eq. :eq:`CH_Eq_TwoPhase` with chemical potential defined by Eq. :eq:`Chem_Pot_TwoPhase`). The starting point is the kernel ``ADE_for_CH-Tutorial`` which simulates the Advection-Diffusion Equation (ADE) with the lattice Boltzmann method. This tutorial provides all code lines to write in each file for simulating three test cases with the Cahn-Hilliard model: serpentine, spinodal decomposition and nucleation. The verification tests will be carried out with the input files (``.ini``) contained in the folder ``Tutorial_Cahn-Hilliard/`` in ``run_training_lbm``.
+The objective of this tutorial is to implement a kernel to simulate the Cahn-Hilliard equation (Eq. :eq:`CH_Eq_TwoPhase` with chemical potential defined by Eq. :eq:`Chem_Pot_TwoPhase`). The starting point is the kernel ``ADE_for_CH-Tutorial`` which simulates the Advection-Diffusion Equation (ADE) with the lattice Boltzmann method. This tutorial provides all code lines to write in each file for simulating three test cases with the Cahn-Hilliard model: serpentine, spinodal decomposition and nucleation. The verification tests will be carried out with the input files (``.ini``) contained in the folder ``Tutorial01_Cahn-Hilliard/`` in ``run_training_lbm``.
 
 It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you are working on your own branch (see :bdg-ref-primary-line:`Git-Commands`).
 
@@ -106,7 +106,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
 .. admonition:: Run with input files of ADE
 
-   - Execute your new kernel ``CH`` of LBM_Saclay either with the simple diffusion of gaussian or with the advected gaussian in the folder ``run_training_lbm/Tutorial_Cahn-Hilliard``
+   - Execute your new kernel ``CH`` of LBM_Saclay either with the simple diffusion of gaussian or with the advected gaussian in the folder ``run_training_lbm/Tutorial01_Cahn-Hilliard``
 
     .. dropdown:: Commands
        :icon: comment
@@ -115,7 +115,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
          .. code-block:: shell
 
-            $ cd LBM_Saclay_Rech-Dev/run_training_lbm/Tutorial_Cahn-Hilliard
+            $ cd LBM_Saclay_Rech-Dev/run_training_lbm/Tutorial01_Cahn-Hilliard
 
        Run simple diffusion of gaussian
 
@@ -256,13 +256,13 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3,4,5
+                :emphasize-lines: 1-5
 
                 // =======================================================
                 // Derivative of double-well
                 KOKKOS_INLINE_FUNCTION real_t g_prime(real_t c) const {
                   return 16.0 * c * (1.0 - c) * (1.0 - 2.0 * c);
-	               }
+                }
 
          - Add a new function ``M2`` to compute the chemical potential :math:`\mu` (``MU``) defined by Eq. :eq:`Chem_Pot_TwoPhase`
 
@@ -270,15 +270,15 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3,4,5,6,7
+                :emphasize-lines: 1-7
                 
                 // =======================================================
                 // second order moment of feq
                 KOKKOS_INLINE_FUNCTION
-	               real_t M2(EquationTag1 tag, const LBMState &lbmState) const {
-	               const real_t mu = sigma * 1.5 / W * (g_prime(lbmState[IC]) - SQR(W) * lbmState[ILAPLAC]);
+                  real_t M2(EquationTag1 tag, const LBMState &lbmState) const {
+                  const real_t mu = sigma*1.5/W * (g_prime(lbmState[IC])-SQR(W)* lbmState[ILAPLAC]);
                   return mu;
-	            }
+                }
 
              .. admonition:: Remarks
                 :class: important
@@ -294,15 +294,15 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3,4,5,6,7
+                :emphasize-lines: 1-7
 
                 // =======================================================
                 // relaxation coef for LBM scheme of phase field equation
                 KOKKOS_INLINE_FUNCTION
-	               real_t tauM (EquationTag1 tag, const LBMState &lbmState) const {
-		            real_t tau = 0.5 + (e2 * mobility * dt / SQR(dx));
+                  real_t tauM (EquationTag1 tag, const LBMState &lbmState) const {
+                  real_t tau = 0.5 + (e2 * mobility * dt / SQR(dx));
                   return (tau);
-	             }
+                }
 
              .. admonition:: Remark
                 :class: important
@@ -320,10 +320,10 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
                 :emphasize-lines: 1,2,3,4,5
 
                 // ================================================
-	             // Hyperbolic tangent solution
-	             KOKKOS_INLINE_FUNCTION real_t phi0(real_t x) const {
+                // Hyperbolic tangent solution
+                KOKKOS_INLINE_FUNCTION real_t phi0(real_t x) const {
                   return 0.5 * (1 + tanh(sign * 2.0 * x / W));
-	             }
+                }
 
              .. admonition:: Remark
                 :class: important
@@ -367,9 +367,9 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
           .. code-block:: ruby
 
-               const real_t M0 = Model.MomentM0(tag, lbmState);
-		   const RVect<dim> uc = Model.MomentM1<dim>(tag, lbmState);
-		   const real_t M2 = Model.MomentM2(tag, lbmState);
+             const real_t M0 = Model.MomentM0(tag, lbmState);
+             const RVect<dim> uc = Model.MomentM1<dim>(tag, lbmState);
+             const real_t M2 = Model.MomentM2(tag, lbmState);
     
           Modify the call of function to compute :math:`\mu` instead of :math:`c`
          
@@ -387,7 +387,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
           .. code-block:: ruby
 
 		       // compute collision rate
-		      collider.tau = Model.tau(tag, lbmState);
+             collider.tau = Model.tau(tag, lbmState);
 
           .. dropdown:: Solution
              :icon: comment
@@ -403,19 +403,19 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 	
           .. code-block:: ruby
              :linenos:
+             
+             // ipop = 0
+             collider.f[0]   = Base::get_f_val(tag, IJK, 0);
+             collider.S0[0]  = 0.0 ;
+             collider.feq[0] = w[0]*M0;
+             
+             // ipop > 0
+             for (int ipop = 1; ipop < npop; ++ipop) {
+               collider.f[ipop]   = this->get_f_val(tag, IJK, ipop);
+               collider.S0[ipop]  = 0.0 ;
+               collider.feq[ipop] = w[ipop] * (M2 + c_cs2 * Base::compute_scal(ipop, uc));
 
-		      // ipop = 0
-		      collider.f[0]   = Base::get_f_val(tag, IJK, 0);
-		      collider.S0[0]  = 0.0 ;
-		      collider.feq[0] = w[0]*M0;
-
-		      // ipop > 0
-		      for (int ipop = 1; ipop < npop; ++ipop) {
-		      collider.f[ipop]   = this->get_f_val(tag, IJK, ipop);
-		      collider.S0[ipop]  = 0.0 ;
-		      collider.feq[ipop] = w[ipop] * (M2 + c_cs2 * Base::compute_scal(ipop, uc));
-
-          Modify it to take into account :math:`c` (moment 0) and :math:`\mu` (moment 2) (see SMEMaG course)
+         - Modify it to take into account :math:`c` (moment 0) and :math:`\mu` (moment 2) (see SMEMaG course)
 
           .. dropdown:: Solution
              :icon: comment
@@ -423,16 +423,16 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
              .. code-block:: ruby
                 :emphasize-lines: 4,9
                 :linenos:
-
-                         // ipop = 0
-		          collider.f[0]   = Base::get_f_val(tag, IJK, 0);
-		          collider.S0[0]  = 0.0 ;
-		          collider.feq[0] = M0 - 3.0*MU*(1 - w[0]);
-		          // ipop > 0
-		          for (int ipop = 1; ipop < npop; ++ipop) {
-		             collider.f[ipop]   = this->get_f_val(tag, IJK, ipop);
-		             collider.S0[ipop]  = 0.0 ;
-		             collider.feq[ipop] = 3.0*MU*w[ipop] + w[ipop] * c_cs2 * Base::compute_scal(ipop, uc);
+                
+                // ipop = 0
+                collider.f[0]   = Base::get_f_val(tag, IJK, 0);
+                collider.S0[0]  = 0.0 ;
+                collider.feq[0] = M0 - 3.0*MU*(1 - w[0]);
+                // ipop > 0
+                for (int ipop = 1; ipop < npop; ++ipop) {
+                  collider.f[ipop]   = this->get_f_val(tag, IJK, ipop);
+                  collider.S0[ipop]  = 0.0 ;
+                  collider.feq[ipop] = 3.0*MU*w[ipop] + w[ipop] * c_cs2 * Base::compute_scal(ipop, uc);
 
       .. admonition:: Function ``init_macro``
 
@@ -452,15 +452,15 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3,4,5,6,7
-
+                :emphasize-lines: 1-7
+                
                 else if (Model.initType == SERPENTINE) {
-	               const real_t pi = M_PI;
+                  const real_t pi = M_PI;
                   xphi  = (Model.r0 - sqrt(SQR(x - Model.x0) + SQR(y - Model.y0)));
-	               c     = Model.phi0(xphi) ;
-	               vx    = - pi*Model.U0 * cos(pi*((x/Model.L)-0.5)) * sin(pi*((y/Model.L)-0.5));
-	               vy    =   pi*Model.U0 * sin(pi*((x/Model.L)-0.5)) * cos(pi*((y/Model.L)-0.5));
-		            }
+                  c     = Model.phi0(xphi) ;
+                  vx    = - pi*Model.U0 * cos(pi*((x/Model.L)-0.5)) * sin(pi*((y/Model.L)-0.5));
+                  vy    =   pi*Model.U0 * sin(pi*((x/Model.L)-0.5)) * cos(pi*((y/Model.L)-0.5));
+                }
 
              .. admonition:: Warning
                 :class: error
@@ -471,27 +471,27 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3
-
+                :emphasize-lines: 1-3
+                
                 else if (Model.initType == RANDOM_SPINODAL) {
-	               c = rand_gen.drand();
-	             }
+                  c = rand_gen.drand();
+                }
 
           .. dropdown:: Solution for nucleation
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3,4,5,6,7,8,9,10
-
+                :emphasize-lines: 1-10
+                
                 else if (Model.initType == RANDOM_NUCLEATION) {
-		            if (IJK[IX] % Model.valModuloX || IJK[IY] % Model.valModuloY ) {
-		            c = 0.2 ;
-		          }
-		          else {
-		            real_t r    = 0.0;
-		            r = rand_gen.drand();
-		            c = (9.0+r)/10.0 ;
-		          }
+                  if (IJK[IX] % Model.valModuloX || IJK[IY] % Model.valModuloY ) {
+                     c = 0.2 ;
+                  }
+                else {
+                  real_t r    = 0.0;
+                  r = rand_gen.drand();
+                  c = (9.0+r)/10.0 ;
+                  }
                 }
 
              .. admonition:: Remark
@@ -504,11 +504,11 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
          Currently, only the concentration and the velocity are updated:
 
           .. code-block:: ruby
-
+            
              const real_t c  = moment_c;
              const real_t vx = Model.initVX;
              const real_t vy = Model.initVY;
-
+             
              this->set_lbm_val(IJK, IC , c );
              this->set_lbm_val(IJK, IU , vx );
              this->set_lbm_val(IJK, IV , vy );
@@ -520,18 +520,18 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
              .. code-block:: ruby
                 :emphasize-lines: 3,4,5,6,7,8,9,10,15
-
+                
                 const real_t c  = moment_c;
-
+                
                 real_t vx = Model.initVX;
                 real_t vy = Model.initVY;
                 const real_t mu = Model.M2(tagC, lbmStatePrev);
                 if (Model.initType == SERPENTINE) {
-			         const real_t pi = M_PI;
-			         vx    = - pi*Model.U0 * cos(pi*((x/Model.L)-0.5)) * sin(pi*((y/Model.L)-0.5));
-			         vy    =   pi*Model.U0 * sin(pi*((x/Model.L)-0.5)) * cos(pi*((y/Model.L)-0.5));
-		          }
-
+                  const real_t pi = M_PI;
+                  vx    = - pi*Model.U0 * cos(pi*((x/Model.L)-0.5)) * sin(pi*((y/Model.L)-0.5));
+                  vy    =   pi*Model.U0 * sin(pi*((x/Model.L)-0.5)) * cos(pi*((y/Model.L)-0.5));
+                }
+                
                 this->set_lbm_val(IJK, IC , c );
                 this->set_lbm_val(IJK, IU , vx );
                 this->set_lbm_val(IJK, IV , vy );
@@ -597,7 +597,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 3. Verifications of your implementation
 ---------------------------------------
 
-Three ``.ini`` input files are available in the directory ``Tutorial_Cahn-Hilliard`` to check your implementation for each initial condition:
+Three ``.ini`` input files are available in the directory ``Tutorial01_Cahn-Hilliard`` to check your implementation for each initial condition:
 
    - ``Tuto-CH_Test01-Serpentine.ini``
    - ``Tuto-CH_Test02-Spinodal.ini``
@@ -616,7 +616,7 @@ It is recommended to start with ``Tuto-CH_Test01-Serpentine.ini`` because compar
 
         .. code-block:: shell
 
-           $ cd run_training_lbm/Tutorial_Cahn-Hilliard
+           $ cd run_training_lbm/Tutorial01_Cahn-Hilliard
    
        and run LBM_Saclay
 
