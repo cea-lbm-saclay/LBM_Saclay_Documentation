@@ -63,7 +63,7 @@ Get the source files of LBM_Saclay's documentation
 
         .. code-block:: shell
 
-            $ git clone https://github.com/cea-lbm-saclay/LBM_Saclay_Documentation.git
+            $ git clone git@github.com:cea-lbm-saclay/LBM_Saclay_Documentation.git
 
     Go to the directory ``doc``
 
