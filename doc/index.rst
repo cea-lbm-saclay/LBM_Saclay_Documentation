@@ -257,7 +257,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    :class: caution
 
    .. toctree::
-      :maxdepth: 2
+      :maxdepth: 3
    
       src_doc/04_PROGRAMMING/TOC_Tutorials.rst
 
