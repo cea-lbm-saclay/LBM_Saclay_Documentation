@@ -92,8 +92,8 @@ The starting point is the kernel ``ADE_for_AC-Temp_Tutorial`` which simulates (a
    - compare the outputs of LBM_Saclay with an analytical solution
    - see the impact of linear and harmonic interpolation of diffusivity :math:`D(\phi)`
 
-1. Create a new kernel for Allen-Cahn/Temperature
--------------------------------------------------
+1. Create a new kernel ``ACT`` for Allen-Cahn/Temperature
+---------------------------------------------------------
 
 .. admonition:: Make the new kernel ``ACT`` in a new folder ``Allen-Cahn-Temp_Tutorial``
    :class: note
@@ -221,8 +221,8 @@ The starting point is the kernel ``ADE_for_AC-Temp_Tutorial`` which simulates (a
 
       - Check the solutions with paraview.
 
-2. Add a new equation in your kernel
-------------------------------------
+2. Add a new equation in your kernel ``ACT``
+--------------------------------------------
 
 The mathematical model is composed of two coupled PDE. It is necessary to add one supplementary equation.
 
@@ -416,8 +416,8 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
                 }
 
 
-3. Modifications inside each file for Allen-Cahn/Temperature model
-------------------------------------------------------------------
+3. Modifications inside each file of your kernel ``ACT``
+--------------------------------------------------------
 
 .. admonition:: Advice
    :class: error

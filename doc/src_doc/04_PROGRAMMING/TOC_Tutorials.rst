@@ -43,3 +43,12 @@ Tutorial for implementing a crystal growth model
 Tutorials for Navier-Stokes coupling
 ------------------------------------
 
+Tutorial for implementing a Navier-Stokes/Cahn-Hilliard model
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+.. admonition:: :mediumbold:`From CH kernel of 1st tutorial toward two-phase flows`
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./Tuto04_Navier-Stokes_Cahn-Hilliard.rst

@@ -12,8 +12,8 @@ The objective of this tutorial is to implement a kernel to simulate the Cahn-Hil
 
 It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you are working on your own branch (see :bdg-ref-primary-line:`Git-Commands`).
 
-1. Create a new kernel
-----------------------
+1. Create a new kernel ``CH`` for Cahn-Hilliard
+-----------------------------------------------
 
 .. admonition:: Copy the ADE kernel template and rename all files with new extension ``_CH``
 
@@ -133,8 +133,8 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
 .. _Advice-During-Implementation:
 
-2. Modifications inside each file for Cahn-Hilliard
----------------------------------------------------
+2. Modifications inside each file of ``CH``
+-------------------------------------------
 
 .. admonition:: Advice
    :class: error

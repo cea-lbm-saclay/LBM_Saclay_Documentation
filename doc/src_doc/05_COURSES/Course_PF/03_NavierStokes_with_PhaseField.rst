@@ -342,6 +342,8 @@ Interpretation of term :math:`\mu_{\phi}\boldsymbol{\nabla}\phi`
       - Multiply and divide by :math:`\left|\boldsymbol{\nabla}\phi\right|` to make appear :math:`\boldsymbol{n}` in the last line.
 
 
+.. _Summary-NS-PF-model:
+
 Summary
 """""""
 
