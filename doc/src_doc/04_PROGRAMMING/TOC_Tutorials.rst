@@ -8,8 +8,8 @@ PART IV.B: Tutorials
 Tutorials for phase-field models implementation without fluid flow
 ------------------------------------------------------------------
 
-Tutorial for implementing a Cahn-Hilliard model
-"""""""""""""""""""""""""""""""""""""""""""""""
+1. Tutorial for implementing a Cahn-Hilliard model
+""""""""""""""""""""""""""""""""""""""""""""""""""
 
 .. admonition:: :mediumbold:`From Advection-Diffusion Equation to Cahn-Hilliard`
 
@@ -19,8 +19,8 @@ Tutorial for implementing a Cahn-Hilliard model
       ./Tuto01_Cahn-Hilliard.rst
 
 
-Tutorial for implementing a model coupling Allen-Cahn with temperature
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+2. Tutorial for implementing a model coupling Allen-Cahn with temperature
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 .. admonition:: :mediumbold:`From Advection-Diffusion Equation toward phase change problem`
 
@@ -29,8 +29,8 @@ Tutorial for implementing a model coupling Allen-Cahn with temperature
 
       ./Tuto02_Allen-Cahn_Temperature.rst
 
-Tutorial for implementing a crystal growth model
-""""""""""""""""""""""""""""""""""""""""""""""""
+3. Tutorial for implementing a crystal growth model
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 .. admonition:: :mediumbold:`From ACT kernel of previous tutorial toward crystal growth`
 
@@ -40,15 +40,25 @@ Tutorial for implementing a crystal growth model
       ./Tuto03_Crystal-Growth.rst
 
 
-Tutorials for Navier-Stokes coupling
-------------------------------------
+Tutorials for Navier-Stokes
+---------------------------
 
-Tutorial for implementing a Navier-Stokes/Cahn-Hilliard model
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+4. Tutorial for implementing an incompressible Navier-Stokes model
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+.. admonition:: :mediumbold:`From standard LBM for Navier-Stokes toward incompressible NS`
+
+   .. toctree::
+      :maxdepth: 2
+
+      ./Tuto04_Incompr_Navier-Stokes.rst
+
+5. Tutorial for implementing a Navier-Stokes/Cahn-Hilliard model
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 .. admonition:: :mediumbold:`From CH kernel of 1st tutorial toward two-phase flows`
 
    .. toctree::
       :maxdepth: 2
 
-      ./Tuto04_Navier-Stokes_Cahn-Hilliard.rst
+      ./Tuto05_Navier-Stokes_Cahn-Hilliard.rst

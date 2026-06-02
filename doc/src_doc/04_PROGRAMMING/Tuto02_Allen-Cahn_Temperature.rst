@@ -272,7 +272,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 7,8,9,10,11
+                :emphasize-lines: 7-11
 
                 if (params.collisionType1 == BGK) {
                   init1eq<EquationTag1, BGKCollider<dim, npop>>();
@@ -305,7 +305,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 7,8,9,10,11
+                :emphasize-lines: 7-11
 
                 if (params.collisionType1 == BGK) {
                   update1eq<EquationTag1, BGKCollider<dim, npop>>();
@@ -361,7 +361,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3,4,5,6,7,8
+                :emphasize-lines: 1-8
 
                 KOKKOS_INLINE_FUNCTION
                 void setup_collider(EquationTag2 tag, const IVect<dim>& IJK, BGK_Collider& collider) const
@@ -403,7 +403,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3,4,5,6,7,8,9
+                :emphasize-lines: 1-9
 
                 if (Base::params.boundary_types[BOUNDARY_EQUATION_2][faceId] == BC_ANTI_BOUNCE_BACK) {
                    real_t boundary_value = Base::params.boundary_values[BOUNDARY_PHASE_FIELD][faceId];
@@ -420,7 +420,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
 --------------------------------------------------------
 
 .. admonition:: Advice
-   :class: error
+   :class: important
 
    During your implementation, it is strongly recommended to compile regularly to detect any typos. See :bdg-ref-primary-line:`Advice <Advice-During-Implementation>`
 
@@ -506,7 +506,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3,4,5,6,7,8,9
+                :emphasize-lines: 1-9
 
                 // =======================================================
                 // Source term for temperature equation
@@ -533,6 +533,11 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
                   return (tau);
                 }
 
+      .. admonition:: Warning
+         :class: error:
+
+         Because ``IC`` has been replaced by ``ITEMP`` in ``enum ComponentIndex`` (file ``Index_ACT.h``), don't forget to find and replace in all functions ``lbmState[IC]`` by ``lbmState[ITEMP]``. 
+
       .. admonition:: Add specific functions for phase-field equation
          :class: caution
 
@@ -542,7 +547,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1,2,3,4,5,6,7
+                :emphasize-lines: 1-7
                 
                 // =======================================================
                 // zero order moment for phase field
