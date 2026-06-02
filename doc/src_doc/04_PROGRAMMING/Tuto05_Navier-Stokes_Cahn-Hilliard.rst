@@ -583,7 +583,7 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 1
+                :emphasize-lines: 1,4
 
                 this->set_lbm_val(IJK, IPHI, c  );
                 this->set_lbm_val(IJK, IU  , vx );
@@ -598,8 +598,10 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
           .. dropdown:: Solution
              :icon: comment
 
+             The function starts with necessary parameters for computing the coefficient :math:`c_s^2`
+
              .. code-block:: ruby
-                :emphasize-lines: 1-25
+                :emphasize-lines: 1-6
                 
                 // get local coordinates
                 real_t x, y;
@@ -608,6 +610,11 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                 const real_t dt  = this->params.dt;
                 const real_t cs2 = SQR(dx / dt) / Model.e2;
                 
+             Next the moments of distribution functions are computed for :math:`\phi`, :math:`p^{\star}`, :math:`v_x` and :math:`v_y`
+
+             .. code-block:: ruby
+                :emphasize-lines: 1-14
+
                 // compute moments of distribution equations
                 real_t moment_phi = 0.0;
                 real_t moment_P   = 0.0;
@@ -622,16 +629,31 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                 
                 // Update phi
                 const real_t phi  = moment_phi;
-                
+            
+             Computation of :math:`\mu`
+
+             .. code-block:: ruby
+                :emphasize-lines: 1-4
+
                 // Update mu
                 LBMState lbmStatePrev;
                 Base::setupLBMState(IJK, lbmStatePrev);
                 const real_t mu = Model.M2(tagC, lbmStatePrev);
                 
+             Computation of :math:`p_h` from :math:`p^{\star}`
+
+             .. code-block:: ruby
+                :emphasize-lines: 1-3
+
                 // Update pressure p_h
                 const real_t rho = Model.interpol_rho(phi) ;
                 const real_t P   = moment_P * (rho*cs2) ;
                 
+             Computation of :math:`u_x` and :math:`u_y` from :math:`v_x` and :math:`v_y` with force term correction :math:`(\delta t/2)\boldsymbol{F}_{tot}/\varrho`
+
+             .. code-block:: ruby
+                :emphasize-lines: 1-5
+
                 // Update VX and VY
                 const real_t ForceNSX = lbmStatePrev[IFX];
                 const real_t ForceNSY = lbmStatePrev[IFY];
@@ -643,7 +665,12 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                   VX    = - pi*Model.U0 * cos(pi*((x/Model.L)-0.5)) * sin(pi*((y/Model.L)-0.5));
                   VY    =   pi*Model.U0 * sin(pi*((x/Model.L)-0.5)) * cos(pi*((y/Model.L)-0.5));
                 }
-                
+            
+             Save in array with appropriate indices
+
+             .. code-block:: ruby
+                :emphasize-lines: 1-7
+
                 // update macro fields
                 this->set_lbm_val(IJK, IPHI , phi);
                 this->set_lbm_val(IJK, ID   , rho);
@@ -708,7 +735,7 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                SERPENTINE
              };
 
-         - Add the new keyword for Cahn-Hilliard: ``SERPENTINE``, ``RANDOM_SPINODAL`` and ``RANDOM_NUCLEATION``.
+         - Add the new keyword for initial condition ``PHASE_FIELD_INIT_VERTICAL``
 
           .. dropdown:: Solution
              :icon: comment
