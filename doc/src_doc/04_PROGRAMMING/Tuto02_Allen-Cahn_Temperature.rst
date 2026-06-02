@@ -449,20 +449,18 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 5,6,7
 
-                .. code-block:: ruby
-                   :emphasize-lines: 5,6,7
-
-                   enum ComponentIndex {
-                     IU     , /*!< X velocity / momentum index */
-                     IV     , /*!< Y velocity / momentum index */
-                     IW     , /*!< Z velocity / momentum index */
-                     ITEMP  , /*!< Temperature index */
-                     IPHI   , /*!< Phase field index */
-                     IDPHIDT,	
-                     COMPONENT_SIZE /*!< invalid index, just counting number of fields */
-                   };
+                enum ComponentIndex {
+                  IU     , /*!< X velocity / momentum index */
+                  IV     , /*!< Y velocity / momentum index */
+                  IW     , /*!< Z velocity / momentum index */
+                  ITEMP  , /*!< Temperature index */
+                  IPHI   , /*!< Phase field index */
+                  IDPHIDT,	
+                  COMPONENT_SIZE /*!< invalid index, just counting number of fields */
+                };
 
       .. admonition:: Add new outputs
          :class: caution
@@ -481,17 +479,15 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 1,5,6
 
-                .. code-block:: ruby
-                   :emphasize-lines: 1,5,6
-
-                   map[ITEMP  ] = "temp";
-                   map[IU     ] = "vx"  ;
-                   map[IV     ] = "vy"  ;
-                   map[IW     ] = "vz"  ;
-                   map[IPHI   ] = "phi" ;
-                   map[IDPHIDT] = "dphidt";
+                map[ITEMP  ] = "temp";
+                map[IU     ] = "vx"  ;
+                map[IV     ] = "vy"  ;
+                map[IW     ] = "vz"  ;
+                map[IPHI   ] = "phi" ;
+                map[IDPHIDT] = "dphidt";
 
                 .. admonition:: Remark
                    :class: important
@@ -509,37 +505,33 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution ``Source_TEMP``
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 1,2,3,4,5,6,7,8,9
 
-               .. code-block:: ruby
-                  :emphasize-lines: 1,2,3,4,5,6,7,8,9
+                // =======================================================
+                // Source term for temperature equation
 
-                  // =======================================================
-                  // Source term for temperature equation
-
-                  KOKKOS_INLINE_FUNCTION
-                  real_t Source_TEMP(EquationTag1 tag, const LBMState& lbmState) const
-                  {
-                     real_t dphidt = lbmState[IDPHIDT];
-                     return -dphidt;
-                  }
+                KOKKOS_INLINE_FUNCTION
+                real_t Source_TEMP(EquationTag1 tag, const LBMState& lbmState) const
+                {
+                  real_t dphidt = lbmState[IDPHIDT];
+                  return -dphidt;
+                }
          
          - Modify the name of collision rate function for temperature equation
 
           .. dropdown:: Solution ``tau_TEMP``
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 2
 
-                .. code-block:: ruby
-                   :emphasize-lines: 2
-
-                   KOKKOS_INLINE_FUNCTION
-                   real_t tau_TEMP(EquationTag1 tag, const LBMState& lbmState) const
-                   {
-                      real_t tau = 0.5 + (3.0 * D * dt / (dx * dx));
-                      return (tau);
-                   }
+                KOKKOS_INLINE_FUNCTION
+                real_t tau_TEMP(EquationTag1 tag, const LBMState& lbmState) const
+                {
+                  real_t tau = 0.5 + (3.0 * D * dt / (dx * dx));
+                  return (tau);
+                }
 
       .. admonition:: Add specific functions for phase-field equation
          :class: caution
@@ -549,100 +541,89 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution function ``M0_PHI``
              :icon: comment
 
-             .. only:: Solutions
-
-               .. code-block:: ruby
-                  :emphasize-lines: 1,2,3,4,5,6,7
+             .. code-block:: ruby
+                :emphasize-lines: 1,2,3,4,5,6,7
                 
-                  // =======================================================
-                  // zero order moment for phase field
-                  KOKKOS_INLINE_FUNCTION
-                  real_t M0_PHI(EquationTag2 tag, const LBMState& lbmState) const
-                     {
-                     return lbmState[IPHI];
-                  }
+                // =======================================================
+                // zero order moment for phase field
+                KOKKOS_INLINE_FUNCTION
+                real_t M0_PHI(EquationTag2 tag, const LBMState& lbmState) const
+                {
+                  return lbmState[IPHI];
+                }
 
          - Add a new function ``M2_PHI``
 
           .. dropdown:: Solution function ``M2_PHI``
              :icon: comment
 
-             .. only:: Solutions
-
-               .. code-block:: ruby
-                  :emphasize-lines: 1,2,3,4,5,6,7
+             .. code-block:: ruby
+                :emphasize-lines: 1-7
                 
-                  // =======================================================
-                  // Second order moment for phase field
-                  KOKKOS_INLINE_FUNCTION
-                  real_t M2_PHI(EquationTag2 tag, const LBMState& lbmState) const
-                     {
-                     return lbmState[IPHI];
-                  }
+                // =======================================================
+                // Second order moment for phase field
+                KOKKOS_INLINE_FUNCTION
+                real_t M2_PHI(EquationTag2 tag, const LBMState& lbmState) const
+                {
+                  return lbmState[IPHI];
+                }
 
          - Add a source term.
 
           .. dropdown:: Solution ``Source_PHI``
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 1-13
 
-                .. code-block:: ruby
-                   :emphasize-lines: 1,2,3,4,5,6,7,8,9,10,11,12,13
-
-                   // =======================================================
-                   // Source term for phase field
-                   KOKKOS_INLINE_FUNCTION
-                   real_t Source_PHI (EquationTag2 tag, const LBMState& lbmState) const
-                      {
-                      real_t phi     = lbmState[IPHI];
-                      real_t temp    = lbmState[ITEMP];
-                      real_t tempI   = 0.0;
-                      real_t Coeff_A = 10.0/48.0;
-                      real_t S       = - (16.0*mobility/(W*W)) * phi * (1.0-phi) * (1-2*phi)
-                                       -((4.0*D)/(Coeff_A*W*W))*(tempI-temp)*phi*(1-phi);
-                      return S;
-                   }
+                // =======================================================
+                // Source term for phase field
+                KOKKOS_INLINE_FUNCTION
+                real_t Source_PHI (EquationTag2 tag, const LBMState& lbmState) const
+                {
+                  real_t phi     = lbmState[IPHI];
+                  real_t temp    = lbmState[ITEMP];
+                  real_t tempI   = 0.0;
+                  real_t Coeff_A = 10.0/48.0;
+                  real_t S       = - (16.0*mobility/(W*W)) * phi * (1.0-phi) * (1-2*phi)
+                                   -((4.0*D)/(Coeff_A*W*W))*(tempI-temp)*phi*(1-phi);
+                  return S;
+                }
 
          - Add a new function ``tau_PHI`` for collision rate using the mobility :math:`M_\phi` of Allen-Cahn equation
 
           .. dropdown:: Solution ``tau_PHI``
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 1-7
 
-                .. code-block:: ruby
-                   :emphasize-lines: 1,2,3,4,5,6,7
+                // =======================================================
+                // relaxation coef for LBM scheme of phase field equation
+                KOKKOS_INLINE_FUNCTION
+                real_t tau_PHI(EquationTag2 tag, const LBMState& lbmState) const
+                {
+                  real_t tau = 0.5 + (3.0 * (mobility) * dt / (dx * dx));
+                  return (tau);
+                }
 
-                   // =======================================================
-                   // relaxation coef for LBM scheme of phase field equation
-                   KOKKOS_INLINE_FUNCTION
-                   real_t tau_PHI(EquationTag2 tag, const LBMState& lbmState) const
-                   {
-                      real_t tau = 0.5 + (3.0 * (mobility) * dt / (dx * dx));
-                      return (tau);
-                   }
+             .. admonition:: Warning
+                :class: error
 
-                .. admonition:: Warning
-                   :class: error
-
-                   Don't forget to read and declare the parameter ``mobility`` in ``ModelParams``.
+                Don't forget to read and declare the parameter ``mobility`` in ``ModelParams``.
 
          - Add a new hyperbolic tangent function ``phi0`` for initial condition
 
           .. dropdown:: Solution ``phi0``
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 1,2,3,4
 
-                .. code-block:: ruby
-                   :emphasize-lines: 1,2,3,4
-
-                   // Hyperbolic tangent for g1 double-well
-                   KOKKOS_INLINE_FUNCTION real_t phi0(real_t x) const {
-                      return 0.5*(1.0+tanh(sign * 2.0 * x / W ));
-                   }
-
+                // Hyperbolic tangent for g1 double-well
+                KOKKOS_INLINE_FUNCTION real_t phi0(real_t x) const {
+                  return 0.5*(1.0+tanh(sign * 2.0 * x / W ));
+                }
 
       .. admonition:: Read and declare all parameters in ``ModelParams``
          :class: caution
@@ -654,23 +635,21 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
-
-                .. code-block:: ruby
-                   :emphasize-lines: 1,2,3,5
+             .. code-block:: ruby
+                :emphasize-lines: 1,2,3,5
                 
-                   mobility = configMap.getFloat("params", "mobility", 1.0);
-                   W        = configMap.getFloat("params", "W"       , 1.0);
-                   tempI    = configMap.getFloat("params", "tempI"   , 0.0);
+                mobility = configMap.getFloat("params", "mobility", 1.0);
+                W        = configMap.getFloat("params", "W"       , 1.0);
+                tempI    = configMap.getFloat("params", "tempI"   , 0.0);
 
-                   undercooling = configMap.getFloat("init", "undercooling", 0.0);
+                undercooling = configMap.getFloat("init", "undercooling", 0.0);
 
-                Don't forget to declare them as ``real_t`` at the end of ``ModelParams``
+             Don't forget to declare them as ``real_t`` at the end of ``ModelParams``
 
-                .. code-block:: ruby
-                   :emphasize-lines: 1
+             .. code-block:: ruby
+                :emphasize-lines: 1
                 
-                   real_t mobility, W, tempI, undercooling;
+                real_t mobility, W, tempI, undercooling;
 
       .. admonition:: Add condition for initial condition
          :class: caution
@@ -686,18 +665,16 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 2
 
-                .. code-block:: ruby
-                   :emphasize-lines: 2
+                if (initTypeStr == "gaussian") initType = ADE_GAUSSIAN;
+                else if (initTypeStr == "vertical") initType = PHASE_FIELD_INIT_VERTICAL;
 
-                   if (initTypeStr == "gaussian") initType = ADE_GAUSSIAN;
-                   else if (initTypeStr == "vertical") initType = PHASE_FIELD_INIT_VERTICAL;
+             .. admonition:: Warning
+                :class: error
 
-                .. admonition:: Warning
-                   :class: error
-
-                   Don't forget to declare all keywords ``PHASE_FIELD_INIT_VERTICAL`` in file ``InitConditionsTypes.h``
+                Don't forget to declare all keywords ``PHASE_FIELD_INIT_VERTICAL`` in file ``InitConditionsTypes.h``
    
    .. tab-item:: File ``LBMScheme_ACT.h``
 
@@ -727,27 +704,25 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
-
-                .. code-block:: ruby
-                   :emphasize-lines: 4,6,9,14
+             .. code-block:: ruby
+                :emphasize-lines: 4,6,9,14
                 
-                   const real_t M0     = Model.M0_TEMP(tagC, lbmState);
-                   const RVect<dim> uc = Model.M1_TEMP<dim>(tagC, lbmState);
-                   const real_t M2     = Model.M2_TEMP(tagC, lbmState);
-                   const real_t Temp_S = Model.Source_TEMP(tagC, lbmState) ;
-                   // compute collision rate
-                   collider.tau = Model.tau_TEMP(tagC, lbmState);
-                   // ipop = 0
-                   collider.f[0]   = Base::get_f_val(tagC, IJK, 0);
-                   collider.S0[0]  = dt * w[0] * Temp_S;
-                   collider.feq[0] = w[0]*M0;
-                   // ipop > 0
-                   for (int ipop = 1; ipop < npop; ++ipop) {
-                      collider.f[ipop]   = this->get_f_val(tagC, IJK, ipop);
-                      collider.S0[ipop]  = dt * w[ipop] * Temp_S ;
+                const real_t M0     = Model.M0_TEMP(tagC, lbmState);
+                const RVect<dim> uc = Model.M1_TEMP<dim>(tagC, lbmState);
+                const real_t M2     = Model.M2_TEMP(tagC, lbmState);
+                const real_t Temp_S = Model.Source_TEMP(tagC, lbmState) ;
+                // compute collision rate
+                collider.tau = Model.tau_TEMP(tagC, lbmState);
+                // ipop = 0
+                collider.f[0]   = Base::get_f_val(tagC, IJK, 0);
+                collider.S0[0]  = dt * w[0] * Temp_S;
+                collider.feq[0] = w[0]*M0;
+                // ipop > 0
+                for (int ipop = 1; ipop < npop; ++ipop) {
+                  collider.f[ipop]   = this->get_f_val(tagC, IJK, ipop);
+                  collider.S0[ipop]  = dt * w[ipop] * Temp_S ;
                       collider.feq[ipop] = w[ipop] * (M2 + c_cs2 * Base::compute_scal(ipop, uc));
-                   }
+                }
 
       .. admonition:: Function ``setup_collider`` with BGK for phase-field equation
          :class: caution
@@ -765,10 +740,8 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
-
                 .. code-block:: ruby
-                   :emphasize-lines: 4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26
+                   :emphasize-lines: 4-26
                 
                    KOKKOS_INLINE_FUNCTION
                    void setup_collider(EquationTag2 tag, const IVect<dim>& IJK, BGK_Collider& collider) const
@@ -816,31 +789,27 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution for vertical separation
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 1,2,3,4
 
-                .. code-block:: ruby
-                   :emphasize-lines: 1,2,3,4
-
-                   else if (Model.initType == PHASE_FIELD_INIT_VERTICAL) {
-                      xphi = x - Model.x0;
-                      c    = Model.undercooling ;
-                   }
-                   real_t phi = Model.phi0(xphi);
+                else if (Model.initType == PHASE_FIELD_INIT_VERTICAL) {
+                  xphi = x - Model.x0;
+                  c    = Model.undercooling ;
+                }
+                real_t phi = Model.phi0(xphi);
 
          - Save in appropriate arrays
 
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
-
-                .. code-block:: ruby
-                   :emphasize-lines: 1,4
+             .. code-block:: ruby
+                :emphasize-lines: 1,4
                 
-                   this->set_lbm_val(IJK, ITEMP, c  );
-                   this->set_lbm_val(IJK, IU   , vx );
-                   this->set_lbm_val(IJK, IV   , vy );
-                   this->set_lbm_val(IJK, IPHI , phi);
+                this->set_lbm_val(IJK, ITEMP, c  );
+                this->set_lbm_val(IJK, IU   , vx );
+                this->set_lbm_val(IJK, IV   , vy );
+                this->set_lbm_val(IJK, IPHI , phi);
 
 
       .. admonition:: Function ``update_macro``
@@ -863,17 +832,15 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 1,4,6
 
-                .. code-block:: ruby
-                   :emphasize-lines: 1,4,6
-
-                   real_t moment_phi = 0.0;
-                   for (int ipop = 0; ipop < npop; ++ipop) {
-                      moment_c   += Base::get_f_val(tagC  , IJK, ipop);
-                      moment_phi += Base::get_f_val(tagPHI, IJK, ipop);
-                   }
-                   const real_t phi  = moment_phi;
+                real_t moment_phi = 0.0;
+                for (int ipop = 0; ipop < npop; ++ipop) {
+                  moment_c   += Base::get_f_val(tagC  , IJK, ipop);
+                  moment_phi += Base::get_f_val(tagPHI, IJK, ipop);
+                }
+                const real_t phi  = moment_phi;
         
          - Add for ``dphidt``
 
@@ -895,16 +862,14 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 1,4,5
 
-                .. code-block:: ruby
-                   :emphasize-lines: 1,4,5
-
-                   this->set_lbm_val(IJK, ITEMP  , c     );
-                   this->set_lbm_val(IJK, IU     , vx    );
-                   this->set_lbm_val(IJK, IV     , vy    );
-                   this->set_lbm_val(IJK, IPHI   , phi   );
-                   this->set_lbm_val(IJK, IDPHIDT, dphidt);
+                this->set_lbm_val(IJK, ITEMP  , c     );
+                this->set_lbm_val(IJK, IU     , vx    );
+                this->set_lbm_val(IJK, IV     , vy    );
+                this->set_lbm_val(IJK, IPHI   , phi   );
+                this->set_lbm_val(IJK, IDPHIDT, dphidt);
          
 
 
@@ -933,16 +898,14 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 4
 
-                .. code-block:: ruby
-                   :emphasize-lines: 4
-
-                   enum InitCondition{
-                      PHASE_FIELD_INIT_UNDEFINED,
-                      ADE_GAUSSIAN,
-                      PHASE_FIELD_INIT_VERTICAL
-                   };
+                enum InitCondition{
+                  PHASE_FIELD_INIT_UNDEFINED,
+                  ADE_GAUSSIAN,
+                  PHASE_FIELD_INIT_VERTICAL
+                };
 
 
 4. Verifications of your implementation
@@ -1034,58 +997,50 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
 
-                .. code-block:: ruby
-
-                   [run]
-                   lbm_name=D2Q9
-                   tEnd=200001
-                   nStepmax=200001
-                   nOutput=20000
-                   nlog=10000000
-                   dt=1.0
-                   adaptative_timestep=false
-                   fMach=0.05
+                [run]
+                lbm_name=D2Q9
+                tEnd=200001
+                nStepmax=200001
+                nOutput=20000
+                nlog=10000000
+                dt=1.0
+                adaptative_timestep=false
+                fMach=0.05
 
          - Set appropriate values of ``[mesh]`` section
 
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
 
-                .. code-block:: ruby
-
-                   [mesh]
-                   nx=500
-                   ny=10
-                   xmin=0.0
-                   xmax=500.0
-                   ymin=0.0
-                   ymax=10.0
-
+                [mesh]
+                nx=500
+                ny=10
+                xmin=0.0
+                xmax=500.0
+                ymin=0.0
+                ymax=10.0
 
          - Set appropriate values of ``[lbm]`` section
 
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
 
-                .. code-block:: ruby
-
-                   [lbm]
-                   problem=ACT
-                   model=base
-                   e2=3.0
-                   fcount=2
+                [lbm]
+                problem=ACT
+                model=base
+                e2=3.0
+                fcount=2
 
          - Set Dirichlet boundary conditions for ``[equation1]`` and ``[equation2]``.
 
           .. dropdown:: Solution
              :icon: comment
-             :open:
 
              .. code-block:: ruby
 
@@ -1120,44 +1075,38 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
 
-                .. code-block:: ruby
-
-                   [params]
-                   D=0.1
-                   W=3.0
-                   mobility=0.3
+                [params]
+                D=0.1
+                W=3.0
+                mobility=0.3
 
          - Set initial condition
 
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
 
-                .. code-block:: ruby
-
-                   [init]
-                   init_type=vertical
-                   x0=0.0
-                   undercooling=0.3
+                [init]
+                init_type=vertical
+                x0=0.0
+                undercooling=0.3
 
          - Set outputs
 
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
 
-                .. code-block:: ruby
-
-                   [output]
-                   write_variables=temp,vx,vy,phi
-                   outputPrefix=TestCase_Stefan1
-                   outputVtkAscii=no
-                   vtk_enabled=yes
-                   hdf5_enabled=no
+                [output]
+                write_variables=temp,vx,vy,phi
+                outputPrefix=TestCase_Stefan1
+                outputVtkAscii=no
+                vtk_enabled=yes
+                hdf5_enabled=no
 
 
       .. admonition:: Run LBM_Saclay
@@ -1211,65 +1160,58 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
       .. admonition:: Case :math:`D_l \neq D_g`
          :class: important
 
-         - Modify your kernel in order to interpolate :math:`D(\phi)=(1-\phi)D_l+\phi D_g` where :math:`D_l` and :math:`D_g` are respectively the thermal diffusivity in liquid and gas.
+         - Modify your kernel in order to interpolate the diffusivity in the temperature equation by :math:`D(\phi)=(1-\phi)D_l+\phi D_g` where :math:`D_l` and :math:`D_g` are respectively the thermal diffusivity in liquid and gas. Keep :math:`D=1` in the source term of phase-field equation.
 
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 4,5
 
-                .. code-block:: ruby
-                   :emphasize-lines: 4,5
+                KOKKOS_INLINE_FUNCTION
+                real_t tau_TEMP(EquationTag1 tag, const LBMState& lbmState) const
+                {
+                  real_t phi  = lbmState[IPHI];
+                  real_t Dphi = Dl*(1.0-phi)+Dg*phi ;
+                  real_t tau  = 0.5 + (3.0 * Dphi * dt / (dx * dx));
+                  return (tau);
+                }
 
-                   KOKKOS_INLINE_FUNCTION
-                   real_t tau_TEMP(EquationTag1 tag, const LBMState& lbmState) const
-                   {
-                      real_t phi  = lbmState[IPHI];
-                      real_t Dphi = Dl*(1.0-phi)+Dg*phi ;
-                      real_t tau  = 0.5 + (3.0 * Dphi * dt / (dx * dx));
-                      return (tau);
-                   }
-
-                Don't forget to read and declare ``Dl`` and ``Dg``
+             Don't forget to read and declare ``Dl`` and ``Dg``
          
          - Add necesary values of :math:`D_l` and :math:`D_g` in your the ``.ini`` input file
 
          - Superpose with analytical solution with  :math:`D_l=0.14` and :math:`D_g=0.014`
 
-         - Use the harmonic interpolation for :math:`D(\phi)`
+         - Use the harmonic interpolation for :math:`D(\phi)` for temperature equation and keep :math:`D=1` in phase-field equation. Compare with analytical solution.
          
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 5
 
-                .. code-block:: ruby
-                   :emphasize-lines: 5
-
-                   KOKKOS_INLINE_FUNCTION
-                   real_t tau_TEMP(EquationTag1 tag, const LBMState& lbmState) const
-                   {
-                      real_t phi  = lbmState[IPHI];
-                      real_t Dphi = 1./(phi/Dg+(1.0-phi)/Dl) ;
-                      real_t tau  = 0.5 + (3.0 * Dphi * dt / (dx * dx));
-                      return (tau);
-                   }
+                KOKKOS_INLINE_FUNCTION
+                real_t tau_TEMP(EquationTag1 tag, const LBMState& lbmState) const
+                {
+                  real_t phi  = lbmState[IPHI];
+                  real_t Dphi = 1./(phi/Dg+(1.0-phi)/Dl) ;
+                  real_t tau  = 0.5 + (3.0 * Dphi * dt / (dx * dx));
+                  return (tau);
+                }
              
          - Compare the impact on curves
 
           .. dropdown:: Solution
              :icon: comment
 
-
-             .. only:: Solutions
-
-                .. figure:: ../FIGS/01_FIGS_VALIDATIONS/Profile-Temp-Stefan_LBM-Analytical_HeterogeneousD.png
-                   :name: Fig-Stefan-Temp-Profile-with-LBM-HeterogeneousD
-                   :height: 350
-                   :width: 500
-                   :scale: 95
-                   :align: center
+             .. figure:: ../FIGS/01_FIGS_VALIDATIONS/Profile-Temp-Stefan_LBM-Analytical_HeterogeneousD.png
+                :name: Fig-Stefan-Temp-Profile-with-LBM-HeterogeneousD
+                :height: 350
+                :width: 500
+                :scale: 95
+                :align: center
    
-                   Comparison between LBM and analytical solution at :math:`t=2\times 10^5 \delta t` for :math:`D_l=0.14` and :math:`D_g=0.014`.
+                Comparison between LBM and analytical solution at :math:`t=2\times 10^5 \delta t` for :math:`D_l=0.14` and :math:`D_g=0.014`.
    
 .. sectionauthor:: Alain Cartalade
