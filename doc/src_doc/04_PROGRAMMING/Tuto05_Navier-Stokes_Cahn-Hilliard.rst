@@ -10,10 +10,37 @@ Objective of this 5th tutorial
 
 The objective is to implement in LBM_Saclay, the Navier-Stokes/Cahn-Hilliard model. The starting point is the kernel ``CH`` implemented in the first tutorial. It will be extended here with the Navier-Stokes (NS) equations and renamed ``NSCH``.
 
-.. admonition:: Mathematical model
+.. admonition:: Mathematical model & LBM scheme
    :class: error
    
-   The model summarized in :bdg-ref-primary-line:`Summary of Navier-Stokes/phase-field model <Summary-NS-PF-model>` composed of incompressible Navier-Stokes equations Eqs. :eq:`TwoPhase_MassBalance` - :eq:`Chem_Pot_TwoPhase`  coupled with a Cahn-Hilliard equation Eq. :eq:`CH_Eq_TwoPhase`. Two forces appear in that model: 1) the capillary force defined by Eq. :eq:`Proof-Equiv-Surface-Tension_NSAC` :math:`\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi` and 2) the gravity force defined by :math:`\boldsymbol{F}_g=\varrho\boldsymbol{g}`.
+   - The model summarized in :bdg-ref-primary-line:`Summary of Navier-Stokes/phase-field model <Summary-NS-PF-model>` composed of incompressible Navier-Stokes equations Eqs. :eq:`TwoPhase_MassBalance` - :eq:`Chem_Pot_TwoPhase`  coupled with a Cahn-Hilliard equation Eq. :eq:`CH_Eq_TwoPhase`. Two forces appear in that model: 1) the capillary force defined by Eq. :eq:`Proof-Equiv-Surface-Tension_NSAC` :math:`\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi` and 2) the gravity force defined by :math:`\boldsymbol{F}_g=\varrho\boldsymbol{g}`.
+
+   - The equilibrium distribution function for incompressible Navier-Stokes is the version 2 presented in :bdg-ref-primary-line:`LBM scheme for incompressble NS <Feq-Incompressible-NS-Version2>`. The scheme works on a dimensionless pressure :math:`p^{\star}_h`. It needs to add a viscous force :math:`\boldsymbol{F}_v` (Eq. :eq:`Force_Viscos`) and a pressure force :math:`\boldsymbol{F}_p` (Eq. :eq:`Force_Pressure`) to be consistent with the continuous model.
+
+   - Expression of viscous force in LBM
+
+    .. dropdown:: LBM formulation of :math:`\boldsymbol{F}_v`
+       :icon: comment
+
+       .. math::
+          :label: Tuto05-Viscous-Force
+
+          \boldsymbol{F}_{v}=-\frac{\nu}{c_{s}^{2}\delta t}\sum_{i}\boldsymbol{c}_{i}(\boldsymbol{c}_{i}\cdot\boldsymbol{\nabla}\varrho)f_{i}^{\star}
+
+       where
+
+       .. math::
+          :label: Tuto05-Viscous-Force-Collision
+
+          f_{i}^{\star}=(\boldsymbol{M}^{-1}\boldsymbol{S}\boldsymbol{M}(\boldsymbol{f}-\boldsymbol{f}^{eq}))_{i}
+
+       For each component
+
+       .. math::
+          
+          F_{v,x}=-\frac{\nu}{c_{s}^{2}\delta t}\sum_{i=0}^{N_{pop}}c_{ix}\left[c_{ix}(\partial_{x}\varrho)+c_{iy}(\partial_{y}\varrho)+c_{iz}(\partial_{z}\varrho)\right]f_{i}^{\star}\\
+          F_{v,y}=-\frac{\nu}{c_{s}^{2}\delta t}\sum_{i=0}^{N_{pop}}c_{iy}\left[c_{ix}(\partial_{x}\varrho)+c_{iy}(\partial_{y}\varrho)+c_{iz}(\partial_{z}\varrho)\right]f_{i}^{\star}\\
+          F_{v,z}=-\frac{\nu}{c_{s}^{2}\delta t}\sum_{i=0}^{N_{pop}}c_{iz}\left[c_{ix}(\partial_{x}\varrho)+c_{iy}(\partial_{y}\varrho)+c_{iz}(\partial_{z}\varrho)\right]f_{i}^{\star}
 
 .. admonition:: Objective
    :class: important
@@ -23,6 +50,7 @@ The objective is to implement in LBM_Saclay, the Navier-Stokes/Cahn-Hilliard mod
    - add a new equation (like tuto 2)
    - add a ``setup_collider`` function relative to NS equations
    - add external force terms :math:`\boldsymbol{F}_c` and :math:`\boldsymbol{F}_g`
+   - add force terms :math:`\boldsymbol{F}_v` and :math:`\boldsymbol{F}_p` for consistency
 
 1. Create a new kernel ``NSCH``
 -------------------------------
@@ -490,16 +518,17 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
       .. admonition:: Function ``setup_collider`` with BGK
          :class: caution
 
-         - From stage 2, the function ``setup_collider`` is currently empty. It must be filled to simulate Navier-Stokes equations.
+         - From stage 2, the function ``setup_collider`` with ``BGK_Collider`` is currently empty. It must be filled to simulate Navier-Stokes equations.
 
           .. dropdown:: Solution
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 3-60
+                :emphasize-lines: 4-14
 
                 KOKKOS_INLINE_FUNCTION
-                void setup_collider(EquationTag2 tag, const IVect<dim> &IJK, BGK_Collider &collider) const {
+                void setup_collider(EquationTag2 tag, const IVect<dim> &IJK, BGK_Collider &collider) const
+                {
                   // Paramètres pour la simulation
                   const real_t dx = Model.dx;
                   const real_t dt = Model.dt;
@@ -512,23 +541,38 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                   // Calcul du tau de collision
                   collider.tau = Model.tau_NS(lbmState);
                 
+             - Equilibrium distribution function Eq. :eq:`Feq_Incompr_V2` without variable change
+
+             .. code-block:: ruby
+                :emphasize-lines: 1-11
+
                   // Equilibrium without force term
                   FState GAMMA;
                   if (dim == 2) {
-                     real_t scalUU = SQR(lbmState[IU]) + SQR(lbmState[IV]);
-                     for (int ipop = 0; ipop < npop; ++ipop) {
+                     real_t scalUU    = SQR(lbmState[IU]) + SQR(lbmState[IV]);
+                     for (int ipop    = 0; ipop < npop; ++ipop) {
                         real_t scalUC = c * Base::compute_scal(ipop, lbmState[IU], lbmState[IV]);
-                        GAMMA[ipop] = scalUC / cs2 + 0.5 * SQR(scalUC) / SQR(cs2) - 0.5 * scalUU / cs2;
+                        GAMMA[ipop]   = scalUC / cs2 + 0.5 * SQR(scalUC) / SQR(cs2) - 0.5 * scalUU / cs2;
                         real_t feqbar = w[ipop] * (lbmState[IP] / (cs2 * lbmState[ID]) + GAMMA[ipop]);
                         collider.feq[ipop] = feqbar;
-                        collider.f[ipop] = Base::get_f_val(tag, IJK, ipop);
+                        collider.f[ipop]   = Base::get_f_val(tag, IJK, ipop);
                      }
-                
+                     
+             - Computation of force terms :math:`\boldsymbol{F}_c`, :math:`\boldsymbol{F}_g` and :math:`\boldsymbol{F}_p` defined in file ``Models_NSCH.h``
+
+             .. code-block:: ruby
+                :emphasize-lines: 1-4
+
                      // Computation of force terms defined in models
                      RVect<dim> ForceTS = Model.force_TS<dim>(lbmState);
-                     RVect<dim> ForceG = Model.force_G<dim>(lbmState);
-                     RVect<dim> ForceP = Model.force_P<dim>(lbmState);
-                
+                     RVect<dim> ForceG  = Model.force_G<dim>(lbmState);
+                     RVect<dim> ForceP  = Model.force_P<dim>(lbmState);
+
+             - Computation of viscous force :math:`F_{v,x}` and :math:`F_{v,y}` Eq. :eq:`Tuto05-Viscous-Force` & Eq. :eq:`Tuto05-Viscous-Force-Collision`. For BGK collision only one relaxation rate is involved. It appears in factor ``coeffV``.
+
+             .. code-block:: ruby
+                :emphasize-lines: 1-14
+
                      // Computation of viscous force
                      RVect<dim> ForceV;
                      const real_t nu = Model.nu0 * Model.nu1 / (((1.0 - lbmState[IPHI]) * Model.nu1) + ((lbmState[IPHI]) * Model.nu0));
@@ -543,7 +587,12 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                      }
                      ForceV[IX] = coeffV * ForceV[IX];
                      ForceV[IY] = coeffV * ForceV[IY];
-                
+
+             - Computation of total force :math:`\boldsymbol{F}_{tot}` and save in array with appropriate indices ``IFX`` and ``IFY``
+              
+             .. code-block:: ruby
+                :emphasize-lines: 1-7
+
                      // Calcul et enregistrement du terme source total
                      RVect<dim> ForceTot;
                      ForceTot[IX] = ForceG[IX] + ForceP[IX] + ForceTS[IX] + ForceV[IX];
@@ -552,9 +601,14 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                      this->set_lbm_val(IJK, IFX, ForceTot[IX]);
                      this->set_lbm_val(IJK, IFY, ForceTot[IY]);
                 
+             - Correction of equilibrium (variable change) with total force term ``ForceTot[IX]`` & ``ForceTot[IY]``
+             
+             .. code-block:: ruby
+                :emphasize-lines: 1-7
+
                      // Add force term in equilibrium
                      for (int ipop = 0; ipop < npop; ++ipop) {
-                        collider.S0[ipop] = dx * w[ipop] / (lbmState[ID] * cs2) * Base::compute_scal(ipop, ForceTot[IX], ForceTot[IY]);
+                        collider.S0[ipop]  = dx * w[ipop] / (lbmState[ID] * cs2) * Base::compute_scal(ipop, ForceTot[IX], ForceTot[IY]);
                         collider.feq[ipop] = collider.feq[ipop] - 0.5 * (collider.S0[ipop]);
                      }
                   }

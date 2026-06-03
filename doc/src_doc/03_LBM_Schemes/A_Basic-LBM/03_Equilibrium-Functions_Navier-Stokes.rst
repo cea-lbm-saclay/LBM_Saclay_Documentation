@@ -94,6 +94,9 @@ Standard :math:`f_i^{eq}` for single-phase incompressible NS
 
    The mass balance Eq. :eq:`ComprArt_Mass` is one particular method of classical CFD to simulate the incompressible Navier-Stokes equations, called the **articial compressibility algorithm**. In LBM the compressibility coefficient is :math:`\beta=\rho_0c_s^{2}`.
 
+
+.. _Feq-Incompressible-NS-Version2:
+
 :math:`f_i^{eq}` for incompressible two-phase flows
 ---------------------------------------------------
 
@@ -168,7 +171,8 @@ By expanding the divergence term, the mass balance Eq. :eq:`Mass_Balance_V1` can
       S_p=\boldsymbol{u}\cdot\boldsymbol{\nabla}[\varrho(\phi)c_s^2]
    
    in the LBE.
-   
+
+
 Version 2 for variable density
 """"""""""""""""""""""""""""""
 
