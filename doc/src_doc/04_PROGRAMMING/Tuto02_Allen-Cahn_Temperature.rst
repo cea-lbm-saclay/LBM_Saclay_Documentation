@@ -959,7 +959,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
 
       .. admonition:: Fortran code and analytical profile
 
-         The analytical solution is implemented in a Fortran code. For validating our LBM implementation, the profiles of temperature for liquid (or gas) and solid (or liquid) with the position :math:`x` are given in two output files ``T_Liq_Chgt_Phase200000.dat`` and ``T_Sol_Chgt_Phase200000.dat``. Both files are in the folder ``case01``. After :math:`2\times10^5 \delta t` the temperature profile is presented on Fig. :numref:`target-Fig-Stefan-Temp-Profile` for liquid (black) and gas (blue).
+         The analytical solution is implemented in a Fortran code. For validating our LBM implementation, the profiles of temperature for liquid (or gas) and solid (or liquid) with the position :math:`x` are given in two output files ``T_Liq_Chgt_Phase200000.dat`` and ``T_Sol_Chgt_Phase200000.dat``. Both files are in the folder ``case01``. After :math:`2\times10^5 \delta t` the temperature profile is presented on Fig. :numref:`Fig_Stefan-Analytical-Profile` for liquid (black) and gas (blue).
 
          .. grid:: 2
             :gutter: 4
@@ -984,7 +984,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
                :columns: 6
 
                .. figure:: ../FIGS/01_FIGS_VALIDATIONS/Profile-Temp_Analytical_Stefan.png
-                  :name: target-Fig-Stefan-Temp-Profile
+                  :name: Fig_Stefan-Analytical-Profile
                   :height: 350
                   :width: 500
                   :scale: 80
