@@ -1149,10 +1149,10 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
 
                 $ pdflatex Profile-Temp-Stefan_LBM-Analytical.tex
 
-             to make the pdf file. You should obtain Fig. :numref:`target-Fig-Stefan-Temp-Profile-with-LBM`
+             to make the pdf file. You should obtain Fig. :numref:`Fig_Stefan-Temp-Profile-with-LBM`
 
          .. figure:: ../FIGS/01_FIGS_VALIDATIONS/Profile-Temp-Stefan_LBM-Analytical.png
-            :name: target-Fig-Stefan-Temp-Profile-with-LBM
+            :name: Fig_Stefan-Temp-Profile-with-LBM
             :height: 350
             :width: 500
             :scale: 95
@@ -1211,7 +1211,7 @@ The mathematical model is composed of two coupled PDE. It is necessary to add on
              :icon: comment
 
              .. figure:: ../FIGS/01_FIGS_VALIDATIONS/Profile-Temp-Stefan_LBM-Analytical_HeterogeneousD.png
-                :name: Fig-Stefan-Temp-Profile-with-LBM-HeterogeneousD
+                :name: Fig_Stefan-Temp-Profile-with-LBM-HeterogeneousD
                 :height: 350
                 :width: 500
                 :scale: 95
