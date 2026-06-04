@@ -16,6 +16,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 -----------------------------------------------
 
 .. admonition:: Copy the ADE kernel template and rename all files with new extension ``_CH``
+   :class: caution
 
    - Copy the folder ``ADE_for_CH-Tutorial`` which is contained in ``kernels/Templates_for_Tutorials``, and rename it ``Cahn-Hilliard_Tutorial`` in the folder ``kernels``
 
@@ -48,6 +49,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
           $ mv Problem_ADE.h Problem_CH.h
 
 .. admonition:: Edit them and change strings ``_ADE`` with ``_CH``
+   :class: caution
 
    1. Change strings ``_ADE`` with ``_CH``
 
@@ -82,6 +84,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
 
 .. admonition:: Compile your new kernel
+   :class: caution
 
    - Generate your ``makefile`` (only once)
 
@@ -105,6 +108,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
           $ make -j 22
 
 .. admonition:: Run with input files of ADE
+   :class: caution
 
    - Execute your new kernel ``CH`` of LBM_Saclay either with the simple diffusion of gaussian or with the advected gaussian in the folder ``run_training_lbm/Tutorial01_Cahn-Hilliard``
 
@@ -159,6 +163,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
    .. tab-item:: File ``Index_CH.h``
 
       .. admonition:: Declaration of new fields
+         :class: caution
 
          In ``enum ComponentIndex``, only the indices for macroscopic fields such as concentration :math:`c` (``IC``) and velocity components :math:`u_x` (``IU``), :math:`u_y` (``IV``) & :math:`u_z` (``IW``) are declared:
 
@@ -191,6 +196,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
                 };
 
       .. admonition:: Add new outputs
+         :class: caution
 
          In ``struct index2names`` only the strings for concentration and velocity components are written:
 
@@ -224,7 +230,8 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
    .. tab-item:: File ``Models_CH.h``
 
       .. admonition:: Read and declare Cahn-Hilliard parameters in ``ModelParams``
-      
+         :class: caution
+
          The Cahn-Hillard equation involves three parameters: the surface tension :math:`\sigma`, the interface thickness :math:`W` and the mobility :math:`\mathcal{M}_\phi`.
 
          - Read and declare Cahn-Hilliard parameters in ``ModelParams``
@@ -249,6 +256,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
                 real_t mobility, W, sigma;
 
       .. admonition:: Add specific functions for Cahn-Hilliard
+         :class: caution
 
          - Add a new function for derivative of double-well ``g_prime`` defined by the first term inside the bracket of Eq. :eq:`Chem_Pot_TwoPhase`.
 
@@ -332,6 +340,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
 
       
       .. admonition:: Add conditions and keywords for several initial conditions
+         :class: caution
 
          Currently only one condition exits for intial condition:
 
@@ -360,6 +369,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
    .. tab-item:: File ``LBMScheme_CH.h``
 
       .. admonition:: Function ``setup_collider`` with BGK
+         :class: caution
 
          The function ``setup_collider`` is written for solving Advection-Diffusion Equation. It must be modified for solving Cahn-Hilliard equation.
 
@@ -435,6 +445,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
                   collider.feq[ipop] = 3.0*MU*w[ipop] + w[ipop] * c_cs2 * Base::compute_scal(ipop, uc);
 
       .. admonition:: Function ``init_macro``
+         :class: caution
 
          Only one initial condition exists for ADE with ``ADE_GAUSSIAN``:
    
@@ -500,6 +511,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
                 Both integers ``valModuloX`` and ``valModuloY`` have already been declared in file ``Models_CH``.
 
       .. admonition:: Function ``update_macro``
+         :class: caution
 
          Currently, only the concentration and the velocity are updated:
 
@@ -538,6 +550,7 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
                 this->set_lbm_val(IJK, IMU, mu);
       
       .. admonition:: Function ``update_macro_grad``
+         :class: caution
 
          Currently the function is empty because for ADE, there is no need to compute additional gradients or laplacian with the LB method.
          
@@ -566,7 +579,8 @@ It is assumed that you have already downloaded ``LBM_Saclay_Rech-Dev`` and you a
    .. tab-item:: File ``InitConditionsTypes.h``
 
       .. admonition:: Add the keywords of initial conditions
-
+         :class: caution
+         
          In file ``InitConditionsTypes.h``, two keywords are currently declared:
 
           .. code-block:: ruby
@@ -605,53 +619,91 @@ Three ``.ini`` input files are available in the directory ``Tutorial01_Cahn-Hill
 
 It is recommended to start with ``Tuto-CH_Test01-Serpentine.ini`` because comparisons can be done with ``csv`` files contained in the folder ``Contours_CAC``.
 
-.. admonition:: Run ``Tuto-CH_Test01-Serpentine.ini``
+.. tab-set::
 
-   - Run ``Tuto-CH_Test01-Serpentine.ini``
+   .. tab-item:: Serpentine
 
-    .. dropdown:: Commands
-       :icon: comment
+      .. admonition:: Run ``Tuto-CH_Test01-Serpentine.ini``
+         :class: important
 
-       Go to the appropriate folder
+         - Run ``Tuto-CH_Test01-Serpentine.ini``
 
-        .. code-block:: shell
+          .. dropdown:: Commands
+             :icon: comment
 
-           $ cd run_training_lbm/Tutorial01_Cahn-Hilliard
+             Go to the appropriate folder
+
+             .. code-block:: shell
+
+                $ cd run_training_lbm/Tutorial01_Cahn-Hilliard
    
-       and run LBM_Saclay
+             and run LBM_Saclay
 
-        .. code-block:: shell
+             .. code-block:: shell
 
-           $ ../../build_CH/src/LBM_saclay Tuto-CH_Test01-Serpentine.ini
+                $ ../../build_CH/src/LBM_saclay Tuto-CH_Test01-Serpentine.ini
 
-   - Once the simulations is over, post-process your results with paraview.
+         - Once the simulations is over, post-process your results with paraview.
 
-.. admonition:: Post-process with paraview
-
-   Open paraview (e.g. version 5.11) and compare the contours from Cahn-Hilliard ``.vti`` files and ``csv`` files of subfolder ``Contours_CAC``.
+          Open paraview (e.g. version 5.11) and compare the contours from Cahn-Hilliard ``.vti`` files and ``csv`` files of subfolder ``Contours_CAC``.
    
-    .. dropdown:: Commands for contours
-       :icon: comment
+          .. dropdown:: Commands for contours
+             :icon: comment
 
-       - Open all ``.vti`` files and select ``comp``
-       - ``Ctrl space`` and ``Cell Data to Point Data`` and ``Apply``
-       - Clic on ``contour`` and select field ``comp`` with value ``0.5`` and ``Apply``
+             - Open all ``.vti`` files and select ``comp``
+             - ``Ctrl space`` and ``Cell Data to Point Data`` and ``Apply``
+             - Clic on ``contour`` and select field ``comp`` with value ``0.5`` and ``Apply``
 
-    .. dropdown:: Commands for csv files
-       :icon: comment
+          .. dropdown:: Commands for csv files
+             :icon: comment
 
-       - Open ``csv`` files (choose option ``CSV Reader``) + ``OK`` + ``Apply``
-       - Crtl space + ``Table To Points`` + select ``Points:0`` for X Column and ``Points:2`` for Y Column
-       - Play with ``Point Size`` in section ``Styling``
+             - Open ``csv`` files (choose option ``CSV Reader``) + ``OK`` + ``Apply``
+             - Crtl space + ``Table To Points`` + select ``Points:0`` for X Column and ``Points:2`` for Y Column
+             - Play with ``Point Size`` in section ``Styling``
 
-.. admonition:: Exercise
-   :class: important
+   .. tab-item:: Spinodal
 
-   Make a video with paraview for the two other test cases:
+      .. admonition:: Run & post-process
+         :class: important
+
+         - Run Spinodal decomposition: ``Tuto-CH_Test02-Spinodal.ini``
+         - Make a video with paraview (version 5.11)
     
-    - Spinodal decomposition: ``Tuto-CH_Test02-Spinodal.ini``
-    - Nucleation: ``Tuto-CH_Test03-Nucleation.ini``
+          .. code-block:: shell
+             
+             $ path-to-pvpython/pvpython Make-Movie-Spinodal_PV511.pvpy
 
+         - You must obtain the video below
+
+         .. div:: sd-text-center
+
+            .. raw:: html
+   
+               <video controls src="../../_static/Movie-Spinodal.webm" width="650" height="480"> </video>
+
+            Video: simulation of spinodal decomposition
+
+   .. tab-item:: Nucleation
+
+      .. admonition:: Run & post-process
+         :class: important
+
+         - Run Nucleation: ``Tuto-CH_Test03-Nucleation.ini``
+         - Make a video with paraview (version 5.11)
+
+          .. code-block:: shell
+
+             $ path-to-pvpython/pvpython Make-Movie-Nucleation_PV511.pvpy
+
+         - You must obtain the video below
+
+         .. div:: sd-text-center
+
+            .. raw:: html
+   
+               <video controls src="../../_static/Movie-Nucleation.webm" width="650" height="480"> </video>
+
+            Video: simulation of spinodal decomposition
 
 4. Push your developments on Codev-Tuleap
 -----------------------------------------
