@@ -154,22 +154,20 @@ Several collision operators are already implemented in ``Collision_operators.h``
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 8,9
 
-                .. code-block:: ruby
-                   :emphasize-lines: 8,9
-
-                   enum ComponentIndex {
-                     IU     , /*!< X velocity / momentum index */
-                     IV     , /*!< Y velocity / momentum index */
-                     IW     , /*!< Z velocity / momentum index */
-                     ITEMP  , /*!< Temperature index */
-                     IPHI   , /*!< Phase field index */
-                     IDPHIDT,
-                     IDPHIDX,
-                     IDPHIDY,	
-                     COMPONENT_SIZE /*!< invalid index, just counting number of fields */
-                   };
+                enum ComponentIndex {
+                  IU     , /*!< X velocity / momentum index */
+                  IV     , /*!< Y velocity / momentum index */
+                  IW     , /*!< Z velocity / momentum index */
+                  ITEMP  , /*!< Temperature index */
+                  IPHI   , /*!< Phase field index */
+                  IDPHIDT,
+                  IDPHIDX,
+                  IDPHIDY,	
+                  COMPONENT_SIZE /*!< invalid index, just counting number of fields */
+                };
 
       
    .. tab-item:: File ``Models_ACT.h``
@@ -230,20 +228,18 @@ Several collision operators are already implemented in ``Collision_operators.h``
           .. dropdown:: Solution ``Source_TEMP``
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 8
 
-               .. code-block:: ruby
-                  :emphasize-lines: 8
+                // =======================================================
+                // Source term for temperature equation
 
-                  // =======================================================
-                  // Source term for temperature equation
-
-                  KOKKOS_INLINE_FUNCTION
-                  real_t Source_TEMP(EquationTag1 tag, const LBMState& lbmState) const
-                  {
-                     real_t dphidt = lbmState[IDPHIDT];
-                     return 0.5*dphidt;
-                  }
+                KOKKOS_INLINE_FUNCTION
+                real_t Source_TEMP(EquationTag1 tag, const LBMState& lbmState) const
+                {
+                  real_t dphidt = lbmState[IDPHIDT];
+                  return 0.5*dphidt;
+                }
 
       .. admonition:: Add specific functions of crystal growth functions in the phase-field equation
          :class: caution
@@ -253,20 +249,18 @@ Several collision operators are already implemented in ``Collision_operators.h``
           .. dropdown:: Solution ``psi_st``
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 1,2,3,4,5,6,7,8,9
 
-                .. code-block:: ruby
-                   :emphasize-lines: 1,2,3,4,5,6,7,8,9
-
-                   // =======================================================
-                   // Source term for crystal growth
-                   KOKKOS_INLINE_FUNCTION
-                   real_t psi_st(EquationTag2 tag, const LBMState& lbmState) const
-                   {
-                     real_t phi = lbmState[IPHI];
-                     real_t S = (phi - KR_lambda0*(lbmState[ITEMP])*(1-phi*phi))*(1-phi*phi)/KR_tau0;
-                     return S;
-                   }
+                // =======================================================
+                // Source term for crystal growth
+                KOKKOS_INLINE_FUNCTION
+                real_t psi_st(EquationTag2 tag, const LBMState& lbmState) const
+                {
+                  real_t phi = lbmState[IPHI];
+                  real_t S = (phi - KR_lambda0*(lbmState[ITEMP])*(1-phi*phi))*(1-phi*phi)/KR_tau0;
+                  return S;
+                }
 
          - Add a new function ``tau_PHI_Crystal`` for collision rate using the anaisotropy function :math:`a_s()\boldsymbol{n}`
 
@@ -467,16 +461,14 @@ Several collision operators are already implemented in ``Collision_operators.h``
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
-
-                .. code-block:: ruby
-                   :emphasize-lines: 4,5
+             .. code-block:: ruby
+                :emphasize-lines: 4,5
                 
-                   this->set_lbm_val(IJK, ITEMP, c );
-                   this->set_lbm_val(IJK, IU   , vx);
-                   this->set_lbm_val(IJK, IV   , vy);
-                   //this->set_lbm_val(IJK,IPHI,phi);
-                   this->set_lbm_val(IJK,IPHI,psi);
+                this->set_lbm_val(IJK, ITEMP, c );
+                this->set_lbm_val(IJK, IU   , vx);
+                this->set_lbm_val(IJK, IV   , vy);
+                //this->set_lbm_val(IJK,IPHI,phi);
+                this->set_lbm_val(IJK,IPHI,psi);
 
 
       
@@ -530,24 +522,23 @@ Several collision operators are already implemented in ``Collision_operators.h``
           .. dropdown:: Solution
              :icon: comment
 
-             .. only:: Solutions
+             .. code-block:: ruby
+                :emphasize-lines: 5
 
-                .. code-block:: ruby
-                   :emphasize-lines: 5
-
-                   enum InitCondition{
-                      PHASE_FIELD_INIT_UNDEFINED,
-                      ADE_GAUSSIAN,
-                      PHASE_FIELD_INIT_VERTICAL,
-                      PHASE_FIELD_INIT_SPHERE
-                   };
+                enum InitCondition{
+                  PHASE_FIELD_INIT_UNDEFINED,
+                  ADE_GAUSSIAN,
+                  PHASE_FIELD_INIT_VERTICAL,
+                  PHASE_FIELD_INIT_SPHERE
+                };
 
 
 3. Verifications of your implementation
 ---------------------------------------
 
 .. admonition:: Run and post-process your results
-
+   :class: important
+   
    An input file ``Crystal-Equiaxe.ini`` is given in the folder ``Tutorial03_Crystal-Growth``.
    
    - Run LBM_Saclay with that input file

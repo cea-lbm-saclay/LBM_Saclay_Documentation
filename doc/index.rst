@@ -253,7 +253,7 @@ Welcome to LBM_Saclay's documentation (last update |today|)
    
       src_doc/04_PROGRAMMING/TOC_Guidelines.rst
 
-.. admonition:: :mediumbold:`Tutorials`
+.. admonition:: :mediumbold:`Tutorials for developers`
    :class: caution
 
    .. toctree::

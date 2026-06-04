@@ -2,11 +2,11 @@
 
 .. _Tutorials:
 
-PART IV.B: Tutorials
-====================
+PART IV.B: Tutorials for developers
+===================================
 
-Tutorials for phase-field models implementation without fluid flow
-------------------------------------------------------------------
+Tutorials for phase-field models without fluid flow
+---------------------------------------------------
 
 1. Tutorial for implementing a Cahn-Hilliard model
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -62,3 +62,6 @@ Tutorials for Navier-Stokes
       :maxdepth: 2
 
       ./Tuto05_Navier-Stokes_Cahn-Hilliard.rst
+
+
+.. sectionauthor:: Alain Cartalade
