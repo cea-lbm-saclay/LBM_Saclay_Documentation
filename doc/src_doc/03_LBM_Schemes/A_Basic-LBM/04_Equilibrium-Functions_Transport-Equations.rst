@@ -127,7 +127,8 @@ After collision and streaming, the new :math:`\phi` function is obtained by the 
    
    \phi=\sum_{i}g_{i}
 
-   
+.. _LBMScheme-for-CAC:
+
 :math:`g_i^{eq}` for Conservative Allen-Cahn equation
 -----------------------------------------------------
 
@@ -164,34 +165,39 @@ where :math:`g_{i}^{eq,ct}` is simply obtained by the scalar product of :math:`\
 
 The evolution of :math:`g_i` follows :eq:`LBE_ADE_Sterm` with :math:`\mathcal{G}_i=0`.
 
-**Method 2: equilibrium for ADE with source term** (:math:`\mathcal{G}_i\neq0`)
+.. admonition:: Method 2: ADE equilibrium with a source term (:math:`\mathcal{G}_i\neq0`)
+   :class: caution
 
-Because the moments of order 0, 1 and 2 are the same than ADE, the second method uses the :math:`g_i^{eq,ADE}` and considers the divergence of the counter term as a source term :math:`\mathcal{G}_i`:
+   **Equilibrium distribution function**
 
-.. math::
-   :label: Geq_VarChange
+   Because the moments of order 0, 1 and 2 are the same than ADE, the second method uses the :math:`g_i^{eq,ADE}` and considers the divergence of the counter term as a source term :math:`\mathcal{G}_i`:
+
+   .. math::
+      :label: Geq_VarChange
    
-   \overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)=w_{i}\phi\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}\right]-\frac{\delta t}{2}\mathcal{G}_{i}
+      \overline{g}_{i}^{eq,ADE}(\boldsymbol{x},t)=w_{i}\phi\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}\right]-\frac{\delta t}{2}\mathcal{G}_{i}
 
-where the source term is defined by
+   **Source term**
 
-.. math::
-   :label: SourceT_CAC
+   The source term :math:`\mathcal{G}_{i}` is defined by
+
+   .. math::
+      :label: SourceT_CAC
    
-   \mathcal{G}_{i}=\frac{4}{W}\phi(1-\phi)w_{i}\boldsymbol{c}_{i}\cdot\boldsymbol{n}
+      \mathcal{G}_{i}=\frac{4}{W}\phi(1-\phi)w_{i}\boldsymbol{c}_{i}\cdot\boldsymbol{n}
 
-Let us notice that in the right-hand side, the mobility coefficient does not appear compared to the expression which appears in the equilibrium :eq:`Geq_CAC_Full_Expr`.
+   Let us notice that in the right-hand side, the mobility coefficient does not appear compared to the expression which appears in the equilibrium :eq:`Geq_CAC_Full_Expr`.
 
-**Moment**
+   **Moment**
 
-Finally, after collision and streaming, the new :math:`\phi` is updated by
+   Finally, after collision and streaming, the new :math:`\phi` is updated by
 
-.. math::
-   :label: M0_CAC
+   .. math::
+      :label: M0_CAC
    
-   \phi=\sum_{i}g_{i}+\frac{\delta t}{2}\mathcal{G}_{i}
+      \phi=\sum_{i}g_{i}+\frac{\delta t}{2}\mathcal{G}_{i}
 
-For the first method :math:`\mathcal{G}_i=0`.
+   For the first method :math:`\mathcal{G}_i=0`.
 
 .. sectionauthor:: Alain Cartalade
    

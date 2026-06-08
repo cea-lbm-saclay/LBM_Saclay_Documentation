@@ -705,7 +705,231 @@ It is recommended to start with ``Tuto-CH_Test01-Serpentine.ini`` because compar
 
             Video: simulation of spinodal decomposition
 
-4. Push your developments on Codev-Tuleap
+4. From Cahn-Hilliard toward Conservative Allen-Cahn model
+----------------------------------------------------------
+
+Modificatons inside three files
+"""""""""""""""""""""""""""""""
+
+.. admonition:: Mathematical model & LBM scheme
+   :class: error
+
+   - Now we want to simulate the conservative Allen-Cahn model Eq. :eq:`CAC_Course`.
+   - The LBM scheme is the second method in :bdg-ref-primary-line:`LBM scheme <LBMScheme-for-CAC>`
+
+.. tab-set::
+
+   .. tab-item:: File ``Index_CH.h``
+
+      .. admonition:: Declaration of new fields
+         :class: caution
+
+         - In ``enum ComponentIndex``, add new indices ``IDPHIDX`` and ``IDPHIDY``
+
+          .. dropdown:: Solution
+             :icon: comment
+
+             .. code-block:: ruby
+                :emphasize-lines: 8,9
+                
+                enum ComponentIndex {
+                  IU     , /*!< X velocity / momentum index */
+                  IV     , /*!< Y velocity / momentum index */
+                  IW     , /*!< Z velocity / momentum index */
+                  IC     , /*!< Phase field index */
+                  IMU    , /*!< Chemical potential */
+                  ILAPLAC,     /*!< Laplacien of Phase field */
+                  IDPHIDX,       /*!< Grad X of Phase field */
+                  IDPHIDY,       /*!< Grad Y of Phase field */
+                  COMPONENT_SIZE /*!< invalid index, just counting number of fields */
+                };
+
+   .. tab-item:: File ``Models_CH.h``
+
+      .. admonition:: ``struct ModelParams``
+         :class: caution
+
+         - Add a new constant value :math:`\epsilon=10^{-16}` for computation of normal vector :math:`\boldsymbol{n}`
+
+          .. dropdown:: Solution
+             :icon: comment
+
+             .. code-block:: ruby
+                :emphasize-lines: 2
+
+                using LBMState = typename Kokkos::Array<real_t, COMPONENT_SIZE>;
+                static constexpr real_t NORMAL_EPSILON = 1.0e-16;
+
+
+         - Read and declare a new flag (real) ``counter_term`` for CAC model. If ``counter_term=0`` then the Cahn-Hilliard model will be simulated. Else If ``counter_term=1``, the CAC model will be solved.
+
+          .. dropdown:: Solution
+             :icon: comment
+
+             - Read
+
+              .. code-block:: ruby
+                 :emphasize-lines: 1
+
+                 counter_term = configMap.getFloat("params","counter_term",0.0);
+
+             - Declare
+
+              .. code-block:: ruby
+                 :emphasize-lines: 1
+
+                 real_t counter_term;
+             
+
+             
+      .. admonition:: Add specific functions for CAC
+         :class: caution
+
+         - Add a function ``Source_CT`` for counter term :math:`(4/W)M_{\phi}\phi(1-\phi)\boldsymbol{n}`
+
+          .. dropdown:: Solution ``Source_CT``
+             :icon: comment
+             
+             .. code-block:: ruby
+                :emphasize-lines: 1-12
+                
+                // =======================================================
+                // Source term for counter term of phase field equation
+                KOKKOS_INLINE_FUNCTION
+                RVect2 Source_CT (EquationTag1 tag, const LBMState& lbmState) const
+                {
+                  const real_t norm = sqrt( SQR(lbmState[IDPHIDX]) + SQR(lbmState[IDPHIDY]))+NORMAL_EPSILON;
+                  real_t force_ct = Mphi * 4.0*lbmState[IPHI]*(1.0-lbmState[IPHI])/ W / norm;
+                  RVect2 term;
+                  term[IX] = force_ct * lbmState[IDPHIDX];
+                  term[IY] = force_ct * lbmState[IDPHIDY];
+                  return term;
+                }
+
+         - Rename the second order function for CH ``M2_CH`` and add a new one ``M2_CAC`` for CAC
+
+          .. dropdown:: Solutions ``M2_CAC`` and ``M2_CH``
+             :icon: comment
+
+             .. code-block:: ruby
+                :emphasize-lines: 1-6, 11
+                
+                // =======================================================
+                // Second order moment of feq for CAC model
+                KOKKOS_INLINE_FUNCTION
+                real_t M2_CAC(EquationTag1 tag, const LBMState &lbmState) const {
+                  return lbmState[IC];
+                }
+                
+                // =======================================================
+                // second order moment of feq for CH model
+                KOKKOS_INLINE_FUNCTION
+                real_t M2_CH(EquationTag1 tag, const LBMState &lbmState) const {
+                  const real_t mu = sigma * 1.5 / W * (g_prime(lbmState[IC]) - SQR(W) * lbmState[ILAPLAC]);
+                  return mu;
+                }
+
+             
+
+   .. tab-item:: File ``LBMScheme_CH.h``
+
+      .. admonition:: Function ``setup_collider``
+         :class: caution
+
+         - Add ``if`` - ``else if`` with ``counter_term`` for Cahn-Hilliard or Conservative Allen-Cahn
+
+          .. dropdown:: Solution
+             :icon: comment
+
+             .. code-block:: ruby
+                :emphasize-lines: 4,7,23,24,25
+
+                LBMState lbmState;
+                Base::template setupLBMState2<LBMState, COMPONENT_SIZE>(IJK, lbmState);
+                
+                if (Model.counter_term == 0.0) {
+                  const real_t comp   = Model.M0(tag, lbmState);
+                  const RVect<dim> uc = Model.M1<dim>(tag, lbmState);
+                  const real_t MU     = Model.M2_CH(tag, lbmState);
+                  
+                  // compute collision rate
+                  collider.tau = Model.tau(tag, lbmState);
+                  
+                  // ipop = 0
+                  collider.f[0]   = Base::get_f_val(tag, IJK, 0);
+                  collider.S0[0]  = 0.0 ;
+                  collider.feq[0] = comp -3.0*MU*(1 - w[0]);
+                  
+                  // ipop > 0
+                  for (int ipop = 1; ipop < npop; ++ipop) {
+                     collider.f[ipop]   = this->get_f_val(tag, IJK, ipop);
+                     collider.S0[ipop]  = 0.0 ;
+                     collider.feq[ipop] = 3.0*MU*w[ipop] + w[ipop] * c_cs2 * Base::compute_scal(ipop, uc);
+                  }
+                }
+                else if (Model.counter_term == 1.0) {
+                }
+
+         - The second part ``else if`` is empty. Add the necessary code lines to solve CAC model
+
+          .. dropdown:: Solution
+             :icon: comment
+
+             .. code-block:: ruby
+                :emphasize-lines: 2-14
+
+                else if (Model.counter_term == 1.0) {
+                  const real_t     M0   = Model.M0(tag, lbmState);
+                  const RVect<dim> M1   = Model.M1<dim>(tag, lbmState);
+                  const real_t     M2   = Model.M2_CAC(tag, lbmState);
+                  const RVect2     G_ct = Model.Source_CT(tag, lbmState);		
+                     
+                  // compute collision rate
+                  collider.tau = Model.tau(tag, lbmState);
+                  real_t staudx = 1.0/((collider.tau-0.5)*dx/e2);
+                  for (int ipop=0; ipop<npop; ++ipop) {
+                     collider.f[ipop  ] = this->get_f_val(tag,IJK,ipop);
+                     collider.S0[ipop ] = w[ipop] * dt * staudx * Base::compute_scal(ipop,G_ct);
+                     collider.feq[ipop] = w[ipop] * (M2 + c_cs2 * Base::compute_scal(ipop, M1) ) - 0.5 * (collider.S0[ipop]);
+                  }
+                }
+
+      .. admonition:: Function ``update_macro_grad``
+         :class: caution
+
+         - Update gradient computation for :math:`\boldsymbol{n}=\boldsymbol{\nabla}\phi/|\boldsymbol{\nabla}\phi|`
+
+          .. dropdown:: Solution
+             :icon: comment
+
+             .. code-block:: ruby
+                :emphasize-lines: 9-12
+
+                // =============================================================
+                // Update gradients of macrosopic variables
+                KOKKOS_INLINE_FUNCTION
+                void update_macro_grad(IVect<dim> IJK) const
+                {
+                  real_t laplace_c = Base::compute_laplacian(IJK, IC, BOUNDARY_EQUATION_1);
+                  Base::set_lbm_val(IJK, ILAPLAC, laplace_c);
+                  
+                  RVect<dim> gradPhi;
+                  this->compute_gradient(gradPhi, IJK, IC, BOUNDARY_EQUATION_1);
+                  this->set_lbm_val(IJK, IDPHIDX, gradPhi[IX]);
+                  this->set_lbm_val(IJK, IDPHIDY, gradPhi[IY]);
+                }
+
+Verifications of your implementation
+""""""""""""""""""""""""""""""""""""
+
+.. admonition:: Verification of your implementation
+   :class: important
+
+   - Run your CAC model with the input file ``Tuto-CH_Test04_CAC_Serpentine.ini`` which is contained in the folder ``run_training_lbm/Tutorial01_Cahn-Hilliard``
+   - Compare your contours with those in the subfolder ``Contours_CAC``
+
+
+5. Push your developments on Codev-Tuleap
 -----------------------------------------
 
 .. admonition:: Save your developments on ``codev-tuleap.cea.fr``
