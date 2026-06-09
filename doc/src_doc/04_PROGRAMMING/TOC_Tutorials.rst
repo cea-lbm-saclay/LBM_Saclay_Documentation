@@ -5,13 +5,13 @@
 PART IV.B: Tutorials for developers
 ===================================
 
-Tutorials for phase-field models without fluid flow
----------------------------------------------------
+PART IV.B.1 Tutorials for phase-field models
+--------------------------------------------
 
 1. Tutorial for implementing a Cahn-Hilliard model
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
-.. admonition:: :mediumbold:`From Advection-Diffusion Equation to Cahn-Hilliard`
+.. admonition:: :mediumbold:`From Advection-Diffusion Equation (ADE) to Cahn-Hilliard`
 
    .. toctree::
       :maxdepth: 2
@@ -22,7 +22,7 @@ Tutorials for phase-field models without fluid flow
 2. Tutorial for implementing a model coupling Allen-Cahn with temperature
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-.. admonition:: :mediumbold:`From Advection-Diffusion Equation toward phase change problem`
+.. admonition:: :mediumbold:`From Advection-Diffusion Equation to phase change problem`
 
    .. toctree::
       :maxdepth: 2
@@ -32,7 +32,7 @@ Tutorials for phase-field models without fluid flow
 3. Tutorial for implementing a crystal growth model
 """""""""""""""""""""""""""""""""""""""""""""""""""
 
-.. admonition:: :mediumbold:`From ACT kernel of previous tutorial toward crystal growth`
+.. admonition:: :mediumbold:`From ACT kernel of previous tutorial to crystal growth`
 
    .. toctree::
       :maxdepth: 2
@@ -40,13 +40,13 @@ Tutorials for phase-field models without fluid flow
       ./Tuto03_Crystal-Growth.rst
 
 
-Tutorials for Navier-Stokes
----------------------------
+PART IV.B.2 Tutorials for Navier-Stokes
+---------------------------------------
 
-4. Tutorial for implementing an incompressible Navier-Stokes model
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+4. Tutorial for implementing a Navier-Stokes model
+""""""""""""""""""""""""""""""""""""""""""""""""""
 
-.. admonition:: :mediumbold:`From standard LBM for Navier-Stokes toward incompressible NS`
+.. admonition:: :mediumbold:`From ADE to Navier-Stokes`
 
    .. toctree::
       :maxdepth: 2
