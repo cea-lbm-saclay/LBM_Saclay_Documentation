@@ -189,7 +189,7 @@ Submit your job with slurm script
    .. tab-item:: Submit your job
 
       .. admonition:: For LBM training session
-         :class: important
+         :class: note
 
          Three slurm scripts are available in folder ``/tmpformation/LBM_Saclay/`` to submit one job on Orcus.
 
