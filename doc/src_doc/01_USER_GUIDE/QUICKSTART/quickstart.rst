@@ -19,7 +19,26 @@ Quick Start with LBM_Saclay
 
                $ source /tmp_formation/LBM_Saclay/lbm-env.sh
 
-          The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also copies the source files of LBM_Saclay and the folder of test cases ``run_training_lbm`` inside your ``/home/train``.
+          The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also copies the source files of LBM_Saclay and the folder of test cases ``run_training_lbm`` inside your ``/home/train``. The script will also generate a ``ssh-keygen`` for your future connexion on Orcus
+
+            .. dropdown:: 
+   
+               .. admonition:: For training session: terminal of your LOCAL DESKTOP
+                  :class: caution
+
+                  For future connexion on Orcus, use ``ssh-keygen``
+
+                     .. code-block:: shell
+
+                        $ ssh-keygen -t rsa -f ~/.ssh/id_rsa
+
+                  with empty responses (``return`` & ``return``)
+
+                     .. code-block:: shell
+
+                        $ ssh-copy-id -i ~/.ssh/id_rsa.pub orcusloginamd2
+
+                  with your current password.
 
          2. Open the LBM_Saclay's documentation
 

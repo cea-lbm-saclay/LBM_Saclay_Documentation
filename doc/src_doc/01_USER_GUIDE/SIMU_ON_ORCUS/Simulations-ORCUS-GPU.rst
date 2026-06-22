@@ -55,24 +55,7 @@ Connexion and disks on ORCUS
 
                $ source /tmpformation/LBM_Saclay/Bin-Training/lbm-env-orcus.sh
 
-         will copy the folder ``run_training_lbm`` in your directory (content on :ref:`Run_Training-LBM`) and configuration files ``.bashrc`` & ``.profile``.
-   
-      .. admonition:: For training session: terminal of your LOCAL DESKTOP
-         :class: caution
-
-         For future connexion on Orcus, use ``ssh-keygen``
-
-            .. code-block:: shell
-
-               $ ssh-keygen -t rsa -f ~/.ssh/id_rsa
-
-            with empty responses (``return`` & ``return``)
-
-            .. code-block:: shell
-
-               $ ssh-copy-id -i ~/.ssh/id_rsa.pub orcusloginamd2
-
-            with your current password.
+         will copy the folder ``run_training_lbm`` in your directory (content on :ref:`Run_Training-LBM`) and configuration files ``.bashrc`` & ``.profile``. 
    
    .. tab-item:: Disks on ORCUS
 
