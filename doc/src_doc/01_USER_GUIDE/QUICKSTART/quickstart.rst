@@ -19,26 +19,28 @@ Quick Start with LBM_Saclay
 
                $ source /tmp_formation/LBM_Saclay/lbm-env.sh
 
-          The shell script ``lbm-env.sh`` copies in your ``home`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also copies the source files of LBM_Saclay and the folder of test cases ``run_training_lbm`` inside your ``/home/train``. The script will also generate a ``ssh-keygen`` for your future connexion on Orcus
+          The shell script ``lbm-env.sh`` copies in your ``/home/train`` a ``.bashrc`` and ``.profile`` for necessary paths and connexions. The script also copies the source files of LBM_Saclay and the folder of test cases ``run_training_lbm`` inside your ``/home/train``. The script will also generate a ``ssh-keygen`` for your future connexion on Orcus (details in dropdown below).
 
             .. dropdown:: 
-   
-               .. admonition:: For training session: terminal of your LOCAL DESKTOP
-                  :class: caution
+               :icon: comment
 
-                  For future connexion on Orcus, use ``ssh-keygen``
+               For future connexion on Orcus, the script ``lbm-env.sh`` execute two ``ssh`` commands.
+            
+               1. For the first one
 
-                     .. code-block:: shell
+                  .. code-block:: shell
 
-                        $ ssh-keygen -t rsa -f ~/.ssh/id_rsa
+                     ssh-keygen -t rsa -f ~/.ssh/id_rsa
 
-                  with empty responses (``return`` & ``return``)
+                simply answer with empty responses (``return`` & ``return``).
 
-                     .. code-block:: shell
+               2. For the second one
 
-                        $ ssh-copy-id -i ~/.ssh/id_rsa.pub orcusloginamd2
+                  .. code-block:: shell
 
-                  with your current password.
+                     ssh-copy-id -i ~/.ssh/id_rsa.pub orcusloginamd2
+
+                write your ``password`` of your login & ``return``.
 
          2. Open the LBM_Saclay's documentation
 
