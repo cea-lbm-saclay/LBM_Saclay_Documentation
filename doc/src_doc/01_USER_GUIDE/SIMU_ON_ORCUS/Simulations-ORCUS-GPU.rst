@@ -253,11 +253,10 @@ Transfer your output files on your local computer
 .. admonition:: Terminal of your LOCAL DESKTOP
    :class: caution
 
-   Once the job is complete, create a directory on your local computer
+   Once the job is complete, go to your ``Post-Processing`` directory of your local computer
    
       .. code-block:: shell
 
-         $ mkdir Post-Processing
          $ cd Post-Processing/
 
    Transfer your output files on your local computer:
