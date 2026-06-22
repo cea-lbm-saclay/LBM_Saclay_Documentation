@@ -197,7 +197,7 @@ Submit your job with slurm script
             - ``JOB_A100_GPU.slurm`` to submit one job on gpuq_a100
             - ``JOB_V100_GPU.slurm`` to submit one job on gpuq_v100
 
-      .. admonition:: For training session: run on ORCUS
+      .. admonition:: Terminal on ORCUS
          :class: error
 
          **Submit a job and run**
@@ -250,7 +250,7 @@ Submit your job with slurm script
 Transfer your output files on your local computer
 -------------------------------------------------
 
-.. admonition:: For training session: terminal of your LOCAL DESKTOP
+.. admonition:: Terminal of your LOCAL DESKTOP
    :class: caution
 
    Once the job is complete, create a directory on your local computer
