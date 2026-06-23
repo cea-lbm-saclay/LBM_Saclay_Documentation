@@ -199,8 +199,10 @@ The objective is to start from a kernel which simulates an Advection-Diffusion E
              :icon: comment
 
              .. code-block:: ruby
-                :emphasize-lines: 5,16-19
+                :emphasize-lines: 1-4,7,18-21
                 
+                const real_t dx = this->params.dx;
+                const real_t dt = this->params.dt;
                 const real_t c = dx / dt;
                 const real_t c_cs2 = Model.e2 / (c * Model.rho_init);
                 
