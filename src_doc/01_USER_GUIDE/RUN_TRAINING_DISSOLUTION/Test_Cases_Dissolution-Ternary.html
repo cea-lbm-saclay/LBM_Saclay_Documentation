@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Ternary dissolution &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Description of LBM_Saclay input file" href="../INPUTFILE/inputfile.html" />
+    <link rel="prev" title="Binary dissolution" href="Test_Cases_Dissolution-Binary.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../INPUTFILE/inputfile.html" title="Description of LBM_Saclay input file"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Test_Cases_Dissolution-Binary.html" title="Binary dissolution"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="run_training_dissolution.html" accesskey="U">Practice of phase-field with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_dissolution</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Ternary dissolution</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="ternary-dissolution">
+<span id="test-dissolution-ternary"></span><h1>Ternary dissolution<a class="headerlink" href="#ternary-dissolution" title="Link to this heading"></a></h1>
+<section id="compilation-of-kernel-gpmixtternary">
+<h2>Compilation of kernel <code class="docutils literal notranslate"><span class="pre">GPMixtTernary</span></code><a class="headerlink" href="#compilation-of-kernel-gpmixtternary" title="Link to this heading"></a></h2>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Compilation on A6000</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="important admonition">
+<p class="admonition-title"><span class="mediumbold">Makefile for GPU of manwe server</span></p>
+<ul class="simple">
+<li><p class="sd-card-text">For <code class="docutils literal notranslate"><span class="pre">cuda</span></code> on GPU A6000 of manwe Go to folder <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev</span></code></p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">and execute the <code class="docutils literal notranslate"><span class="pre">configure_build.sh</span></code> script to create the <code class="docutils literal notranslate"><span class="pre">makefile</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./compilation/manwe/cuda_a6000/configure_build.sh
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">will return:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>The<span class="w"> </span>following<span class="w"> </span>problems<span class="w"> </span>are<span class="w"> </span>currently<span class="w"> </span>implemented:
+<span class="m">0</span><span class="w">  </span>AC
+<span class="m">1</span><span class="w">  </span>Advection-Diffusion
+<span class="m">2</span><span class="w">  </span>Crystal_growth_Younsi
+<span class="m">3</span><span class="w">  </span>GPMixt
+<span class="m">4</span><span class="w">  </span>GPMixtNS
+<span class="m">5</span><span class="w">  </span>GPMixtTernary
+<span class="m">6</span><span class="w">  </span>GPMuTernary
+<span class="m">7</span><span class="w">  </span>MPwSLphC
+<span class="m">8</span><span class="w">  </span>NS
+<span class="m">9</span><span class="w">  </span>NS_3phases_1comp_phase_change
+<span class="m">10</span><span class="w"> </span>NSAC_Comp
+<span class="m">11</span><span class="w"> </span>NSAC_Comp_3phases
+<span class="m">12</span><span class="w"> </span>NSAC_Comp_3phases3D
+<span class="m">13</span><span class="w"> </span>NSAC_coupling
+<span class="m">14</span><span class="w"> </span>NSAC_Fakhari
+<span class="m">15</span><span class="w"> </span>NSAC_Surfactant
+Choose<span class="w"> </span>which<span class="w"> </span>problems<span class="w"> </span>to<span class="w"> </span>include<span class="w"> </span>by<span class="w"> </span>indicating<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>space<span class="w"> </span>or<span class="w"> </span>comma<span class="w"> </span>separated<span class="w"> </span>numbers,<span class="w"> </span>eg<span class="w"> </span><span class="s1">&#39;0 1&#39;</span><span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;0,1&#39;</span>.
+Write<span class="w"> </span><span class="s1">&#39;all&#39;</span><span class="w"> </span>to<span class="w"> </span>include<span class="w"> </span>all<span class="w"> </span>problems.
+Problem<span class="w"> </span>numbers:
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="error admonition">
+<p class="admonition-title"><span class="mediumbold">Compilation</span></p>
+<p class="sd-card-text">Write <code class="docutils literal notranslate"><span class="pre">5</span></code> for <code class="docutils literal notranslate"><span class="pre">GPMixtTernary</span></code> kernel</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Problem<span class="w"> </span>numbers:<span class="w"> </span><span class="m">5</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">Go to the directory that is indicated by the green link, e.g., if number <code class="docutils literal notranslate"><span class="pre">5</span></code> has been set for GPU:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/build_cuda_a6000/build_GPMixtTernary
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">Compile:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+</details></section>
+<section id="run-test-cases">
+<h2>Run test cases<a class="headerlink" href="#run-test-cases" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Ternary dissolution</a><ul>
+<li><a class="reference internal" href="#compilation-of-kernel-gpmixtternary">Compilation of kernel <code class="docutils literal notranslate"><span class="pre">GPMixtTernary</span></code></a></li>
+<li><a class="reference internal" href="#run-test-cases">Run test cases</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Test_Cases_Dissolution-Binary.html"
+                          title="previous chapter">Binary dissolution</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../INPUTFILE/inputfile.html"
+                          title="next chapter">Description of LBM_Saclay input file</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../INPUTFILE/inputfile.html" title="Description of LBM_Saclay input file"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Test_Cases_Dissolution-Binary.html" title="Binary dissolution"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="run_training_dissolution.html" >Practice of phase-field with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_dissolution</span></code></a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Ternary dissolution</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

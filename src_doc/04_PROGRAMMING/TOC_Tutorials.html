@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PART IV.B: Tutorials for developers &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Implementation of a Cahn-Hilliard model" href="Tuto01_Cahn-Hilliard.html" />
+    <link rel="prev" title="Write your function setup_collider" href="Kernel_Add_Setup-Collider.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Tuto01_Cahn-Hilliard.html" title="Implementation of a Cahn-Hilliard model"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Add_Setup-Collider.html" title="Write your function setup_collider"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART IV.B: Tutorials for developers</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="part-iv-b-tutorials-for-developers">
+<span id="tutorials"></span><h1>PART IV.B: Tutorials for developers<a class="headerlink" href="#part-iv-b-tutorials-for-developers" title="Link to this heading"></a></h1>
+<section id="part-iv-b-1-tutorials-for-phase-field-models">
+<h2>PART IV.B.1 Tutorials for phase-field models<a class="headerlink" href="#part-iv-b-1-tutorials-for-phase-field-models" title="Link to this heading"></a></h2>
+<section id="tutorial-for-implementing-a-cahn-hilliard-model">
+<h3>1. Tutorial for implementing a Cahn-Hilliard model<a class="headerlink" href="#tutorial-for-implementing-a-cahn-hilliard-model" title="Link to this heading"></a></h3>
+<div class="admonition-mediumbold-from-advection-diffusion-equation-ade-to-cahn-hilliard admonition">
+<p class="admonition-title"><span class="mediumbold">From Advection-Diffusion Equation (ADE) to Cahn-Hilliard</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tuto01_Cahn-Hilliard.html">Implementation of a Cahn-Hilliard model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tuto01_Cahn-Hilliard.html#objective-of-this-1st-tutorial">Objective of this 1st tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto01_Cahn-Hilliard.html#create-a-new-kernel-ch-for-cahn-hilliard">1. Create a new kernel <code class="docutils literal notranslate"><span class="pre">CH</span></code> for Cahn-Hilliard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto01_Cahn-Hilliard.html#modifications-inside-each-file-of-ch">2. Modifications inside each file of <code class="docutils literal notranslate"><span class="pre">CH</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto01_Cahn-Hilliard.html#verifications-of-your-implementation">3. Verifications of your implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto01_Cahn-Hilliard.html#from-cahn-hilliard-toward-conservative-allen-cahn-model">4. From Cahn-Hilliard toward Conservative Allen-Cahn model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto01_Cahn-Hilliard.html#push-your-developments-on-codev-tuleap">5. Push your developments on Codev-Tuleap</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="tutorial-for-implementing-a-model-coupling-allen-cahn-with-temperature">
+<h3>2. Tutorial for implementing a model coupling Allen-Cahn with temperature<a class="headerlink" href="#tutorial-for-implementing-a-model-coupling-allen-cahn-with-temperature" title="Link to this heading"></a></h3>
+<div class="admonition-mediumbold-from-advection-diffusion-equation-to-phase-change-problem admonition">
+<p class="admonition-title"><span class="mediumbold">From Advection-Diffusion Equation to phase change problem</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tuto02_Allen-Cahn_Temperature.html">Implementation of Allen-Cahn coupled with temperature for phase change problems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tuto02_Allen-Cahn_Temperature.html#objective-of-this-2nd-tutorial">Objective of this 2nd tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto02_Allen-Cahn_Temperature.html#create-a-new-kernel-act-for-allen-cahn-temperature">1. Create a new kernel <code class="docutils literal notranslate"><span class="pre">ACT</span></code> for Allen-Cahn/Temperature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto02_Allen-Cahn_Temperature.html#add-a-new-equation-in-your-kernel-act">2. Add a new equation in your kernel <code class="docutils literal notranslate"><span class="pre">ACT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto02_Allen-Cahn_Temperature.html#modifications-inside-each-file-of-your-kernel-act">3. Modifications inside each file of your kernel <code class="docutils literal notranslate"><span class="pre">ACT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto02_Allen-Cahn_Temperature.html#verifications-of-your-implementation">4. Verifications of your implementation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="tutorial-for-implementing-a-crystal-growth-model">
+<h3>3. Tutorial for implementing a crystal growth model<a class="headerlink" href="#tutorial-for-implementing-a-crystal-growth-model" title="Link to this heading"></a></h3>
+<div class="admonition-mediumbold-from-act-kernel-of-previous-tutorial-to-crystal-growth admonition">
+<p class="admonition-title"><span class="mediumbold">From ACT kernel of previous tutorial to crystal growth</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tuto03_Crystal-Growth.html">Implementation of a crystal growth model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tuto03_Crystal-Growth.html#objective-of-this-3rd-tutorial">Objective of this 3rd tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto03_Crystal-Growth.html#use-a-new-collision-operator-for-the-phase-field-equation-in-your-kernel">1. Use a new collision operator for the phase-field equation in your kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto03_Crystal-Growth.html#modifications-inside-each-file-for-implementing-a-crystal-growth-model">2. Modifications inside each file for implementing a crystal growth model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto03_Crystal-Growth.html#verifications-of-your-implementation">3. Verifications of your implementation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="part-iv-b-2-tutorials-for-navier-stokes">
+<h2>PART IV.B.2 Tutorials for Navier-Stokes<a class="headerlink" href="#part-iv-b-2-tutorials-for-navier-stokes" title="Link to this heading"></a></h2>
+<section id="tutorial-for-implementing-a-navier-stokes-model">
+<h3>4. Tutorial for implementing a Navier-Stokes model<a class="headerlink" href="#tutorial-for-implementing-a-navier-stokes-model" title="Link to this heading"></a></h3>
+<div class="admonition-mediumbold-from-ade-to-navier-stokes admonition">
+<p class="admonition-title"><span class="mediumbold">From ADE to Navier-Stokes</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tuto04_Incompr_Navier-Stokes.html">Implementation of an incompressible Navier-Stokes model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tuto04_Incompr_Navier-Stokes.html#objective-of-this-4th-tutorial">Objective of this 4th tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto04_Incompr_Navier-Stokes.html#create-a-new-kernel-ns">1. Create a new kernel <code class="docutils literal notranslate"><span class="pre">NS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto04_Incompr_Navier-Stokes.html#modifications-inside-each-file-of-ns">2. Modifications inside each file of <code class="docutils literal notranslate"><span class="pre">NS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto04_Incompr_Navier-Stokes.html#verification-of-your-implementation">3. Verification of your implementation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="tutorial-for-implementing-a-navier-stokes-cahn-hilliard-model">
+<h3>5. Tutorial for implementing a Navier-Stokes/Cahn-Hilliard model<a class="headerlink" href="#tutorial-for-implementing-a-navier-stokes-cahn-hilliard-model" title="Link to this heading"></a></h3>
+<div class="admonition-mediumbold-from-ch-kernel-of-1st-tutorial-toward-two-phase-flows admonition">
+<p class="admonition-title"><span class="mediumbold">From CH kernel of 1st tutorial toward two-phase flows</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tuto05_Navier-Stokes_Cahn-Hilliard.html">Implementation of a Navier-Stokes/Cahn-Hilliard model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tuto05_Navier-Stokes_Cahn-Hilliard.html#objective-of-this-5th-tutorial">Objective of this 5th tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto05_Navier-Stokes_Cahn-Hilliard.html#create-a-new-kernel-nsch">1. Create a new kernel <code class="docutils literal notranslate"><span class="pre">NSCH</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto05_Navier-Stokes_Cahn-Hilliard.html#add-a-new-equation-in-your-kernel-nsch">2. Add a new equation in your kernel <code class="docutils literal notranslate"><span class="pre">NSCH</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto05_Navier-Stokes_Cahn-Hilliard.html#modifications-inside-each-file-of-nsch">3. Modifications inside each file of <code class="docutils literal notranslate"><span class="pre">NSCH</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tuto05_Navier-Stokes_Cahn-Hilliard.html#verification-of-your-implementation">4. Verification of your implementation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">PART IV.B: Tutorials for developers</a><ul>
+<li><a class="reference internal" href="#part-iv-b-1-tutorials-for-phase-field-models">PART IV.B.1 Tutorials for phase-field models</a><ul>
+<li><a class="reference internal" href="#tutorial-for-implementing-a-cahn-hilliard-model">1. Tutorial for implementing a Cahn-Hilliard model</a></li>
+<li><a class="reference internal" href="#tutorial-for-implementing-a-model-coupling-allen-cahn-with-temperature">2. Tutorial for implementing a model coupling Allen-Cahn with temperature</a></li>
+<li><a class="reference internal" href="#tutorial-for-implementing-a-crystal-growth-model">3. Tutorial for implementing a crystal growth model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#part-iv-b-2-tutorials-for-navier-stokes">PART IV.B.2 Tutorials for Navier-Stokes</a><ul>
+<li><a class="reference internal" href="#tutorial-for-implementing-a-navier-stokes-model">4. Tutorial for implementing a Navier-Stokes model</a></li>
+<li><a class="reference internal" href="#tutorial-for-implementing-a-navier-stokes-cahn-hilliard-model">5. Tutorial for implementing a Navier-Stokes/Cahn-Hilliard model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Kernel_Add_Setup-Collider.html"
+                          title="previous chapter">Write your function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Tuto01_Cahn-Hilliard.html"
+                          title="next chapter">Implementation of a Cahn-Hilliard model</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Tuto01_Cahn-Hilliard.html" title="Implementation of a Cahn-Hilliard model"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Kernel_Add_Setup-Collider.html" title="Write your function setup_collider"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART IV.B: Tutorials for developers</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

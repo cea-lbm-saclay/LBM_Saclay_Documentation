@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Implementation of an incompressible Navier-Stokes model &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Implementation of a Navier-Stokes/Cahn-Hilliard model" href="Tuto05_Navier-Stokes_Cahn-Hilliard.html" />
+    <link rel="prev" title="Implementation of a crystal growth model" href="Tuto03_Crystal-Growth.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Tuto05_Navier-Stokes_Cahn-Hilliard.html" title="Implementation of a Navier-Stokes/Cahn-Hilliard model"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Tuto03_Crystal-Growth.html" title="Implementation of a crystal growth model"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Tutorials.html" accesskey="U">PART IV.B: Tutorials for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Implementation of an incompressible Navier-Stokes model</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="implementation-of-an-incompressible-navier-stokes-model">
+<span id="tuto-incompressible-navier-stokes"></span><h1>Implementation of an incompressible Navier-Stokes model<a class="headerlink" href="#implementation-of-an-incompressible-navier-stokes-model" title="Link to this heading"></a></h1>
+<section id="objective-of-this-4th-tutorial">
+<h2>Objective of this 4th tutorial<a class="headerlink" href="#objective-of-this-4th-tutorial" title="Link to this heading"></a></h2>
+<p>The objective is to start from a kernel which simulates an Advection-Diffusion Equation and modify it to simulate a Navier-Stokes model for single-phase applications. The verifications will be done with the classic test case of “lid driven cavity flow”.</p>
+</section>
+<section id="create-a-new-kernel-ns">
+<h2>1. Create a new kernel <code class="docutils literal notranslate"><span class="pre">NS</span></code><a class="headerlink" href="#create-a-new-kernel-ns" title="Link to this heading"></a></h2>
+<div class="note admonition">
+<p class="admonition-title">Create a new kernel <code class="docutils literal notranslate"><span class="pre">NS</span></code></p>
+<p>You can refer to Tuto 1 &amp; 2 where all commands have been presented in detail:</p>
+<ol class="arabic simple">
+<li><p>Copy the kernel <code class="docutils literal notranslate"><span class="pre">ADE_for_NS</span></code> and rename it <code class="docutils literal notranslate"><span class="pre">Navier-Stokes_Tutorial</span></code> in directory <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev/src/kernels/</span></code></p></li>
+<li><p>Go to your new folder <code class="docutils literal notranslate"><span class="pre">Navier-Stokes_Tutorial</span></code> and replace all files with extension <code class="docutils literal notranslate"><span class="pre">_ADE</span></code> by <code class="docutils literal notranslate"><span class="pre">_NS</span></code></p></li>
+<li><p>Edit your files and replace <code class="docutils literal notranslate"><span class="pre">_ADE</span></code> with <code class="docutils literal notranslate"><span class="pre">_NS</span></code></p></li>
+<li><p>In file <code class="docutils literal notranslate"><span class="pre">Setup.h</span></code> replace the problem name <code class="docutils literal notranslate"><span class="pre">ADE</span></code> by <code class="docutils literal notranslate"><span class="pre">NS</span></code></p></li>
+<li><p>Create your <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> with option <code class="docutils literal notranslate"><span class="pre">-DPROBLEM=Navier-Stokes_Tutorial</span></code> and compile</p></li>
+</ol>
+</div>
+</section>
+<section id="modifications-inside-each-file-of-ns">
+<h2>2. Modifications inside each file of <code class="docutils literal notranslate"><span class="pre">NS</span></code><a class="headerlink" href="#modifications-inside-each-file-of-ns" title="Link to this heading"></a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+File <code class="docutils literal notranslate"><span class="pre">Index_NS.h</span></code></label><div class="sd-tab-content docutils">
+<div class="caution admonition">
+<p class="admonition-title"><code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">ComponentIndex</span></code></p>
+<ul class="simple">
+<li><p>In <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">ComponentIndex</span></code>, add a new index <code class="docutils literal notranslate"><span class="pre">ID</span></code> for density <span class="math notranslate nohighlight">\(\rho\)</span></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">ComponentIndex</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="no">IU</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; X velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IV</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Y velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IW</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Z velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IC</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Phase field index */</span>
+<span class="hll"><span class="w">  </span><span class="no">ID</span><span class="w">     </span><span class="p">,</span>
+</span><span class="w">  </span><span class="no">COMPONENT_SIZE</span><span class="w"> </span><span class="sr">/*!&lt; invalid index, just counting number of fields */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title"><code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">index2names</span></code></p>
+<ul class="simple">
+<li><p>In <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">index2names</span></code>, add a new string <code class="docutils literal notranslate"><span class="pre">rho</span></code> to write the density <span class="math notranslate nohighlight">\(\rho\)</span> in the output file</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="sr">//</span><span class="w"> </span><span class="n">insert</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">fields</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IC</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;comp&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IU</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vx&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IV</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vy&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IW</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vz&quot;</span><span class="p">;</span>
+<span class="hll"><span class="n">map</span><span class="o">[</span><span class="no">ID</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rho&quot;</span><span class="p">;</span>
+</span><span class="k">return</span><span class="w"> </span><span class="n">map</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+File <code class="docutils literal notranslate"><span class="pre">Models_NSCH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="caution admonition">
+<p class="admonition-title">Read and declare Navier-Stokes parameters in <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></p>
+<p>The Navier-Stokes equations involve two main input  parameters: the kinematic viscosity <span class="math notranslate nohighlight">\(\nu\)</span> and the initial density <span class="math notranslate nohighlight">\(\rho\)</span>. A new flag <code class="docutils literal notranslate"><span class="pre">flow</span></code> is also introduced to simulate or not the Navier-Stokes model. <code class="docutils literal notranslate"><span class="pre">If</span></code> <code class="docutils literal notranslate"><span class="pre">flow=0.0</span></code> then the ADE is simulated, <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> <code class="docutils literal notranslate"><span class="pre">flow=1.0</span></code> then the NS model is simulated.</p>
+<ul class="simple">
+<li><p>Read and declare the Navier-Stokes parameters in <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Read parameters in input file:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">flow</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;flow&quot;</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="n">nu</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nu&quot;</span><span class="w">      </span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span>
+<span class="hll"><span class="n">rho_init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;rho_init&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Declare them as <code class="docutils literal notranslate"><span class="pre">real_t</span></code> at the end of <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">flow</span><span class="p">,</span><span class="w"> </span><span class="n">nu</span><span class="p">,</span><span class="w"> </span><span class="n">rho_init</span><span class="p">;</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Add specific functions for Navier-Stokes</p>
+<ul class="simple">
+<li><p>Add a new function <code class="docutils literal notranslate"><span class="pre">tau_NS</span></code> for relaxation rate <span class="math notranslate nohighlight">\(\tau_{NS}\)</span></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution <code class="docutils literal notranslate"><span class="pre">tau_NS</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">=======================================================</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="n">relaxation</span><span class="w"> </span><span class="n">rate</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">kinematic</span><span class="w"> </span><span class="n">viscosity</span>
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">tau_NS</span><span class="p">(</span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">e2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nu</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">dx</span><span class="p">));</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="p">);</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+File <code class="docutils literal notranslate"><span class="pre">LBMScheme_NSCH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> with BGK</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> is adapted for ADE. It must be compteled to simulate Navier-Stokes equations.</p>
+<ul class="simple">
+<li><p>Add a new block <code class="docutils literal notranslate"><span class="pre">if</span></code> - <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> for flag <code class="docutils literal notranslate"><span class="pre">flow=0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">flow=1.0</span></code> and move the ADE <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> inside the first condition.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">LBMState</span><span class="w"> </span><span class="n">lbmState</span><span class="p">;</span>
+<span class="no">Base</span><span class="o">::</span><span class="n">template</span><span class="w"> </span><span class="n">setupLBMState2</span><span class="o">&lt;</span><span class="no">LBMState</span><span class="p">,</span><span class="w"> </span><span class="no">COMPONENT_SIZE</span><span class="o">&gt;</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+
+<span class="hll"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">M0</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">MomentM0</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+<span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">uc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">MomentM1</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+<span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">M2</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">MomentM2</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+
+<span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="n">collision</span><span class="w"> </span><span class="n">rate</span>
+<span class="w">  </span><span class="n">collider</span><span class="o">.</span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+
+<span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="p">;</span>
+<span class="w">  </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="mi">0</span><span class="o">]*</span><span class="no">M0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+<span class="w">     </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="p">;</span>
+<span class="w">     </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="no">M2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c_cs2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_scal</span><span class="p">(</span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">uc</span><span class="p">));</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="hll"><span class="p">}</span>
+</span>
+<span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Complete the <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> part with the NS <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="w">  </span><span class="no">FState</span><span class="w"> </span><span class="no">GAMMA</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ID</span><span class="o">]</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">collider</span><span class="o">.</span><span class="n">tau</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">tau_NS</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">scalUU</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">real_t</span><span class="w"> </span><span class="n">scalUC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_scal</span><span class="p">(</span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="no">GAMMA</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">e2</span><span class="o">*</span><span class="n">scalUC</span><span class="o">/</span><span class="n">c2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">*</span><span class="no">SQR</span><span class="p">(</span><span class="n">e2</span><span class="o">*</span><span class="n">scalUC</span><span class="p">)</span><span class="o">/</span><span class="no">SQR</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="o">*</span><span class="n">e2</span><span class="o">*</span><span class="n">scalUU</span><span class="o">/</span><span class="n">c2</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="no">GAMMA</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">make_boundary</span></code> with BGK</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">make_boundary</span></code> is adapted for ADE. It must be compteled for Navier-Stokes boundary conditions.</p>
+<ul class="simple">
+<li><p>Add a new block <code class="docutils literal notranslate"><span class="pre">if</span></code> - <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> for flag <code class="docutils literal notranslate"><span class="pre">flow=0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">flow=1.0</span></code> and move the ADE <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> inside the first condition.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">params</span><span class="o">.</span><span class="n">dx</span><span class="p">;</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">params</span><span class="o">.</span><span class="n">dt</span><span class="p">;</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dt</span><span class="p">;</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">c_cs2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">e2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">rho_init</span><span class="p">);</span>
+</span>
+<span class="sr">//</span><span class="w"> </span><span class="no">ADE</span><span class="w"> </span><span class="n">boundary</span>
+<span class="hll"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_types</span><span class="o">[</span><span class="no">BOUNDARY_EQUATION_1</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BC_ANTI_BOUNCE_BACK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">real_t</span><span class="w"> </span><span class="n">boundary_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_values</span><span class="o">[</span><span class="no">BOUNDARY_PHASE_FIELD</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="p">;</span>
+<span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span>
+<span class="w">        </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_boundary_antibounceback</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="n">faceId</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">boundary_value</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_types</span><span class="o">[</span><span class="no">BOUNDARY_EQUATION_1</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BC_ZERO_FLUX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span>
+<span class="w">        </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_boundary_bounceback</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="n">faceId</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="hll"><span class="p">}</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">NS</span><span class="w"> </span><span class="n">boundary</span>
+</span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Complete the <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> part with three boundary conditions for Navier-Stokes (pressure, no-slip and velocity)</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="no">Pressure</span><span class="w"> </span><span class="n">imposed</span>
+</span><span class="hll"><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_types</span><span class="o">[</span><span class="no">BOUNDARY_EQUATION_1</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BC_ANTI_BOUNCE_BACK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">real_t</span><span class="w"> </span><span class="n">boundary_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_values</span><span class="o">[</span><span class="no">BOUNDARY_PRESSURE</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">        </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_boundary_antibounceback</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="n">faceId</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">boundary_value</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="no">No</span><span class="o">-</span><span class="n">slip</span><span class="w"> </span><span class="n">boundary</span><span class="w"> </span><span class="n">condition</span>
+</span><span class="hll"><span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_types</span><span class="o">[</span><span class="no">BOUNDARY_EQUATION_1</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BC_ZERO_FLUX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span>
+</span><span class="hll"><span class="w">        </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_boundary_bounceback</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="n">faceId</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="no">Velocity</span><span class="w"> </span><span class="n">imposed</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">lid</span><span class="w"> </span><span class="n">driven</span><span class="w"> </span><span class="n">cavity</span><span class="w"> </span><span class="n">flow</span><span class="p">)</span>
+</span><span class="hll"><span class="w">  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_types</span><span class="o">[</span><span class="no">BOUNDARY_EQUATION_1</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BC_BOUNCEBACK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">real_t</span><span class="w"> </span><span class="n">boundary_vx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_values</span><span class="o">[</span><span class="no">BOUNDARY_VELOCITY_X</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="n">real_t</span><span class="w"> </span><span class="n">boundary_vy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_values</span><span class="o">[</span><span class="no">BOUNDARY_VELOCITY_Y</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="n">real_t</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c_cs2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_scal_Ebar</span><span class="p">(</span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">boundary_vx</span><span class="p">,</span><span class="w"> </span><span class="n">boundary_vy</span><span class="p">);</span>
+</span><span class="hll"><span class="w">        </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_boundary_bounceback</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="n">faceId</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">init_macro</span></code> with BGK</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">init_macro</span></code> is adapted for ADE. It must be compteled for Navier-Stokes initial condition.</p>
+<ul class="simple">
+<li><p>Add a new block <code class="docutils literal notranslate"><span class="pre">if</span></code> - <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> for flag <code class="docutils literal notranslate"><span class="pre">flow=0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">flow=1.0</span></code> and move the ADE initialization inside the first condition.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">real_t</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="n">this</span><span class="o">-&gt;</span><span class="n">get_coordinates</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+
+<span class="hll"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">xphi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">vx</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">vy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">ADE_GAUSSIAN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">c</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">ampl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="no">Model</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">sigmax</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="no">SQR</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="no">Model</span><span class="o">.</span><span class="n">y0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">sigmay</span><span class="p">))</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="p">;</span>
+<span class="w">     </span><span class="n">vx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVX</span><span class="p">;</span>
+<span class="w">     </span><span class="n">vy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVY</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IC</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+<span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IU</span><span class="p">,</span><span class="w"> </span><span class="n">vx</span><span class="p">);</span>
+<span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IV</span><span class="p">,</span><span class="w"> </span><span class="n">vy</span><span class="p">);</span>
+<span class="hll"><span class="p">}</span>
+</span><span class="hll">
+</span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Complete the <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> part with <code class="docutils literal notranslate"><span class="pre">rho_init</span></code> and null velocity and save in array with appropriate indices</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">rho_init</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">vx</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVX</span><span class="w">  </span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">vy</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVY</span><span class="w">  </span><span class="p">;</span>
+</span><span class="hll">
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">ID</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IU</span><span class="p">,</span><span class="w"> </span><span class="n">vx</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IV</span><span class="p">,</span><span class="w"> </span><span class="n">vy</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">update_macro</span></code> with BGK</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">update_macro</span></code> is adapted for ADE. It must be compteled for Navier-Stokes.</p>
+<ul class="simple">
+<li><p>Add a new block <code class="docutils literal notranslate"><span class="pre">if</span></code> - <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> for flag <code class="docutils literal notranslate"><span class="pre">flow=0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">flow=1.0</span></code> and move the ADE initialization inside the first condition.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="sr">//</span><span class="w"> </span><span class="n">get</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="n">coordinates</span>
+<span class="n">real_t</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="n">this</span><span class="o">-&gt;</span><span class="n">get_coordinates</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+
+<span class="hll"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="n">moments</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">distribution</span><span class="w"> </span><span class="n">equations</span>
+<span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">moment_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">moment_c</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="n">store</span><span class="w"> </span><span class="n">old</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">macro</span><span class="w"> </span><span class="n">fields</span>
+<span class="w">  </span><span class="no">LBMState</span><span class="w"> </span><span class="n">lbmStatePrev</span><span class="p">;</span>
+
+<span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="n">get</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="n">terms</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="kp">new</span><span class="w"> </span><span class="n">macro</span><span class="w"> </span><span class="n">fields</span>
+<span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">moment_c</span><span class="p">;</span>
+<span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">vx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVX</span><span class="p">;</span>
+<span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">vy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVY</span><span class="p">;</span>
+
+<span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="n">update</span><span class="w"> </span><span class="n">macro</span><span class="w"> </span><span class="n">fields</span>
+<span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IC</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">);</span>
+<span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IU</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">vx</span><span class="w"> </span><span class="p">);</span>
+<span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IV</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">vy</span><span class="w"> </span><span class="p">);</span>
+<span class="hll"><span class="p">}</span>
+</span><span class="hll">
+</span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Complete the <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> part for <span class="math notranslate nohighlight">\(\rho,u_x,u_y\)</span> and save in array with appropriate indices</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">flow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">dt</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">dx</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span><span class="o">/</span><span class="n">dt</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="n">moments</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">distribution</span><span class="w"> </span><span class="n">equations</span>
+</span><span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">moment_rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">moment_VX</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">moment_VY</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">moment_rho</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="n">moment_VX</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">ipop</span><span class="o">][</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="n">moment_VY</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">ipop</span><span class="o">][</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="no">Save</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">appropriate</span><span class="w"> </span><span class="n">indices</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moment_rho</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">vx</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">moment_VX</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">vy</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">moment_VY</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll">
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">ID</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IU</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">vx</span><span class="w"> </span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IV</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">vy</span><span class="w"> </span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+</div>
+</section>
+<section id="verification-of-your-implementation">
+<h2>3. Verification of your implementation<a class="headerlink" href="#verification-of-your-implementation" title="Link to this heading"></a></h2>
+<p>The test case of validation is the “lid driven cavity flow”. The input file is <code class="docutils literal notranslate"><span class="pre">Tuto04_NS_Cavity-flow-Re1000.ini</span></code> in the directory <code class="docutils literal notranslate"><span class="pre">run_training_lbm/Tutorial04_Navier-Stokes</span></code>.</p>
+<div class="important admonition">
+<p class="admonition-title">Run and post-process your results</p>
+<ul class="simple">
+<li><p>Go to the appropriate folder and run LBM_Saclay</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/run_training_lbm/Tutorial04_Navier-Stokes
+$<span class="w"> </span>../../build_NS/src/LBM_saclay<span class="w"> </span>Tuto04_NS_Cavity-flow-Re1000.ini
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Once the computation is complete, extract from your final <code class="docutils literal notranslate"><span class="pre">.vti</span></code> file one profile <span class="math notranslate nohighlight">\(u_x\)</span> as a function of <span class="math notranslate nohighlight">\(y\)</span> with paraview 5.12</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>path_to_pvpython/pvpython<span class="w"> </span>Extract-Profile_Ux-y_Re1000.pvpy
+</pre></div>
+</div>
+<p>The output is a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file called <code class="docutils literal notranslate"><span class="pre">Profile_LBM_Cavity_BGK_1000_Ux.csv</span></code>.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Compare with the analytical solution written in the python script <code class="docutils literal notranslate"><span class="pre">Compare_Ghia_Profile_Ux-y_Re1000.py</span></code></p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Compare_Ghia_Profile_Ux-y_Re1000.py
+</pre></div>
+</div>
+<p>You must obtain Fig <a class="reference internal" href="#fig-tuto4-cavityflow"><span class="std std-numref">Fig. 48</span></a></p>
+</div></blockquote>
+<figure class="align-center" id="fig-tuto4-cavityflow">
+<a class="reference internal image-reference" href="../../_images/Fig_Tuto4_CavityFlow.png"><img alt="../../_images/Fig_Tuto4_CavityFlow.png" height="332" src="../../_images/Fig_Tuto4_CavityFlow.png" width="475" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 48 </span><span class="caption-text">Comparison between LBM and Ghia et al. reference solution</span><a class="headerlink" href="#fig-tuto4-cavityflow" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Implementation of an incompressible Navier-Stokes model</a><ul>
+<li><a class="reference internal" href="#objective-of-this-4th-tutorial">Objective of this 4th tutorial</a></li>
+<li><a class="reference internal" href="#create-a-new-kernel-ns">1. Create a new kernel <code class="docutils literal notranslate"><span class="pre">NS</span></code></a></li>
+<li><a class="reference internal" href="#modifications-inside-each-file-of-ns">2. Modifications inside each file of <code class="docutils literal notranslate"><span class="pre">NS</span></code></a></li>
+<li><a class="reference internal" href="#verification-of-your-implementation">3. Verification of your implementation</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Tuto03_Crystal-Growth.html"
+                          title="previous chapter">Implementation of a crystal growth model</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Tuto05_Navier-Stokes_Cahn-Hilliard.html"
+                          title="next chapter">Implementation of a Navier-Stokes/Cahn-Hilliard model</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Tuto05_Navier-Stokes_Cahn-Hilliard.html" title="Implementation of a Navier-Stokes/Cahn-Hilliard model"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Tuto03_Crystal-Growth.html" title="Implementation of a crystal growth model"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Tutorials.html" >PART IV.B: Tutorials for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Implementation of an incompressible Navier-Stokes model</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

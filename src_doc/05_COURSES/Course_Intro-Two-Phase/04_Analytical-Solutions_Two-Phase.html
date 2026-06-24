@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analytical solutions for two-phase &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="prev" title="Overview of interface-tracking methods with one-fluid formulation (to be completed)" href="03_Interface-Tracking.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="03_Interface-Tracking.html" title="Overview of interface-tracking methods with one-fluid formulation (to be completed)"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Two-Phase_Intro.html" accesskey="U">Introduction of two-phase flows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Analytical solutions for two-phase</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="analytical-solutions-for-two-phase">
+<span id="analytical-solutions-two-phase"></span><h1>Analytical solutions for two-phase<a class="headerlink" href="#analytical-solutions-for-two-phase" title="Link to this heading"></a></h1>
+<section id="laplace-s-law">
+<h2>Laplace’s law<a class="headerlink" href="#laplace-s-law" title="Link to this heading"></a></h2>
+<figure class="align-default">
+<a class="align-left reference internal image-reference" href="../../../_images/Laplace-Law.png"><img alt="../../../_images/Laplace-Law.png" class="align-left" height="144" src="../../../_images/Laplace-Law.png" width="160" />
+</a>
+</figure>
+<p>The difference between the pressure inside the droplet <span class="math notranslate nohighlight">\(P_{in}\)</span> and the pressure outside <span class="math notranslate nohighlight">\(P_{out}\)</span> is equal to</p>
+<div class="math notranslate nohighlight" id="equation-laplace-law">
+<span class="eqno">(702)<a class="headerlink" href="#equation-laplace-law" title="Link to this equation"></a></span>\[\underbrace{P_{in}-P_{out}}_{\Delta P}=\frac{\sigma}{R}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma\)</span> is the surface tension and <span class="math notranslate nohighlight">\(R\)</span> is the droplet radius.</p>
+</section>
+<section id="analytical-solution-of-double-poiseuille-flow">
+<span id="analytical-solution-double-poiseuille"></span><h2>Analytical solution of double-Poiseuille flow<a class="headerlink" href="#analytical-solution-of-double-poiseuille-flow" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-analy-dp">
+<span class="eqno">(703)<a class="headerlink" href="#equation-analy-dp" title="Link to this equation"></a></span>\[\begin{split}u_{x}(y)=\begin{cases}
+      \frac{Gh^{2}}{2\eta_{A}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{A}}{\eta_{A}+\eta_{B}}\right] &amp; \mbox{if }0\leq y\leq h\\
+      \frac{Gh^{2}}{2\eta_{B}}\left[-\left(\frac{y}{h}\right)^{2}-\frac{y}{h}\left(\frac{\eta_{A}-\eta_{B}}{\eta_{A}+\eta_{B}}\right)+\frac{2\eta_{B}}{\eta_{A}+\eta_{B}}\right] &amp; \mbox{if }-h\leq y\leq0
+   \end{cases}\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-coeff-g">
+<span class="eqno">(704)<a class="headerlink" href="#equation-coeff-g" title="Link to this equation"></a></span>\[G=\frac{u_{c}}{h^{2}}(\eta_{A}+\eta_{B})\,\,\mbox{and}\,\,u_{c}=5\times10^{-5}\]</div>
+</section>
+<section id="analytical-solution-of-prosperetti-for-capillary-wave">
+<span id="analytical-solution-capillary-wave-prosperetti"></span><h2>Analytical solution of Prosperetti for capillary wave<a class="headerlink" href="#analytical-solution-of-prosperetti-for-capillary-wave" title="Link to this heading"></a></h2>
+<p>The example of such a study is given by the test case of capillary wave. For that test case, an analytical solution exists <a class="footnote-reference brackets" href="#footcite-prosperetti-pof1981" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. The objective is to study the influence of mesh on the solution accuracy. The amplitude is</p>
+<div class="math notranslate nohighlight" id="equation-sol-prosperetti">
+<span class="eqno">(705)<a class="headerlink" href="#equation-sol-prosperetti" title="Link to this equation"></a></span>\[a(t)=\frac{4(1-4\beta)\nu^{2}k^{4}}{8(1-4\beta)\nu^{2}k^{4}+\omega_{0}^{2}}a_{0}\text{erfc}(\nu k^{2}t)^{1/2}+\sum_{i=1}^{4}\frac{z_{i}}{Z_{i}}\left(\frac{\omega_{0}^{2}a_{0}}{z_{i}^{2}-\nu k^{2}}-u_{0}\right)\times\exp[(z_{i}^{2}-\nu k^{2})t]\text{erfc}(z_{i}t^{1/2})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\nu\)</span> is the kinematic viscosity which is identical for both fluids, <span class="math notranslate nohighlight">\(k\)</span> is the wave number which is related to the wavelength <span class="math notranslate nohighlight">\(\lambda\)</span> by <span class="math notranslate nohighlight">\(k=2\pi/\lambda\)</span>. The coefficient <span class="math notranslate nohighlight">\(\beta\)</span> is defined by the liquid <span class="math notranslate nohighlight">\(\rho_l\)</span> and gas <span class="math notranslate nohighlight">\(\rho_g\)</span> densities:</p>
+<div class="math notranslate nohighlight" id="equation-def-beta-prosperetti">
+<span class="eqno">(706)<a class="headerlink" href="#equation-def-beta-prosperetti" title="Link to this equation"></a></span>\[\beta=\frac{\rho_{l}\rho_{g}}{(\rho_{l}+\rho_{g})^{2}}\]</div>
+<p><span class="math notranslate nohighlight">\(\omega_0\)</span> is the inviscid natural frequency given by</p>
+<div class="math notranslate nohighlight" id="equation-natural-freq-prosperetti">
+<span class="eqno">(707)<a class="headerlink" href="#equation-natural-freq-prosperetti" title="Link to this equation"></a></span>\[\omega_{0}=\frac{\rho_{l}-\rho_{g}}{\rho_{l}+\rho_{g}}gk+\frac{\sigma k^{3}}{\rho_{l}+\rho_{g}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(g\)</span> is the gravity. In the following verifications <span class="math notranslate nohighlight">\(g=0\)</span>. The <span class="math notranslate nohighlight">\(z_i\)</span>’s are the four roots of the algebric equation</p>
+<div class="math notranslate nohighlight" id="equation-eq-zi">
+<span class="eqno">(708)<a class="headerlink" href="#equation-eq-zi" title="Link to this equation"></a></span>\[z^{4}-4\beta(k^{2}\nu)^{1/2}z^{3}+2(1-6\beta)k^{2}\nu z^{2}+4(1-3\beta)(k^{2}\nu)^{3/2}z+(1-4\beta)\nu^{2}k^{4}+\omega_{0}^{2}=0\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight" id="equation-def-z1">
+<span class="eqno">(709)<a class="headerlink" href="#equation-def-z1" title="Link to this equation"></a></span>\[Z_{1}=(z_{2}-z_{1})(z_{3}-z_{1})(z_{4}-z_{1})\]</div>
+</section>
+<section id="coalescence-of-two-equal-cylinders">
+<h2>Coalescence of two equal cylinders<a class="headerlink" href="#coalescence-of-two-equal-cylinders" title="Link to this heading"></a></h2>
+<p>The analytical solution is written in <a class="footnote-reference brackets" href="#footcite-hooper-jacs1984" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. The contour is given by:</p>
+<div class="math notranslate nohighlight" id="equation-x-analy-coalescence">
+<span class="eqno">(710)<a class="headerlink" href="#equation-x-analy-coalescence" title="Link to this equation"></a></span>\[x(\theta)=R_{0}\left[(1-m^{2})(1+m^{2})^{-1/2}(1-2m\cos2\theta+m^{2})^{-1}\right](1+m)\cos\theta\]</div>
+<div class="math notranslate nohighlight" id="equation-y-analy-coalescence">
+<span class="eqno">(711)<a class="headerlink" href="#equation-y-analy-coalescence" title="Link to this equation"></a></span>\[y(\theta)=R_{0}\left[(1-m^{2})(1+m^{2})^{-1/2}(1+2m\cos2\theta+m^{2})^{-1}\right](1-m)\sin\theta\]</div>
+<p>where <span class="math notranslate nohighlight">\(R_0\)</span> is the radius of both droplets. In Eqs <a class="reference internal" href="#equation-x-analy-coalescence">(710)</a> and <a class="reference internal" href="#equation-y-analy-coalescence">(711)</a> the parameter <span class="math notranslate nohighlight">\(m\)</span> can be related to physical properties of surface tension <span class="math notranslate nohighlight">\(\sigma\)</span>, dynamic viscosity <span class="math notranslate nohighlight">\(\eta\)</span> and time <span class="math notranslate nohighlight">\(t\)</span> by</p>
+<div class="math notranslate nohighlight" id="equation-time-adim">
+<span class="eqno">(712)<a class="headerlink" href="#equation-time-adim" title="Link to this equation"></a></span>\[\frac{\sigma t}{\eta R_{0}}=\frac{\pi}{4}\int_{m^{2}}^{1}\left[\mu(1+\mu)^{1/2}K(\mu)\right]^{-1}d\mu\]</div>
+<p>where the function <span class="math notranslate nohighlight">\(K(\mu)\)</span> is defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-kmu">
+<span class="eqno">(713)<a class="headerlink" href="#equation-def-kmu" title="Link to this equation"></a></span>\[\begin{split}K(\mu)&amp;=\int_{0}^{1}\left[(1-x^{2})(1-\mu x^{2})\right]^{-1/2}\\
+     &amp;=\int_{0}^{\pi/2}(1-\mu\sin^{2}\theta)^{-1/2}d\theta\end{split}\]</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div class="docutils container" id="id3">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-prosperetti-pof1981" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Andrea Prosperetti. Motion of two superposed viscous fluids. <em>The Physics of Fluids</em>, 24(7):1217–1223, 07 1981. URL: <a class="reference external" href="https://doi.org/10.1063/1.863522">https://doi.org/10.1063/1.863522</a>, <a class="reference external" href="https://doi.org/10.1063/1.863522">doi:10.1063/1.863522</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-hooper-jacs1984" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Robert W. Hopper. Coalescence of two equal cylinders: exact results for creeping viscous plane flow driven by capillarity. <em>Journal of the American Ceramic Society</em>, 67(12):C‐262–C‐264, 1984. <a class="reference external" href="https://doi.org/https://doi.org/10.1111/j.1151-2916.1984.tb19692.x">doi:https://doi.org/10.1111/j.1151-2916.1984.tb19692.x</a>.</p>
+</aside>
+</aside>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Analytical solutions for two-phase</a><ul>
+<li><a class="reference internal" href="#laplace-s-law">Laplace’s law</a></li>
+<li><a class="reference internal" href="#analytical-solution-of-double-poiseuille-flow">Analytical solution of double-Poiseuille flow</a></li>
+<li><a class="reference internal" href="#analytical-solution-of-prosperetti-for-capillary-wave">Analytical solution of Prosperetti for capillary wave</a></li>
+<li><a class="reference internal" href="#coalescence-of-two-equal-cylinders">Coalescence of two equal cylinders</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="03_Interface-Tracking.html"
+                          title="previous chapter">Overview of interface-tracking methods with one-fluid formulation (to be completed)</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="03_Interface-Tracking.html" title="Overview of interface-tracking methods with one-fluid formulation (to be completed)"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Two-Phase_Intro.html" >Introduction of two-phase flows</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Analytical solutions for two-phase</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

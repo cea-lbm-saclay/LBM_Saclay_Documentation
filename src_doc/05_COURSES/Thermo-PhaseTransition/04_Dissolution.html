@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dissolution with a grand-potential formulation &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Mass transfer through interfaces" href="05_Mass_Transfer.html" />
+    <link rel="prev" title="Model of solidification and crystal growth" href="03_Solidification.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="05_Mass_Transfer.html" title="Mass transfer through interfaces"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="03_Solidification.html" title="Model of solidification and crystal growth"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_PhaseField_For_PhaseTransition.html" accesskey="U">PART V.C. Phase-field models for phase transition</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Dissolution with a grand-potential formulation</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="dissolution-with-a-grand-potential-formulation">
+<span id="dissolution"></span><h1>Dissolution with a grand-potential formulation<a class="headerlink" href="#dissolution-with-a-grand-potential-formulation" title="Link to this heading"></a></h1>
+<section id="sharp-interface-model-of-dissolution">
+<h2>Sharp interface model of dissolution<a class="headerlink" href="#sharp-interface-model-of-dissolution" title="Link to this heading"></a></h2>
+<div class="admonition-stefan-problems admonition">
+<p class="admonition-title">Stefan problems</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial c}{\partial t}&amp;=\boldsymbol{\nabla}\cdot(D\boldsymbol{\nabla}\mu)&amp;\qquad\text{on }\Gamma_{l}(t)\,\\
+(c-c_{s})v_{n}&amp;=\left.-D\boldsymbol{\nabla}c\cdot\boldsymbol{n}\right|_{l}+\cancel{\left.D_{s}\boldsymbol{\nabla}c\cdot\boldsymbol{n}\right|_{s}}&amp;\qquad\text{on }\Gamma_{ls}(t)\\
+\overline{\mu}_{I}-\overline{\mu}^{eq}&amp;={\color{red}-d_{0}\kappa}-\beta v_{n}&amp;\qquad\text{on }\Gamma_{ls}(t)\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(c\)</span> and <span class="math notranslate nohighlight">\(c_{s}\)</span> are liquid and solid composition, <span class="math notranslate nohighlight">\(v_{n}=\boldsymbol{v}_{s}\cdot\boldsymbol{n}\)</span> is the normal velocity of interface, <span class="math notranslate nohighlight">\(\overline{\mu}\)</span> is the dimensionless chemical potential <span class="math notranslate nohighlight">\(\overline{\mu}^{eq}\)</span> is the equilibirum chemical potential, <span class="math notranslate nohighlight">\(\kappa\)</span> is the curvature, and <span class="math notranslate nohighlight">\(d_{0}\)</span> is the capillary length.</p>
+</div>
+</section>
+<section id="grand-potential-functional-energy">
+<h2>Grand-potential functional energy<a class="headerlink" href="#grand-potential-functional-energy" title="Link to this heading"></a></h2>
+<p>The grand-potential energy <span class="math notranslate nohighlight">\(\Omega\)</span> is composed of two contribution: the interface contribution <span class="math notranslate nohighlight">\(\omega_{int}(\psi,\boldsymbol{\nabla}\psi)\)</span> and the bulk phases <span class="math notranslate nohighlight">\(\omega_{bulk}(\psi,\mu)\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-def-grand-potential">
+<span class="eqno">(626)<a class="headerlink" href="#equation-def-grand-potential" title="Link to this equation"></a></span>\[\Omega[\psi,\mu]=\int_{V}\left[\omega_{int}(\psi,\boldsymbol{\nabla}\psi)+\omega_{bulk}(\psi,\mu)\right]dV\]</div>
+<p>The interface grand-potential density is</p>
+<div class="math notranslate nohighlight" id="equation-def-omega-int">
+<span class="eqno">(627)<a class="headerlink" href="#equation-def-omega-int" title="Link to this equation"></a></span>\[\omega_{int}(\psi,\boldsymbol{\nabla}\psi)=H\psi^{2}(1-\psi)^{2}+\frac{\zeta}{2}\bigl|\boldsymbol{\nabla}\psi\bigr|^{2}\]</div>
+<div class="math notranslate nohighlight" id="equation-def-omega-bulk">
+<span class="eqno">(628)<a class="headerlink" href="#equation-def-omega-bulk" title="Link to this equation"></a></span>\[\omega_{bulk}(\psi,\mu)=p(\psi){\color{red}\omega_{l}(\mu)}+\left[1-p(\psi)\right]{\color{red}\omega_{s}(\mu)}\]</div>
+<div class="math notranslate nohighlight" id="equation-def-interpol-polynom-p-psi">
+<span class="eqno">(629)<a class="headerlink" href="#equation-def-interpol-polynom-p-psi" title="Link to this equation"></a></span>\[p_{int}(\psi)=\psi^{2}(3-2\psi)\]</div>
+<p>and its derivative w.r.t. <span class="math notranslate nohighlight">\(\psi\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[p^{\prime}(\psi)=6\psi(1-\psi)\]</div>
+<p>With that convention, if <span class="math notranslate nohighlight">\(\psi=0\)</span> then <span class="math notranslate nohighlight">\(\omega_{bulk}(\mu)=\omega_{s}(\mu)\)</span> and if <span class="math notranslate nohighlight">\(\psi=1\)</span> then <span class="math notranslate nohighlight">\(\omega_{bulk}(\mu)=\omega_{l}(\mu)\)</span>.</p>
+<p>We work with the dimensionless composition <span class="math notranslate nohighlight">\(c(\psi,\,\mu)\)</span> describing the local fraction of one chemical species and varying between zero and one. It is related to the concentration <span class="math notranslate nohighlight">\(C(\psi,\,\mu)\)</span> (physical dimension <span class="math notranslate nohighlight">\([\text{mol}].[\text{L}]^{-3}\)</span>) by <span class="math notranslate nohighlight">\(c(\psi,\,\mu)=V_{m}C(\psi,\,\mu)\)</span> where <span class="math notranslate nohighlight">\(V_{m}\)</span> is the molar volume of (<span class="math notranslate nohighlight">\([\text{L}]^{3}.[\text{mol}]^{-1}\)</span>). For both chemical species, the molar volume is assumed to be constant and identical. In the rest of this paper <span class="math notranslate nohighlight">\(V_{m}\)</span> will appear in the equations for reasons of physical dimension, but it will be considered equal to <span class="math notranslate nohighlight">\(V_{m}=1\)</span> for all numerical simulations.</p>
+<p>The concentration <span class="math notranslate nohighlight">\(C\)</span> is now a function of <span class="math notranslate nohighlight">\(\psi\)</span> and <span class="math notranslate nohighlight">\(\mu\)</span>. It is related to the grand-potential by <a class="footnote-reference brackets" href="#footcite-plapp-grandpotential-pre2011" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <span class="math notranslate nohighlight">\(C(\psi,\,\mu)=-\delta\Omega/\delta\mu=-\partial\omega_{bulk}(\psi,\,\mu)/\partial\mu\)</span>. The application of that relationship with <span class="math notranslate nohighlight">\(\omega_{bulk}(\psi,\,\mu)\)</span> defined by Eq. <a class="reference internal" href="#equation-def-omega-bulk">(628)</a> yields:</p>
+<div class="math notranslate nohighlight" id="equation-def-concentration">
+<span class="eqno">(630)<a class="headerlink" href="#equation-def-concentration" title="Link to this equation"></a></span>\[C(\psi,\,\mu)=p(\psi)\left[-\frac{\partial\omega_{l}(\mu)}{\partial\mu}\right]+\left[1-p(\psi)\right]\left[-\frac{\partial\omega_{s}(\mu)}{\partial\mu}\right]\]</div>
+<p>The concentration <span class="math notranslate nohighlight">\(C(\psi,\mu)\)</span> is defined by an interpolation of derivatives of <span class="math notranslate nohighlight">\(\omega_{s}(\mu)\)</span> and <span class="math notranslate nohighlight">\(\omega_{l}(\mu)\)</span> w.r.t. <span class="math notranslate nohighlight">\(\mu\)</span>. Each derivative defines the concentration of bulk phase <span class="math notranslate nohighlight">\(C_{s}(\mu)=-\partial\omega_{s}(\mu)/\partial\mu\)</span> and <span class="math notranslate nohighlight">\(C_{l}(\mu)=-\partial\omega_{l}(\mu)/\partial\mu\)</span>.</p>
+<p>In Eq. ([eq:Grand-potential_density]), the grand-potential densities of each bulk phase <span class="math notranslate nohighlight">\(\omega_{l}(\mu)\)</span> and <span class="math notranslate nohighlight">\(\omega_{s}(\mu)\)</span> are defined by the Legendre transform of free energy densities <span class="math notranslate nohighlight">\(f_{s}(c)\)</span> and <span class="math notranslate nohighlight">\(f_{l}(c)\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-04-dissolution-0">
+<span class="eqno">(631)<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-04-dissolution-0" title="Link to this equation"></a></span>\[\omega_{\psi}(\mu)=f_{\psi}(c)-\mu C\qquad\text{for}\qquad\psi=s,l\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu=\partial f_{\psi}/\partial C\)</span>. Finally, the phase-field equations are obtained from the minimization of the grand-potential functional <span class="math notranslate nohighlight">\(\Omega[\psi,\,\mu]\)</span>. The most general PDEs write (see <a class="footnote-reference brackets" href="#footcite-plapp-grandpotential-pre2011" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, Eq. (43) and Eq. (47)):</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-04-dissolution-1">
+<span class="eqno">(632)<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-04-dissolution-1" title="Link to this equation"></a></span>\[\frac{\partial\psi}{\partial t}=\mathcal{M}_{\psi}\Bigl\{\zeta\boldsymbol{\nabla}^{2}\psi-H\omega_{dw}^{\prime}(\psi)-p^{\prime}(\psi)\left[\omega_{l}(\mu)-\omega_{s}(\mu)\right]\Bigr\}\]</div>
+<div class="math notranslate nohighlight" id="equation-evol-potchem-eq-omega">
+<span class="eqno">(633)<a class="headerlink" href="#equation-evol-potchem-eq-omega" title="Link to this equation"></a></span>\[\chi(\psi,\,\mu)\frac{\partial\mu}{\partial t}=\boldsymbol{\nabla}\cdot\left[\mathcal{D}(\psi,\,\mu)\chi(\psi,\,\mu)\boldsymbol{\nabla}\mu\right]-p^{\prime}(\psi)\left[\frac{\partial\omega_{s}(\mu)}{\partial\mu}-\frac{\partial\omega_{l}(\mu)}{\partial\mu}\right]\frac{\partial\psi}{\partial t}\]</div>
+<p>Eq. <a class="reference internal" href="#equation-evol-potchem-eq-omega">(633)</a> is the evolution equation on chemical potential <span class="math notranslate nohighlight">\(\mu(\boldsymbol{x},\,t)\)</span>. It is obtained from the conservation equation <span class="math notranslate nohighlight">\(\partial_{t}C(\psi,\,\mu)=-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{diff}\)</span> where the diffusive flux is given by <span class="math notranslate nohighlight">\(\boldsymbol{j}_{diff}=-\mathcal{D}(\psi,\,\mu)\chi(\psi,\,\mu)\boldsymbol{\nabla}\mu\)</span>. The time derivative term has been expressed by the chain rule <span class="math notranslate nohighlight">\(\partial C(\psi,\,\mu)/\partial t=(\partial C/\partial\mu)\partial_{t}\mu+(\partial C/\partial\psi)\partial_{t}\psi\)</span>. The function <span class="math notranslate nohighlight">\(\chi(\psi,\,\mu)\)</span>, called the generalized susceptibility, is defined by the partial derivative of <span class="math notranslate nohighlight">\(C(\psi,\,\mu)\)</span> with respect to <span class="math notranslate nohighlight">\(\mu\)</span>. For most general cases, the coefficient <span class="math notranslate nohighlight">\(\mathcal{D}(\psi,\,\mu)\)</span> is the diffusion coefficient which depends on <span class="math notranslate nohighlight">\(\psi\)</span> and <span class="math notranslate nohighlight">\(\mu\)</span>. Here we assume that the diffusion coefficients <span class="math notranslate nohighlight">\(D_{s}\)</span> and <span class="math notranslate nohighlight">\(D_{l}\)</span> are only interpolated by <span class="math notranslate nohighlight">\(\psi\)</span>, i.e. <span class="math notranslate nohighlight">\(\mathcal{D}(\psi,\,\mu)\equiv\mathcal{D}(\psi)\)</span>. Actually, in next section that equation on <span class="math notranslate nohighlight">\(\mu\)</span> will be transformed back to an equation on <span class="math notranslate nohighlight">\(C\)</span> (or <span class="math notranslate nohighlight">\(c\)</span>) for reasons of mass conservation in simulations. Eq. <a class="reference internal" href="#equation-def-concentration">(630)</a> will be used to supply a relationship between <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(c\)</span>.</p>
+</section>
+<section id="quadratic-free-energy">
+<h2>Quadratic free energy<a class="headerlink" href="#quadratic-free-energy" title="Link to this heading"></a></h2>
+<p>If we assume two quadratic free energies for each phase <span class="math notranslate nohighlight">\(\psi=l,s\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-04-dissolution-2">
+<span class="eqno">(634)<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-04-dissolution-2" title="Link to this equation"></a></span>\[f_{\psi}(c)=\frac{\varepsilon_{\psi}}{2}(c-m_{\psi})^{2}+f_{\psi}^{min}\]</div>
+<p>where we assumed <span class="math notranslate nohighlight">\(\varepsilon_{s}=\varepsilon_{l}\)</span>, then we can derive (see <a class="footnote-reference brackets" href="#footcite-boutin-etal-cms2022" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> for details) for the equilibrium chemical potential:</p>
+<div class="math notranslate nohighlight">
+\[\overline{\mu}^{eq}=\Delta\overline{f}^{min}/\Delta m\]</div>
+<p>and equilibrium compositions for liquid and solid phases:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}c_{l}^{eq}&amp;=m_{l}+\overline{\mu}^{eq}\\
+c_{s}^{eq}&amp;=m_{s}+\overline{\mu}^{eq}\end{split}\]</div>
+</section>
+<section id="equivalent-phase-field-model">
+<h2>Equivalent phase-field model<a class="headerlink" href="#equivalent-phase-field-model" title="Link to this heading"></a></h2>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div class="docutils container" id="id4">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-plapp-grandpotential-pre2011" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>)</span>
+<p>Mathis Plapp. Unified derivation of phase-field models for alloy solidification from a grand-potential functional. <em>Phys. Rev. E</em>, 84:031601, Sep 2011. URL: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevE.84.031601">https://link.aps.org/doi/10.1103/PhysRevE.84.031601</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevE.84.031601">doi:10.1103/PhysRevE.84.031601</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-boutin-etal-cms2022" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">2</a><span class="fn-bracket">]</span></span>
+<p>Téo Boutin, Werner Verdier, and Alain Cartalade. Grand-potential-based phase-field model of dissolution/precipitation: lattice boltzmann simulations of counter term effect on porous medium. <em>Computational Materials Science</em>, 207:111261, 2022. <a class="reference external" href="https://doi.org/https://doi.org/10.1016/j.commatsci.2022.111261">doi:https://doi.org/10.1016/j.commatsci.2022.111261</a>.</p>
+</aside>
+</aside>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Dissolution with a grand-potential formulation</a><ul>
+<li><a class="reference internal" href="#sharp-interface-model-of-dissolution">Sharp interface model of dissolution</a></li>
+<li><a class="reference internal" href="#grand-potential-functional-energy">Grand-potential functional energy</a></li>
+<li><a class="reference internal" href="#quadratic-free-energy">Quadratic free energy</a></li>
+<li><a class="reference internal" href="#equivalent-phase-field-model">Equivalent phase-field model</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="03_Solidification.html"
+                          title="previous chapter">Model of solidification and crystal growth</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="05_Mass_Transfer.html"
+                          title="next chapter">Mass transfer through interfaces</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="05_Mass_Transfer.html" title="Mass transfer through interfaces"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="03_Solidification.html" title="Model of solidification and crystal growth"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_PhaseField_For_PhaseTransition.html" >PART V.C. Phase-field models for phase transition</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Dissolution with a grand-potential formulation</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

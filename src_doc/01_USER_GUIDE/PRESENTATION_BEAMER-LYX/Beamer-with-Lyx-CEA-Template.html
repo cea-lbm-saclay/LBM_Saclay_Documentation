@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Beamer presentation with LyX and CEA template &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="PART II: Mathematical models in LBM_Saclay" href="../../02_MODELS/models.html" />
+    <link rel="prev" title="Law of similarity: practice on Rayleigh-Taylor instability" href="../SET_OWN_PARAMETERS/LawOfSimilarity_Two_Phase.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../02_MODELS/models.html" title="PART II: Mathematical models in LBM_Saclay"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../SET_OWN_PARAMETERS/LawOfSimilarity_Two_Phase.html" title="Law of similarity: practice on Rayleigh-Taylor instability"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" accesskey="U">PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Beamer presentation with LyX and CEA template</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="beamer-presentation-with-lyx-and-cea-template">
+<h1>Beamer presentation with LyX and CEA template<a class="headerlink" href="#beamer-presentation-with-lyx-and-cea-template" title="Link to this heading"></a></h1>
+<p>Lyx and all LaTeX packages must be installed on your computer:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>lyx
+$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>texlive-full
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition-configuration-for-using-cea-beamer-template-with-lyx admonition">
+<p class="admonition-title">Configuration for using CEA Beamer template with LyX</p>
+<ol class="arabic simple">
+<li><p>Copy in your <code class="docutils literal notranslate"><span class="pre">/home/yourlogin</span></code> the folder <code class="docutils literal notranslate"><span class="pre">texmf</span></code> contained in the directory <code class="docutils literal notranslate"><span class="pre">/home/lbm-saclay/INTERN-START/</span></code>:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>/home/lbm-saclay/INTERN-START/texmf<span class="w"> </span>~/.
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Copy two files <code class="docutils literal notranslate"><span class="pre">Beamer-CEA-2023.module</span></code> and  <code class="docutils literal notranslate"><span class="pre">beamer-easy.module</span></code> in your directory <code class="docutils literal notranslate"><span class="pre">~/.lyx/layouts</span></code></p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>/home/lbm-saclay/INTERN-START/LyX-Layout/layouts<span class="w"> </span>~/.lyx/.
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic" start="3">
+<li><p>Reconfigure LyX:</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">Tools</span></code> clic on <code class="docutils literal notranslate"><span class="pre">Reconfigure</span></code></p>
+</li>
+</ol>
+</div>
+<div class="error admonition">
+<p class="admonition-title">Make your presentation</p>
+<ol class="arabic simple">
+<li><p>To make your own presentation, follow the LyX file example <code class="docutils literal notranslate"><span class="pre">Template-LyX-Presentation.lyx</span></code> given in the directory <code class="docutils literal notranslate"><span class="pre">/home/lbm-saclay/INTERN-START/Template-LyX-Presentation/</span></code></p></li>
+<li><p>Your figures must be placed in the folder <code class="docutils literal notranslate"><span class="pre">FIGS</span></code> and your videos in the folder <code class="docutils literal notranslate"><span class="pre">VIDEOS</span></code></p></li>
+<li><p>The total frame number must be modified in <code class="docutils literal notranslate"><span class="pre">beamerouterthemeCEA2023.sty</span></code></p></li>
+</ol>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../SET_OWN_PARAMETERS/LawOfSimilarity_Two_Phase.html"
+                          title="previous chapter">Law of similarity: practice on Rayleigh-Taylor instability</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../02_MODELS/models.html"
+                          title="next chapter">PART II: Mathematical models in LBM_Saclay</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../02_MODELS/models.html" title="PART II: Mathematical models in LBM_Saclay"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../SET_OWN_PARAMETERS/LawOfSimilarity_Two_Phase.html" title="Law of similarity: practice on Rayleigh-Taylor instability"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Beamer presentation with LyX and CEA template</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

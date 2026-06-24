@@ -1,0 +1,800 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Implementation of a Cahn-Hilliard model &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Implementation of a Cahn-Hilliard model</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="implementation-of-a-cahn-hilliard-model">
+<span id="tuto-cahn-hilliard"></span><h1>Implementation of a Cahn-Hilliard model<a class="headerlink" href="#implementation-of-a-cahn-hilliard-model" title="Link to this heading"></a></h1>
+<section id="objective-of-this-1st-tutorial">
+<h2>Objective of this 1st tutorial<a class="headerlink" href="#objective-of-this-1st-tutorial" title="Link to this heading"></a></h2>
+<p>The objective of this tutorial is to implement a kernel to simulate the Cahn-Hilliard equation (Eq. <a class="reference internal" href="../05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html#equation-ch-eq-twophase">(508)</a> with chemical potential defined by Eq. <a class="reference internal" href="../05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html#equation-chem-pot-twophase">(507)</a>). The starting point is the kernel <code class="docutils literal notranslate"><span class="pre">ADE_for_CH-Tutorial</span></code> which simulates the Advection-Diffusion Equation (ADE) with the lattice Boltzmann method. This tutorial provides all code lines to write in each file for simulating three test cases with the Cahn-Hilliard model: serpentine, spinodal decomposition and nucleation. The verification tests will be carried out with the input files (<code class="docutils literal notranslate"><span class="pre">.ini</span></code>) contained in the folder <code class="docutils literal notranslate"><span class="pre">Tutorial_Cahn-Hilliard/</span></code> in <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>.</p>
+<p>It is assumed that you have already downloaded <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev</span></code> and you are working on your own branch (see <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="Before_Programming.html#git-commands"><span class="std std-ref">Before programming: create a new branch from master</span></a>).</p>
+</section>
+<section id="create-a-new-kernel">
+<h2>1. Create a new kernel<a class="headerlink" href="#create-a-new-kernel" title="Link to this heading"></a></h2>
+<div class="admonition-copy-the-ade-kernel-template-and-rename-all-files-with-new-extension-ch admonition">
+<p class="admonition-title">Copy the ADE kernel template and rename all files with new extension <code class="docutils literal notranslate"><span class="pre">_CH</span></code></p>
+<ul class="simple">
+<li><p>Copy the folder <code class="docutils literal notranslate"><span class="pre">ADE_for_CH-Tutorial</span></code> which is contained in <code class="docutils literal notranslate"><span class="pre">kernels/Templates_for_Tutorials</span></code>, and rename it <code class="docutils literal notranslate"><span class="pre">Cahn-Hilliard_Tutorial</span></code> in the folder <code class="docutils literal notranslate"><span class="pre">kernels</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Commands</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/src/kernels
+$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>Templates_for_Tutorials/ADE_for_CH-Tutorial<span class="w"> </span>./Cahn-Hilliard_Tutorial
+</pre></div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Remarks</p>
+<ul class="simple">
+<li><p class="sd-card-text">Your new developments will be performed in the folder <code class="docutils literal notranslate"><span class="pre">Cahn-Hilliard_Tutorial</span></code></p></li>
+<li><p class="sd-card-text">The folder name <code class="docutils literal notranslate"><span class="pre">Cahn-Hilliard_Tutorial</span></code> will be used for compilation</p></li>
+</ul>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>All files have the extension <code class="docutils literal notranslate"><span class="pre">_ADE</span></code> for Advection Diffusion Equation. Rename them with <code class="docutils literal notranslate"><span class="pre">_CH</span></code> for Cahn-Hilliard.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Commands</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>Cahn-Hilliard_Tutorial
+
+$<span class="w"> </span>mv<span class="w"> </span>Index_ADE.h<span class="w"> </span>Index_CH.h
+$<span class="w"> </span>mv<span class="w"> </span>LBMScheme_ADE.h<span class="w"> </span>LBMScheme_CH.h
+$<span class="w"> </span>mv<span class="w"> </span>Models_ADE.h<span class="w"> </span>Models_CH.h
+$<span class="w"> </span>mv<span class="w"> </span>Problem_ADE.h<span class="w"> </span>Problem_CH.h
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="admonition-edit-them-and-change-strings-ade-with-ch admonition">
+<p class="admonition-title">Edit them and change strings <code class="docutils literal notranslate"><span class="pre">_ADE</span></code> with <code class="docutils literal notranslate"><span class="pre">_CH</span></code></p>
+<ol class="arabic">
+<li><p>Change strings <code class="docutils literal notranslate"><span class="pre">_ADE</span></code> with <code class="docutils literal notranslate"><span class="pre">_CH</span></code></p>
+<ul class="simple">
+<li><p>Open all files in your favorite editor (e.g. <code class="docutils literal notranslate"><span class="pre">geany</span></code> or <code class="docutils literal notranslate"><span class="pre">codium</span></code>).</p></li>
+<li><p>Search in all files the strings <code class="docutils literal notranslate"><span class="pre">_ADE</span></code> and replace them with <code class="docutils literal notranslate"><span class="pre">_CH</span></code> (<code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">H</span></code> with <code class="docutils literal notranslate"><span class="pre">geany</span></code>).</p></li>
+</ul>
+</li>
+<li><p>Change the problem name: in file <code class="docutils literal notranslate"><span class="pre">Setup.h</span></code> modify the problem name <code class="docutils literal notranslate"><span class="pre">ADE</span></code> with <code class="docutils literal notranslate"><span class="pre">CH</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">register_problem</span><span class="o">&lt;</span><span class="no">Problem</span><span class="p">,</span><span class="w"> </span><span class="no">ModelParams</span><span class="o">::</span><span class="no">Tag2Quadra</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;ADE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;base&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Modification  with <code class="docutils literal notranslate"><span class="pre">CH</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">register_problem</span><span class="o">&lt;</span><span class="no">Problem</span><span class="p">,</span><span class="w"> </span><span class="no">ModelParams</span><span class="o">::</span><span class="no">Tag2Quadra</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;CH&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;base&quot;</span><span class="p">);</span>
+</span></pre></div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Remark</p>
+<p class="sd-card-text">Your new problem will be named <code class="docutils literal notranslate"><span class="pre">CH</span></code> inside your <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input file i.e. in section <code class="docutils literal notranslate"><span class="pre">[lbm]</span></code> your problem must be:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="n">lbm</span><span class="o">]</span>
+<span class="hll"><span class="n">problem</span><span class="o">=</span><span class="no">CH</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+</details></li>
+</ol>
+</div>
+<div class="admonition-compile-your-new-kernel admonition">
+<p class="admonition-title">Compile your new kernel</p>
+<ul class="simple">
+<li><p>Generate your <code class="docutils literal notranslate"><span class="pre">makefile</span></code> (only once)</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Commands</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev
+$<span class="w"> </span>mkdir<span class="w"> </span>build_CH
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build_CH
+$<span class="w"> </span>cmake<span class="w"> </span>-DKokkos_ENABLE_OPENMP<span class="o">=</span>ON<span class="w"> </span>-DUSE_HDF5<span class="o">=</span>ON<span class="w"> </span>-DPROBLEM<span class="o">=</span>Cahn-Hilliard_Tutorial<span class="w"> </span>..
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Compile</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Command</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="admonition-run-with-input-files-of-ade admonition">
+<p class="admonition-title">Run with input files of ADE</p>
+<ul class="simple">
+<li><p>Execute your new kernel <code class="docutils literal notranslate"><span class="pre">CH</span></code> of LBM_Saclay either with the simple diffusion of gaussian or with the advected gaussian in the folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm/Tutorial_Cahn-Hilliard</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Commands</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Go to the directory</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/run_training_lbm/Tutorial_Cahn-Hilliard
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">Run simple diffusion of gaussian</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>../../build_CH/src/LBM_saclay<span class="w"> </span>TestCase_Gaussian_ADE.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">Run advected gaussian</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>../../build_CH/src/LBM_saclay<span class="w"> </span>TestCase_Moving-Gaussian_ADE.ini
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Check the solutions with paraview.</p></li>
+</ul>
+</div>
+</section>
+<section id="modifications-inside-each-file-for-cahn-hilliard">
+<span id="advice-during-implementation"></span><h2>2. Modifications inside each file for Cahn-Hilliard<a class="headerlink" href="#modifications-inside-each-file-for-cahn-hilliard" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">Advice</p>
+<p>During your implementation, it is strongly recommended to compile regularly (<code class="docutils literal notranslate"><span class="pre">make</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-j</span> <span class="pre">22</span></code>) to detect any typos.</p>
+<p>For compilation errors, it is useful to write the terminal outputs inside a file e.g. <code class="docutils literal notranslate"><span class="pre">compil.log</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>compil.log
+</pre></div>
+</div>
+</div></blockquote>
+<p>or alternatively <code class="docutils literal notranslate"><span class="pre">compil2.log</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span><span class="nv">VERBOSE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>compil2.log
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+File <code class="docutils literal notranslate"><span class="pre">Index_CH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="admonition-declaration-of-new-fields admonition">
+<p class="admonition-title">Declaration of new fields</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">ComponentIndex</span></code>, only the indices for macroscopic fields such as concentration <span class="math notranslate nohighlight">\(c\)</span> (<code class="docutils literal notranslate"><span class="pre">IC</span></code>) and velocity components <span class="math notranslate nohighlight">\(u_x\)</span> (<code class="docutils literal notranslate"><span class="pre">IU</span></code>), <span class="math notranslate nohighlight">\(u_y\)</span> (<code class="docutils literal notranslate"><span class="pre">IV</span></code>) &amp; <span class="math notranslate nohighlight">\(u_z\)</span> (<code class="docutils literal notranslate"><span class="pre">IW</span></code>) are declared:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">ComponentIndex</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="no">IU</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; X velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IV</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Y velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IW</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Z velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IC</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Phase field index */</span>
+<span class="w">  </span><span class="no">COMPONENT_SIZE</span><span class="w"> </span><span class="sr">/*!&lt; invalid index, just counting number of fields */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add the new indices for chemical potential <code class="docutils literal notranslate"><span class="pre">IMU</span></code> and laplacian <code class="docutils literal notranslate"><span class="pre">ILAPLAC</span></code>.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">ComponentIndex</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="no">IU</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; X velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IV</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Y velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IW</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Z velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IC</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Phase field index */</span>
+<span class="hll"><span class="w">  </span><span class="no">IMU</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Chemical potential */</span>
+</span><span class="hll"><span class="w">  </span><span class="no">ILAPLAC</span><span class="p">,</span><span class="w">     </span><span class="sr">/*!&lt; Laplacien of Phase field */</span>
+</span><span class="w">  </span><span class="no">COMPONENT_SIZE</span><span class="w"> </span><span class="sr">/*!&lt; invalid index, just counting number of fields */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="admonition-add-new-outputs admonition">
+<p class="admonition-title">Add new outputs</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">index2names</span></code> only the strings for concentration and velocity components are written:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">map</span><span class="o">[</span><span class="no">IC</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;comp&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IU</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vx&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IV</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vy&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IW</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vz&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add a new output for chemical potential.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">map</span><span class="o">[</span><span class="no">IC</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;comp&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IU</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vx&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IV</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vy&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IW</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vz&quot;</span><span class="p">;</span>
+<span class="hll"><span class="n">map</span><span class="o">[</span><span class="no">IMU</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mu&quot;</span><span class="p">;</span>
+</span></pre></div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Remark</p>
+<p class="sd-card-text">The keyword <code class="docutils literal notranslate"><span class="pre">mu</span></code> will be used in the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input file to write the chemical potential.</p>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+File <code class="docutils literal notranslate"><span class="pre">Models_CH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="admonition-read-and-declare-cahn-hilliard-parameters-in-modelparams admonition">
+<p class="admonition-title">Read and declare Cahn-Hilliard parameters in <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></p>
+<p>The Cahn-Hillard equation involves three parameters: the surface tension <span class="math notranslate nohighlight">\(\sigma\)</span>, the interface thickness <span class="math notranslate nohighlight">\(W\)</span> and the mobility <span class="math notranslate nohighlight">\(\mathcal{M}_\phi\)</span>.</p>
+<ul class="simple">
+<li><p>Read and declare Cahn-Hilliard parameters in <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Read parameters in input file:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">mobility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mobility&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="n">W</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;W&quot;</span><span class="w">       </span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="n">sigma</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;sigma&quot;</span><span class="w">   </span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span></pre></div>
+</div>
+<p class="sd-card-text">Don’t forget to declare them as <code class="docutils literal notranslate"><span class="pre">real_t</span></code> at the end of <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">mobility</span><span class="p">,</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="p">;</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="admonition-add-specific-functions-for-cahn-hilliard admonition">
+<p class="admonition-title">Add specific functions for Cahn-Hilliard</p>
+<ul class="simple">
+<li><p>Add a new function for derivative of double-well <code class="docutils literal notranslate"><span class="pre">g_prime</span></code> defined by the first term inside the bracket of Eq. <a class="reference internal" href="../05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html#equation-chem-pot-twophase">(507)</a>.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution <code class="docutils literal notranslate"><span class="pre">g_prime</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">=======================================================</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">Derivative</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">double</span><span class="o">-</span><span class="n">well</span>
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">g_prime</span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">16</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+</span><span class="hll"><span class="w">       </span><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Add a new function <code class="docutils literal notranslate"><span class="pre">M2</span></code> to compute the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> (<code class="docutils literal notranslate"><span class="pre">MU</span></code>) defined by Eq. <a class="reference internal" href="../05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html#equation-chem-pot-twophase">(507)</a></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution function <code class="docutils literal notranslate"><span class="pre">M2</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">=======================================================</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="n">moment</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">feq</span>
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span>
+</span><span class="hll"><span class="w">       </span><span class="n">real_t</span><span class="w"> </span><span class="no">M2</span><span class="p">(</span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">       </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigma</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">g_prime</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IC</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ILAPLAC</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">mu</span><span class="p">;</span>
+</span><span class="hll"><span class="w">    </span><span class="p">}</span>
+</span></pre></div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Remarks</p>
+<ul class="simple">
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">IC</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">ILAPLAC</span></code> have been declared in <code class="docutils literal notranslate"><span class="pre">Index_CH.h</span></code>.</p></li>
+<li><p class="sd-card-text">The parameters <code class="docutils literal notranslate"><span class="pre">sigma</span></code> (surface tension <span class="math notranslate nohighlight">\(\sigma\)</span>) and <code class="docutils literal notranslate"><span class="pre">W</span></code> (interface thickness <span class="math notranslate nohighlight">\(W\)</span>) have been read and declared inside <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code> (previous box).</p></li>
+<li><p class="sd-card-text">The new function <code class="docutils literal notranslate"><span class="pre">g_prime</span></code> has been defined just above</p></li>
+</ul>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Add a new function <code class="docutils literal notranslate"><span class="pre">tauM</span></code> for collision rate using the mobility <span class="math notranslate nohighlight">\(\mathcal{M}_\phi\)</span> of Cahn-Hilliard equation</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution <code class="docutils literal notranslate"><span class="pre">tauM</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">=======================================================</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="n">relaxation</span><span class="w"> </span><span class="n">coef</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="no">LBM</span><span class="w"> </span><span class="n">scheme</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">phase</span><span class="w"> </span><span class="n">field</span><span class="w"> </span><span class="n">equation</span>
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span>
+</span><span class="hll"><span class="w">       </span><span class="n">real_t</span><span class="w"> </span><span class="n">tauM</span><span class="w"> </span><span class="p">(</span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">            </span><span class="n">real_t</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">e2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mobility</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">dx</span><span class="p">));</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="p">}</span>
+</span></pre></div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Remark</p>
+<ul class="simple">
+<li><p class="sd-card-text">The parameter <code class="docutils literal notranslate"><span class="pre">mobility</span></code> has been read and declared in <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code>.</p></li>
+<li><p class="sd-card-text">You could have used the parameter <code class="docutils literal notranslate"><span class="pre">D</span></code> as the mobility coefficient. In that case, that new function is useless. But take care, especially if a future coupling with a transport equation is planned.</p></li>
+</ul>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Add the standard hyperbolic tangent function <code class="docutils literal notranslate"><span class="pre">phi0</span></code> defined by Eq. <a class="reference internal" href="../05_COURSES/Course_PF/01_Fundamentals_PF.html#equation-hyperbolic-tangent-solution-course">(385)</a> (for initial condition)</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution <code class="docutils literal notranslate"><span class="pre">phi0</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">================================================</span>
+</span><span class="hll">     <span class="sr">//</span><span class="w"> </span><span class="no">Hyperbolic</span><span class="w"> </span><span class="n">tangent</span><span class="w"> </span><span class="n">solution</span>
+</span><span class="hll"><span class="w">     </span><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">phi0</span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tanh</span><span class="p">(</span><span class="n">sign</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">W</span><span class="p">));</span>
+</span><span class="hll"><span class="w">     </span><span class="p">}</span>
+</span></pre></div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Remark</p>
+<p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">sign</span></code> will take the values <code class="docutils literal notranslate"><span class="pre">+1</span></code> or <code class="docutils literal notranslate"><span class="pre">-1</span></code> in the input datafile <code class="docutils literal notranslate"><span class="pre">.ini</span></code> for initialize <code class="docutils literal notranslate"><span class="pre">1</span></code> inside or outside the bubble.</p>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="admonition-add-conditions-and-keywords-for-several-initial-conditions admonition">
+<p class="admonition-title">Add conditions and keywords for several initial conditions</p>
+<p>Currently only one condition exits for intial condition:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;gaussian&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">ADE_GAUSSIAN</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add the necessary conditions for three Cahn-Hilliard initializations</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;gaussian&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">ADE_GAUSSIAN</span><span class="p">;</span>
+<span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;serpentine&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">SERPENTINE</span><span class="p">;</span>
+</span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;random&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">RANDOM_SPINODAL</span><span class="p">;</span>
+</span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;nucleation&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">RANDOM_NUCLEATION</span><span class="p">;</span>
+</span></pre></div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">Warning</p>
+<p class="sd-card-text">Don’t forget to declare all keywords <code class="docutils literal notranslate"><span class="pre">SERPENTINE</span></code>, <code class="docutils literal notranslate"><span class="pre">RANDOM_SPINODAL</span></code> and <code class="docutils literal notranslate"><span class="pre">RANDOM_NUCLEATION</span></code> in file <code class="docutils literal notranslate"><span class="pre">InitConditionsTypes.h</span></code></p>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+File <code class="docutils literal notranslate"><span class="pre">LBMScheme_CH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="admonition-function-setup-collider-with-bgk admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> with BGK</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> is written for solving Advection-Diffusion Equation. It must be modified for solving Cahn-Hilliard equation.</p>
+<ul class="simple">
+<li><p>First, the 2nd order moment, is currently <span class="math notranslate nohighlight">\(c\)</span></p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">M0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">MomentM0</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+<span class="w">    </span><span class="n">const</span><span class="w"> </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">uc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">MomentM1</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+<span class="w">    </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">M2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">MomentM2</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Modify the call of function to compute <span class="math notranslate nohighlight">\(\mu\)</span> instead of <span class="math notranslate nohighlight">\(c\)</span></p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">M2</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">MomentM2</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">MU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">M2</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Next, the appropriate function must be called for collision rate to take into account the mobility <span class="math notranslate nohighlight">\(\mathcal{M}_\phi\)</span></p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span> <span class="sr">//</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="n">collision</span><span class="w"> </span><span class="n">rate</span>
+<span class="n">collider</span><span class="o">.</span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+</pre></div>
+</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">collider</span><span class="o">.</span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">tauM</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Finally, the equilibrium distribution function is currently written for ADE (lines 4 &amp; 10)</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>         <span class="sr">//</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="linenos"> 2</span><span class="w">         </span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos"> 3</span><span class="w">         </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="p">;</span>
+<span class="linenos"> 4</span><span class="w">         </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="mi">0</span><span class="o">]*</span><span class="no">M0</span><span class="p">;</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="w">         </span><span class="sr">//</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="linenos"> 7</span><span class="w">         </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 8</span><span class="w">         </span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+<span class="linenos"> 9</span><span class="w">         </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="p">;</span>
+<span class="linenos">10</span><span class="w">         </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="no">M2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c_cs2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_scal</span><span class="p">(</span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">uc</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Modify it to take into account <span class="math notranslate nohighlight">\(c\)</span> (moment 0) and <span class="math notranslate nohighlight">\(\mu\)</span> (moment 2) (see SMEMaG course)</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>         <span class="sr">//</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="linenos">2</span><span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos">3</span><span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="p">;</span>
+<span class="hll"><span class="linenos">4</span><span class="w">          </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">M0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">*</span><span class="no">MU</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">);</span>
+</span><span class="linenos">5</span><span class="w">          </span><span class="sr">//</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="linenos">6</span><span class="w">          </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">7</span><span class="w">             </span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+<span class="linenos">8</span><span class="w">             </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="p">;</span>
+<span class="hll"><span class="linenos">9</span><span class="w">             </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">*</span><span class="no">MU</span><span class="o">*</span><span class="n">w</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c_cs2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_scal</span><span class="p">(</span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">uc</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="admonition-function-init-macro admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">init_macro</span></code></p>
+<p>Only one initial condition exists for ADE with <code class="docutils literal notranslate"><span class="pre">ADE_GAUSSIAN</span></code>:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">ADE_GAUSSIAN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">c</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">ampl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="no">Model</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">sigmax</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="no">Model</span><span class="o">.</span><span class="n">y0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">sigmay</span><span class="p">))</span><span class="w"> </span><span class="p">))</span><span class="w"> </span><span class="p">;</span>
+<span class="w">  </span><span class="n">vx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVX</span><span class="p">;</span>
+<span class="w">  </span><span class="n">vy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVY</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Write three initial conditions corresponding to keywords <code class="docutils literal notranslate"><span class="pre">SERPENTINE</span></code>, <code class="docutils literal notranslate"><span class="pre">RANDOM_SPINODAL</span></code> and <code class="docutils literal notranslate"><span class="pre">RANDOM_NUCLEATION</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution for serpentine</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">SERPENTINE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">       </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">M_PI</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">xphi</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">r0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="no">SQR</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">x0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">y0</span><span class="p">)));</span>
+</span><span class="hll"><span class="w">       </span><span class="n">c</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">phi0</span><span class="p">(</span><span class="n">xphi</span><span class="p">)</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="w">       </span><span class="n">vx</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pi</span><span class="o">*</span><span class="no">Model</span><span class="o">.</span><span class="n">U0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">y</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">));</span>
+</span><span class="hll"><span class="w">       </span><span class="n">vy</span><span class="w">    </span><span class="o">=</span><span class="w">   </span><span class="n">pi</span><span class="o">*</span><span class="no">Model</span><span class="o">.</span><span class="n">U0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">y</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">));</span>
+</span><span class="hll"><span class="w">            </span><span class="p">}</span>
+</span></pre></div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">Warning</p>
+<p class="sd-card-text">At line <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">Model.phi0(xphi)</span> <span class="pre">;</span></code> the position <code class="docutils literal notranslate"><span class="pre">xphi</span></code> is “regularized” with the hyperbolic tangent function <code class="docutils literal notranslate"><span class="pre">phi0</span></code>. Don’t forget to define it in <code class="docutils literal notranslate"><span class="pre">Models_CH.h</span></code>.</p>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution for spinodal</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">RANDOM_SPINODAL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">       </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand_gen</span><span class="o">.</span><span class="n">drand</span><span class="p">();</span>
+</span><span class="hll"><span class="w">     </span><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution for nucleation</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">RANDOM_NUCLEATION</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">IJK</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">valModuloX</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="no">IJK</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">valModuloY</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">            </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="w">          </span><span class="p">}</span>
+</span><span class="hll"><span class="w">          </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">            </span><span class="n">real_t</span><span class="w"> </span><span class="n">r</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand_gen</span><span class="o">.</span><span class="n">drand</span><span class="p">();</span>
+</span><span class="hll"><span class="w">            </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">9</span><span class="o">.</span><span class="mi">0</span><span class="o">+</span><span class="n">r</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="w">          </span><span class="p">}</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Remark</p>
+<p class="sd-card-text">Both integers <code class="docutils literal notranslate"><span class="pre">valModuloX</span></code> and <code class="docutils literal notranslate"><span class="pre">valModuloY</span></code> have already been declared in file <code class="docutils literal notranslate"><span class="pre">Models_CH</span></code>.</p>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="admonition-function-update-macro admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">update_macro</span></code></p>
+<p>Currently, only the concentration and the velocity are updated:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">moment_c</span><span class="p">;</span>
+<span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">vx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVX</span><span class="p">;</span>
+<span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">vy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVY</span><span class="p">;</span>
+
+<span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IC</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">);</span>
+<span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IU</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">vx</span><span class="w"> </span><span class="p">);</span>
+<span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IV</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">vy</span><span class="w"> </span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Add for chemical potential and add a condition for velocity of <code class="docutils literal notranslate"><span class="pre">SERPENTINE</span></code> option</p>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">moment_c</span><span class="p">;</span>
+
+<span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">vx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVX</span><span class="p">;</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">vy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">initVY</span><span class="p">;</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">M2</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="n">lbmStatePrev</span><span class="p">);</span>
+</span><span class="hll"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">SERPENTINE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">                 </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">M_PI</span><span class="p">;</span>
+</span><span class="hll"><span class="w">                 </span><span class="n">vx</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pi</span><span class="o">*</span><span class="no">Model</span><span class="o">.</span><span class="n">U0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">y</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">));</span>
+</span><span class="hll"><span class="w">                 </span><span class="n">vy</span><span class="w">    </span><span class="o">=</span><span class="w">   </span><span class="n">pi</span><span class="o">*</span><span class="no">Model</span><span class="o">.</span><span class="n">U0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">y</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">));</span>
+</span><span class="hll"><span class="w">          </span><span class="p">}</span>
+</span>
+<span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IC</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">);</span>
+<span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IU</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">vx</span><span class="w"> </span><span class="p">);</span>
+<span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IV</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">vy</span><span class="w"> </span><span class="p">);</span>
+<span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IMU</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="admonition-function-update-macro-grad admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">update_macro_grad</span></code></p>
+<p>Currently the function is empty because for ADE, there is no need to compute additional gradients or laplacian with the LB method.</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">void</span><span class="w"> </span><span class="n">update_macro_grad</span><span class="p">(</span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">IJK</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This is not the case for Cahn-Hilliard equation because a laplacian is involved in the definition of chemical potential. Add the computation of laplacian.</p>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">void</span><span class="w"> </span><span class="n">update_macro_grad</span><span class="p">(</span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">IJK</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="w">            </span><span class="n">real_t</span><span class="w"> </span><span class="n">laplace_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_laplacian</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IC</span><span class="p">,</span><span class="w"> </span><span class="no">BOUNDARY_EQUATION_1</span><span class="p">);</span>
+</span><span class="hll"><span class="w">            </span><span class="no">Base</span><span class="o">::</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">ILAPLAC</span><span class="p">,</span><span class="w"> </span><span class="n">laplace_c</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+File <code class="docutils literal notranslate"><span class="pre">InitConditionsTypes.h</span></code></label><div class="sd-tab-content docutils">
+<div class="admonition-add-the-keywords-of-initial-conditions admonition">
+<p class="admonition-title">Add the keywords of initial conditions</p>
+<p>In file <code class="docutils literal notranslate"><span class="pre">InitConditionsTypes.h</span></code>, two keywords are currently declared:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">InitCondition</span><span class="p">{</span>
+<span class="w">        </span><span class="no">PHASE_FIELD_INIT_UNDEFINED</span><span class="p">,</span>
+<span class="w">        </span><span class="no">ADE_GAUSSIAN</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add the three new keywords for Cahn-Hilliard: <code class="docutils literal notranslate"><span class="pre">SERPENTINE</span></code>, <code class="docutils literal notranslate"><span class="pre">RANDOM_SPINODAL</span></code> and <code class="docutils literal notranslate"><span class="pre">RANDOM_NUCLEATION</span></code>.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">InitCondition</span><span class="p">{</span>
+<span class="w">   </span><span class="no">PHASE_FIELD_INIT_UNDEFINED</span><span class="p">,</span>
+<span class="w">   </span><span class="no">ADE_GAUSSIAN</span><span class="p">,</span>
+<span class="hll"><span class="w">   </span><span class="no">RANDOM_SPINODAL</span><span class="p">,</span>
+</span><span class="hll"><span class="w">   </span><span class="no">RANDOM_NUCLEATION</span><span class="p">,</span>
+</span><span class="hll"><span class="w">   </span><span class="no">SERPENTINE</span>
+</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+</div>
+</section>
+<section id="verifications-of-your-implementation">
+<h2>3. Verifications of your implementation<a class="headerlink" href="#verifications-of-your-implementation" title="Link to this heading"></a></h2>
+<p>Three <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input files are available in the directory <code class="docutils literal notranslate"><span class="pre">Tutorial_Cahn-Hilliard</span></code> to check your implementation for each initial condition:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Tuto-CH_Test01-Serpentine.ini</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tuto-CH_Test02-Spinodal.ini</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tuto-CH_Test03-Nucleation.ini</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>It is recommended to start with <code class="docutils literal notranslate"><span class="pre">Tuto-CH_Test01-Serpentine.ini</span></code> because comparisons can be done with <code class="docutils literal notranslate"><span class="pre">csv</span></code> files contained in the folder <code class="docutils literal notranslate"><span class="pre">Contours_CAC</span></code>.</p>
+<div class="admonition-run-tuto-ch-test01-serpentine-ini admonition">
+<p class="admonition-title">Run <code class="docutils literal notranslate"><span class="pre">Tuto-CH_Test01-Serpentine.ini</span></code></p>
+<ul class="simple">
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">Tuto-CH_Test01-Serpentine.ini</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Commands</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Go to the appropriate folder</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_lbm/Tutorial_Cahn-Hilliard
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">and run LBM_Saclay</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>../../build_CH/src/LBM_saclay<span class="w"> </span>Tuto-CH_Test01-Serpentine.ini
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Once the simulations is over, post-process your results with paraview.</p></li>
+</ul>
+</div>
+<div class="admonition-post-process-with-paraview admonition">
+<p class="admonition-title">Post-process with paraview</p>
+<p>Open paraview (e.g. version 5.11) and compare the contours from Cahn-Hilliard <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files and <code class="docutils literal notranslate"><span class="pre">csv</span></code> files of subfolder <code class="docutils literal notranslate"><span class="pre">Contours_CAC</span></code>.</p>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Commands for contours</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text">Open all <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files and select <code class="docutils literal notranslate"><span class="pre">comp</span></code></p></li>
+<li><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> and <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p class="sd-card-text">Clic on <code class="docutils literal notranslate"><span class="pre">contour</span></code> and select field <code class="docutils literal notranslate"><span class="pre">comp</span></code> with value <code class="docutils literal notranslate"><span class="pre">0.5</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+</ul>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Commands for csv files</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<ul class="simple">
+<li><p class="sd-card-text">Open <code class="docutils literal notranslate"><span class="pre">csv</span></code> files (choose option <code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">Reader</span></code>) + <code class="docutils literal notranslate"><span class="pre">OK</span></code> + <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p class="sd-card-text">Crtl space + <code class="docutils literal notranslate"><span class="pre">Table</span> <span class="pre">To</span> <span class="pre">Points</span></code> + select <code class="docutils literal notranslate"><span class="pre">Points:0</span></code> for X Column and <code class="docutils literal notranslate"><span class="pre">Points:2</span></code> for Y Column</p></li>
+<li><p class="sd-card-text">Play with <code class="docutils literal notranslate"><span class="pre">Point</span> <span class="pre">Size</span></code> in section <code class="docutils literal notranslate"><span class="pre">Styling</span></code></p></li>
+</ul>
+</div>
+</details></div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Exercise</p>
+<p>Make a video with paraview for the two other test cases:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Spinodal decomposition: <code class="docutils literal notranslate"><span class="pre">Tuto-CH_Test02-Spinodal.ini</span></code></p></li>
+<li><p>Nucleation: <code class="docutils literal notranslate"><span class="pre">Tuto-CH_Test03-Nucleation.ini</span></code></p></li>
+</ul>
+</div></blockquote>
+</div>
+</section>
+<section id="push-your-developments-on-codev-tuleap">
+<h2>4. Push your developments on Codev-Tuleap<a class="headerlink" href="#push-your-developments-on-codev-tuleap" title="Link to this heading"></a></h2>
+<div class="hint admonition">
+<p class="admonition-title">Save your developments on <code class="docutils literal notranslate"><span class="pre">codev-tuleap.cea.fr</span></code></p>
+<p>Once your verifications are carried out, save only your implementation (not your output <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files). See commands on <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="Before_Programming.html#push-implementation"><span class="std std-ref">After programming: push your developments</span></a></p>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Implementation of a Cahn-Hilliard model</a><ul>
+<li><a class="reference internal" href="#objective-of-this-1st-tutorial">Objective of this 1st tutorial</a></li>
+<li><a class="reference internal" href="#create-a-new-kernel">1. Create a new kernel</a></li>
+<li><a class="reference internal" href="#modifications-inside-each-file-for-cahn-hilliard">2. Modifications inside each file for Cahn-Hilliard</a></li>
+<li><a class="reference internal" href="#verifications-of-your-implementation">3. Verifications of your implementation</a></li>
+<li><a class="reference internal" href="#push-your-developments-on-codev-tuleap">4. Push your developments on Codev-Tuleap</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Implementation of a Cahn-Hilliard model</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

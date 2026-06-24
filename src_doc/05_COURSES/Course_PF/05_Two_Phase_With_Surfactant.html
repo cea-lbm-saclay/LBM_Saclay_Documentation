@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Two-phase with surfactant &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="PART V.C. Phase-field models for phase transition" href="../Thermo-PhaseTransition/TOC_PhaseField_For_PhaseTransition.html" />
+    <link rel="prev" title="Contact angle and Marangoni force" href="04_Marangoni_and_Contact_Angle.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Thermo-PhaseTransition/TOC_PhaseField_For_PhaseTransition.html" title="PART V.C. Phase-field models for phase transition"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="04_Marangoni_and_Contact_Angle.html" title="Contact angle and Marangoni force"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Phase-Field.html" accesskey="U">PART V.B. Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Two-phase with surfactant</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="two-phase-with-surfactant">
+<span id="twophase-with-surfactant"></span><h1>Two-phase with surfactant<a class="headerlink" href="#two-phase-with-surfactant" title="Link to this heading"></a></h1>
+<section id="free-energy">
+<h2>Free energy<a class="headerlink" href="#free-energy" title="Link to this heading"></a></h2>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-0">
+<span class="eqno">(526)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-0" title="Link to this equation"></a></span>\[\mathscr{F}[\phi,{\color{red}c}]=\underbrace{\int_{V}\left[H\phi^{2}(1-\phi)^{2}+\frac{\zeta}{2}(\boldsymbol{\nabla}\phi)^{2}\right]dV}_{\text{usual free energy for phase-field }\equiv\mathscr{F}[\phi]}+{\color{red}\int_{V}\underbrace{f_{c}(\phi,\boldsymbol{\nabla}\phi,c)}_{\text{free energy for surfactant}}}dV\]</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-1">
+<span class="eqno">(527)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-1" title="Link to this equation"></a></span>\[{\color{red}f_{c}(\phi,\boldsymbol{\nabla}\phi,c)}=\frac{1}{\beta}\underbrace{\left[c\ln(c)+(1-c)\ln(1-c)\right]}_{(I)}{\color{red}-}\underbrace{\frac{\epsilon}{2}c\left|\boldsymbol{\nabla}\phi\right|^{2}}_{(II)}+\underbrace{\frac{k}{2}c\left[\phi-\frac{1}{2}\right]^{2}}_{(III)}\]</div>
+<ul class="simple">
+<li><p>(I): Mixing entropy, penalization of homogeneous mixtures (<span class="math notranslate nohighlight">\(c=0\)</span> or <span class="math notranslate nohighlight">\(c=1\)</span>)</p></li>
+<li><p>(II): Energetic preferency for composition at interface (negative sign because <span class="math notranslate nohighlight">\(c\nearrow\)</span> when <span class="math notranslate nohighlight">\(\mathscr{F}\searrow\)</span>)</p></li>
+<li><p>(III): Penalization of high compositions in the bulk</p></li>
+</ul>
+</section>
+<section id="derivation-of-1d-analytical-solution">
+<h2>Derivation of 1D analytical solution<a class="headerlink" href="#derivation-of-1d-analytical-solution" title="Link to this heading"></a></h2>
+<p><strong>Derivation of chemical potential</strong> <span class="math notranslate nohighlight">\(\mu_{c}\)</span></p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-2">
+<span class="eqno">(528)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-2" title="Link to this equation"></a></span>\[\mathscr{F}[\phi,c]=\mathscr{F}[\phi]+\int\biggl\{\frac{1}{\beta}[c\ln(c)+(1-c)\ln(1-c)]-\frac{\epsilon}{2}c\left|\boldsymbol{\nabla}\phi\right|^{2}+\frac{k}{2}c\left[\phi-\frac{1}{2}\right]^{2}\biggr\} dV\]</div>
+<div class="math notranslate nohighlight" id="equation-chem-pot-c-surfactant">
+<span class="eqno">(529)<a class="headerlink" href="#equation-chem-pot-c-surfactant" title="Link to this equation"></a></span>\[\begin{split}\mu_{c}(\boldsymbol{x},t)&amp;\,\hat{=}\,\frac{\delta\mathscr{F}}{\delta c}\\
+&amp;=\frac{\partial f_{c}(\phi,\boldsymbol{\nabla}\phi,c)}{\partial c}\\
+&amp;=\frac{1}{\beta}\ln\left(\frac{c}{1-c}\right)-\frac{\epsilon}{2}\left|\boldsymbol{\nabla}\phi\right|^{2}+\frac{k}{2}\left[\phi-\frac{1}{2}\right]^{2}\end{split}\]</div>
+<p><strong>Derivation of bulk chemical potential at equilibrium</strong> <span class="math notranslate nohighlight">\(\mu_{c}^{b}\)</span></p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<p>With following hypotheses:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+   c_{b}\ll1 &amp; \text{(input param)}\\
+   \phi_{b}=0\text{ or }\phi_{b}=1\\
+   \left|\boldsymbol{\nabla}\phi\right|=0
+\end{cases}\end{split}\]</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Bulk chemical potential</div>
+<p class="sd-card-text">Eq. <a class="reference internal" href="#equation-chem-pot-c-surfactant">(529)</a> becomes</p>
+<div class="math notranslate nohighlight" id="equation-chem-pot-b-surfactant">
+<span class="eqno">(530)<a class="headerlink" href="#equation-chem-pot-b-surfactant" title="Link to this equation"></a></span>\[\mu_{c}^{b}=\frac{1}{\beta}\ln(c_{b})+\frac{k}{8}\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>1D analytical solution at equilibrium</strong> <span class="math notranslate nohighlight">\(c^{eq}(x)\)</span></p>
+<p>Equilibrium: equality of chemical potential <span class="math notranslate nohighlight">\(\mu_{c}^{b}=\mu_{c}(x)\)</span> (Eq. <a class="reference internal" href="#equation-chem-pot-c-surfactant">(529)</a> = Eq. <a class="reference internal" href="#equation-chem-pot-b-surfactant">(530)</a></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{1}{\beta}\ln(c_{b})+\frac{k}{8}&amp;=\frac{1}{\beta}\ln\left[\frac{c^{eq}(x)}{1-c^{eq}(x)}\right]-\frac{\epsilon}{2}\underbrace{\left|\partial_{x}\phi^{eq}\right|^{2}}_{\text{Eq. }(\ref{eq:Kernel3D})}+\frac{k}{2}\left(\phi^{eq}-\frac{1}{2}\right)^{2}\\\frac{1}{\beta}\left\{ \ln(c_{b})-\ln\left[\frac{c^{eq}(x)}{1-c^{eq}(x)}\right]\right\}&amp;=\underbrace{-\frac{\epsilon}{2}\left[\frac{4}{W}\phi(1-\phi)\right]^{2}+\frac{k}{2}\phi\left(\phi-1\right)}_{\equiv-G(\phi)}\\
+\ln\left[\frac{1-c^{eq}(x)}{c^{eq}(x)}c_{b}\right]&amp;=-\beta G(\phi)\end{split}\]</div>
+<div class="admonition-d-analytical-solution-math-c-eq-x-at-equilibrium admonition">
+<p class="admonition-title">1D analytical solution <span class="math notranslate nohighlight">\(c^{eq}(x)\)</span> at equilibrium</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+<span class="math notranslate nohighlight">\(c^{eq}(x)\)</span></div>
+<div class="math notranslate nohighlight" id="equation-analy-sol-surfactant">
+<span class="eqno">(531)<a class="headerlink" href="#equation-analy-sol-surfactant" title="Link to this equation"></a></span>\[c^{eq}(x)=\frac{c_{b}}{c_{b}+exp(-G(\phi))}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+With <span class="math notranslate nohighlight">\(G(\phi)\)</span> defined by</div>
+<div class="math notranslate nohighlight" id="equation-def-g-function">
+<span class="eqno">(532)<a class="headerlink" href="#equation-def-g-function" title="Link to this equation"></a></span>\[G(\phi)=\beta\phi(1-\phi)\left[\frac{8\epsilon}{W^{2}}\phi(1-\phi)+\frac{k}{2}\right]\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="derivation-of-counter-term-for-composition-equation">
+<h2>Derivation of counter term for composition equation<a class="headerlink" href="#derivation-of-counter-term-for-composition-equation" title="Link to this heading"></a></h2>
+<p>The conservation equation for <span class="math notranslate nohighlight">\(c\)</span> writes:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-3">
+<span class="eqno">(533)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-3" title="Link to this equation"></a></span>\[\partial_{t}c=-\boldsymbol{\nabla}\cdot\boldsymbol{j}_{tot}\]</div>
+<p>where the total flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{tot}\)</span> is the sum of three terms:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-4">
+<span class="eqno">(534)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-4" title="Link to this equation"></a></span>\[\boldsymbol{j}_{tot}=\boldsymbol{j}_{Adv}+\boldsymbol{j}_{Diff}+\boldsymbol{j}_{CT}\]</div>
+<p>The advective and diffusive fluxes are defined by their classical forms:</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Advective flux</div>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{j}_{Adv}=c\boldsymbol{u}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Diffusive flux</div>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{j}_{Diff}=-M_{c}\boldsymbol{\nabla}c\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>To derive the counter term flux <span class="math notranslate nohighlight">\(\boldsymbol{j}_{CT}\)</span>, we consider the diffusive flux at equilibrium:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-5">
+<span class="eqno">(535)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-5" title="Link to this equation"></a></span>\[\boldsymbol{j}_{Diff}^{eq}=-M_{c}\boldsymbol{\nabla}c^{eq}\]</div>
+<p>By using the analytical solution <a class="reference internal" href="#equation-analy-sol-surfactant">(531)</a>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{j}_{Diff}^{eq}&amp;=-M_{c}\boldsymbol{\nabla}\left[\frac{c_{b}}{c_{b}+c_{0}(s)}\right]\\
+&amp;=-M_{c}\boldsymbol{n}_{\phi}\frac{\partial}{\partial s}\left[\frac{c_{b}}{c_{b}+c_{0}(s)}\right]\\
+&amp;=-M_{c}c^{eq}(1-c^{eq})\mathcal{P}(\phi^{eq})\boldsymbol{n}_{\phi}\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-6">
+<span class="eqno">(536)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-6" title="Link to this equation"></a></span>\[\mathcal{P}(\phi)=\beta\frac{4}{W}\phi(1-\phi)\left(1-2\phi\right)\left[\frac{k}{2}+\frac{16}{W²}\epsilon(1-\phi)\phi\right]\]</div>
+<p>Finally, the counter flux is defined such as it cancels the diffusive flux at equilibrium: <span class="math notranslate nohighlight">\(\boldsymbol{j}_{CT}=-\boldsymbol{j}_{Diff}^{eq}\)</span></p>
+<div class="admonition-counter-term-flux admonition">
+<p class="admonition-title">Counter term flux</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Counter term flux</div>
+<div class="math notranslate nohighlight" id="equation-def-counter-term-surfactant">
+<span class="eqno">(537)<a class="headerlink" href="#equation-def-counter-term-surfactant" title="Link to this equation"></a></span>\[\boldsymbol{j}_{CT}=+M_{c}c(1-c)\mathcal{P}(\phi)\boldsymbol{n}_{\phi}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Definition of polynom <span class="math notranslate nohighlight">\(\mathcal{P}(\phi)\)</span></div>
+<div class="math notranslate nohighlight" id="equation-def-polynom-p-surfactant">
+<span class="eqno">(538)<a class="headerlink" href="#equation-def-polynom-p-surfactant" title="Link to this equation"></a></span>\[\mathcal{P}(\phi)=\beta\frac{4}{W}\phi(1-\phi)\left(1-2\phi\right)\left[\frac{k}{2}+\frac{16}{W²}\epsilon(1-\phi)\phi\right]\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-of-incompressible-two-phase-flows-with-surfactant">
+<h2>Model of incompressible two-phase flows with surfactant<a class="headerlink" href="#model-of-incompressible-two-phase-flows-with-surfactant" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">Mathematical model of surfactant</p>
+<p><strong>Incompressible Navier-Stokes</strong></p>
+<div class="math notranslate nohighlight" id="equation-continuity-mass-surfactant">
+<span class="eqno">(539)<a class="headerlink" href="#equation-continuity-mass-surfactant" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}    =0,\]</div>
+<div class="math notranslate nohighlight" id="equation-conservation-impulsion-surfactant">
+<span class="eqno">(540)<a class="headerlink" href="#equation-conservation-impulsion-surfactant" title="Link to this equation"></a></span>\[\rho\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right] =-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\left[\eta(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})\right]+\boldsymbol{F}_{tot}\]</div>
+<p><strong>Conservative Allen-Cahn</strong></p>
+<div class="math notranslate nohighlight" id="equation-conservation-allen-cahn-surfactant">
+<span class="eqno">(541)<a class="headerlink" href="#equation-conservation-allen-cahn-surfactant" title="Link to this equation"></a></span>\[\frac{\partial\phi}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\phi)      =\boldsymbol{\nabla}\cdot\left[M_{\phi}\left(\boldsymbol{\nabla}\phi-\frac{4}{W}\phi(1-\phi)\boldsymbol{n}_{\phi}\right)\right],\]</div>
+<p><strong>Transport equation</strong></p>
+<div class="math notranslate nohighlight" id="equation-conservation-composition-surfactant">
+<span class="eqno">(542)<a class="headerlink" href="#equation-conservation-composition-surfactant" title="Link to this equation"></a></span>\[\frac{\partial c}{\partial t}+\boldsymbol{\nabla}\cdot(c\boldsymbol{u})   =\boldsymbol{\nabla}\cdot\left[M_{c}\left(\boldsymbol{\nabla}c{\color{red}-c(1-c)\mathcal{P}(\phi)\boldsymbol{n}_{\phi}}\right)\right]\]</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-7">
+<span class="eqno">(543)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-05-two-phase-with-surfactant-7" title="Link to this equation"></a></span>\[{\color{red}\mathcal{P}(\phi)}    =\beta\frac{4}{W}\phi(1-\phi)\left(1-2\phi\right)\left[\frac{k}{2}+\frac{16}{W{{}^2}}\epsilon(1-\phi)\phi\right]\]</div>
+<p><strong>Force</strong></p>
+<p>In Eq. <a class="reference internal" href="#equation-conservation-impulsion-surfactant">(540)</a> the total force contains the gravity force, the capillary force and the Marangoni force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{tot}=\boldsymbol{F}_{c}+\boldsymbol{F}_{g}+\boldsymbol{F}_{M}\)</span>.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Two-phase with surfactant</a><ul>
+<li><a class="reference internal" href="#free-energy">Free energy</a></li>
+<li><a class="reference internal" href="#derivation-of-1d-analytical-solution">Derivation of 1D analytical solution</a></li>
+<li><a class="reference internal" href="#derivation-of-counter-term-for-composition-equation">Derivation of counter term for composition equation</a></li>
+<li><a class="reference internal" href="#model-of-incompressible-two-phase-flows-with-surfactant">Model of incompressible two-phase flows with surfactant</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="04_Marangoni_and_Contact_Angle.html"
+                          title="previous chapter">Contact angle and Marangoni force</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../Thermo-PhaseTransition/TOC_PhaseField_For_PhaseTransition.html"
+                          title="next chapter">PART V.C. Phase-field models for phase transition</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Thermo-PhaseTransition/TOC_PhaseField_For_PhaseTransition.html" title="PART V.C. Phase-field models for phase transition"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="04_Marangoni_and_Contact_Angle.html" title="Contact angle and Marangoni force"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Phase-Field.html" >PART V.B. Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Two-phase with surfactant</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

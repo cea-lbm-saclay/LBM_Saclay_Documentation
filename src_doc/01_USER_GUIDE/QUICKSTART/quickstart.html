@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Quick Start with LBM_Saclay &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Compilation mono-CPU (desktop): training session" href="Compil_MonoGPU.html" />
+    <link rel="prev" title="PART I: User’s guide" href="../TOC_User-Guide.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Compil_MonoGPU.html" title="Compilation mono-CPU (desktop): training session"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../TOC_User-Guide.html" title="PART I: User’s guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" accesskey="U">PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Quick Start with LBM_Saclay</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="quick-start-with-lbm-saclay">
+<span id="quick-start"></span><h1>Quick Start with LBM_Saclay<a class="headerlink" href="#quick-start-with-lbm-saclay" title="Link to this heading"></a></h1>
+<section id="lbm-saclay-s-environment-documentation">
+<h2>1. LBM_Saclay’s environment &amp; documentation<a class="headerlink" href="#lbm-saclay-s-environment-documentation" title="Link to this heading"></a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+For LBM Training session</label><div class="sd-tab-content docutils">
+<div class="error admonition">
+<p class="admonition-title">For training session: LBM_Saclay’s documentation</p>
+<ol class="arabic">
+<li><p>Open a terminal, and execute the command below for LBM_Saclay’s environment:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>/tmp_formation/LBM_Saclay/lbm-env.sh
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><p>The shell script <code class="docutils literal notranslate"><span class="pre">lbm-env.sh</span></code> copies in your <code class="docutils literal notranslate"><span class="pre">/home/train</span></code> a <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> and <code class="docutils literal notranslate"><span class="pre">.profile</span></code> for necessary paths and connexions. The script also copies the source files of LBM_Saclay and the folder of test cases <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> inside your <code class="docutils literal notranslate"><span class="pre">/home/train</span></code>. The script will also generate a <code class="docutils literal notranslate"><span class="pre">ssh-keygen</span></code> for your future connexion on Orcus (details in dropdown below).</p>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-kebab-horizontal no-title" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14a2 2 0 1 1-.001-3.999A2 2 0 0 1 20 14ZM6 12a2 2 0 1 1-3.999.001A2 2 0 0 1 6 12Zm8 0a2 2 0 1 1-3.999.001A2 2 0 0 1 14 12Z"></path></svg></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">For future connexion on Orcus, the script <code class="docutils literal notranslate"><span class="pre">lbm-env.sh</span></code> execute two <code class="docutils literal notranslate"><span class="pre">ssh</span></code> commands.</p>
+<ol class="arabic">
+<li><p class="sd-card-text">For the first one</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>rsa<span class="w"> </span>-f<span class="w"> </span>~/.ssh/id_rsa
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><p class="sd-card-text">simply answer with empty responses (<code class="docutils literal notranslate"><span class="pre">return</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">return</span></code>).</p>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><p class="sd-card-text">For the second one</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ssh-copy-id<span class="w"> </span>-i<span class="w"> </span>~/.ssh/id_rsa.pub<span class="w"> </span>orcusloginamd2
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><p class="sd-card-text">write your <code class="docutils literal notranslate"><span class="pre">password</span></code> of your login &amp; <code class="docutils literal notranslate"><span class="pre">return</span></code>.</p>
+</div></blockquote>
+</div>
+</details></div></blockquote>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><p>Open the LBM_Saclay’s documentation</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>lbm-doc.sh<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">lbm-doc.sh</span></code> is an alias of command <code class="docutils literal notranslate"><span class="pre">google-chrome</span> <span class="pre">https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html</span></code></p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Either a. or b./c.</p></li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>For SMEMaG LBM training go to the red box of <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="#compilation-cpu-smemag"><span class="std std-ref">3. Compilation</span></a></p></li>
+<li><p>For Sorbonne University students go to <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="../SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html#simulations-gpu"><span class="std std-ref">First simulations on ORCUS: example with GPU partition</span></a></p></li>
+<li><p>For INSTN “Two-phase” training go to <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="../SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html#simulations-gpu"><span class="std std-ref">First simulations on ORCUS: example with GPU partition</span></a></p></li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+For STMF interns</label><div class="sd-tab-content docutils">
+<div class="important admonition">
+<p class="admonition-title">Shared directories for DM2S/STMF users</p>
+<p><strong>TITANIA/OBERON</strong>: two main LBM directories exist</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/tmp_formation/LBM_Saclay</span></code>: free access. You will find the folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> which contains several test cases to start running LBM_Saclay; two versions of paraview and several presentations of LBM and phase-field models.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/home/lbm-saclay</span></code>: shared directory for R&amp;D contributors of LBM_Saclay. Send an email to <code class="docutils literal notranslate"><span class="pre">alain.cartalade</span> <span class="pre">at</span> <span class="pre">cea.fr</span></code> or <code class="docutils literal notranslate"><span class="pre">teo.boutin</span> <span class="pre">at</span> <span class="pre">cea.fr</span></code> to get access.</p></li>
+</ul>
+</div></blockquote>
+<p><strong>ORCUS</strong>: one shared directory exists</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/tmpformation/LBM_Saclay</span></code>: free access. One version of LBM_Saclay (kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>) is compiled for several graphic cards available on ORCUS (V100, A100 and H100).</p></li>
+<li><p>First simulations on ORCUS: you can go directly to <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="../SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html#simulations-gpu"><span class="std std-ref">First simulations on ORCUS: example with GPU partition</span></a> and follow the instructions.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="error admonition">
+<p class="admonition-title">Configuration</p>
+<ol class="arabic simple">
+<li><p>Get access to the directory <code class="docutils literal notranslate"><span class="pre">/home/lbm-saclay</span></code></p></li>
+<li><p>Open a terminal, and execute the command below for LBM_Saclay’s environment:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>/home/lbm-saclay/INTERN-START/CONFIG/configure.sh
+</pre></div>
+</div>
+<p>The shell script <code class="docutils literal notranslate"><span class="pre">configure.sh</span></code> copies in your <code class="docutils literal notranslate"><span class="pre">home</span></code> a <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> and <code class="docutils literal notranslate"><span class="pre">.profile</span></code> for necessary paths and connexions. The script also copies the <code class="docutils literal notranslate"><span class="pre">texmf</span></code> and <code class="docutils literal notranslate"><span class="pre">layouts</span></code> for Beamer presentations.</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Open the LBM_Saclay’s documentation</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>lbm-doc.sh<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">lbm-doc.sh</span></code> is an alias of command <code class="docutils literal notranslate"><span class="pre">google-chrome</span> <span class="pre">https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html</span></code></p>
+</div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+For other users</label><div class="sd-tab-content docutils">
+<p>To be completed</p>
+</div>
+</div>
+</section>
+<section id="get-the-source-files-of-lbm-saclay">
+<span id="get-access-repository"></span><h2>2. Get the source files of LBM_Saclay<a class="headerlink" href="#get-the-source-files-of-lbm-saclay" title="Link to this heading"></a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+From codev-tuleap repository (recommended)</label><div class="sd-tab-content docutils">
+<p><strong>Get access to the git repository on</strong> <code class="docutils literal notranslate"><span class="pre">codev-tuleap.cea.fr</span></code></p>
+<div class="admonition-get-access-to-the-git-repository admonition">
+<p class="admonition-title">Get access to the git repository</p>
+<ul class="simple">
+<li><p>The lastest version of LBM_Saclay is available on the git repository <a class="sd-sphinx-override sd-badge sd-outline-success sd-text-success reference external" href="https://codev-tuleap.cea.fr/plugins/git/lbmsaclay"><span>codev-tuleap.cea.fr</span></a>.</p></li>
+<li><p>To get an access to <code class="docutils literal notranslate"><span class="pre">codev-tuleap</span></code>, open an <strong>AD partner</strong> account by sending a message on <a class="sd-sphinx-override sd-badge sd-outline-success sd-text-success reference external" href="https://post.intra.cea.fr/sp"><span>https://post.intra.cea.fr/sp</span></a>.</p></li>
+<li><p>For scientists of other institutes (CNRS, INRIA, University, etc.) send an email to <code class="docutils literal notranslate"><span class="pre">alain.cartalade</span> <span class="pre">at</span> <span class="pre">cea.fr</span></code> or <code class="docutils literal notranslate"><span class="pre">teo.boutin</span> <span class="pre">at</span> <span class="pre">cea.fr</span></code>. Once you got the account, change your password on <a class="sd-sphinx-override sd-badge sd-outline-success sd-text-success reference external" href="https://gestion-ad.intra.cea.fr:9443/"><span>https://gestion-ad.intra.cea.fr:9443/</span></a>.</p></li>
+<li><p>Help and support: on weblink <a class="sd-sphinx-override sd-badge sd-outline-success sd-text-success reference external" href="https://codev-tuleap.cea.fr/plugins/tracker/?tracker=1870"><span>Trackers &gt; Suivi des I.D. LBM</span></a> open a <code class="docutils literal notranslate"><span class="pre">NEW</span> <span class="pre">ID_LBM</span></code> and explain your problem.</p></li>
+</ul>
+</div>
+<p><strong>Download LBM_Saclay</strong></p>
+<div class="admonition-download-lbm-saclay admonition">
+<p class="admonition-title">Download LBM_Saclay</p>
+<p>To download either the <strong>Training</strong> version or the <strong>Rech-Dev</strong> version, open a terminal (or Konsole) and copy-paste one of two commands below:</p>
+<p>e.g. for <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev</span></code> version:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Rech-Dev.git
+</pre></div>
+</div>
+</div></blockquote>
+<p>e.g. for <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Training</span></code> version</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+From folder <code class="docutils literal notranslate"><span class="pre">/tmp_formation</span></code></label><div class="sd-tab-content docutils">
+<div class="important admonition">
+<p class="admonition-title">For training session</p>
+<p>Copy file <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev.tar</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>/tmp_formation/LBM_Saclay/LBM_Saclay_Rech-Dev.tar<span class="w"> </span>.
+</pre></div>
+</div>
+</div></blockquote>
+<p>untar your file</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tar<span class="w"> </span>-xvf<span class="w"> </span>LBM_Saclay_Rech-Dev.tar
+</pre></div>
+</div>
+</div></blockquote>
+<p><svg version="1.1" width="2.0em" height="2.0em" class="sd-octicon sd-octicon-alert-fill sd-text-info" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.836 3.244c.963-1.665 3.365-1.665 4.328 0l8.967 15.504c.963 1.667-.24 3.752-2.165 3.752H3.034c-1.926 0-3.128-2.085-2.165-3.752ZM12 8.5a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 0 1.5 0v-4.5A.75.75 0 0 0 12 8.5Zm1 9a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"></path></svg> The tar archive does not contain the latest version of LBM_Saclay.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="compilation">
+<span id="compilation-cpu-smemag"></span><h2>3. Compilation<a class="headerlink" href="#compilation" title="Link to this heading"></a></h2>
+<p>You can run your first simulations on CPUs of your personal desktop. However, it is highly recommended to run LBM_Saclay on one (or better on several) graphic cards (GPUs). You will find the procedure for compiling on single-CPU, single-GPU, and multi-GPU.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+Compilation on CPU with openmp</label><div class="sd-tab-content docutils">
+<div class="error admonition">
+<p class="admonition-title">Makefile on CPU of local computer</p>
+<ul class="simple">
+<li><p>For openmp  (<code class="docutils literal notranslate"><span class="pre">omp</span></code>) on CPU</p></li>
+</ul>
+<blockquote>
+<div><p>Go to <code class="docutils literal notranslate"><span class="pre">LBM_Saclay</span></code> folder</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev
+</pre></div>
+</div>
+<p>and execute the <code class="docutils literal notranslate"><span class="pre">configure_build.sh</span></code> script to create the <code class="docutils literal notranslate"><span class="pre">makefile</span></code></p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./compilation/local/omp/configure_build.sh
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>will return:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>The<span class="w"> </span>following<span class="w"> </span>problems<span class="w"> </span>are<span class="w"> </span>currently<span class="w"> </span>implemented:
+<span class="m">0</span><span class="w">  </span>AC
+<span class="m">1</span><span class="w">  </span>Advection-Diffusion
+<span class="m">2</span><span class="w">  </span>Crystal_growth_Younsi
+<span class="m">3</span><span class="w">  </span>GPMixt
+<span class="m">4</span><span class="w">  </span>GPMixtNS
+<span class="m">5</span><span class="w">  </span>GPMixtTernary
+<span class="m">6</span><span class="w">  </span>GPMuTernary
+<span class="m">7</span><span class="w">  </span>MPwSLphC
+<span class="m">8</span><span class="w">  </span>NS
+<span class="m">9</span><span class="w">  </span>NS_3phases_1comp_phase_change
+<span class="m">10</span><span class="w"> </span>NSAC_Comp
+<span class="m">11</span><span class="w"> </span>NSAC_Comp_3phases
+<span class="m">12</span><span class="w"> </span>NSAC_Comp_3phases3D
+<span class="m">13</span><span class="w"> </span>NSAC_coupling
+<span class="m">14</span><span class="w"> </span>NSAC_Fakhari
+<span class="m">15</span><span class="w"> </span>NSAC_Surfactant
+Choose<span class="w"> </span>which<span class="w"> </span>problems<span class="w"> </span>to<span class="w"> </span>include<span class="w"> </span>by<span class="w"> </span>indicating<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>space<span class="w"> </span>or<span class="w"> </span>comma<span class="w"> </span>separated<span class="w"> </span>numbers,<span class="w"> </span>eg<span class="w"> </span><span class="s1">&#39;0 1&#39;</span><span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;0,1&#39;</span>.
+Write<span class="w"> </span><span class="s1">&#39;all&#39;</span><span class="w"> </span>to<span class="w"> </span>include<span class="w"> </span>all<span class="w"> </span>problems.
+Problem<span class="w"> </span>numbers:
+</pre></div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">Compilation</p>
+<p>Write <code class="docutils literal notranslate"><span class="pre">10</span></code> for <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> kernel</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Problem<span class="w"> </span>numbers:<span class="w"> </span><span class="m">10</span>
+</pre></div>
+</div>
+<p>Go to the directory that is indicated by the green link, e.g., if number <code class="docutils literal notranslate"><span class="pre">10</span></code> has been set for GPU:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp
+</pre></div>
+</div>
+<p>Compile:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-6" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-6">
+Compilation on GPU</label><div class="sd-tab-content docutils">
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-7">
+With script <code class="docutils literal notranslate"><span class="pre">configure_build.sh</span></code></label><div class="sd-tab-content docutils">
+<div class="admonition-makefile-on-gpu admonition">
+<p class="admonition-title">Makefile on GPU</p>
+<ul class="simple">
+<li><p>For cuda on GPU H100 of ORCUS</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./compilation/orcus/cuda_h100/configure_build.sh
+</pre></div>
+</div>
+</div></blockquote>
+<p>For GPU A100 and V100, modify only <code class="docutils literal notranslate"><span class="pre">cuda_h100</span></code> by <code class="docutils literal notranslate"><span class="pre">cuda_a100</span></code> (A100) or <code class="docutils literal notranslate"><span class="pre">cuda_v100</span></code> (V100)</p>
+<ul class="simple">
+<li><p>For cuda on A6000 of MANWE</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./compilation/manwe/cuda_a6000/configure_build.sh
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Compilation errors</p>
+<p>For compilation errors, it is useful to write the exits inside an output file e.g. <code class="docutils literal notranslate"><span class="pre">compil.log</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>compil.log
+</pre></div>
+</div>
+</div></blockquote>
+<p>or alternatively <code class="docutils literal notranslate"><span class="pre">compil2.log</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span><span class="nv">VERBOSE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>compil2.log
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-8" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-8">
+Sections for detailed procedure</label><div class="sd-tab-content docutils">
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Compil_MonoGPU.html">Compilation mono-CPU (desktop): training session</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Compil_MonoGPU.html#compilation-mono-gpu-desktop">Compilation mono-GPU (desktop)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Compil_GPU_MPI_Orcus.html">ORCUS (CEA-ISAS-DM2S): compilation on single- and multi-GPU - doc updated August 28th, 2025</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Compil_Multi_GPU.html">Compilation Multi-GPU (supercomputers)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Compil_GetInfo_GPU.html">Get information on Graphic card for Kokkos</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="run-your-first-test-case-on-your-local-cpu">
+<h2>4. Run your first test case on your local CPU<a class="headerlink" href="#run-your-first-test-case-on-your-local-cpu" title="Link to this heading"></a></h2>
+<p>It is recommended to start with a test case of folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> (see list of test cases on <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="../RUN_TRAINING_LBM/runtraininglbm.html#run-training-lbm"><span class="std std-ref">Practice of two-phase flows with test cases of run_training_lbm</span></a>) and execute on your local computer. For example:</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: local computer</p>
+<p>Go to one test case of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">TestCase01_Poiseuille_Water</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/run_training_lbm/TestCase01_Poiseuille_Water
+</pre></div>
+</div>
+</div></blockquote>
+<p>Run LBM_saclay with the input file <code class="docutils literal notranslate"><span class="pre">name.ini</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>~/LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp/src/LBM_saclay<span class="w"> </span>TestCase01_Poiseuille_Water.ini
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="post-processing-with-paraview">
+<h2>5. Post-processing with Paraview<a class="headerlink" href="#post-processing-with-paraview" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For training session</p>
+<p>For post-processing <code class="docutils literal notranslate"><span class="pre">TestCase01_Poiseuille_Water</span></code>, open <code class="docutils literal notranslate"><span class="pre">paraview12</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview12<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>and follow the instructions in <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="../RUN_TRAINING_LBM/Test_Cases_Single_Phase.html#single-training-lbm"><span class="std std-ref">Run “Single phase test cases”</span></a></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file contains an alias for paraview versions 5.11 and 5.12 in <code class="docutils literal notranslate"><span class="pre">/tmp_formation/LBM_Saclay</span></code>. In paraview, open the <code class="docutils literal notranslate"><span class="pre">.vti</span></code> files. For post-processing the <code class="docutils literal notranslate"><span class="pre">.h5</span></code> (HDF5) files open the <code class="docutils literal notranslate"><span class="pre">.xml</span></code> file and clic on <code class="docutils literal notranslate"><span class="pre">XDMF</span> <span class="pre">Reader</span></code>.</p>
+<div class="important admonition">
+<p class="admonition-title">For training session: post-processing with paraview</p>
+<p>For post-processing <code class="docutils literal notranslate"><span class="pre">.xmf</span></code> and <code class="docutils literal notranslate"><span class="pre">.h5</span></code> files for videos use paraview11</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview11<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>For comparison with analytical solutions, use paraview12</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview12<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>and follow tutorials presented in <a class="reference internal" href="../RUN_TRAINING_LBM/runtraininglbm.html#run-training-lbm"><span class="std std-ref">Practice of two-phase flows with test cases of run_training_lbm</span></a>.</p>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Quick Start with LBM_Saclay</a><ul>
+<li><a class="reference internal" href="#lbm-saclay-s-environment-documentation">1. LBM_Saclay’s environment &amp; documentation</a></li>
+<li><a class="reference internal" href="#get-the-source-files-of-lbm-saclay">2. Get the source files of LBM_Saclay</a></li>
+<li><a class="reference internal" href="#compilation">3. Compilation</a></li>
+<li><a class="reference internal" href="#run-your-first-test-case-on-your-local-cpu">4. Run your first test case on your local CPU</a></li>
+<li><a class="reference internal" href="#post-processing-with-paraview">5. Post-processing with Paraview</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../TOC_User-Guide.html"
+                          title="previous chapter">PART I: User’s guide</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Compil_MonoGPU.html"
+                          title="next chapter">Compilation mono-CPU (desktop): training session</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Compil_MonoGPU.html" title="Compilation mono-CPU (desktop): training session"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../TOC_User-Guide.html" title="PART I: User’s guide"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Quick Start with LBM_Saclay</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

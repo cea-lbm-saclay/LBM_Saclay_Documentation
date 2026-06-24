@@ -1,0 +1,680 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Practice of two-phase flows with test cases of run_training_lbm &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Run “Single phase test cases”" href="Test_Cases_Single_Phase.html" />
+    <link rel="prev" title="First simulations on ORCUS: example with GPU partition" href="../SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Test_Cases_Single_Phase.html" title="Run “Single phase test cases”"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html" title="First simulations on ORCUS: example with GPU partition"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" accesskey="U">PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="practice-of-two-phase-flows-with-test-cases-of-run-training-lbm">
+<span id="run-training-lbm"></span><h1>Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code><a class="headerlink" href="#practice-of-two-phase-flows-with-test-cases-of-run-training-lbm" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<div class="admonition-introduction admonition">
+<p class="admonition-title">Introduction</p>
+<p>This section presents an overview of folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> to start practicing two-phase flows with LBM_Saclay. Those test cases are used in the LBM training session of 1) SMEMaG doctoral school <a class="sd-sphinx-override sd-badge sd-outline-success sd-text-success reference external" href="https://adum.fr/script/catalogue.pl?mod=3701390&amp;site=psaclay"><span>ADUM</span></a> and 2) Master of Sciences Sorbonne University <a class="sd-sphinx-override sd-badge sd-outline-success sd-text-success reference external" href="https://su-mecanique.github.io/master-mecanique/page/um5mee32/"><span>SSU</span></a>. Most of them appear in publications to validate new LBM numerical schemes or new two-phase models. Several examples of <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files are contained in directory <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>. They run with the kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code> which implements the <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="../../02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.html#math-nsac-comp"><span class="std std-ref">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</span></a>. Those input datafiles use several options or different values to help users for making their own test case. It is supposed that you run the test cases on ORCUS (see <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="../SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html#simulations-gpu"><span class="std std-ref">First simulations on ORCUS: example with GPU partition</span></a>). Once the job is complete, the output files must be downloaded on your local computer and post-processed with paraview. Few examples of single-phase and two-phase flows are presented in <a class="reference internal" href="#target-fig-overview"><span class="std std-numref">Fig. 29</span></a>.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Table of content</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Test_Cases_Single_Phase.html">Run “Single phase test cases”</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Single_Phase.html#poiseuille-flow">Poiseuille flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Single_Phase.html#lid-driven-cavity-flow">Lid driven cavity flow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Test_Cases_Two_Phase_Without-Flows.html">Run “Two-phase without fluid flows”</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_Without-Flows.html#without-phase-change">Without phase change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_Without-Flows.html#with-phase-change-stefan-problem">With phase change: Stefan problem</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Test_Cases_Two_Phase_PartA.html">Run “Two-phase with fluid flows” PART A: Verifications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartA.html#double-poiseuille-analytical-solution">Double-Poiseuille analytical solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartA.html#rayleigh-taylor-instability">Rayleigh-Taylor instability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartA.html#capillary-wave-analytical-solution-of-prosperetti">Capillary wave: analytical solution of Prosperetti</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartA.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Test_Cases_Two_Phase_PartB.html">Run “Two-phase with fluid flows” PART B: Simulations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartB.html#rising-bubble">Rising bubble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartB.html#falling-droplet">Falling droplet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartB.html#d-taylor-bubble">2D Taylor bubble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartB.html#splashing-droplet">Splashing droplet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartB.html#dam-break">Dam break</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartB.html#id2">3D Taylor bubble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_Two_Phase_PartB.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Test_Cases_TwoPhase_ComposEffect.html">Run “Two-phase with fluid flows with composition effect”</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_TwoPhase_ComposEffect.html#surfactant">Surfactant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_TwoPhase_ComposEffect.html#effect-on-density">Effect on density</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_TwoPhase_ComposEffect.html#marangoni-flow">Marangoni flow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Test_Cases_TwoPhase_Interacting-SolidPhase.html">Run “Two-phase fluid flows interacting with a solid phase”</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_TwoPhase_Interacting-SolidPhase.html#hydrophobic-surface">Hydrophobic surface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_TwoPhase_Interacting-SolidPhase.html#vertical-walls">Vertical walls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_TwoPhase_Interacting-SolidPhase.html#container-with-splashing-droplet">Container with splashing droplet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_TwoPhase_Interacting-SolidPhase.html#static-container-with-hole">Static container with hole</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Test_Cases_TwoPhase_Interacting-SolidPhase.html#moving-container-with-hole">Moving container with hole</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</details></div>
+<div class="admonition-direct-access admonition">
+<p class="admonition-title">Direct access</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-5 sd-col-xs-5 sd-col-sm-5 sd-col-md-5 sd-col-lg-5 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Single-phase and two-phase without fluid flow</div>
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-secondary sd-shadow-sm reference internal" href="Test_Cases_Single_Phase.html#single-training-lbm"><span class="std std-ref">Run “Single phase test cases”</span></a></p>
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_Two_Phase_Without-Flows.html#twop-withoutff"><span class="std std-ref">Run “Two-phase without fluid flows”</span></a></p>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-7 sd-col-xs-7 sd-col-sm-7 sd-col-md-7 sd-col-lg-7 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Two-phase flows</div>
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_Two_Phase_PartA.html#twop-training-lbm-parta"><span class="std std-ref">Run “Two-phase with fluid flows” PART A: Verifications</span></a></p>
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_Two_Phase_PartB.html#twop-training-lbm-partb"><span class="std std-ref">Run “Two-phase with fluid flows” PART B: Simulations</span></a></p>
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_TwoPhase_ComposEffect.html#twop-compos-training-lbm"><span class="std std-ref">Run “Two-phase with fluid flows with composition effect”</span></a></p>
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_TwoPhase_Interacting-SolidPhase.html#twop-solid-training-lbm"><span class="std std-ref">Run “Two-phase fluid flows interacting with a solid phase”</span></a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figure class="align-center" id="id1">
+<span id="target-fig-overview"></span><a class="reference internal image-reference" href="../../../_images/Overview_NSAC_Comp.png"><img alt="../../../_images/Overview_NSAC_Comp.png" height="400" src="../../../_images/Overview_NSAC_Comp.png" width="800" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 29 </span><span class="caption-text">Overview of two-phase simulations contained in folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="list-of-test-cases-in-run-training-lbm">
+<h2>List of test cases in <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code><a class="headerlink" href="#list-of-test-cases-in-run-training-lbm" title="Link to this heading"></a></h2>
+<div class="admonition-list-of-test-cases admonition">
+<p class="admonition-title">List of test cases</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Single phase</label><div class="sd-tab-content docutils">
+<p>The two-phase model can easily degenerate to single-phase flows. This is the reason why the first two test cases compare LBM_Saclay results with well-known solutions of “lid-driven cavity flows” and “Poiseuille flows”.</p>
+<blockquote>
+<div><table class="docutils align-center" id="singlephase" style="width: 80%">
+<caption><span class="caption-number">Table 6 </span><span class="caption-text">Single-phase test cases</span><a class="headerlink" href="#singlephase" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 35.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name of test case</strong></p></th>
+<th class="head"><p><strong>Equations</strong></p></th>
+<th class="head"><p><strong>Comparisons</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TestCase01_LidDrivenCavityFlow</p></td>
+<td><p>Navier-Stokes</p></td>
+<td><p>Benchmark with literature</p></td>
+</tr>
+<tr class="row-odd"><td><p>TestCase02_Poiseuille_Water</p></td>
+<td><p>Navier-Stokes</p></td>
+<td><p>Analytical solution</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<div class="sd-text-center docutils">
+<p><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-secondary sd-shadow-sm reference internal" href="Test_Cases_Single_Phase.html#single-training-lbm"><span class="std std-ref">Run “Single phase test cases”</span></a></p>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Two-phase without fluid flow</label><div class="sd-tab-content docutils">
+<p>Those test cases check the phase-field equation</p>
+<blockquote>
+<div><blockquote>
+<div><table class="docutils align-center" id="twophase-withoutflows" style="width: 80%">
+<caption><span class="caption-number">Table 7 </span><span class="caption-text">List of test cases of Two-phase without fluid flows</span><a class="headerlink" href="#twophase-withoutflows" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 30.0%" />
+<col style="width: 35.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name of test case</strong></p></th>
+<th class="head"><p><strong>Equations</strong></p></th>
+<th class="head"><p><strong>Comparisons</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TestCase03_Zalesak-Disk2D</p></td>
+<td><p>Phase-field</p></td>
+<td><p>Initial condition</p></td>
+</tr>
+<tr class="row-odd"><td><p>TestCase04_Deformation-Vortex2D</p></td>
+<td><p>Phase-field</p></td>
+<td><p>Benchmark Cahn-Hilliard &amp; Allen-Cahn</p></td>
+</tr>
+<tr class="row-even"><td><p>TestCase05_Spinodal-Decomposition2D</p></td>
+<td><p>Phase-field</p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-odd"><td><p>TestCase06_Stefan-Problem</p></td>
+<td><p>Phase-field/Composition</p></td>
+<td><p>Analytical solution</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<div class="sd-text-center docutils">
+<p><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_Two_Phase_Without-Flows.html#twop-withoutff"><span class="std std-ref">Run “Two-phase without fluid flows”</span></a></p>
+</div>
+</div></blockquote>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Two-phase with fluid flow</label><div class="sd-tab-content docutils">
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Two-phase test cases with fluid flow</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="sphinx-features docutils container">
+<table class="docutils align-center" id="twophase-withflows" style="width: 80%">
+<caption><span class="caption-number">Table 8 </span><span class="caption-text">List of test cases of Two-phase with fluid flows</span><a class="headerlink" href="#twophase-withflows" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 40.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p class="sd-card-text"><strong>Name of test case</strong></p></th>
+<th class="head"><p class="sd-card-text"><strong>Equations</strong></p></th>
+<th class="head"><p class="sd-card-text"><strong>Comparisons</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="sd-card-text">TestCase07_Double-Poiseuille</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field</p></td>
+<td><p class="sd-card-text">Analytical solution</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">TestCase08_Rayleigh-Taylor2D</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field</p></td>
+<td><p class="sd-card-text">Benchmark with literature</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text">TestCase09_Capillary-Wave2D</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field</p></td>
+<td><p class="sd-card-text">Analytical solution</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">TestCase10_Falling-Droplet2D</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text">TestCase11_Rising-Bubble2D</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">TestCase12_Taylor-Bubble2D</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text">TestCase13_Splashing-Droplet2D</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">TestCase14_Dam-Break2D</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_Two_Phase_PartA.html#twop-training-lbm-parta"><span class="std std-ref">Run “Two-phase with fluid flows” PART A: Verifications</span></a></p>
+</div>
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_Two_Phase_PartB.html#twop-training-lbm-partb"><span class="std std-ref">Run “Two-phase with fluid flows” PART B: Simulations</span></a></p>
+</div>
+</div>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Two-phase with fluid flow &amp; composition effect</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="sphinx-features docutils container">
+<table class="longtable docutils align-center" id="testcase-surfactant" style="width: 80%">
+<caption><span class="caption-number">Table 9 </span><span class="caption-text">Test cases inside folder <code class="docutils literal notranslate"><span class="pre">TestCase15_Surfactant</span></code></span><a class="headerlink" href="#testcase-surfactant" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 40.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p class="sd-card-text"><strong>Name of test case</strong></p></th>
+<th class="head"><p class="sd-card-text"><strong>Equations</strong></p></th>
+<th class="head"><p class="sd-card-text"><strong>Comparisons</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="sd-card-text">Analytical_Profile1</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field/Composition</p></td>
+<td><p class="sd-card-text">Analytical solution</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">Analytical_Profile2</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field/Composition</p></td>
+<td><p class="sd-card-text">Analytical solution</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text">Coalescence</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field/Composition</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">Falling-Droplet</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field/Composition</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text">Rising_Bubble</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-field/Composition</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sd-text-center docutils">
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_TwoPhase_ComposEffect.html#twop-compos-training-lbm"><span class="std std-ref">Run “Two-phase with fluid flows with composition effect”</span></a></p>
+</div>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Two-phase interacting with a solid phase</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="sphinx-features docutils container">
+<table class="docutils align-center" id="twophase-solid" style="width: 80%">
+<caption><span class="caption-number">Table 10 </span><span class="caption-text">List of test cases of Two-phase interacting with a solid phase</span><a class="headerlink" href="#twophase-solid" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 40.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p class="sd-card-text"><strong>Name of test case</strong></p></th>
+<th class="head"><p class="sd-card-text"><strong>Equations</strong></p></th>
+<th class="head"><p class="sd-card-text"><strong>Comparisons</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="sd-card-text">TestCase16_Contact-Angle</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-fields</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">TestCase17a_Hydrophobic-Solid</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-fields</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text">TestCase17b_Vertical-Wall</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-fields</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">TestCase18_Container-Splash</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-fields</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text">TestCase19_Static-Container-Hole</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-fields</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text">TestCase20_Moving-Container-Hole</p></td>
+<td><p class="sd-card-text">Navier-Stokes/Phase-fields</p></td>
+<td><p class="sd-card-text">–</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sd-text-center docutils">
+<p class="sd-card-text"><a class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-primary sd-shadow-sm reference internal" href="Test_Cases_TwoPhase_Interacting-SolidPhase.html#twop-solid-training-lbm"><span class="std std-ref">Run “Two-phase fluid flows interacting with a solid phase”</span></a></p>
+</div>
+</div>
+</details></div>
+</div>
+</div>
+</section>
+<section id="parameters-in-s-i-units">
+<h2>Parameters in S.I. units<a class="headerlink" href="#parameters-in-s-i-units" title="Link to this heading"></a></h2>
+<div class="admonition-parameters-in-s-i-units admonition">
+<p class="admonition-title">Parameters in S.I. units</p>
+<p>Most of input values in the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files correspond to dimensionless parameters of water-air or oil-air two-phase systems. Their parameters in SI units are presented in Tables <a class="reference internal" href="#tab-water-air"><span class="std std-ref">Water – Air properties</span></a> and <a class="reference internal" href="#tab-oilveoil-air"><span class="std std-ref">Olive oil – Air properties</span></a> below.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+Water – Air properties</label><div class="sd-tab-content docutils">
+<div class="sphinx-features docutils container">
+<table class="longtable docutils align-center" id="tab-water-air" style="width: 70%">
+<caption><span class="caption-number">Table 11 </span><span class="caption-text">Water – Air properties</span><a class="headerlink" href="#tab-water-air" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 33.3%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 16.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name</strong></p></th>
+<th class="head"><p><strong>Symbol</strong></p></th>
+<th class="head"><p><strong>Value</strong></p></th>
+<th class="head"><p><strong>Dimension</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Water density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_{l}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(998.29\)</span></p></td>
+<td><p>kg/m <span class="math notranslate nohighlight">\(^{3}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Kinematic viscosity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\nu_{l}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.003\times10^{-6}\)</span></p></td>
+<td><p>m <span class="math notranslate nohighlight">\(^{2}\)</span>/s</p></td>
+</tr>
+<tr class="row-even"><td><p>Air density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_{a}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.204\)</span></p></td>
+<td><p>kg/m <span class="math notranslate nohighlight">\(^{3}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Kinematic viscosity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\nu_{a}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.56\times10^{-5}\)</span></p></td>
+<td><p>m <span class="math notranslate nohighlight">\(^{2}\)</span>/s</p></td>
+</tr>
+<tr class="row-even"><td><p>Surface tension</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(7.28\times10^{-2}\)</span></p></td>
+<td><p>N/m</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gravity</p></td>
+<td><p><span class="math notranslate nohighlight">\(g\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(9.81\)</span></p></td>
+<td><p>m/s <span class="math notranslate nohighlight">\(^{2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Dynamic viscos water</p></td>
+<td><p><span class="math notranslate nohighlight">\(\eta_{l}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(10^{-3}\)</span></p></td>
+<td><p>Pa.s</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dynamic viscos air</p></td>
+<td><p><span class="math notranslate nohighlight">\(\eta_{a}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.878\times10^{-5}\)</span></p></td>
+<td><p>Pa.s</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Density ratio</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_{l}/\rho_{a}\)</span></p></td>
+<td><p><strong>829.14</strong></p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Dyn viscos ratio</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\eta_{l}/\eta_{a}\)</span></p></td>
+<td><p><strong>53.33</strong></p></td>
+<td><p>–</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+Olive oil – Air properties</label><div class="sd-tab-content docutils">
+<div class="sphinx-features docutils container">
+<table class="docutils align-center" id="tab-oilveoil-air" style="width: 70%">
+<caption><span class="caption-number">Table 12 </span><span class="caption-text">Olive oil – Air properties</span><a class="headerlink" href="#tab-oilveoil-air" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 33.3%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 16.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name</strong></p></th>
+<th class="head"><p><strong>Symbol</strong></p></th>
+<th class="head"><p><strong>Value</strong></p></th>
+<th class="head"><p><strong>Dimension</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Oil density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_{l}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(911.4\)</span></p></td>
+<td><p>kg/m <span class="math notranslate nohighlight">\(^{3}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Kinematic viscosity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\nu_{l}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(9.216\times10^{-5}\)</span></p></td>
+<td><p>m <span class="math notranslate nohighlight">\(^{2}\)</span>/s</p></td>
+</tr>
+<tr class="row-even"><td><p>Air density</p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_{a}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.225\)</span></p></td>
+<td><p>kg/m <span class="math notranslate nohighlight">\(^{3}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Kinematic viscosity</p></td>
+<td><p><span class="math notranslate nohighlight">\(\nu_{a}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.618\times10^{-5}\)</span></p></td>
+<td><p>m <span class="math notranslate nohighlight">\(^{2}\)</span>/s</p></td>
+</tr>
+<tr class="row-even"><td><p>Surface tension</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sigma\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.032\)</span></p></td>
+<td><p>N/m</p></td>
+</tr>
+<tr class="row-odd"><td><p>Gravity</p></td>
+<td><p><span class="math notranslate nohighlight">\(g\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(9.81\)</span></p></td>
+<td><p>m/s <span class="math notranslate nohighlight">\(^{2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Dynamic viscos oil</p></td>
+<td><p><span class="math notranslate nohighlight">\(\eta_{l}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(0.08399988\)</span></p></td>
+<td><p>Pa.s</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dynamic viscos air</p></td>
+<td><p><span class="math notranslate nohighlight">\(\eta_{a}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1.983\times10^{-5}\)</span></p></td>
+<td><p>Pa.s</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Density ratio</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho_{l}/\rho_{a}\)</span></p></td>
+<td><p><strong>744</strong></p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Dyn viscos ratio</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\eta_{l}/\eta_{a}\)</span></p></td>
+<td><p><strong>4236</strong></p></td>
+<td><p>–</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="types-of-files-in-run-training-lbm">
+<h2>Types of files in <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code><a class="headerlink" href="#types-of-files-in-run-training-lbm" title="Link to this heading"></a></h2>
+<div class="note admonition">
+<p class="admonition-title">Types of files</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-kebab-horizontal no-title" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14a2 2 0 1 1-.001-3.999A2 2 0 0 1 20 14ZM6 12a2 2 0 1 1-3.999.001A2 2 0 0 1 6 12Zm8 0a2 2 0 1 1-3.999.001A2 2 0 0 1 14 12Z"></path></svg></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">The folder <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code> contains several classical test cases of two-phase flows. They are all based on the <a class="reference internal" href="../../02_MODELS/01_Fluid_Fluid/Model_NSAC_Comp.html#math-nsac-comp"><span class="std std-ref">Model of Navier-Stokes/Conservative Allen-Cahn (CAC)/Composition</span></a>, but they differ by the use of different initial conditions, boundary conditions and values of parameters. The parameter values of those test cases are representative of various dimensionless numbers (Re, Bo, Mo, At, etc.) and for some of them, comparisons are performed with analytical solutions or well-known benchmarks.</p>
+<p class="sd-card-text"><strong>Types of file inside the folder</strong></p>
+<p class="sd-card-text">Several types of files appear in the directory <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code>. Besides the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input file of LBM_Saclay, several files are useful for 1) deriving the dimensionless input parameters, 2) post-processing the simulation outputs and 3) describing the test case.</p>
+<p class="sd-card-text">The test case is described inside a “Readme” file with the suffix <code class="docutils literal notranslate"><span class="pre">.txt</span></code>. Sometimes a jupyter notebook (extension <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code>) is present inside the directory. When the test case compares the numerical solution with one solution of reference (benchmark or analytical solution), one or several files with extensions <code class="docutils literal notranslate"><span class="pre">.dat</span></code> or <code class="docutils literal notranslate"><span class="pre">.csv</span></code> are used in a python script (extension <code class="docutils literal notranslate"><span class="pre">.py</span></code>) or in the jupyter file. Finally, when the post-processing with paraview requires many commands, a state file for paraview (suffix <code class="docutils literal notranslate"><span class="pre">.pvsm</span></code>) can be set in the directory. A summary of those files are presented in the Table below.</p>
+<blockquote>
+<div><table class="docutils align-default" id="tab-types" style="width: 70%">
+<caption><span class="caption-number">Table 13 </span><span class="caption-text">Types of files</span><a class="headerlink" href="#tab-types" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 17.6%" />
+<col style="width: 41.2%" />
+<col style="width: 41.2%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p class="sd-card-text"><strong>Extension</strong></p></th>
+<th class="head"><p class="sd-card-text"><strong>Description</strong></p></th>
+<th class="head"><p class="sd-card-text"><strong>Command</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">.ini</span></code></p></td>
+<td><p class="sd-card-text">Input files for LBM_Saclay</p></td>
+<td><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">LBM_saclay</span> <span class="pre">inputfilename.ini</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">.py</span></code></p></td>
+<td><p class="sd-card-text">python scripts for Pre- &amp; Post-Processing</p></td>
+<td><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">name.py</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">.ipynb</span></code></p></td>
+<td><p class="sd-card-text">Jupyter notebook for validation sheets</p></td>
+<td><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span> <span class="pre">name.ipynb</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">.pvsm</span></code></p></td>
+<td><p class="sd-card-text">State file for paraview</p></td>
+<td><p class="sd-card-text">in paraview click “load state”</p></td>
+</tr>
+<tr class="row-even"><td><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">.txt</span></code></p></td>
+<td><p class="sd-card-text">Readme text file</p></td>
+<td><p class="sd-card-text">use your favorite editor</p></td>
+</tr>
+<tr class="row-odd"><td><p class="sd-card-text"><code class="docutils literal notranslate"><span class="pre">.csv</span></code> or <code class="docutils literal notranslate"><span class="pre">.dat</span></code></p></td>
+<td><p class="sd-card-text">Ascii datafiles for comparisons</p></td>
+<td><p class="sd-card-text">Used in <code class="docutils literal notranslate"><span class="pre">.py</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> scripts</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</details></div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#list-of-test-cases-in-run-training-lbm">List of test cases in <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a></li>
+<li><a class="reference internal" href="#parameters-in-s-i-units">Parameters in S.I. units</a></li>
+<li><a class="reference internal" href="#types-of-files-in-run-training-lbm">Types of files in <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html"
+                          title="previous chapter">First simulations on ORCUS: example with GPU partition</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Test_Cases_Single_Phase.html"
+                          title="next chapter">Run “Single phase test cases”</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Test_Cases_Single_Phase.html" title="Run “Single phase test cases”"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../SIMU_ON_ORCUS/Simulations-ORCUS-GPU.html" title="First simulations on ORCUS: example with GPU partition"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Practice of two-phase flows with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_lbm</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>
