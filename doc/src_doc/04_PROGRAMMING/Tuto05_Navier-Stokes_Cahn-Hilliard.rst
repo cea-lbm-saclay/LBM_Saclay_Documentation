@@ -74,7 +74,7 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
 
 .. tab-set::
 
-   .. tab-item:: File ``Problem_ACT.h``
+   .. tab-item:: File ``Problem_NSCH.h``
 
       .. admonition:: ``Problem``
          :class: caution
@@ -185,7 +185,7 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                 this->bcPerMgr.make_boundaries(scheme.f1, BOUNDARY_EQUATION_1);
                 this->bcPerMgr.make_boundaries(scheme.f2, BOUNDARY_EQUATION_2);
 
-   .. tab-item:: File ``LBMScheme_ACT.h``
+   .. tab-item:: File ``LBMScheme_NSCH.h``
 
       .. admonition:: Function ``struct LBMScheme``
          :class: caution
@@ -217,6 +217,7 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                 KOKKOS_INLINE_FUNCTION
                 void setup_collider(EquationTag2 tag, const IVect<dim>& IJK, MRT_Collider& collider) const
                 {
+                }
              
              .. admonition:: Remark
                 :class: important
@@ -348,6 +349,12 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
 
 
    .. tab-item:: File ``Models_NSCH.h``
+
+      .. admonition:: Search ``IC`` and replace by ``IPHI``
+         :class: error
+
+         In previous file ``Index_NSCH.h``, the index ``IC`` has been replaced by ``IPHI``. Don't forget to find and replace by new index ``IPHI`` in all functions of ``Models_NSCH.h``.
+
 
       .. admonition:: Read and declare Navier-Stokes parameters in ``ModelParams``
          :class: caution
@@ -629,7 +636,7 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
                   xphi = x - Model.x0;
                   c    = Model.phi0(xphi);
                 }
-                rho = Model.interpol_rho(c);
+                real_t rho = Model.interpol_rho(c);
 
          - Save in appropriate arrays
 
