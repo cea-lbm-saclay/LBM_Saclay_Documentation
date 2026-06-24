@@ -353,7 +353,7 @@ The mathematical model is currently composed of one Cahn-Hilliard equation. It i
       .. admonition:: Search ``IC`` and replace by ``IPHI``
          :class: error
 
-         In previous file ``Index_NSCH.h``, the index ``IC`` has been replaced by ``IPHI``. Don't forget to find and replace by new index ``IPHI`` in all functions of ``Models_NSCH.h``.
+         In previous file ``Index_NSCH.h``, the index ``IC`` has been replaced by ``IPHI``. Don't forget to find ``IC`` and replace it the by new index ``IPHI`` in all functions of ``Models_NSCH.h``.
 
 
       .. admonition:: Read and declare Navier-Stokes parameters in ``ModelParams``
