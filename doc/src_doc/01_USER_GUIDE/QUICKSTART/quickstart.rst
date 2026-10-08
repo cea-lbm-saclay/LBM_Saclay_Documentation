@@ -356,11 +356,20 @@ It is recommended to start with a test case of folder ``run_training_lbm`` (see 
 
          $ cd ~/run_training_lbm/TestCase01_Poiseuille_Water
 
-   Run LBM_saclay with the input file ``name.ini``
+   Run LBM_saclay with the input file ``name.ini``, redirecting the output
+   to ``lbm_run.log`` (this is the log file followed by the ▶ Run tab of the
+   INI Board):
 
     .. code-block:: shell
 
-       $ ~/LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp/src/LBM_saclay TestCase01_Poiseuille_Water.ini
+       $ ~/LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp/src/LBM_saclay TestCase01_Poiseuille_Water.ini 2>&1 | tee lbm_run.log
+
+   or, to run in the background (the computation survives the terminal
+   closing; follow it with ``tail -f lbm_run.log`` in another terminal):
+
+    .. code-block:: shell
+
+       $ nohup ~/LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp/src/LBM_saclay TestCase01_Poiseuille_Water.ini > lbm_run.log 2>&1 &
 
 5. Preprocessing with the INI Board
 -----------------------------------
