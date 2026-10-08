@@ -171,6 +171,18 @@ You can run your first simulations on CPUs of your personal desktop. However, it
 
    .. tab-item:: Compilation on CPU with openmp
 
+      .. admonition:: For laptop / desktop (Ubuntu) with HDF5 output
+         :class: important
+
+         To compile with HDF5 output (``-DUSE_HDF5=ON``) on a laptop or personal
+         desktop, install the HDF5 development library with ``apt`` before running
+         ``cmake`` (the ``hdf5`` module is only available on CEA clusters such as
+         MANWE or ORCUS):
+
+          .. code-block:: shell
+
+             $ sudo apt install libhdf5-dev
+
       .. admonition:: Makefile on CPU of local computer
          :class: error
 
@@ -233,6 +245,54 @@ You can run your first simulations on CPUs of your personal desktop. However, it
           .. code-block:: shell
 
              $ make -j 22
+
+   .. tab-item:: Compilation on CPU with openmp + MPI
+
+      .. admonition:: Makefile on CPU of local computer (MPI + OpenMP)
+         :class: error
+
+         - For openmp (``omp``) and MPI on CPU
+
+          Go to ``LBM_Saclay`` folder
+
+          .. code-block:: shell
+
+             $ cd LBM_Saclay_Rech-Dev
+
+          and execute the ``configure_build.sh`` script of ``mpi_omp`` to create the ``makefile``
+
+          .. code-block:: shell
+
+             $ ./compilation/local/mpi_omp/configure_build.sh
+
+          This script sets ``-DKokkos_ENABLE_OPENMP=ON -DUSE_MPI=ON -DUSE_HDF5=ON`` and creates the build directory ``build_mpi_omp``.
+
+      (The list of available kernels is the same as for the ``omp`` mode, e.g. ``10`` for ``NSAC_Comp``)
+
+      .. admonition:: Compilation
+         :class: error
+
+          .. code-block:: shell
+
+             Problem numbers: 10
+
+          Go to the build directory and compile:
+
+          .. code-block:: shell
+
+             $ cd LBM_Saclay_Rech-Dev/build_mpi_omp/build_NSAC_Comp
+             $ make -j 22
+
+      .. admonition:: Run with MPI + OpenMP
+         :class: important
+
+          Launch the kernel with ``mpirun``; ``-x OMP_NUM_THREADS`` propagates the number of OpenMP threads to each rank, e.g. 4 MPI ranks x 2 threads:
+
+          .. code-block:: shell
+
+             $ mpirun -x OMP_NUM_THREADS=2 -np 4 ../../build_mpi_omp/build_NSAC_Comp/src/LBM_saclay TestCase13_SplashingDroplet_Re2000-We8000_H15_1024x220_4MPI.ini
+
+          Tune ``OMP_NUM_THREADS`` and ``-np`` according to the domain decomposition (MPI ranks x OpenMP threads).
 
    .. tab-item:: Compilation on GPU
    
@@ -302,7 +362,36 @@ It is recommended to start with a test case of folder ``run_training_lbm`` (see 
 
        $ ~/LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp/src/LBM_saclay TestCase01_Poiseuille_Water.ini
 
-5. Post-processing with Paraview
+5. Preprocessing with the INI Board
+-----------------------------------
+
+.. admonition:: For laptop / desktop
+   :class: important
+
+   LBM_Saclay ships with the **INI Board**, a local web tool (pure Python,
+   nothing to install) to browse and edit the ``.ini`` input files: kanban
+   view by sections, inline editing, diff against a reference case, computed
+   dimensionless numbers (Re/We/Ca/Bo/Pe) and export of the modified file.
+   It binds to ``127.0.0.1:8092`` only (never exposed) and never writes to
+   your disk (the export is a browser download).
+
+   Start it with a single command:
+
+      .. code-block:: shell
+
+         $ cd LBM_Saclay_Rech-Dev
+         $ ./preprocessing/bin/lbm-ini-board.sh
+
+   The page <http://127.0.0.1:8092> opens in your browser. To stop the server:
+
+      .. code-block:: shell
+
+         $ ./preprocessing/bin/lbm-ini-board.sh stop
+
+
+   On MANWE or ORCUS the same script switches to *monitoring* mode (port ``8093`` + SSH tunnel) to follow a running computation.
+
+6. Post-processing with Paraview
 --------------------------------
 
 .. admonition:: For training session
@@ -334,5 +423,36 @@ The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``
        $ paraview12&
    
    and follow tutorials presented in :ref:`Run_Training-LBM`.
+
+7. Post-processing with Python (HDF5 tools)
+--------------------------------------------
+
+.. admonition:: For laptop / desktop (Ubuntu)
+   :class: important
+
+   LBM_Saclay ships with a set of Python scripts in the folder
+   ``LBM_Saclay_Rech-Dev/post-processing`` to post-process the ``.h5`` (HDF5)
+   outputs: 1D profiles along a segment, 2D slices of 3D fields, point
+   time series, and conservation checks. On a laptop or personal desktop,
+   install the required Python libraries once with ``apt``:
+
+      .. code-block:: shell
+
+         $ sudo apt install python3-h5py python3-numpy python3-matplotlib
+
+   Then use the system Python (``/usr/bin/python3``) to run the scripts, e.g.
+   extract a 1D profile of a variable along a segment (grid indices,
+   origin ``(0,0)``) and save a CSV plus a plot:
+
+      .. code-block:: shell
+
+         $ cd LBM_Saclay_Rech-Dev/run_training_lbm/TestCase01_Poiseuille_Water
+         $ /usr/bin/python3 ../../post-processing/lbm_extract_profile_h5.py \
+             myCase.h5 --var phi -P1 x1,y1 -P2 x2,y2
+
+   List the variables available in a ``.h5`` file with the option ``--list``.
+
+
+   If ``python3`` does not find ``h5py`` although the ``apt`` packages are installed, another Python (virtualenv, conda) shadows the system one: check with ``which python3`` and use ``/usr/bin/python3`` instead.
 
 .. sectionauthor:: Alain Cartalade
