@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Contact angle &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Contact angle</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="contact-angle">
+<span id="id1"></span><h1>Contact angle<a class="headerlink" href="#contact-angle" title="Link to this heading"></a></h1>
+<section id="law-of-young-dupre">
+<h2>Law of Young-Dupré<a class="headerlink" href="#law-of-young-dupre" title="Link to this heading"></a></h2>
+<div class="admonition-law-of-young-dupre admonition">
+<p class="admonition-title">Law of Young-Dupré</p>
+<p>When a liquid (phase <span class="math notranslate nohighlight">\(L\)</span>) and a gas (phase <span class="math notranslate nohighlight">\(G\)</span>) are in contact with a solid wall, there is an equilibrium angle <span class="math notranslate nohighlight">\(\theta^{eq}\)</span> corresponding to the equilibrium of three capillary forces <span class="math notranslate nohighlight">\(\vec{\sigma}_{Ls}\)</span> the capillary force between Liquid and solid, <span class="math notranslate nohighlight">\(\vec{\sigma}_{Gs}\)</span> the capillary force between Gas and solid, and <span class="math notranslate nohighlight">\(\vec{\sigma}_{LG}\)</span> the capillary force between Liquid and Gas (see Fig. <code class="xref std std-numref docutils literal notranslate"><span class="pre">Contact-Angle-Concept</span></code>). The contact angle <span class="math notranslate nohighlight">\(\theta^{eq}\)</span> can be expressed with the three surface tensions by the Young-Dupré law. Its derivation (see <a class="footnote-reference brackets" href="#footcite-degennes-etal2004" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>) can be performed with the work <span class="math notranslate nohighlight">\(d\mathcal{W}\)</span> of a small displacement <span class="math notranslate nohighlight">\(dx\)</span> (see Fig. <code class="xref std std-numref docutils literal notranslate"><span class="pre">Young-Dupre-Derivation</span></code>):</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-contact-angle-0">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-contact-angle-0" title="Link to this equation"></a></span>\[d\mathcal{W}=(\sigma_{Gs}-\sigma_{Ls})dx-\sigma_{LG}dx\cos(\theta^{eq})\]</div>
+<p>At equilibrium <span class="math notranslate nohighlight">\(d\mathcal{W}=0\)</span> and we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-contact-angle-1">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-contact-angle-1" title="Link to this equation"></a></span>\[\boxed{\cos(\theta^{eq})=\frac{\sigma_{Gs}-\sigma_{Ls}}{\sigma_{LG}}}\]</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<figure class="align-center" id="contact-angle-concept">
+<a class="reference internal image-reference" href="../../../_images/Contact-Angle.png"><img alt="../../../_images/Contact-Angle.png" height="184" src="../../../_images/Contact-Angle.png" width="368" />
+</a>
+<figcaption>
+<p><span class="caption-text">Contact angle</span><a class="headerlink" href="#contact-angle-concept" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<figure class="align-center" id="young-dupre-derivation">
+<a class="reference internal image-reference" href="../../../_images/Deriving_Young.png"><img alt="../../../_images/Deriving_Young.png" height="184" src="../../../_images/Deriving_Young.png" width="368" />
+</a>
+<figcaption>
+<p><span class="caption-text">Derivation of Young-Dupré Law</span><a class="headerlink" href="#young-dupre-derivation" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="boundary-condition-for-diffuse-interface">
+<h2>Boundary condition for diffuse interface<a class="headerlink" href="#boundary-condition-for-diffuse-interface" title="Link to this heading"></a></h2>
+<div class="admonition-wall-free-energy admonition">
+<p class="admonition-title">Wall free energy</p>
+<p>In the case of phase-field theory, the minimization is now carried out with an additional free energy: the wall free energy <span class="math notranslate nohighlight">\(\mathscr{F}+\mathscr{F}_{w}\)</span> where</p>
+<div class="math notranslate nohighlight" id="equation-free-energy-wall">
+<span class="eqno">()<a class="headerlink" href="#equation-free-energy-wall" title="Link to this equation"></a></span>\[\mathscr{F}_{w}=\int_{\partial V}[(\sigma_{Gs}-\sigma_{Ls})p(\phi)+\sigma_{Ls}]d(\partial V)\]</div>
+<p>where <span class="math notranslate nohighlight">\(d(\partial V)\)</span> is the wall surface, and <span class="math notranslate nohighlight">\(p(\phi)\)</span> is the interpolation polynomial <span class="math notranslate nohighlight">\(p(\phi)=\phi^{2}(3-2\phi)\)</span>. The variation <span class="math notranslate nohighlight">\(\delta(\mathscr{F}+\mathscr{F}_{w})/\delta\phi\)</span> yields:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-contact-angle-2">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-contact-angle-2" title="Link to this equation"></a></span>\[\int_{\partial V}\biggl[\zeta\boldsymbol{\nabla}\phi\cdot\hat{\boldsymbol{n}}+\underbrace{(\sigma_{Gs}-\sigma_{Ls})}_{\text{use Young-Dupré law}}p^{\prime}(\phi)\biggr]d(\partial V)=0\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{\boldsymbol{n}}\)</span> is the normal vector at the wall boundary. After using the Young-Dupré law, we obtain the boundary condition for the phase-field <span class="math notranslate nohighlight">\(\phi\)</span> at the solid surface:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-contact-angle-3">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-contact-angle-3" title="Link to this equation"></a></span>\[\boxed{\zeta\boldsymbol{\nabla}\phi\cdot\hat{\boldsymbol{n}}=-\sigma_{LG}\cos(\theta^{eq})p^{\prime}(\phi)}\]</div>
+<p>Remark: if <span class="math notranslate nohighlight">\(\theta^{eq}=90{^\circ}\)</span> then <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\phi\cdot\hat{\boldsymbol{n}}=0\)</span></p>
+</div>
+<figure class="align-center" id="diffuse-contact-angle">
+<a class="reference internal image-reference" href="../../../_images/Diffuse_Contact-Angle.png"><img alt="../../../_images/Diffuse_Contact-Angle.png" height="230" src="../../../_images/Diffuse_Contact-Angle.png" width="460" />
+</a>
+<figcaption>
+<p><span class="caption-text">Contact angle for diffuse interface</span><a class="headerlink" href="#diffuse-contact-angle" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div class="docutils container" id="id3">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-degennes-etal2004" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
+<p>Pierre-Gilles de Gennes and Francoise Brochard-Wyart and David Quere. <em>Capillarity and Wetting Phenomena: Drops, Bubbles, Pearls, Waves</em>. Springer-Verlag, 2004. <a class="reference external" href="https://doi.org/https://doi.org/10.1007/978-0-387-21656-0">doi:https://doi.org/10.1007/978-0-387-21656-0</a>.</p>
+</aside>
+</aside>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Contact angle</a><ul>
+<li><a class="reference internal" href="#law-of-young-dupre">Law of Young-Dupré</a></li>
+<li><a class="reference internal" href="#boundary-condition-for-diffuse-interface">Boundary condition for diffuse interface</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Contact angle</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

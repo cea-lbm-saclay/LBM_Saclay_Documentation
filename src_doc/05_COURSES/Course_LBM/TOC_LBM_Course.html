@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PART V.A. Lattice Boltzmann Methods &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Overview of Lattice Boltzmann Methods" href="01_Overview_LBM.html" />
+    <link rel="prev" title="Implementation of a Navier-Stokes/Cahn-Hilliard model" href="../../04_PROGRAMMING/Tuto05_Navier-Stokes_Cahn-Hilliard.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="01_Overview_LBM.html" title="Overview of Lattice Boltzmann Methods"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../../04_PROGRAMMING/Tuto05_Navier-Stokes_Cahn-Hilliard.html" title="Implementation of a Navier-Stokes/Cahn-Hilliard model"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART V.A. Lattice Boltzmann Methods</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="part-v-a-lattice-boltzmann-methods">
+<span id="toc-basic-lbm"></span><h1>PART V.A. Lattice Boltzmann Methods<a class="headerlink" href="#part-v-a-lattice-boltzmann-methods" title="Link to this heading"></a></h1>
+<div class="admonition-overview-of-lbm admonition">
+<p class="admonition-title">Overview of LBM</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01_Overview_LBM.html">Overview of Lattice Boltzmann Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01_Overview_LBM.html#continuous-boltzmann-equation">Continuous Boltzmann equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Overview_LBM.html#discretization-of-velocity-space">Discretization of velocity space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Overview_LBM.html#lattice-boltzmann-equation-lbe">Lattice Boltzmann Equation (LBE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Overview_LBM.html#equilibrium-distribution-function">Equilibrium distribution function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Overview_LBM.html#explicit-algorithm">Explicit algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Overview_LBM.html#chapman-enskog-expansion">Chapman-Enskog expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Overview_LBM.html#variable-change-in-lbe-with-a-source-term">Variable change in LBE with a source term</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_Overview_LBM.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="admonition-equilibrium-distribution-functions admonition">
+<p class="admonition-title">Equilibrium distribution functions</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="02_Equilibrium-Distribution-Function_Course.html">Equilibrium distribution functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_Navier-Stokes.html">Equilibrium distribution functions for incompressible Navier-Stokes equations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_Navier-Stokes.html#standard-f-i-eq-for-single-phase-incompressible-ns">Standard <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for single-phase incompressible NS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_Navier-Stokes.html#f-i-eq-for-incompressible-two-phase-flows"><span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for incompressible two-phase flows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_Navier-Stokes.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../03_LBM_Schemes/A_Basic-LBM/04_Equilibrium-Functions_Transport-Equations.html">Equilibrium distribution functions for Transport equations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../03_LBM_Schemes/A_Basic-LBM/04_Equilibrium-Functions_Transport-Equations.html#g-i-eq-for-ade-with-source-term"><span class="math notranslate nohighlight">\(g_i^{eq}\)</span> for ADE with source term</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03_LBM_Schemes/A_Basic-LBM/04_Equilibrium-Functions_Transport-Equations.html#g-i-eq-for-cahn-hilliard-equation"><span class="math notranslate nohighlight">\(g_i^{eq}\)</span> for Cahn-Hilliard equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../03_LBM_Schemes/A_Basic-LBM/04_Equilibrium-Functions_Transport-Equations.html#g-i-eq-for-conservative-allen-cahn-equation"><span class="math notranslate nohighlight">\(g_i^{eq}\)</span> for Conservative Allen-Cahn equation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="admonition-variable-change-for-source-and-force-terms admonition">
+<p class="admonition-title">Variable change for source and force terms</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="03_Variable_Change.html">Variable change in LBE for source term</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03_Variable_Change.html#equivalence">Equivalence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_Variable_Change.html#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="admonition-chapman-enskog-expansion admonition">
+<p class="admonition-title">Chapman-Enskog expansion</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="04_Chapman-Enskog.html">Chapman-Enskog expansion for Navier-Stokes equations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04_Chapman-Enskog.html#starting-point">Starting point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Chapman-Enskog.html#objectives">Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Chapman-Enskog.html#conservative-quantities-and-moments-of-equilibrium-distribution-functions">Conservative quantities and moments of equilibrium distribution functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Chapman-Enskog.html#details-of-chapman-enskog-expansion">Details of Chapman-Enskog expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Chapman-Enskog.html#second-part-viscosity-coefficient-and-impulsion-balance">Second part: viscosity coefficient and impulsion balance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Chapman-Enskog.html#recapitulatif">Récapitulatif</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Chapman-Enskog.html#demonstration-de-legalite-equivalence-chapman-enskog">Démonstration de l’égalité <code class="xref eq docutils literal notranslate"><span class="pre">Equivalence-Chapman-Enskog</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Chapman-Enskog.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../04_PROGRAMMING/Tuto05_Navier-Stokes_Cahn-Hilliard.html"
+                          title="previous chapter">Implementation of a Navier-Stokes/Cahn-Hilliard model</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="01_Overview_LBM.html"
+                          title="next chapter">Overview of Lattice Boltzmann Methods</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="01_Overview_LBM.html" title="Overview of Lattice Boltzmann Methods"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../../04_PROGRAMMING/Tuto05_Navier-Stokes_Cahn-Hilliard.html" title="Implementation of a Navier-Stokes/Cahn-Hilliard model"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PART V.A. Lattice Boltzmann Methods</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

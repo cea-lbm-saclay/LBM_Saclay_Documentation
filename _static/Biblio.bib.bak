@@ -1,0 +1,916 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ARTICLES MODELE ALLEN-CAHN CONSERVATIF SANS LBM
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@article{Sun-Beckermann_JCP2007,
+title = "Sharp interface tracking using the phase-field equation",
+journal = "Journal of Computational Physics",
+volume = "220",
+number = "2",
+pages = "626 - 653",
+year = "2007",
+issn = "0021-9991",
+doi = "10.1016/j.jcp.2006.05.025",
+author = "Y. Sun and C. Beckermann"
+}
+
+@article{Chiu-Lin_JCP2011,
+title = "A conservative phase field method for solving incompressible two-phase flows",
+journal = "Journal of Computational Physics",
+volume = "230",
+number = "1",
+pages = "185 - 204",
+year = "2011",
+issn = "0021-9991",
+doi = "10.1016/j.jcp.2010.09.021",
+author = "Pao-Hsiung Chiu and Yan-Ting Lin"
+}
+
+@ARTICLE{Lee_Kim_MathCompSim2016,
+  author = {D. Lee and J. Kim},
+  title = {Comparison study of the conservative Allen--Cahn and the Cahn--Hilliard
+	equations},
+  journal = {Mathematics and Computers in Simulation},
+  year = {2016},
+  volume = {119},
+  pages = {35 - 56},
+  doi = {10.1016/j.matcom.2015.08.018},
+  issn = {0378-4754}
+}
+
+@article{Folch_etal_CounterTerm_PRE1999_PhysRevE.60.1724,
+  title = {Phase-field model for {H}ele-{S}haw flows with arbitrary viscosity contrast. {I}. {T}heoretical approach},
+  author = {Folch, R. and Casademunt, J. and Hern\'andez-Machado, A. and Ram\'{\i}rez-Piscina, L.},
+  journal = {Phys. Rev. E},
+  volume = {60},
+  issue = {2},
+  pages = {1724--1733},
+  year = {1999},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.60.1724}
+}
+
+@article{Biben-Misbah_PRE2003_PhysRevE.67.031908,
+  title = {Tumbling of vesicles under shear flow within an advected-field approach},
+  author = {Biben, T. and Misbah, C.},
+  journal = {Phys. Rev. E},
+  volume = {67},
+  issue = {3},
+  pages = {031908},
+  numpages = {5},
+  year = {2003},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.67.031908}
+}
+
+@article{Jamet-Misbah_PRE2008,
+  title = {Thermodynamically consistent picture of the phase-field model of vesicles: Elimination of the surface tension},
+  author = {Jamet, D. and Misbah, C.},
+  journal = {Phys. Rev. E},
+  volume = {78},
+  issue = {4},
+  pages = {041903},
+  numpages = {12},
+  year = {2008},
+  doi = {10.1103/PhysRevE.78.041903}
+}
+
+@article{Kim_ContinuousSurfaceTension_JCP2005,
+title = "A continuous surface tension force formulation for diffuse-interface models",
+journal = "Journal of Computational Physics",
+volume = "204",
+number = "2",
+pages = "784 - 804",
+year = "2005",
+doi = "10.1016/j.jcp.2004.10.032",
+author = "Junseok Kim"
+}
+
+@article{Kobayashi_PhysD1993,
+title = "Modeling and numerical simulations of dendritic crystal growth",
+journal = "Physica D: Nonlinear Phenomena",
+volume = "63",
+number = "3",
+pages = "410 -- 423",
+year = "1993",
+issn = "0167-2789",
+doi = "10.1016/0167-2789(93)90120-P",
+author = "Ryo Kobayashi"
+}
+
+@ARTICLE{Karma-Rappel_PRE1996,
+  author = {Alain Karma and Wouter-Jan Rappel},
+  title = {Phase-field method for computationally efficient modeling of solidification
+	with arbitrary interface kinetics},
+  journal = {Physical Review E},
+  year = {1996},
+  volume = {53},
+  pages = {R3017--R3020},
+  number = {4},
+  doi = {10.1103/PhysRevE.53.R3017}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ARTICLES LBM APPLICATIONS ALLEN-CAHN CONSERVATIF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@article{Geier_etal_PRE2015,
+  title = {Conservative phase-field lattice Boltzmann model for interface tracking equation},
+  author = {Geier, Martin and Fakhari, Abbas and Lee, Taehun},
+  journal = {Phys. Rev. E},
+  volume = {91},
+  issue = {6},
+  pages = {063309},
+  numpages = {11},
+  year = {2015},
+  month = {Jun},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.91.063309}
+}
+
+@article{Fakhari_etal_JCP2017,
+title = "A weighted multiple-relaxation-time lattice Boltzmann method for multiphase flows and its application to partial coalescence cascades",
+journal = "Journal of Computational Physics",
+volume = "341",
+pages = "22 - 43",
+year = "2017",
+issn = "0021-9991",
+doi = "10.1016/j.jcp.2017.03.062",
+author = "Abbas Fakhari and Diogo Bolster and Li-Shi Luo",
+keywords = "Multiphase flow, Interfacial dynamics, Partial coalescence, Coalescence cascade, Lattice Boltzmann method, Adaptive mesh refinement"
+}
+
+@article{Mitchell_etal_IJMF2018,
+title = "Development of a three-dimensional phase-field lattice Boltzmann method for the study of immiscible fluids at high density ratios",
+journal = "International Journal of Multiphase Flow",
+volume = "107",
+pages = "1 - 15",
+year = "2018",
+issn = "0301-9322",
+doi = "10.1016/j.ijmultiphaseflow.2018.05.004",
+author = "T. Mitchell and C. Leonardi and A. Fakhari"
+}
+
+
+@article{Wang_etal_Compare-CH-CAC_PRE2016,
+  title = {Comparative study of the lattice Boltzmann models for Allen-Cahn and Cahn-Hilliard equations},
+  author = {Wang, H. L. and Chai, Z. H. and Shi, B. C. and Liang, H.},
+  journal = {Phys. Rev. E},
+  volume = {94},
+  issue = {3},
+  pages = {033304},
+  numpages = {7},
+  year = {2016},
+  month = {Sep},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.94.033304}
+}
+
+@article{Takada_etal_JCMF2014,
+title = "A {D}iffuse-interface {T}racking {M}ethod for the {N}umerical {S}imulation of {M}otions of a {T}wo-phase {F}luid on a {S}olid {S}urface",
+journal = "Journal of Computational Multiphase Flows",
+volume = "6",
+issue = "3",
+pages = "283 - 298 ",
+year = "2014",
+doi = "10.1260/1757-482X.6.3.283",
+author = "Naoki Takada and Junichi Matsumoto and Sohei Matsumoto"
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CAHN-HILLIARD SANS LBM
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@ARTICLE{Cahn-Hilliard_JCP1958,
+  author = {J.W. Cahn and J.E. Hilliard},
+  title = {Free Energy of a Nonuniform System. I. Interfacial Free Energy},
+  journal = {Journal of Chemical Physics},
+  year = {1958},
+  volume = {28},
+  pages = {pp. 258--267},
+  number = {2},
+  owner = {alain},
+  timestamp = {2013.06.06}
+}
+
+@ARTICLE{Jacqmin_JCP1999,
+  author = {David Jacqmin},
+  title = {Calculation of Two-Phase Navier-Stokes Flows Using Phase-Field Modeling},
+  journal = {Journal of Computational Physics},
+  year = {1999},
+  volume = {155},
+  pages = {pp. 96--127},
+  doi = {10.1006/jcph.1999.6332}
+}
+
+@ARTICLE{Jasnow-Vinals_PhysFluids1996,
+  author = {David Jasnow and Jorge Vi{\~n}als},
+  title = {Coarse-grained description of thermo-capillary flow},
+  journal = {Physics of Fluids},
+  year = {1996},
+  volume = {8},
+  pages = {pp. 660--669},
+  number = {3}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LBM ET MODELE DE CAHN-HILLIARD
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@ARTICLE{Kendon_etal_SpinodalDecomp_JFM2001,
+  author = {V.M. Kendon and M.E. Cates and I. Pagonabarraga and J.-C. Desplat and P. Bladon},
+  title = {Inertial effects in three-dimensional spinodal decomposition of a
+	symmetric binary fluid mixture: a lattice Boltzmann study},
+  journal = {Journal of Fluid Mechanics},
+  year = {2001},
+  volume = {440},
+  pages = {pp. 147-203}
+}
+
+@ARTICLE{Fakhari-Rahimian_PRE2010,
+  author = {A. Fakhari and M.H. Rahimian},
+  title = {Phase-field modeling by the method of lattice Boltzmann equations},
+  journal = {Physical Review E},
+  year = {2010},
+  volume = {81},
+  pages = {036707}
+}
+
+@ARTICLE{Zheng_etal_LargeDensityRatio_JCP2006,
+  author = {H.W. Zheng and C. Shu and Y.T. Chew},
+  title = {A lattice Boltzmann model for multiphase flows with large density
+	ratio},
+  journal = {Journal of Computational Physics},
+  year = {2006},
+  volume = {218},
+  pages = {pp. 353-371},
+  doi = {10.1016/j.jcp.2006.02.015}
+}
+
+@article{Liang_etal_CAMWA2017,
+title = "An efficient phase-field-based multiple-relaxation-time lattice Boltzmann model for three-dimensional multiphase flows",
+journal = "Computers & Mathematics with Applications",
+volume = "73",
+number = "7",
+pages = "1524 - 1538",
+year = "2017",
+issn = "0898-1221",
+doi = "10.1016/j.camwa.2017.01.020",
+author = "H. Liang and B.C. Shi and Z.H. Chai"
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CHANGEMENT DE PHASE AVEC LBM ET MODELE DE CAHN-HILLIARD
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@article{Tanaka_etal_CCP2011,
+  title="Lattice {B}oltzmann {S}imulation of {N}ucleate {P}ool {B}oiling in {S}aturated {L}iquid",
+  volume={9},
+  DOI={10.4208/cicp.141109.161210s},
+  number={5},
+  journal={Communications in Computational Physics},
+  publisher={Cambridge University Press},
+  author={Tanaka, Yoshito and Yoshino, Masato and Hirata, Tetsuo},
+  year={2011},
+  pages={1347--1361}
+}
+
+@article{Dong_etal_NHTPartA2009,
+author = { Zhiqiang   Dong  and  Weizhong   Li  and  Yongchen   Song },
+title = {Lattice Boltzmann Simulation of Growth and Deformation for a Rising Vapor Bubble Through Superheated Liquid},
+journal = {Numerical Heat Transfer, Part A: Applications},
+volume = {55},
+number = {4},
+pages = {381-400},
+year  = {2009},
+publisher = {Taylor \& Francis},
+doi = {10.1080/10407780902720718}
+}
+
+@article{Safari_etal_PRE2013,
+  title = {Extended lattice Boltzmann method for numerical simulation of thermal phase change in two-phase fluid flow},
+  author = {Safari, Hesameddin and Rahimian, Mohammad Hassan and Krafczyk, Manfred},
+  journal = {Phys. Rev. E},
+  volume = {88},
+  issue = {1},
+  pages = {013304},
+  numpages = {12},
+  year = {2013},
+  month = {Jul},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.88.013304}
+}
+
+@article{Safari_etal_PRE2014,
+  title = {Consistent simulation of droplet evaporation based on the phase-field multiphase lattice Boltzmann method},
+  author = {Safari, Hesameddin and Rahimian, Mohammad Hassan and Krafczyk, Manfred},
+  journal = {Phys. Rev. E},
+  volume = {90},
+  issue = {3},
+  pages = {033305},
+  numpages = {13},
+  year = {2014},
+  month = {Sep},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.90.033305}
+}
+
+@article{MohammadiShad-Lee_LBM-SharpInterface_PRE2017,
+  title = {Phase-field lattice {B}oltzmann modeling of boiling using a sharp-interface energy solver},
+  author = {Mohammadi-Shad, Mahmood and Lee, Taehun},
+  journal = {Phys. Rev. E},
+  volume = {96},
+  issue = {1},
+  pages = {013306},
+  numpages = {22},
+  year = {2017},
+  month = {Jul},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.96.013306}
+}
+
+@article{Begmohammadi_etal_ICHMT2015,
+title = "Simulation of pool boiling and periodic bubble release at high density ratio using lattice Boltzmann method",
+journal = "International Communications in Heat and Mass Transfer",
+volume = "61",
+pages = "78 - 87",
+year = "2015",
+doi = "10.1016/j.icheatmasstransfer.2014.12.018",
+author = "{A}mirhosein {B}egmohammadi and {M}ohsen {F}arhadzadeh and {M}ohammad {H}assan {R}ahimian"
+}
+
+@article{Zhou_etal_IJHMT2019,
+title = "Lattice Boltzmann simulation of nucleate boiling in micro-pillar structured surface",
+journal = "International Journal of Heat and Mass Transfer",
+volume = "131",
+pages = "1 - 10",
+year = "2019",
+doi = "10.1016/j.ijheatmasstransfer.2018.11.038",
+author = "Ping Zhou and Wei Liu and Zhichun Liu"
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LBM CAHN-HILLIARD AVEC DIV 0
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@article{Zu-He_PRE2013,
+  title = {Phase-field-based lattice Boltzmann model for incompressible binary fluid systems with density and viscosity contrasts},
+  author = {Zu, Y. Q. and He, S.},
+  journal = {Phys. Rev. E},
+  volume = {87},
+  issue = {4},
+  pages = {043301},
+  numpages = {23},
+  year = {2013},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.87.043301}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LBM INCOMPRESSIBLE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@article{Chorin_JCP1967,
+title = "A numerical method for solving incompressible viscous flow problems",
+journal = "Journal of Computational Physics",
+volume = "2",
+number = "1",
+pages = "12 - 26",
+year = "1967",
+issn = "0021-9991",
+doi = "10.1016/0021-9991(67)90037-X",
+author = "Alexandre Joel Chorin"
+}
+
+@ARTICLE{He-Luo_Incompressible_JSP1997,
+  author = {X. He and L.-S. Luo},
+  title = {Lattice Boltzmann Model for the Incompressible Navier-Stokes Equation},
+  journal = {Journal of Statistical Physics},
+  year = {1997},
+  volume = {88},
+  pages = {pp. 927--944},
+  number = {3/4}
+}
+
+@article{Inamuro_etal_JCP2002,
+title = "A {L}attice {B}oltzmann {M}ethod for a {B}inary {M}iscible {F}luid {M}ixture and {I}ts {A}pplication to a {H}eat-{T}ransfer {P}roblem",
+journal = "Journal of Computational Physics",
+volume = "179",
+number = "1",
+pages = "201 - 215",
+year = "2002",
+doi = "10.1006/jcph.2002.7051",
+author = "Takaji Inamuro and Masato Yoshino and Hiroshi Inoue and Riki Mizuno and Fumimaru Ogino"
+}
+
+@article{Inamuro_etal_JCP2004,
+title = "A lattice Boltzmann method for incompressible two-phase flows with large density differences",
+journal = "Journal of Computational Physics",
+volume = "198",
+number = "2",
+pages = "628 - 644",
+year = "2004",
+issn = "0021-9991",
+doi = "10.1016/j.jcp.2004.01.019",
+author = "T. Inamuro and T. Ogata and S. Tajima and N. Konishi"
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BOOKS LBM & REVIEWS FOR MULTIPHASE FLOW AND PHASE CHANGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@book{BookLBM2017,
+  title     = "The Lattice Boltzmann Method: Principles and Practice",
+  author    = "Timm Kr\"uger and Halim Kusumaatmaja and Alexandr Kuzmin and Orest Shardt and Goncalo Silva and Viggen, {Erlend Magnus}",
+  year      = "2016",
+  isbn      = "978-3-319-44647-9",
+  series    = "Graduate Texts in Physics",
+  publisher = "Springer"
+}
+
+@book{BookLBM_2013,
+author = {Guo, Zhaoli and Shu, Chang},
+title = {Lattice Boltzmann Method and Its Applications in Engineering},
+publisher = {WORLD SCIENTIFIC},
+year = {2013},
+doi = {10.1142/8806},
+address = {},
+edition   = {}
+}
+
+@article{He-Chen-Doolen_JCP1998,
+title = "A {N}ovel {T}hermal {M}odel for the {L}attice {B}oltzmann {M}ethod in {I}ncompressible {L}imit",
+journal = "Journal of Computational Physics",
+volume = "146",
+number = "1",
+pages = "282 - 300",
+year = "1998",
+issn = "0021-9991",
+doi = "10.1006/jcph.1998.6057",
+author = "Xiaoyi He and Shiyi Chen and Gary D. Doolen"
+}
+
+@article{Li_etal_ProgECS2016,
+title = "Lattice Boltzmann methods for multiphase flow and phase-change heat transfer",
+journal = "Progress in Energy and Combustion Science",
+volume = "52",
+pages = "62 - 105",
+year = "2016",
+issn = "0360-1285",
+doi = "10.1016/j.pecs.2015.10.001",
+author = "Q. Li and K.H. Luo and Q.J. Kang and Y.L. He and Q. Chen and Q. Liu"
+}
+
+@BOOK{Huang-Sukop-Lu_Multiphase_Book2015,
+  title = {Multiphase Lattice Boltzmann Methods. Theory and Application},
+  publisher = {Wiley \& Sons},
+  year = {2015},
+  author = {H. Huang and M.C. Sukop and X.-Y. Lu},
+  owner = {ac165432},
+  timestamp = {2017.12.08}
+}
+
+@ARTICLE{Anderson_etal_Review_AnRevFluiMech1998,
+  author = {D.M. Anderson and G.B. McFadden and A.A. Wheeler},
+  title = {Diffuse-interface methods in fluid mechanics},
+  journal = {Annual Reviews of Fluid Mechanics},
+  year = {1998},
+  volume = {30},
+  pages = {pp. 139--165}
+}
+
+@article{Juric-Tryggvason_IJMF1998,
+title = "Computations of boiling flows",
+journal = "International Journal of Multiphase Flow",
+volume = "24",
+number = "3",
+pages = "387--410",
+year = "1998",
+issn = "0301-9322",
+doi = "10.1016/S0301-9322(97)00050-5",
+author = "Damir Juric and Gr\'etar Tryggvason"
+}
+
+@article{Sun-Beckermann_PhysD2004,
+title = "Diffuse interface modeling of two-phase flows based on averaging: mass and momentum equations",
+journal = "Physica D: Nonlinear Phenomena",
+volume = "198",
+number = "3",
+pages = "281--308",
+year = "2004",
+issn = "0167-2789",
+doi = "10.1016/j.physd.2004.09.003",
+author = "Y. Sun and C. Beckermann"
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REFERENCES FOR DIRECTIONNAL DERIVATIVES WITH LBM
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@ARTICLE{Lee-Fischer_PRE2006,
+  author = {T. Lee and P.F. Fischer},
+  title = {Eliminating parasitic currents in the lattice Boltzmann equation
+	method for non ideal gases},
+  journal = {Physical Review E},
+  year = {2006},
+  volume = {74},
+  pages = {046709}
+}
+%%%%%%note = {doi:http://dx.doi.org/10.1103/PhysRevE.74.046709}
+
+@ARTICLE{Lee_Parasitic_CAMWA2009,
+  author = {T. Lee},
+  title = {Effects of incompressibility on the elimination of parasitic currents
+	in the lattice Boltzmann equation method for binary fluids},
+  journal = {Computers and Mathematics with Applications},
+  year = {2009},
+  volume = {58},
+  pages = {pp. 987--994},
+  doi = {10.1016/j.camwa.2009.02.017}
+}
+
+@ARTICLE{Lee-Liu_DropImpact_LBM_JCP2010,
+  author = {Taehun Lee and Lin Liu},
+  title = {Lattice Boltzmann simulations of micron-scale drop impact on dry
+	surfaces},
+  journal = {Journal of Computational Physics},
+  year = {2010},
+  volume = {229},
+  pages = {8045-8063},
+  doi = {10.1016/j.jcp.2010.07.007},
+  owner = {alain},
+  timestamp = {2013.04.28}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% REFERENCES FOR LBM AND GPUs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@Article{Li_etal_VisComp2003,
+author="Li, Wei
+and Wei, Xiaoming
+and Kaufman, Arie",
+title="Implementing lattice Boltzmann computation on graphics hardware",
+journal="The Visual Computer",
+year="2003",
+month="Dec",
+day="01",
+volume="19",
+number="7",
+pages="444--456",
+issn="1432-2315",
+doi="10.1007/s00371-003-0210-6"
+}
+
+
+@Article{Tolke_CompVisSci2008,
+author="T{\"o}lke, Jonas",
+title="Implementation of a Lattice Boltzmann kernel using the Compute Unified Device Architecture developed by nVIDIA",
+journal="Computing and Visualization in Science",
+year="2008",
+month="Jul",
+day="24",
+volume="13",
+number="1",
+pages="29",
+issn="1433-0369",
+doi="10.1007/s00791-008-0120-2"
+}
+
+@article{Kuznik_etal_CAMWA2010,
+title = "LBM based flow simulation using GPU computing processor",
+journal = "Computers \& Mathematics with Applications",
+volume = "59",
+number = "7",
+pages = "2380 - 2392",
+year = "2010",
+issn = "0898-1221",
+doi = "10.1016/j.camwa.2009.08.052",
+author = "Fr\'ed\'eric Kuznik and Christian Obrecht and Gilles Rusaouen and Jean-Jacques Roux",
+keywords = "Lattice Boltzmann method, Graphics Processing Unit, Fluid flow, Multi-threaded architecture"
+}
+
+@article{Mawson-Revell_CPC2014,
+title = "Memory transfer optimization for a lattice Boltzmann solver on Kepler architecture nVidia GPUs",
+journal = "Computer Physics Communications",
+volume = "185",
+number = "10",
+pages = "2566 - 2574",
+year = "2014",
+issn = "0010-4655",
+doi = "10.1016/j.cpc.2014.06.003",
+author = "Mark J. Mawson and Alistair J. Revell",
+keywords = "GPGPU, Lattice Boltzmann, Computational fluid dynamics, CUDA"
+}
+
+@article{Wittmann_etal_CAMWA2013,
+title = "Comparison of different propagation steps for lattice Boltzmann methods",
+journal = "Computers \& Mathematics with Applications",
+volume = "65",
+number = "6",
+pages = "924 - 935",
+year = "2013",
+issn = "0898-1221",
+doi = "10.1016/j.camwa.2012.05.002",
+author = "Markus Wittmann and Thomas Zeiser and Georg Hager and Gerhard Wellein"
+}
+
+@article{Obrecht_CAMWA2013,
+title = "Multi-GPU implementation of the lattice Boltzmann method",
+journal = "Computers \& Mathematics with Applications",
+volume = "65",
+number = "2",
+pages = "252 - 261",
+year = "2013",
+note = "Special Issue on Mesoscopic Methods in Engineering and Science (ICMMES-2010, Edmonton, Canada)",
+issn = "0898-1221",
+doi = "10.1016/j.camwa.2011.02.020",
+author = "Christian Obrecht and Fr\'ed\'eric Kuznik and Bernard Tourancheau and Jean-Jacques Roux"
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PSEUDO POTENTIAL METHODS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@article{Shan-Chen_PRE1993,
+  title = {Lattice Boltzmann model for simulating flows with multiple phases and components},
+  author = {Shan, Xiaowen and Chen, Hudong},
+  journal = {Phys. Rev. E},
+  volume = {47},
+  issue = {3},
+  pages = {1815--1819},
+  numpages = {0},
+  year = {1993},
+  month = {Mar},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.47.1815}
+}
+
+@article{Shan-Chen_PRE1994,
+  title = {Simulation of nonideal gases and liquid-gas phase transitions by the lattice Boltzmann equation},
+  author = {Shan, Xiaowen and Chen, Hudong},
+  journal = {Phys. Rev. E},
+  volume = {49},
+  issue = {4},
+  pages = {2941--2948},
+  numpages = {0},
+  year = {1994},
+  month = {Apr},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.49.2941}
+}
+
+@ARTICLE{Yuan-Schaefer_PoF2006,
+  author = {P. Yuan and L. Schaefer},
+  title = {Equations of state in a lattice Boltzmann model},
+  journal = {Physics of Fluids},
+  year = {2006},
+  volume = {18},
+  pages = {042101}
+}
+
+@article{Gunstensen_etal_PRA1991,
+  title = {Lattice Boltzmann model of immiscible fluids},
+  author = {Gunstensen, Andrew K. and Rothman, Daniel H. and Zaleski, St\'ephane and Zanetti, Gianluigi},
+  journal = {Phys. Rev. A},
+  volume = {43},
+  issue = {8},
+  pages = {4320--4327},
+  numpages = {0},
+  year = {1991},
+  month = {Apr},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevA.43.4320}
+}
+
+@article{Leclaire_etal_AMM2012,
+title = "Numerical evaluation of two recoloring operators for an immiscible two-phase flow lattice Boltzmann model",
+journal = "Applied Mathematical Modelling",
+volume = "36",
+number = "5",
+pages = "2237 - 2252",
+year = "2012",
+issn = "0307-904X",
+doi = "10.1016/j.apm.2011.08.027",
+author = "S\'ebastien Leclaire and Marcelo Reggio and Jean-Yves Tr\'epanier"
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ARTICLES LBM ET CONDENSATION AVEC LOIS D'ÉTAT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@article{Li_etal_IJHMT2017,
+title = "Lattice Boltzmann simulation of condensation in the presence of noncondensable gas",
+journal = "International Journal of Heat and Mass Transfer",
+volume = "109",
+pages = "1004 - 1013",
+year = "2017",
+issn = "0017-9310",
+doi = "10.1016/j.ijheatmasstransfer.2017.02.046",
+author = "Mingjie Li and Christian Huber and Yutong Mu and Wenquan Tao",
+keywords = "Lattice Boltzmann, Condensation, Noncondensable gas, Waste heat recovery, Surface wettability"
+}
+
+@article{Li-Cheng_IJHMT2017,
+title = "Lattice Boltzmann simulations for transition from dropwise to filmwise condensation on hydrophobic surfaces with hydrophilic spots",
+journal = "International Journal of Heat and Mass Transfer",
+volume = "110",
+pages = "710 - 722",
+year = "2017",
+issn = "0017-9310",
+doi = "10.1016/j.ijheatmasstransfer.2017.03.033",
+author = "Xiaoping Li and Ping Cheng",
+keywords = "Condensation, Lattice Boltzmann method, Transition, Curve"
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ARTICLES VALIDATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@article{Zalesak_JCP1979,
+title = "Fully multidimensional flux-corrected transport algorithms for fluids",
+journal = "Journal of Computational Physics",
+volume = "31",
+number = "3",
+pages = "335 - 362",
+year = "1979",
+issn = "0021-9991",
+doi = "doi.org/10.1016/0021-9991(79)90051-2",
+author = "Steven T Zalesak"
+}
+
+@BOOK{Ozisik_2012,
+  author = {Hahn, D.W. and \"Ozisik, M.N.},
+  title = {Heat {C}onduction. {T}hird {E}dition},
+  publisher = {Wiley \& Sons},
+  year = {2012},
+  pages = {752},
+  isbn = {978-0-470-90293-6}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% kokkos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@article{Carter_etal_JPDC2014,
+title = "Kokkos: Enabling manycore performance portability through polymorphic memory access patterns ",
+journal = "Journal of Parallel and Distributed Computing ",
+volume = "74",
+number = "12",
+pages = "3202 - 3216",
+year = "2014",
+issn = "0743-7315",
+doi = "10.1016/j.jpdc.2014.07.003",
+author = "H. Carter Edwards and Christian R. Trott and Daniel Sunderland"
+}
+
+@article{Eichstadt_etal_CPC2018,
+title = "Accelerating high-order mesh optimisation with an architecture-independent programming model",
+journal = "Computer Physics Communications",
+volume = "229",
+pages = "36 - 53",
+year = "2018",
+issn = "0010-4655",
+doi = "10.1016/j.cpc.2018.03.025",
+author = {Jan Eichst\"adt and Mashy Green and Michael Turner and Joaquim Peir\'o and David Moxey}
+}
+
+
+@article{Delaye_IJMF1974,
+title = "Jump conditions and entropy sources in two-phase systems. Local instant formulation",
+journal = "International Journal of Multiphase Flow",
+volume = "1",
+number = "3",
+pages = "395 - 409",
+year = "1974",
+doi = "10.1016/0301-9322(74)90012-3",
+author = "{J.M.} Delhaye"
+}
+
+@InProceedings{Calore_etal_ParalProcAM2018,
+  author="Calore, Enrico and Gabbana, Alessandro and Schifano, Sebastiano Fabio and Tripiccione, Raffaele",
+  editor="Wyrzykowski, Roman and Dongarra, Jack and Deelman, Ewa and Karczewski, Konrad",
+  title="Early {E}xperience on {U}sing {K}nights {L}anding {P}rocessors for {L}attice {B}oltzmann {A}pplications",
+  booktitle="Parallel Processing and Applied Mathematics",
+  year="2018",
+  publisher="Springer International Publishing",
+  address="Cham",
+  pages="519--530",
+  doi = "10.1007/978-3-319-78024-5\_45"
+  }
+
+@article{Review_FilmBoilingIJHMT2017,
+title = "Review of computational studies on boiling and condensation",
+journal = "International Journal of Heat and Mass Transfer",
+volume = "108",
+pages = "1164 - 1196",
+year = "2017",
+doi = "10.1016/j.ijheatmasstransfer.2016.12.065",
+author = "Chirag R. Kharangate and Issam Mudawar",
+keywords = "Computational methods, Nucleate boiling, Film boiling, Flow boiling, Film condensation, Flow condensation"
+}
+
+@article{Begmohammadi_etal_CAMWA2016,
+title = "Numerical simulation of single- and multi-mode film boiling using lattice Boltzmann method",
+journal = "Computers \& Mathematics with Applications",
+volume = "71",
+number = "9",
+pages = "1861 - 1874",
+year = "2016",
+doi = "10.1016/j.camwa.2016.02.033",
+author = "A. Begmohammadi and M.H. Rahimian and M. Farhadzadeh and M. Abbasi Hatani",
+keywords = "Film boiling, Lattice Boltzmann method, Phase change, Rayleigh–Taylor instability"
+}
+
+@article{Zhang-Chen_FilmBoiling_LBM_PRE2003,
+  title = {Lattice Boltzmann method for simulations of liquid-vapor thermal flows},
+  author = {Zhang, Raoyang and Chen, Hudong},
+  journal = {Phys. Rev. E},
+  volume = {67},
+  issue = {6},
+  pages = {066711},
+  numpages = {6},
+  year = {2003},
+  month = {Jun},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevE.67.066711}
+}
+
+@article{Vinod_PhysFluids2016,
+  author = {Pandey,Vinod and Biswas, Gautam and Dalal, Amaresh},
+  title = {Effect of superheat and electric field on saturated film boiling},
+  journal = {Physics of Fluids},
+  volume = {28},
+  number = {5},
+  pages = {052102},
+  year = {2016},
+  doi = {10.1063/1.4948545}
+}
+
+@article{Esmaeeli-Tryggvason_IJMF2004,
+title = "A front tracking method for computations of boiling in complex geometries",
+journal = "International Journal of Multiphase Flow",
+volume = "30",
+number = "7",
+pages = "1037 - 1050",
+year = "2004",
+note = "A Collection of Papers in Honor of Professor G. Yadigaroglu on the Occasion of his 65th Birthday",
+doi = "10.1016/j.ijmultiphaseflow.2004.04.008",
+author = "Asghar Esmaeeli and Gr\'etar Tryggvason"
+}
+
+@article{Singh-Premachandran_IJHMT2020,
+  title = "Numerical investigation of film boiling on a horizontal wavy wall",
+  journal = "International Journal of Heat and Mass Transfer",
+  volume = "150",
+  pages = "119371",
+  year = "2020",
+  doi = "10.1016/j.ijheatmasstransfer.2020.119371",
+  author = "Nikhil Kumar Singh and B. Premachandran"
+}
+
+@article{Hu-Liu_Boiling-PseudoPot_ApplThermEngi2019,
+title = "2D Simulation of boiling heat transfer on the wall with an improved hybrid lattice Boltzmann model",
+journal = "Applied Thermal Engineering",
+volume = "159",
+pages = "113788",
+year = "2019",
+doi = "10.1016/j.applthermaleng.2019.113788",
+author = "Anjie Hu and Dong Liu",
+keywords = "Lattice Boltzmann method, Pseudo-potential model, Boiling, Bubble nucleation"
+}
+
+@ARTICLE{Karma-Rappel_PRE1998,
+  author = {Alain Karma and Wouter-Jan Rappel},
+  title = {Quantitative phase-field modeling of dendritic growth in two and
+	three dimensions},
+  journal = {Physical Review E},
+  year = {1998},
+  volume = {57},
+  pages = {pp. 4323--4349},
+  number = {4},
+  doi = {10.1103/PhysRevE.57.4323}
+}
+
+@ARTICLE{Almgren_SIAMJourApplMath1999,
+  author = {Robert F. Almgren},
+  title = {Second-order phase field asymptotics for unequal conductivities},
+  journal = {Siam Journal on Applied Mathematics},
+  year = {1999},
+  volume = {59},
+  pages = {pp. 2086--2107},
+  number = {6},
+  doi = {10.1137/S0036139997330027}
+}
+
+@article{Zhou_etal_CMAME2012,
+title = "GPU implementation of lattice Boltzmann method for flows with curved boundaries",
+journal = "Computer Methods in Applied Mechanics and Engineering",
+volume = "225-228",
+pages = "65 - 73",
+year = "2012",
+doi = "10.1016/j.cma.2012.03.011",
+author = "Hao Zhou and Guiyuan Mo and Feng Wu and Jiapei Zhao and Miao Rui and Kefa Cen",
+keywords = "Lattice Boltzmann method, GPU, CUDA, Curved boundaries"
+}
+
+@article{Bower-Lee_CF2010,
+title = "Single bubble rising dynamics for moderate {R}eynolds number using {L}attice {B}oltzmann {M}ethod",
+journal = "Computers \& Fluids",
+volume = "39",
+number = "7",
+pages = "1191 - 1207",
+year = "2010",
+issn = "0045-7930",
+doi = "10.1016/j.compfluid.2010.03.003",
+author = "Luz Amaya-Bower and Taehun Lee",
+keywords = "Bubble rising, Lattice Boltzmann Method, Large viscosity ratio"
+}

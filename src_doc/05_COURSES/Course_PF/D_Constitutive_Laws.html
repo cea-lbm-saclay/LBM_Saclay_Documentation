@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Details for deriving constitutive laws &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Contact angle and Marangoni force" href="04_Marangoni_and_Contact_Angle.html" />
+    <link rel="prev" title="Derivation of incompressible Navier-Stokes with interface-capturing equation model" href="03_NavierStokes_with_PhaseField.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="04_Marangoni_and_Contact_Angle.html" title="Contact angle and Marangoni force"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="03_NavierStokes_with_PhaseField.html" title="Derivation of incompressible Navier-Stokes with interface-capturing equation model"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Phase-Field.html" >PART V.B. Fundamentals of phase-field theory</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="03_NavierStokes_with_PhaseField.html" accesskey="U">Derivation of incompressible Navier-Stokes with interface-capturing equation model</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Details for deriving constitutive laws</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="details-for-deriving-constitutive-laws">
+<span id="constitutive-laws"></span><h1>Details for deriving constitutive laws<a class="headerlink" href="#details-for-deriving-constitutive-laws" title="Link to this heading"></a></h1>
+<section id="differentials">
+<h2>Differentials<a class="headerlink" href="#differentials" title="Link to this heading"></a></h2>
+<p>The term <span class="math notranslate nohighlight">\(\mathcal{I}\)</span> is the differential of free energy density <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-differential-df">
+<span class="eqno">(511)<a class="headerlink" href="#equation-differential-df" title="Link to this equation"></a></span>\[d\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)=\frac{\partial\mathcal{F}}{\partial\phi}d\phi+\underbrace{\frac{\partial\mathcal{F}}{\partial(\boldsymbol{\nabla}\phi)}}_{\hat{=}\boldsymbol{\mathcal{F}}}\cdot d(\boldsymbol{\nabla}\phi)\]</div>
+<p>where we note <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal{F}}\hat{=}\partial\mathcal{F}/\partial(\boldsymbol{\nabla}\phi)\)</span>. For <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> defined by Eq. <a class="reference internal" href="03_NavierStokes_with_PhaseField.html#equation-potential-energy">(488)</a>, <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal{F}}=\zeta\boldsymbol{\nabla}\phi\)</span>. For more generality we keep using the notation <span class="math notranslate nohighlight">\(\boldsymbol{\mathcal{F}}\)</span> in the rest of this section. After division of Eq. <a class="reference internal" href="#equation-differential-df">(511)</a> by dt, we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-d-constitutive-laws-0">
+<span class="eqno">(512)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-d-constitutive-laws-0" title="Link to this equation"></a></span>\[\frac{d\mathcal{F}(\phi,\boldsymbol{\nabla}\phi)}{dt}=\frac{\partial\mathcal{F}}{\partial\phi}{\frac{d\phi}{dt}}+\boldsymbol{\mathcal{F}}\cdot\underbrace{\frac{d(\boldsymbol{\nabla}\phi)}{dt}}_{\text{re-write}}\]</div>
+<p>Replace <span class="math notranslate nohighlight">\(d\phi/dt\)</span> by Eq. <a class="reference internal" href="03_NavierStokes_with_PhaseField.html#equation-phi-balance-ins-pfcourse">(486)</a>  and re-write <span class="math notranslate nohighlight">\(d(\boldsymbol{\nabla}\rho)/dt\)</span></p>
+<p>Term <span class="math notranslate nohighlight">\(\mathcal{K}\)</span> kinetic energy: use impulsion balance Eq. <a class="reference internal" href="03_NavierStokes_with_PhaseField.html#equation-impulsion-balance-ins-pfcourse">(485)</a></p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-d-constitutive-laws-1">
+<span class="eqno">(513)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-d-constitutive-laws-1" title="Link to this equation"></a></span>\[\frac{1}{2}\rho_{0}\frac{d\bigl|\boldsymbol{u}\bigr|^{2}}{dt}=\rho_{0}\boldsymbol{u}\cdot\frac{d\boldsymbol{u}}{dt}=\boldsymbol{u}\cdot\boldsymbol{\nabla}\cdot{\color{red}\overline{\overline{\boldsymbol{T}}}}\]</div>
+</section>
+<section id="algebraic-calculation-usual-tips-and-tricks">
+<h2>Algebraic calculation: usual tips and tricks<a class="headerlink" href="#algebraic-calculation-usual-tips-and-tricks" title="Link to this heading"></a></h2>
+<div class="hint admonition">
+<p class="admonition-title">Tips and tricks</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<ul>
+<li><p class="sd-card-text">Trick 1</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[f\boldsymbol{\nabla}g=\boldsymbol{\nabla}(fg)-g\boldsymbol{\nabla}f\]</div>
+</div></blockquote>
+</li>
+<li><p class="sd-card-text">Trick 2</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[f\boldsymbol{\nabla}f=\frac{1}{2}\boldsymbol{\nabla}f^{2}\]</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<ul>
+<li><p class="sd-card-text">Use chain rule</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\boldsymbol{\nabla}f(\phi)       =\frac{\partial f}{\partial\phi}\boldsymbol{\nabla}\phi=f^{\prime}(\phi)\boldsymbol{\nabla}\phi\]</div>
+</div></blockquote>
+</li>
+<li><p class="sd-card-text">Use of index notations</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Examples</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Example 1</div>
+<div class="math notranslate nohighlight">
+\[\mu_{\phi}\boldsymbol{\nabla}\phi   =\boldsymbol{\nabla}f_{dw}-\zeta\boldsymbol{\nabla}^{2}\phi\boldsymbol{\nabla}\phi\]</div>
+<p class="sd-card-text">Demo</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mu_{\phi}\boldsymbol{\nabla}\phi&amp;=\left[\partial_{\phi}f_{dw}-\zeta\boldsymbol{\nabla}^{2}\phi\right]\boldsymbol{\nabla}\phi\\
+     &amp;=\underbrace{\partial_{\phi}f_{dw}\boldsymbol{\nabla}\phi}_{\text{chain rule}}-\zeta\boldsymbol{\nabla}^{2}\phi\boldsymbol{\nabla}\phi\\
+     &amp;=\boldsymbol{\nabla}f_{dw}-\zeta\boldsymbol{\nabla}^{2}\phi\boldsymbol{\nabla}\phi\end{split}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Example 2</div>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{\nabla}\cdot(\boldsymbol{\nabla}\phi\otimes\boldsymbol{\nabla}\phi)=\frac{1}{2}\boldsymbol{\nabla}(\bigl|\boldsymbol{\nabla}\phi\bigr|^{2})+(\boldsymbol{\nabla}^{2}\phi)\boldsymbol{\nabla}\phi\]</div>
+<p class="sd-card-text">Demo</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\partial_{\beta}(\partial_{\alpha}\phi\partial_{\beta}\phi)&amp;=(\underbrace{\partial_{\beta}\partial_{\alpha}}_{\text{intervert}}\phi)(\partial_{\beta}\phi)+(\partial_{\alpha}\phi)(\partial_{\beta\beta}^{2}\phi)\\
+     &amp;=\underbrace{[\partial_{\alpha}(\partial_{\beta}\phi)](\partial_{\beta}\phi)}_{\text{form }f\boldsymbol{\nabla}f=\boldsymbol{\nabla}f^{2}/2}+(\partial_{\alpha}\phi)(\partial_{\beta\beta}^{2}\phi)\\
+     &amp;=\partial_{\alpha}(\partial_{\beta}\phi)^{2}/2+(\partial_{\alpha}\phi)(\partial_{\beta\beta}^{2}\phi)\end{split}\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Other useful relations</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><strong>Relation 1</strong></p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{d}{dt}(\boldsymbol{\nabla}\phi)=\boldsymbol{\nabla}\left(\frac{d\phi}{dt}\right)-(\boldsymbol{\nabla}\boldsymbol{u})(\boldsymbol{\nabla}\phi)}\]</div>
+<p class="sd-card-text">Demo</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{d}{dt}(\boldsymbol{\nabla}\phi)&amp;=\frac{d}{dt}(\partial_{\alpha}\phi)\\
+     &amp;=(\partial_{t}+u_{\beta}\partial_{\beta})(\partial_{\alpha}\phi)\\
+     &amp;=\underbrace{\partial_{t}(\partial_{\alpha}}_{\text{intervert}}\phi)+u_{\beta}\underbrace{\partial_{\beta}(\partial_{\alpha}}_{\text{intervert}}\phi)\\
+     &amp;=\partial_{\alpha}(\partial_{t}\phi)+\underbrace{u_{\beta}\partial_{\alpha}(\partial_{\beta}\phi)}_{\text{trick}}\\
+     &amp;=\partial_{\alpha}(\partial_{t}\phi)+\partial_{\alpha}[u_{\beta}(\partial_{\beta}\phi)]-(\partial_{\alpha}u_{\beta})(\partial_{\beta}\phi)\\
+     &amp;=\partial_{\alpha}[(\partial_{t}\phi)+u_{\beta}(\partial_{\beta}\phi)]-(\partial_{\alpha}u_{\beta})(\partial_{\beta}\phi)\\
+     &amp;=\boldsymbol{\nabla}\left(\frac{d\phi}{dt}\right)-(\boldsymbol{\nabla}\boldsymbol{u})(\boldsymbol{\nabla}\phi)\end{split}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<p class="sd-card-text"><strong>Relation 2</strong></p>
+<div class="math notranslate nohighlight">
+\[\boxed{\boldsymbol{\mathcal{F}}\cdot\frac{d}{dt}(\boldsymbol{\nabla}\phi)=\boldsymbol{\mathcal{F}}\cdot\boldsymbol{\nabla}\left(\frac{d\phi}{dt}\right)-\boldsymbol{\mathcal{F}}\otimes\boldsymbol{\nabla}\phi:\boldsymbol{\nabla}\boldsymbol{u}}\]</div>
+<p class="sd-card-text">Demo (use Eq. ([eq:Trick_Material-Derivative-1]))</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{\mathcal{F}}\cdot\frac{d}{dt}(\boldsymbol{\nabla}\phi)&amp;={\color{gray}\boldsymbol{\mathcal{F}}\cdot\boldsymbol{\nabla}\left(\frac{d\phi}{dt}\right)}-\mathcal{F}_{\alpha}(\partial_{\alpha}u_{\beta})(\partial_{\beta}\phi)\\
+     &amp;={\color{gray}\boldsymbol{\mathcal{F}}\cdot\boldsymbol{\nabla}\left(\frac{d\phi}{dt}\right)}-\underbrace{\mathcal{F}_{\alpha}(\partial_{\beta}\phi)}_{\equiv\boldsymbol{\mathcal{F}}\otimes\boldsymbol{\nabla}\phi}\underbrace{(\partial_{\alpha}u_{\beta})}_{\equiv\boldsymbol{\nabla}\boldsymbol{u}}\end{split}\]</div>
+<p class="sd-card-text"><strong>Relation 3</strong></p>
+<div class="math notranslate nohighlight">
+\[\boxed{\boldsymbol{\nabla}\cdot\boldsymbol{u}=\overline{\overline{\boldsymbol{I}}}:\boldsymbol{\nabla}\boldsymbol{u}}\]</div>
+<p class="sd-card-text">Demo</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\overline{\overline{\boldsymbol{I}}}:\boldsymbol{\nabla}\boldsymbol{u}&amp;=\delta_{\alpha\beta}\partial_{\alpha}u_{\beta}\\
+     &amp;=\partial_{\alpha}(u_{\beta}\delta_{\alpha\beta})-u_{\beta}\cancel{\partial_{\alpha}\delta_{\alpha\beta}}\\
+     &amp;=\partial_{\alpha}u_{\alpha}\end{split}\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="derivation">
+<h2>Derivation<a class="headerlink" href="#derivation" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Terms <span class="math notranslate nohighlight">\(\mathcal{I}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{K}\)</span> of Eq. ([eq:Reynolds-Transport_Appli])</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\int_{V}\mathcal{I}dV&amp;=\int_{V}\biggl[\frac{\partial\mathcal{F}}{\partial\phi}\frac{d\phi}{dt}+\underbrace{\boldsymbol{\mathcal{F}}\cdot\boldsymbol{\nabla}\left(\frac{d\phi}{dt}\right)}_{\text{integration by parts}}-\boldsymbol{\mathcal{F}}\otimes\boldsymbol{\nabla}\phi:\boldsymbol{\nabla}\boldsymbol{u}+\mathcal{F}\boldsymbol{\nabla}\cdot\boldsymbol{u}\biggr]dV\\
+\int_{V}(\mathcal{K}+\mathscr{L})dV&amp;=\int_{V}[\underbrace{\boldsymbol{u}\cdot\boldsymbol{\nabla}\cdot{\color{red}\overline{\overline{\boldsymbol{T}}}}}_{\text{ibp}}]-[\lambda\boldsymbol{\nabla}\cdot\boldsymbol{u}]dV\end{split}\]</div>
+<p>Results of integration by parts (ibp):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\int_{V}\left[\boldsymbol{\mathcal{F}}\cdot\boldsymbol{\nabla}\left(\frac{d\phi}{dt}\right)\right]dV&amp;=\int_{\partial V}\frac{d\phi}{dt}\boldsymbol{\mathcal{F}}\cdot\boldsymbol{n}d(\partial V)-\int_{V}\boldsymbol{\nabla}\cdot\boldsymbol{\mathcal{F}}\frac{d\phi}{dt}dV\\
+-\int_{V}\frac{\partial\mathcal{F}}{\partial\phi}\boldsymbol{\nabla}\cdot\boldsymbol{j}_{\phi}dV&amp;=-\int_{\partial V}\frac{\partial\mathcal{F}}{\partial\phi}\boldsymbol{j}_{\phi}\cdot\boldsymbol{n}d(\partial V)+\int_{V}\boldsymbol{j}_{\phi}\cdot\boldsymbol{\nabla}\left(\frac{\partial\mathcal{F}}{\partial\phi}\right)dV\\
+\int_{V}\boldsymbol{u}\cdot\boldsymbol{\nabla}\cdot\overline{\overline{\boldsymbol{T}}}dV&amp;=\int_{\partial V}\boldsymbol{u}\cdot\overline{\overline{\boldsymbol{T}}}\boldsymbol{n}d(\partial V)-\int_{V}\overline{\overline{\boldsymbol{T}}}:\boldsymbol{\nabla}\boldsymbol{u}dV\end{split}\]</div>
+<p>Hypothesis: all <span class="math notranslate nohighlight">\(\int_{\partial V}d(\partial V)\)</span> terms are neglected</p>
+</li>
+<li><p>Group terms <span class="math notranslate nohighlight">\(\cdot\boldsymbol{\nabla}\mu_{\phi}\)</span> and <span class="math notranslate nohighlight">\(:\boldsymbol{\nabla}\boldsymbol{u}\)</span></p>
+<p>Sum Eq. ([eq:Integral_I])+Eq. ([eq:Integrals_K+L])</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\int_{V}(\mathcal{I}+\mathcal{K}+\mathcal{L})dV&amp;=\int_{V}\biggl\{\biggl[\underbrace{\frac{\partial\mathcal{F}}{\partial\phi}-\boldsymbol{\nabla}\cdot\boldsymbol{\mathcal{F}}}_{\equiv\mu_{\phi}}\biggr]\underbrace{\frac{d\phi}{dt}}_{\text{Eq. }(\ref{eq:Balance_phi_Incompr})}-\boldsymbol{\mathcal{F}}\otimes\boldsymbol{\nabla}\phi:\boldsymbol{\nabla}\boldsymbol{u}+\mathcal{F}\boldsymbol{\nabla}\cdot\boldsymbol{u}-{\color{red}\overline{\overline{\boldsymbol{T}}}}:\boldsymbol{\nabla}\boldsymbol{u}-\lambda\boldsymbol{\nabla}\cdot\boldsymbol{u}\biggr\} dV\\
+     &amp;=\int_{V}\biggl\{\mu_{\phi}\biggl[-\phi\boldsymbol{\nabla}\cdot\boldsymbol{u}-\boldsymbol{\nabla}\cdot{\color{red}\boldsymbol{j}_{\phi}}\biggr]{\color{gray}-\boldsymbol{\mathcal{F}}\otimes\boldsymbol{\nabla}\phi:\boldsymbol{\nabla}\boldsymbol{u}+\mathcal{F}\boldsymbol{\nabla}\cdot\boldsymbol{u}-{\color{red}\overline{\overline{\boldsymbol{T}}}}:\boldsymbol{\nabla}\boldsymbol{u}-\lambda\boldsymbol{\nabla}\cdot\boldsymbol{u}}\biggr\} dV\\
+     &amp;=\int_{V}\biggl\{(-\mu_{\phi}\phi+\mathcal{F}-\lambda)\underbrace{\boldsymbol{\nabla}\cdot\boldsymbol{u}}_{\text{Eq. }(\ref{eq:Equiv-divu})}-\biggl[\boldsymbol{\mathcal{F}}\otimes\boldsymbol{\nabla}\phi+{\color{red}\overline{\overline{\boldsymbol{T}}}}\biggr]:\boldsymbol{\nabla}\boldsymbol{u}-\mu_{\phi}\boldsymbol{\nabla}\cdot{\color{red}\boldsymbol{j}_{\phi}}\biggr\} dV\\
+     &amp;=\int_{V}\biggl\{\biggl[(-\mu_{\phi}\phi+\mathcal{F}-\lambda)\overline{\overline{\boldsymbol{I}}}-\boldsymbol{\mathcal{F}}\otimes\boldsymbol{\nabla}\phi-{\color{red}\overline{\overline{\boldsymbol{T}}}}\biggr]:\boldsymbol{\nabla}\boldsymbol{u}-\underbrace{\mu_{\phi}\boldsymbol{\nabla}\cdot{\color{red}\boldsymbol{j}_{\phi}}}_{\text{ibp}}\biggr\} dV \\
+     &amp;=-\int_{V}\biggl\{\biggl[\underbrace{(\mu_{\phi}\phi-\mathcal{F}+\lambda)\overline{\overline{\boldsymbol{I}}}+\boldsymbol{\mathcal{F}}\otimes\boldsymbol{\nabla}\phi+{\color{red}\overline{\overline{\boldsymbol{T}}}}}_{\overline{\overline{\boldsymbol{T}}}\text{ def such as }=-\overline{\overline{\boldsymbol{P}}}+\overline{\overline{\boldsymbol{\tau}}}}\biggr]:\boldsymbol{\nabla}\boldsymbol{u}dV+\int_{V}\underbrace{{\color{red}\boldsymbol{j}_{\phi}}\cdot\boldsymbol{\nabla}\mu_{\phi}}_{\boldsymbol{j}_{\phi}\text{ def such as }\propto-\boldsymbol{\nabla}\mu_{\phi}}dV\end{split}\]</div>
+</li>
+<li><p>Appropriate choice of <span class="math notranslate nohighlight">\(\boldsymbol{j}_{\phi}\)</span> and <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{T}}}\)</span></p>
+<div class="error admonition">
+<p class="admonition-title">Appropriate choice of <span class="math notranslate nohighlight">\(\boldsymbol{j}_{\phi}\)</span> and <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{T}}}\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{j}_{\phi}&amp;=-\mathcal{M}_{\phi}\boldsymbol{\nabla}\mu_{\phi}\\
+\overline{\overline{\boldsymbol{T}}}&amp;=-\overline{\overline{\boldsymbol{P}}}+\overline{\overline{\boldsymbol{\tau}}}\\
+\overline{\overline{\boldsymbol{\tau}}}&amp;=\eta(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})\end{split}\]</div>
+<p>where pressure tensor <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{P}}}\)</span> and hydrodynamic pressure <span class="math notranslate nohighlight">\(p_{h}\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\overline{\overline{\boldsymbol{P}}}&amp;=(p_{h}-\mathcal{F})\overline{\overline{\boldsymbol{I}}}-\boldsymbol{\mathcal{F}}\otimes\boldsymbol{\nabla}\phi\\
+p_{h}&amp;=\lambda+\phi\mu_{\phi}\end{split}\]</div>
+<p>are appropriate constitutive laws such as the dissipation is positive</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{D}=\int_{V}\overline{\overline{\boldsymbol{T}}}:\boldsymbol{\nabla}\boldsymbol{u}dV-\int_{V}\boldsymbol{j}_{\phi}\cdot\boldsymbol{\nabla}\mu_{\phi}dV\geqslant0\]</div>
+</div>
+<p>Remarks:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{\tau}}}\)</span>: viscous stress tensor is such as <span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{\tau}}}:\boldsymbol{\nabla}\boldsymbol{u}\geqslant0\)</span></p></li>
+<li><p>External force <span class="math notranslate nohighlight">\(\rho\boldsymbol{g}\)</span> could have been considered and set in <span class="math notranslate nohighlight">\(\mathcal{W}(V)\)</span></p></li>
+<li><p>If the integrals of surface are not neglected they must be considered in <span class="math notranslate nohighlight">\(\Phi(\partial V)\)</span></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Details for deriving constitutive laws</a><ul>
+<li><a class="reference internal" href="#differentials">Differentials</a></li>
+<li><a class="reference internal" href="#algebraic-calculation-usual-tips-and-tricks">Algebraic calculation: usual tips and tricks</a></li>
+<li><a class="reference internal" href="#derivation">Derivation</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="03_NavierStokes_with_PhaseField.html"
+                          title="previous chapter">Derivation of incompressible Navier-Stokes with interface-capturing equation model</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="04_Marangoni_and_Contact_Angle.html"
+                          title="next chapter">Contact angle and Marangoni force</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="04_Marangoni_and_Contact_Angle.html" title="Contact angle and Marangoni force"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="03_NavierStokes_with_PhaseField.html" title="Derivation of incompressible Navier-Stokes with interface-capturing equation model"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Phase-Field.html" >PART V.B. Fundamentals of phase-field theory</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="03_NavierStokes_with_PhaseField.html" >Derivation of incompressible Navier-Stokes with interface-capturing equation model</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Details for deriving constitutive laws</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

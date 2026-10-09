@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Equilibrium distribution functions for incompressible Navier-Stokes equations &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Equilibrium distribution functions for Transport equations" href="04_Equilibrium-Functions_Transport-Equations.html" />
+    <link rel="prev" title="Collisions operators in LBM_Saclay" href="02_Collision-Operators_LBMSaclay.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="04_Equilibrium-Functions_Transport-Equations.html" title="Equilibrium distribution functions for Transport equations"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="02_Collision-Operators_LBMSaclay.html" title="Collisions operators in LBM_Saclay"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" accesskey="U">PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Equilibrium distribution functions for incompressible Navier-Stokes equations</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="equilibrium-distribution-functions-for-incompressible-navier-stokes-equations">
+<span id="feq-alt"></span><h1>Equilibrium distribution functions for incompressible Navier-Stokes equations<a class="headerlink" href="#equilibrium-distribution-functions-for-incompressible-navier-stokes-equations" title="Link to this heading"></a></h1>
+<p>The equilibrium distribution function (EqDF) <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> is one of the most important functions in LBM because it indicates what macroscopic equation the algorithm simulates. The equilibrium distribution function <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> is involved in the collision operator <span class="math notranslate nohighlight">\(\Omega\)</span> in the discrete LBE:</p>
+<div class="math notranslate nohighlight" id="equation-lbe-feq">
+<span class="eqno">(183)<a class="headerlink" href="#equation-lbe-feq" title="Link to this equation"></a></span>\[f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)+\Omega_{i}(f_{i},f_{i}^{eq})+\mathcal{F}_i\]</div>
+<p>One of the most attractive aspect of LBM, is to use the same evolution Eq. <a class="reference internal" href="#equation-lbe-feq">(183)</a> and simply change the definition of <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> to simulate either the Navier-Stokes equations or the Conservative Allen-Cahn equation. For low Mach Navier-Stokes (NS) and standard Advection-Diffusion Equation (ADE), the EqDF are presented in <a class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary reference internal" href="../../05_COURSES/Course_LBM/02_Overview_LBM.html#overview-lbm"><span class="std std-ref">Continuous Boltzmann equation</span></a>. Here we present those for incompressible two-phase NS and several variations of transport equation such as the Cahn-Hilliard equation and the Conservative Allen-Cahn one.</p>
+<div class="important admonition">
+<p class="admonition-title">Equilibrium distribution functions in LBM_Saclay</p>
+<p>The equilibrium distribution functions are problem dependent. They are defined for each kernel in the <code class="docutils literal notranslate"><span class="pre">LBMScheme_Kernel_Name.h</span></code> file of folder <code class="docutils literal notranslate"><span class="pre">src/kernels</span></code>. For example for kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>, the equilibrium distribution functions for all PDEs are written in <code class="docutils literal notranslate"><span class="pre">LBMScheme_NS_AC_Comp.h</span></code> file.</p>
+</div>
+<p>For low Mach Navier-Stokes (NS), the EqDF are presented in <a class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary reference internal" href="../../05_COURSES/Course_LBM/02_Overview_LBM.html#overview-lbm"><span class="std std-ref">Continuous Boltzmann equation</span></a>. Here are presented some modifications for simulating incompressible single-phase and two-phase flows.</p>
+<div class="note admonition">
+<p class="admonition-title">Target macroscopic PDEs</p>
+<p>First we remind the target macroscopic PDEs we want to simulate:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-ref">
+<span class="eqno">(184)<a class="headerlink" href="#equation-mass-balance-ref" title="Link to this equation"></a></span>\[\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-ref">
+<span class="eqno">(185)<a class="headerlink" href="#equation-impulsion-balance-ref" title="Link to this equation"></a></span>\[\varrho(\phi)\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}+\boldsymbol{\nabla}\cdot\eta(\boldsymbol{x},t)\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_h\)</span> is the hydrodynamic pressure, <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span> is the fluid velocity , and <span class="math notranslate nohighlight">\(\varrho(\phi)\)</span> is the interpolation of constant bulk densities: each phase is characterized by constant densities, e.g. <span class="math notranslate nohighlight">\(\rho_0\)</span> and <span class="math notranslate nohighlight">\(\rho_1\)</span>. The total density <span class="math notranslate nohighlight">\(\varrho(\boldsymbol{x},t)\)</span> and the total dynamic viscosity are two functions of position and time with the phase-field <span class="math notranslate nohighlight">\(\phi\)</span>. The first one is obtained by a linear interpolation of <span class="math notranslate nohighlight">\(\rho_0\)</span> and <span class="math notranslate nohighlight">\(\rho_1\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-total-density">
+<span class="eqno">(186)<a class="headerlink" href="#equation-total-density" title="Link to this equation"></a></span>\[\varrho(\phi)=\rho_0\phi(\boldsymbol{x},t)+\rho_1(1-\phi(\boldsymbol{x},t))\]</div>
+<p>and the second with a harmonic interpolation of <span class="math notranslate nohighlight">\(\eta_0\)</span> and <span class="math notranslate nohighlight">\(\eta_1\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-harmoniinterpolation-viscosity">
+<span class="eqno">(187)<a class="headerlink" href="#equation-harmoniinterpolation-viscosity" title="Link to this equation"></a></span>\[\frac{1}{\eta(\phi)}=\frac{\phi}{\eta_{1}}+\frac{1-\phi}{\eta_{2}}\]</div>
+</div>
+<section id="standard-f-i-eq-for-single-phase-incompressible-ns">
+<h2>Standard <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for single-phase incompressible NS<a class="headerlink" href="#standard-f-i-eq-for-single-phase-incompressible-ns" title="Link to this heading"></a></h2>
+<div class="admonition-math-f-i-eq-for-single-phase-ins admonition">
+<p class="admonition-title"><span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for single-phase iNS</p>
+<p>For simulating incompressible NS equations for single-phase flows, the EqDF writes <a class="footnote-reference brackets" href="#footcite-zou-etal-incompressible-jsp1995" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> &amp; <a class="footnote-reference brackets" href="#footcite-he-luo-incompressible-jsp1997" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>:</p>
+<div class="math notranslate nohighlight" id="equation-feq-incompr-v0">
+<span class="eqno">(188)<a class="headerlink" href="#equation-feq-incompr-v0" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_{h}+\rho_{0}c_{s}^{2}\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]\]</div>
+<p>where the macroscopic physical variables are the hydrodynamic pressure <span class="math notranslate nohighlight">\(p_h\)</span>, the fluid velocity <span class="math notranslate nohighlight">\(\boldsymbol{u}\)</span>, and the constant bulk density <span class="math notranslate nohighlight">\(\rho_0\)</span>. The lattice is defined by its weights <span class="math notranslate nohighlight">\(w_i\)</span> and its moving directions <span class="math notranslate nohighlight">\(\boldsymbol{c}_i\)</span> where <span class="math notranslate nohighlight">\(i=0,...,N_{pop}\)</span>.  <span class="math notranslate nohighlight">\(c_s\)</span> is the lattice sound speed defined by <span class="math notranslate nohighlight">\(c/\sqrt{3}\)</span> which depends the the time and space discretization. The lattice speed <span class="math notranslate nohighlight">\(c\)</span> is defined by <span class="math notranslate nohighlight">\(\delta x/\delta t\)</span>.</p>
+<p>After collision and streaming, the moments are updated with the following relationships. First, the moment of order zero is the hydrodynamic pressure:</p>
+<div class="math notranslate nohighlight" id="equation-m0-v0">
+<span class="eqno">(189)<a class="headerlink" href="#equation-m0-v0" title="Link to this equation"></a></span>\[p_{h}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\]</div>
+<p>Next, the moment of order one is the impulsion:</p>
+<div class="math notranslate nohighlight" id="equation-m1-v0">
+<span class="eqno">(190)<a class="headerlink" href="#equation-m1-v0" title="Link to this equation"></a></span>\[\rho_{0}\boldsymbol{u}(\boldsymbol{x},t)=\frac{1}{c_{s}^{2}}\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}\]</div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">Equivalent algorithm of artificial compressibility</p>
+<p>We can prove that the Chapman-Enskog expansion of LBE with EqDF <a class="reference internal" href="#equation-feq-incompr-v0">(188)</a> yields to the equivalent system of equations:</p>
+<div class="math notranslate nohighlight" id="equation-comprart-mass">
+<span class="eqno">(191)<a class="headerlink" href="#equation-comprart-mass" title="Link to this equation"></a></span>\[\frac{\partial{\color{red}p_h}}{\partial t}+{\color{red}\rho_{0}c_{s}^{2}}\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-comprart-impulsion">
+<span class="eqno">(192)<a class="headerlink" href="#equation-comprart-impulsion" title="Link to this equation"></a></span>\[{\color{red}\rho_{0}\cancel{c_{s}^{2}}}\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}{\color{red}p_h}\cancel{c_{s}^{2}}+\boldsymbol{\nabla}\cdot\left[{\color{red}\rho_{0}\cancel{c_{s}^{2}}}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\mathcal{O}(\rho u^{3})\]</div>
+<p>The mass balance Eq. <a class="reference internal" href="#equation-comprart-mass">(191)</a> is one particular method of classical CFD to simulate the incompressible Navier-Stokes equations, called the <strong>articial compressibility algorithm</strong>. In LBM the compressibility coefficient is <span class="math notranslate nohighlight">\(\beta=\rho_0c_s^{2}\)</span>.</p>
+</div>
+</section>
+<section id="f-i-eq-for-incompressible-two-phase-flows">
+<span id="feq-incompressible-ns-version2"></span><h2><span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for incompressible two-phase flows<a class="headerlink" href="#f-i-eq-for-incompressible-two-phase-flows" title="Link to this heading"></a></h2>
+<p>Now we consider two-phase flows by assuming that each phase is incompressible.</p>
+<p>From the previous EqDF, two methods are implemented in LBM_Saclay to account for that variation <a class="reference internal" href="#equation-total-density">(186)</a>. The first method is a direct extension of <a class="reference internal" href="#equation-feq-incompr-v0">(188)</a>. The second one is a slight modification which introduces the dimensionless pressure <span class="math notranslate nohighlight">\(p_h^{\star}\)</span>.</p>
+<section id="version-1-for-variable-density">
+<h3>Version 1 for variable density<a class="headerlink" href="#version-1-for-variable-density" title="Link to this heading"></a></h3>
+<div class="admonition-version-1-for-variable-density admonition">
+<p class="admonition-title">Version 1 for variable density</p>
+<p>That first version is a direct adaptation of Eq. <a class="reference internal" href="#equation-feq-incompr-v0">(188)</a> where the variable density <span class="math notranslate nohighlight">\(\varrho(\phi)\)</span> simply replaces the constant density <span class="math notranslate nohighlight">\(\rho_0\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-feq-incompr-v1">
+<span class="eqno">(193)<a class="headerlink" href="#equation-feq-incompr-v1" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_{h}+\varrho(\phi)c_{s}^{2}\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]\]</div>
+<p>Let us notice that the physical dimension of terms inside the brackets is equivalent to a pressure. The hydrodynamic pressure <span class="math notranslate nohighlight">\(p_h\)</span> and the impulsion are respectively obtained by the moment of order zero:</p>
+<div class="math notranslate nohighlight" id="equation-m0-v1">
+<span class="eqno">(194)<a class="headerlink" href="#equation-m0-v1" title="Link to this equation"></a></span>\[p_{h}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\]</div>
+<p>and its moment of order 1:</p>
+<div class="math notranslate nohighlight" id="equation-m1-v1">
+<span class="eqno">(195)<a class="headerlink" href="#equation-m1-v1" title="Link to this equation"></a></span>\[\varrho(\phi)\boldsymbol{u}(\boldsymbol{x},t)=\frac{1}{c_{s}^{2}}\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}\]</div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">Version 1: equivalent macroscopic PDE</p>
+<p>Once the Chapman-Enskog expansion is performed, the macroscopic equations which recovered are with that EqDF are:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-v1">
+<span class="eqno">(196)<a class="headerlink" href="#equation-mass-balance-v1" title="Link to this equation"></a></span>\[\frac{\partial p_{h}}{\partial t}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)c_{s}^{2}\boldsymbol{u}\right]=0\]</div>
+<p>for the mass balance equation, and</p>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-v1">
+<span class="eqno">(197)<a class="headerlink" href="#equation-impulsion-balance-v1" title="Link to this equation"></a></span>\[\varrho(\phi)\cancel{c_{s}^{2}}\left[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})\right]=-\boldsymbol{\nabla}p_{h}\cancel{c_{s}^{2}}+\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\cancel{c_{s}^{2}}\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\mathcal{O}(\rho u^{3})\]</div>
+<p>for the impulsion balance, where the kinematic viscosity is given by</p>
+<div class="math notranslate nohighlight" id="equation-kinematic-viscos">
+<span class="eqno">(198)<a class="headerlink" href="#equation-kinematic-viscos" title="Link to this equation"></a></span>\[\nu=\frac{1}{3}\left(\tau-\frac{1}{2}\right)\frac{\delta x^{2}}{\delta t}\]</div>
+</div>
+<p>By expanding the divergence term, the mass balance Eq. <a class="reference internal" href="#equation-mass-balance-v1">(196)</a> can be rewritten:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-v1-expand-div">
+<span class="eqno">(199)<a class="headerlink" href="#equation-mass-balance-v1-expand-div" title="Link to this equation"></a></span>\[\frac{\partial p_{h}}{\partial t}+\varrho(\phi)c_{s}^{2}\boldsymbol{\nabla}\cdot\boldsymbol{u}=-\boldsymbol{u}\cdot\boldsymbol{\nabla}(\varrho(\phi)c_{s}^{2})\]</div>
+<div class="admonition-version-1-source-term-to-add admonition">
+<p class="admonition-title">Version 1: source term to add</p>
+<p>The mass balance recovered by the Chapman-Ensokg procedure Eq. <a class="reference internal" href="#equation-mass-balance-v1">(196)</a> slighty differs from the classic artificial mass balance equation because the density is a function of position <span class="math notranslate nohighlight">\(\varrho(\phi)\)</span>. To correct that, it is needed to add a source term:</p>
+<div class="math notranslate nohighlight" id="equation-source-pressure">
+<span class="eqno">(200)<a class="headerlink" href="#equation-source-pressure" title="Link to this equation"></a></span>\[S_p=\boldsymbol{u}\cdot\boldsymbol{\nabla}[\varrho(\phi)c_s^2]\]</div>
+<p>in the LBE.</p>
+</div>
+</section>
+<section id="version-2-for-variable-density">
+<h3>Version 2 for variable density<a class="headerlink" href="#version-2-for-variable-density" title="Link to this heading"></a></h3>
+<div class="admonition-version-2-for-variable-density admonition">
+<p class="admonition-title">Version 2 for variable density</p>
+<p>That version is implemented in the kernel <code class="docutils literal notranslate"><span class="pre">NSAC_Comp</span></code>. The pressure that is used in the equilibrium distribution function is a dimensionless pressure defined by <a class="footnote-reference brackets" href="#footcite-zu-he-pre2013" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>:</p>
+<div class="math notranslate nohighlight" id="equation-def-p-star">
+<span class="eqno">(201)<a class="headerlink" href="#equation-def-p-star" title="Link to this equation"></a></span>\[p_h^{\star}=\frac{p_{h}}{\varrho(\phi)c_{s}^{2}}\]</div>
+<p>The EqDF writes:</p>
+<div class="math notranslate nohighlight" id="equation-feq-incompr-v2">
+<span class="eqno">(202)<a class="headerlink" href="#equation-feq-incompr-v2" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\left[p_h^{\star}+\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right)\right]\]</div>
+<p>and the moments are</p>
+<div class="math notranslate nohighlight" id="equation-m0-v2">
+<span class="eqno">(203)<a class="headerlink" href="#equation-m0-v2" title="Link to this equation"></a></span>\[p_h^{\star}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\]</div>
+<div class="math notranslate nohighlight" id="equation-m1-v2">
+<span class="eqno">(204)<a class="headerlink" href="#equation-m1-v2" title="Link to this equation"></a></span>\[\boldsymbol{u}(\boldsymbol{x},t)=\sum_{i}f_{i}(\boldsymbol{x},t)\boldsymbol{c}_{i}\]</div>
+</div>
+<div class="error admonition">
+<p class="admonition-title">Version 2: equivalent macroscopic PDE</p>
+<p>Once the Chapman-Enskog expansion is performed, the macroscopic equations which recovered are with that EqDF are:</p>
+<div class="math notranslate nohighlight" id="equation-mass-balance-v2">
+<span class="eqno">(205)<a class="headerlink" href="#equation-mass-balance-v2" title="Link to this equation"></a></span>\[\frac{\partial p^{\star}}{\partial t}+\boldsymbol{\nabla}\cdot\boldsymbol{u}=0\]</div>
+<div class="math notranslate nohighlight" id="equation-impulsion-balance-v2">
+<span class="eqno">(206)<a class="headerlink" href="#equation-impulsion-balance-v2" title="Link to this equation"></a></span>\[\frac{\partial\boldsymbol{u}}{\partial t}+\boldsymbol{\nabla}\cdot(\boldsymbol{u}\boldsymbol{u})=-\boldsymbol{\nabla}(p^{\star}c_{s}^{2})+\boldsymbol{\nabla}\cdot\left[\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]\]</div>
+</div>
+<p>In Eq. <a class="reference internal" href="#equation-impulsion-balance-v2">(206)</a>, the pressure gradient can be expanded:</p>
+<div class="math notranslate nohighlight" id="equation-gradp-expand">
+<span class="eqno">(207)<a class="headerlink" href="#equation-gradp-expand" title="Link to this equation"></a></span>\[\begin{split}-\frac{1}{\varrho}\boldsymbol{\nabla}p_{h}&amp;=-\boldsymbol{\nabla}(p^{\star}c_{s}^{2})+\frac{1}{\varrho}\boldsymbol{F}_{p}\\{\color{red}\boldsymbol{F}_{p}}&amp;=-\frac{p_{h}}{\varrho}\boldsymbol{\nabla}\varrho\end{split}\]</div>
+<p>The pressure term must be corrrected with a new force term <span class="math notranslate nohighlight">\(\boldsymbol{F}_p\)</span> to match the gradient term of Eq. <a class="reference internal" href="#equation-impulsion-balance-ref">(185)</a>. In that equation, The viscous term can be expanded:</p>
+<div class="math notranslate nohighlight" id="equation-viscos-expand">
+<span class="eqno">(208)<a class="headerlink" href="#equation-viscos-expand" title="Link to this equation"></a></span>\[\frac{1}{\varrho(\phi)}\boldsymbol{\nabla}\cdot\left[\varrho(\phi)\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]=\boldsymbol{\nabla}\cdot\left[\nu(\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T})\right]+\nu\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]\cdot\frac{\boldsymbol{\nabla}\varrho(\phi)}{\varrho(\phi)}\]</div>
+<p>The second term of the right-hand side corresponds to the viscous term of Eq. <a class="reference internal" href="#equation-impulsion-balance-v2">(206)</a>. A supplementary force <span class="math notranslate nohighlight">\(\boldsymbol{F}_v\)</span> has to be added to match Eq. <a class="reference internal" href="#equation-impulsion-balance-ref">(185)</a>.</p>
+<div class="admonition-version-2-forces-to-add admonition">
+<p class="admonition-title">Version 2: forces to add</p>
+<p>To match <a class="reference internal" href="#equation-impulsion-balance-v2">(206)</a> to Eq. <a class="reference internal" href="#equation-impulsion-balance-ref">(185)</a>, two force terms must be added in the microscopic forcing term of LBE (e.g. see <a class="footnote-reference brackets" href="#footcite-fakhari-etal-pre2017" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>). The first one is the pressure force pressure force <span class="math notranslate nohighlight">\(\boldsymbol{F}_p\)</span> defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-pressure">
+<span class="eqno">(209)<a class="headerlink" href="#equation-force-pressure" title="Link to this equation"></a></span>\[\boldsymbol{F}_{p}=-\frac{p_{h}}{\varrho}\boldsymbol{\nabla}\varrho\]</div>
+<p>The second one is the viscosity force <span class="math notranslate nohighlight">\(\boldsymbol{F}_v\)</span> defined by</p>
+<div class="math notranslate nohighlight" id="equation-force-viscos">
+<span class="eqno">(210)<a class="headerlink" href="#equation-force-viscos" title="Link to this equation"></a></span>\[\boldsymbol{F}_{v}=\nu\left[\boldsymbol{\nabla}\boldsymbol{u}+(\boldsymbol{\nabla}\boldsymbol{u})^{T}\right]\cdot\boldsymbol{\nabla}\varrho(\phi)\]</div>
+</div>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div class="docutils container" id="id5">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-zou-etal-incompressible-jsp1995" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Qisu Zou, Shuling Hou, Shiyi Chen, and Gary D. Doolen. A improved incompressible lattice boltzmann model for time-independent flows. <em>Journal of Statistical Physics</em>, 81(1):35–48, Oct 1995. URL: <a class="reference external" href="https://doi.org/10.1007/BF02179966">https://doi.org/10.1007/BF02179966</a>, <a class="reference external" href="https://doi.org/10.1007/BF02179966">doi:10.1007/BF02179966</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-he-luo-incompressible-jsp1997" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>X. He and L.-S. Luo. Lattice boltzmann model for the incompressible navier-stokes equation. <em>Journal of Statistical Physics</em>, 88(3/4):pp. 927–944, 1997.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-zu-he-pre2013" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Y. Q. Zu and S. He. Phase-field-based lattice boltzmann model for incompressible binary fluid systems with density and viscosity contrasts. <em>Phys. Rev. E</em>, 87:043301, 2013. <a class="reference external" href="https://doi.org/10.1103/PhysRevE.87.043301">doi:10.1103/PhysRevE.87.043301</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-fakhari-etal-pre2017" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Abbas Fakhari, Travis Mitchell, Christopher Leonardi, and Diogo Bolster. Improved locality of the phase-field lattice-boltzmann model for immiscible fluids at high density ratios. <em>Phys. Rev. E</em>, 96:053301, Nov 2017. URL: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevE.96.053301">https://link.aps.org/doi/10.1103/PhysRevE.96.053301</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevE.96.053301">doi:10.1103/PhysRevE.96.053301</a>.</p>
+</aside>
+</aside>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Equilibrium distribution functions for incompressible Navier-Stokes equations</a><ul>
+<li><a class="reference internal" href="#standard-f-i-eq-for-single-phase-incompressible-ns">Standard <span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for single-phase incompressible NS</a></li>
+<li><a class="reference internal" href="#f-i-eq-for-incompressible-two-phase-flows"><span class="math notranslate nohighlight">\(f_i^{eq}\)</span> for incompressible two-phase flows</a><ul>
+<li><a class="reference internal" href="#version-1-for-variable-density">Version 1 for variable density</a></li>
+<li><a class="reference internal" href="#version-2-for-variable-density">Version 2 for variable density</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="02_Collision-Operators_LBMSaclay.html"
+                          title="previous chapter">Collisions operators in LBM_Saclay</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="04_Equilibrium-Functions_Transport-Equations.html"
+                          title="next chapter">Equilibrium distribution functions for Transport equations</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="04_Equilibrium-Functions_Transport-Equations.html" title="Equilibrium distribution functions for Transport equations"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="02_Collision-Operators_LBMSaclay.html" title="Collisions operators in LBM_Saclay"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" >PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Equilibrium distribution functions for incompressible Navier-Stokes equations</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

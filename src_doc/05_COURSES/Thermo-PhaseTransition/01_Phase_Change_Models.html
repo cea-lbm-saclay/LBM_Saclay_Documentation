@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Model of solidification and crystal growth &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of solidification and crystal growth</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="model-of-solidification-and-crystal-growth">
+<span id="solid-liquid-phase-change"></span><h1>Model of solidification and crystal growth<a class="headerlink" href="#model-of-solidification-and-crystal-growth" title="Link to this heading"></a></h1>
+<section id="useful-thermodynamic-relations-for-phase-change">
+<h2>Useful thermodynamic relations for phase change<a class="headerlink" href="#useful-thermodynamic-relations-for-phase-change" title="Link to this heading"></a></h2>
+<p>Specific heat (dim <span class="math notranslate nohighlight">\([\text{E}]/([\text{M}].[\Theta])\)</span></p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+At constant pressure</div>
+<div class="math notranslate nohighlight" id="equation-def-specific-heat-p">
+<span class="eqno">()<a class="headerlink" href="#equation-def-specific-heat-p" title="Link to this equation"></a></span>\[C_{P}\,\hat{=}\,T\left(\frac{\partial s}{\partial T}\right)_{P}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+At constant volume</div>
+<div class="math notranslate nohighlight" id="equation-def-specific-heat-v">
+<span class="eqno">()<a class="headerlink" href="#equation-def-specific-heat-v" title="Link to this equation"></a></span>\[C_{v}\,\hat{=}\,T\left(\frac{\partial s}{\partial T}\right)_{\rho}\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Latent heat at melting temperature <span class="math notranslate nohighlight">\(T_m\)</span> (dim [E]/[M])</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-3 sd-row-cols-xs-3 sd-row-cols-sm-3 sd-row-cols-md-3 sd-row-cols-lg-3 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-column sd-col-3 sd-col-xs-3 sd-col-sm-3 sd-col-md-3 sd-col-lg-3 docutils">
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="math notranslate nohighlight" id="equation-latent-heat-melting">
+<span class="eqno">()<a class="headerlink" href="#equation-latent-heat-melting" title="Link to this equation"></a></span>\[\mathcal{L}\,\hat{=}\,T_m(s_{l}(T_m)-s_{s}(T_m))\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-column sd-col-3 sd-col-xs-3 sd-col-sm-3 sd-col-md-3 sd-col-lg-3 docutils">
+</div>
+</div>
+</div>
+<p>Thermodynamic Maxwell relations</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="math notranslate nohighlight" id="equation-dt-dv-s">
+<span class="eqno">()<a class="headerlink" href="#equation-dt-dv-s" title="Link to this equation"></a></span>\[\left(\frac{\partial T}{\partial v}\right)_{s}=-\left(\frac{\partial P}{\partial s}\right)_{v}\]</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-0">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-0" title="Link to this equation"></a></span>\[-\left(\frac{\partial s}{\partial P}\right)_{T}=\left(\frac{\partial v}{\partial T}\right)_{P}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="math notranslate nohighlight" id="equation-ds-dv-t">
+<span class="eqno">()<a class="headerlink" href="#equation-ds-dv-t" title="Link to this equation"></a></span>\[-\left(\frac{\partial s}{\partial v}\right)_{T}=-\left(\frac{\partial P}{\partial T}\right)_{v}\]</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-1">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-1" title="Link to this equation"></a></span>\[\left(\frac{\partial T}{\partial P}\right)_{s}=-\left(\frac{\partial v}{\partial s}\right)_{P}\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Proof of Eq. <a class="reference internal" href="03_Solidification.html#equation-dt-dv-s">(591)</a> with <span class="math notranslate nohighlight">\(\mathcal{U}(V,S)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial\mathcal{U}}{\partial V\partial S}=\frac{\partial\mathcal{U}}{\partial S\partial V}&amp;\Longleftrightarrow\frac{\partial}{\partial V}\underbrace{\left(\frac{\partial\mathcal{U}}{\partial S}\right)}_{\equiv T}=\frac{\partial}{\partial S}\underbrace{\left(\frac{\partial\mathcal{U}}{\partial V}\right)}_{\equiv-P}\\
+&amp;\Longleftrightarrow\left(\frac{\partial T}{\partial V}\right)_{S}=-\left(\frac{\partial P}{\partial S}\right)_{V}\end{split}\]</div>
+<p>Proof of Eq. <a class="reference internal" href="03_Solidification.html#equation-ds-dv-t">(593)</a> with <span class="math notranslate nohighlight">\(\mathcal{F}(V,T)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial\mathcal{F}}{\partial V\partial T}=\frac{\partial\mathcal{F}}{\partial T\partial V}&amp;\Longleftrightarrow\frac{\partial}{\partial V}\underbrace{\left(\frac{\partial\mathcal{F}}{\partial T}\right)}_{\equiv-S}=\frac{\partial}{\partial T}\underbrace{\left(\frac{\partial\mathcal{F}}{\partial V}\right)}_{\equiv-P}\\
+&amp;\Longleftrightarrow-\left(\frac{\partial S}{\partial V}\right)_{T}=-\left(\frac{\partial P}{\partial T}\right)_{V}\end{split}\]</div>
+</section>
+<section id="solidification-of-a-pure-substance-and-stefan-s-problem">
+<h2>Solidification of a pure substance and Stefan’s problem<a class="headerlink" href="#solidification-of-a-pure-substance-and-stefan-s-problem" title="Link to this heading"></a></h2>
+<p>We consider at the melting temperature <span class="math notranslate nohighlight">\(T_m\)</span>, the coexistence of a chemical specie <span class="math notranslate nohighlight">\(A\)</span> into two phases: a tiny solid seed inside a liquid bath of same specie. The temperature of the system <span class="math notranslate nohighlight">\(T\)</span> is quenched below the melting temperature  <span class="math notranslate nohighlight">\(T&lt;T_m\)</span>. Then the solidification occurs: the small seed grows i.e. the liquid becomes solid and the excess of latent heat <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is released at the interface and advected with the normal velocity of the interface <span class="math notranslate nohighlight">\(v_n\)</span>. The modeling of that phase change problem is performed with the classical Stefan’s problem.</p>
+<div class="admonition-stefan-s-problem-of-phase-change admonition">
+<p class="admonition-title">Stefan’s problem of phase change</p>
+<p>The Stefan’s model of phase change is composed of three equations: the heat equation with two conditions at interface between solid and liquid:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-2">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-2" title="Link to this equation"></a></span>\[C_{p}\frac{\partial T}{\partial t}=\Lambda_{\Phi}\boldsymbol{\nabla}^{2}T\]</div>
+<p>where <span class="math notranslate nohighlight">\(T\)</span> is the temperature, <span class="math notranslate nohighlight">\(\Lambda_{\Phi}\)</span> is the thermal conductivity for both phases <span class="math notranslate nohighlight">\(\Phi=0,1\)</span>. The first interface condition is the <strong>Stefan condition</strong> (conservation at interface):</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-3">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-3" title="Link to this equation"></a></span>\[\mathcal{L}v_{n}=(C_{p}\Lambda\boldsymbol{\nabla}T|_{sol}-C_{p}\Lambda\boldsymbol{\nabla}T|_{liq})\cdot\hat{\boldsymbol{n}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{\boldsymbol{n}}\)</span> is the normal vector at interface, and <span class="math notranslate nohighlight">\(v_{n}\)</span> the normal velocity of the interface, <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is the latent heat. The second interface condition is the <strong>Gibbs-Thomson</strong> condition:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-4">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-4" title="Link to this equation"></a></span>\[T_{i}=T_{m}-\frac{\sigma T_{m}}{\mathcal{L}}\kappa-\frac{v_{n}}{m_{k}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(T_i\)</span> is the temperature at the interface, <span class="math notranslate nohighlight">\(T_{m}\)</span> is the melting temperature, <span class="math notranslate nohighlight">\(\sigma\)</span> is the surface tension, <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is the latent heat, <span class="math notranslate nohighlight">\(\kappa\)</span> is the curvature, <span class="math notranslate nohighlight">\(m_{k}\)</span> is the interface mobility, and <span class="math notranslate nohighlight">\(v_{n}\)</span> is the normal velocity of interface.</p>
+</div>
+</section>
+<section id="derivation-of-phase-field-model">
+<h2>Derivation of phase-field model<a class="headerlink" href="#derivation-of-phase-field-model" title="Link to this heading"></a></h2>
+<p>The derivation of the phase-field model of solidification is inspired from <a class="footnote-reference brackets" href="#footcite-plapp-cism2012" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. For derivation of crystal growth model see <a class="footnote-reference brackets" href="#footcite-karma-rappel-pre1996" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> and <a class="footnote-reference brackets" href="#footcite-karma-rappel-pre1998" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
+<section id="free-energy-density-mathscr-f">
+<h3>Free energy density <span class="math notranslate nohighlight">\(\mathscr{F}\)</span><a class="headerlink" href="#free-energy-density-mathscr-f" title="Link to this heading"></a></h3>
+<p>The Stefan’s problem is a “sharp interface” modelling. Here, an equivalent diffuse interface is derived. We introduce a phase-field <span class="math notranslate nohighlight">\(\psi(\boldsymbol{x},t)\)</span> with <span class="math notranslate nohighlight">\(\psi=-1\)</span> in the solid phase and <span class="math notranslate nohighlight">\(\psi=+1\)</span> in the liquid phase. The solid (respectively liquid) is characterized by its specific heat <span class="math notranslate nohighlight">\(C_p^s\)</span> (resp. <span class="math notranslate nohighlight">\(C_p^l\)</span>) and thermal conductivity <span class="math notranslate nohighlight">\(\Lambda^s\)</span> (resp. <span class="math notranslate nohighlight">\(\Lambda^s\)</span>). The interface is characterized by its normal velocity <span class="math notranslate nohighlight">\(v_n\)</span>, the unit normal vector <span class="math notranslate nohighlight">\(\boldsymbol{n}_{\psi}\)</span> and the latent heat <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. The solidification problem is presented on Fig. <a class="reference internal" href="03_Solidification.html#fig-solidification-pheno"><span class="std std-numref">Fig. 69</span></a></p>
+<figure class="align-center" id="fig-solidification-pheno">
+<a class="reference internal image-reference" href="../../../_images/Solidification-psi.png"><img alt="../../../_images/Solidification-psi.png" height="172" src="../../../_images/Solidification-psi.png" width="368" />
+</a>
+<figcaption>
+<p><span class="caption-text">Solidification</span><a class="headerlink" href="#fig-solidification-pheno" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition-functional-of-free-energy admonition">
+<p class="admonition-title">Functional of free energy</p>
+<p><strong>Functional of free energy</strong></p>
+<blockquote>
+<div><p>The free energy density is now the functional of two functions <span class="math notranslate nohighlight">\(\psi\)</span> and <span class="math notranslate nohighlight">\(T\)</span></p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-5">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-5" title="Link to this equation"></a></span>\[\mathscr{F}[\psi,{\color{red}T}]=\int\Bigl[\underbrace{\mathcal{F}_{int}(\psi,\boldsymbol{\nabla}\psi)}_{\text{Standard interface free energy}}+\underbrace{{\color{red}f_{bulk}(\psi,T)}}_{\text{Thermodynamic of bulks}}\Bigr]dV\]</div>
+<p>That free energy density contains two contributions: the first one is the interface contribution <span class="math notranslate nohighlight">\(\mathcal{F}_{int}(\psi,\boldsymbol{\nabla}\psi)\)</span> and the second one the bulk free energy density <span class="math notranslate nohighlight">\(f_{bulk}(\psi,T)\)</span>.</p>
+</div></blockquote>
+<p><strong>Interface contribution</strong></p>
+<blockquote>
+<div><p>The first one is standard and has been widely discussed until now. It is defined by a double-well plus a gradient energy term:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{F}_{int}(\psi,\boldsymbol{\nabla}\psi)=f_{dw}(\psi)+\frac{\zeta}{2}(\boldsymbol{\nabla}\psi)^{2}\]</div>
+<p>where the double-well is defined by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f_{dw}(\psi)&amp;=Hg_{3}(\psi)\\
+&amp;=H(\psi-\psi^{\star})^{2}(\psi+\psi^{\star})^{2}\end{split}\]</div>
+<p>the minima are <span class="math notranslate nohighlight">\(\psi^{\star}=\pm1\)</span>. With that double-well free energy, the Euler-Lagrange solution and the interface have already been discussed in <a class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary reference internal" href="../Course_PF/01_Fundamentals_PF.html#alternative-double-wells"><span class="std std-ref">Alternative forms of double-wells</span></a>: the equilibrium solution is <span class="math notranslate nohighlight">\(\psi^{eq}(x)=\psi^{\star}\tanh\left(2x/W\right)\)</span>, the interface width is <span class="math notranslate nohighlight">\(W=\frac{1}{\psi^{\star}}\sqrt{\frac{2\zeta}{H}}\)</span> and the surface tension is <span class="math notranslate nohighlight">\(\sigma=\frac{4}{3}\sqrt{2\zeta H}\)</span>.</p>
+</div></blockquote>
+<p><strong>Bulk contribution</strong></p>
+<blockquote>
+<div><p>The bulk free energy density takes into account the free energy of each phase <span class="math notranslate nohighlight">\({\color{red}f_{s}(T)}\)</span> in the solid and <span class="math notranslate nohighlight">\({\color{red}f_{l}(T)}\)</span> in the liquid:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-6">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-6" title="Link to this equation"></a></span>\[f_{bulk}(\psi,T)=p_{s}(\psi){\color{red}f_{s}(T)}+\left[1-p_{s}(\psi)\right]{\color{red}f_{l}(T)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_{s}(\psi)\)</span> is an interpolation polynomial defined by:</p>
+<div class="math notranslate nohighlight" id="equation-polynomial-p-s">
+<span class="eqno">()<a class="headerlink" href="#equation-polynomial-p-s" title="Link to this equation"></a></span>\[p_{s}(\psi)=\frac{1+p(\psi)}{2}\]</div>
+<p>of minimum and maximum values between 0 and 1 (see Fig. <a class="reference internal" href="03_Solidification.html#fig-polynom-ps-psi"><span class="std std-numref">Fig. 70</span></a>). It is defined by <span class="math notranslate nohighlight">\(p(\psi)\)</span> of minimum and maximum values -1 and +1 (see Fig. <a class="reference internal" href="03_Solidification.html#fig-polynom-p-psi"><span class="std std-numref">Fig. 71</span></a>)</p>
+<div class="math notranslate nohighlight" id="equation-polynomial-p">
+<span class="eqno">()<a class="headerlink" href="#equation-polynomial-p" title="Link to this equation"></a></span>\[p(\psi)=\frac{15}{8}\left[\psi-\frac{2}{3}\psi^{3}+\frac{\psi^{5}}{5}\right]\]</div>
+</div></blockquote>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<figure class="align-center" id="fig-polynom-ps-psi">
+<a class="reference internal image-reference" href="../../../_images/Interpolation-Function_ps-psi.png"><img alt="../../../_images/Interpolation-Function_ps-psi.png" height="315" src="../../../_images/Interpolation-Function_ps-psi.png" width="460" />
+</a>
+<figcaption>
+<p><span class="caption-text">Interpolation function <span class="math notranslate nohighlight">\(p_s(\psi)\)</span></span><a class="headerlink" href="#fig-polynom-ps-psi" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<figure class="align-center" id="fig-polynom-p-psi">
+<a class="reference internal image-reference" href="../../../_images/Interpolation-Function_p-psi.png"><img alt="../../../_images/Interpolation-Function_p-psi.png" height="315" src="../../../_images/Interpolation-Function_p-psi.png" width="460" />
+</a>
+<figcaption>
+<p><span class="caption-text">Interpolation function <span class="math notranslate nohighlight">\(p(\psi)\)</span></span><a class="headerlink" href="#fig-polynom-p-psi" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Variation of</strong> <span class="math notranslate nohighlight">\(\mathscr{F}\)</span></p>
+<p>The variation of <span class="math notranslate nohighlight">\(\mathscr{F}\)</span> writes:</p>
+<div class="math notranslate nohighlight" id="equation-variation-free-energy">
+<span class="eqno">()<a class="headerlink" href="#equation-variation-free-energy" title="Link to this equation"></a></span>\[\delta\mathscr{F}=\int\left\{ -\zeta\boldsymbol{\nabla}^{2}\psi+f_{dw}^{\prime}(\psi)+\frac{p^{\prime}(\psi)}{2}\left[f_{s}(T)-f_{l}(T)\right]\right\} \delta\psi+\left\{ p_{s}(\psi)\frac{\partial f_{s}(T)}{\partial T}+[1-p_{s}(\psi)]\frac{\partial f_{l}(T)}{\partial T}\right\} \delta TdV\]</div>
+</section>
+<section id="temperature-equation">
+<h3>Temperature equation<a class="headerlink" href="#temperature-equation" title="Link to this heading"></a></h3>
+<div class="note admonition">
+<p class="admonition-title">Temperature equation</p>
+<p>The conservation of internal energy density <span class="math notranslate nohighlight">\(e\)</span> writes:</p>
+<div class="math notranslate nohighlight" id="equation-balance-internal-energy">
+<span class="eqno">()<a class="headerlink" href="#equation-balance-internal-energy" title="Link to this equation"></a></span>\[\frac{\partial e}{\partial t}=\boldsymbol{\nabla}\cdot(\Lambda\boldsymbol{\nabla}T)\]</div>
+<p>where the Fourier law has been assumed for the diffusive flux. After expressing the internal energy <span class="math notranslate nohighlight">\(e(\phi,s)\)</span> as a function of <span class="math notranslate nohighlight">\(T\)</span> (see proof below), we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-temperature-equation-solidification">
+<span class="eqno">()<a class="headerlink" href="#equation-temperature-equation-solidification" title="Link to this equation"></a></span>\[\boxed{C_{p}\frac{\partial T}{\partial t}=\boldsymbol{\nabla}\cdot(\Lambda\boldsymbol{\nabla}T)-\underbrace{\frac{1}{2}p^{\prime}(\psi)\mathcal{L}\frac{\partial\psi}{\partial t}}_{\text{Latent heat at interface}}}\]</div>
+</div>
+<p><strong>Proof</strong></p>
+<ul>
+<li><p>Variation of <span class="math notranslate nohighlight">\(\mathscr{F}\)</span> wrt <span class="math notranslate nohighlight">\(T\)</span>: opposite of entropy</p>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-def-entropy-wrt-psi-t">
+<span class="eqno">()<a class="headerlink" href="#equation-def-entropy-wrt-psi-t" title="Link to this equation"></a></span>\[\begin{split}s(\psi,T)&amp;=-\frac{\delta\mathscr{F}}{\delta T}\\
+&amp;=-\frac{\partial f_{bulk}(\psi,T)}{\partial T}\\
+     &amp;=-p_{s}(\psi)\underbrace{\frac{\partial f_{s}}{\partial T}}_{s_{s}(T)}-\left[1-p_{s}(\psi)\right]\underbrace{\frac{\partial f_{l}}{\partial T}}_{s_{l}(T)}\end{split}\]</div>
+</div></blockquote>
+</li>
+<li><p>Thermo identity (<span class="math notranslate nohighlight">\(de=Tds\)</span>) and chain rule</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}de&amp;=Tds(\psi,T)\\
+     &amp;=\underbrace{T\frac{\partial s}{\partial T}}_{C_{p}\text{: specific heat}}dT+T\underbrace{\frac{\partial s}{\partial\psi}}_{\text{use previous Eq.}}d\psi\end{split}\]</div>
+<p>For the first term of the right-hand side we use the definition of specific heat Eq. <a class="reference internal" href="Phase_Change_Models.html#equation-def-specific-heat-p">()</a>. For the second term we derive Eq. <a class="reference internal" href="Phase_Change_Models.html#equation-def-entropy-wrt-psi-t">()</a> wrt <span class="math notranslate nohighlight">\(\psi\)</span>. After division by <span class="math notranslate nohighlight">\(dt\)</span>, we obtain</p>
+<div class="math notranslate nohighlight" id="equation-second-form-de-dt">
+<span class="eqno">()<a class="headerlink" href="#equation-second-form-de-dt" title="Link to this equation"></a></span>\[\frac{\partial e}{\partial t}     =C_{p}\frac{\partial T}{\partial t}+p_{s}^{\prime}(\psi)\underbrace{T\left[s_{l}(T)-s_{s}(T)\right]}_{\equiv\mathcal{L}\text{: latent heat}}\frac{\partial\psi}{\partial t}\]</div>
+<p>Finally by replacing Eq. <a class="reference internal" href="Phase_Change_Models.html#equation-second-form-de-dt">()</a> in Eq. <a class="reference internal" href="Phase_Change_Models.html#equation-balance-internal-energy">()</a>, we obtain Eq. <a class="reference internal" href="Phase_Change_Models.html#equation-temperature-equation-solidification">()</a>.</p>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="phase-field-equation">
+<h3>Phase-field equation<a class="headerlink" href="#phase-field-equation" title="Link to this heading"></a></h3>
+<p>The dynamic of <span class="math notranslate nohighlight">\(\psi\)</span> must obey to the following Allen-Cahn equation Eq. <a class="reference internal" href="../Course_PF/02_CH_CAC_Models.html#equation-allen-cahn-course">(462)</a> to minimize the free energy:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-7">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-7" title="Link to this equation"></a></span>\[\frac{1}{\mathscr{M}_{\psi}}\frac{\partial\psi}{\partial t}=-\frac{\delta\mathscr{F}}{\delta\psi}\]</div>
+<p>To calculate the variation of <span class="math notranslate nohighlight">\(\mathscr{F}\)</span> wrt <span class="math notranslate nohighlight">\(\psi\)</span>, we use Eq. <a class="reference internal" href="Phase_Change_Models.html#equation-variation-free-energy">()</a>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{1}{\mathscr{M}_{\psi}}\frac{\partial\psi}{\partial t}&amp;={\color{gray}-\frac{\delta\mathscr{F}_{int}(\psi,\boldsymbol{\nabla}\psi)}{\delta\psi}}-\frac{\partial f_{bulk}(\psi,T)}{\partial\psi}\\
+     &amp;={\color{gray}\zeta\boldsymbol{\nabla}^{2}\psi-f_{dw}^{\prime}(\psi)}-\underbrace{\frac{p^{\prime}(\psi)}{2}\left[f_{s}(T)-f_{l}(T)\right]}_{\text{Thermodynamic driving source}}\end{split}\]</div>
+<p>To simplify the thermodynamic driving source, a common hypothesis is to consider the temperature <span class="math notranslate nohighlight">\(T\)</span> close to the melting temperature <span class="math notranslate nohighlight">\(T_m\)</span>. A Taylor expansion yields:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-8">
+<span class="eqno">()<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-01-phase-change-models-8" title="Link to this equation"></a></span>\[f_{\Phi}(T)\sim f_{\Phi}(T_{m})+\left.\frac{\partial f_{\Phi}}{\partial T}\right|_{T_{m}}(T-T_{m})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Phi=s,l\)</span>. At <span class="math notranslate nohighlight">\(T_m\)</span>, <span class="math notranslate nohighlight">\(f_l(T_m)=f_s(T_m)\)</span> and the latent heat is <a class="reference internal" href="Phase_Change_Models.html#equation-latent-heat-melting">()</a> <span class="math notranslate nohighlight">\(\mathcal{L}=T_{m}[s_{l}(T_{m})-s_{s}(T_{m})]\)</span>. Finally</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{\mathscr{M}_{\psi}}\frac{\partial\psi}{\partial t}=\zeta\boldsymbol{\nabla}^{2}\psi-Hg_{3}^{\prime}(\psi)-\frac{p^{\prime}(\psi)}{2}\frac{\mathcal{L}}{T_{m}}(T-T_{m})\]</div>
+<p>In the right-hand side, the coefficient <span class="math notranslate nohighlight">\(H\)</span> is set in factor:</p>
+<div class="math notranslate nohighlight" id="equation-phase-field-eq-intermediate">
+<span class="eqno">()<a class="headerlink" href="#equation-phase-field-eq-intermediate" title="Link to this equation"></a></span>\[\frac{1}{\mathscr{M}_{𝜓}}\frac{\partial\psi}{\partial t}=H\left[\frac{\zeta}{H}\boldsymbol{\nabla}^{2}𝜓-g_{3}^{\prime}(𝜓)-\frac{1}{H}\frac{p^{\prime}(𝜓)}{2}\frac{\mathcal{L}}{T_{m}}(T-T_{m})\right]\]</div>
+<p>and we define new coefficients:</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-3 sd-row-cols-xs-3 sd-row-cols-sm-3 sd-row-cols-md-3 sd-row-cols-lg-3 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-4 sd-col-xs-4 sd-col-sm-4 sd-col-md-4 sd-col-lg-4 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Characteristic time</div>
+<div class="math notranslate nohighlight" id="equation-phase-field-parameter-tau0">
+<span class="eqno">()<a class="headerlink" href="#equation-phase-field-parameter-tau0" title="Link to this equation"></a></span>\[\tau_{0}=\frac{1}{(H\mathscr{M}_{\psi})}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-4 sd-col-xs-4 sd-col-sm-4 sd-col-md-4 sd-col-lg-4 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Interface width</div>
+<div class="math notranslate nohighlight" id="equation-phase-field-parameter-w0">
+<span class="eqno">()<a class="headerlink" href="#equation-phase-field-parameter-w0" title="Link to this equation"></a></span>\[W_{0}=\sqrt{\frac{\zeta}{H}}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-4 sd-col-xs-4 sd-col-sm-4 sd-col-md-4 sd-col-lg-4 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Coupling coefficient</div>
+<div class="math notranslate nohighlight" id="equation-phase-field-parameters-lambda">
+<span class="eqno">()<a class="headerlink" href="#equation-phase-field-parameters-lambda" title="Link to this equation"></a></span>\[\lambda=\frac{1}{H}\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Finally, using Eqs. <a class="reference internal" href="03_Solidification.html#equation-phase-field-parameter-tau0">(610)</a>, <a class="reference internal" href="03_Solidification.html#equation-phase-field-parameter-w0">(611)</a> and <a class="reference internal" href="03_Solidification.html#equation-phase-field-parameters-lambda">(612)</a> in Eq. <a class="reference internal" href="03_Solidification.html#equation-phase-field-eq-intermediate">(609)</a> we obtain for the phase-field equation:</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-3 sd-row-cols-xs-3 sd-row-cols-sm-3 sd-row-cols-md-3 sd-row-cols-lg-3 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-column sd-col-3 sd-col-xs-3 sd-col-sm-3 sd-col-md-3 sd-col-lg-3 docutils">
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Phase-field equation</div>
+<div class="math notranslate nohighlight" id="equation-phase-field-solidification">
+<span class="eqno">()<a class="headerlink" href="#equation-phase-field-solidification" title="Link to this equation"></a></span>\[\tau_{0}\frac{\partial𝜓}{\partial t}=W_{0}^{2}\boldsymbol{\nabla}^{2}𝜓-g_{3}^{\prime}(𝜓)-\lambda\frac{p^{\prime}(𝜓)}{2}\frac{\mathcal{L}}{T_{m}}(T-T_{m})\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-column sd-col-3 sd-col-xs-3 sd-col-sm-3 sd-col-md-3 sd-col-lg-3 docutils">
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h3>
+<div class="error admonition">
+<p class="admonition-title">Phase-field model of solidification</p>
+<p>The phase-field model of solidification is composed of one phase-field equation for the interface:</p>
+<div class="math notranslate nohighlight" id="equation-phase-field-solidification-summary">
+<span class="eqno">()<a class="headerlink" href="#equation-phase-field-solidification-summary" title="Link to this equation"></a></span>\[\tau_{0}\frac{\partial𝜓}{\partial t}=W_{0}^{2}\boldsymbol{\nabla}^{2}𝜓-g_{3}^{\prime}(𝜓)-\lambda\frac{p^{\prime}(𝜓)}{2}\frac{\mathcal{L}}{T_{m}}(T-T_{m})\]</div>
+<p>coupled with one temperature equation:</p>
+<div class="math notranslate nohighlight" id="equation-temperature-equation-solidification-summary">
+<span class="eqno">()<a class="headerlink" href="#equation-temperature-equation-solidification-summary" title="Link to this equation"></a></span>\[C_{p}\frac{\partial T}{\partial t}=\boldsymbol{\nabla}\cdot(\Lambda\boldsymbol{\nabla}T)-\underbrace{\frac{1}{2}p^{\prime}(\psi)\mathcal{L}\frac{\partial\psi}{\partial t}}_{\text{Latent heat at interface}}\]</div>
+</div>
+</section>
+</section>
+<section id="equivalence-between-phase-field-model-and-stefan-s-problem">
+<h2>Equivalence between phase-field model and Stefan’s problem<a class="headerlink" href="#equivalence-between-phase-field-model-and-stefan-s-problem" title="Link to this heading"></a></h2>
+<div class="admonition-equivalence-between-sharp-and-diffuse-interface-models admonition">
+<p class="admonition-title">Equivalence between sharp and diffuse interface models</p>
+<p>The sharp interface model (Stefan’s problem) and the phase-field model expressed with the dimensionless temperature <span class="math notranslate nohighlight">\(\theta=(T-T_{m})C_{p}/\mathcal{L}\)</span> write:</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Stefan’s problem with dimnesionless temperature</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial\theta}{\partial t}&amp;=D\boldsymbol{\nabla}^{2}\theta\\
+v_{n}&amp;=D\hat{\boldsymbol{n}}\cdot(\boldsymbol{\nabla}\theta|_{sol}-\boldsymbol{\nabla}\theta|_{liq})\\
+\theta_{i}&amp;=-{\color{red}d_{0}}\kappa-{\color{red}\beta}v_{n}\end{split}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Phase-field model with dimensionless temperature</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{\partial\theta}{\partial t}&amp;=D\boldsymbol{\nabla}^{2}\theta-\frac{1}{2}p^{\prime}(\psi)\frac{\partial\psi}{\partial t}\\
+{\color{blue}\tau_{0}}\frac{\partial\psi}{\partial t}&amp;={\color{blue}W_{0}^{2}}\boldsymbol{\nabla}^{2}\psi-g_{3}^{\prime}(\psi)-{\color{blue}\lambda}\frac{p^{\prime}(\psi)}{2}\theta\end{split}\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(\theta\)</span> is the dimensionless temperature, <span class="math notranslate nohighlight">\(d_{0}=\sigma_{0}T_{m}C_{p}/\mathcal{L}^{2}\)</span> is the capillary length, and <span class="math notranslate nohighlight">\(\beta=C_{p}/\mathcal{L}m\)</span> is the kinetic coefficient. With the matched asymptotic expansions, it is proved that both models are equivalent provided that the two following conditions hold:</p>
+<div class="math notranslate nohighlight" id="equation-equiv1-pf-sp">
+<span class="eqno">()<a class="headerlink" href="#equation-equiv1-pf-sp" title="Link to this equation"></a></span>\[{\color{red}d_{0}}={\color{teal}a_{1}}\frac{{\color{blue}W_{0}}}{{\color{blue}\lambda}}\]</div>
+<div class="math notranslate nohighlight" id="equation-equiv2-pf-sp">
+<span class="eqno">()<a class="headerlink" href="#equation-equiv2-pf-sp" title="Link to this equation"></a></span>\[{\color{red}\beta}={\color{teal}a_{1}}\left[\frac{{\color{blue}\tau_{0}}}{{\color{blue}\lambda}{\color{blue}W_{0}}}-{\color{teal}a_{2}}\frac{{\color{blue}W_{0}}}{D}\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\({\color{teal}a_{1}}=0.8839\)</span> and <span class="math notranslate nohighlight">\({\color{teal}a_{2}}=0.6267\)</span> (see <a class="footnote-reference brackets" href="#footcite-karma-rappel-pre1998" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>). In the right-hand side of Eqs. <a class="reference internal" href="Phase_Change_Models.html#equation-equiv1-pf-sp">()</a> and <a class="reference internal" href="Phase_Change_Models.html#equation-equiv2-pf-sp">()</a>  <span class="math notranslate nohighlight">\(\lambda\)</span>, <span class="math notranslate nohighlight">\(W_{0}\)</span> and <span class="math notranslate nohighlight">\(\tau_{0}\)</span> are the parameters of the phase-field model.</p>
+</div>
+</section>
+<section id="anisotropy-function-and-phase-field-model-of-crystal-growth">
+<h2>Anisotropy function and phase-field model of crystal growth<a class="headerlink" href="#anisotropy-function-and-phase-field-model-of-crystal-growth" title="Link to this heading"></a></h2>
+<p>Dependence of properties with normal vector <span class="math notranslate nohighlight">\(\boldsymbol{n}\equiv\boldsymbol{n}_{\psi}=-\boldsymbol{\nabla}\psi/\bigl|\boldsymbol{\nabla}\psi\bigr|\)</span></p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-3 sd-row-cols-xs-3 sd-row-cols-sm-3 sd-row-cols-md-3 sd-row-cols-lg-3 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-4 sd-col-xs-4 sd-col-sm-4 sd-col-md-4 sd-col-lg-4 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Surface tension <span class="math notranslate nohighlight">\(\sigma\equiv\sigma(\boldsymbol{n})\)</span></div>
+<div class="math notranslate nohighlight" id="equation-def-sigma-n">
+<span class="eqno">()<a class="headerlink" href="#equation-def-sigma-n" title="Link to this equation"></a></span>\[\sigma(\boldsymbol{n})=\sigma_{0}{\color{red}a_{s}(\boldsymbol{n})}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-4 sd-col-xs-4 sd-col-sm-4 sd-col-md-4 sd-col-lg-4 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+kinetic coefficient <span class="math notranslate nohighlight">\(\beta\equiv\beta(\boldsymbol{n})\)</span></div>
+<div class="math notranslate nohighlight" id="equation-def-beta-n">
+<span class="eqno">()<a class="headerlink" href="#equation-def-beta-n" title="Link to this equation"></a></span>\[\beta(\boldsymbol{n})=\beta_{0}{\color{red}a_{s}(\boldsymbol{n})}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-4 sd-col-xs-4 sd-col-sm-4 sd-col-md-4 sd-col-lg-4 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Interface width <span class="math notranslate nohighlight">\(W\equiv W(\boldsymbol{n})\)</span></div>
+<div class="math notranslate nohighlight" id="equation-def-width-n">
+<span class="eqno">()<a class="headerlink" href="#equation-def-width-n" title="Link to this equation"></a></span>\[W(\boldsymbol{n})=W_{0}{\color{red}a_{s}(\boldsymbol{n})}\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>where the anisotropy function <span class="math notranslate nohighlight">\(a_{s}(\boldsymbol{n})\)</span> depends on the shape of crystal we want to simulate. Two anisotropy functions are presented below for main growing directions [100] and [110].</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-5 sd-col-xs-5 sd-col-sm-5 sd-col-md-5 sd-col-lg-5 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Definition of <span class="math notranslate nohighlight">\(a_s(\boldsymbol{n})\)</span> for [100] directions</div>
+<div class="math notranslate nohighlight" id="equation-def-as-n">
+<span class="eqno">()<a class="headerlink" href="#equation-def-as-n" title="Link to this equation"></a></span>\[{\color{red}a_{s}(\boldsymbol{n})}=1+\epsilon_{s}\left[4(n_{x}^{4}+n_{y}^{4}+n_{z}^{4})-3\right]\]</div>
+<p class="sd-card-text">where <span class="math notranslate nohighlight">\(\epsilon_s\)</span> is a positive parameter.</p>
+<p class="sd-card-text"><br /></p>
+<figure class="align-center" id="fig-anisotropy-function">
+<a class="reference internal image-reference" href="../../../_images/As_SumQ.png"><img alt="../../../_images/As_SumQ.png" height="144" src="../../../_images/As_SumQ.png" width="184" />
+</a>
+<figcaption>
+<p><span class="caption-text">Representation of Eq. <a class="reference internal" href="03_Solidification.html#equation-def-as-n">(621)</a></span><a class="headerlink" href="#fig-anisotropy-function" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-7 sd-col-xs-7 sd-col-sm-7 sd-col-md-7 sd-col-lg-7 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Definition of <span class="math notranslate nohighlight">\(a_s(\boldsymbol{n})\)</span> for [110] directions</div>
+<div class="math notranslate nohighlight" id="equation-def-as-n-110">
+<span class="eqno">()<a class="headerlink" href="#equation-def-as-n-110" title="Link to this equation"></a></span>\[a_{s}(\boldsymbol{n})=1+\epsilon_{s}\left(\sum_{\alpha}n_{\alpha}^{4}-\frac{3}{5}\right)+\delta\left(3\sum_{\alpha}n_{\alpha}^{4}+66n_{x}^{2}n_{y}^{2}n_{z}^{2}-\frac{17}{7}\right)\]</div>
+<p class="sd-card-text">where <span class="math notranslate nohighlight">\(\epsilon_s\)</span> and <span class="math notranslate nohighlight">\(\delta\)</span> are positive parameters.</p>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../../../_images/As_Eps2_Fois_SumQ_Plus_66S.png"><img alt="../../../_images/As_Eps2_Fois_SumQ_Plus_66S.png" height="144" src="../../../_images/As_Eps2_Fois_SumQ_Plus_66S.png" width="184" />
+</a>
+<figcaption>
+<p><span class="caption-text">Representation of Eq. <a class="reference internal" href="03_Solidification.html#equation-def-as-n-110">(622)</a></span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="admonition-phase-field-model-of-crystal-growth admonition">
+<p class="admonition-title">Phase-field model of crystal growth</p>
+<p><strong>Phase-field equation</strong></p>
+<div class="math notranslate nohighlight" id="equation-phase-field-crystal-growth">
+<span class="eqno">()<a class="headerlink" href="#equation-phase-field-crystal-growth" title="Link to this equation"></a></span>\[\tau_{0}{\color{red}a_{s}^{2}(\boldsymbol{n})}\frac{\partial\psi}{\partial t}=W_{0}^{2}\boldsymbol{\nabla}\cdot\left[{\color{red}a_{s}^{2}(\boldsymbol{n})}\boldsymbol{\nabla}\psi\right]+\boldsymbol{\nabla}\cdot{\color{blue}\boldsymbol{\mathcal{N}}(\boldsymbol{n})}+\underbrace{(1-\psi^{2})\left[\psi-\lambda\theta(1-\psi^{2})\right]}_{\text{source term of phase change (0 in bulks)}}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight" id="equation-def-vector-n">
+<span class="eqno">()<a class="headerlink" href="#equation-def-vector-n" title="Link to this equation"></a></span>\[{\color{blue}\boldsymbol{\mathcal{N}}(\boldsymbol{n})}=W_{0}^{2}\bigl|\boldsymbol{\nabla}\psi\bigr|^{2}{\color{red}a_{s}(\boldsymbol{n})}\frac{\partial{\color{red}a_{s}(\boldsymbol{n})}}{\partial(\partial_{\alpha}\psi)}\]</div>
+<p>and the anisotropy function <span class="math notranslate nohighlight">\(a_s(\boldsymbol{n})\)</span> is defined by Eq. <a class="reference internal" href="03_Solidification.html#equation-def-as-n">(621)</a>.</p>
+<p><strong>Temperature equation</strong></p>
+<p>The temperature equation remains unchanged:</p>
+<div class="math notranslate nohighlight" id="equation-temperature-crystal-growth">
+<span class="eqno">()<a class="headerlink" href="#equation-temperature-crystal-growth" title="Link to this equation"></a></span>\[\frac{\partial\theta}{\partial t}=D\boldsymbol{\nabla}^{2}\theta+\frac{1}{2}\frac{\partial\psi}{\partial t}\]</div>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div class="docutils container" id="id6">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-plapp-cism2012" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Mathis Plapp. <em>Phase-Field Models</em>, pages 129–175. Springer Vienna, 2012. <a class="reference external" href="https://doi.org/10.1007/978-3-7091-1227-4_4">doi:10.1007/978-3-7091-1227-4_4</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-karma-rappel-pre1996" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Alain Karma and Wouter-Jan Rappel. Phase-field method for computationally efficient modeling of solidification with arbitrary interface kinetics. <em>Physical Review E</em>, 53(4):R3017–R3020, 1996. <a class="reference external" href="https://doi.org/10.1103/PhysRevE.53.R3017">doi:10.1103/PhysRevE.53.R3017</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-karma-rappel-pre1998" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<p>Alain Karma and Wouter-Jan Rappel. Quantitative phase-field modeling of dendritic growth in two and three dimensions. <em>Phys. Rev. E</em>, 57:4323–4349, Apr 1998. <a class="reference external" href="https://doi.org/10.1103/PhysRevE.57.4323">doi:10.1103/PhysRevE.57.4323</a>.</p>
+</aside>
+</aside>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Model of solidification and crystal growth</a><ul>
+<li><a class="reference internal" href="#useful-thermodynamic-relations-for-phase-change">Useful thermodynamic relations for phase change</a></li>
+<li><a class="reference internal" href="#solidification-of-a-pure-substance-and-stefan-s-problem">Solidification of a pure substance and Stefan’s problem</a></li>
+<li><a class="reference internal" href="#derivation-of-phase-field-model">Derivation of phase-field model</a><ul>
+<li><a class="reference internal" href="#free-energy-density-mathscr-f">Free energy density <span class="math notranslate nohighlight">\(\mathscr{F}\)</span></a></li>
+<li><a class="reference internal" href="#temperature-equation">Temperature equation</a></li>
+<li><a class="reference internal" href="#phase-field-equation">Phase-field equation</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#equivalence-between-phase-field-model-and-stefan-s-problem">Equivalence between phase-field model and Stefan’s problem</a></li>
+<li><a class="reference internal" href="#anisotropy-function-and-phase-field-model-of-crystal-growth">Anisotropy function and phase-field model of crystal growth</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model of solidification and crystal growth</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

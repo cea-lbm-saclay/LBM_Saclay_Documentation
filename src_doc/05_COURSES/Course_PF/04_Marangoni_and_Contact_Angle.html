@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Contact angle and Marangoni force &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Two-phase with surfactant" href="05_Two_Phase_With_Surfactant.html" />
+    <link rel="prev" title="Details for deriving constitutive laws" href="D_Constitutive_Laws.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="05_Two_Phase_With_Surfactant.html" title="Two-phase with surfactant"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="D_Constitutive_Laws.html" title="Details for deriving constitutive laws"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Phase-Field.html" accesskey="U">PART V.B. Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Contact angle and Marangoni force</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="contact-angle-and-marangoni-force">
+<span id="contact-angle"></span><h1>Contact angle and Marangoni force<a class="headerlink" href="#contact-angle-and-marangoni-force" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>Contact angle<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="law-of-young-dupre">
+<h3>Law of Young-Dupré<a class="headerlink" href="#law-of-young-dupre" title="Link to this heading"></a></h3>
+<div class="admonition-law-of-young-dupre admonition">
+<p class="admonition-title">Law of Young-Dupré</p>
+<p>When a liquid (phase <span class="math notranslate nohighlight">\(L\)</span>) and a gas (phase <span class="math notranslate nohighlight">\(G\)</span>) are in contact with a solid wall, there is an equilibrium angle <span class="math notranslate nohighlight">\(\theta^{eq}\)</span> corresponding to the equilibrium of three capillary forces <span class="math notranslate nohighlight">\(\vec{\sigma}_{Ls}\)</span> the capillary force between Liquid and solid, <span class="math notranslate nohighlight">\(\vec{\sigma}_{Gs}\)</span> the capillary force between Gas and solid, and <span class="math notranslate nohighlight">\(\vec{\sigma}_{LG}\)</span> the capillary force between Liquid and Gas (see Fig. <a class="reference internal" href="#fig-contactangleconcept"><span class="std std-numref">Fig. 62</span></a>). The contact angle <span class="math notranslate nohighlight">\(\theta^{eq}\)</span> can be expressed with the three surface tensions by the Young-Dupré law. Its derivation (see <a class="footnote-reference brackets" href="#footcite-degennes-etal2004" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>) can be performed with the work <span class="math notranslate nohighlight">\(d\mathcal{W}\)</span> of a small displacement <span class="math notranslate nohighlight">\(dx\)</span> (see Fig. <a class="reference internal" href="#fig-young-dupre-derivation"><span class="std std-numref">Fig. 63</span></a>):</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-0">
+<span class="eqno">(514)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-0" title="Link to this equation"></a></span>\[d\mathcal{W}=(\sigma_{Gs}-\sigma_{Ls})dx-\sigma_{LG}dx\cos(\theta^{eq})\]</div>
+<p>At equilibrium <span class="math notranslate nohighlight">\(d\mathcal{W}=0\)</span> and we obtain:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-1">
+<span class="eqno">(515)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-1" title="Link to this equation"></a></span>\[\boxed{\cos(\theta^{eq})=\frac{\sigma_{Gs}-\sigma_{Ls}}{\sigma_{LG}}}\]</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<figure class="align-center" id="fig-contactangleconcept">
+<a class="reference internal image-reference" href="../../../_images/Contact-Angle.png"><img alt="../../../_images/Contact-Angle.png" height="184" src="../../../_images/Contact-Angle.png" width="368" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 62 </span><span class="caption-text">Contact angle</span><a class="headerlink" href="#fig-contactangleconcept" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<figure class="align-center" id="fig-young-dupre-derivation">
+<a class="reference internal image-reference" href="../../../_images/Deriving_Young.png"><img alt="../../../_images/Deriving_Young.png" height="184" src="../../../_images/Deriving_Young.png" width="368" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 63 </span><span class="caption-text">Derivation of Young-Dupré Law</span><a class="headerlink" href="#fig-young-dupre-derivation" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="boundary-condition-for-diffuse-interface">
+<h3>Boundary condition for diffuse interface<a class="headerlink" href="#boundary-condition-for-diffuse-interface" title="Link to this heading"></a></h3>
+<div class="admonition-wall-free-energy admonition">
+<p class="admonition-title">Wall free energy</p>
+<p>In the case of phase-field theory, the interface is diffuse (see <a class="reference internal" href="#fig-diffuse-contact-angle"><span class="std std-numref">Fig. 64</span></a>) and the minimization is now carried out with an additional free energy: the wall free energy <span class="math notranslate nohighlight">\(\mathscr{F}+\mathscr{F}_{w}\)</span> where</p>
+<div class="math notranslate nohighlight" id="equation-free-energy-wall">
+<span class="eqno">(516)<a class="headerlink" href="#equation-free-energy-wall" title="Link to this equation"></a></span>\[\mathscr{F}_{w}=\int_{\partial V}[(\sigma_{Gs}-\sigma_{Ls})p(\phi)+\sigma_{Ls}]d(\partial V)\]</div>
+<p>where <span class="math notranslate nohighlight">\(d(\partial V)\)</span> is the wall surface, and <span class="math notranslate nohighlight">\(p(\phi)\)</span> is the interpolation polynomial <span class="math notranslate nohighlight">\(p(\phi)=\phi^{2}(3-2\phi)\)</span>. The variation <span class="math notranslate nohighlight">\(\delta(\mathscr{F}+\mathscr{F}_{w})/\delta\phi\)</span> yields:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-2">
+<span class="eqno">(517)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-2" title="Link to this equation"></a></span>\[\int_{\partial V}\biggl[\zeta\boldsymbol{\nabla}\phi\cdot\hat{\boldsymbol{n}}+\underbrace{(\sigma_{Gs}-\sigma_{Ls})}_{\text{use Young-Dupré law}}p^{\prime}(\phi)\biggr]d(\partial V)=0\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{\boldsymbol{n}}\)</span> is the normal vector at the wall boundary. After using the Young-Dupré law, we obtain the boundary condition for the phase-field <span class="math notranslate nohighlight">\(\phi\)</span> at the solid surface:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-3">
+<span class="eqno">(518)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-3" title="Link to this equation"></a></span>\[\boxed{\zeta\boldsymbol{\nabla}\phi\cdot\hat{\boldsymbol{n}}=-\sigma_{LG}\cos(\theta^{eq})p^{\prime}(\phi)}\]</div>
+<p>Remark: if <span class="math notranslate nohighlight">\(\theta^{eq}=90{^\circ}\)</span> then <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\phi\cdot\hat{\boldsymbol{n}}=0\)</span></p>
+</div>
+<figure class="align-center" id="fig-diffuse-contact-angle">
+<a class="reference internal image-reference" href="../../../_images/Diffuse_Contact-Angle.png"><img alt="../../../_images/Diffuse_Contact-Angle.png" height="230" src="../../../_images/Diffuse_Contact-Angle.png" width="460" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 64 </span><span class="caption-text">Contact angle for diffuse interface</span><a class="headerlink" href="#fig-diffuse-contact-angle" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="marangoni-force">
+<span id="id3"></span><h2>Marangoni force<a class="headerlink" href="#marangoni-force" title="Link to this heading"></a></h2>
+<section id="difference-of-normal-stress-tensor-between-liquid-and-gas">
+<h3>Difference of normal stress tensor between liquid and gas<a class="headerlink" href="#difference-of-normal-stress-tensor-between-liquid-and-gas" title="Link to this heading"></a></h3>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Normal stress</div>
+<div class="math notranslate nohighlight" id="equation-normal-stress-marangoni">
+<span class="eqno">(519)<a class="headerlink" href="#equation-normal-stress-marangoni" title="Link to this equation"></a></span>\[\begin{split}(\overline{\overline{\boldsymbol{T}}}_{l}-\overline{\overline{\boldsymbol{T}}}_{g})\cdot\hat{\boldsymbol{n}}&amp;=\boldsymbol{\nabla}\cdot\bigl\{\sigma(c)\bigl[\overline{\overline{\boldsymbol{I}}}-\hat{\boldsymbol{n}}\otimes\hat{\boldsymbol{n}}\bigr]\bigr\}\\
+&amp;=-\underbrace{\sigma(c)\kappa\hat{\boldsymbol{n}}}_{\text{Normal}}+\underbrace{{\color{red}\boldsymbol{\nabla}_{S}\sigma}(c)}_{\text{Tangential}}\end{split}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\overline{\overline{\boldsymbol{T}}}_{\Phi}=-p_{\Phi}\overline{\overline{\boldsymbol{I}}}+\eta_{\Phi}(\boldsymbol{\nabla}\boldsymbol{u}+\boldsymbol{\nabla}\boldsymbol{u}^{T})\)</span>: stress tensor with <span class="math notranslate nohighlight">\(\Phi=l,g\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{\boldsymbol{n}}\)</span>: normal vector</p></li>
+<li><p><span class="math notranslate nohighlight">\(\kappa=\boldsymbol{\nabla}\cdot\hat{\boldsymbol{n}}\)</span>: interface curvature</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\nabla}_{S}\,\hat{=}\,\boldsymbol{\nabla}-\hat{\boldsymbol{n}}(\hat{\boldsymbol{n}}\cdot\boldsymbol{\nabla})\)</span>: gradient along surface</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Normal force</div>
+<p class="sd-card-text">In Eq. <a class="reference internal" href="#equation-normal-stress-marangoni">(519)</a>, if <span class="math notranslate nohighlight">\(\sigma\)</span> is a constant then the normal force is the capillary force:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-4">
+<span class="eqno">(520)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-4" title="Link to this equation"></a></span>\[\boldsymbol{F}_{c}=-\delta_{\Sigma}\sigma\kappa\hat{\boldsymbol{n}}\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Marangoni force</div>
+<p class="sd-card-text">In Eq. <a class="reference internal" href="#equation-normal-stress-marangoni">(519)</a>, if <span class="math notranslate nohighlight">\(\sigma\)</span> is a function of composition <span class="math notranslate nohighlight">\(\sigma(c(\boldsymbol{x},t))\)</span> or temperature <span class="math notranslate nohighlight">\(\sigma(T(\boldsymbol{x},t))\)</span>, then</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-5">
+<span class="eqno">(521)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-5" title="Link to this equation"></a></span>\[\boldsymbol{F}_{s}=\boldsymbol{F}_{c}+{\color{red}\boldsymbol{F}_{M}}=\delta_{\Sigma}(-\sigma\kappa\hat{\boldsymbol{n}}+{\color{red}\boldsymbol{\nabla}_{S}\sigma})\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="usual-function-of-sigma-as-function-of-c-or-t">
+<h3>Usual function of <span class="math notranslate nohighlight">\(\sigma\)</span> as function of <span class="math notranslate nohighlight">\(c\)</span> or <span class="math notranslate nohighlight">\(T\)</span><a class="headerlink" href="#usual-function-of-sigma-as-function-of-c-or-t" title="Link to this heading"></a></h3>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Linear</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-6">
+<span class="eqno">(522)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-6" title="Link to this equation"></a></span>\[\sigma(c)      =\sigma_{ref}+\frac{d\sigma}{dc}(c-c_{ref})\]</div>
+<p class="sd-card-text">where <span class="math notranslate nohighlight">\(d\sigma/dc=\sigma_{c}&lt;0\)</span></p>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Logarithm</div>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-7">
+<span class="eqno">(523)<a class="headerlink" href="#equation-src-doc-05-courses-course-pf-04-marangoni-and-contact-angle-7" title="Link to this equation"></a></span>\[\sigma=\sigma_{ref}\left[1+\beta\ln(1-\frac{c}{c_{\infty}})\right]\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="marangoni-force-in-the-phase-field-framework">
+<h3>Marangoni force in the phase-field framework<a class="headerlink" href="#marangoni-force-in-the-phase-field-framework" title="Link to this heading"></a></h3>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Surface tension force</div>
+<div class="math notranslate nohighlight" id="equation-surface-tension-force-marangoni">
+<span class="eqno">(524)<a class="headerlink" href="#equation-surface-tension-force-marangoni" title="Link to this equation"></a></span>\[\boldsymbol{F}_{s}=\delta_{d}[-\sigma\kappa_{\phi}\boldsymbol{n}_{\phi}+\boldsymbol{\nabla}_{s}\sigma]\]</div>
+</div>
+</div>
+</div>
+<div class="sd-col sd-d-flex-row sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Capillary and Marangoni forces</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{F}_{c}&amp;=\mu_{\phi}\boldsymbol{\nabla}\phi\\\boldsymbol{F}_{M}&amp;=\frac{3W}{2}\left[\left|\boldsymbol{\nabla}\phi\right|^{2}\boldsymbol{\nabla}\sigma-(\boldsymbol{\nabla}\phi\cdot\boldsymbol{\nabla}\sigma)\boldsymbol{\nabla}\phi\right]\end{split}\]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Proof for</strong> <span class="math notranslate nohighlight">\(\boldsymbol{F}_{M}\)</span></p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<p>In <a class="reference internal" href="#equation-surface-tension-force-marangoni">(524)</a> use definition of</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{\nabla}_{s}&amp;\hat{=}\boldsymbol{\nabla}-\boldsymbol{n}_{\phi}(\boldsymbol{n}_{\phi}\cdot\boldsymbol{\nabla})\\
+\boldsymbol{n}_{\phi}&amp;\hat{=}\frac{\boldsymbol{\nabla}\phi}{\left|\boldsymbol{\nabla}\phi\right|}\\
+\delta_{d}&amp;\hat{=}\frac{3W}{2}\left|\boldsymbol{\nabla}\phi\right|^{2}\end{split}\]</div>
+</div>
+<div class="sd-col sd-d-flex-column sd-col-6 sd-col-xs-6 sd-col-sm-6 sd-col-md-6 sd-col-lg-6 docutils">
+<p>Use definition of</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{F}_{M}\,&amp;=\,\delta_{d}\boldsymbol{\nabla}_{s}\sigma\\
+     \,&amp;=\,\frac{3W}{2}\left|\boldsymbol{\nabla}\phi\right|^{2}[\boldsymbol{\nabla}\sigma-\boldsymbol{n}_{\phi}(\boldsymbol{n}_{\phi}\cdot\boldsymbol{\nabla}\sigma)]\\
+     \,&amp;=\,\frac{3W}{2}\left|\boldsymbol{\nabla}\phi\right|^{2}\left[\boldsymbol{\nabla}\sigma-\frac{\boldsymbol{\nabla}\phi}{\left|\boldsymbol{\nabla}\phi\right|}\left(\frac{\boldsymbol{\nabla}\phi}{\left|\boldsymbol{\nabla}\phi\right|}\cdot\boldsymbol{\nabla}\sigma\right)\right]\\
+     \,&amp;=\,\frac{3W}{2}\left[\left|\boldsymbol{\nabla}\phi\right|^{2}\boldsymbol{\nabla}\sigma-(\boldsymbol{\nabla}\phi\cdot\boldsymbol{\nabla}\sigma)\boldsymbol{\nabla}\phi\right]\end{split}\]</div>
+</div>
+</div>
+</div>
+<p>with chain rule for <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\sigma=(\partial\sigma/\partial c)\boldsymbol{\nabla}c\)</span></p>
+<div class="math notranslate nohighlight" id="equation-marangoni-force-phase-field">
+<span class="eqno">(525)<a class="headerlink" href="#equation-marangoni-force-phase-field" title="Link to this equation"></a></span>\[\boldsymbol{F}_{M}=\frac{3W}{2}\frac{\partial\sigma}{\partial c}\left[\left|\boldsymbol{\nabla}\phi\right|^{2}\boldsymbol{\nabla}c-(\boldsymbol{\nabla}\phi\cdot\boldsymbol{\nabla}c)\boldsymbol{\nabla}\phi\right]\]</div>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div class="docutils container" id="id4">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-degennes-etal2004" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
+<p>Pierre-Gilles de Gennes and Francoise Brochard-Wyart and David Quere. <em>Capillarity and Wetting Phenomena: Drops, Bubbles, Pearls, Waves</em>. Springer-Verlag, 2004. <a class="reference external" href="https://doi.org/https://doi.org/10.1007/978-0-387-21656-0">doi:https://doi.org/10.1007/978-0-387-21656-0</a>.</p>
+</aside>
+</aside>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Contact angle and Marangoni force</a><ul>
+<li><a class="reference internal" href="#id1">Contact angle</a><ul>
+<li><a class="reference internal" href="#law-of-young-dupre">Law of Young-Dupré</a></li>
+<li><a class="reference internal" href="#boundary-condition-for-diffuse-interface">Boundary condition for diffuse interface</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#marangoni-force">Marangoni force</a><ul>
+<li><a class="reference internal" href="#difference-of-normal-stress-tensor-between-liquid-and-gas">Difference of normal stress tensor between liquid and gas</a></li>
+<li><a class="reference internal" href="#usual-function-of-sigma-as-function-of-c-or-t">Usual function of <span class="math notranslate nohighlight">\(\sigma\)</span> as function of <span class="math notranslate nohighlight">\(c\)</span> or <span class="math notranslate nohighlight">\(T\)</span></a></li>
+<li><a class="reference internal" href="#marangoni-force-in-the-phase-field-framework">Marangoni force in the phase-field framework</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="D_Constitutive_Laws.html"
+                          title="previous chapter">Details for deriving constitutive laws</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="05_Two_Phase_With_Surfactant.html"
+                          title="next chapter">Two-phase with surfactant</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="05_Two_Phase_With_Surfactant.html" title="Two-phase with surfactant"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="D_Constitutive_Laws.html" title="Details for deriving constitutive laws"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Phase-Field.html" >PART V.B. Fundamentals of phase-field theory</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Contact angle and Marangoni force</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

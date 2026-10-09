@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Mass transfer through interfaces &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Fluid dynamics &amp; Thermodynamics" href="../Course_Fluid_Dyn/TOC_Fluid-Dyn.html" />
+    <link rel="prev" title="Dissolution with a grand-potential formulation" href="04_Dissolution.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Course_Fluid_Dyn/TOC_Fluid-Dyn.html" title="Fluid dynamics &amp; Thermodynamics"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="04_Dissolution.html" title="Dissolution with a grand-potential formulation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_PhaseField_For_PhaseTransition.html" accesskey="U">PART V.C. Phase-field models for phase transition</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Mass transfer through interfaces</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="mass-transfer-through-interfaces">
+<span id="mass-transfer"></span><h1>Mass transfer through interfaces<a class="headerlink" href="#mass-transfer-through-interfaces" title="Link to this heading"></a></h1>
+<section id="gibbs-thomson-condition">
+<span id="id1"></span><h2>Gibbs-Thomson condition<a class="headerlink" href="#gibbs-thomson-condition" title="Link to this heading"></a></h2>
+<section id="gibbs-thomson-condition-for-a-curved-interface">
+<h3>Gibbs-Thomson condition for a curved interface<a class="headerlink" href="#gibbs-thomson-condition-for-a-curved-interface" title="Link to this heading"></a></h3>
+<div class="admonition-gibbs-thomson-condition admonition">
+<p class="admonition-title">Gibbs-Thomson condition</p>
+<p>For a curved interface at equilibrium:</p>
+<div class="math notranslate nohighlight" id="equation-equilib-mu-curved">
+<span class="eqno">(635)<a class="headerlink" href="#equation-equilib-mu-curved" title="Link to this equation"></a></span>\[\mu_{in}^{eq}(\phi_{in})=\mu_{out}^{eq}(\phi_{out})=\mu_{i}^{eq}\]</div>
+<p>where the index <span class="math notranslate nohighlight">\(i\)</span> is for “interface”. The pressure difference is given by the Laplace’s law:</p>
+<div class="math notranslate nohighlight" id="equation-equilib-p-curved">
+<span class="eqno">(636)<a class="headerlink" href="#equation-equilib-p-curved" title="Link to this equation"></a></span>\[p_{in}(\phi_{in})-p_{out}(\phi_{out})=\sigma\kappa\]</div>
+<p>With its definition:</p>
+<p>With its def (Eq. ([eq:Def_p-c_local])), Eq. ([eq:Equilib_p_Curved]) writes</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-05-mass-transfer-0">
+<span class="eqno">(637)<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-05-mass-transfer-0" title="Link to this equation"></a></span>\[\phi_{in}\mu_{in}^{eq}-f(\phi_{in})-\phi_{out}\mu_{out}^{eq}+f(\phi_{out})=\sigma\kappa\]</div>
+<p>Using common tangent construction Eq. <a class="reference internal" href="../Course_PF/01_Fundamentals_PF.html#equation-mu-common-tangent">(397)</a> for <span class="math notranslate nohighlight">\(f_{dw}(\phi_{out})-f_{dw}(\phi_{in})\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-05-mass-transfer-1">
+<span class="eqno">(638)<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-05-mass-transfer-1" title="Link to this equation"></a></span>\[\mu_{i}^{eq}(\phi_{in}-\phi_{out})+\mu^{eq}(\phi_{out}-\phi_{in})=\sigma\kappa\]</div>
+<p>and finally:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-05-mass-transfer-2">
+<span class="eqno">(639)<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-05-mass-transfer-2" title="Link to this equation"></a></span>\[\boxed{\mu_{i}^{eq}=\mu^{eq}+\frac{\sigma\kappa}{(\phi_{out}-\phi_{in})}}\]</div>
+<p>This is the Gibbs-Thomson condition which means that the equilibrium chemical potential of a curved interface is equal to the equilibrium chemical potential for a flat interface corrected by the curvature and the surface tension.</p>
+</div>
+</section>
+</section>
+<section id="ostwald-ripening">
+<h2>Ostwald ripening<a class="headerlink" href="#ostwald-ripening" title="Link to this heading"></a></h2>
+<section id="consequence-of-gibbs-thomson-condition-with-boldsymbol-j-ch-ostwald-ripening">
+<h3>Consequence of Gibbs-Thomson condition with <span class="math notranslate nohighlight">\(\boldsymbol{j}_{CH}\)</span>: Ostwald ripening<a class="headerlink" href="#consequence-of-gibbs-thomson-condition-with-boldsymbol-j-ch-ostwald-ripening" title="Link to this heading"></a></h3>
+<div class="admonition-ostwald-ripening admonition">
+<p class="admonition-title">Ostwald ripening</p>
+<p>The Gibbs-Thomson condition writes:</p>
+<div class="math notranslate nohighlight" id="equation-gibbs-thomson-jch">
+<span class="eqno">(640)<a class="headerlink" href="#equation-gibbs-thomson-jch" title="Link to this equation"></a></span>\[\mu_{i}=\mu^{eq}+\frac{1}{(\phi_{out}-\phi_{in})}\frac{2\sigma}{R}\]</div>
+<p>If we consider two droplets of radius <span class="math notranslate nohighlight">\(R_{1}\)</span> and <span class="math notranslate nohighlight">\(R_{2}\)</span> with <span class="math notranslate nohighlight">\(R_{1}&lt;R_{2}\)</span>, Eq. <a class="reference internal" href="Mass_Transfer.html#equation-gibbs-thomson-jch">()</a> implies:</p>
+<div class="math notranslate nohighlight" id="equation-src-doc-05-courses-thermo-phasetransition-05-mass-transfer-3">
+<span class="eqno">(641)<a class="headerlink" href="#equation-src-doc-05-courses-thermo-phasetransition-05-mass-transfer-3" title="Link to this equation"></a></span>\[\mu_{i}(R_{2})&lt;\mu_{i}(R_{1})\]</div>
+<p>There exists a flux from <span class="math notranslate nohighlight">\(\mu_{i}(R_{1})\)</span> to <span class="math notranslate nohighlight">\(\mu_{i}(R_{2})\)</span> because <span class="math notranslate nohighlight">\(\boldsymbol{j}_{CH}\propto-\boldsymbol{\nabla}\mu_{\phi}(\boldsymbol{x},t)\)</span> (see Fig. <code class="xref std std-numref docutils literal notranslate"><span class="pre">Fig-Ostawald-Ripening</span></code>). Consequence: the smallest droplet disappears and the biggest one grows. This is the Ostwald ripening.</p>
+</div>
+<figure class="align-center" id="fig-ostawald-ripening">
+<a class="reference internal image-reference" href="../../../_images/Ostwald-Ripening.png"><img alt="../../../_images/Ostwald-Ripening.png" height="180" src="../../../_images/Ostwald-Ripening.png" width="414" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 74 </span><span class="caption-text">Principle of Ostwald ripening</span><a class="headerlink" href="#fig-ostawald-ripening" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="droplet-growth">
+<h2>Droplet growth<a class="headerlink" href="#droplet-growth" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Mass transfer through interfaces</a><ul>
+<li><a class="reference internal" href="#gibbs-thomson-condition">Gibbs-Thomson condition</a><ul>
+<li><a class="reference internal" href="#gibbs-thomson-condition-for-a-curved-interface">Gibbs-Thomson condition for a curved interface</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ostwald-ripening">Ostwald ripening</a><ul>
+<li><a class="reference internal" href="#consequence-of-gibbs-thomson-condition-with-boldsymbol-j-ch-ostwald-ripening">Consequence of Gibbs-Thomson condition with <span class="math notranslate nohighlight">\(\boldsymbol{j}_{CH}\)</span>: Ostwald ripening</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#droplet-growth">Droplet growth</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="04_Dissolution.html"
+                          title="previous chapter">Dissolution with a grand-potential formulation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../Course_Fluid_Dyn/TOC_Fluid-Dyn.html"
+                          title="next chapter">Fluid dynamics &amp; Thermodynamics</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Course_Fluid_Dyn/TOC_Fluid-Dyn.html" title="Fluid dynamics &amp; Thermodynamics"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="04_Dissolution.html" title="Dissolution with a grand-potential formulation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_PhaseField_For_PhaseTransition.html" >PART V.C. Phase-field models for phase transition</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Mass transfer through interfaces</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

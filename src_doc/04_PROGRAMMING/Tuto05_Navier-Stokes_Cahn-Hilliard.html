@@ -1,0 +1,994 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Implementation of a Navier-Stokes/Cahn-Hilliard model &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="PART V.A. Lattice Boltzmann Methods" href="../05_COURSES/Course_LBM/TOC_LBM_Course.html" />
+    <link rel="prev" title="Implementation of an incompressible Navier-Stokes model" href="Tuto04_Incompr_Navier-Stokes.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../05_COURSES/Course_LBM/TOC_LBM_Course.html" title="PART V.A. Lattice Boltzmann Methods"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Tuto04_Incompr_Navier-Stokes.html" title="Implementation of an incompressible Navier-Stokes model"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Tutorials.html" accesskey="U">PART IV.B: Tutorials for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Implementation of a Navier-Stokes/Cahn-Hilliard model</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="implementation-of-a-navier-stokes-cahn-hilliard-model">
+<span id="tuto-navier-stokes-cahn-hilliard"></span><h1>Implementation of a Navier-Stokes/Cahn-Hilliard model<a class="headerlink" href="#implementation-of-a-navier-stokes-cahn-hilliard-model" title="Link to this heading"></a></h1>
+<section id="objective-of-this-5th-tutorial">
+<h2>Objective of this 5th tutorial<a class="headerlink" href="#objective-of-this-5th-tutorial" title="Link to this heading"></a></h2>
+<p>The objective is to implement in LBM_Saclay, the Navier-Stokes/Cahn-Hilliard model. The starting point is the kernel <code class="docutils literal notranslate"><span class="pre">CH</span></code> implemented in the first tutorial. It will be extended here with the Navier-Stokes (NS) equations and renamed <code class="docutils literal notranslate"><span class="pre">NSCH</span></code>.</p>
+<div class="error admonition">
+<p class="admonition-title">Mathematical model &amp; LBM scheme</p>
+<ul class="simple">
+<li><p>The model summarized in <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="../05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html#summary-ns-pf-model"><span class="std std-ref">Summary of Navier-Stokes/phase-field model</span></a> composed of incompressible Navier-Stokes equations Eqs. <a class="reference internal" href="../05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html#equation-twophase-massbalance">(503)</a> - <a class="reference internal" href="../05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html#equation-chem-pot-twophase">(507)</a>  coupled with a Cahn-Hilliard equation Eq. <a class="reference internal" href="../05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html#equation-ch-eq-twophase">(508)</a>. Two forces appear in that model: 1) the capillary force defined by Eq. <a class="reference internal" href="../05_COURSES/Course_PF/03_NavierStokes_with_PhaseField.html#equation-proof-equiv-surface-tension-nsac">(500)</a> <span class="math notranslate nohighlight">\(\boldsymbol{F}_c=\mu_{\phi}\boldsymbol{\nabla}\phi\)</span> and 2) the gravity force defined by <span class="math notranslate nohighlight">\(\boldsymbol{F}_g=\varrho\boldsymbol{g}\)</span>.</p></li>
+<li><p>The equilibrium distribution function for incompressible Navier-Stokes is the version 2 presented in <a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="../03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_Navier-Stokes.html#feq-incompressible-ns-version2"><span class="std std-ref">LBM scheme for incompressble NS</span></a>. The scheme works on a dimensionless pressure <span class="math notranslate nohighlight">\(p^{\star}_h\)</span>. It needs to add a viscous force <span class="math notranslate nohighlight">\(\boldsymbol{F}_v\)</span> (Eq. <a class="reference internal" href="../03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_Navier-Stokes.html#equation-force-viscos">(210)</a>) and a pressure force <span class="math notranslate nohighlight">\(\boldsymbol{F}_p\)</span> (Eq. <a class="reference internal" href="../03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_Navier-Stokes.html#equation-force-pressure">(209)</a>) to be consistent with the continuous model.</p></li>
+<li><p>Expression of viscous force in LBM</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">LBM formulation of <span class="math notranslate nohighlight">\(\boldsymbol{F}_v\)</span></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="math notranslate nohighlight" id="equation-tuto05-viscous-force">
+<span class="eqno">(264)<a class="headerlink" href="#equation-tuto05-viscous-force" title="Link to this equation"></a></span>\[\boldsymbol{F}_{v}=-\frac{\nu}{c_{s}^{2}\delta t}\sum_{i}\boldsymbol{c}_{i}(\boldsymbol{c}_{i}\cdot\boldsymbol{\nabla}\varrho)f_{i}^{\star}\]</div>
+<p class="sd-card-text">where</p>
+<div class="math notranslate nohighlight" id="equation-tuto05-viscous-force-collision">
+<span class="eqno">(265)<a class="headerlink" href="#equation-tuto05-viscous-force-collision" title="Link to this equation"></a></span>\[f_{i}^{\star}=(\boldsymbol{M}^{-1}\boldsymbol{S}\boldsymbol{M}(\boldsymbol{f}-\boldsymbol{f}^{eq}))_{i}\]</div>
+<p class="sd-card-text">For each component</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}F_{v,x}=-\frac{\nu}{c_{s}^{2}\delta t}\sum_{i=0}^{N_{pop}}c_{ix}\left[c_{ix}(\partial_{x}\varrho)+c_{iy}(\partial_{y}\varrho)+c_{iz}(\partial_{z}\varrho)\right]f_{i}^{\star}\\
+F_{v,y}=-\frac{\nu}{c_{s}^{2}\delta t}\sum_{i=0}^{N_{pop}}c_{iy}\left[c_{ix}(\partial_{x}\varrho)+c_{iy}(\partial_{y}\varrho)+c_{iz}(\partial_{z}\varrho)\right]f_{i}^{\star}\\
+F_{v,z}=-\frac{\nu}{c_{s}^{2}\delta t}\sum_{i=0}^{N_{pop}}c_{iz}\left[c_{ix}(\partial_{x}\varrho)+c_{iy}(\partial_{y}\varrho)+c_{iz}(\partial_{z}\varrho)\right]f_{i}^{\star}\end{split}\]</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Objective</p>
+<p>In this tutorial, we will see how to</p>
+<ul class="simple">
+<li><p>add a new equation (like tuto 2)</p></li>
+<li><p>add a <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> function relative to NS equations</p></li>
+<li><p>add external force terms <span class="math notranslate nohighlight">\(\boldsymbol{F}_c\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{F}_g\)</span></p></li>
+<li><p>add force terms <span class="math notranslate nohighlight">\(\boldsymbol{F}_v\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{F}_p\)</span> for consistency</p></li>
+</ul>
+</div>
+</section>
+<section id="create-a-new-kernel-nsch">
+<h2>1. Create a new kernel <code class="docutils literal notranslate"><span class="pre">NSCH</span></code><a class="headerlink" href="#create-a-new-kernel-nsch" title="Link to this heading"></a></h2>
+<div class="note admonition">
+<p class="admonition-title">Create a new kernel <code class="docutils literal notranslate"><span class="pre">NSCH</span></code></p>
+<p>You can refer to Tuto 1 &amp; 2 where all commands have been presented in detail:</p>
+<ol class="arabic simple">
+<li><p>Copy your kernel <code class="docutils literal notranslate"><span class="pre">CH</span></code> and rename it <code class="docutils literal notranslate"><span class="pre">NSCH_Tutorial</span></code> in directory <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev/src/kernels/</span></code></p></li>
+<li><p>Go to your new folder <code class="docutils literal notranslate"><span class="pre">NSCH_Tutorial</span></code> and replace all files with extension <code class="docutils literal notranslate"><span class="pre">_CH</span></code> by <code class="docutils literal notranslate"><span class="pre">_NSCH</span></code></p></li>
+<li><p>Edit your files and replace <code class="docutils literal notranslate"><span class="pre">_CH</span></code> with <code class="docutils literal notranslate"><span class="pre">_NSCH</span></code></p></li>
+<li><p>In file <code class="docutils literal notranslate"><span class="pre">Setup.h</span></code> replace the problem name <code class="docutils literal notranslate"><span class="pre">CH</span></code> by <code class="docutils literal notranslate"><span class="pre">NSCH</span></code></p></li>
+<li><p>Create your <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> with option <code class="docutils literal notranslate"><span class="pre">-DPROBLEM=NSCH_Tutorial</span></code> and compile</p></li>
+</ol>
+</div>
+</section>
+<section id="add-a-new-equation-in-your-kernel-nsch">
+<h2>2. Add a new equation in your kernel <code class="docutils literal notranslate"><span class="pre">NSCH</span></code><a class="headerlink" href="#add-a-new-equation-in-your-kernel-nsch" title="Link to this heading"></a></h2>
+<p>The mathematical model is currently composed of one Cahn-Hilliard equation. It is necessary to add one supplementary equation.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+File <code class="docutils literal notranslate"><span class="pre">Problem_NSCH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="caution admonition">
+<p class="admonition-title"><code class="docutils literal notranslate"><span class="pre">Problem</span></code></p>
+<p>The number of equation is currently 1</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Base</span><span class="o">::</span><span class="n">nbEqs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="n">const</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">isize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="o">.</span><span class="n">isize</span><span class="p">;</span>
+<span class="n">const</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">jsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="o">.</span><span class="n">jsize</span><span class="p">;</span>
+<span class="n">const</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">ksize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="o">.</span><span class="n">ksize</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Modify it for two equations</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="no">Base</span><span class="o">::</span><span class="n">nbEqs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">init_f()</span></code></p>
+<p>The initialization is currently performed only for one equation:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BGK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">init1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">BGKCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">MRT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">init1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">MRTCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add a new block <code class="docutils literal notranslate"><span class="pre">if</span></code> - <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> for <code class="docutils literal notranslate"><span class="pre">EquationTag2</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BGK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">init1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">BGKCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">MRT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">init1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">MRTCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="hll"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BGK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">init1eq</span><span class="o">&lt;</span><span class="no">EquationTag2</span><span class="p">,</span><span class="w"> </span><span class="no">BGKCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+</span><span class="hll"><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">MRT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">init1eq</span><span class="o">&lt;</span><span class="no">EquationTag2</span><span class="p">,</span><span class="w"> </span><span class="no">MRTCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">update_f()</span></code></p>
+<p>The update is also performed only for one equation:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BGK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">update1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">BGKCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">MRT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">update1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">MRTCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add a new block <code class="docutils literal notranslate"><span class="pre">if</span></code> - <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> for <code class="docutils literal notranslate"><span class="pre">EquationTag2</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BGK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">update1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">BGKCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">MRT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">update1eq</span><span class="o">&lt;</span><span class="no">EquationTag1</span><span class="p">,</span><span class="w"> </span><span class="no">MRTCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="hll"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BGK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">update1eq</span><span class="o">&lt;</span><span class="no">EquationTag2</span><span class="p">,</span><span class="w"> </span><span class="no">BGKCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+</span><span class="hll"><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">collisionType1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">MRT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">update1eq</span><span class="o">&lt;</span><span class="no">EquationTag2</span><span class="p">,</span><span class="w"> </span><span class="no">MRTCollider</span><span class="o">&lt;</span><span class="n">dim</span><span class="p">,</span><span class="w"> </span><span class="n">npop</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">make_boundaries()</span></code></p>
+<p>The update of bounday conditions is also performed for a single equation</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">this</span><span class="o">-&gt;</span><span class="n">bcPerMgr</span><span class="o">.</span><span class="n">make_boundaries</span><span class="p">(</span><span class="n">scheme</span><span class="o">.</span><span class="n">f1</span><span class="p">,</span><span class="w"> </span><span class="no">BOUNDARY_EQUATION_1</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add a new line for <code class="docutils literal notranslate"><span class="pre">f2</span></code> and <code class="docutils literal notranslate"><span class="pre">BOUNDARY_EQUATION_2</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">this</span><span class="o">-&gt;</span><span class="n">bcPerMgr</span><span class="o">.</span><span class="n">make_boundaries</span><span class="p">(</span><span class="n">scheme</span><span class="o">.</span><span class="n">f1</span><span class="p">,</span><span class="w"> </span><span class="no">BOUNDARY_EQUATION_1</span><span class="p">);</span>
+<span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">bcPerMgr</span><span class="o">.</span><span class="n">make_boundaries</span><span class="p">(</span><span class="n">scheme</span><span class="o">.</span><span class="n">f2</span><span class="p">,</span><span class="w"> </span><span class="no">BOUNDARY_EQUATION_2</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+File <code class="docutils literal notranslate"><span class="pre">LBMScheme_NSCH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">LBMScheme</span></code></p>
+<ul class="simple">
+<li><p>Add a new tag <code class="docutils literal notranslate"><span class="pre">tagNS</span></code> for <code class="docutils literal notranslate"><span class="pre">EquationTag2</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">EquationTag1</span><span class="w"> </span><span class="n">tagC</span><span class="p">;</span>
+<span class="hll"><span class="no">EquationTag2</span><span class="w"> </span><span class="n">tagNS</span><span class="p">;</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Add two empty functions called <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> for <code class="docutils literal notranslate"><span class="pre">EquationTag2</span></code> with respectively BGK and MRT collisions</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span>
+</span><span class="hll"><span class="n">void</span><span class="w"> </span><span class="n">setup_collider</span><span class="p">(</span><span class="no">EquationTag2</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">BGK_Collider</span><span class="o">&amp;</span><span class="w"> </span><span class="n">collider</span><span class="p">)</span><span class="w"> </span><span class="n">const</span>
+</span><span class="hll"><span class="p">{</span>
+</span><span class="hll"><span class="p">}</span>
+</span><span class="hll">
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span>
+</span><span class="hll"><span class="n">void</span><span class="w"> </span><span class="n">setup_collider</span><span class="p">(</span><span class="no">EquationTag2</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">MRT_Collider</span><span class="o">&amp;</span><span class="w"> </span><span class="n">collider</span><span class="p">)</span><span class="w"> </span><span class="n">const</span>
+</span><span class="hll"><span class="p">{</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Remark</p>
+<p class="sd-card-text">Those two functions are empty (but declared). The second one will be filled below.</p>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">make_boundary</span></code></p>
+<p>The boundary conditions are applied only for Cahn-Hilliard equation</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="sr">//</span><span class="w"> </span><span class="n">phi</span><span class="w"> </span><span class="n">boundary</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_types</span><span class="o">[</span><span class="no">BOUNDARY_EQUATION_1</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BC_ANTI_BOUNCE_BACK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">boundary_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_values</span><span class="o">[</span><span class="no">BOUNDARY_CONCENTRATION</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span>
+<span class="w">     </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_boundary_antibounceback</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="n">faceId</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">boundary_value</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_types</span><span class="o">[</span><span class="no">BOUNDARY_EQUATION_1</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BC_ZERO_FLUX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span>
+<span class="w">     </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_boundary_bounceback</span><span class="p">(</span><span class="n">tagNS</span><span class="p">,</span><span class="w"> </span><span class="n">faceId</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add a new block <code class="docutils literal notranslate"><span class="pre">if</span></code> - <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> for <code class="docutils literal notranslate"><span class="pre">BOUNDARY_EQUATION_2</span></code> and <code class="docutils literal notranslate"><span class="pre">tagNS</span></code> with keyword <code class="docutils literal notranslate"><span class="pre">BOUNDARY_PRESSURE</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_types</span><span class="o">[</span><span class="no">BOUNDARY_EQUATION_2</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BC_ANTI_BOUNCE_BACK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">boundary_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_values</span><span class="o">[</span><span class="no">BOUNDARY_PRESSURE</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_boundary_antibounceback</span><span class="p">(</span><span class="n">tagNS</span><span class="p">,</span><span class="w"> </span><span class="n">faceId</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">boundary_value</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="p">}</span>
+</span><span class="hll">
+</span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Base</span><span class="o">::</span><span class="n">params</span><span class="o">.</span><span class="n">boundary_types</span><span class="o">[</span><span class="no">BOUNDARY_EQUATION_2</span><span class="o">][</span><span class="n">faceId</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">BC_ZERO_FLUX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span>
+</span><span class="hll"><span class="w">     </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_boundary_bounceback</span><span class="p">(</span><span class="n">tagNS</span><span class="p">,</span><span class="w"> </span><span class="n">faceId</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+</div>
+</section>
+<section id="modifications-inside-each-file-of-nsch">
+<h2>3. Modifications inside each file of <code class="docutils literal notranslate"><span class="pre">NSCH</span></code><a class="headerlink" href="#modifications-inside-each-file-of-nsch" title="Link to this heading"></a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+File <code class="docutils literal notranslate"><span class="pre">Index_NSCH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="caution admonition">
+<p class="admonition-title">Declaration of new fields</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">ComponentIndex</span></code>, only the indices relative to Cahn-Hilliard model are declared:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">ComponentIndex</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="no">IU</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; X velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IV</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Y velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IW</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Z velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IC</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Phase field index */</span>
+<span class="w">  </span><span class="no">IMU</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Chemical potential */</span>
+<span class="w">  </span><span class="no">ILAPLAC</span><span class="p">,</span><span class="w">     </span><span class="sr">/*!&lt; Laplacien of Phase field */</span>
+<span class="w">  </span><span class="no">COMPONENT_SIZE</span><span class="w"> </span><span class="sr">/*!&lt; invalid index, just counting number of fields */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Complete the list with hydrodynamics indices density <span class="math notranslate nohighlight">\(\varrho\)</span>, hydrodynamic pressure <span class="math notranslate nohighlight">\(p_h\)</span>, gradient <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\phi\)</span>, gradient <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\varrho\)</span> and total force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{tot}\)</span>.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">ComponentIndex</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="no">IU</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; X velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IV</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Y velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="w">  </span><span class="no">IW</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Z velocity /</span><span class="w"> </span><span class="n">momentum</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">*/</span>
+<span class="hll"><span class="w">  </span><span class="no">IPHI</span><span class="w">   </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Phase field index */</span>
+</span><span class="w">  </span><span class="no">IMU</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="sr">/*!&lt; Chemical potential */</span>
+<span class="w">  </span><span class="no">ILAPLAC</span><span class="p">,</span><span class="w">     </span><span class="sr">/*!&lt; Laplacien of Phase field */</span>
+<span class="hll"><span class="w">  </span><span class="no">ID</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IP</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IDPHIDX</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IDPHIDY</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IDPHIDZ</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IDRHODX</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IDRHODY</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IDRHODZ</span><span class="p">,</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IFX</span><span class="p">,</span><span class="w">           </span><span class="sr">/*!&lt; Force Navier Stokes X */</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IFY</span><span class="p">,</span><span class="w">           </span><span class="sr">/*!&lt; Force Navier Stokes Y */</span>
+</span><span class="hll"><span class="w">  </span><span class="no">IFZ</span><span class="p">,</span><span class="w">           </span><span class="sr">/*!&lt; Force Navier Stokes Z */</span>
+</span><span class="w">  </span><span class="no">COMPONENT_SIZE</span><span class="w"> </span><span class="sr">/*!&lt; invalid index, just counting number of fields */</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Add new outputs</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">index2names</span></code> only the strings for Cahn-Hilliard model are written:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">map</span><span class="o">[</span><span class="no">IC</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;comp&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IU</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vx&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IV</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vy&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IW</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vz&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IMU</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mu&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add a new outputs for density and pressure (and more if wanted).</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">map</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;phi&quot;</span><span class="p">;</span>
+</span><span class="n">map</span><span class="o">[</span><span class="no">IU</span><span class="w">  </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vx&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IV</span><span class="w">  </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vy&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IW</span><span class="w">  </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;vz&quot;</span><span class="p">;</span>
+<span class="n">map</span><span class="o">[</span><span class="no">IMU</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mu&quot;</span><span class="p">;</span>
+<span class="hll"><span class="n">map</span><span class="o">[</span><span class="no">ID</span><span class="w">  </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rho&quot;</span><span class="p">;</span>
+</span><span class="hll"><span class="n">map</span><span class="o">[</span><span class="no">IP</span><span class="w">  </span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pressure&quot;</span><span class="p">;</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+File <code class="docutils literal notranslate"><span class="pre">Models_NSCH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="error admonition">
+<p class="admonition-title">Search <code class="docutils literal notranslate"><span class="pre">IC</span></code> and replace by <code class="docutils literal notranslate"><span class="pre">IPHI</span></code></p>
+<p>In previous file <code class="docutils literal notranslate"><span class="pre">Index_NSCH.h</span></code>, the index <code class="docutils literal notranslate"><span class="pre">IC</span></code> has been replaced by <code class="docutils literal notranslate"><span class="pre">IPHI</span></code>. Don’t forget to find <code class="docutils literal notranslate"><span class="pre">IC</span></code> in all functions of <code class="docutils literal notranslate"><span class="pre">Models_NSCH.h</span></code> and replace them by the new index <code class="docutils literal notranslate"><span class="pre">IPHI</span></code> .</p>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Read and declare Navier-Stokes parameters in <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></p>
+<p>The Navier-Stokes equations involve several parameters: the kinematic viscosity <span class="math notranslate nohighlight">\(\nu_1\)</span> of fluid 1 (respectively <span class="math notranslate nohighlight">\(\nu_2\)</span> of fluid 2), the density <span class="math notranslate nohighlight">\(\rho_1\)</span> (<span class="math notranslate nohighlight">\(\rho_2\)</span>). The surface tension <span class="math notranslate nohighlight">\(\sigma\)</span> has already been read as input paramater for Cahn-Hilliard equation. Also read the components of gravity <span class="math notranslate nohighlight">\(\boldsymbol{g}=(g_x,g_y,g_z)\)</span> (<code class="docutils literal notranslate"><span class="pre">gx</span></code>, <code class="docutils literal notranslate"><span class="pre">gy</span></code>, <code class="docutils literal notranslate"><span class="pre">gz</span></code>)</p>
+<ul class="simple">
+<li><p>Read and declare the Navier-Stokes parameters in <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Read parameters in input file:</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">rho0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;rho0&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="n">rho1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;rho1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="n">nu0</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nu0&quot;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="n">nu1</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nu1&quot;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="n">gx</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;gx&quot;</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="n">gy</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;gy&quot;</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="hll"><span class="n">gz</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">configMap</span><span class="o">.</span><span class="n">getFloat</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;gz&quot;</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Declare them as <code class="docutils literal notranslate"><span class="pre">real_t</span></code> at the end of <code class="docutils literal notranslate"><span class="pre">ModelParams</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">rho0</span><span class="p">,</span><span class="w"> </span><span class="n">rho1</span><span class="p">,</span><span class="w"> </span><span class="n">nu0</span><span class="p">,</span><span class="w"> </span><span class="n">nu1</span><span class="p">,</span><span class="w"> </span><span class="n">gx</span><span class="p">,</span><span class="w"> </span><span class="n">gy</span><span class="p">,</span><span class="w"> </span><span class="n">gz</span><span class="p">;</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>From Tuto 1, three initial conditions are currently implemented</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;random&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">RANDOM_SPINODAL</span><span class="p">;</span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;nucleation&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">RANDOM_NUCLEATION</span><span class="p">;</span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;serpentine&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">SERPENTINE</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Add a new <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> condition for <code class="docutils literal notranslate"><span class="pre">vertical</span></code> (see Tuto 2)</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;random&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">RANDOM_SPINODAL</span><span class="p">;</span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;nucleation&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">RANDOM_NUCLEATION</span><span class="p">;</span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;serpentine&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">SERPENTINE</span><span class="p">;</span>
+<span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initTypeStr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;vertical&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">initType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">PHASE_FIELD_INIT_VERTICAL</span><span class="p">;</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Add specific functions for Navier-Stokes</p>
+<ul class="simple">
+<li><p>Add a new harmonic function <code class="docutils literal notranslate"><span class="pre">tau_NS</span></code> for relaxation rate <span class="math notranslate nohighlight">\(\tau_{NS}\)</span></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution <code class="docutils literal notranslate"><span class="pre">tau_NS</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">=======================================================</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="n">relaxation</span><span class="w"> </span><span class="n">coef</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="no">LBM</span><span class="w"> </span><span class="n">scheme</span>
+</span><span class="hll"><span class="sr">//</span>
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">tau_NS</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">phi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">nu</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">nu0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nu1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(((</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">phi</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nu1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">((</span><span class="n">phi</span><span class="p">)</span><span class="o">*</span><span class="n">nu0</span><span class="p">));</span>
+</span><span class="hll"><span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">e2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nu</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">dx</span><span class="p">));</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="p">);</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Add a new function <code class="docutils literal notranslate"><span class="pre">interpol_rho</span></code> for linear interpolation of density <span class="math notranslate nohighlight">\(\varrho=\rho_1\phi+\rho_2(1-\phi)\)</span></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution <code class="docutils literal notranslate"><span class="pre">interpol_rho</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">=======================================================</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">Interpolation</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">rho</span>
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">interpol_rho</span><span class="w"> </span><span class="p">(</span><span class="n">real_t</span><span class="w"> </span><span class="n">phi</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">rho0</span><span class="o">*</span><span class="n">phi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rho1</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">phi</span><span class="p">);</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Add a new function <code class="docutils literal notranslate"><span class="pre">force_P</span></code> for pressure force <span class="math notranslate nohighlight">\(\boldsymbol{F}_p=-p_h/\varrho(\phi)\boldsymbol{\nabla}\varrho\)</span></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution <code class="docutils literal notranslate"><span class="pre">force_P</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">===============================================================================================================</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">Pressure</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="no">NS</span><span class="o">.</span><span class="w"> </span><span class="no">Correction</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="n">because</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="nb">p</span><span class="o">*</span><span class="w"> </span><span class="n">formulation</span><span class="w"> </span><span class="n">inside</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">eq</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="n">function</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">===============================================================================================================</span>
+</span><span class="hll"><span class="n">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">int</span><span class="w"> </span><span class="n">dim</span><span class="o">&gt;</span>
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">force_P</span><span class="w"> </span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">gradrho</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">gradrho</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDRHODX</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">gradrho</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDRHODY</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">gradrho</span><span class="o">[</span><span class="no">IZ</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDRHODZ</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">scal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IP</span><span class="o">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ID</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">term</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">scal</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">gradrho</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">term</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">scal</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">gradrho</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">term</span><span class="o">[</span><span class="no">IZ</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">scal</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">gradrho</span><span class="o">[</span><span class="no">IZ</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Add a new function <code class="docutils literal notranslate"><span class="pre">force_G</span></code> for gravity force <span class="math notranslate nohighlight">\(\boldsymbol{F}_g=\varrho\boldsymbol{g}\)</span></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution <code class="docutils literal notranslate"><span class="pre">force_G</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">===============================================================================================================</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">Body</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="ss">NS</span><span class="p">:</span><span class="w"> </span><span class="n">gravity</span>
+</span><span class="hll"><span class="sr">//</span>
+</span><span class="hll"><span class="n">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">int</span><span class="w"> </span><span class="n">dim</span><span class="o">&gt;</span>
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">force_G</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">term</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ID</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">term</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gy</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ID</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">term</span><span class="o">[</span><span class="no">IZ</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gz</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ID</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Add a new function <code class="docutils literal notranslate"><span class="pre">force_TS</span></code> for surface tension force <span class="math notranslate nohighlight">\(\mu_{\phi}\boldsymbol{\nabla}\phi\)</span></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution <code class="docutils literal notranslate"><span class="pre">force_TS</span></code></span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="o">===============================================================================================================</span>
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">Surface</span><span class="w"> </span><span class="n">tension</span><span class="w"> </span><span class="n">liquid</span><span class="o">/</span><span class="n">gas</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="no">NS</span>
+</span><span class="hll"><span class="sr">//</span>
+</span><span class="hll"><span class="n">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">int</span><span class="w"> </span><span class="n">dim</span><span class="o">&gt;</span>
+</span><span class="hll"><span class="no">KOKKOS_INLINE_FUNCTION</span><span class="w"> </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">force_TS</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="no">LBMState</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lbmState</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">tension</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigma</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">g_prime</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">W</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ILAPLAC</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">term</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tension</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDX</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">term</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tension</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDY</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">term</span><span class="o">[</span><span class="no">IZ</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tension</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDPHIDZ</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">term</span><span class="p">;</span>
+</span><span class="hll"><span class="p">}</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+File <code class="docutils literal notranslate"><span class="pre">LBMScheme_NSCH.h</span></code></label><div class="sd-tab-content docutils">
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> with BGK</p>
+<ul class="simple">
+<li><p>From stage 2, the function <code class="docutils literal notranslate"><span class="pre">setup_collider</span></code> with <code class="docutils literal notranslate"><span class="pre">BGK_Collider</span></code> is currently empty. It must be filled to simulate Navier-Stokes equations.</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">void</span><span class="w"> </span><span class="n">setup_collider</span><span class="p">(</span><span class="no">EquationTag2</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">BGK_Collider</span><span class="w"> </span><span class="o">&amp;</span><span class="n">collider</span><span class="p">)</span><span class="w"> </span><span class="n">const</span>
+<span class="p">{</span>
+<span class="hll"><span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="no">Paramètres</span><span class="w"> </span><span class="n">pour</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">simulation</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">dx</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">dt</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dt</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">cs2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">e2</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="no">Stockage</span><span class="w"> </span><span class="n">des</span><span class="w"> </span><span class="n">anciennes</span><span class="w"> </span><span class="n">grandeurs</span><span class="w"> </span><span class="n">macroscopiques</span>
+</span><span class="hll"><span class="w">  </span><span class="no">LBMState</span><span class="w"> </span><span class="n">lbmState</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="no">Base</span><span class="o">::</span><span class="n">template</span><span class="w"> </span><span class="n">setupLBMState2</span><span class="o">&lt;</span><span class="no">LBMState</span><span class="p">,</span><span class="w"> </span><span class="no">COMPONENT_SIZE</span><span class="o">&gt;</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="p">);</span>
+</span><span class="hll">
+</span><span class="hll"><span class="w">  </span><span class="sr">//</span><span class="w"> </span><span class="no">Calcul</span><span class="w"> </span><span class="n">du</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">collision</span>
+</span><span class="hll"><span class="w">  </span><span class="n">collider</span><span class="o">.</span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">tau_NS</span><span class="p">(</span><span class="n">lbmState</span><span class="p">);</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p class="sd-card-text">Equilibrium distribution function Eq. <a class="reference internal" href="../03_LBM_Schemes/A_Basic-LBM/03_Equilibrium-Functions_Navier-Stokes.html#equation-feq-incompr-v2">(202)</a> without variable change</p></li>
+</ul>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll">  <span class="sr">//</span><span class="w"> </span><span class="no">Equilibrium</span><span class="w"> </span><span class="n">without</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="n">term</span>
+</span><span class="hll"><span class="w">  </span><span class="no">FState</span><span class="w"> </span><span class="no">GAMMA</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">     </span><span class="n">real_t</span><span class="w"> </span><span class="n">scalUU</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">        </span><span class="n">real_t</span><span class="w"> </span><span class="n">scalUC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_scal</span><span class="p">(</span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IU</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IV</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">        </span><span class="no">GAMMA</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">scalUC</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">cs2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">scalUC</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">cs2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scalUU</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">cs2</span><span class="p">;</span>
+</span><span class="hll"><span class="w">        </span><span class="n">real_t</span><span class="w"> </span><span class="n">feqbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IP</span><span class="o">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">cs2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">ID</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">GAMMA</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">        </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feqbar</span><span class="p">;</span>
+</span><span class="hll"><span class="w">        </span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="p">}</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p class="sd-card-text">Computation of force terms <span class="math notranslate nohighlight">\(\boldsymbol{F}_c\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{F}_g\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{F}_p\)</span> defined in file <code class="docutils literal notranslate"><span class="pre">Models_NSCH.h</span></code></p></li>
+</ul>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll">     <span class="sr">//</span><span class="w"> </span><span class="no">Computation</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="n">terms</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">models</span>
+</span><span class="hll"><span class="w">     </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">ForceTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">force_TS</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lbmState</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">ForceG</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">force_G</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lbmState</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">ForceP</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">force_P</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lbmState</span><span class="p">);</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p class="sd-card-text">Computation of viscous force <span class="math notranslate nohighlight">\(F_{v,x}\)</span> and <span class="math notranslate nohighlight">\(F_{v,y}\)</span> Eq. <a class="reference internal" href="#equation-tuto05-viscous-force">(264)</a> &amp; Eq. <a class="reference internal" href="#equation-tuto05-viscous-force-collision">(265)</a>. For BGK collision only one relaxation rate is involved. It appears in factor <code class="docutils literal notranslate"><span class="pre">coeffV</span></code>.</p></li>
+</ul>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll">     <span class="sr">//</span><span class="w"> </span><span class="no">Computation</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">viscous</span><span class="w"> </span><span class="n">force</span>
+</span><span class="hll"><span class="w">     </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">ForceV</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">nu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">nu0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">nu1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(((</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">nu1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">((</span><span class="n">lbmState</span><span class="o">[</span><span class="no">IPHI</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">nu0</span><span class="p">));</span>
+</span><span class="hll"><span class="w">     </span><span class="n">real_t</span><span class="w"> </span><span class="n">coeffV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nu</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">cs2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">collider</span><span class="o">.</span><span class="n">tau</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">alpha</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">        </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">alpha</span><span class="o">][</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">alpha</span><span class="o">][</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDRHODX</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">alpha</span><span class="o">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">alpha</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+</span><span class="hll"><span class="w">                      </span><span class="n">E</span><span class="o">[</span><span class="n">alpha</span><span class="o">][</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">alpha</span><span class="o">][</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDRHODY</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">alpha</span><span class="o">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">alpha</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">        </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">alpha</span><span class="o">][</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">alpha</span><span class="o">][</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDRHODX</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">alpha</span><span class="o">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">alpha</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+</span><span class="hll"><span class="w">                      </span><span class="n">E</span><span class="o">[</span><span class="n">alpha</span><span class="o">][</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">alpha</span><span class="o">][</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lbmState</span><span class="o">[</span><span class="no">IDRHODY</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">collider</span><span class="o">.</span><span class="n">f</span><span class="o">[</span><span class="n">alpha</span><span class="o">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">alpha</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="p">}</span>
+</span><span class="hll"><span class="w">     </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coeffV</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coeffV</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="p">;</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p class="sd-card-text">Computation of total force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{tot}\)</span> and save in array with appropriate indices <code class="docutils literal notranslate"><span class="pre">IFX</span></code> and <code class="docutils literal notranslate"><span class="pre">IFY</span></code></p></li>
+</ul>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll">     <span class="sr">//</span><span class="w"> </span><span class="no">Calcul</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">enregistrement</span><span class="w"> </span><span class="n">du</span><span class="w"> </span><span class="n">terme</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="n">total</span>
+</span><span class="hll"><span class="w">     </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">ForceTot</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">ForceG</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">ForceP</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">ForceTS</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">     </span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">ForceG</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">ForceP</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">ForceTS</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="no">ForceV</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll">
+</span><span class="hll"><span class="w">     </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IFX</span><span class="p">,</span><span class="w"> </span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IFY</span><span class="p">,</span><span class="w"> </span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="p">);</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p class="sd-card-text">Correction of equilibrium (variable change) with total force term <code class="docutils literal notranslate"><span class="pre">ForceTot[IX]</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">ForceTot[IY]</span></code></p></li>
+</ul>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll">     <span class="sr">//</span><span class="w"> </span><span class="no">Add</span><span class="w"> </span><span class="n">force</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">equilibrium</span>
+</span><span class="hll"><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">        </span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">w</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">lbmState</span><span class="o">[</span><span class="no">ID</span><span class="o">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cs2</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_scal</span><span class="p">(</span><span class="n">ipop</span><span class="p">,</span><span class="w"> </span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="no">ForceTot</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">        </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">collider</span><span class="o">.</span><span class="n">feq</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">collider</span><span class="o">.</span><span class="n">S0</span><span class="o">[</span><span class="n">ipop</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">     </span><span class="p">}</span>
+</span><span class="hll"><span class="w">  </span><span class="p">}</span>
+</span><span class="hll"><span class="p">}</span><span class="w"> </span><span class="sr">//</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">setup_collider</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">composition</span><span class="w"> </span><span class="n">equation</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">init_macro</span></code></p>
+<ul class="simple">
+<li><p>Write (or copy-paste from tuto 2) an initial condition corresponding to keywords <code class="docutils literal notranslate"><span class="pre">PHASE_FIELD_INIT_VERTICAL</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution for vertical separation</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">PHASE_FIELD_INIT_VERTICAL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">xphi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">x0</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">c</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">phi0</span><span class="p">(</span><span class="n">xphi</span><span class="p">);</span>
+</span><span class="hll"><span class="p">}</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">interpol_rho</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+<ul class="simple">
+<li><p>Save in appropriate arrays</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IPHI</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w">  </span><span class="p">);</span>
+</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IU</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="n">vx</span><span class="w"> </span><span class="p">);</span>
+<span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IV</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="n">vy</span><span class="w"> </span><span class="p">);</span>
+<span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">ID</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">update_macro</span></code></p>
+<ul class="simple">
+<li><p>Update necessary fields</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">The function starts with necessary parameters for computing the coefficient <span class="math notranslate nohighlight">\(c_s^2\)</span></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="n">get</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="n">coordinates</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+</span><span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">get_coordinates</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dx</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">params</span><span class="o">.</span><span class="n">dx</span><span class="p">;</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">dt</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">params</span><span class="o">.</span><span class="n">dt</span><span class="p">;</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">cs2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">SQR</span><span class="p">(</span><span class="n">dx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">e2</span><span class="p">;</span>
+</span></pre></div>
+</div>
+<p class="sd-card-text">Next the moments of distribution functions are computed for <span class="math notranslate nohighlight">\(\phi\)</span>, <span class="math notranslate nohighlight">\(p^{\star}\)</span>, <span class="math notranslate nohighlight">\(v_x\)</span> and <span class="math notranslate nohighlight">\(v_y\)</span></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="n">moments</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">distribution</span><span class="w"> </span><span class="n">equations</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">moment_phi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">moment_P</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">moment_VX</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="n">moment_VY</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">int</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">ipop</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">npop</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="w">  </span><span class="n">moment_phi</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">moment_P</span><span class="w">   </span><span class="o">+=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tagNS</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">moment_VX</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tagNS</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">ipop</span><span class="o">][</span><span class="no">IX</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">moment_VY</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">get_f_val</span><span class="p">(</span><span class="n">tagNS</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">ipop</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">E</span><span class="o">[</span><span class="n">ipop</span><span class="o">][</span><span class="no">IY</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="p">}</span>
+</span><span class="hll">
+</span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">Update</span><span class="w"> </span><span class="n">phi</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">phi</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">moment_phi</span><span class="p">;</span>
+</span></pre></div>
+</div>
+<p class="sd-card-text">Computation of <span class="math notranslate nohighlight">\(\mu\)</span></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">Update</span><span class="w"> </span><span class="n">mu</span>
+</span><span class="hll"><span class="no">LBMState</span><span class="w"> </span><span class="n">lbmStatePrev</span><span class="p">;</span>
+</span><span class="hll"><span class="no">Base</span><span class="o">::</span><span class="n">setupLBMState</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="n">lbmStatePrev</span><span class="p">);</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">M2</span><span class="p">(</span><span class="n">tagC</span><span class="p">,</span><span class="w"> </span><span class="n">lbmStatePrev</span><span class="p">);</span>
+</span></pre></div>
+</div>
+<p class="sd-card-text">Computation of <span class="math notranslate nohighlight">\(p_h\)</span> from <span class="math notranslate nohighlight">\(p^{\star}\)</span></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">Update</span><span class="w"> </span><span class="n">pressure</span><span class="w"> </span><span class="n">p_h</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Model</span><span class="o">.</span><span class="n">interpol_rho</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="w"> </span><span class="p">;</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">P</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">moment_P</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">cs2</span><span class="p">)</span><span class="w"> </span><span class="p">;</span>
+</span></pre></div>
+</div>
+<p class="sd-card-text">Computation of <span class="math notranslate nohighlight">\(u_x\)</span> and <span class="math notranslate nohighlight">\(u_y\)</span> from <span class="math notranslate nohighlight">\(v_x\)</span> and <span class="math notranslate nohighlight">\(v_y\)</span> with force term correction <span class="math notranslate nohighlight">\((\delta t/2)\boldsymbol{F}_{tot}/\varrho\)</span></p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="no">Update</span><span class="w"> </span><span class="no">VX</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="no">VY</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">ForceNSX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lbmStatePrev</span><span class="o">[</span><span class="no">IFX</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="no">ForceNSY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lbmStatePrev</span><span class="o">[</span><span class="no">IFY</span><span class="o">]</span><span class="p">;</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="no">VX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moment_VX</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">ForceNSX</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">rho</span><span class="p">;</span>
+</span><span class="hll"><span class="n">real_t</span><span class="w"> </span><span class="no">VY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moment_VY</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="no">ForceNSY</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">rho</span><span class="p">;</span>
+</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="no">Model</span><span class="o">.</span><span class="n">initType</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="no">SERPENTINE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">const</span><span class="w"> </span><span class="n">real_t</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">M_PI</span><span class="p">;</span>
+<span class="w">  </span><span class="no">VX</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pi</span><span class="o">*</span><span class="no">Model</span><span class="o">.</span><span class="n">U0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">y</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">));</span>
+<span class="w">  </span><span class="no">VY</span><span class="w">    </span><span class="o">=</span><span class="w">   </span><span class="n">pi</span><span class="o">*</span><span class="no">Model</span><span class="o">.</span><span class="n">U0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">y</span><span class="o">/</span><span class="no">Model</span><span class="o">.</span><span class="n">L</span><span class="p">)</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="sd-card-text">Save in array with appropriate indices</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="sr">//</span><span class="w"> </span><span class="n">update</span><span class="w"> </span><span class="n">macro</span><span class="w"> </span><span class="n">fields</span>
+</span><span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IPHI</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">phi</span><span class="p">);</span>
+</span><span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">ID</span><span class="w">   </span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">);</span>
+</span><span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IP</span><span class="w">   </span><span class="p">,</span><span class="w"> </span><span class="n">P</span><span class="w">  </span><span class="p">);</span>
+</span><span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IU</span><span class="w">   </span><span class="p">,</span><span class="w"> </span><span class="no">VX</span><span class="w"> </span><span class="p">);</span>
+</span><span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IV</span><span class="w">   </span><span class="p">,</span><span class="w"> </span><span class="no">VY</span><span class="w"> </span><span class="p">);</span>
+</span><span class="hll"><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IMU</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Function <code class="docutils literal notranslate"><span class="pre">update_macro_grad</span></code></p>
+<p>Currently the function contains the laplacian computation for chemical potential.</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">void</span><span class="w"> </span><span class="n">update_macro_grad</span><span class="p">(</span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">IJK</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">laplace_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_laplacian</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IC</span><span class="p">,</span><span class="w"> </span><span class="no">BOUNDARY_EQUATION_1</span><span class="p">);</span>
+<span class="w">  </span><span class="no">Base</span><span class="o">::</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">ILAPLAC</span><span class="p">,</span><span class="w"> </span><span class="n">laplace_c</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add computation of gradients</p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">KOKKOS_INLINE_FUNCTION</span>
+<span class="n">void</span><span class="w"> </span><span class="n">update_macro_grad</span><span class="p">(</span><span class="no">IVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="no">IJK</span><span class="p">)</span><span class="w"> </span><span class="n">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">real_t</span><span class="w"> </span><span class="n">laplace_c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">Base</span><span class="o">::</span><span class="n">compute_laplacian</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IC</span><span class="p">,</span><span class="w"> </span><span class="no">BOUNDARY_EQUATION_1</span><span class="p">);</span>
+<span class="w">  </span><span class="no">Base</span><span class="o">::</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">ILAPLAC</span><span class="p">,</span><span class="w"> </span><span class="n">laplace_c</span><span class="p">);</span>
+
+<span class="hll"><span class="w">  </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">gradPhi</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_gradient</span><span class="p">(</span><span class="n">gradPhi</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IPHI</span><span class="p">,</span><span class="w"> </span><span class="no">BOUNDARY_EQUATION_1</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IDPHIDX</span><span class="p">,</span><span class="w"> </span><span class="n">gradPhi</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IDPHIDY</span><span class="p">,</span><span class="w"> </span><span class="n">gradPhi</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IDPHIDZ</span><span class="p">,</span><span class="w"> </span><span class="n">gradPhi</span><span class="o">[</span><span class="no">IZ</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll">
+</span><span class="hll"><span class="w">  </span><span class="no">RVect</span><span class="o">&lt;</span><span class="n">dim</span><span class="o">&gt;</span><span class="w"> </span><span class="n">gradRho</span><span class="p">;</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">compute_gradient</span><span class="p">(</span><span class="n">gradRho</span><span class="p">,</span><span class="w"> </span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">ID</span><span class="p">,</span><span class="w"> </span><span class="no">BOUNDARY_EQUATION_2</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IDRHODX</span><span class="p">,</span><span class="w"> </span><span class="n">gradRho</span><span class="o">[</span><span class="no">IX</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IDRHODY</span><span class="p">,</span><span class="w"> </span><span class="n">gradRho</span><span class="o">[</span><span class="no">IY</span><span class="o">]</span><span class="p">);</span>
+</span><span class="hll"><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="n">this</span><span class="o">-&gt;</span><span class="n">set_lbm_val</span><span class="p">(</span><span class="no">IJK</span><span class="p">,</span><span class="w"> </span><span class="no">IDRHODZ</span><span class="p">,</span><span class="w"> </span><span class="n">gradRho</span><span class="o">[</span><span class="no">IZ</span><span class="o">]</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+File <code class="docutils literal notranslate"><span class="pre">InitConditionsTypes.h</span></code></label><div class="sd-tab-content docutils">
+<div class="caution admonition">
+<p class="admonition-title">Add the keywords of initial conditions</p>
+<p>In file <code class="docutils literal notranslate"><span class="pre">InitConditionsTypes.h</span></code>, two keywords are currently declared:</p>
+<blockquote>
+<div><div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">InitCondition</span><span class="p">{</span>
+<span class="w">  </span><span class="no">PHASE_FIELD_INIT_UNDEFINED</span><span class="p">,</span>
+<span class="w">  </span><span class="no">ADE_GAUSSIAN</span><span class="p">,</span>
+<span class="w">  </span><span class="no">RANDOM_SPINODAL</span><span class="p">,</span>
+<span class="w">  </span><span class="no">RANDOM_NUCLEATION</span><span class="p">,</span>
+<span class="w">  </span><span class="no">SERPENTINE</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Add the new keyword for initial condition <code class="docutils literal notranslate"><span class="pre">PHASE_FIELD_INIT_VERTICAL</span></code></p></li>
+</ul>
+<blockquote>
+<div><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-comment" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></span><span class="sd-summary-text">Solution</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span><span class="w"> </span><span class="no">InitCondition</span><span class="p">{</span>
+<span class="w">   </span><span class="no">PHASE_FIELD_INIT_UNDEFINED</span><span class="p">,</span>
+<span class="w">   </span><span class="no">ADE_GAUSSIAN</span><span class="p">,</span>
+<span class="w">   </span><span class="no">RANDOM_SPINODAL</span><span class="p">,</span>
+<span class="w">   </span><span class="no">RANDOM_NUCLEATION</span><span class="p">,</span>
+<span class="hll"><span class="w">   </span><span class="no">SERPENTINE</span><span class="p">,</span>
+</span><span class="hll"><span class="w">   </span><span class="no">PHASE_FIELD_INIT_VERTICAL</span>
+</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</details></div></blockquote>
+</div>
+</div>
+</div>
+</section>
+<section id="verification-of-your-implementation">
+<h2>4. Verification of your implementation<a class="headerlink" href="#verification-of-your-implementation" title="Link to this heading"></a></h2>
+<p>The test case of validation is the double-Poiseuille flow. The input file is <code class="docutils literal notranslate"><span class="pre">Test-Tuto04_Double_Poiseuille_BGK.ini</span></code> in the directory <code class="docutils literal notranslate"><span class="pre">run_training_lbm/Tutorial05_NSCH</span></code>.</p>
+<div class="important admonition">
+<p class="admonition-title">Run and post-process your results</p>
+<ul class="simple">
+<li><p>Go to the appropriate folder and run LBM_Saclay</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/run_training_lbm/Tutorial05_NSCH
+$<span class="w"> </span>../../build_NSCH/src/LBM_saclay<span class="w"> </span>Test-Tuto04_Double_Poiseuille_BGK.ini
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p>Once the computation is complete, extract from your final <code class="docutils literal notranslate"><span class="pre">.vti</span></code> file one profile <span class="math notranslate nohighlight">\(u_y\)</span> as a function of <span class="math notranslate nohighlight">\(x\)</span> with paraview 5.12</p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>path_to_pvpython/pvpython<span class="w"> </span>Extract-Profile_BGK_PV512.pvpy
+</pre></div>
+</div>
+<p>The output is a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file called <code class="docutils literal notranslate"><span class="pre">Profil_Double-Poiseuille_BGK.csv</span></code>.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Compare with the analytical solution written in the python script <code class="docutils literal notranslate"><span class="pre">Profils_NSCH-BGK_Analytical.py</span></code></p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Profils_NSCH-BGK_Analytical.py
+</pre></div>
+</div>
+<p>You must obtain Fig <a class="reference internal" href="#fig-tuto5-doublepoiseuille"><span class="std std-numref">Fig. 49</span></a></p>
+</div></blockquote>
+<figure class="align-center" id="fig-tuto5-doublepoiseuille">
+<a class="reference internal image-reference" href="../../_images/Fig_Tuto5_DoublePoiseuille.png"><img alt="../../_images/Fig_Tuto5_DoublePoiseuille.png" height="332" src="../../_images/Fig_Tuto5_DoublePoiseuille.png" width="475" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 49 </span><span class="caption-text">Comparison between LBM and analytical solution of double-Poiseuille flow</span><a class="headerlink" href="#fig-tuto5-doublepoiseuille" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Implementation of a Navier-Stokes/Cahn-Hilliard model</a><ul>
+<li><a class="reference internal" href="#objective-of-this-5th-tutorial">Objective of this 5th tutorial</a></li>
+<li><a class="reference internal" href="#create-a-new-kernel-nsch">1. Create a new kernel <code class="docutils literal notranslate"><span class="pre">NSCH</span></code></a></li>
+<li><a class="reference internal" href="#add-a-new-equation-in-your-kernel-nsch">2. Add a new equation in your kernel <code class="docutils literal notranslate"><span class="pre">NSCH</span></code></a></li>
+<li><a class="reference internal" href="#modifications-inside-each-file-of-nsch">3. Modifications inside each file of <code class="docutils literal notranslate"><span class="pre">NSCH</span></code></a></li>
+<li><a class="reference internal" href="#verification-of-your-implementation">4. Verification of your implementation</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Tuto04_Incompr_Navier-Stokes.html"
+                          title="previous chapter">Implementation of an incompressible Navier-Stokes model</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../05_COURSES/Course_LBM/TOC_LBM_Course.html"
+                          title="next chapter">PART V.A. Lattice Boltzmann Methods</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../05_COURSES/Course_LBM/TOC_LBM_Course.html" title="PART V.A. Lattice Boltzmann Methods"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Tuto04_Incompr_Navier-Stokes.html" title="Implementation of an incompressible Navier-Stokes model"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="TOC_Tutorials.html" >PART IV.B: Tutorials for developers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Implementation of a Navier-Stokes/Cahn-Hilliard model</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Practice of phase-field with test cases of run_training_dissolution &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Practice of phase-field with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_dissolution</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="practice-of-phase-field-with-test-cases-of-run-training-dissolution">
+<span id="run-training-dissolution"></span><h1>Practice of phase-field with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_dissolution</span></code><a class="headerlink" href="#practice-of-phase-field-with-test-cases-of-run-training-dissolution" title="Link to this heading"></a></h1>
+<section id="compilation-of-kernel-gpmixt">
+<h2>Compilation of kernel <code class="docutils literal notranslate"><span class="pre">GPMixt</span></code><a class="headerlink" href="#compilation-of-kernel-gpmixt" title="Link to this heading"></a></h2>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Compilation on A6000</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="important admonition">
+<p class="admonition-title"><span class="mediumbold">Makefile for GPU of manwe server</span></p>
+<ul class="simple">
+<li><p class="sd-card-text">For <code class="docutils literal notranslate"><span class="pre">cuda</span></code> on GPU A6000 of manwe Go to folder <code class="docutils literal notranslate"><span class="pre">LBM_Saclay_Rech-Dev</span></code></p></li>
+</ul>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">and execute the <code class="docutils literal notranslate"><span class="pre">configure_build.sh</span></code> script to create the <code class="docutils literal notranslate"><span class="pre">makefile</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./compilation/manwe/cuda_a6000/configure_build.sh
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">will return:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>The<span class="w"> </span>following<span class="w"> </span>problems<span class="w"> </span>are<span class="w"> </span>currently<span class="w"> </span>implemented:
+<span class="m">0</span><span class="w">  </span>AC
+<span class="m">1</span><span class="w">  </span>Advection-Diffusion
+<span class="m">2</span><span class="w">  </span>Crystal_growth_Younsi
+<span class="m">3</span><span class="w">  </span>GPMixt
+<span class="m">4</span><span class="w">  </span>GPMixtNS
+<span class="m">5</span><span class="w">  </span>GPMixtTernary
+<span class="m">6</span><span class="w">  </span>GPMuTernary
+<span class="m">7</span><span class="w">  </span>MPwSLphC
+<span class="m">8</span><span class="w">  </span>NS
+<span class="m">9</span><span class="w">  </span>NS_3phases_1comp_phase_change
+<span class="m">10</span><span class="w"> </span>NSAC_Comp
+<span class="m">11</span><span class="w"> </span>NSAC_Comp_3phases
+<span class="m">12</span><span class="w"> </span>NSAC_Comp_3phases3D
+<span class="m">13</span><span class="w"> </span>NSAC_coupling
+<span class="m">14</span><span class="w"> </span>NSAC_Fakhari
+<span class="m">15</span><span class="w"> </span>NSAC_Surfactant
+Choose<span class="w"> </span>which<span class="w"> </span>problems<span class="w"> </span>to<span class="w"> </span>include<span class="w"> </span>by<span class="w"> </span>indicating<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>space<span class="w"> </span>or<span class="w"> </span>comma<span class="w"> </span>separated<span class="w"> </span>numbers,<span class="w"> </span>eg<span class="w"> </span><span class="s1">&#39;0 1&#39;</span><span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;0,1&#39;</span>.
+Write<span class="w"> </span><span class="s1">&#39;all&#39;</span><span class="w"> </span>to<span class="w"> </span>include<span class="w"> </span>all<span class="w"> </span>problems.
+Problem<span class="w"> </span>numbers:
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="error admonition">
+<p class="admonition-title"><span class="mediumbold">Compilation</span></p>
+<p class="sd-card-text">Write <code class="docutils literal notranslate"><span class="pre">3</span></code> for <code class="docutils literal notranslate"><span class="pre">GPMixt</span></code> kernel</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Problem<span class="w"> </span>numbers:<span class="w"> </span><span class="m">3</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">Go to the directory that is indicated by the green link, e.g., if number <code class="docutils literal notranslate"><span class="pre">3</span></code> has been set for GPU:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev/build_cuda_a6000/build_GPMixt
+</pre></div>
+</div>
+</div></blockquote>
+<p class="sd-card-text">Compile:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>-j<span class="w"> </span><span class="m">22</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+</details></section>
+<section id="run-test-cases">
+<h2>Run test cases<a class="headerlink" href="#run-test-cases" title="Link to this heading"></a></h2>
+<section id="stefan-problem-with-d-s-sim-d-l">
+<h3>Stefan problem with <span class="math notranslate nohighlight">\(D_s \sim D_l\)</span><a class="headerlink" href="#stefan-problem-with-d-s-sim-d-l" title="Link to this heading"></a></h3>
+<div class="error admonition">
+<p class="admonition-title"><span class="mediumbold">Run Stefan problem</span></p>
+<ol class="arabic simple">
+<li><p>Go to the folder of Stefan problem</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_dissolution/01_Binary_Stefan-Problem
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Run the test case on <code class="docutils literal notranslate"><span class="pre">volatile</span></code> of manwe</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>LBM_Saclay_Rech-Dev/build_cuda_a6000/build_GPMixt/src/LBM_saclay<span class="w"> </span>d2q9_1d_Stefan.ini
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Post-process with paraview12</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview12<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="note admonition">
+<p class="admonition-title"><span class="mediumbold">Commands in paraview12</span></p>
+<p><strong>For interface positions</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Open all <code class="docutils literal notranslate"><span class="pre">vti</span></code> files  <code class="docutils literal notranslate"><span class="pre">LBM_D2Q9_Stefan_</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> and <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">contour</span></code> and select field <code class="docutils literal notranslate"><span class="pre">phi</span></code> with value <code class="docutils literal notranslate"><span class="pre">0.5</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Data</span></code>, choose <code class="docutils literal notranslate"><span class="pre">.cvs</span></code> format. Select it and write the file name: <code class="docutils literal notranslate"><span class="pre">interface</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">Write</span> <span class="pre">Time</span> <span class="pre">Steps</span></code> and <code class="docutils literal notranslate"><span class="pre">Write</span> <span class="pre">Time</span> <span class="pre">Steps</span> <span class="pre">Separately</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+</ol>
+</div></blockquote>
+<p><strong>For composition profile</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Open file <code class="docutils literal notranslate"><span class="pre">LBM_D2Q9_Stefan_FINAL.vti</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> and <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> + <code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">Over</span> <span class="pre">Line</span></code></p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">Sample</span> <span class="pre">At</span> <span class="pre">Segment</span> <span class="pre">Centers</span></code> Clic on <code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">axis</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code> –&gt; new graph with profile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Data</span></code>, <code class="docutils literal notranslate"><span class="pre">file</span> <span class="pre">name</span></code>: <code class="docutils literal notranslate"><span class="pre">profil_comp_100.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+</ol>
+</div></blockquote>
+</div>
+<p>Next in your terminal</p>
+<div class="error admonition">
+<p class="admonition-title"><span class="mediumbold">Run python script</span></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Post-Pro_Compare_Analytical-Solution.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>You must obtain <code class="xref std std-numref docutils literal notranslate"><span class="pre">Fig_GPMixt-Compare-Stefan-Problem</span></code></p>
+</div>
+<figure class="align-center" id="fig-gpmixt-compare-stefan-problem">
+<a class="reference internal image-reference" href="../../../_images/Compare-Stefan-Problem_GPMixt.png"><img alt="../../../_images/Compare-Stefan-Problem_GPMixt.png" height="270" src="../../../_images/Compare-Stefan-Problem_GPMixt.png" width="850" />
+</a>
+<figcaption>
+<p><span class="caption-text">Comparison between analytical solution of Stefan problem and LBM_Saclay with GPMixt kernel</span><a class="headerlink" href="#fig-gpmixt-compare-stefan-problem" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="stefan-problem-with-d-s-0">
+<h3>Stefan problem with <span class="math notranslate nohighlight">\(D_s=0\)</span><a class="headerlink" href="#stefan-problem-with-d-s-0" title="Link to this heading"></a></h3>
+<p><span class="mediumbold">1. Without anti-trapping current</span></p>
+<div class="error admonition">
+<p class="admonition-title"><span class="mediumbold">Run first test case without anti-trapping current</span></p>
+<ol class="arabic simple">
+<li><p>Go to the folder of Stefan problem</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/run_training_dissolution/02_Binary_Anti-Trapping-Current
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Run the first test case without anti-trapping current</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>LBM_Saclay_Rech-Dev/build_cuda_a6000/build_GPMixt/src/LBM_saclay<span class="w"> </span>Test_1d_Stefan_Ds0_no-anti-trapping.ini
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Post-process with paraview12</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>paraview12<span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="note admonition">
+<p class="admonition-title"><span class="mediumbold">Commands in paraview12</span></p>
+<p><strong>For interface positions</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Open all <code class="docutils literal notranslate"><span class="pre">vti</span></code> files  <code class="docutils literal notranslate"><span class="pre">LBM_Stefan_Ds0_no-anti-trapping</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> and <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">contour</span></code> and select field <code class="docutils literal notranslate"><span class="pre">phi</span></code> with value <code class="docutils literal notranslate"><span class="pre">0.5</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Data</span></code>, choose <code class="docutils literal notranslate"><span class="pre">.cvs</span></code> format. Select it and write the file name: <code class="docutils literal notranslate"><span class="pre">interface</span></code></p></li>
+<li><p>Clic on <code class="docutils literal notranslate"><span class="pre">Write</span> <span class="pre">Time</span> <span class="pre">Steps</span></code> + <code class="docutils literal notranslate"><span class="pre">Write</span> <span class="pre">Time</span> <span class="pre">Steps</span> <span class="pre">Separately</span></code> + <code class="docutils literal notranslate"><span class="pre">Choose</span> <span class="pre">Arrays</span> <span class="pre">To</span> <span class="pre">Write</span></code> + unslect <code class="docutils literal notranslate"><span class="pre">phi</span></code> + <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+</ol>
+</div></blockquote>
+<p><strong>For composition profile</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Open file <code class="docutils literal notranslate"><span class="pre">LBM_Stefan_Ds0_no-anti-trapping_FINAL.vti</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> and <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Data</span> <span class="pre">to</span> <span class="pre">Point</span> <span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">space</span></code> + <code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">Over</span> <span class="pre">Line</span></code></p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">Sample</span> <span class="pre">At</span> <span class="pre">Segment</span> <span class="pre">Centers</span></code> Clic on <code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">axis</span></code> and <code class="docutils literal notranslate"><span class="pre">Apply</span></code> –&gt; new graph with profile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">File</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Data</span></code>, <code class="docutils literal notranslate"><span class="pre">file</span> <span class="pre">name</span></code>: <code class="docutils literal notranslate"><span class="pre">profil_comp.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">OK</span></code></p></li>
+</ol>
+</div></blockquote>
+</div>
+<p>Next in your terminal</p>
+<div class="error admonition">
+<p class="admonition-title">For training session: python script</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>Script_plot-Stefan1D_anti-trapping.py
+</pre></div>
+</div>
+</div></blockquote>
+<p>You must obtain <code class="xref std std-numref docutils literal notranslate"><span class="pre">Fig_Compare-Stefan-Problem-Ds0-withoutAT</span></code></p>
+</div>
+<figure class="align-center" id="fig-compare-stefan-problem-ds0-withoutat">
+<a class="reference internal image-reference" href="../../../_images/Stefan1D_Ds0_no-anti-trapping.png"><img alt="../../../_images/Stefan1D_Ds0_no-anti-trapping.png" height="270" src="../../../_images/Stefan1D_Ds0_no-anti-trapping.png" width="850" />
+</a>
+<figcaption>
+<p><span class="caption-text">Comparison between analytical solution of Stefan problem with <span class="math notranslate nohighlight">\(D_s=0\)</span> and LBM_Saclay without anti-trapping current</span><a class="headerlink" href="#fig-compare-stefan-problem-ds0-withoutat" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><span class="mediumbold">2. With anti-trapping current</span></p>
+<div class="important admonition">
+<p class="admonition-title"><span class="mediumbold">Exercise</span></p>
+<p>Start again with LBM_Saclay input file <code class="docutils literal notranslate"><span class="pre">Test_1d_Stefan_Ds0_with-anti-trapping.ini</span></code> and compare the composition profile. You must obtain <code class="xref std std-numref docutils literal notranslate"><span class="pre">Fig_Stefan1D_Ds0_with-anti-trapping.png</span></code></p>
+</div>
+<figure class="align-center" id="fig-stefan1d-ds0-with-anti-trapping-png">
+<a class="reference internal image-reference" href="../../../_images/Stefan1D_Ds0_with-anti-trapping.png"><img alt="../../../_images/Stefan1D_Ds0_with-anti-trapping.png" height="270" src="../../../_images/Stefan1D_Ds0_with-anti-trapping.png" width="850" />
+</a>
+<figcaption>
+<p><span class="caption-text">Comparison between analytical solution of Stefan problem with <span class="math notranslate nohighlight">\(D_s=0\)</span> and LBM_Saclay with anti-trapping current</span><a class="headerlink" href="#fig-stefan1d-ds0-with-anti-trapping-png" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="simulation-of-porous-medium-dissolution">
+<h3>Simulation of porous medium dissolution<a class="headerlink" href="#simulation-of-porous-medium-dissolution" title="Link to this heading"></a></h3>
+<div class="admonition-mediumbold-porous-medium-geometry admonition">
+<p class="admonition-title"><span class="mediumbold">Porous medium geometry</span></p>
+<p><strong>Description of porous medium geometry</strong></p>
+<p>The porous medium geometry is described in the datafile <code class="docutils literal notranslate"><span class="pre">image_niv1_slice0.dat</span></code>.</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mt-3 sd-mb-3 sd-ml-0 sd-mr-5 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 sd-g-4 sd-g-xs-4 sd-g-sm-4 sd-g-md-4 sd-g-lg-4 docutils">
+<div class="sd-col sd-d-flex-column docutils">
+<p>This is a text file with format</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>i,j,k,value
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">i</span></code>, <code class="docutils literal notranslate"><span class="pre">j</span></code>, <code class="docutils literal notranslate"><span class="pre">k</span></code> are the positions of x, y, z and <code class="docutils literal notranslate"><span class="pre">value</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code>. The file contains 256x256x237 values.</p>
+</div></blockquote>
+</div>
+<div class="sd-col sd-d-flex-column docutils">
+<p>i.e. for the first ten lines:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="m">0</span>,0,0,1
+<span class="m">1</span>,0,0,1
+<span class="m">2</span>,0,0,0
+<span class="m">3</span>,0,0,0
+<span class="m">4</span>,0,0,0
+<span class="m">5</span>,0,0,0
+<span class="m">6</span>,0,0,0
+<span class="m">7</span>,0,0,0
+<span class="m">8</span>,0,0,0
+<span class="m">9</span>,0,0,0
+...
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+</div>
+<p><strong>Options in LBM_Saclay input file</strong></p>
+<p>The datafile name of porous geometry must be set in the input file of LBM_Saclay in the <code class="docutils literal notranslate"><span class="pre">[init]</span></code> section with <code class="docutils literal notranslate"><span class="pre">init_type=data</span></code></p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>init<span class="o">]</span>
+<span class="nv">init_type</span><span class="o">=</span>data
+<span class="nv">data_file</span><span class="o">=</span>./image_niv1_slice0.dat
+<span class="nv">sizeRatio</span><span class="o">=</span><span class="m">2</span>
+<span class="nv">initCl</span><span class="o">=</span><span class="m">0</span>.4
+<span class="nv">initCs</span><span class="o">=</span><span class="m">0</span>.6
+</pre></div>
+</div>
+</div></blockquote>
+<p>The file <code class="docutils literal notranslate"><span class="pre">image_niv1_slice0.dat</span></code> is used to initialize the phase-field <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x},0)\)</span>. Next, the composition is initialized with <span class="math notranslate nohighlight">\(\phi(\boldsymbol{x},0)\)</span> and <span class="math notranslate nohighlight">\(c_l^0\)</span> (<code class="docutils literal notranslate"><span class="pre">initCl</span></code>) and <span class="math notranslate nohighlight">\(c_s^0\)</span> (<code class="docutils literal notranslate"><span class="pre">initCs</span></code>).</p>
+<p>The mesh of the that test case is composed of <code class="docutils literal notranslate"><span class="pre">nx=512</span></code> and <code class="docutils literal notranslate"><span class="pre">ny=512</span></code> cells (see section <code class="docutils literal notranslate"><span class="pre">[mesh]</span></code>). The datafile <code class="docutils literal notranslate"><span class="pre">image_niv1_slice0.dat</span></code> contains only 256 values for <code class="docutils literal notranslate"><span class="pre">i</span></code> and 256 values for <code class="docutils literal notranslate"><span class="pre">j</span></code>. The input file is rescaled with the option <code class="docutils literal notranslate"><span class="pre">sizeRatio=2</span></code>. For using the same datafile on a mesh composed of 1024x1024 cells, the option must be set to <code class="docutils literal notranslate"><span class="pre">sizeRatio=4</span></code>.</p>
+</div>
+<div class="error admonition">
+<p class="admonition-title"><span class="mediumbold">Run simulation of porous medium dissolution</span></p>
+<p>Go to folder <code class="docutils literal notranslate"><span class="pre">03_Binary_Porous-Medium</span></code> and run LBM_Saclay with the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input file:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>run_training_dissolution/03_Binary_Porous-Medium
+$<span class="w"> </span>LBM_Saclay_Rech-Dev/build_cuda_a6000/build_GPMixt/src/LBM_saclay<span class="w"> </span>Test_Dissolution_Porous-Medium.ini
+</pre></div>
+</div>
+</div></blockquote>
+<p>Post-process with paraview12</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title"><span class="mediumbold">Commands in paraview12</span></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Open all <code class="docutils literal notranslate"><span class="pre">vti</span></code> files <code class="docutils literal notranslate"><span class="pre">Test_Dissolution_Porous-Medium</span></code></p></li>
+<li><p>Load paraview state <code class="docutils literal notranslate"><span class="pre">State-Paraview_5-12_Porous-Medium.pvsm</span></code></p></li>
+</ol>
+</div></blockquote>
+<p>At initial time of simulation you must obtain <code class="xref std std-numref docutils literal notranslate"><span class="pre">Fig_Porous-Medium-Tinit</span></code>. At final time of simulation, you must obtain <code class="xref std std-numref docutils literal notranslate"><span class="pre">Fig_Porous-Medium-Tfinal</span></code>.</p>
+</div>
+<figure class="align-center" id="fig-porous-medium-tinit">
+<a class="reference internal image-reference" href="../../../_images/Porous-Medium_Tinit.png"><img alt="../../../_images/Porous-Medium_Tinit.png" height="270" src="../../../_images/Porous-Medium_Tinit.png" width="650" />
+</a>
+<figcaption>
+<p><span class="caption-text">Simulation of porous medium dissolution: initial time</span><a class="headerlink" href="#fig-porous-medium-tinit" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="fig-porous-medium-tfinal">
+<a class="reference internal image-reference" href="../../../_images/Porous-Medium_Tfinal.png"><img alt="../../../_images/Porous-Medium_Tfinal.png" height="270" src="../../../_images/Porous-Medium_Tfinal.png" width="650" />
+</a>
+<figcaption>
+<p><span class="caption-text">Simulation of porous medium dissolution: final time</span><a class="headerlink" href="#fig-porous-medium-tfinal" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Practice of phase-field with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_dissolution</span></code></a><ul>
+<li><a class="reference internal" href="#compilation-of-kernel-gpmixt">Compilation of kernel <code class="docutils literal notranslate"><span class="pre">GPMixt</span></code></a></li>
+<li><a class="reference internal" href="#run-test-cases">Run test cases</a><ul>
+<li><a class="reference internal" href="#stefan-problem-with-d-s-sim-d-l">Stefan problem with <span class="math notranslate nohighlight">\(D_s \sim D_l\)</span></a></li>
+<li><a class="reference internal" href="#stefan-problem-with-d-s-0">Stefan problem with <span class="math notranslate nohighlight">\(D_s=0\)</span></a></li>
+<li><a class="reference internal" href="#simulation-of-porous-medium-dissolution">Simulation of porous medium dissolution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Practice of phase-field with test cases of <code class="docutils literal notranslate"><span class="pre">run_training_dissolution</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

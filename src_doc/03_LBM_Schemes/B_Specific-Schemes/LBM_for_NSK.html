@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lattice Boltzmann Methods for Navier-Stokes/Korteweg model &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Force and source terms in LBM" href="../A_Basic-LBM/05_Forces-LBMSaclay.html" />
+    <link rel="prev" title="Equilibrium distribution functions for Transport equations" href="../A_Basic-LBM/04_Equilibrium-Functions_Transport-Equations.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../A_Basic-LBM/05_Forces-LBMSaclay.html" title="Force and source terms in LBM"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../A_Basic-LBM/04_Equilibrium-Functions_Transport-Equations.html" title="Equilibrium distribution functions for Transport equations"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" accesskey="U">PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Lattice Boltzmann Methods for Navier-Stokes/Korteweg model</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="lattice-boltzmann-methods-for-navier-stokes-korteweg-model">
+<span id="lbm-nsk"></span><h1>Lattice Boltzmann Methods for Navier-Stokes/Korteweg model<a class="headerlink" href="#lattice-boltzmann-methods-for-navier-stokes-korteweg-model" title="Link to this heading"></a></h1>
+<div class="important admonition">
+<p class="admonition-title">Target macroscopic NS/K model</p>
+<p>The target macroscopic PDEs are fully described in <a class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary reference internal" href="../../02_MODELS/01_Fluid_Fluid/Model_NSK.html#model-nsk"><span class="std std-ref">Model of Navier-Stokes/Korteweg (NSK)</span></a>.</p>
+</div>
+<p>Since the historical method of “Shan-Chen” <a class="footnote-reference brackets" href="#footcite-shan-chen-pre1993" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> &amp; <a class="footnote-reference brackets" href="#footcite-shan-chen-pre1994" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> many methods have been published to simulate those equations. An important family of methods is called <strong>Pseudo-potential methods</strong>. See a review e.g. in <a class="footnote-reference brackets" href="#footcite-li-etal-progecs2016" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. We present here, one of them implemented in LBM_Saclay, called the Kupershtokh’s forcing term <a class="footnote-reference brackets" href="#footcite-kupershtokh20113537" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>. Next, we present an alternative method, more intuitive which discretizes the potential form of the tensor pressure. Finally we present a scheme, based on a modification of the equilibrium distribution function and called “Well-Balanced LBM” <a class="footnote-reference brackets" href="#footcite-guo-wellbalanced-pof2021" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>.</p>
+<div class="note admonition">
+<p class="admonition-title">Standard LBM with a forcing term</p>
+<div class="math notranslate nohighlight" id="equation-lbe-low-mach">
+<span class="eqno">(229)<a class="headerlink" href="#equation-lbe-low-mach" title="Link to this equation"></a></span>\[f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},\,t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},\,t)-f_{i}^{eq}(\boldsymbol{x},\,t)\right]+\delta t\mathcal{F}_{i}(\boldsymbol{x},t)\]</div>
+<div class="math notranslate nohighlight" id="equation-feq-pseudo-potential">
+<span class="eqno">(230)<a class="headerlink" href="#equation-feq-pseudo-potential" title="Link to this equation"></a></span>\[f_{i}^{eq}(\boldsymbol{x},t)=w_{i}\rho\left[1+\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})^{2}}{2c_{s}^{4}}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\right]\]</div>
+<div class="math notranslate nohighlight" id="equation-moment0-pseudo-potential">
+<span class="eqno">(231)<a class="headerlink" href="#equation-moment0-pseudo-potential" title="Link to this equation"></a></span>\[\rho=\sum_{i}f_{i}\qquad\]</div>
+<div class="math notranslate nohighlight" id="equation-moment1-pseudo-potential">
+<span class="eqno">(232)<a class="headerlink" href="#equation-moment1-pseudo-potential" title="Link to this equation"></a></span>\[\boldsymbol{u}=\frac{1}{\rho}\sum_{i}f_{i}\boldsymbol{c}_{i}+\frac{\delta t}{2}\boldsymbol{F}\]</div>
+</div>
+<section id="pseudo-potential-methods">
+<h2>Pseudo-potential methods<a class="headerlink" href="#pseudo-potential-methods" title="Link to this heading"></a></h2>
+<div class="admonition-kupershtokh-s-forcing-term admonition">
+<p class="admonition-title">Kupershtokh’s forcing term</p>
+<p>In Eq. <a class="reference internal" href="#equation-lbe-low-mach">(229)</a>, the Kupershtokh’s forcing term writes</p>
+<div class="math notranslate nohighlight" id="equation-kupershtokh-forcing">
+<span class="eqno">(233)<a class="headerlink" href="#equation-kupershtokh-forcing" title="Link to this equation"></a></span>\[\mathcal{F}_{i}(\boldsymbol{x},t)=f_{i}^{eq}(\boldsymbol{u}^{\star}+\Delta\boldsymbol{u})-f_{i}^{eq}(\boldsymbol{u}^{\star})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{u}^{\star}\)</span> and <span class="math notranslate nohighlight">\(\Delta\boldsymbol{u}\)</span> are defined by</p>
+<div class="math notranslate nohighlight" id="equation-def-delta-u-kupershtokh">
+<span class="eqno">(234)<a class="headerlink" href="#equation-def-delta-u-kupershtokh" title="Link to this equation"></a></span>\[\begin{split}\boldsymbol{u}^{\star}&amp;=\frac{1}{\rho}\sum_{i}f_{i}\boldsymbol{c}_{i}\\
+   \Delta\boldsymbol{u}&amp;=\frac{1}{\rho}\boldsymbol{F}_{int}\delta t\end{split}\]</div>
+<p>The force term <span class="math notranslate nohighlight">\(\boldsymbol{F}_{int}\)</span> is defined in Eq. <a class="reference internal" href="#equation-fint-pseudo-potential">(235)</a>. The subscript <span class="math notranslate nohighlight">\(int\)</span> for  stands for <em>interaction</em></p>
+<div class="math notranslate nohighlight" id="equation-fint-pseudo-potential">
+<span class="eqno">(235)<a class="headerlink" href="#equation-fint-pseudo-potential" title="Link to this equation"></a></span>\[\boldsymbol{F}_{int}=\psi(\rho)\boldsymbol{\nabla}\psi(\rho)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\psi(\rho)\equiv \psi^{eos}(\rho)\)</span> is called the <em>pseudo-potential</em> which is defined by</p>
+<div class="math notranslate nohighlight" id="equation-psi-pseudo-potential">
+<span class="eqno">(236)<a class="headerlink" href="#equation-psi-pseudo-potential" title="Link to this equation"></a></span>\[\psi(\rho)=\sqrt{\frac{2(\rho c_{s}^{2}-p^{eos}(\rho))}{c_{s}^{2}}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(p^{eos}(\rho)\)</span> is the <a class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary reference internal" href="../../02_MODELS/01_Fluid_Fluid/Model_NSK.html#equations-of-state"><span class="std std-ref">Equations of state (EoS)</span></a>.</p>
+<p>The discrete version of <a class="reference internal" href="#equation-fint-pseudo-potential">(235)</a> writes</p>
+<div class="math notranslate nohighlight" id="equation-fint-discrete">
+<span class="eqno">(237)<a class="headerlink" href="#equation-fint-discrete" title="Link to this equation"></a></span>\[\boldsymbol{F}_{int}(\boldsymbol{x},t)=\psi(\boldsymbol{x},t)\frac{1}{\delta x}\sum_{i}w_{i}\psi(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t)\boldsymbol{c}_{i}\]</div>
+</div>
+</section>
+<section id="discretization-of-potential-form-of-pressure-tensor">
+<h2>Discretization of Potential form of pressure tensor<a class="headerlink" href="#discretization-of-potential-form-of-pressure-tensor" title="Link to this heading"></a></h2>
+<div class="admonition-standard-scheme-with-guo-s-forcing-term-std admonition">
+<p class="admonition-title">Standard scheme with Guo’s forcing term (STD)</p>
+<p>In Eq. <a class="reference internal" href="#equation-lbe-low-mach">(229)</a>, the forcing term is defined by</p>
+<div class="math notranslate nohighlight" id="equation-guo-force">
+<span class="eqno">(238)<a class="headerlink" href="#equation-guo-force" title="Link to this equation"></a></span>\[\mathcal{F}_{i}(\boldsymbol{x},t)=w_{i}\left[\frac{\boldsymbol{c}_{i}-\boldsymbol{u}}{c_{s}^{2}}+\frac{(\boldsymbol{c}_{i}\cdot\boldsymbol{u})\boldsymbol{c}_{i}}{c_{s}^{4}}\right]\cdot\boldsymbol{F}_{tot}\]</div>
+<p>where the total force <span class="math notranslate nohighlight">\(\boldsymbol{F}_{tot}\)</span> is defined by Eq.:</p>
+<div class="math notranslate nohighlight" id="equation-ftot-potential-form">
+<span class="eqno">(239)<a class="headerlink" href="#equation-ftot-potential-form" title="Link to this equation"></a></span>\[\boldsymbol{F}_{tot}=\boldsymbol{\nabla}\rho c_{s}^{2}-\rho\boldsymbol{\nabla}\mu_{\rho}\]</div>
+<p>The chemical potential <span class="math notranslate nohighlight">\(\mu_{\rho}\)</span> depends on the Equation of State which is used. They are defined for van der Waals and Carnahan-Starling in <a class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary reference internal" href="../../02_MODELS/01_Fluid_Fluid/Model_NSK.html#equations-of-state"><span class="std std-ref">Equations of state (EoS)</span></a>. In Eq. <a class="reference internal" href="#equation-ftot-potential-form">(239)</a> <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\rho c_{s}^{2}\)</span> is added to cancel the perfect gas eos which arises from Chapman-Enskog when the standard EqDF Eq. <a class="reference internal" href="#equation-feq-pseudo-potential">(230)</a> is used. Both gradients <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\rho\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\mu_{\rho}\)</span> are discretized by directional finite difference (see <a class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary reference internal" href="../C_Other/Additional_Gradients.html#directional-deriv"><span class="std std-ref">Gradients and Laplacian</span></a>).</p>
+</div>
+</section>
+<section id="well-balanced-lbm">
+<h2>Well-balanced LBM<a class="headerlink" href="#well-balanced-lbm" title="Link to this heading"></a></h2>
+<div class="admonition-well-balanced-lbm admonition">
+<p class="admonition-title">Well-balanced LBM</p>
+<p>The Lattice Boltzmann Equation is unchanged:</p>
+<div class="math notranslate nohighlight" id="equation-lbe-wellbalanced">
+<span class="eqno">(240)<a class="headerlink" href="#equation-lbe-wellbalanced" title="Link to this equation"></a></span>\[f_{i}(\boldsymbol{x}+\boldsymbol{c}_{i}\delta t,t+\delta t)=f_{i}(\boldsymbol{x},t)-\frac{1}{\tau}\left[f_{i}(\boldsymbol{x},t)-f_{i}^{eq}(\boldsymbol{x},t)\right]+\left(1-\frac{1}{2\tau}\right)\delta t{\color{blue}\mathcal{F}_{i}(\boldsymbol{x},t)}\]</div>
+<p>But, in order to avoid parasitic currents arising from the finite difference discretization of <span class="math notranslate nohighlight">\(\boldsymbol{\nabla}\rho c_{s}^{2}\)</span> in the previous scheme (STD), a new equilibrium distribution function is defined <a class="footnote-reference brackets" href="#footcite-guo-wellbalanced-pof2021" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>:</p>
+<div class="math notranslate nohighlight" id="equation-feq-wellbalanced">
+<span class="eqno">(241)<a class="headerlink" href="#equation-feq-wellbalanced" title="Link to this equation"></a></span>\[\begin{split}f_{i}^{eq}&amp;=\begin{cases}
+\rho-(1-w_{0})\rho_{0}+w_{0}\rho\Gamma_{0}(\boldsymbol{u}) &amp; i=0\\
+w_{i}\left[\rho_{0}+\rho\Gamma_{i}(\boldsymbol{u})\right] &amp; i\neq0
+\end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho_0\)</span> is a constant often set as <span class="math notranslate nohighlight">\(\rho_0=0\)</span> and the function <span class="math notranslate nohighlight">\(\Gamma_i(\boldsymbol{u})\)</span> is:</p>
+<div class="math notranslate nohighlight" id="equation-def-gamma-wellbalanced">
+<span class="eqno">(242)<a class="headerlink" href="#equation-def-gamma-wellbalanced" title="Link to this equation"></a></span>\[\Gamma_{i}(\boldsymbol{u})=\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}+\frac{1}{2}\left(\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{u}}{c_{s}^{2}}\right)^{2}-\frac{\boldsymbol{u}\cdot\boldsymbol{u}}{2c_{s}^{2}}\]</div>
+<p>The forcing term must also be modified:</p>
+<div class="math notranslate nohighlight" id="equation-forcing-wellbalanced">
+<span class="eqno">(243)<a class="headerlink" href="#equation-forcing-wellbalanced" title="Link to this equation"></a></span>\[\mathcal{F}_{i}=w_{i}\left[\frac{\boldsymbol{c}_{i}\cdot\boldsymbol{F}}{c_{s}^{2}}+\frac{\boldsymbol{u}(\boldsymbol{F}+c_{s}^{2}\boldsymbol{\nabla}\rho):(\boldsymbol{c}_{i}\boldsymbol{c}_{i}-c_{s}^{2}\overline{\overline{\boldsymbol{I}}})}{c_{s}^{4}}+\frac{1}{2}\left(\frac{\boldsymbol{c}_{i}^{2}}{c_{s}^{2}}-D\right)(\boldsymbol{u}\cdot\boldsymbol{\nabla}\rho)\right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(D\)</span> is the spatial dimension (<span class="math notranslate nohighlight">\(D=2\)</span> for D2Q9).</p>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div class="docutils container" id="id7">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-shan-chen-pre1993" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Xiaowen Shan and Hudong Chen. Lattice boltzmann model for simulating flows with multiple phases and components. <em>Phys. Rev. E</em>, 47:1815–1819, Mar 1993. <a class="reference external" href="https://doi.org/10.1103/PhysRevE.47.1815">doi:10.1103/PhysRevE.47.1815</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-shan-chen-pre1994" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Xiaowen Shan and Hudong Chen. Simulation of nonideal gases and liquid-gas phase transitions by the lattice boltzmann equation. <em>Phys. Rev. E</em>, 49:2941–2948, Apr 1994. <a class="reference external" href="https://doi.org/10.1103/PhysRevE.49.2941">doi:10.1103/PhysRevE.49.2941</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-li-etal-progecs2016" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Q. Li, K.H. Luo, Q.J. Kang, Y.L. He, Q. Chen, and Q. Liu. Lattice boltzmann methods for multiphase flow and phase-change heat transfer. <em>Progress in Energy and Combustion Science</em>, 52:62 – 105, 2016. <a class="reference external" href="https://doi.org/10.1016/j.pecs.2015.10.001">doi:10.1016/j.pecs.2015.10.001</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-kupershtokh20113537" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Alexander L. Kupershtokh. A lattice boltzmann equation method for real fluids with the equation of state known in tabular form only in regions of liquid and vapor phases. <em>Computers &amp; Mathematics with Applications</em>, 61(12):3537–3548, 2011. Mesoscopic Methods for Engineering and Science — Proceedings of ICMMES-09. URL: <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0898122110004463">https://www.sciencedirect.com/science/article/pii/S0898122110004463</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/j.camwa.2010.06.032">doi:https://doi.org/10.1016/j.camwa.2010.06.032</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-guo-wellbalanced-pof2021" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id5">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<p>Zhaoli Guo. Well-balanced lattice boltzmann model for two-phase systems. <em>Physics of Fluids</em>, 33(3):031709, 03 2021. URL: <a class="reference external" href="https://doi.org/10.1063/5.0041446">https://doi.org/10.1063/5.0041446</a>.</p>
+</aside>
+</aside>
+</div>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Lattice Boltzmann Methods for Navier-Stokes/Korteweg model</a><ul>
+<li><a class="reference internal" href="#pseudo-potential-methods">Pseudo-potential methods</a></li>
+<li><a class="reference internal" href="#discretization-of-potential-form-of-pressure-tensor">Discretization of Potential form of pressure tensor</a></li>
+<li><a class="reference internal" href="#well-balanced-lbm">Well-balanced LBM</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../A_Basic-LBM/04_Equilibrium-Functions_Transport-Equations.html"
+                          title="previous chapter">Equilibrium distribution functions for Transport equations</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../A_Basic-LBM/05_Forces-LBMSaclay.html"
+                          title="next chapter">Force and source terms in LBM</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../A_Basic-LBM/05_Forces-LBMSaclay.html" title="Force and source terms in LBM"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../A_Basic-LBM/04_Equilibrium-Functions_Transport-Equations.html" title="Equilibrium distribution functions for Transport equations"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_LBM_Schemes.html" >PART III: Lattice Boltzmann schemes in LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Lattice Boltzmann Methods for Navier-Stokes/Korteweg model</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>
