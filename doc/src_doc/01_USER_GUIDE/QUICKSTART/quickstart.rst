@@ -46,9 +46,9 @@ Quick Start with LBM_Saclay
 
             .. code-block:: shell
 
-               $ lbm-doc.sh &
+               $ lbm-tools.sh doc
 
-          ``lbm-doc.sh`` is an alias of command ``google-chrome https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``
+          ``lbm-tools.sh`` is the launcher of the LBM_Saclay small tools (``preprocessing/bin``). The sub-command ``doc`` opens the documentation in your web browser (``https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``). If ``lbm-tools.sh`` is not found, run once : ``bash $HOME/LBM_Saclay_Rech-Dev/preprocessing/bin/setup_path.sh`` then ``source ~/.bashrc`` (see section 2 below).
 
          3. Either a. or b./c.
 
@@ -90,9 +90,9 @@ Quick Start with LBM_Saclay
 
           .. code-block:: shell
 
-             $ lbm-doc.sh &
+             $ lbm-tools.sh doc
 
-          ``lbm-doc.sh`` is an alias of command ``google-chrome https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``
+          ``lbm-tools.sh`` is the launcher of the LBM_Saclay small tools (``preprocessing/bin``). The sub-command ``doc`` opens the documentation in your web browser (``https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``). If ``lbm-tools.sh`` is not found, run once : ``bash $HOME/LBM_Saclay_Rech-Dev/preprocessing/bin/setup_path.sh`` then ``source ~/.bashrc`` (see section 2 below).
 
          
    .. tab-item:: For other users
@@ -139,6 +139,27 @@ Quick Start with LBM_Saclay
             .. code-block:: shell
 
                $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
+
+      .. admonition:: Add the LBM_Saclay tools to your PATH (one time, after the clone)
+         :class: important
+
+         The folder ``LBM_Saclay_Rech-Dev/preprocessing/bin`` contains the small launcher
+         ``lbm-tools.sh`` (documentation, cleaning of output files, splitting of a large
+         ``.xmf`` file, INI Board monitoring). After the clone, run once:
+
+            .. code-block:: shell
+
+               $ bash LBM_Saclay_Rech-Dev/preprocessing/bin/setup_path.sh
+               $ source ~/.bashrc
+
+         You can then use ``lbm-tools.sh`` from any case directory:
+
+            .. code-block:: shell
+
+               $ lbm-tools.sh            # help
+               $ lbm-tools.sh doc        # open the documentation
+               $ lbm-tools.sh nettoie    # clean output files of the current directory
+               $ lbm-tools.sh split 50   # split the unique .xmf of the current directory
 
    .. tab-item:: From folder ``/tmp_formation``
 
