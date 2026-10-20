@@ -48,7 +48,7 @@ Quick Start with LBM_Saclay
 
                $ lbm-tools.sh doc
 
-          ``lbm-tools.sh`` is the launcher of the LBM_Saclay small tools (``preprocessing/bin``). The sub-command ``doc`` opens the documentation in your web browser (``https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``). If ``lbm-tools.sh`` is not found, run once : ``bash $HOME/LBM_Saclay_Rech-Dev/preprocessing/bin/setup_path.sh`` then ``source ~/.bashrc`` (see section 2 below).
+          ``lbm-tools.sh`` is the launcher of the LBM_Saclay small tools (``pre-processing/bin``). The sub-command ``doc`` opens the documentation in your web browser (``https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``). If ``lbm-tools.sh`` is not found, run once : ``bash $HOME/LBM_Saclay_Rech-Dev/lbm-env.sh`` then ``source ~/.bashrc`` (see section 2 below).
 
          3. Either a. or b./c.
 
@@ -92,7 +92,7 @@ Quick Start with LBM_Saclay
 
              $ lbm-tools.sh doc
 
-          ``lbm-tools.sh`` is the launcher of the LBM_Saclay small tools (``preprocessing/bin``). The sub-command ``doc`` opens the documentation in your web browser (``https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``). If ``lbm-tools.sh`` is not found, run once : ``bash $HOME/LBM_Saclay_Rech-Dev/preprocessing/bin/setup_path.sh`` then ``source ~/.bashrc`` (see section 2 below).
+          ``lbm-tools.sh`` is the launcher of the LBM_Saclay small tools (``pre-processing/bin``). The sub-command ``doc`` opens the documentation in your web browser (``https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``). If ``lbm-tools.sh`` is not found, run once : ``bash $HOME/LBM_Saclay_Rech-Dev/lbm-env.sh`` then ``source ~/.bashrc`` (see section 2 below).
 
          
    .. tab-item:: For other users
@@ -126,31 +126,32 @@ Quick Start with LBM_Saclay
 
       .. admonition:: Download LBM_Saclay
 
-         To download either the **Training** version or the **Rech-Dev** version, open a terminal (or Konsole) and copy-paste one of two commands below:
-
-         e.g. for ``LBM_Saclay_Rech-Dev`` version:
+         To download the **Rech-Dev** version of LBM_Saclay, open a terminal (or Konsole) and copy-paste the command below:
 
             .. code-block:: shell
 
                $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Rech-Dev.git
 
-         e.g. for ``LBM_Saclay_Training`` version
-
-            .. code-block:: shell
-
-               $ git clone --recursive https://codev-tuleap.cea.fr/plugins/git/lbmsaclay/LBM_Saclay_Training.git
 
       .. admonition:: Add the LBM_Saclay tools to your PATH (one time, after the clone)
          :class: important
 
-         The folder ``LBM_Saclay_Rech-Dev/preprocessing/bin`` contains the small launcher
-         ``lbm-tools.sh`` (documentation, cleaning of output files, splitting of a large
-         ``.xmf`` file, INI Board monitoring). After the clone, run once:
+         The script ``LBM_Saclay_Rech-Dev/lbm-env.sh`` (root of the clone) writes a
+         delimited ``LBM-env`` block into your ``~/.bashrc`` (PATH of
+         ``pre-processing/bin``, aliases ``lbm-env`` and ``lbm-start``, and on
+         ORCUS the ``Slurm-Orcus`` PATH plus the ``SQ*`` aliases). It is
+         **idempotent** (one block per machine, automatic backup of
+         ``~/.bashrc`` before each write). After the clone, run once:
 
             .. code-block:: shell
 
-               $ bash LBM_Saclay_Rech-Dev/preprocessing/bin/setup_path.sh
+               $ bash LBM_Saclay_Rech-Dev/lbm-env.sh
                $ source ~/.bashrc
+
+         :octicon:`alert-fill;2em;sd-text-info` After every ``git pull``,
+         re-run ``bash lbm-env.sh`` to refresh the block. The old
+         ``pre-processing/bin/setup_path.sh`` is deprecated (its line is not
+         managed by ``lbm-env.sh --remove``).
 
          You can then use ``lbm-tools.sh`` from any case directory:
 
@@ -160,6 +161,7 @@ Quick Start with LBM_Saclay
                $ lbm-tools.sh doc        # open the documentation
                $ lbm-tools.sh nettoie    # clean output files of the current directory
                $ lbm-tools.sh split 50   # split the unique .xmf of the current directory
+               $ lbm-tools.sh monitor    # start the LBM Board in monitoring role
 
    .. tab-item:: From folder ``/tmp_formation``
 
@@ -379,7 +381,7 @@ It is recommended to start with a test case of folder ``run_training_lbm`` (see 
 
    Run LBM_saclay with the input file ``name.ini``, redirecting the output
    to ``lbm_run.log`` (this is the log file followed by the ▶ Run tab of the
-   INI Board):
+   LBM Board):
 
     .. code-block:: shell
 
@@ -392,34 +394,43 @@ It is recommended to start with a test case of folder ``run_training_lbm`` (see 
 
        $ nohup ~/LBM_Saclay_Rech-Dev/build_omp/build_NSAC_Comp/src/LBM_saclay TestCase01_Poiseuille_Water.ini > lbm_run.log 2>&1 &
 
-5. Preprocessing with the INI Board
------------------------------------
+5. Pre- and post-processing with the LBM Board
+----------------------------------------------
+
+LBM_Saclay ships with the **LBM Board** (``LBM_Saclay control panel``), a
+local web tool (pure Python, nothing to install) to control the whole
+workflow in a single page: edit the ``.ini`` input files (pre-processing),
+launch and monitor a computation, and post-process the ``.h5`` (HDF5)
+outputs directly in the browser. It binds to ``127.0.0.1:8092`` only
+(never exposed) and never writes to your disk by default.
 
 .. admonition:: For laptop / desktop
-   :class: important
-
-   LBM_Saclay ships with the **INI Board**, a local web tool (pure Python,
-   nothing to install) to browse and edit the ``.ini`` input files: kanban
-   view by sections, inline editing, diff against a reference case, computed
-   dimensionless numbers (Re/We/Ca/Bo/Pe) and export of the modified file.
-   It binds to ``127.0.0.1:8092`` only (never exposed) and never writes to
-   your disk (the export is a browser download).
+   :class: error
 
    Start it with a single command:
 
       .. code-block:: shell
 
          $ cd LBM_Saclay_Rech-Dev
-         $ ./preprocessing/bin/lbm-ini-board.sh
+         $ ./pre-processing/bin/lbm-board.sh
 
-   The page <http://127.0.0.1:8092> opens in your browser. To stop the server:
+   The page <http://127.0.0.1:8092> opens in your browser. To stop the
+   server: ``./pre-processing/bin/lbm-board.sh stop``.
 
-      .. code-block:: shell
+   On MANWE or ORCUS the same script switches to *monitoring* mode
+   (ports ``8093`` / ``9093`` + SSH tunnel from your laptop) to follow a
+   running computation.
 
-         $ ./preprocessing/bin/lbm-ini-board.sh stop
+The complete guide — prerequisites (``h5py`` + HDF5), pointing the board
+to your ``.ini`` files, editing, dimensionless numbers, run (local CPU
+and ORCUS Slurm) and HDF5 post-processing — is
+given in :bdg-ref-primary-line:`LBM Board: Installation & Launch <LBM-Board>`.
 
+.. toctree::
+   :maxdepth: 1
 
-   On MANWE or ORCUS the same script switches to *monitoring* mode (port ``8093`` + SSH tunnel) to follow a running computation.
+   ./lbm_board.rst
+   ./lbm_board_usage.rst
 
 6. Post-processing with Paraview
 --------------------------------
@@ -430,9 +441,9 @@ It is recommended to start with a test case of folder ``run_training_lbm`` (see 
    For post-processing ``TestCase01_Poiseuille_Water``, open ``paraview12``
 
     .. code-block:: shell
-    
+
        $ paraview12&
-   
+
    and follow the instructions in :bdg-ref-primary-line:`Single-Training-LBM`
 
 The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``/tmp_formation/LBM_Saclay``. In paraview, open the ``.vti`` files. For post-processing the ``.h5`` (HDF5) files open the ``.xml`` file and clic on ``XDMF Reader``.
@@ -443,46 +454,15 @@ The ``.bashrc`` file contains an alias for paraview versions 5.11 and 5.12 in ``
    For post-processing ``.xmf`` and ``.h5`` files for videos use paraview11
 
     .. code-block:: shell
-    
+
        $ paraview11&
-    
+
    For comparison with analytical solutions, use paraview12
-   
+
     .. code-block:: shell
-    
+
        $ paraview12&
-   
+
    and follow tutorials presented in :ref:`Run_Training-LBM`.
-
-7. Post-processing with Python (HDF5 tools)
---------------------------------------------
-
-.. admonition:: For laptop / desktop (Ubuntu)
-   :class: important
-
-   LBM_Saclay ships with a set of Python scripts in the folder
-   ``LBM_Saclay_Rech-Dev/post-processing`` to post-process the ``.h5`` (HDF5)
-   outputs: 1D profiles along a segment, 2D slices of 3D fields, point
-   time series, and conservation checks. On a laptop or personal desktop,
-   install the required Python libraries once with ``apt``:
-
-      .. code-block:: shell
-
-         $ sudo apt install python3-h5py python3-numpy python3-matplotlib
-
-   Then use the system Python (``/usr/bin/python3``) to run the scripts, e.g.
-   extract a 1D profile of a variable along a segment (grid indices,
-   origin ``(0,0)``) and save a CSV plus a plot:
-
-      .. code-block:: shell
-
-         $ cd LBM_Saclay_Rech-Dev/run_training_lbm/TestCase01_Poiseuille_Water
-         $ /usr/bin/python3 ../../post-processing/lbm_extract_profile_h5.py \
-             myCase.h5 --var phi -P1 x1,y1 -P2 x2,y2
-
-   List the variables available in a ``.h5`` file with the option ``--list``.
-
-
-   If ``python3`` does not find ``h5py`` although the ``apt`` packages are installed, another Python (virtualenv, conda) shadows the system one: check with ``which python3`` and use ``/usr/bin/python3`` instead.
 
 .. sectionauthor:: Alain Cartalade
