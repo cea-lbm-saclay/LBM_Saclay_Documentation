@@ -246,7 +246,7 @@ Transfer your output files on your local computer
 
       .. code-block:: shell
 
-         $ scp -r orcusloginamd2:~/run_training_lbm/TestCase08_Rayleigh-Taylor2D .
+         $ scp -r orcusloginamd2:~/LBM_Saclay_Training/run_training_lbm/TestCase08_Rayleigh-Taylor2D .
 
    Post-process with the LBM Board 
 
