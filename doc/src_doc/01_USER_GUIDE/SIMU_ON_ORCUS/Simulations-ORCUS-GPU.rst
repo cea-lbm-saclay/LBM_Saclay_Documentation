@@ -53,7 +53,7 @@ Connexion and disks on ORCUS
 
             .. code-block:: shell
 
-               $ source /tmpformation/LBM_Saclay/Bin-Training/lbm-env-orcus.sh
+               $ source /tmpformation/LBM_Saclay/lbm-env-orcus.sh
 
          will copy the folder ``run_training_lbm`` in your directory (content on :ref:`Run_Training-LBM`) and configuration files ``.bashrc`` & ``.profile``. 
    
@@ -189,13 +189,13 @@ Submit your job with slurm script
 
             .. code-block:: shell
 
-               $ cd ~/run_training_lbm/TestCase08_Rayleigh-Taylor2D
+               $ cd run_training_lbm/TestCase08_Rayleigh-Taylor2D
 
          Submit your test case on one partition: gpuq_h100, gpuq_a100 or gpuq_v100. For example for gpuq_h100:
 
             .. code-block:: shell
 
-               $ sbatch /tmpformation/LBM_Saclay/Slurm-Orcus/JOB_H100_GPU.slurm TestCase_Rayleigh-Taylor_Spike-Bubble.ini
+               $ sbatch ~/LBM_Saclay_Training/Slurm/H100.slurm TestCase_Rayleigh-Taylor_Spike-Bubble.ini
 
    .. tab-item:: Check your submission
 
