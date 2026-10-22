@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>LBM Board: Installation &amp; Launch &#8212; LBM_Saclay 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a3258c64" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4bb43ddd" />
+    
+    <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="LBM Board: Editing, Run &amp; Post-processing" href="lbm_board_usage.html" />
+    <link rel="prev" title="Get information on Graphic card for Kokkos" href="Compil_GetInfo_GPU.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="lbm_board_usage.html" title="LBM Board: Editing, Run &amp; Post-processing"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Compil_GetInfo_GPU.html" title="Get information on Graphic card for Kokkos"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" accesskey="U">Quick Start with LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LBM Board: Installation &amp; Launch</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="lbm-board-installation-launch">
+<span id="lbm-board"></span><h1>LBM Board: Installation &amp; Launch<a class="headerlink" href="#lbm-board-installation-launch" title="Link to this heading"></a></h1>
+<section id="lbm-saclay-control-panel">
+<h2>LBM_Saclay control panel<a class="headerlink" href="#lbm-saclay-control-panel" title="Link to this heading"></a></h2>
+<p>The <strong>LBM Board</strong> is a local web tool (pure Python) to control a full LBM_Saclay workflow in a single page:</p>
+<ul class="simple">
+<li><p><strong>Pre-processing</strong> — browse and edit the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input files (diff against a reference case, dimensionless numbers, model documentation);</p></li>
+<li><p><strong>Run</strong> — launch a computation on your local CPU, or generate the Slurm submission for the ORCUS GPU partitions;</p></li>
+<li><p><strong>Monitoring</strong> — follow a running computation (log, progress, snapshots);</p></li>
+<li><p><strong>Post-processing</strong> — analyse the <code class="docutils literal notranslate"><span class="pre">.h5</span></code> (HDF5) outputs directly in the browser (conservation, time series, 1D profiles, 2D fields).</p></li>
+</ul>
+<p>It binds to <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> only: the server is <strong>never exposed</strong> on the network, and by default it <strong>never writes to your disk</strong> (the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> export is a browser download; the ■ Stop button of the ▶ Run panel is the
+only write action, and it only creates a <code class="docutils literal notranslate"><span class="pre">LBMstop</span></code> file in the case directory to stop the solver cleanly, behind a double confirmation).</p>
+<figure class="align-default" id="target-fig-lbm-board">
+<a class="align-center reference internal image-reference" href="../../../_images/LBM-Board.png"><img alt="../../../_images/LBM-Board.png" class="align-center" src="../../../_images/LBM-Board.png" style="width: 90%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Overview of the LBM Board (LBM_Saclay control panel): kanban view of the <code class="docutils literal notranslate"><span class="pre">.ini</span></code> input file, computed dimensionless numbers and panels for run, monitoring and post-processing.</span><a class="headerlink" href="#target-fig-lbm-board" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="prerequisites">
+<h2>1. Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<div class="important admonition">
+<p class="admonition-title">The board itself: nothing to install</p>
+<p>The board server runs with the <strong>Python standard library only</strong> — it is
+shipped inside the repository (<code class="docutils literal notranslate"><span class="pre">pre-processing/ini_board/</span></code>), there is
+nothing to install to start it.</p>
+</div>
+<div class="important admonition">
+<p class="admonition-title">Optional — HDF5 post-processing: <code class="docutils literal notranslate"><span class="pre">h5py</span></code> + HDF5</p>
+<p>The four <strong>🛠 Post-processing</strong> cards (conservation, time series, 1D
+profile, 2D field) read the <code class="docutils literal notranslate"><span class="pre">.h5</span></code> snapshots of your case, so they
+require:</p>
+<ul class="simple">
+<li><p>HDF5 outputs enabled in your <code class="docutils literal notranslate"><span class="pre">.ini</span></code> (<code class="docutils literal notranslate"><span class="pre">hdf5_enabled</span> <span class="pre">=</span> <span class="pre">yes</span></code> in the
+section <code class="docutils literal notranslate"><span class="pre">[output]</span></code>), and</p></li>
+<li><p>the Python library <code class="docutils literal notranslate"><span class="pre">h5py</span></code> on the machine where the <strong>board server</strong>
+runs.</p></li>
+</ul>
+<p>On a laptop or personal desktop (Ubuntu), install once with <code class="docutils literal notranslate"><span class="pre">apt</span></code>:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3-h5py<span class="w"> </span>python3-numpy<span class="w"> </span>python3-matplotlib
+</pre></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> is optional: without it the tools still return the CSV
+files (no PNG plots). On the CEA clusters (MANWE, ORCUS) <code class="docutils literal notranslate"><span class="pre">h5py</span></code> is
+already available.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">h5py</span></code> is missing, the board still starts normally: the four
+post-processing cards are simply <strong>greyed out</strong> with a warning.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">python3</span></code> does not find <code class="docutils literal notranslate"><span class="pre">h5py</span></code> although the <code class="docutils literal notranslate"><span class="pre">apt</span></code> packages are
+installed, another Python (virtualenv, conda) shadows the system one:
+check with <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">python3</span></code> and use <code class="docutils literal notranslate"><span class="pre">/usr/bin/python3</span></code> instead.</p>
+</div>
+</section>
+<section id="start-the-board">
+<h2>2. Start the board<a class="headerlink" href="#start-the-board" title="Link to this heading"></a></h2>
+<div class="error admonition">
+<p class="admonition-title">For laptop / desktop</p>
+<p>From the root of your clone, one command:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>LBM_Saclay_Rech-Dev
+$<span class="w"> </span>./pre-processing/bin/lbm-board.sh
+</pre></div>
+</div>
+</div></blockquote>
+<p>The page &lt;<a class="reference external" href="http://127.0.0.1:8092">http://127.0.0.1:8092</a>&gt; opens in your browser.</p>
+<p>Manage the server:</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./pre-processing/bin/lbm-board.sh<span class="w"> </span>status<span class="w">   </span><span class="c1"># is it running?</span>
+$<span class="w"> </span>./pre-processing/bin/lbm-board.sh<span class="w"> </span>stop<span class="w">     </span><span class="c1"># stop this clone&#39;s server</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The script is <strong>idempotent</strong> (one server per clone: re-running it does
+nothing if yours is already active) and <strong>adapts to the machine</strong>
+where it is launched:</p>
+<blockquote>
+<div><table class="docutils align-center" id="id1" style="width: 90%">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Machine, role, port and default bases</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Machine</strong></p></th>
+<th class="head"><p><strong>Role</strong></p></th>
+<th class="head"><p><strong>Port</strong></p></th>
+<th class="head"><p><strong>Default bases</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>local (CPU)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mixte</span></code></p></td>
+<td><p>8092</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/home</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">manwe*</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">monitor</span></code></p></td>
+<td><p>8093</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/home</span></code> + <code class="docutils literal notranslate"><span class="pre">/volatile*</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">orcus*</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">monitor</span></code></p></td>
+<td><p>9093</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/home</span></code> + <code class="docutils literal notranslate"><span class="pre">/scratch/catB</span></code></p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/tmpformation/LBM_Saclay</span></code></p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Useful options: <code class="docutils literal notranslate"><span class="pre">--role=preproc|monitor|mixte</span></code> (<code class="docutils literal notranslate"><span class="pre">--role=preproc</span></code>
+hides the ▶ Run panel — pure editing), <code class="docutils literal notranslate"><span class="pre">--port</span> <span class="pre">N</span></code> to force a port.
+If the default port is already taken by <strong>another</strong> instance (another
+student’s clone), the script automatically takes the next free port
+and displays it.</p>
+</div>
+</section>
+<section id="access-the-board-from-a-laptop-ssh-tunnel">
+<h2>3. Access the board from a laptop (SSH tunnel)<a class="headerlink" href="#access-the-board-from-a-laptop-ssh-tunnel" title="Link to this heading"></a></h2>
+<div class="important admonition">
+<p class="admonition-title">For MANWE / ORCUS (work in SSH)</p>
+<p>The server runs on the cluster, your browser on the laptop, the SSH
+tunnel makes the bridge (the bind is <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>: the cluster is
+never exposed). Two terminals, the example shows MANWE (for ORCUS use
+port <code class="docutils literal notranslate"><span class="pre">9093</span></code> — the script displays the correct tunnel line):</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># ── Terminal 1 (work terminal, on the cluster) ─────────────</span>
+$<span class="w"> </span>ssh<span class="w"> </span>manwe
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>&lt;your_clone&gt;/LBM_Saclay_Rech-Dev/pre-processing
+$<span class="w"> </span>./bin/lbm-board.sh<span class="w">                    </span><span class="c1"># server on MANWE (port 8093)</span>
+
+<span class="c1"># ── Terminal 2 (fresh, always from the laptop) ─────────────</span>
+$<span class="w"> </span>ssh<span class="w"> </span>-L<span class="w"> </span><span class="m">8093</span>:127.0.0.1:8093<span class="w"> </span>manwe<span class="w">      </span><span class="c1"># line displayed by the script</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Then open &lt;<a class="reference external" href="http://localhost:8093">http://localhost:8093</a>&gt; in your browser. The chip in the top
+left corner (<code class="docutils literal notranslate"><span class="pre">⬡</span> <span class="pre">manwe…</span> <span class="pre">·</span> <span class="pre">monitoring</span></code>) confirms which machine you are
+on.</p>
+<p><svg version="1.1" width="2.0em" height="2.0em" class="sd-octicon sd-octicon-alert-fill sd-text-info" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.836 3.244c.963-1.665 3.365-1.665 4.328 0l8.967 15.504c.963 1.667-.24 3.752-2.165 3.752H3.034c-1.926 0-3.128-2.085-2.165-3.752ZM12 8.5a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 0 1.5 0v-4.5A.75.75 0 0 0 12 8.5Zm1 9a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"></path></svg> The <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-L</span> <span class="pre">…</span></code> command is
+launched <strong>from the laptop</strong> (the browser’s machine), never from the
+cluster. Stop: <code class="docutils literal notranslate"><span class="pre">./bin/lbm-board.sh</span> <span class="pre">stop</span></code> (terminal 1) + <code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code>
+(terminal 2).</p>
+</div>
+</section>
+<section id="point-the-board-to-your-ini-files">
+<h2>4. Point the board to your <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files<a class="headerlink" href="#point-the-board-to-your-ini-files" title="Link to this heading"></a></h2>
+<p>By default the board loads the case folders of the clone (<code class="docutils literal notranslate"><span class="pre">settings/</span></code>,
+<code class="docutils literal notranslate"><span class="pre">run_training_lbm/</span></code>, <code class="docutils literal notranslate"><span class="pre">run_training_dissolution/</span></code>). To add <strong>your own</strong>
+working folders:</p>
+<ol class="arabic">
+<li><p>Edit the file <code class="docutils literal notranslate"><span class="pre">pre-processing/ini_board/ini_roots.txt</span></code>;</p></li>
+<li><p>Add one line: <code class="docutils literal notranslate"><span class="pre">label</span></code> + a tabulation + the path of the folder
+containing your <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files (absolute or relative to
+<code class="docutils literal notranslate"><span class="pre">pre-processing/ini_board/</span></code>);</p></li>
+<li><p>Reload the page (F5) — no need to restart the server.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mes_cas                 /home/jdupont/ma_doc/cas_lbm
+serie_magnetohydro      ../../run_training_lbm/serie_magnetohydro
+</pre></div>
+</div>
+</li>
+</ol>
+<p>You can also open a single <code class="docutils literal notranslate"><span class="pre">.ini</span></code> outside the roots with the <strong>＋</strong>
+button of the page (absolute path); it appears under a « Mes fichiers »
+root for the current session.</p>
+</section>
+<section id="next-page">
+<h2>Next page<a class="headerlink" href="#next-page" title="Link to this heading"></a></h2>
+<p>Editing the <code class="docutils literal notranslate"><span class="pre">.ini</span></code>, running a computation (local CPU and ORCUS Slurm),
+monitoring and HDF5 post-processing are documented in
+<a class="sd-sphinx-override sd-badge sd-outline-primary sd-text-primary reference internal" href="lbm_board_usage.html#lbm-board-usage"><span class="std std-ref">LBM Board: Editing, Run &amp; Post-processing</span></a>.</p>
+<p><em>Section author: Alain Cartalade</em></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">LBM Board: Installation &amp; Launch</a><ul>
+<li><a class="reference internal" href="#lbm-saclay-control-panel">LBM_Saclay control panel</a></li>
+<li><a class="reference internal" href="#prerequisites">1. Prerequisites</a></li>
+<li><a class="reference internal" href="#start-the-board">2. Start the board</a></li>
+<li><a class="reference internal" href="#access-the-board-from-a-laptop-ssh-tunnel">3. Access the board from a laptop (SSH tunnel)</a></li>
+<li><a class="reference internal" href="#point-the-board-to-your-ini-files">4. Point the board to your <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files</a></li>
+<li><a class="reference internal" href="#next-page">Next page</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Compil_GetInfo_GPU.html"
+                          title="previous chapter">Get information on Graphic card for Kokkos</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="lbm_board_usage.html"
+                          title="next chapter">LBM Board: Editing, Run &amp; Post-processing</a></p>
+  </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="lbm_board_usage.html" title="LBM Board: Editing, Run &amp; Post-processing"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Compil_GetInfo_GPU.html" title="Get information on Graphic card for Kokkos"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">LBM_Saclay 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../TOC_User-Guide.html" >PART I: User’s guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="quickstart.html" >Quick Start with LBM_Saclay</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LBM Board: Installation &amp; Launch</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2026, LBM_Saclay Workforce.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.1.
+    </div>
+  </body>
+</html>
