@@ -50,7 +50,13 @@ Quick Start with LBM_Saclay
 
           ``lbm-tools.sh`` is the launcher of the LBM_Saclay small tools (``pre-processing/bin``). The sub-command ``doc`` opens the documentation in your web browser (``https://cea-lbm-saclay.github.io/LBM_Saclay_Documentation/index.html``). If ``lbm-tools.sh`` is not found, run once : ``bash $HOME/LBM_Saclay_Rech-Dev/lbm-env.sh`` then ``source ~/.bashrc`` (see section 2 below).
 
-         3. Either a. or b./c.
+         3. Open the LBM Board
+
+            .. code-block:: shell
+
+               $ lbm-board.sh
+
+         4. Either a. or b./c.
 
           a. For SMEMaG LBM training go to the red box of :bdg-ref-primary-line:`Compilation-CPU-SMEMaG`
           b. For Sorbonne University students go to :bdg-ref-primary-line:`Simulations-GPU`
