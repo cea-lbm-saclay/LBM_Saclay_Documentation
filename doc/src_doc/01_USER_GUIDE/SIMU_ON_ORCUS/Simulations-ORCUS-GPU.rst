@@ -240,7 +240,7 @@ Transfer your output files on your local computer
    
       .. code-block:: shell
 
-         $ cd Post-Processing/
+         $ cd ~/LBM_Saclay_Training/run_training_lbm/TestCase08_Rayleigh-Taylor2D
 
    Transfer your output files on your local computer:
 
@@ -248,7 +248,13 @@ Transfer your output files on your local computer
 
          $ scp -r orcusloginamd2:~/run_training_lbm/TestCase08_Rayleigh-Taylor2D .
 
-   Post-process with paraview
+   Post-process with the LBM Board 
+
+      .. code-block:: shell
+
+         $ lbm-board.sh
+
+   or paraview
 
       .. code-block:: shell
 
